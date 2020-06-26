@@ -993,7 +993,7 @@ public class Utils {
             case "ice":
             case "ice_green":
                 if (isOfReadToast) {
-                    return Color.parseColor(">#448AFF");
+                    return Color.parseColor("#448AFF");
                 } else {
                     return Color.parseColor("#4d7198");
                 }

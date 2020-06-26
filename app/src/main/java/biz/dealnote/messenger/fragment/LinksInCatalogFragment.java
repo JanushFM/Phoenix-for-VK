@@ -93,7 +93,7 @@ public class LinksInCatalogFragment extends BaseMvpFragment<LinksInCatalogPresen
             }
         });
         mAdapter = new CatalogLinksAdapter(Collections.emptyList(), requireActivity());
-        mAdapter.setActionListner(this);
+        mAdapter.setActionListener(this);
         recyclerView.setAdapter(mAdapter);
         return root;
     }

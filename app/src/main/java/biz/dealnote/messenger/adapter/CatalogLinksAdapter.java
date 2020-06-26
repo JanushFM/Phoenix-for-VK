@@ -38,8 +38,8 @@ public class CatalogLinksAdapter extends RecyclerBindableAdapter<Link, CatalogLi
         this.transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
-    public void setActionListner(ActionListener listner) {
-        this.mActionListner = listner;
+    public void setActionListener(ActionListener listener) {
+        this.mActionListner = listener;
     }
 
     public String getImageUrl(Link link) {
@@ -74,11 +74,10 @@ public class CatalogLinksAdapter extends RecyclerBindableAdapter<Link, CatalogLi
 
         String imageUrl = getImageUrl(item);
         if (imageUrl != null) {
-            holder.ivImage.setVisibility(View.VISIBLE);
             ViewUtils.displayAvatar(holder.ivImage, transformation, imageUrl, Constants.PICASSO_TAG);
         } else {
             PicassoInstance.with().cancelRequest(holder.ivImage);
-            holder.ivImage.setVisibility(View.INVISIBLE);
+            holder.ivImage.setImageResource(R.drawable.ic_avatar_unknown);
         }
 
         holder.itemView.setOnClickListener(v -> {
