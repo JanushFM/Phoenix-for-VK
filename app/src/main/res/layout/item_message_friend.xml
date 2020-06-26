@@ -60,7 +60,8 @@
             android:paddingBottom="6dp"
             app:arrowHeight="0dp"
             app:arrowWidth="0dp"
-            app:bubbleColor="?message_bubble_color">
+            app:bubbleColor="?message_bubble_color"
+            app:secondary_bubbleColor="?message_bubble_color">
 
             <biz.dealnote.messenger.view.emoji.EmojiconTextView
                 android:id="@+id/item_message_user"

@@ -5,6 +5,7 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -20,6 +21,7 @@ public class BubbleDrawable extends Drawable {
     private RectF mRect;
     private Path mPath = new Path();
     private BitmapShader mBitmapShader;
+    private LinearGradient gradient;
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float mArrowWidth;
     private float mAngle;
@@ -27,6 +29,7 @@ public class BubbleDrawable extends Drawable {
     private float mArrowPosition;
     private float mRadius;
     private int bubbleColor;
+    private int secondary_bubbleColor;
     private Bitmap bubbleBitmap;
     private ArrowLocation mArrowLocation;
     private BubbleType bubbleType;
@@ -40,6 +43,7 @@ public class BubbleDrawable extends Drawable {
         this.mArrowPosition = builder.mArrowPosition;
         this.mRadius = builder.mRadius;
         this.bubbleColor = builder.bubbleColor;
+        this.secondary_bubbleColor = builder.secondary_bubbleColor;
         this.bubbleBitmap = builder.bubbleBitmap;
         this.mArrowLocation = builder.mArrowLocation;
         this.bubbleType = builder.bubbleType;
@@ -91,7 +95,15 @@ public class BubbleDrawable extends Drawable {
     private void setUp(Canvas canvas) {
         switch (bubbleType) {
             case COLOR:
-                mPaint.setColor(bubbleColor);
+                if (secondary_bubbleColor == bubbleColor)
+                    mPaint.setColor(bubbleColor);
+                else {
+                    if (gradient == null) {
+                        gradient = new LinearGradient(0f, 0f, canvas.getWidth(), canvas.getHeight(),
+                                bubbleColor, secondary_bubbleColor, Shader.TileMode.CLAMP);
+                    }
+                    mPaint.setShader(gradient);
+                }
                 break;
             case BITMAP:
                 if (bubbleBitmap == null)
@@ -285,6 +297,7 @@ public class BubbleDrawable extends Drawable {
         private float mArrowPosition = DEFAULT_ARROW_POSITION;
         private float mRadius = DEFAULT_RADIUS;
         private int bubbleColor = DEFAULT_BUBBLE_COLOR;
+        private int secondary_bubbleColor = DEFAULT_BUBBLE_COLOR;
         private Bitmap bubbleBitmap;
         private BubbleType bubbleType = BubbleType.COLOR;
         private ArrowLocation mArrowLocation = ArrowLocation.LEFT;
@@ -322,6 +335,13 @@ public class BubbleDrawable extends Drawable {
 
         public Builder bubbleColor(int bubbleColor) {
             this.bubbleColor = bubbleColor;
+            bubbleType(BubbleType.COLOR);
+            return this;
+        }
+
+        public Builder bubbleColorGradient(int first_bubbleColor, int second_bubbleColor) {
+            this.bubbleColor = first_bubbleColor;
+            this.secondary_bubbleColor = second_bubbleColor;
             bubbleType(BubbleType.COLOR);
             return this;
         }

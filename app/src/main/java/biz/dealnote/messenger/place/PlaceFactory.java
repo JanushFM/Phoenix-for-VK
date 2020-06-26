@@ -376,6 +376,10 @@ public class PlaceFactory {
         return new Place(Place.CATALOG_BLOCK_LINKS).withIntExtra(Extra.ACCOUNT_ID, accountId).withStringExtra(Extra.ID, block_Id).withStringExtra(Extra.TITLE, title);
     }
 
+    public static Place getShortLinks(int accountId) {
+        return new Place(Place.SHORT_LINKS).withIntExtra(Extra.ACCOUNT_ID, accountId);
+    }
+
     public static Place getMentionsPlace(int accountId, int ownerId) {
         return new Place(Place.MENTIONS).withIntExtra(Extra.ACCOUNT_ID, accountId).withIntExtra(Extra.OWNER_ID, ownerId);
     }

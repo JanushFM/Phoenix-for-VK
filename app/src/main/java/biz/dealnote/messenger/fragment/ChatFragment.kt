@@ -1043,7 +1043,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         recyclerView?.scrollToPosition(position)
     }
 
-    fun OptionsItemSelected(item: MenuItem): Boolean {
+    private fun OptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.last_read -> {
                 recyclerView?.smoothScrollToPosition(presenter?.getConversation()!!.unreadCount)
@@ -1052,11 +1052,16 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             R.id.action_refresh -> {
                 recyclerView?.scrollToPosition(0)
                 presenter?.reset_Hrono()
+                presenter?.setInPinnedHas(false)
                 presenter?.fireRefreshClick()
                 return true
             }
             R.id.show_profile -> {
                 presenter?.fireShow_Profile()
+                return true
+            }
+            R.id.action_short_link -> {
+                presenter?.fireShortLinkClick(requireActivity())
                 return true
             }
             R.id.change_hrono_history -> {
@@ -1137,7 +1142,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             return false
         }
 
-        if (presenter!!.inPinnedHas) {
+        if (presenter!!.inPinnedHas || presenter!!.inInverHrono) {
+            presenter?.reset_Hrono()
             presenter?.setInPinnedHas(false)
             presenter?.fireRefreshClick()
             return false

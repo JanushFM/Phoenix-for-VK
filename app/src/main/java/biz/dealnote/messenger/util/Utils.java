@@ -981,7 +981,7 @@ public class Utils {
         return bitmap;
     }
 
-    public static int getThemeColor() {
+    public static int getThemeColor(boolean isOfReadToast) {
         switch (biz.dealnote.messenger.settings.Settings.get().ui().getMainThemeKey()) {
             case "fire":
             case "yellow_violet":
@@ -992,7 +992,11 @@ public class Utils {
             case "blue_violet":
             case "ice":
             case "ice_green":
-                return Color.parseColor("#4d7198");
+                if (isOfReadToast) {
+                    return Color.parseColor(">#448AFF");
+                } else {
+                    return Color.parseColor("#4d7198");
+                }
             case "red":
             case "red_violet":
                 return Color.parseColor("#F44336");

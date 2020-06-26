@@ -410,6 +410,8 @@
 
     <string name="playlist_empty_text">Здесь Вы будете видеть аудио плейлисты</string>
 
+    <string name="shorted_links_empty_text">Здесь Вы будете видеть сокращённые ссылки</string>
+
     <string name="audio_catalog_empty_text">Здесь Вы будете видеть аудио каталог</string>
 
     <string name="end_of_list">Конец списка</string>
@@ -538,6 +540,7 @@
     <string name="dislike">Мне не нравится</string>
     <string name="copied_url">Ссылка скопирована</string>
     <string name="copy_url">Копировать ссылку</string>
+    <string name="target_url">Внешняя ссылка</string>
     <string name="goto_user">Открыть владельца</string>
     <string name="goto_community">Открыть сообщество</string>
 
@@ -1290,7 +1293,7 @@
     <string name="use_custom_chat_color">Задать цвет фона</string>
     <string name="custom_chat_color_second">Второй цвет фона</string>
     <string name="custom_chat_color_summary">Установите фон в "Однотонный", чтобы он стал градиентом</string>
-    <string name="custom_message_color">Цвет исходящего сообщения</string>
+    <string name="custom_message_color">Первый цвет исходящего сообщения</string>
     <string name="usage_custom_message_color">Задать цвет исходящего сообщения</string>
     <string name="last_read">Последнее прочитанное</string>
     <string name="enable_last_read">Быстрый переход к последнему прочитанному сообщению</string>
@@ -1374,7 +1377,12 @@
     <string name="for_pagan">Для язычников"</string>
     <string name="runes_show">Показывать Руны"</string>
     <string name="runes_valknut">Показывать Валькнут"</string>
-    <string name="valknut_color_theme">Валькнут в цвет темы"</string>
-    <string name="requare_api_24">Требует Android 7.0+"</string>
     <string name="photo_album">Фото Альбом"</string>
+    <string name="custom_second_message_color">Второй цвет исходящего сообщения"</string>
+    <string name="short_link">Сокращение ссылок"</string>
+    <string name="do_short_link">Сократить</string>
+    <string name="validate">Проверить</string>
+    <string name="link_not_banned">Нормальная ссылка</string>
+    <string name="link_banned">Запрещённая ссылка</string>
+    <string name="link_processing">Ссылка проверяется</string>
 </resources>

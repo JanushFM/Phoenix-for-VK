@@ -109,6 +109,7 @@ import biz.dealnote.messenger.fragment.PollFragment;
 import biz.dealnote.messenger.fragment.PreferencesFragment;
 import biz.dealnote.messenger.fragment.RequestExecuteFragment;
 import biz.dealnote.messenger.fragment.SecurityPreferencesFragment;
+import biz.dealnote.messenger.fragment.ShortedLinksFragment;
 import biz.dealnote.messenger.fragment.SinglePhotoFragment;
 import biz.dealnote.messenger.fragment.StoryPagerFragment;
 import biz.dealnote.messenger.fragment.ThemeFragment;
@@ -1450,6 +1451,10 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
             case Place.CATALOG_BLOCK_LINKS:
                 attachToFront(LinksInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)));
+                break;
+
+            case Place.SHORT_LINKS:
+                attachToFront(ShortedLinksFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
                 break;
 
             case Place.USER_DETAILS:

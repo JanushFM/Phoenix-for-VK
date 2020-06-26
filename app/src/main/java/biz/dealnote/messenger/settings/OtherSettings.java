@@ -165,7 +165,12 @@ class OtherSettings implements ISettings.IOtherSettings {
 
     @Override
     public int getColorMyMessage() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getInt("custom_message_color", Color.argb(255, 255, 255, 255));
+        return PreferenceManager.getDefaultSharedPreferences(app).getInt("custom_message_color", Color.parseColor("#CBD438FF"));
+    }
+
+    @Override
+    public int getSecondColorMyMessage() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getInt("custom_second_message_color", Color.parseColor("#BF6539DF"));
     }
 
     @Override
@@ -291,10 +296,5 @@ class OtherSettings implements ISettings.IOtherSettings {
     @Override
     public boolean isRunes_valknut() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("runes_valknut", false);
-    }
-
-    @Override
-    public boolean isValknut_color_theme() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("valknut_color_theme", false);
     }
 }

@@ -54,6 +54,7 @@
     <attr name="navi_menu_selector" format="reference" />
     <attr name="messages_background_color" format="color" />
     <attr name="my_messages_bubble_color" format="color" />
+    <attr name="my_messages_secondary_bubble_color" format="color" />
     <attr name="chat_background_cookies" format="reference" />
     <attr name="chat_background_lines" format="reference" />
     <attr name="chat_background_runes" format="reference" />

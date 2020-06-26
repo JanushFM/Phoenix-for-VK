@@ -234,7 +234,7 @@ public class NotificationHelper {
                 .setLargeIcon(avatar)
                 .setContentText(text)
                 .setStyle(msgs)
-                .setColor(Utils.getThemeColor())
+                .setColor(Utils.getThemeColor(false))
                 .setWhen(message.getDate() * 1000)
                 .setShowWhen(true)
                 .setSortKey("" + (Long.MAX_VALUE - message.getDate() * 1000))

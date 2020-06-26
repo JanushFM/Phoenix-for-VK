@@ -1,5 +1,8 @@
 package biz.dealnote.messenger.api.services;
 
+import biz.dealnote.messenger.api.model.Items;
+import biz.dealnote.messenger.api.model.VKApiCheckedLink;
+import biz.dealnote.messenger.api.model.VKApiShortLink;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
 import biz.dealnote.messenger.api.model.response.ResolveDomailResponse;
 import io.reactivex.Single;
@@ -13,4 +16,22 @@ public interface IUtilsService {
     @FormUrlEncoded
     @POST("utils.resolveScreenName")
     Single<BaseResponse<ResolveDomailResponse>> resolveScreenName(@Field("screen_name") String screenName);
+
+    @FormUrlEncoded
+    @POST("utils.getShortLink")
+    Single<BaseResponse<VKApiShortLink>> getShortLink(@Field("url") String url,
+                                                      @Field("private") Integer t_private);
+
+    @FormUrlEncoded
+    @POST("utils.getLastShortenedLinks")
+    Single<BaseResponse<Items<VKApiShortLink>>> getLastShortenedLinks(@Field("count") Integer count,
+                                                                      @Field("offset") Integer offset);
+
+    @FormUrlEncoded
+    @POST("utils.deleteFromLastShortened")
+    Single<BaseResponse<Integer>> deleteFromLastShortened(@Field("key") String key);
+
+    @FormUrlEncoded
+    @POST("utils.checkLink")
+    Single<BaseResponse<VKApiCheckedLink>> checkLink(@Field("url") String url);
 }

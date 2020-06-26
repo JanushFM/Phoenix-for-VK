@@ -23,6 +23,7 @@ public class BubbleLinearLayout extends LinearLayout {
     private float mRadius;
     private BubbleDrawable.ArrowLocation mArrowLocation;
     private int bubbleColor;
+    private int apply_gradient_bubbleColor;
 
     public BubbleLinearLayout(Context context) {
         super(context);
@@ -35,7 +36,7 @@ public class BubbleLinearLayout extends LinearLayout {
     }
 
     private void initView(AttributeSet attrs) {
-        setWillNotDraw(false); //R.Kolbasa
+        setWillNotDraw(false);
         if (attrs != null) {
             @SuppressLint("CustomViewStyleable") TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.BubbleView);
             mArrowWidth = array.getDimension(R.styleable.BubbleView_arrowWidth, BubbleDrawable.Builder.DEFAULT_ARROW_WITH);
@@ -44,6 +45,7 @@ public class BubbleLinearLayout extends LinearLayout {
             mArrowPosition = array.getDimension(R.styleable.BubbleView_arrowPosition, BubbleDrawable.Builder.DEFAULT_ARROW_POSITION);
             mRadius = array.getDimension(R.styleable.BubbleView_cornerRadius, BubbleDrawable.Builder.DEFAULT_RADIUS);
             bubbleColor = array.getColor(R.styleable.BubbleView_bubbleColor, BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR);
+            apply_gradient_bubbleColor = array.getColor(R.styleable.BubbleView_secondary_bubbleColor, BubbleDrawable.Builder.DEFAULT_BUBBLE_COLOR);
             int location = array.getInt(R.styleable.BubbleView_arrowLocation, 0);
             mArrowLocation = BubbleDrawable.ArrowLocation.mapIntToValue(location);
             array.recycle();
@@ -75,7 +77,7 @@ public class BubbleLinearLayout extends LinearLayout {
                 .arrowWidth(mArrowWidth)
                 .arrowPosition(mArrowPosition)
                 .cornerRadius(mRadius)
-                .bubbleColor(bubbleColor)
+                .bubbleColorGradient(bubbleColor, apply_gradient_bubbleColor)
                 .build();
     }
 
@@ -103,8 +105,25 @@ public class BubbleLinearLayout extends LinearLayout {
         super.onDraw(canvas);
     }
 
+    public void setNonGradientColor(int ARGBColor) {
+        this.bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
+        this.apply_gradient_bubbleColor = this.bubbleColor;
+        setUp();
+    }
+
+    public void setGradientColor(int first, int second) {
+        this.bubbleColor = Color.argb(Color.alpha(first), Color.red(first), Color.green(first), Color.blue(first));
+        this.apply_gradient_bubbleColor = Color.argb(Color.alpha(second), Color.red(second), Color.green(second), Color.blue(second));
+        setUp();
+    }
+
     public void setBubbleColor(int ARGBColor) {
         this.bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
+        setUp();
+    }
+
+    public void setSecondaryBubbleColor(int ARGBColor) {
+        this.apply_gradient_bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
         setUp();
     }
 }

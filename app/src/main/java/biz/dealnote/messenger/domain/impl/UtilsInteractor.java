@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import biz.dealnote.messenger.api.interfaces.INetworker;
+import biz.dealnote.messenger.api.model.VKApiCheckedLink;
 import biz.dealnote.messenger.api.model.VkApiFriendList;
 import biz.dealnote.messenger.db.interfaces.IStorages;
 import biz.dealnote.messenger.db.model.entity.FriendListEntity;
@@ -25,6 +26,7 @@ import biz.dealnote.messenger.model.Community;
 import biz.dealnote.messenger.model.FriendList;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Privacy;
+import biz.dealnote.messenger.model.ShortLink;
 import biz.dealnote.messenger.model.SimplePrivacy;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Objects;
@@ -194,5 +196,43 @@ public class UtilsInteractor implements IUtilsInteractor {
                                         .andThen(Single.just(data));
                             });
                 });
+    }
+
+    @Override
+    public Single<List<ShortLink>> getLastShortenedLinks(int accountId, Integer count, Integer offset) {
+        return networker.vkDefault(accountId)
+                .utils()
+                .getLastShortenedLinks(count, offset)
+                .map(items -> listEmptyIfNull(items.getItems()))
+                .map(out -> {
+                    List<ShortLink> ret = new ArrayList<>();
+                    for (int i = 0; i < out.size(); i++)
+                        ret.add(Dto2Model.transform(out.get(i)));
+                    return ret;
+                });
+    }
+
+    @Override
+    public Single<ShortLink> getShortLink(final int accountId, String url, Integer t_private) {
+        return networker.vkDefault(accountId)
+                .utils()
+                .getShortLink(url, t_private)
+                .map(Dto2Model::transform);
+    }
+
+    @Override
+    public Single<Integer> deleteFromLastShortened(final int accountId, String key) {
+        return networker.vkDefault(accountId)
+                .utils()
+                .deleteFromLastShortened(key)
+                .map(out -> out);
+    }
+
+    @Override
+    public Single<VKApiCheckedLink> checkLink(final int accountId, String url) {
+        return networker.vkDefault(accountId)
+                .utils()
+                .checkLink(url)
+                .map(out -> out);
     }
 }

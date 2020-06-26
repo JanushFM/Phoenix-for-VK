@@ -28,6 +28,7 @@ import biz.dealnote.messenger.api.model.VKApiPhoto;
 import biz.dealnote.messenger.api.model.VKApiPhotoAlbum;
 import biz.dealnote.messenger.api.model.VKApiPoll;
 import biz.dealnote.messenger.api.model.VKApiPost;
+import biz.dealnote.messenger.api.model.VKApiShortLink;
 import biz.dealnote.messenger.api.model.VKApiSticker;
 import biz.dealnote.messenger.api.model.VKApiStory;
 import biz.dealnote.messenger.api.model.VKApiTopic;
@@ -83,6 +84,7 @@ import biz.dealnote.messenger.model.Poll;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.PostSource;
 import biz.dealnote.messenger.model.Privacy;
+import biz.dealnote.messenger.model.ShortLink;
 import biz.dealnote.messenger.model.SimplePrivacy;
 import biz.dealnote.messenger.model.Sticker;
 import biz.dealnote.messenger.model.Story;
@@ -660,6 +662,15 @@ public class Dto2Model {
                 .setHeight(dto.height)
                 .setWidth(dto.width)
                 .setUrl(dto.url);
+    }
+
+    public static ShortLink transform(@NonNull VKApiShortLink dto) {
+        return new ShortLink().setKey(dto.key)
+                .setShort_url(dto.short_url)
+                .setUrl(dto.url)
+                .setAccess_key(dto.access_key)
+                .setViews(dto.views)
+                .setTimestamp(dto.timestamp);
     }
 
     public static Photo transform(@NonNull VKApiPhoto dto) {

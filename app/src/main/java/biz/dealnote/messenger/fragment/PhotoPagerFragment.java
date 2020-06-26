@@ -736,12 +736,12 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
                 }
             });
 
-            ret.photo.setOnLongClickListener(v -> {
-                if (Settings.get().other().isDownload_photo_tap()) {
+            if (Settings.get().other().isDownload_photo_tap()) {
+                ret.photo.setOnLongClickListener(v -> {
                     if (isPresenterPrepared()) getPresenter().fireSaveOnDriveClick();
-                }
-                return true;
-            });
+                    return true;
+                });
+            }
             ret.photo.setOnTouchListener((view, event) -> {
                 if (event.getPointerCount() >= 2 || view.canScrollHorizontally(1) && view.canScrollHorizontally(-1)) {
                     switch (event.getAction()) {

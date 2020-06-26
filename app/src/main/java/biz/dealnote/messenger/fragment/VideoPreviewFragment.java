@@ -153,6 +153,9 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
         if (item.getItemId() == R.id.action_add_to_my_videos) {
             getPresenter().fireAddToMyClick();
             return true;
+        } else if (item.getItemId() == R.id.action_copy_url) {
+            getPresenter().fireCopyUrlClick(requireActivity());
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -426,7 +429,7 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
                 .setSection(SECTION_OTHER));
 
         if (nonEmpty(external)) {
-            items.add(new Item(Menu.COPY_LINK, new Text(R.string.copy_url))
+            items.add(new Item(Menu.COPY_LINK, new Text(R.string.target_url))
                     .setIcon(R.drawable.content_copy)
                     .setSection(SECTION_OTHER));
         }

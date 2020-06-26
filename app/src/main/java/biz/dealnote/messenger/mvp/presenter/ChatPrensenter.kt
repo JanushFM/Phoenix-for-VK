@@ -33,6 +33,7 @@ import biz.dealnote.messenger.media.record.Recorder
 import biz.dealnote.messenger.model.*
 import biz.dealnote.messenger.mvp.presenter.base.RxSupportPresenter
 import biz.dealnote.messenger.mvp.view.IChatView
+import biz.dealnote.messenger.place.PlaceFactory
 import biz.dealnote.messenger.push.OwnerInfo
 import biz.dealnote.messenger.realtime.Processors
 import biz.dealnote.messenger.service.ChatDownloadIntentService
@@ -109,6 +110,9 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
     val inPinnedHas: Boolean
         get() = inPinned
+
+    val inInverHrono: Boolean
+        get() = HronoType
 
     fun setInPinnedHas(type: Boolean) {
         inPinned = type
@@ -582,7 +586,6 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
     private fun requestFromNet(startMessageId: Int?) {
         setNetLoadingNow(true)
-        inPinned = false
 
         val peerId = this.peerId
         netLoadingDisposable = messagesRepository.getPeerMessages(messagesOwnerId, peerId, COUNT, null, startMessageId, !HronoType, HronoType)
@@ -644,6 +647,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireSendClick() {
+        view?.ScrollTo(0)
         if (canSendNormalMessage()) {
             sendImpl()
         }
@@ -824,6 +828,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     private fun sendRecordingMessageImpl(file: File) {
+        view?.ScrollTo(0)
         val builder = SaveMessageBuilder(messagesOwnerId, peerId).setVoiceMessageFile(file)
         this.sendMessage(builder)
     }
@@ -1057,7 +1062,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
     private fun canEdit(message: Message): Boolean {
         return message.isOut && Unixtime.now() - message.date < 24 * 60 * 60
-                && !message.isSticker && !message.isVoiceMessage
+                && !message.isSticker && !message.isVoiceMessage && !message.isGraffity && !message.isCall
     }
 
     private fun canChangePin(): Boolean {
@@ -1333,6 +1338,10 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         requestAtStart()
     }
 
+    fun fireShortLinkClick(context: Context) {
+        PlaceFactory.getShortLinks(accountId).tryOpenWith(context)
+    }
+
     fun fireShow_Profile() {
         view?.showUserWall(accountId, peerId)
     }
@@ -1546,6 +1555,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireStickerSendClick(sticker: Sticker) {
+        view?.ScrollTo(0)
         val builder = SaveMessageBuilder(messagesOwnerId, peerId).attach(sticker)
         sendMessage(builder)
     }

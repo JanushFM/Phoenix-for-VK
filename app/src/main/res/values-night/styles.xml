@@ -41,6 +41,7 @@
 
         <item name="messages_background_color">#151515</item>
         <item name="my_messages_bubble_color">#D4151515</item>
+        <item name="my_messages_secondary_bubble_color">#D4151515</item>
         <item name="message_unread_color">#f564b5f6</item>
 
         <item name="message_bubble_color">#313131</item>
@@ -61,6 +62,7 @@
         <item name="icon_color_active">#AA448AFF</item>
         <item name="icon_color_inactive">#AAFF0000</item>
         <item name="my_messages_bubble_color">#D42C3C53</item>
+        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
     </style>
 
     <style name="App.DayNight.IceGreen" parent="App.DayNight">
@@ -72,6 +74,7 @@
         <item name="icon_color_active">#AA448AFF</item>
         <item name="icon_color_inactive">#AAFF0000</item>
         <item name="my_messages_bubble_color">#D42C3C53</item>
+        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
     </style>
 
     <style name="App.DayNight.OldIce" parent="App.DayNight">
@@ -83,6 +86,7 @@
         <item name="icon_color_active">#AA448AFF</item>
         <item name="icon_color_inactive">#AAFF0000</item>
         <item name="my_messages_bubble_color">#D42C3C53</item>
+        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
     </style>
 
     <style name="App.DayNight.BlueRed" parent="App.DayNight">
@@ -94,6 +98,19 @@
         <item name="icon_color_active">#AA448AFF</item>
         <item name="icon_color_inactive">#AA5C5858</item>
         <item name="my_messages_bubble_color">#D42C3C53</item>
+        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
+    </style>
+
+    <style name="App.DayNight.Violet" parent="App.DayNight">
+        <item name="colorPrimary">#9800ff</item>
+        <item name="colorControlNormal">#9800ff</item>
+        <item name="colorSecondary">#8500ff</item>
+        <item name="colorOnPrimary">#FFF</item>
+        <item name="colorOnSecondary">#FFF</item>
+        <item name="icon_color_active">#AA9800ff</item>
+        <item name="icon_color_inactive">#AAFF0000</item>
+        <item name="my_messages_bubble_color">#86DB59FF</item>
+        <item name="my_messages_secondary_bubble_color">#886C42DF</item>
     </style>
 
     <style name="App.DayNight.Ice.Amoled" parent="App.DayNight.Ice">

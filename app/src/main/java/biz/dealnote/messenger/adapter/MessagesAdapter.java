@@ -302,21 +302,23 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             switch (message.getCryptStatus()) {
                 case CryptStatus.ENCRYPTED:
                 case CryptStatus.DECRYPT_FAILED:
-                    holder.bubble.setBubbleColor(Color.parseColor("#D4ff0000"));
+                    holder.bubble.setNonGradientColor(Color.parseColor("#D4ff0000"));
                     break;
                 case CryptStatus.NO_ENCRYPTION:
                 case CryptStatus.DECRYPTED:
                     if (message.isOut()) {
                         if (Settings.get().other().isCustom_MyMessage())
-                            holder.bubble.setBubbleColor(Settings.get().other().getColorMyMessage());
+                            holder.bubble.setGradientColor(Settings.get().other().getColorMyMessage(), Settings.get().other().getSecondColorMyMessage());
                         else {
                             if (Settings.get().main().isMy_message_no_color())
-                                holder.bubble.setBubbleColor(CurrentTheme.getColorFromAttrs(R.attr.message_bubble_color, context, "#D4ff0000"));
-                            else
-                                holder.bubble.setBubbleColor(CurrentTheme.getColorFromAttrs(R.attr.my_messages_bubble_color, context, "#D4ff0000"));
+                                holder.bubble.setNonGradientColor(CurrentTheme.getColorFromAttrs(R.attr.message_bubble_color, context, "#D4ff0000"));
+                            else {
+                                holder.bubble.setGradientColor(CurrentTheme.getColorFromAttrs(R.attr.my_messages_bubble_color, context, "#D4ff0000"),
+                                        CurrentTheme.getColorFromAttrs(R.attr.my_messages_secondary_bubble_color, context, "#D4ff0000"));
+                            }
                         }
                     } else
-                        holder.bubble.setBubbleColor(CurrentTheme.getColorFromAttrs(R.attr.message_bubble_color, context, "#D4ff0000"));
+                        holder.bubble.setNonGradientColor(CurrentTheme.getColorFromAttrs(R.attr.message_bubble_color, context, "#D4ff0000"));
                     break;
             }
         }

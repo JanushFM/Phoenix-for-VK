@@ -92,6 +92,8 @@ public interface ISettings {
 
         int getColorMyMessage();
 
+        int getSecondColorMyMessage();
+
         boolean isCustom_MyMessage();
 
         boolean isUse_stop_audio();
@@ -127,8 +129,6 @@ public interface ISettings {
         boolean isRunes_show();
 
         boolean isRunes_valknut();
-
-        boolean isValknut_color_theme();
     }
 
     interface IAccountsSettings {

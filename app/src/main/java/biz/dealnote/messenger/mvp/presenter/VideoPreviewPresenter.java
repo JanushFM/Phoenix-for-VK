@@ -1,10 +1,14 @@
 package biz.dealnote.messenger.mvp.presenter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.domain.IFaveInteractor;
 import biz.dealnote.messenger.domain.IVideosInteractor;
 import biz.dealnote.messenger.domain.InteractorFactory;
@@ -14,6 +18,7 @@ import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IVideoPreviewView;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.Objects;
+import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
 
@@ -157,6 +162,14 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
         appendDisposable(interactor.addToMy(accountId, accountId, ownerId, videoId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(this::onAddComplete, throwable -> onAddError(getCauseIfRuntime(throwable))));
+    }
+
+    public void fireCopyUrlClick(Context context) {
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(getString(R.string.link), "https://vk.com/video" + video.getOwnerId() + "_" + video.getId());
+        clipboard.setPrimaryClip(clip);
+
+        PhoenixToast.CreatePhoenixToast(context).showToast(R.string.copied_url);
     }
 
     public void fireOwnerClick(int ownerId) {

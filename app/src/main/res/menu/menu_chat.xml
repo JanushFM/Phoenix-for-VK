@@ -51,6 +51,10 @@
         android:title="@string/search" />
 
     <item
+        android:id="@+id/action_short_link"
+        android:title="@string/short_link" />
+
+    <item
         android:id="@+id/change_hrono_history"
         android:title="@string/change_hrono_history" />
 

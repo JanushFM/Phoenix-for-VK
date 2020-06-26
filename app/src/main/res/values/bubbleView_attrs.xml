@@ -7,6 +7,7 @@
         <attr name="arrowPosition" format="dimension" />
         <attr name="cornerRadius" format="dimension" />
         <attr name="bubbleColor" format="color" />
+        <attr name="secondary_bubbleColor" format="color" />
         <attr name="arrowLocation" format="enum">
             <enum name="left" value="0x00" />
             <enum name="right" value="0x01" />

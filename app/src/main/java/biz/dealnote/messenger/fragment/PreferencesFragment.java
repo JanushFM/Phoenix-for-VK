@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -180,11 +179,6 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         SwitchPreference autoupdate = findPreference("auto_update");
         if (autoupdate != null) {
             autoupdate.setVisible(Constants.NEED_CHECK_UPDATE);
-        }
-
-        SwitchPreference valknut_themed = findPreference("valknut_color_theme");
-        if (valknut_themed != null) {
-            valknut_themed.setVisible(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N);
         }
 
         SwitchPreference prefAmoled = findPreference("amoled_theme");

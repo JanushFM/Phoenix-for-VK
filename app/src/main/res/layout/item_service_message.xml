@@ -41,7 +41,8 @@
             app:contentPaddingBottom="4dp"
             app:contentPaddingLeft="12dp"
             app:contentPaddingRight="12dp"
-            app:contentPaddingTop="4dp">
+            app:contentPaddingTop="4dp"
+            app:secondary_bubbleColor="?message_bubble_color">
 
             <biz.dealnote.messenger.view.emoji.EmojiconTextView
                 android:id="@+id/item_service_message_text"
