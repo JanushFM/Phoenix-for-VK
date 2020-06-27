@@ -238,7 +238,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            Utils.vibrate(requireActivity(), 100)
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
             presenter?.fireResendSwipe(adapter!!.getItemRawPosition(viewHolder.layoutPosition), swipeDir)
             adapter?.notifyDataSetChanged()
         }

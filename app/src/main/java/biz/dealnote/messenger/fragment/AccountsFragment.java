@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -107,7 +108,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
 
         @Override
         public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            Utils.vibrate(requireActivity(), 100);
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             mAdapter.notifyDataSetChanged();
             Account account = mAdapter.getByPosition(viewHolder.getLayoutPosition());
             boolean idCurrent = account.getId() == Settings.get()

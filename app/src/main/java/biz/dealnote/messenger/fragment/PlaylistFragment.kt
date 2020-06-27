@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -95,7 +96,7 @@ class PlaylistFragment : BottomSheetDialogFragment(), AudioRecyclerAdapter.Click
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            Utils.vibrate(requireActivity(), 100)
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             mAdapter?.notifyDataSetChanged()
             startForPlayList(requireActivity(), mData!!, mAdapter!!.getItemRawPosition(viewHolder.layoutPosition), false)
         }
