@@ -2,12 +2,12 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardViewMD2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:stateListAnimator="@animator/clicked"
     app:cardCornerRadius="10dp"
-    app:cardElevation="2dp"
     app:contentPadding="8dp">
 
     <LinearLayout
@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            android:alpha="0.95"
             android:scaleType="centerCrop"
             app:aspectRatioEnabled="true"
             app:aspectRatioH="1"

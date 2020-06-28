@@ -289,7 +289,7 @@
     <style name="App.DayNight.Gray.Amoled" parent="App.DayNight.Gray" />
 
     <style name="Theme.MaterialCardView" parent="Widget.MaterialComponents.CardView">
-        <item name="cardElevation">3dp</item>
+        <item name="cardElevation">1dp</item>
     </style>
 
     <style name="QuickReply" parent="Theme.MaterialComponents.DayNight.Dialog">
@@ -329,6 +329,8 @@
 
     <style name="TextAppearance.Toolbar.Title" parent="@style/TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="Theme.Toolbar.Photo" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
@@ -352,7 +354,7 @@
     </style>
 
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">
-        <item name="fontFamily">sans-serif-light</item>
+        <item name="fontFamily">sans-serif</item>
     </style>
 
     <style name="ProfileText" parent="TextAppearance.MaterialComponents.Headline6">
@@ -411,6 +413,12 @@
         <item name="cornerSizeTopLeft">16dp</item>
         <item name="cornerSizeBottomRight">0dp</item>
         <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+    <style name="CardViewMD2" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">0dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="strokeColor">?dividerColor</item>
     </style>
 
 </resources>

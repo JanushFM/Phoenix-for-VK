@@ -9,7 +9,8 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:colorBackground">
+        android:background="?android:colorBackground"
+        app:elevation="0dp">
 
         <RelativeLayout
             android:id="@+id/toolbar_root"
@@ -69,7 +70,7 @@
                         android:ellipsize="marquee"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                         android:textSize="16sp"
                         tools:text="Name" />
 
@@ -80,7 +81,6 @@
                         android:ellipsize="marquee"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                         android:textSize="12sp"
                         tools:text="SubTitle" />
 
@@ -90,6 +90,7 @@
 
         </RelativeLayout>
 
+        <include layout="@layout/line_divider" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
@@ -108,8 +109,8 @@
 
             <ImageView
                 android:id="@+id/pinned_avatar"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
+                android:layout_width="@dimen/avatar_size_tiny"
+                android:layout_height="@dimen/avatar_size_tiny"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
                 tools:ignore="ContentDescription" />
@@ -193,18 +194,14 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/CardViewMD2"
         android:id="@+id/writingGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pinned_root_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="4dp"
-        app:contentPadding="0dp">
+        android:layout_margin="4dp"
+        app:cardCornerRadius="10dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -246,6 +243,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
+
+        <include layout="@layout/line_divider" />
 
         <RelativeLayout
             android:id="@+id/editMessageGroup"

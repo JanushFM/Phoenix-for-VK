@@ -9,8 +9,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <include layout="@layout/toolbar" />
-
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refresh"
             android:layout_width="match_parent"
@@ -22,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:background="?android:colorBackground"
                 android:clipToPadding="false"
-                android:paddingTop="@dimen/recyclerview_toolbar_offset"
+                android:paddingTop="8dp"
                 android:scrollbars="vertical" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

@@ -11,6 +11,7 @@
     android:layout_marginBottom="8dp"
     android:foreground="?android:attr/selectableItemBackground"
     app:contentPadding="8dp"
+    app:cardElevation="1dp"
     tools:ignore="UnusedAttribute">
 
     <TextView

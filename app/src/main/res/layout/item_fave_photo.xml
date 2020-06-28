@@ -7,6 +7,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     card_view:cardBackgroundColor="?message_bubble_color"
+    card_view:cardElevation="1dp"
     card_view:cardCornerRadius="6dp"
     card_view:cardUseCompatPadding="true">
 
@@ -68,8 +69,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="2dp"
                 android:layout_toStartOf="@+id/vk_photo_item_comment_counter"
-                android:src="@drawable/comment"
-                aspect:tint="?attr/colorOnSurface" />
+                android:src="@drawable/comment" />
 
             <ImageView
                 android:id="@+id/vk_photo_item_like"
@@ -77,8 +77,7 @@
                 android:layout_height="18dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/heart_filled"
-                aspect:tint="?attr/colorOnSurface" />
+                android:src="@drawable/heart_filled" />
 
         </RelativeLayout>
 

@@ -14,13 +14,14 @@
         <EditText
             android:id="@+id/input_url"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_height="48dp"
+            android:layout_margin="6dp"
             android:background="@drawable/backgroud_rectangle_border"
             android:hint="@string/link"
             android:importantForAutofill="no"
             android:inputType="textUri|textShortMessage|textVisiblePassword"
             android:padding="8dp"
+            android:imeOptions="actionDone"
             android:textSize="14sp" />
 
         <LinearLayout

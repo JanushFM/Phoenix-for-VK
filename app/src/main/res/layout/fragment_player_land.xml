@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="14dp"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                     android:textSize="11sp"
                     tools:ignore="SmallSp" />
 
@@ -109,7 +109,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="14dp"
                     android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                     android:textSize="11sp"
                     tools:ignore="RelativeOverlap,SmallSp" />
 
@@ -118,7 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/audio_player_current_time"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="2dp"
                     android:max="1000" />
 
             </RelativeLayout>

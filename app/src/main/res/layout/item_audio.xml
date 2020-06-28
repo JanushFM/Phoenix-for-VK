@@ -9,10 +9,10 @@
         android:id="@+id/audio_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="14dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="14dp"
-        android:paddingBottom="6dp">
+        android:paddingStart="6dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="6dp"
+        android:paddingBottom="4dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -20,16 +20,13 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/item_audio_play"
-            android:padding="0dp">
+            android:layout_toEndOf="@+id/item_audio_play">
 
             <LinearLayout
                 android:id="@+id/track_option"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="21dp"
-                android:layout_toStartOf="@id/item_audio_time"
+                android:layout_toStartOf="@id/my_lyrics_block"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
 
@@ -62,6 +59,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/my_lyrics_block"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"

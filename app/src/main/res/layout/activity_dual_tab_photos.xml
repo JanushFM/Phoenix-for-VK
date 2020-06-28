@@ -22,7 +22,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="4dp"
             app:cardCornerRadius="@dimen/toolbar_corner_radius"
-            app:cardElevation="2dp"
+            app:cardElevation="1dp"
             app:contentPadding="0dp">
 
             <com.google.android.material.tabs.TabLayout

@@ -8,12 +8,12 @@
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/CardViewMD2"
         android:id="@+id/header_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardElevation="2dp"
         app:contentPadding="8dp"
         tools:ignore="UnusedAttribute">
 
@@ -25,7 +25,6 @@
             android:layout_marginEnd="4dp"
             android:text="@string/title"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textStyle="bold"
             app:textAllCaps="true" />
 
     </com.google.android.material.card.MaterialCardView>
