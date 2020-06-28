@@ -381,7 +381,7 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
     @Override
     public void scroll_pos(int pos) {
         if (nonNull(mRecyclerView)) {
-            lnr.scrollToPositionWithOffset(pos, 0);
+            mRecyclerView.smoothScrollToPosition(pos);
         }
     }
 

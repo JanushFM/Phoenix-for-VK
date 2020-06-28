@@ -1042,7 +1042,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     override fun ScrollTo(position: Int) {
-        recyclerView?.scrollToPosition(position)
+        recyclerView?.smoothScrollToPosition(position)
     }
 
     private fun OptionsItemSelected(item: MenuItem): Boolean {
