@@ -23,7 +23,6 @@ import biz.dealnote.messenger.listener.OnSectionResumeCallback;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Accounts;
-import biz.dealnote.messenger.view.ViewPagerTransformers;
 
 public class SearchTabsFragment extends Fragment {
 
@@ -68,7 +67,6 @@ public class SearchTabsFragment extends Fragment {
 
         Adapter mAdapter = new Adapter(this);
         mViewPager.setAdapter(mAdapter);
-        mViewPager.setPageTransformer(ViewPagerTransformers.ZOOM_OUT);
         mViewPager.setOffscreenPageLimit(1);
 
         new TabLayoutMediator(root.findViewById(R.id.tablayout), mViewPager, (tab, position) -> {
