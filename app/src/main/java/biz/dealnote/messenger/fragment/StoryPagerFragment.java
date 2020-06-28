@@ -87,8 +87,8 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     private Transformation transformation;
     private CircleCounterButton mDownload;
     private boolean mFullscreen;
-    private SparseArray<WeakReference<MultiHolder>> mHolderSparseArray = new SparseArray<>();
-    private WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
+    private final SparseArray<WeakReference<MultiHolder>> mHolderSparseArray = new SparseArray<>();
+    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
 
     public static StoryPagerFragment newInstance(Bundle args) {
         StoryPagerFragment fragment = new StoryPagerFragment();
@@ -418,7 +418,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         public ProgressBar progress;
         public FloatingActionButton reload;
         private boolean mLoadingNow;
-        private WeakPicassoLoadCallback mPicassoLoadCallback;
+        private final WeakPicassoLoadCallback mPicassoLoadCallback;
 
         public PhotoViewHolder(View view) {
             super(view);

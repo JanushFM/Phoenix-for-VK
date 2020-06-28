@@ -30,7 +30,7 @@ public class LogsPresenter extends RxSupportPresenter<ILogsView> {
 
     private final ILogsStorage store;
     private boolean loadingNow;
-    private DisposableHolder<Integer> disposableHolder = new DisposableHolder<>();
+    private final DisposableHolder<Integer> disposableHolder = new DisposableHolder<>();
 
     public LogsPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);

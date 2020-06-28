@@ -20,7 +20,7 @@ import biz.dealnote.messenger.util.Objects;
 public abstract class NoMainActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private FragmentManager.OnBackStackChangedListener mBackStackListener = this::resolveToolbarNavigationIcon;
+    private final FragmentManager.OnBackStackChangedListener mBackStackListener = this::resolveToolbarNavigationIcon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

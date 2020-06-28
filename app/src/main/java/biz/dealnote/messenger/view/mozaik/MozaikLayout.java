@@ -24,7 +24,7 @@ public class MozaikLayout extends RelativeLayout {
     private int prefImageSize;
     private int spacing;
     private MozaikLayoutParamsCalculator layoutParamsCalculator;
-    private MatrixCalculator.Libra libra = index -> photos.get(index).getAspectRatio();
+    private final MatrixCalculator.Libra libra = index -> photos.get(index).getAspectRatio();
 
     public MozaikLayout(Context context) {
         super(context);

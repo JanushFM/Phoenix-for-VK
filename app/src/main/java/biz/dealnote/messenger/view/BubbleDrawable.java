@@ -18,22 +18,22 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 
 public class BubbleDrawable extends Drawable {
-    private RectF mRect;
-    private Path mPath = new Path();
+    private final RectF mRect;
+    private final Path mPath = new Path();
     private BitmapShader mBitmapShader;
     private LinearGradient gradient;
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private float mArrowWidth;
-    private float mAngle;
-    private float mArrowHeight;
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final float mArrowWidth;
+    private final float mAngle;
+    private final float mArrowHeight;
     private float mArrowPosition;
-    private float mRadius;
-    private int bubbleColor;
-    private int secondary_bubbleColor;
-    private Bitmap bubbleBitmap;
-    private ArrowLocation mArrowLocation;
-    private BubbleType bubbleType;
-    private boolean mArrowCenter;
+    private final float mRadius;
+    private final int bubbleColor;
+    private final int secondary_bubbleColor;
+    private final Bitmap bubbleBitmap;
+    private final ArrowLocation mArrowLocation;
+    private final BubbleType bubbleType;
+    private final boolean mArrowCenter;
 
     private BubbleDrawable(Builder builder) {
         this.mRect = builder.mRect;
@@ -254,7 +254,7 @@ public class BubbleDrawable extends Drawable {
         TOP(0x02),
         BOTTOM(0x03);
 
-        private int mValue;
+        private final int mValue;
 
         ArrowLocation(int value) {
             this.mValue = value;

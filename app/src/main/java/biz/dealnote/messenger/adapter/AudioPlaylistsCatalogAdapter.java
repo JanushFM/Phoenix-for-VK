@@ -27,7 +27,7 @@ import biz.dealnote.messenger.util.ViewUtils;
 public class AudioPlaylistsCatalogAdapter extends RecyclerView.Adapter<AudioPlaylistsCatalogAdapter.Holder> {
 
     private List<AudioPlaylist> data;
-    private Context context;
+    private final Context context;
     private RecyclerView recyclerView;
     private ClickListener clickListener;
 

@@ -37,7 +37,7 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
 
     private static final String ARGUMENT_INVALID_ACCOUNT_CONTEXT = "invalid_account_context";
     private int accountId;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private boolean supportAccountHotSwap;
 
     @Override

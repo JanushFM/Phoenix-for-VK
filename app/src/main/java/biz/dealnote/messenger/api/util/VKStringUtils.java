@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
  */
 public class VKStringUtils {
 
-    private static String pattern_string_profile_id = "^(id)?(\\d{1,10})$";
-    private static Pattern pattern_profile_id = Pattern.compile(pattern_string_profile_id);
+    private static final String pattern_string_profile_id = "^(id)?(\\d{1,10})$";
+    private static final Pattern pattern_profile_id = Pattern.compile(pattern_string_profile_id);
 
     /**
      * Returns true if the string is null or 0-length.

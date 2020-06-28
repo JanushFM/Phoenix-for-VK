@@ -9,7 +9,7 @@ import biz.dealnote.messenger.util.Utils;
 
 public abstract class DifferentDataAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<List<?>> mData;
+    private final List<List<?>> mData;
 
     public DifferentDataAdapter() {
         this.mData = new ArrayList<>(2);

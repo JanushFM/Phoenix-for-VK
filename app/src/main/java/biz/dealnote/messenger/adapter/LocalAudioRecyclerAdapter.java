@@ -41,7 +41,7 @@ import biz.dealnote.messenger.view.WeakViewAnimatorAdapter;
 
 public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, LocalAudioRecyclerAdapter.AudioHolder> {
 
-    private Context mContext;
+    private final Context mContext;
     private ClickListener mClickListener;
 
     public LocalAudioRecyclerAdapter(Context context, List<Audio> data) {

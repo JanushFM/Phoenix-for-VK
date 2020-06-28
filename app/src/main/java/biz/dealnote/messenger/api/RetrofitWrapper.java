@@ -11,7 +11,7 @@ public class RetrofitWrapper {
 
     private final Retrofit retrofit;
     private final boolean withCaching;
-    private Map<Class<?>, Object> servicesCache;
+    private final Map<Class<?>, Object> servicesCache;
 
     private RetrofitWrapper(Retrofit retrofit, boolean withCaching) {
         this.retrofit = retrofit;

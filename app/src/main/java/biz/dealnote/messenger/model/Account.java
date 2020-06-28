@@ -18,8 +18,8 @@ public final class Account implements Parcelable, Identificable {
             return new Account[size];
         }
     };
-    private int id;
-    private Owner owner;
+    private final int id;
+    private final Owner owner;
 
     public Account(int id, Owner owner) {
         this.id = id;

@@ -457,7 +457,7 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
                 return new DirectoryScrollPositions[size];
             }
         };
-        private Map<String, Parcelable> states;
+        private final Map<String, Parcelable> states;
 
         DirectoryScrollPositions() {
             states = new HashMap<>();

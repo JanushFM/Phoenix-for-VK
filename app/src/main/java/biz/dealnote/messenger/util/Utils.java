@@ -1100,9 +1100,9 @@ public class Utils {
         return str;
     }
 
-    public static void vibrate(Context context, int ms) {
+    public static void vibrateShort(Context context) {
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(ms);
+        v.vibrate(50);
     }
 
     public interface SimpleFunction<F, S> {

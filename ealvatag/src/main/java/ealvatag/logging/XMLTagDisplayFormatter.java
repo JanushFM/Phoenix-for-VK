@@ -40,7 +40,7 @@ public class XMLTagDisplayFormatter extends AbstractTagDisplayFormatter {
     private static final String xmlCDataTagClose = "]]>";
 
 
-    private StringBuilder sb = new StringBuilder();
+    private final StringBuilder sb = new StringBuilder();
 
     public XMLTagDisplayFormatter() {
 

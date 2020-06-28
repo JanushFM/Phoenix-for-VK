@@ -27,33 +27,33 @@ public class InputViewController {
 
     private static final String TAG = InputViewController.class.getSimpleName();
 
-    private Context mActivity;
-    private OnInputActionCallback callback;
-    private EditText mInputField;
-    private RelativeLayout rlEmojiContainer;
+    private final Context mActivity;
+    private final OnInputActionCallback callback;
+    private final EditText mInputField;
+    private final RelativeLayout rlEmojiContainer;
     private EmojiconsPopup emojiPopup;
-    private ImageView ibEmoji;
-    private ImageView ibAttach;
-    private ViewGroup vgInputViewHolder;
-    private ViewGroup vgMessageInput;
-    private ViewGroup vgVoiceInput;
+    private final ImageView ibEmoji;
+    private final ImageView ibAttach;
+    private final ViewGroup vgInputViewHolder;
+    private final ViewGroup vgMessageInput;
+    private final ViewGroup vgVoiceInput;
 
     private boolean emojiOnScreen;
     private boolean emojiNeed;
     private boolean sendOnEnter;
 
-    private TextView tvAttCount;
+    private final TextView tvAttCount;
 
-    private ImageView mButtonSend;
+    private final ImageView mButtonSend;
 
-    private ImageView mRecordResumePause;
+    private final ImageView mRecordResumePause;
 
-    private TextWatcherAdapter mTextWatcher;
+    private final TextWatcherAdapter mTextWatcher;
 
-    private int mIconColorActive;
-    private int mIconColorInactive;
+    private final int mIconColorActive;
+    private final int mIconColorInactive;
     private int mCurrentMode = Mode.NORMAL;
-    private TextView mRecordingDuration;
+    private final TextView mRecordingDuration;
     private boolean canEditingSave;
     private boolean canNormalSend;
     private boolean canStartRecording;

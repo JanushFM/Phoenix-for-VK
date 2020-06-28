@@ -218,8 +218,8 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private FragmentContainerView mViewFragment;
     private MusicUtils.ServiceToken mAudioPlayServiceToken;
     private boolean mDestroyed;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = () -> {
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = () -> {
         resolveToolbarNavigationIcon();
         keyboardHide();
     };
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
      * First - DrawerItem, second - Clear back stack before adding
      */
     private Pair<AbsMenuItem, Boolean> mTargetPage;
-    private List<Action<MainActivity>> postResumeActions = new ArrayList<>(0);
+    private final List<Action<MainActivity>> postResumeActions = new ArrayList<>(0);
 
     private boolean resumed;
     private boolean bNoDestroyServiceAudio = false;
@@ -661,12 +661,12 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         }
         if (Settings.get().ui().isDisable_swipes_chat()) {
             ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
-            attachToFront(chatFragment);
+            attachToFrontNoAnim(chatFragment);
         } else {
             if (!ChatOnly)
                 clearBackStack();
             DialogsTabsFragment chatFragment = DialogsTabsFragment.newInstance(accountId, messagesOwnerId, peer, Offset);
-            attachToFront(chatFragment);
+            attachToFrontNoAnim(chatFragment);
         }
     }
 
@@ -998,6 +998,15 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private void attachToFront(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.fragment, fragment)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    private void attachToFrontNoAnim(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
                 .replace(R.id.fragment, fragment)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
@@ -1106,15 +1115,15 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.WALL_POST:
-                attachToFront(WallPostFragment.newInstance(args));
+                attachToFrontNoAnim(WallPostFragment.newInstance(args));
                 break;
 
             case Place.COMMENTS:
-                attachToFront(CommentsFragment.newInstance(place));
+                attachToFrontNoAnim(CommentsFragment.newInstance(place));
                 break;
 
             case Place.WALL:
-                attachToFront(AbsWallFragment.newInstance(args));
+                attachToFrontNoAnim(AbsWallFragment.newInstance(args));
                 break;
 
             case Place.CONVERSATION_ATTACHMENTS:
@@ -1261,7 +1270,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.POLL:
-                attachToFront(PollFragment.newInstance(args));
+                attachToFrontNoAnim(PollFragment.newInstance(args));
                 break;
 
             case Place.BOOKMARKS:
@@ -1300,11 +1309,11 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.NOTIFICATION_SETTINGS:
-                attachToFront(new NotificationPreferencesFragment());
+                attachToFrontNoAnim(new NotificationPreferencesFragment());
                 break;
 
             case Place.LIKES_AND_COPIES:
-                attachToFront(LikesFragment.newInstance(args));
+                attachToFrontNoAnim(LikesFragment.newInstance(args));
                 break;
 
             case Place.CREATE_PHOTO_ALBUM:
@@ -1319,11 +1328,11 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.GIF_PAGER:
-                attachToFront(GifPagerFragment.newInstance(args));
+                attachToFrontNoAnim(GifPagerFragment.newInstance(args));
                 break;
 
             case Place.SECURITY:
-                attachToFront(new SecurityPreferencesFragment());
+                attachToFrontNoAnim(new SecurityPreferencesFragment());
                 break;
 
             case Place.CREATE_POLL:
@@ -1337,7 +1346,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.LOGS:
-                attachToFront(LogsFragement.newInstance());
+                attachToFrontNoAnim(LogsFragement.newInstance());
                 break;
 
             case Place.SINGLE_SEARCH:
@@ -1372,12 +1381,12 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.ACCOUNT_ID),
                         args.getParcelable(Extra.OWNER)
                 );
-                attachToFront(communityLinksFragment);
+                attachToFrontNoAnim(communityLinksFragment);
                 break;
 
             case Place.SETTINGS_THEME:
                 ThemeFragment themes = ThemeFragment.newInstance();
-                attachToFront(themes);
+                attachToFrontNoAnim(themes);
                 if (getNavigationFragment().isSheetOpen()) {
                     getNavigationFragment().closeSheet();
                     return;
@@ -1422,11 +1431,11 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.USER_BLACKLIST:
-                attachToFront(UserBannedFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                attachToFrontNoAnim(UserBannedFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
                 break;
 
             case Place.DRAWER_EDIT:
-                attachToFront(DrawerEditFragment.newInstance());
+                attachToFrontNoAnim(DrawerEditFragment.newInstance());
                 break;
 
             case Place.SINGLE_PHOTO:
@@ -1434,7 +1443,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.ARTIST:
-                attachToFront(AudioCatalogFragment.newInstance(args));
+                attachToFrontNoAnim(AudioCatalogFragment.newInstance(args));
                 break;
 
             case Place.CATALOG_BLOCK_AUDIOS:
@@ -1454,15 +1463,16 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.SHORT_LINKS:
-                attachToFront(ShortedLinksFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                attachToFrontNoAnim(ShortedLinksFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
                 break;
 
             case Place.USER_DETAILS:
                 int accountId = args.getInt(Extra.ACCOUNT_ID);
                 User user = args.getParcelable(Extra.USER);
                 UserDetails details = args.getParcelable("details");
-                attachToFront(UserDetailsFragment.newInstance(accountId, user, details));
+                attachToFrontNoAnim(UserDetailsFragment.newInstance(accountId, user, details));
                 break;
+
             case Place.WALL_ATTACHMENTS:
                 Fragment wall_attachments = WallAttachmentsFragmentFactory.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), args.getString(Extra.TYPE));
                 if (wall_attachments == null) {

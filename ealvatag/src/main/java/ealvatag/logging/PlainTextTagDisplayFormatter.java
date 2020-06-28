@@ -24,8 +24,8 @@ package ealvatag.logging;
 public class PlainTextTagDisplayFormatter extends AbstractTagDisplayFormatter {
     private static volatile PlainTextTagDisplayFormatter instance;
 
-    private StringBuilder sb = new StringBuilder();
-    private StringBuilder indent = new StringBuilder();
+    private final StringBuilder sb = new StringBuilder();
+    private final StringBuilder indent = new StringBuilder();
 
     public PlainTextTagDisplayFormatter() {
 

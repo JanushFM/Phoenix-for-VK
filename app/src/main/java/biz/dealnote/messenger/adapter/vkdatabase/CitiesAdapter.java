@@ -17,8 +17,8 @@ import biz.dealnote.messenger.model.City;
 
 public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.Holder> {
 
-    private Context mContext;
-    private List<City> mData;
+    private final Context mContext;
+    private final List<City> mData;
     private Listener mListener;
 
     public CitiesAdapter(Context mContext, List<City> mData) {

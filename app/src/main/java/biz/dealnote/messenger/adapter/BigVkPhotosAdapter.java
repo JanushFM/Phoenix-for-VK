@@ -45,9 +45,9 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
     private static int holderIdGenerator;
     private final SharedHolders<UploadViewHolder> mUploadViewHolders;
     private final Set<PhotoViewHolder> mPhotoHolders;
-    private Context mContext;
-    private int mColorPrimaryWithAlpha;
-    private String mPicassoTag;
+    private final Context mContext;
+    private final int mColorPrimaryWithAlpha;
+    private final String mPicassoTag;
     private PhotosActionListener mPhotosActionListener;
     private UploadActionListener mUploadActionListener;
 

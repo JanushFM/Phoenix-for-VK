@@ -111,10 +111,7 @@ public class AudiosTabsFragment extends BaseFragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 Integer fid = adapter.mFragments.get(position);
-                if (fid == CATALOG)
-                    viewPager.setUserInputEnabled(false);
-                else
-                    viewPager.setUserInputEnabled(true);
+                viewPager.setUserInputEnabled(fid != CATALOG);
             }
         });
     }

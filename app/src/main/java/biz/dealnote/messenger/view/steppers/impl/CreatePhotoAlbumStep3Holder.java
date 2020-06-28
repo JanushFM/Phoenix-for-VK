@@ -17,7 +17,7 @@ public class CreatePhotoAlbumStep3Holder extends AbsStepHolder<CreatePhotoAlbumS
     private TextView mPrivacyViewAllowed;
     private TextView mPrivacyViewDisabled;
 
-    private ActionListener mActionListener;
+    private final ActionListener mActionListener;
 
     public CreatePhotoAlbumStep3Holder(@NonNull ViewGroup parent, @NonNull ActionListener actionListener) {
         super(parent, R.layout.content_create_photo_album_step_3, CreatePhotoAlbumStepsHost.STEP_PRIVACY_VIEW);

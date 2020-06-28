@@ -32,8 +32,8 @@ import static biz.dealnote.messenger.util.Utils.safeLenghtOf;
 public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostHolder> {
 
     private final Activity context;
-    private AttachmentsViewBinder attachmentsViewBinder;
-    private Transformation transformation;
+    private final AttachmentsViewBinder attachmentsViewBinder;
+    private final Transformation transformation;
     private ClickListener clickListener;
     private int nextHolderId;
 
@@ -209,7 +209,7 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
         AttachmentsHolder attachmentsHolder;
         View viewsCounterRoot;
         TextView viewsCounter;
-        private View cardView;
+        private final View cardView;
 
         PostHolder(View root) {
             super(root);

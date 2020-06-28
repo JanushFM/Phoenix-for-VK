@@ -45,12 +45,12 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
     private boolean supposedToBePlaying;
     private IPlayerStatusListener statusListener;
     private IErrorListener errorListener;
-    private SensorManager sensorManager;
-    private Sensor proxym;
+    private final SensorManager sensorManager;
+    private final Sensor proxym;
     private boolean isProximityNear;
     private boolean isPlaying;
-    private PowerManager.WakeLock proximityWakelock;
-    private MusicIntentReceiver headset;
+    private final PowerManager.WakeLock proximityWakelock;
+    private final MusicIntentReceiver headset;
     private boolean HasPlaying;
 
     private boolean Registered;

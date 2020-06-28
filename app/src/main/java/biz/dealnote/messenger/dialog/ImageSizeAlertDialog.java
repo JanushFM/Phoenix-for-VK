@@ -14,8 +14,8 @@ import biz.dealnote.messenger.util.Objects;
 public class ImageSizeAlertDialog {
 
     private final Activity mActivity;
-    private OnSelectedCallback mOnSelectedCallback;
-    private OnCancelCallback mOnCancelCallback;
+    private final OnSelectedCallback mOnSelectedCallback;
+    private final OnCancelCallback mOnCancelCallback;
 
     private ImageSizeAlertDialog(ImageSizeAlertDialog.Builder builder) {
         this.mActivity = builder.mActivity;

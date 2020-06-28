@@ -10,7 +10,7 @@ import io.reactivex.disposables.Disposables;
 
 public class TextingNotifier {
 
-    private int accountId;
+    private final int accountId;
     private long lastNotifyTime;
     private boolean isRequestNow;
     private Disposable disposable = Disposables.disposed();

@@ -4,7 +4,7 @@
     <string name="app_name">Phoenix V</string>
 
     <string-array name="array_chat_background_names">
-        <item>Однотонный</item>
+        <item>Монотонный</item>
         <item>Печеньки</item>
         <item>Линии</item>
         <item>Руны</item>
@@ -124,7 +124,7 @@
     <string name="enable_groupchat_led_title">Светодиод</string>
 
     <string name="enter_dir_name">Введите имя новой папки</string>
-    <string name="cannot_create_catalog">Каталог уже присутствует или Вы ввели недопустимое имя каталога</string>
+    <string name="cannot_create_catalog">Каталог уже присутствует или вы ввели недопустимое имя каталога</string>
     <string name="path_not_exist">Путь не существует или не может быть прочитан</string>
     <string name="create_dir">Новая папка</string>
 
@@ -406,13 +406,13 @@
 
     <string name="published_post_on_your_wall">опубликовал запись на Вашей стене</string>
 
-    <string name="feedback_empty_text">Здесь Вы будете видеть упоминания, новые комментарии и отметки «Мне нравится»</string>
+    <string name="feedback_empty_text">Здесь вы будете видеть упоминания, новые комментарии и отметки «Мне нравится»</string>
 
-    <string name="playlist_empty_text">Здесь Вы будете видеть аудио плейлисты</string>
+    <string name="playlist_empty_text">Здесь вы будете видеть аудио плейлисты</string>
 
-    <string name="shorted_links_empty_text">Здесь Вы будете видеть сокращённые ссылки</string>
+    <string name="shorted_links_empty_text">Здесь вы будете видеть сокращённые ссылки</string>
 
-    <string name="audio_catalog_empty_text">Здесь Вы будете видеть аудио каталог</string>
+    <string name="audio_catalog_empty_text">Здесь вы будете видеть аудио каталог</string>
 
     <string name="end_of_list">Конец списка</string>
 
@@ -1072,7 +1072,7 @@
     <string name="reason_other">Другое</string>
     <string name="community_ban_comment_title">Комментарий</string>
     <string name="show_this_comment_to_the_blocked_user">Показывать этот комментарий заблокированному пользователю</string>
-    <string name="community_ban_comment_hint">Здесь Вы можете указать короткий комментарий</string>
+    <string name="community_ban_comment_hint">Здесь вы можете указать короткий комментарий</string>
     <string name="save">Сохранить</string>
     <string name="community_choose_access_level_title">Уровень полномочий</string>
     <string name="community_moderator">Модератор</string>
@@ -1204,7 +1204,7 @@
     <string name="keep_longpoll_notification_title">Уведомления Phoenix</string>
     <string name="settings_keep_longpoll_title">Удерживать Longpoll</string>
     <string name="settings_no_push">Не принимать Push FCM уведомления</string>
-    <string name="settings_keep_longpoll_summary">Поддерживать связь со службой уведомлений. ВНИМАНИЕ! Это может привести к увеличению потребления батареи!</string>
+    <string name="settings_keep_longpoll_summary">Поддерживать связь со службой уведомлений. Может привести к увеличению энергопотребления!</string>
     <string name="close">Закрыть</string>
     <string name="attach">Прикрепить</string>
     <string name="emoji" translatable="false">Emoij</string>
@@ -1273,13 +1273,13 @@
     <string name="download">Скачать"</string>
     <string name="downloading">Скачивание"</string>
     <string name="recommendation">Рекомендации"</string>
-    <string name="biometric">Приложите палец к сканеру"</string>
-    <string name="biometric_not_support">Данная фича не поддерживается"</string>
+    <string name="biometric">Приложите палец к сканеру отпечатков</string>
+    <string name="biometric_not_support">Данная функция не поддерживается"</string>
     <string name="show_recent_dialogs">Отображать последние чаты</string>
     <string name="show_mini_player">Показывать мини-плеер</string>
     <string name="show_audio_top">Популярные треки</string>
     <string name="my_message_no_color">Отключить цвет исходящих сообщений</string>
-    <string name="show_audio_cover">Обложки аудио</string>
+    <string name="show_audio_cover">Показывать обложки аудио</string>
     <string name="do_upload_video">Загрузить видео из локального хранилища?</string>
     <string name="null_audio">Нет проигрываемых аудио</string>
     <string name="audio_not_found">Аудио не найдено в списке</string>
@@ -1292,7 +1292,7 @@
     <string name="custom_chat_color">Первый цвет фона</string>
     <string name="use_custom_chat_color">Задать цвет фона</string>
     <string name="custom_chat_color_second">Второй цвет фона</string>
-    <string name="custom_chat_color_summary">Установите фон в "Однотонный", чтобы он стал градиентом</string>
+    <string name="custom_chat_color_summary">Установите фон в "Монотонный", чтобы он стал градиентом</string>
     <string name="custom_message_color">Первый цвет исходящего сообщения</string>
     <string name="usage_custom_message_color">Задать цвет исходящего сообщения</string>
     <string name="last_read">Последнее прочитанное</string>
@@ -1336,7 +1336,7 @@
     <string name="wall_attachments">Вложения на стене</string>
     <string name="posts_analized">%1$d постов проверено</string>
     <string name="photo_rounded_view">Скругление краёв изображений</string>
-    <string name="load_history_notif">Превью диалога в уведомлениях</string>
+    <string name="load_history_notif">Предпросмотр диалога в уведомлениях</string>
     <string name="load_history_notif_summary">Отображать последние сообщения из чата</string>
     <string name="mp3_friendly">Если не работает скачивание</string>
     <string name="search_stories">Искать истории</string>
@@ -1353,12 +1353,13 @@
     <string name="open_photo">Открыть фото</string>
     <string name="add_and_download_button">Скачать и добавить</string>
     <string name="delete_cache_images">Очищать кэш изображений при входе</string>
-    <string name="click_next_track">Тап по обложке - следущий трек</string>
-    <string name="click_next_track_summary">Длинное нажатие - предыдущий трек. Иначе длинное нажатие по обложке - следущий трек</string>
+    <string name="click_next_track">Тап по обложке - следующий трек</string>
+    <string name="click_next_track_summary_on">Длинное нажатие - предыдущий</string>
+    <string name="click_next_track_summary_off">Длинное нажатие - следующий трек</string>
     <string name="voice_click">Ab</string>
-    <string name="remote_audio_error">Ошибка получения списка сохранённых аудио на пк</string>
+    <string name="remote_audio_error">Ошибка получения списка сохранённых аудио на ПК</string>
     <string name="audio_catalog">Каталог</string>
-    <string name="audio_goto_artist">Перейти к певцу</string>
+    <string name="audio_goto_artist">Перейти к исполнителю</string>
     <string name="hide_dialog">Скрыть</string>
     <string name="set_no_hide_dialog">Снять ограничения</string>
     <string name="local_audios">Скачанные</string>
@@ -1375,7 +1376,7 @@
     <string name="download_photo_tap">Скачивать фото по долгому нажатию"</string>
     <string name="wall_themed">Оформление стены"</string>
     <string name="for_pagan">Для язычников"</string>
-    <string name="runes_show">Показывать Руны"</string>
+    <string name="runes_show">Показывать руны"</string>
     <string name="runes_valknut">Показывать Валькнут"</string>
     <string name="photo_album">Фото Альбом"</string>
     <string name="custom_second_message_color">Второй цвет исходящего сообщения"</string>

@@ -57,7 +57,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     private boolean isLandscape = false;
 
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private void onOpen() {
         Intent intent = new Intent(this, MainActivity.class);

@@ -98,7 +98,7 @@ public class DialogsTabsFragment extends BaseFragment implements BackPressCallba
     }
 
     class Adapter extends FragmentStateAdapter {
-        private LongSparseArray<WeakReference<Fragment>> fragments;
+        private final LongSparseArray<WeakReference<Fragment>> fragments;
 
         public Adapter(@NonNull Fragment fm) {
             super(fm);

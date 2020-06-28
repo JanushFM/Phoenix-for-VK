@@ -60,8 +60,8 @@ public class QuickAnswerActivity extends AppCompatActivity {
 
     private boolean messageIsRead;
     private IMessagesRepository messagesRepository;
-    private CompositeDisposable mLiveSubscription = new CompositeDisposable();
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mLiveSubscription = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public static Intent forStart(Context context, int accountId, Message msg, String body, String imgUrl, String title) {
         Intent intent = new Intent(context, QuickAnswerActivity.class);

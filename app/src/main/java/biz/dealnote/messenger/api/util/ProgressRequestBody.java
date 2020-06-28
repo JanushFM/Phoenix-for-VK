@@ -10,9 +10,9 @@ import okio.BufferedSink;
 public class ProgressRequestBody extends RequestBody {
 
     private static final int DEFAULT_BUFFER_SIZE = 2048;
-    private InputStream stream;
-    private UploadCallbacks listener;
-    private MediaType mediaType;
+    private final InputStream stream;
+    private final UploadCallbacks listener;
+    private final MediaType mediaType;
 
     public ProgressRequestBody(final InputStream file, final UploadCallbacks listener, MediaType mediaType) {
         this.stream = file;

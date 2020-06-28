@@ -25,7 +25,7 @@ public class NewsfeedMentionsPresenter extends PlaceSupportPresenter<INewsfeedCo
 
     private final List<NewsfeedComment> data;
     private final INewsfeedInteractor interactor;
-    private int ownerId;
+    private final int ownerId;
     private boolean isEndOfContent;
     private boolean loadingNow;
 

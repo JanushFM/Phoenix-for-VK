@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 
 public class FlingRelativeLayout extends RelativeLayout {
 
-    private static int SINGLE_TOUCH = 1;
+    private static final int SINGLE_TOUCH = 1;
     private GestureDetector mGestureDetector;
     private OnSingleFlingListener mSingleFlingListener;
 

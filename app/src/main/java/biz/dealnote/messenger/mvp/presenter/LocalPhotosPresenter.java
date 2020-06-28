@@ -23,8 +23,8 @@ public class LocalPhotosPresenter extends RxSupportPresenter<ILocalPhotosView> {
 
     private static final String TAG = LocalPhotosPresenter.class.getSimpleName();
 
-    private LocalImageAlbum mLocalImageAlbum;
-    private int mSelectionCountMax;
+    private final LocalImageAlbum mLocalImageAlbum;
+    private final int mSelectionCountMax;
 
     private boolean permissionRequestedOnce;
 

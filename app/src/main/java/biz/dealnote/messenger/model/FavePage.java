@@ -3,7 +3,7 @@ package biz.dealnote.messenger.model;
 import biz.dealnote.messenger.api.model.Identificable;
 
 public class FavePage implements Identificable {
-    private int id;
+    private final int id;
 
     private String description;
 

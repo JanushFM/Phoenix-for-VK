@@ -21,27 +21,27 @@ import biz.dealnote.messenger.view.emoji.EmojiconsPopup;
 
 public class CommentsInputViewController {
 
-    private Context mActivity;
-    private OnInputActionCallback callback;
-    private EditText mInputField;
-    private RelativeLayout rlEmojiContainer;
+    private final Context mActivity;
+    private final OnInputActionCallback callback;
+    private final EditText mInputField;
+    private final RelativeLayout rlEmojiContainer;
     private EmojiconsPopup emojiPopup;
-    private ImageView ibEmoji;
-    private ImageView ibAttach;
+    private final ImageView ibEmoji;
+    private final ImageView ibAttach;
 
     private boolean emojiOnScreen;
     private boolean emojiNeed;
     private boolean mCanSendNormalMessage;
     private boolean sendOnEnter;
 
-    private TextView tvAttCount;
+    private final TextView tvAttCount;
 
-    private ImageView mButtonSend;
+    private final ImageView mButtonSend;
 
-    private TextWatcherAdapter mTextWatcher;
+    private final TextWatcherAdapter mTextWatcher;
 
-    private int mIconColorActive;
-    private int mIconColorInactive;
+    private final int mIconColorActive;
+    private final int mIconColorInactive;
 
     public CommentsInputViewController(@NonNull final Activity activity, @NonNull View rootView, @NonNull OnInputActionCallback callback) {
         this.callback = callback;

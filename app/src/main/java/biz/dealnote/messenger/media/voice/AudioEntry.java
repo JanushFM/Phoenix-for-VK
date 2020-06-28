@@ -6,8 +6,8 @@ import biz.dealnote.messenger.model.VoiceMessage;
 
 public class AudioEntry {
 
-    private int id;
-    private VoiceMessage audio;
+    private final int id;
+    private final VoiceMessage audio;
 
     public AudioEntry(int id, @NonNull VoiceMessage audio) {
         this.id = id;

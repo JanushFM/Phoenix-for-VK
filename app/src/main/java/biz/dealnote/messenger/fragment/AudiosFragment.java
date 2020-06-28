@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +71,7 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
 
         @Override
         public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            Utils.vibrate(requireActivity(), 100);
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
             mAudioRecyclerAdapter.notifyDataSetChanged();
             getPresenter().playAudio(requireActivity(), mAudioRecyclerAdapter.getItemRawPosition(viewHolder.getLayoutPosition()));
         }

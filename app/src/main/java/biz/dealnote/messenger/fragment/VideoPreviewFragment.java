@@ -80,7 +80,7 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
     private TextView mTitleText;
     private TextView mSubtitleText;
     private ImageView mPreviewImage;
-    private OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
+    private final OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
         @Override
         public void onOwnerClick(int ownerId) {
             getPresenter().fireOwnerClick(ownerId);

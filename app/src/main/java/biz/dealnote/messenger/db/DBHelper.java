@@ -54,7 +54,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String TAG = "DBHelper";
 
-    private static volatile Map<Integer, DBHelper> dbHelperMap = new ConcurrentHashMap<>();
+    private static final Map<Integer, DBHelper> dbHelperMap = new ConcurrentHashMap<>();
 
     private DBHelper(Context context, int aid) {
         super(context, getDatabaseFileName(aid), null, Constants.DATABASE_VERSION);

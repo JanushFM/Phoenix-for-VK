@@ -38,8 +38,8 @@ public class AudioCatalogAdapter extends RecyclerView.Adapter<AudioCatalogAdapte
         AudioRecyclerAdapter.ClickListener, VideosAdapter.VideoOnClickListener, CatalogLinksAdapter.ActionListener {
 
     private List<AudioCatalog> data;
-    private Context mContext;
-    private int account_id;
+    private final Context mContext;
+    private final int account_id;
     private ClickListener clickListener;
 
     public AudioCatalogAdapter(List<AudioCatalog> data, int account_id, Context context) {

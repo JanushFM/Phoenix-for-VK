@@ -7,15 +7,15 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 public class SettingsImpl implements ISettings {
 
     private static volatile SettingsImpl instance;
-    private IRecentChats recentChats;
-    private IDrawerSettings drawerSettings;
-    private IPushSettings pushSettings;
-    private ISecuritySettings securitySettings;
-    private IUISettings iuiSettings;
-    private INotificationSettings notificationSettings;
-    private IMainSettings mainSettings;
-    private IAccountsSettings accountsSettings;
-    private IOtherSettings otherSettings;
+    private final IRecentChats recentChats;
+    private final IDrawerSettings drawerSettings;
+    private final IPushSettings pushSettings;
+    private final ISecuritySettings securitySettings;
+    private final IUISettings iuiSettings;
+    private final INotificationSettings notificationSettings;
+    private final IMainSettings mainSettings;
+    private final IAccountsSettings accountsSettings;
+    private final IOtherSettings otherSettings;
 
     private SettingsImpl(Context app) {
         this.notificationSettings = new NotificationsPrefs(app);

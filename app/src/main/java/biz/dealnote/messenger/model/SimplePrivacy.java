@@ -67,9 +67,9 @@ public class SimplePrivacy implements Parcelable {
                 return new Entry[size];
             }
         };
-        private int type;
-        private int id;
-        private boolean allowed;
+        private final int type;
+        private final int id;
+        private final boolean allowed;
 
         public Entry(int type, int id, boolean allowed) {
             this.type = type;

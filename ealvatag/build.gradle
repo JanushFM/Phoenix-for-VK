@@ -26,8 +26,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "com.squareup.okio:okio:2.6.0"
-    implementation "com.google.guava:guava:29.0-android"
+    implementation "com.squareup.okio:okio:2.7.0-alpha.lockfree.2"
+    implementation 'com.google.guava:guava:29.0-jre'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 repositories {

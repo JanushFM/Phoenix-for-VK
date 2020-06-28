@@ -26,9 +26,9 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
     private final List<AudioCatalog> pages;
 
     private final IAudioInteractor fInteractor;
-    private String artist_id;
+    private final String artist_id;
     private boolean actualDataLoading;
-    private CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public AudioCatalogPresenter(int accountId, String artist_id, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

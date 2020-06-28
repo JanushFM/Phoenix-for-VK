@@ -35,11 +35,11 @@ public class EnterPinPresenter extends RxSupportPresenter<IEnterPinView> {
     private static final int MAX_ATTEMPT_DELAY = 3 * 60 * 1000;
     private final IOwnersRepository ownersRepository;
     private final ISettings.ISecuritySettings securitySettings;
-    private int[] mValues;
-    private Fragment myContext;
+    private final int[] mValues;
+    private final Fragment myContext;
     private Owner mOwner;
-    private Handler mHandler = new Handler();
-    private Runnable mOnFullyEnteredRunnable = this::onFullyEntered;
+    private final Handler mHandler = new Handler();
+    private final Runnable mOnFullyEnteredRunnable = this::onFullyEntered;
 
     public EnterPinPresenter(Fragment Context, @Nullable Bundle savedState) {
         super(savedState);

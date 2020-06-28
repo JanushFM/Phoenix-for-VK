@@ -34,7 +34,6 @@
             android:paddingEnd="12dp"
             android:paddingBottom="6dp"
             android:weightSum="1"
-            app:angle="@dimen/message_bubble_corner_radius"
             app:arrowHeight="0dp"
             app:arrowWidth="0dp"
             app:bubbleColor="?message_bubble_color"
@@ -51,7 +50,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:maxWidth="450dp"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:textColor="?attr/colorPrimary"
                 app:hashTagColor="?attr/colorAccent"
                 tools:text="Message" />

@@ -46,10 +46,10 @@ package ealvatag.tag.id3;
  * ('total size' - 10) bytes.
  */
 public class Id3v2Header {
-    private byte majorVersion;
-    private byte revision;
-    private byte flags;
-    private int tagSize;
+    private final byte majorVersion;
+    private final byte revision;
+    private final byte flags;
+    private final int tagSize;
 
     public Id3v2Header(final byte majorVersion, final byte revision, final byte flags, final int tagSize) {
         this.majorVersion = majorVersion;

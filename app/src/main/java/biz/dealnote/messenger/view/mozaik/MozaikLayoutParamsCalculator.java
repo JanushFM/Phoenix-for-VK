@@ -8,13 +8,13 @@ import biz.dealnote.messenger.adapter.PostImage;
 
 public class MozaikLayoutParamsCalculator {
 
-    private int maxWidth;
-    private int spacing;
-    private int[][] matrix;
+    private final int maxWidth;
+    private final int spacing;
+    private final int[][] matrix;
 
-    private SparseIntArray rowHeight;
-    private SparseIntArray photoWidth;
-    private List<PostImage> images;
+    private final SparseIntArray rowHeight;
+    private final SparseIntArray photoWidth;
+    private final List<PostImage> images;
 
     public MozaikLayoutParamsCalculator(int[][] matrix, List<PostImage> images, int maxWidth, int spacing) {
         this.maxWidth = maxWidth;

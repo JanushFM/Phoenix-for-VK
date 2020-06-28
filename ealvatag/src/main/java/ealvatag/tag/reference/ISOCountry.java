@@ -14,8 +14,8 @@ import java.util.Map;
  * More details at http://www.iso.org/iso/country_codes/iso_3166_code_lists/english_country_names_and_code_elements.htm#c
  */
 public class ISOCountry {
-    private static Map<String, Country> codeMap;
-    private static Map<String, Country> descriptionMap;
+    private static final Map<String, Country> codeMap;
+    private static final Map<String, Country> descriptionMap;
 
     static {
         codeMap = new HashMap<String, Country>();
@@ -306,8 +306,8 @@ public class ISOCountry {
         ZIMBABWE("ZW", "Zimbabwe");
 
 
-        private String code;
-        private String description;
+        private final String code;
+        private final String description;
 
         Country(String code, String description) {
             this.code = code;

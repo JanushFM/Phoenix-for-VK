@@ -22,21 +22,21 @@ public class ExchangeMessage implements Parcelable {
         }
     };
     @SerializedName("v")
-    private int version;
+    private final int version;
     @SerializedName("sid")
-    private long sessionId;
+    private final long sessionId;
     @SerializedName("public_key")
-    private String publicKey;
+    private final String publicKey;
     @SerializedName("aes_key")
-    private String aesKey;
+    private final String aesKey;
     @SessionState
     @SerializedName("session_state")
-    private int senderSessionState;
+    private final int senderSessionState;
     @SerializedName("error_code")
-    private int errorCode;
+    private final int errorCode;
     @KeyLocationPolicy
     @SerializedName("klp")
-    private Integer keyLocationPolicy;
+    private final Integer keyLocationPolicy;
 
     private ExchangeMessage(Builder builder) {
         this.publicKey = builder.publicKey;

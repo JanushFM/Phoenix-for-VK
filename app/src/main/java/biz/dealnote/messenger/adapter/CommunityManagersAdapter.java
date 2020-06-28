@@ -37,7 +37,7 @@ public class CommunityManagersAdapter extends RecyclerView.Adapter<CommunityMana
     }
 
     private List<Manager> users;
-    private Transformation transformation;
+    private final Transformation transformation;
     private ActionListener actionListener;
 
     public CommunityManagersAdapter(Context context, List<Manager> users) {

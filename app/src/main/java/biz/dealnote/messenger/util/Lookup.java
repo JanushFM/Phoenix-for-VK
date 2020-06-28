@@ -6,7 +6,7 @@ public class Lookup {
 
     private static final int LOOKUP = 1540;
 
-    private Handler mHandler;
+    private final Handler mHandler;
 
     private int mDelay;
     private Callback mCallback;

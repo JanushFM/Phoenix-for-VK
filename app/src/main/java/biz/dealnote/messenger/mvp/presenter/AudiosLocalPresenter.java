@@ -27,9 +27,9 @@ public class AudiosLocalPresenter extends AccountDependencyPresenter<IAudiosLoca
     private final ArrayList<Audio> origin_audios;
     private final ArrayList<Audio> audios;
     private boolean actualReceived;
-    private CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private boolean loadingNow;
-    private Context context;
+    private final Context context;
     private String query;
 
     public AudiosLocalPresenter(int accountId, Context context, @Nullable Bundle savedInstanceState) {

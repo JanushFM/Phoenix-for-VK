@@ -21,7 +21,7 @@ import biz.dealnote.messenger.util.ViewUtils;
 public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Holder> {
 
     private List<FaveLink> data;
-    private Context context;
+    private final Context context;
     private RecyclerView recyclerView;
     private ClickListener clickListener;
 

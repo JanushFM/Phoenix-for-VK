@@ -22,7 +22,7 @@ public class OnlineFriendsPresenter extends SimpleOwnersPresenter<ISimpleOwnersV
     private final IRelationshipInteractor relationshipInteractor;
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public OnlineFriendsPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

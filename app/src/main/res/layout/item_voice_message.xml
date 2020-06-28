@@ -65,21 +65,17 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/transcription_block"
+        style="@style/CardViewMD2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="2dp"
         app:contentPadding="0dp">
 
         <TextView
             android:id="@+id/transcription_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:gravity="center"
-
+            android:layout_margin="6dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             tools:text="Message" />
     </com.google.android.material.card.MaterialCardView>

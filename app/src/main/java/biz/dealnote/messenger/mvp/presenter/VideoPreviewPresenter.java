@@ -34,7 +34,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
     private final String accessKey;
     private final boolean isStory;
     private final IVideosInteractor interactor;
-    private IFaveInteractor faveInteractor;
+    private final IFaveInteractor faveInteractor;
     private Video video;
     private boolean refreshingNow;
 

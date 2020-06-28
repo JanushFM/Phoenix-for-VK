@@ -10,9 +10,9 @@ import biz.dealnote.messenger.settings.Settings;
 
 public class ActivityFeatures {
 
-    private boolean hideMenu;
-    private int statusBarColorOption;
-    private boolean statusBarInvertIconsOption;
+    private final boolean hideMenu;
+    private final int statusBarColorOption;
+    private final boolean statusBarInvertIconsOption;
 
     public ActivityFeatures(@NonNull Builder builder) {
         this.hideMenu = builder.blockNavigationFeature.blockNavigationDrawer;
@@ -26,11 +26,7 @@ public class ActivityFeatures {
         AppStyleable styleable = (AppStyleable) activity;
         styleable.hideMenu(hideMenu);
 
-        if (statusBarColorOption == StatusbarColorFeature.STATUSBAR_COLOR_COLORED) {
-            styleable.setStatusbarColored(true, statusBarInvertIconsOption);
-        } else {
-            styleable.setStatusbarColored(false, statusBarInvertIconsOption);
-        }
+        styleable.setStatusbarColored(statusBarColorOption == StatusbarColorFeature.STATUSBAR_COLOR_COLORED, statusBarInvertIconsOption);
     }
 
     public static class Builder {

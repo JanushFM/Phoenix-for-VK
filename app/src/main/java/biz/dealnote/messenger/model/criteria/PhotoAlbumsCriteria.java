@@ -2,8 +2,8 @@ package biz.dealnote.messenger.model.criteria;
 
 public class PhotoAlbumsCriteria extends Criteria {
 
-    private int accountId;
-    private int ownerId;
+    private final int accountId;
+    private final int ownerId;
 
     public PhotoAlbumsCriteria(int accountId, int ownerId) {
         this.accountId = accountId;

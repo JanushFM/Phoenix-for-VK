@@ -5,28 +5,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="4dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="2dp"
-        app:contentPadding="0dp">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="4dp"
-                android:alpha="0.9"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_menu_24_white"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="4dp"
+            android:alpha="0.9"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_menu_24_white"
                 app:tint="?colorPrimary" />
 
             <TextView
@@ -40,11 +34,12 @@
                 android:text="@string/playlist"
                 android:textSize="16sp" />
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include layout="@layout/line_divider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
@@ -59,10 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginStart="@dimen/fab_margin"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:layout_marginEnd="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/fab_margin"
+            android:layout_margin="@dimen/fab_margin"
             android:src="@drawable/audio_player"
             app:fabSize="normal"
             app:layout_behavior="biz.dealnote.messenger.view.FABBehavior"

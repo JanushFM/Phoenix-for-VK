@@ -82,7 +82,7 @@ public abstract class AbstractTag implements TagFieldContainer {
      * that they are added in is preserved, the only exception to this rule is when two fields of the same id
      * exist, both will be returned according to when the first item was added to the file. <br>
      */
-    private Map<String, List<TagField>> fields = new LinkedHashMap<>();
+    private final Map<String, List<TagField>> fields = new LinkedHashMap<>();
 
     protected AbstractTag(final boolean readOnly) {
         this.readOnly = readOnly;

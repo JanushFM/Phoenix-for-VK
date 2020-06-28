@@ -29,9 +29,9 @@ public abstract class RxSupportPresenter<V extends IMvpView> extends AbsPresente
 
     private static final String SAVE_INSTANCE_ID = "save_instance_id";
     private static final String SAVE_TEMP_DATA_USAGE = "save_temp_data_usage";
-    private static InstancesCounter instancesCounter = new InstancesCounter();
+    private static final InstancesCounter instancesCounter = new InstancesCounter();
     private final int instanceId;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private boolean tempDataUsage;
     private int viewCreationCounter;
 

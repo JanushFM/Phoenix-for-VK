@@ -36,7 +36,7 @@ public class AndroidLongpollManager implements ILongpollManager, UserLongpoll.Ca
     private final PublishProcessor<VkApiLongpollUpdates> actionsPublisher;
     private final IRealtimeMessagesProcessor messagesProcessor;
     private final Object lock = new Object();
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     AndroidLongpollManager(Context context, INetworker networker, IRealtimeMessagesProcessor messagesProcessor) {
         this.networker = networker;

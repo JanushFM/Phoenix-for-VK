@@ -32,7 +32,7 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
     private int mAccountId;
     private BaseSearchCriteria mInitialCriteria;
     private boolean attachedChild;
-    private FragmentManager.FragmentLifecycleCallbacks mFragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
+    private final FragmentManager.FragmentLifecycleCallbacks mFragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
         @Override
         public void onFragmentViewCreated(@NotNull FragmentManager fm, @NotNull Fragment f, @NotNull View v, Bundle savedInstanceState) {
             syncChildFragment();

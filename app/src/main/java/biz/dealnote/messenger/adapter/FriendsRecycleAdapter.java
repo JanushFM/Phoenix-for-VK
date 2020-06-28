@@ -32,8 +32,8 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
 
     private List<UsersPart> data;
     private boolean group;
-    private Context context;
-    private Transformation transformation;
+    private final Context context;
+    private final Transformation transformation;
     private Listener listener;
 
     public FriendsRecycleAdapter(List<UsersPart> data, Context context) {

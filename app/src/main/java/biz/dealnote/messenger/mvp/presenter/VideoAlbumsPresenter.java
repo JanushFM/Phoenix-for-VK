@@ -28,10 +28,10 @@ public class VideoAlbumsPresenter extends AccountDependencyPresenter<IVideoAlbum
     private final IVideosInteractor videosInteractor;
     private boolean endOfContent;
     private boolean actualDataReceived;
-    private CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean netLoadingNow;
     private int netLoadingOffset;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean cacheNowLoading;
 
     public VideoAlbumsPresenter(int accountId, int ownerId, String action, @Nullable Bundle savedInstanceState) {

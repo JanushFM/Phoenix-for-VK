@@ -35,9 +35,9 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     private String mNextFrom;
     private boolean actualDataReceived;
     private boolean mEndOfContent;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean cacheLoadingNow;
-    private CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean netLoadingNow;
     private String netLoadingStartFrom;
 

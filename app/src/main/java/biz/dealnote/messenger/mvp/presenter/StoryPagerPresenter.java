@@ -36,7 +36,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
     private static final String SAVE_PAGER_INDEX = "save_pager_index";
     private static final VideoSize DEF_SIZE = new VideoSize(1, 1);
     private IGifPlayer mGifPlayer;
-    private ArrayList<Story> mStories;
+    private final ArrayList<Story> mStories;
     private int mCurrentIndex;
 
     public StoryPagerPresenter(int accountId, @NonNull ArrayList<Story> stories, int index, @Nullable Bundle savedInstanceState) {

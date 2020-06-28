@@ -7,7 +7,7 @@ import io.reactivex.disposables.Disposable;
 
 public class BaseFragment extends Fragment {
 
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     protected void appendDisposable(Disposable disposable) {
         mCompositeDisposable.add(disposable);

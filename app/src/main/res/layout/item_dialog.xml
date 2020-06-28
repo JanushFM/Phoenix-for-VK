@@ -8,11 +8,11 @@
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/header_root"
+        style="@style/CardViewMD2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardElevation="2dp"
         app:contentPadding="8dp"
         tools:ignore="UnusedAttribute">
 
@@ -24,7 +24,6 @@
             android:layout_marginEnd="4dp"
             android:text="@string/title"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textStyle="bold"
             app:textAllCaps="true" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -82,12 +81,11 @@
         <LinearLayout
             android:id="@+id/dialog_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/avatar_size_chat"
             android:layout_alignTop="@+id/avatar_root"
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@id/avatar_root"
-            android:height="60dp"
-            android:gravity="center_vertical"
+            android:height="@dimen/avatar_size_chat"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -96,18 +94,19 @@
 
                 <ImageView
                     android:id="@+id/dialog_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginEnd="6dp"
                     app:tint="?colorOnSurface"
                     tools:src="@drawable/channel" />
 
                 <TextView
                     android:id="@+id/dialog_title"
                     android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="22dp"
                     android:layout_toStartOf="@id/unread_ticks"
                     android:layout_toEndOf="@id/dialog_type"
+                    android:layout_marginEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
@@ -144,6 +143,7 @@
                     android:ellipsize="end"
                     android:maxLines="2"
                     android:scrollbars="none"
+                    android:layout_marginEnd="8dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                     android:textSize="14sp"
                     app:emojiconSize="20sp"

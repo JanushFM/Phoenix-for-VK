@@ -33,12 +33,12 @@ import biz.dealnote.messenger.util.ViewUtils;
 
 public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapter.ViewHolder> {
 
-    private Context mContext;
-    private List<Object> mData;
+    private final Context mContext;
+    private final List<Object> mData;
 
-    private Transformation transformation;
+    private final Transformation transformation;
 
-    private ActionListener mActionListener;
+    private final ActionListener mActionListener;
 
     public FeedbackLinkAdapter(Context context, List<Object> objects, @NonNull ActionListener actionListener) {
         this.mContext = context;
@@ -149,10 +149,10 @@ public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView mTitle;
-        private TextView mSubtitle;
-        private ImageView ivImage;
-        private ImageView ivForward;
+        private final TextView mTitle;
+        private final TextView mSubtitle;
+        private final ImageView ivImage;
+        private final ImageView ivForward;
 
         ViewHolder(View root) {
             super(root);

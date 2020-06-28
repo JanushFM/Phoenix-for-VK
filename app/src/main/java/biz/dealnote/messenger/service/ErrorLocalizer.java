@@ -14,7 +14,7 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 public class ErrorLocalizer {
 
-    private static ApiLocalizer sApiLocalizer = new ApiLocalizer();
+    private static final ApiLocalizer sApiLocalizer = new ApiLocalizer();
 
     public static String localizeThrowable(Context context, Throwable throwable) {
         if (throwable instanceof ApiException) {

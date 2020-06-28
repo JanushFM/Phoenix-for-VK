@@ -46,11 +46,11 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
 
     private static final int TYPE_DELETED = 0;
     private static final int TYPE_NORMAL = 1;
-    private Context context;
-    private AttachmentsViewBinder attachmentsViewBinder;
-    private Transformation transformation;
-    private int colorTextSecondary;
-    private int iconColorActive;
+    private final Context context;
+    private final AttachmentsViewBinder attachmentsViewBinder;
+    private final Transformation transformation;
+    private final int colorTextSecondary;
+    private final int iconColorActive;
     private EmojiconTextView.OnHashTagClickListener onHashTagClickListener;
     private OnCommentActionListener listener;
     private RecyclerView recyclerView;

@@ -52,16 +52,16 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
     private static final int DIV_YESTERDAY = 2;
     private static final int DIV_THIS_WEEK = 3;
     private static final int DIV_OLD = 4;
-    private static SimpleDateFormat DF_TODAY = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    private static SimpleDateFormat DF_OLD = new SimpleDateFormat("dd/MM", Locale.getDefault());
-    private Context mContext;
+    private static final SimpleDateFormat DF_TODAY = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private static final SimpleDateFormat DF_OLD = new SimpleDateFormat("dd/MM", Locale.getDefault());
+    private final Context mContext;
     private List<Dialog> mDialogs;
-    private Transformation mTransformation;
-    private ForegroundColorSpan mForegroundColorSpan;
+    private final Transformation mTransformation;
+    private final ForegroundColorSpan mForegroundColorSpan;
     private long mStartOfToday;
-    private RecyclerView.AdapterDataObserver mDataObserver;
+    private final RecyclerView.AdapterDataObserver mDataObserver;
     private ClickListener mClickListener;
-    private Set<Integer> hidden;
+    private final Set<Integer> hidden;
 
     public DialogsAdapter(Context context, @NonNull List<Dialog> dialogs) {
         this.mContext = context;

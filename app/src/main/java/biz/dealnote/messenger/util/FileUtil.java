@@ -19,8 +19,8 @@ import biz.dealnote.messenger.Constants;
 
 public class FileUtil {
 
-    private static DateFormat PHOTO_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-    private static Random Random = new Random();
+    private static final DateFormat PHOTO_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+    private static final Random Random = new Random();
 
     public static Uri getExportedUriForFile(Context context, File file) {
         return FileProvider.getUriForFile(context, Constants.FILE_PROVIDER_AUTHORITY, file);

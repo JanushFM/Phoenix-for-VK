@@ -49,9 +49,9 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
 
     private final List<AttachmenEntry> data;
     private final ActionListener actionListener;
-    private SharedHolders<EntryHolder> holders;
+    private final SharedHolders<EntryHolder> holders;
     private int nextHolderId;
-    private Context context;
+    private final Context context;
 
     public AttachmentsBottomSheetAdapter(Context context, List<AttachmenEntry> data, ActionListener actionListener) {
         this.data = data;

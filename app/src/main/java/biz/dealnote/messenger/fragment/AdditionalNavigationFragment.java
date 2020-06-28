@@ -101,7 +101,7 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
     private MenuListAdapter mAdapter;
     private List<AbsMenuItem> mDrawerItems;
 
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private int mAccountId;
 
     private IOwnersRepository ownersRepository;
@@ -208,7 +208,7 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
         });
 
         ivHeaderDayNight.setImageResource((Settings.get().ui().getNightMode() == NightMode.ENABLE || Settings.get().ui().getNightMode() == NightMode.AUTO ||
-                Settings.get().ui().getNightMode() == NightMode.FOLLOW_SYSTEM) ? R.drawable.day : R.drawable.night);
+                Settings.get().ui().getNightMode() == NightMode.FOLLOW_SYSTEM) ? R.drawable.ic_outline_wb_sunny : R.drawable.ic_outline_nights_stay);
 
         mAdapter = new MenuListAdapter(requireActivity(), mDrawerItems, this);
 

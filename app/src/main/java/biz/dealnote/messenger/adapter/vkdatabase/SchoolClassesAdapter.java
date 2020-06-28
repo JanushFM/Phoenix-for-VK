@@ -15,8 +15,8 @@ import biz.dealnote.messenger.model.database.SchoolClazz;
 
 public class SchoolClassesAdapter extends RecyclerView.Adapter<SchoolClassesAdapter.Holder> {
 
-    private Context mContext;
-    private List<SchoolClazz> mData;
+    private final Context mContext;
+    private final List<SchoolClazz> mData;
     private Listener mListener;
 
     public SchoolClassesAdapter(Context mContext, List<SchoolClazz> mData) {

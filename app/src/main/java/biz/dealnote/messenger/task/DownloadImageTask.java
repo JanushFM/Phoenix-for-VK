@@ -38,16 +38,16 @@ import okhttp3.Response;
 
 public class DownloadImageTask extends AsyncTask<String, Integer, String> {
 
-    private static DateFormat DOWNLOAD_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+    private static final DateFormat DOWNLOAD_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
     protected String file;
     @SuppressLint("StaticFieldLeak")
-    private Context mContext;
-    private String photourl;
-    private String ID;
+    private final Context mContext;
+    private final String photourl;
+    private final String ID;
     private String filename;
-    private NotificationManagerCompat mNotifyManager;
-    private NotificationCompat.Builder mBuilder;
-    private boolean UseMediaScanner;
+    private final NotificationManagerCompat mNotifyManager;
+    private final NotificationCompat.Builder mBuilder;
+    private final boolean UseMediaScanner;
 
     public DownloadImageTask(Context context, String url, String file, String ID, boolean UseMediaScanner) {
         this.mContext = context.getApplicationContext();

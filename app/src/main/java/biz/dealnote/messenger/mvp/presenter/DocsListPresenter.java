@@ -50,9 +50,9 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
     private final List<DocFilter> filters;
     private final IDocsInteractor docsInteractor;
     private final IUploadManager uploadManager;
-    private UploadDestination destination;
-    private List<Upload> uploadsData;
-    private DisposableHolder<Integer> requestHolder = new DisposableHolder<>();
+    private final UploadDestination destination;
+    private final List<Upload> uploadsData;
+    private final DisposableHolder<Integer> requestHolder = new DisposableHolder<>();
     private boolean requestNow;
     private boolean cacheLoadingNow;
 

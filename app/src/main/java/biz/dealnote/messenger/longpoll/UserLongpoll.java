@@ -32,9 +32,9 @@ class UserLongpoll implements ILongpoll {
     private String key;
     private String server;
     private Long ts;
-    private Callback callback;
+    private final Callback callback;
     private Disposable mCurrentUpdatesDisposable;
-    private Observable<Long> mDelayedObservable = Observable.interval(DELAY_ON_ERROR, DELAY_ON_ERROR,
+    private final Observable<Long> mDelayedObservable = Observable.interval(DELAY_ON_ERROR, DELAY_ON_ERROR,
             TimeUnit.MILLISECONDS, Injection.provideMainThreadScheduler());
 
     UserLongpoll(INetworker networker, int accountId, Callback callback) {

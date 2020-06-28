@@ -34,9 +34,9 @@ public class PhotosViewHelper {
 
     @PhotoSize
     private final int mPhotoPreviewSize;
-    private Context context;
-    private AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
-    private int mIconColorActive;
+    private final Context context;
+    private final AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
+    private final int mIconColorActive;
 
     PhotosViewHelper(Context context, @NonNull AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         this.context = context;

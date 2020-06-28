@@ -17,8 +17,8 @@ import biz.dealnote.messenger.util.Utils;
 public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends RecyclerView.Adapter<AbsStepHolder<H>> {
 
     private final H mHost;
-    private SharedHolders<AbsStepHolder<H>> mSharedHolders;
-    private BaseHolderListener mActionListener;
+    private final SharedHolders<AbsStepHolder<H>> mSharedHolders;
+    private final BaseHolderListener mActionListener;
 
     public AbsSteppersVerticalAdapter(@NonNull H host, @NonNull BaseHolderListener actionListener) {
         this.mHost = host;

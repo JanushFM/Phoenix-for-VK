@@ -10,8 +10,8 @@ import biz.dealnote.messenger.crypt.KeyLocationPolicy;
 
 public class SaveMessageBuilder {
 
-    private int accountId;
-    private int peerId;
+    private final int accountId;
+    private final int peerId;
 
     private List<AbsModel> attachments;
     private List<Message> forwardMessages;

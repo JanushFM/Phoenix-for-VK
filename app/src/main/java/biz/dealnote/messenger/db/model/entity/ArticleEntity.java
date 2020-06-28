@@ -2,8 +2,8 @@ package biz.dealnote.messenger.db.model.entity;
 
 public class ArticleEntity extends Entity {
 
-    private int id;
-    private int owner_id;
+    private final int id;
+    private final int owner_id;
     private String owner_name;
     private String url;
     private String title;

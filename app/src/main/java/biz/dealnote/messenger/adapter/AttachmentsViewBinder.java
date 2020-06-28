@@ -106,17 +106,17 @@ public class AttachmentsViewBinder {
     private static final int PREFFERED_STICKER_SIZE = 120;
     private static final byte[] DEFAUL_WAVEFORM = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private static int sHolderIdCounter;
-    private PhotosViewHelper photosViewHelper;
-    private Transformation mAvatarTransformation;
-    private int mActiveWaveFormColor;
-    private int mNoactiveWaveFormColor;
-    private SharedHolders<VoiceHolder> mVoiceSharedHolders;
+    private final PhotosViewHelper photosViewHelper;
+    private final Transformation mAvatarTransformation;
+    private final int mActiveWaveFormColor;
+    private final int mNoactiveWaveFormColor;
+    private final SharedHolders<VoiceHolder> mVoiceSharedHolders;
     private VoiceActionListener mVoiceActionListener;
-    private OnAttachmentsActionCallback mAttachmentsActionCallback;
+    private final OnAttachmentsActionCallback mAttachmentsActionCallback;
     private EmojiconTextView.OnHashTagClickListener mOnHashTagClickListener;
-    private Context mContext;
-    private CompositeDisposable audioListDisposable = new CompositeDisposable();
-    private IAudioInteractor mAudioInteractor;
+    private final Context mContext;
+    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private final IAudioInteractor mAudioInteractor;
 
     public AttachmentsViewBinder(Context context, @NonNull OnAttachmentsActionCallback attachmentsActionCallback) {
         this.mContext = context;

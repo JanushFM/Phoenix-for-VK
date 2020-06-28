@@ -32,10 +32,10 @@ class AccountsSettings implements ISettings.IAccountsSettings {
 
     private final Context app;
     private final PublishProcessor<ISettings.IAccountsSettings> changesPublisher = PublishProcessor.create();
-    private SharedPreferences preferences;
-    private Map<Integer, String> tokens;
-    private Map<Integer, String> types;
-    private PublishProcessor<Integer> currentPublisher = PublishProcessor.create();
+    private final SharedPreferences preferences;
+    private final Map<Integer, String> tokens;
+    private final Map<Integer, String> types;
+    private final PublishProcessor<Integer> currentPublisher = PublishProcessor.create();
 
     @SuppressLint("UseSparseArrays")
     AccountsSettings(Context context) {

@@ -40,6 +40,7 @@
             android:autoLink="web"
             android:gravity="start"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:fontFamily="sans-serif"
             app:displayHashTags="true"
             app:emojiconSize="18sp"
             app:hashTagColor="?attr/colorAccent"

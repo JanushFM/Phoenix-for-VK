@@ -20,12 +20,12 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
     public static final int TYPE_HEADER = 7898;
     public static final int TYPE_FOOTER = 7899;
 
-    private List<View> headers = new ArrayList<>();
-    private List<View> footers = new ArrayList<>();
+    private final List<View> headers = new ArrayList<>();
+    private final List<View> footers = new ArrayList<>();
     private List<T> items;
     private RecyclerView.LayoutManager manager;
     private LayoutInflater inflater;
-    private GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+    private final GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
         @Override
         public int getSpanSize(int position) {
             return getGridSpan(position);

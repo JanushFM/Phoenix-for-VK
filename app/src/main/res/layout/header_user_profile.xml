@@ -18,6 +18,7 @@
             android:src="@drawable/valknut" />
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardViewMD2"
             android:id="@+id/runes_icon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,73 +37,74 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_des"
-                    android:tint="?colorPrimary" />
+                    app:tint="?colorPrimary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_flam"
-                    android:tint="?colorSecondary" />
+                    app:tint="?colorSecondary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_heg"
-                    android:tint="?colorPrimary" />
+                    app:tint="?colorPrimary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_ley"
-                    android:tint="?colorSecondary" />
+                    app:tint="?colorSecondary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_wis"
-                    android:tint="?colorPrimary" />
+                    app:tint="?colorPrimary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_des"
-                    android:tint="?colorPrimary" />
+                    app:tint="?colorPrimary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_flam"
-                    android:tint="?colorSecondary" />
+                    app:tint="?colorSecondary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_heg"
-                    android:tint="?colorPrimary" />
+                    app:tint="?colorPrimary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:src="@drawable/ic_ley"
-                    android:tint="?colorSecondary" />
+                    app:tint="?colorSecondary" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_wis"
-                    android:tint="?colorPrimary" />
+                    app:tint="?colorPrimary" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/CardViewMD2"
             android:id="@+id/card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -219,7 +221,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:src="@drawable/email"
-                        app:elevation="3dp"
+                        app:elevation="1dp"
                         app:fabSize="mini" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -230,7 +232,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:src="@drawable/about_writed"
-                        app:elevation="3dp"
+                        app:elevation="1dp"
                         app:fabSize="mini" />
 
                 </LinearLayout>
@@ -241,12 +243,14 @@
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
+        style="@style/CardViewMD2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_margin"
+        android:layout_marginStart="@dimen/card_margin"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="@dimen/card_margin"
+        android:layout_marginBottom="@dimen/card_margin"
         android:foreground="?android:attr/selectableItemBackground"
-        app:contentPaddingLeft="@dimen/card_margin"
-        app:contentPaddingRight="@dimen/card_margin"
         tools:ignore="UnusedAttribute">
 
         <HorizontalScrollView

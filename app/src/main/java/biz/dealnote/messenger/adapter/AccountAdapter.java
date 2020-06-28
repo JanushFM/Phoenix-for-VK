@@ -30,10 +30,10 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.Holder> {
 
-    private Context context;
-    private List<Account> data;
-    private Transformation transformation;
-    private Callback callback;
+    private final Context context;
+    private final List<Account> data;
+    private final Transformation transformation;
+    private final Callback callback;
 
     public AccountAdapter(Context context, List<Account> items, Callback callback) {
         this.context = context;

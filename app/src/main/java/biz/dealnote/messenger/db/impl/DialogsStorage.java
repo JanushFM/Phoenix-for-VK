@@ -45,9 +45,9 @@ import static biz.dealnote.messenger.util.Utils.safeCountOf;
 
 class DialogsStorage extends AbsStorage implements IDialogsStorage {
 
-    private PublishSubject<Pair<Integer, Integer>> unreadDialogsCounter;
+    private final PublishSubject<Pair<Integer, Integer>> unreadDialogsCounter;
 
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
     DialogsStorage(@NonNull AppStorages base) {
         super(base);

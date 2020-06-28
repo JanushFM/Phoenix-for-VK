@@ -56,12 +56,12 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRecyclerAdapter.AudioHolder> {
 
-    private Context mContext;
-    private IAudioInteractor mAudioInteractor;
-    private boolean not_show_my;
-    private boolean iSSelectMode;
-    private int iCatalogBlock;
-    private CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private final Context mContext;
+    private final IAudioInteractor mAudioInteractor;
+    private final boolean not_show_my;
+    private final boolean iSSelectMode;
+    private final int iCatalogBlock;
+    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private ClickListener mClickListener;
 
     public AudioRecyclerAdapter(Context context, List<Audio> data, boolean not_show_my, boolean iSSelectMode, int iCatalogBlock) {

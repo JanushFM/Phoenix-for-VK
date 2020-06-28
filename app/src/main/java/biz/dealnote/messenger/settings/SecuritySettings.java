@@ -32,9 +32,9 @@ public class SecuritySettings implements ISettings.ISecuritySettings {
     private static final String KEY_ENCRYPTION_POLICY_ACCEPTED = "encryption_policy_accepted";
     private static final int PIN_HISTORY_DEPTH = 3;
     private final SharedPreferences mPrefs;
-    private Context mApplication;
+    private final Context mApplication;
     private String mPinHash;
-    private List<Long> mPinEnterHistory;
+    private final List<Long> mPinEnterHistory;
     private boolean mKeyEncryptionPolicyAccepted;
     private boolean isShowHiddenDialogs;
 

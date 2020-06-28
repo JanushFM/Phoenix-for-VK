@@ -39,7 +39,7 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
     private String position;
     private String email;
     private String phone;
-    private boolean adding;
+    private final boolean adding;
     private boolean savingNow;
 
     public CommunityManagerEditPresenter(int accountId, int groupId, Manager manager, @Nullable Bundle savedInstanceState) {

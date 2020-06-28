@@ -16,8 +16,8 @@ public class NotificationsPrefs implements ISettings.INotificationSettings {
     private static final String NOTIF_PREF_NAME = "biz.dealnote.notifpref";
     private static final String KEY_VIBRO_LENGTH = "vibration_length";
 
-    private Context app;
-    private SharedPreferences preferences;
+    private final Context app;
+    private final SharedPreferences preferences;
 
     NotificationsPrefs(Context context) {
         app = context.getApplicationContext();

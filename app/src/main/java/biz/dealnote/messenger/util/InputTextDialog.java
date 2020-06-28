@@ -103,7 +103,7 @@ public class InputTextDialog {
 
     public static class Builder {
 
-        private Context context;
+        private final Context context;
         private int inputType;
         private int titleRes;
         private String value;

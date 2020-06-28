@@ -16,4 +16,7 @@
         app:layout_scrollFlags="scroll|enterAlways|snap"
         app:subtitleTextAppearance="@style/TextAppearance.MaterialComponents.Caption"
         app:titleTextAppearance="@style/TextAppearance.Toolbar.Title" />
+
+    <include layout="@layout/line_divider" />
+
 </com.google.android.material.appbar.AppBarLayout>

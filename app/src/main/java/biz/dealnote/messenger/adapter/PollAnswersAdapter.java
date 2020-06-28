@@ -24,7 +24,7 @@ public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, Pol
     private Set<Integer> checkedIds;
     private boolean checkable;
     private OnAnswerChangedCallback listener;
-    private Context context;
+    private final Context context;
     private boolean multiple;
 
     public PollAnswersAdapter(Context context, @NonNull List<Poll.Answer> items) {

@@ -70,7 +70,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
     private HorizontalOptionsAdapter<FeedSource> mFeedSourceAdapter;
     private LinearLayoutManager mHeaderLayoutManager;
-    private Gson mGson = new Gson();
+    private final Gson mGson = new Gson();
 
     public static Bundle buildArgs(int accountId) {
         Bundle args = new Bundle();
@@ -117,7 +117,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        styleSwipeRefreshLayoutWithCurrentTheme(mSwipeRefreshLayout, true);
+        styleSwipeRefreshLayoutWithCurrentTheme(mSwipeRefreshLayout, false);
 
         if (Utils.is600dp(requireActivity())) {
             boolean land = Utils.isLandscape(requireActivity());
@@ -139,7 +139,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
         FloatingActionButton Goto = root.findViewById(R.id.goto_button);
         Goto.setOnClickListener(v -> {
             mRecycleView.stopScroll();
-            mFeedLayoutManager.scrollToPosition(0);
+            mRecycleView.smoothScrollToPosition(0);
         });
         Goto.setOnLongClickListener(v -> {
             mRecycleView.stopScroll();

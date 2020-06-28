@@ -48,7 +48,7 @@ public class GifPagerFragment extends AbsDocumentPreviewFragment<GifPagerPresent
     private View mButtonsRoot;
     private CircleCounterButton mButtonAddOrDelete;
     private boolean mFullscreen;
-    private SparseArray<WeakReference<Holder>> mHolderSparseArray = new SparseArray<>();
+    private final SparseArray<WeakReference<Holder>> mHolderSparseArray = new SparseArray<>();
 
     public static GifPagerFragment newInstance(Bundle args) {
         GifPagerFragment fragment = new GifPagerFragment();

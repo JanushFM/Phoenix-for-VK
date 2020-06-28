@@ -40,8 +40,8 @@ public class SelectSchoolsDialog extends AccountDependencyDialogFragment impleme
     private RecyclerView mRecyclerView;
     private SchoolsAdapter mAdapter;
     private String filter;
-    private Handler mHandler = new Handler();
-    private Runnable runSearchRunnable = () -> request(0);
+    private final Handler mHandler = new Handler();
+    private final Runnable runSearchRunnable = () -> request(0);
 
     public static SelectSchoolsDialog newInstance(int aid, int cityId, Bundle additional) {
         Bundle args = additional == null ? new Bundle() : additional;

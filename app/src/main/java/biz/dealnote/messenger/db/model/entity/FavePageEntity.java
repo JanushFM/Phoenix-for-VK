@@ -3,7 +3,7 @@ package biz.dealnote.messenger.db.model.entity;
 import biz.dealnote.messenger.model.FavePageType;
 
 public class FavePageEntity {
-    private int id;
+    private final int id;
 
     private String description;
 

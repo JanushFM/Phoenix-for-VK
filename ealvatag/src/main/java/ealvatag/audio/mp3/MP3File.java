@@ -93,7 +93,7 @@ public class MP3File extends AudioFileImpl {
     /**
      * The Lyrics3 tag that this file contains.
      */
-    private AbstractLyrics3 lyrics3tag = null;
+    private final AbstractLyrics3 lyrics3tag = null;
     /**
      * The ID3v1 tag that this file contains.
      */

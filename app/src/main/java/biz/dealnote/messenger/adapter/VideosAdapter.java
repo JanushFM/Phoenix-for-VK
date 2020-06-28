@@ -23,7 +23,7 @@ import biz.dealnote.messenger.view.VideoServiceIcons;
 
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.Holder> {
 
-    private Context context;
+    private final Context context;
     private List<Video> data;
     private VideoOnClickListener videoOnClickListener;
 

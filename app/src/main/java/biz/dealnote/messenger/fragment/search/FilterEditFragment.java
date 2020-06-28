@@ -56,7 +56,7 @@ public class FilterEditFragment extends BottomSheetDialogFragment implements Sea
     private static final int REQUEST_CODE_SCHOOL_CLASS = 132;
     private ArrayList<BaseOption> mData;
     private SearchOptionsAdapter mAdapter;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private int mAccountId;
     private TextView mEmptyText;
 

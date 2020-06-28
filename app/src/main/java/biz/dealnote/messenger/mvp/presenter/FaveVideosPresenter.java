@@ -23,10 +23,10 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     private static final String TAG = FaveVideosPresenter.class.getSimpleName();
     private static final int COUNT_PER_REQUEST = 25;
     private final IFaveInteractor faveInteractor;
-    private ArrayList<Video> mVideos;
+    private final ArrayList<Video> mVideos;
     private boolean mEndOfContent;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
-    private CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean cacheLoadingNow;
     private boolean netLoadingNow;
 

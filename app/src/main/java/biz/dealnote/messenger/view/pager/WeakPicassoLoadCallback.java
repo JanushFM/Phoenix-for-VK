@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference;
 
 public class WeakPicassoLoadCallback implements Callback {
 
-    private WeakReference<Callback> mReference;
+    private final WeakReference<Callback> mReference;
 
     public WeakPicassoLoadCallback(Callback baseCallback) {
         this.mReference = new WeakReference<>(baseCallback);

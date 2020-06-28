@@ -27,7 +27,7 @@ public class CreatePollPresenter extends AccountDependencyPresenter<ICreatePollV
     private final IPollInteractor pollInteractor;
     private String mQuestion;
     private String[] mOptions;
-    private int mOwnerId;
+    private final int mOwnerId;
     private boolean mAnonymous;
     private boolean mMultiply;
     private boolean creationNow;

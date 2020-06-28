@@ -8,7 +8,7 @@ import biz.dealnote.messenger.api.PicassoInstance;
 
 public class PicassoPauseOnScrollListener extends RecyclerView.OnScrollListener {
 
-    private String tag;
+    private final String tag;
 
     public PicassoPauseOnScrollListener(String tag) {
         this.tag = tag;

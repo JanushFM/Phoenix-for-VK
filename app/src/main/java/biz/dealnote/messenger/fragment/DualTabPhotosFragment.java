@@ -116,7 +116,7 @@ public class DualTabPhotosFragment extends BaseFragment implements BackPressCall
     private class Adapter extends FragmentStateAdapter {
 
         private final Sources mSources;
-        private LongSparseArray<WeakReference<Fragment>> fragments;
+        private final LongSparseArray<WeakReference<Fragment>> fragments;
 
         public Adapter(@NonNull Fragment fm, Sources mSources) {
             super(fm);

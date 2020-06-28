@@ -24,7 +24,7 @@ public class LikesListPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
     private final ILikesInteractor likesInteractor;
 
     private boolean endOfContent;
-    private CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean loadingNow;
 
     public LikesListPresenter(int accountId, String type, int ownerId, int itemId, String filter, @Nullable Bundle savedInstanceState) {

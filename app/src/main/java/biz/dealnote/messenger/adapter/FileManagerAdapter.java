@@ -26,8 +26,8 @@ import biz.dealnote.messenger.util.ElipseTransformation;
 
 public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.Holder> {
 
-    private List<FileItem> data;
-    private Context mContext;
+    private final List<FileItem> data;
+    private final Context mContext;
     private ClickListener clickListener;
 
     public FileManagerAdapter(Context context, List<FileItem> data) {

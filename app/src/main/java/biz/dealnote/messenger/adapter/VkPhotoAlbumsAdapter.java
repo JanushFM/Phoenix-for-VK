@@ -20,7 +20,7 @@ import biz.dealnote.messenger.model.PhotoSize;
 
 public class VkPhotoAlbumsAdapter extends RecyclerView.Adapter<VkPhotoAlbumsAdapter.Holder> {
 
-    private Context context;
+    private final Context context;
     private List<PhotoAlbum> data;
     private ClickListener clickListener;
 

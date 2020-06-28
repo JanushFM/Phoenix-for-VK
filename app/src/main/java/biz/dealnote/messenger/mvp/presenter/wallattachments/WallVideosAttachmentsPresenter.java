@@ -30,11 +30,11 @@ public class WallVideosAttachmentsPresenter extends PlaceSupportPresenter<IWallV
     private final IWallsRepository fInteractor;
     private int loaded;
     private boolean actualDataReceived;
-    private int owner_id;
+    private final int owner_id;
 
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public WallVideosAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
