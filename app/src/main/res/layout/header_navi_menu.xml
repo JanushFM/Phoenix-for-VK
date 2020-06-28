@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:src="@drawable/night"
+        android:src="@drawable/ic_outline_nights_stay"
         android:stateListAnimator="@animator/clicked"
         app:tint="?android:attr/textColorSecondary" />
 

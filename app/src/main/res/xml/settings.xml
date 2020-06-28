@@ -95,7 +95,6 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="download_photo_tap"
-            android:summary="@string/download_photo_tap"
             android:title="@string/download_photo_tap"
             app:iconSpaceReserved="false" />
 
@@ -195,12 +194,6 @@
     <PreferenceCategory
         android:title="@string/custom_chat"
         app:iconSpaceReserved="false">
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="disable_encryption"
-            android:title="@string/disable_encryption"
-            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="1"
@@ -303,6 +296,12 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:key="disable_encryption"
+            android:title="@string/disable_encryption"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:defaultValue="true"
             android:key="display_writing"
             android:title="@string/display_writing"
@@ -365,7 +364,8 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="click_next_track"
-            android:summary="@string/click_next_track_summary"
+            android:summaryOff="@string/click_next_track_summary_off"
+            android:summaryOn="@string/click_next_track_summary_on"
             android:title="@string/click_next_track"
             app:iconSpaceReserved="false" />
 
