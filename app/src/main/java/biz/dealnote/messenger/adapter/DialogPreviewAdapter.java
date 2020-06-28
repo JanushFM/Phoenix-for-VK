@@ -26,7 +26,7 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
 
     private final ActionListener actionListener;
     private List<Object> mData;
-    private Transformation mTransformation;
+    private final Transformation mTransformation;
 
     public DialogPreviewAdapter(Context context, List<Object> items, ActionListener actionListener) {
         this.mData = items;
@@ -90,8 +90,8 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
 
     class DialogPreviewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mAvatar;
-        private TextView mTitle;
+        private final ImageView mAvatar;
+        private final TextView mTitle;
 
         DialogPreviewHolder(View itemView) {
             super(itemView);

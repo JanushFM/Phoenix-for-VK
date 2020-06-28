@@ -47,8 +47,8 @@ public class AttchmentsEditorAdapter extends RecyclerBindableAdapter<AttachmenEn
     private static final int ERROR_COLOR = Color.parseColor("#ff0000");
     private static int idGenerator;
     private final SharedHolders<ViewHolder> sharedHolders;
-    private Context context;
-    private Callback callback;
+    private final Context context;
+    private final Callback callback;
 
     public AttchmentsEditorAdapter(Context context, List<AttachmenEntry> items, Callback callback) {
         super(items);

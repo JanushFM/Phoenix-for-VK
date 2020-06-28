@@ -71,8 +71,8 @@ public class KeyExchangeService extends Service {
     private LongSparseArray<NotificationCompat.Builder> mCurrentActiveNotifications;
     private Set<Long> mFinishedSessionsIds;
     private NotificationManager mNotificationManager;
-    private CompositeDisposable mCompositeSubscription = new CompositeDisposable();
-    private Handler mStopServiceHandler = new Handler(msg -> {
+    private final CompositeDisposable mCompositeSubscription = new CompositeDisposable();
+    private final Handler mStopServiceHandler = new Handler(msg -> {
         if (msg.what == WHAT_STOP_SERVICE) {
             finishAllByTimeout();
             stopSelf();

@@ -29,7 +29,7 @@ import static biz.dealnote.messenger.util.Utils.safeCountOf;
 
 public class ChatAttachmentPhotoPresenter extends BaseChatAttachmentsPresenter<Photo, IChatAttachmentPhotosView> {
 
-    private DisposableHolder<Void> openGalleryDisposableHolder = new DisposableHolder<>();
+    private final DisposableHolder<Void> openGalleryDisposableHolder = new DisposableHolder<>();
 
     public ChatAttachmentPhotoPresenter(int peerId, int accountId, @Nullable Bundle savedInstanceState) {
         super(peerId, accountId, savedInstanceState);

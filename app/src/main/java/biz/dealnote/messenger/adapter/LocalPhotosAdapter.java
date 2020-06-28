@@ -23,9 +23,9 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
 
     public static final String TAG = LocalPhotosAdapter.class.getSimpleName();
 
-    private Context context;
-    private List<LocalPhoto> data;
-    private Set<ViewHolder> holders;
+    private final Context context;
+    private final List<LocalPhoto> data;
+    private final Set<ViewHolder> holders;
     private ClickListener clickListener;
 
     public LocalPhotosAdapter(Context context, List<LocalPhoto> data) {

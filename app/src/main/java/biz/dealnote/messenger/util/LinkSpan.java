@@ -20,9 +20,9 @@ import biz.dealnote.messenger.settings.Settings;
 
 public class LinkSpan extends ClickableSpan {
 
-    private boolean is_underline;
-    private Context context;
-    private String link;
+    private final boolean is_underline;
+    private final Context context;
+    private final String link;
 
     public LinkSpan(Context context, String str, boolean is_underline) {
         this.is_underline = is_underline;

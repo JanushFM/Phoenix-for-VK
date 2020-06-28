@@ -38,13 +38,13 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     private final IPhotosInteractor photosInteractor;
     private final IOwnersRepository ownersRepository;
     private final IUtilsInteractor utilsInteractor;
-    private int mOwnerId;
+    private final int mOwnerId;
     private Owner mOwner;
     private String mAction;
     private ArrayList<PhotoAlbum> mData;
-    private CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean netLoadingNow;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean cacheLoadingNow;
 
     public PhotoAlbumsPresenter(int accountId, int ownerId, @Nullable AdditionalParams params, @Nullable Bundle savedInstanceState) {

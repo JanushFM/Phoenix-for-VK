@@ -28,7 +28,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
 
     private static final int COUNT = 40;
     private final IMessagesRepository messagesInteractor;
-    private int mPeerId;
+    private final int mPeerId;
     private Integer mFocusMessageId;
     private int loadingState;
 

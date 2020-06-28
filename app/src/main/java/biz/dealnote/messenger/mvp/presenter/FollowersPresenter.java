@@ -23,9 +23,9 @@ public class FollowersPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
     private boolean actualDataLoading;
     private boolean actualDataReceived;
     private boolean endOfContent;
-    private CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private boolean cacheLoadingNow;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
 
     public FollowersPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

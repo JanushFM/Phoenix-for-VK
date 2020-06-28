@@ -40,8 +40,8 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
     private static final int HEADER_OLD = 3;
     private static final int HEADER_YESTERDAY = 4;
 
-    private Context mContext;
-    private FeedbackViewBinder mFeedbackViewBinder;
+    private final Context mContext;
+    private final FeedbackViewBinder mFeedbackViewBinder;
     private ClickListener mClickListener;
 
     public FeedbackAdapter(Activity context, List<Feedback> items, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {

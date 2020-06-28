@@ -59,17 +59,17 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
     private static final int TYPE_GRAFFITY_MY = 8;
     private static final int TYPE_GRAFFITY_FRIEND = 9;
     private static final Date DATE = new Date();
-    private SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
-    private Context context;
-    private AttachmentsViewBinder attachmentsViewBinder;
-    private Transformation avatarTransformation;
-    private ShapeDrawable selectedDrawable;
-    private int unreadColor;
+    private final SimpleDateFormat df = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+    private final Context context;
+    private final AttachmentsViewBinder attachmentsViewBinder;
+    private final Transformation avatarTransformation;
+    private final ShapeDrawable selectedDrawable;
+    private final int unreadColor;
     private EmojiconTextView.OnHashTagClickListener onHashTagClickListener;
     private OnMessageActionListener onMessageActionListener;
-    private AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
+    private final AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
     private LastReadId lastReadId;
-    private OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
+    private final OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
         @Override
         public void onOwnerClick(int ownerId) {
             if (nonNull(attachmentsActionCallback)) {

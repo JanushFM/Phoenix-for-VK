@@ -40,8 +40,8 @@ public class SelectUniversityDialog extends AccountDependencyDialogFragment impl
     private RecyclerView mRecyclerView;
     private UniversitiesAdapter mAdapter;
     private String filter;
-    private Handler mHandler = new Handler();
-    private Runnable runSearchRunnable = () -> request(0);
+    private final Handler mHandler = new Handler();
+    private final Runnable runSearchRunnable = () -> request(0);
 
     public static SelectUniversityDialog newInstance(int aid, int countryId, Bundle additional) {
         Bundle args = additional == null ? new Bundle() : additional;

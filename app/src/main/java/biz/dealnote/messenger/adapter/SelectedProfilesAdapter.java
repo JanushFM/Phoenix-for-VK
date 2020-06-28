@@ -24,9 +24,9 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int VIEW_TYPE_CHECK = 0;
     private static final int VIEW_TYPE_USER = 1;
 
-    private Context mContext;
-    private List<User> mData;
-    private Transformation mTransformation;
+    private final Context mContext;
+    private final List<User> mData;
+    private final Transformation mTransformation;
     private ActionListener mActionListener;
 
     public SelectedProfilesAdapter(Context context, List<User> data) {

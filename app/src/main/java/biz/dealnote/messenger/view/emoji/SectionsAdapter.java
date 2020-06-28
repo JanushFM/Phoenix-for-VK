@@ -18,8 +18,8 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 
 public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Holder> {
 
-    private Context mContext;
-    private List<AbsSection> data;
+    private final Context mContext;
+    private final List<AbsSection> data;
     private Listener listener;
 
     public SectionsAdapter(List<AbsSection> data, Context mContext) {

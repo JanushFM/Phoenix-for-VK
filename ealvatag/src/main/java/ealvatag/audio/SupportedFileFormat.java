@@ -38,7 +38,7 @@ public enum SupportedFileFormat {
         }
     }
 
-    private String fileSuffix;
+    private final String fileSuffix;
 
     /**
      * Constructor for internal use by this enum.

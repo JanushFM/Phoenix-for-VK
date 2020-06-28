@@ -34,7 +34,7 @@ import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
 public class PostPublishPrepareActivity extends AppCompatActivity implements RecyclerMenuAdapter.ActionListener {
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private RecyclerMenuAdapter adapter;
     private RecyclerView recyclerView;

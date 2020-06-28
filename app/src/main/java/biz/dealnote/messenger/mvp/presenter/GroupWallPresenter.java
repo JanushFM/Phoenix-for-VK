@@ -39,7 +39,7 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     private final IFaveInteractor faveInteractor;
     private final IOwnersRepository ownersRepository;
     private final ICommunitiesInteractor communitiesInteractor;
-    private List<PostFilter> filters;
+    private final List<PostFilter> filters;
     private Community community;
     private CommunityDetails details;
 

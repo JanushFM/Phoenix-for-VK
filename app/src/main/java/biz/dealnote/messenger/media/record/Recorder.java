@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class Recorder {
 
-    private String mFilePath;
+    private final String mFilePath;
     private MediaRecorder mRecorder;
 
     /**

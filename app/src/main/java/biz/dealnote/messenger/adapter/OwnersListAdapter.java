@@ -23,8 +23,8 @@ import biz.dealnote.messenger.util.ViewUtils;
 
 public class OwnersListAdapter extends ArrayAdapter<Owner> {
 
-    private ArrayList<Owner> data;
-    private Transformation transformation;
+    private final ArrayList<Owner> data;
+    private final Transformation transformation;
 
     public OwnersListAdapter(Activity context, ArrayList<Owner> owners) {
         super(context, R.layout.item_simple_owner, owners);

@@ -38,7 +38,7 @@ public class PostShareDialog extends DialogFragment {
     private int mAccountId;
     private Post mPost;
     private MenuAdapter mAdapter;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public static PostShareDialog newInstance(int accountId, @NonNull Post post) {
         Bundle args = new Bundle();

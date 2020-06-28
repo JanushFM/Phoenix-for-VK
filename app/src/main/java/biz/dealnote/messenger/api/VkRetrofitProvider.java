@@ -140,7 +140,7 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
     private final Object retrofitCacheLock = new Object();
     private final Object serviceRetrofitLock = new Object();
     @SuppressLint("UseSparseArrays")
-    private Map<Integer, RetrofitWrapper> retrofitCache = Collections.synchronizedMap(new HashMap<>(1));
+    private final Map<Integer, RetrofitWrapper> retrofitCache = Collections.synchronizedMap(new HashMap<>(1));
     private volatile RetrofitWrapper serviceRetrofit;
 
     public VkRetrofitProvider(IProxySettings proxySettings, IVkMethodHttpClientFactory clientFactory) {

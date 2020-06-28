@@ -15,8 +15,8 @@ import biz.dealnote.messenger.model.database.Chair;
 
 public class ChairsAdapter extends RecyclerView.Adapter<ChairsAdapter.Holder> {
 
-    private Context mContext;
-    private List<Chair> mData;
+    private final Context mContext;
+    private final List<Chair> mData;
     private Listener mListener;
 
     public ChairsAdapter(Context mContext, List<Chair> mData) {

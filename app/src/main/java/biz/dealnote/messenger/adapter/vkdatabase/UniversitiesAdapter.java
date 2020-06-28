@@ -15,8 +15,8 @@ import biz.dealnote.messenger.model.database.University;
 
 public class UniversitiesAdapter extends RecyclerView.Adapter<UniversitiesAdapter.Holder> {
 
-    private Context mContext;
-    private List<University> mData;
+    private final Context mContext;
+    private final List<University> mData;
     private Listener mListener;
 
     public UniversitiesAdapter(Context mContext, List<University> mData) {

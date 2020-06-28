@@ -14,14 +14,14 @@ import com.squareup.picasso.Transformation;
 
 public class MaskTransformation implements Transformation {
 
-    private static Paint mMaskingPaint = new Paint();
+    private static final Paint mMaskingPaint = new Paint();
 
     static {
         mMaskingPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
     }
 
-    private Context mContext;
-    private int mMaskId;
+    private final Context mContext;
+    private final int mMaskId;
 
     /**
      * @param maskId If you change the mask file, please also rename the mask file, or Glide will get

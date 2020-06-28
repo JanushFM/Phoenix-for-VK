@@ -54,7 +54,7 @@ public class EmojiconsPopup {
     private static final String KEY_PAGE = "emoji_page";
 
     private EmojisPagerAdapter mEmojisAdapter;
-    private CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private int keyBoardHeight;
 
     private boolean isOpened;
@@ -66,9 +66,9 @@ public class EmojiconsPopup {
 
     private View rootView;
     private View emojiContainer;
-    private Activity mContext;
+    private final Activity mContext;
     private ViewPager2 emojisPager;
-    private OnGlobalLayoutListener onGlobalLayoutListener = new OnGlobalLayoutListener() {
+    private final OnGlobalLayoutListener onGlobalLayoutListener = new OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
             Rect r = new Rect();
@@ -355,9 +355,9 @@ public class EmojiconsPopup {
 
     private static class EmojisPagerAdapter extends RecyclerView.Adapter<Holder> {
 
-        private List<Emojicon[]> views;
-        private List<StickerSet> stickersGridViews;
-        private EmojiconsPopup mEmojiconPopup;
+        private final List<Emojicon[]> views;
+        private final List<StickerSet> stickersGridViews;
+        private final EmojiconsPopup mEmojiconPopup;
 
         EmojisPagerAdapter(List<Emojicon[]> views, List<StickerSet> stickersGridViews, EmojiconsPopup mEmojiconPopup) {
             super();
@@ -457,10 +457,10 @@ public class EmojiconsPopup {
 
         private final int normalInterval;
         private final OnClickListener clickListener;
-        private Handler handler = new Handler();
-        private int initialInterval;
+        private final Handler handler = new Handler();
+        private final int initialInterval;
         private View downView;
-        private Runnable handlerRunnable = new Runnable() {
+        private final Runnable handlerRunnable = new Runnable() {
             @Override
             public void run() {
                 if (downView == null) {

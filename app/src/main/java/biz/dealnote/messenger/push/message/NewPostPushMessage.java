@@ -44,21 +44,21 @@ public class NewPostPushMessage {
 //key: to_id, value: 280186075, class: class java.lang.String
 //key: group_id, value: posts, class: class java.lang.String
 //key: context, value: {"item_id":"1137","owner_id":216143660,"type":"post"}, class: class java.lang.String
-    private int accountId;
-    private long from;
-    private int from_id;
-    private String url;
-    private String body;
-    private long time;
-    private int badge;
-    private String image;
-    private boolean sound;
-    private String title;
-    private int to_id;
-    private String group_id;
-    private int item_id;
-    private int owner_id;
-    private String context_type;
+    private final int accountId;
+    private final long from;
+    private final int from_id;
+    private final String url;
+    private final String body;
+    private final long time;
+    private final int badge;
+    private final String image;
+    private final boolean sound;
+    private final String title;
+    private final int to_id;
+    private final String group_id;
+    private final int item_id;
+    private final int owner_id;
+    private final String context_type;
 
     public NewPostPushMessage(int accountId, RemoteMessage remote) {
         this.accountId = accountId;

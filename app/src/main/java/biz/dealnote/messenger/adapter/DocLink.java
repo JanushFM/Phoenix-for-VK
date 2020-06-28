@@ -29,7 +29,7 @@ public class DocLink {
     private static final String URL = "URL";
     private static final String W = "WIKI";
     public AbsModel attachment;
-    private int type;
+    private final int type;
 
     public DocLink(AbsModel attachment) {
         this.attachment = attachment;

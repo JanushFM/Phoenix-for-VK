@@ -26,7 +26,7 @@ public class CommunityLinksPresenter extends AccountDependencyPresenter<ICommuni
 
     private final int groupId;
     private final INetworker networker;
-    private List<VKApiCommunity.Link> links;
+    private final List<VKApiCommunity.Link> links;
     private boolean loadingNow;
 
     public CommunityLinksPresenter(int accountId, int groupId, @Nullable Bundle savedInstanceState) {

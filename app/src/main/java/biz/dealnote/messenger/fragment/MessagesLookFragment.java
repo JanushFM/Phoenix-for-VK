@@ -55,7 +55,7 @@ public class MessagesLookFragment extends PlaceSupportMvpFragment<MessagesLookPr
     private LoadMoreFooterHelper mFooterHelper;
     private EndlessRecyclerOnScrollListener mEndlessRecyclerOnScrollListener;
     private ActionMode mActionMode;
-    private ActionModeCallback mActionModeCallback = new ActionModeCallback();
+    private final ActionModeCallback mActionModeCallback = new ActionModeCallback();
 
     public static Bundle buildArgs(int accountId, int peerId, int focusMesssageId) {
         Bundle args = new Bundle();

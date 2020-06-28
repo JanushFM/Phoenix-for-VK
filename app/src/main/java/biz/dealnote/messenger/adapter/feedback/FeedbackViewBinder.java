@@ -51,12 +51,12 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 public class FeedbackViewBinder {
 
     private static final String SPACE = " ";
-    private Activity context;
-    private Transformation transformation;
-    private int linkColor;
-    private AttachmentsViewBinder attachmentsViewBinder;
-    private AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
-    private LinkActionAdapter mLinkActionAdapter;
+    private final Activity context;
+    private final Transformation transformation;
+    private final int linkColor;
+    private final AttachmentsViewBinder attachmentsViewBinder;
+    private final AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
+    private final LinkActionAdapter mLinkActionAdapter;
 
     public FeedbackViewBinder(Activity context, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         this.context = context;
@@ -1232,7 +1232,7 @@ public class FeedbackViewBinder {
     }
 
     private static class Link {
-        private int start;
+        private final int start;
         private int end;
 
         private Link(int start) {

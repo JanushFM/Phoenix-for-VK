@@ -25,8 +25,8 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static final int TYPE_IMAGE = 0;
     public static final int TYPE_ANIMATED = 1;
 
-    private Context context;
-    private StickerSet stickers;
+    private final Context context;
+    private final StickerSet stickers;
     private EmojiconsPopup.OnStickerClickedListener stickerClickedListener;
 
     public StickersAdapter(Context context, StickerSet stickers) {

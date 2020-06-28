@@ -15,7 +15,7 @@ import biz.dealnote.messenger.model.database.Country;
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Holder> {
 
-    private Context mContext;
+    private final Context mContext;
     private List<Country> mData;
     private Listener mListener;
 

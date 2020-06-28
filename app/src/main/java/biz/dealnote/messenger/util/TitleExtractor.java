@@ -104,7 +104,7 @@ public class TitleExtractor {
     private static final class ContentType {
         private static final Pattern CHARSET_HEADER = Pattern.compile("charset=([-_a-zA-Z0-9]+)", Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
 
-        private String contentType;
+        private final String contentType;
         private String charsetName;
 
         private ContentType(String headerValue) {

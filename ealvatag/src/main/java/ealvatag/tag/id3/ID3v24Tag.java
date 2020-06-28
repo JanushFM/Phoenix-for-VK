@@ -146,10 +146,10 @@ public class ID3v24Tag extends AbstractID3v2Tag {
     private static final int MASK_V24_IMAGE_SIZE_RESTRICTIONS = FileConstants.BIT2 | FileConstants.BIT1;
     private static final byte RELEASE = 2;
     private static final byte REVISION = 0;
-    private static int TAG_EXT_HEADER_LENGTH = 6;
-    private static int TAG_EXT_HEADER_UPDATE_LENGTH = 1;
-    private static int TAG_EXT_HEADER_CRC_LENGTH = 6;
-    private static int TAG_EXT_HEADER_RESTRICTION_LENGTH = 2;
+    private static final int TAG_EXT_HEADER_LENGTH = 6;
+    private static final int TAG_EXT_HEADER_UPDATE_LENGTH = 1;
+    private static final int TAG_EXT_HEADER_CRC_LENGTH = 6;
+    private static final int TAG_EXT_HEADER_RESTRICTION_LENGTH = 2;
 
     /*
      * TODO: 2/23/17
@@ -196,11 +196,11 @@ public class ID3v24Tag extends AbstractID3v2Tag {
 //   * ID3v2.4 Header Footer bit mask
 //   */
 //  public static final int MASK_V24_DATA_LENGTH_INDICATOR = FileConstants.BIT1;
-    private static int TAG_EXT_HEADER_CRC_DATA_LENGTH = 5;
+    private static final int TAG_EXT_HEADER_CRC_DATA_LENGTH = 5;
     @SuppressWarnings("FieldCanBeLocal")
-    private static int TAG_EXT_HEADER_RESTRICTION_DATA_LENGTH = 1;
+    private static final int TAG_EXT_HEADER_RESTRICTION_DATA_LENGTH = 1;
     @SuppressWarnings("FieldCanBeLocal")
-    private static int TAG_EXT_NUMBER_BYTES_DATA_LENGTH = 1;
+    private static final int TAG_EXT_NUMBER_BYTES_DATA_LENGTH = 1;
     /**
      * Contains extended header
      */
@@ -271,7 +271,7 @@ public class ID3v24Tag extends AbstractID3v2Tag {
      * Tag padding
      */
     @SuppressWarnings("FieldCanBeLocal")
-    private int paddingSize = 0;
+    private final int paddingSize = 0;
     /**
      * If set Text fields size restrictions
      * <p>

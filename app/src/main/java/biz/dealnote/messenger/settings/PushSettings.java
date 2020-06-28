@@ -16,7 +16,7 @@ class PushSettings implements ISettings.IPushSettings {
 
     private static final String KEY_REGISTERED_FOR = "push_registered_for";
     private final Context app;
-    private Gson gson;
+    private final Gson gson;
 
     PushSettings(Context context) {
         this.app = context.getApplicationContext();

@@ -33,9 +33,9 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int STATUS_COLOR_OFFLINE = Color.parseColor("#999999");
     private static final int TYPE_USER = 0;
     private static final int TYPE_COMMUNITY = 1;
-    private Context mContext;
+    private final Context mContext;
     private List<? extends Owner> mData;
-    private Transformation transformation;
+    private final Transformation transformation;
     private ClickListener mClickListener;
     private LongClickListener longClickListener;
 
@@ -149,9 +149,9 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private static class CommunityHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvName;
-        private TextView tvStatus;
-        private ImageView ivAvatar;
+        private final TextView tvName;
+        private final TextView tvStatus;
+        private final ImageView ivAvatar;
 
         CommunityHolder(View root) {
             super(root);

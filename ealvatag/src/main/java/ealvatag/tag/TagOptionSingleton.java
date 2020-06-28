@@ -44,8 +44,8 @@ import ealvatag.utils.Check;
 public class TagOptionSingleton {
 
     private static final Lock tagOptionTableLock = new ReentrantLock();
-    private static ConcurrentMap<String, TagOptionSingleton> tagOptionTable = new ConcurrentHashMap<>();
-    private static String DEFAULT = "default";
+    private static final ConcurrentMap<String, TagOptionSingleton> tagOptionTable = new ConcurrentHashMap<>();
+    private static final String DEFAULT = "default";
     private static String defaultOptions = DEFAULT;
     private boolean isWriteWavForTwonky = false;
     private HashMap<Class<? extends ID3v24FrameBody>, LinkedList<String>> keywordMap = new HashMap<>();

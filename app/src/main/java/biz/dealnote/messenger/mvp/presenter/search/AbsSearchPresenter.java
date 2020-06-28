@@ -34,8 +34,8 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
 
     private C resultsForCriteria;
     private boolean endOfContent;
-    private WeakActionHandler<AbsSearchPresenter> actionHandler = new WeakActionHandler<>(this);
-    private CompositeDisposable searchDisposable = new CompositeDisposable();
+    private final WeakActionHandler<AbsSearchPresenter> actionHandler = new WeakActionHandler<>(this);
+    private final CompositeDisposable searchDisposable = new CompositeDisposable();
     private boolean loadingNow;
 
     AbsSearchPresenter(int accountId, @Nullable C criteria, @Nullable Bundle savedInstanceState) {

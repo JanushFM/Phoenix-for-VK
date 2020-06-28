@@ -31,7 +31,7 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
 
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public AnswerVKOfficialPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

@@ -20,7 +20,7 @@ import io.reactivex.Single;
 
 class KeysRamStorage implements IKeysStorage {
 
-    private SparseArray<List<AesKeyPair>> mData = new SparseArray<>();
+    private final SparseArray<List<AesKeyPair>> mData = new SparseArray<>();
 
     private List<AesKeyPair> prepareKeysFor(int accountId) {
         List<AesKeyPair> list = mData.get(accountId);

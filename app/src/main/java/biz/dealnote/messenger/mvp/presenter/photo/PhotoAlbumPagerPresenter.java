@@ -20,8 +20,8 @@ public class PhotoAlbumPagerPresenter extends PhotoPagerPresenter {
 
     private static final int COUNT_PER_LOAD = 100;
     private final IPhotosInteractor photosInteractor;
-    private int mOwnerId;
-    private int mAlbumId;
+    private final int mOwnerId;
+    private final int mAlbumId;
     private boolean canLoad;
 
     public PhotoAlbumPagerPresenter(int indexx, int accountId, int ownerId, int albumId, ArrayList<Photo> photos, Context context,

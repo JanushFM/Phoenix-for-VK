@@ -28,8 +28,8 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class VKOwnIds {
 
-    private Set<Integer> uids;
-    private Set<Integer> gids;
+    private final Set<Integer> uids;
+    private final Set<Integer> gids;
 
     public VKOwnIds() {
         this.uids = new HashSet<>();

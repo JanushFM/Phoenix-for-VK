@@ -21,7 +21,7 @@ public class SimplePhotoPresenter extends PhotoPagerPresenter {
 
     private static final String SAVE_DATA_REFRESH_RESULT = "save-data-refresh-result";
     private boolean mDataRefreshSuccessfull;
-    private boolean isHistory;
+    private final boolean isHistory;
 
     public SimplePhotoPresenter(@NonNull ArrayList<Photo> photos, int index, boolean needToRefreshData,
                                 int accountId, Integer History, Context context, @Nullable Bundle savedInstanceState) {

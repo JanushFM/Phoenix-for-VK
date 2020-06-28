@@ -13,7 +13,7 @@ public class WallCriteria extends Criteria {
 
     private DatabaseIdRange range;
 
-    private int ownerId;
+    private final int ownerId;
 
     private int mode;
 

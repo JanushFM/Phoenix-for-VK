@@ -15,7 +15,7 @@ public class GiftItem extends AbsModel implements Parcelable {
             return new GiftItem[size];
         }
     };
-    private int id;
+    private final int id;
     private String thumb256;
     private String thumb96;
     private String thumb48;

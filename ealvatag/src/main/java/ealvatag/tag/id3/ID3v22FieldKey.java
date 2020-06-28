@@ -184,11 +184,11 @@ public enum ID3v22FieldKey {
     YEAR(ID3v22Frames.FRAME_ID_V2_TYER, Id3FieldType.TEXT),
     ;
 
-    private String fieldName;
+    private final String fieldName;
 
-    private String frameId;
+    private final String frameId;
     private String subId;
-    private Id3FieldType fieldType;
+    private final Id3FieldType fieldType;
 
     /**
      * For usual metadata fields that use a data field
@@ -244,8 +244,8 @@ public enum ID3v22FieldKey {
     }
 
     private static class BuilderHolder {
-        private static int MAX_LENGTH = 48;
-        private static StringBuilder builder = new StringBuilder(MAX_LENGTH);
+        private static final int MAX_LENGTH = 48;
+        private static final StringBuilder builder = new StringBuilder(MAX_LENGTH);
 
         @SuppressWarnings("Duplicates")
         private static String makeFieldName(@NotNull final String frameId, @NotNull final String subId) {

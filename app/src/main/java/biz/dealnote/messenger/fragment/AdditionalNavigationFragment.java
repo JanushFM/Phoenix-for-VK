@@ -101,7 +101,7 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
     private MenuListAdapter mAdapter;
     private List<AbsMenuItem> mDrawerItems;
 
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private int mAccountId;
 
     private IOwnersRepository ownersRepository;

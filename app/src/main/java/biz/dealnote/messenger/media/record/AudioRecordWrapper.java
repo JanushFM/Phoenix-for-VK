@@ -17,8 +17,8 @@ public class AudioRecordWrapper {
     private static final String TEMP_FILE_NAME = "temp_recording";
     private static final String TAG = AudioRecordWrapper.class.getSimpleName();
 
-    private Context mContext;
-    private String mFileExt;
+    private final Context mContext;
+    private final String mFileExt;
     private Recorder mRecorder;
 
     private AudioRecordWrapper(@NonNull Builder builder) {
@@ -136,7 +136,7 @@ public class AudioRecordWrapper {
 
     public static final class Builder {
 
-        private Context mContext;
+        private final Context mContext;
         private String mFileExt = "mp3";
 
         public Builder(Context context) {

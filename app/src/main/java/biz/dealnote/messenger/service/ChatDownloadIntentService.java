@@ -53,10 +53,10 @@ import biz.dealnote.messenger.util.Utils;
 public class ChatDownloadIntentService extends IntentService {
 
     private static final String TAG = ChatDownloadIntentService.class.getSimpleName();
-    private static DateFormat DOWNLOAD_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-    private Map<Integer, String> Avatars = new HashMap<>();
-    private StringBuilder avatars_styles = new StringBuilder();
-    private IMessagesRepository messagesRepository;
+    private static final DateFormat DOWNLOAD_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+    private final Map<Integer, String> Avatars = new HashMap<>();
+    private final StringBuilder avatars_styles = new StringBuilder();
+    private final IMessagesRepository messagesRepository;
 
     public ChatDownloadIntentService() {
         super(TAG);

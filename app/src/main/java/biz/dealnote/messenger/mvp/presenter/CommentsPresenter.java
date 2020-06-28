@@ -71,24 +71,24 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     private final ICommentsInteractor interactor;
     private final List<Comment> data;
     private Integer focusToComment;
-    private Integer CommentThread;
+    private final Integer CommentThread;
     private CommentedState commentedState;
     private int authorId;
     private Owner author;
     private boolean directionDesc;
-    private Context context;
-    private CompositeDisposable actualLoadingDisposable = new CompositeDisposable();
+    private final Context context;
+    private final CompositeDisposable actualLoadingDisposable = new CompositeDisposable();
     private int loadingState;
     private int adminLevel;
     private String draftCommentBody;
     private int draftCommentAttachmentsCount;
     private Integer draftCommentId;
     private Comment replyTo;
-    private DisposableHolder<Void> deepLookingHolder = new DisposableHolder<>();
+    private final DisposableHolder<Void> deepLookingHolder = new DisposableHolder<>();
     private boolean sendingNow;
     private Poll topicPoll;
     private boolean loadingAvailableAuthorsNow;
-    private CompositeDisposable cacheLoadingDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheLoadingDisposable = new CompositeDisposable();
 
     public CommentsPresenter(int accountId, Commented commented, Integer focusToComment, Context context, Integer CommentThread, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

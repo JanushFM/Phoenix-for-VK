@@ -23,7 +23,7 @@ import biz.dealnote.messenger.util.Utils;
 public class FavePhotosAdapter extends RecyclerView.Adapter<FavePhotosAdapter.ViewHolder> {
 
     private List<Photo> data;
-    private int colorPrimary;
+    private final int colorPrimary;
     private PhotoSelectionListener photoSelectionListener;
 
     public FavePhotosAdapter(Context context, List<Photo> data) {

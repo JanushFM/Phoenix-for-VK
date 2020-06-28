@@ -218,8 +218,8 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private FragmentContainerView mViewFragment;
     private MusicUtils.ServiceToken mAudioPlayServiceToken;
     private boolean mDestroyed;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    private FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = () -> {
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = () -> {
         resolveToolbarNavigationIcon();
         keyboardHide();
     };
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
      * First - DrawerItem, second - Clear back stack before adding
      */
     private Pair<AbsMenuItem, Boolean> mTargetPage;
-    private List<Action<MainActivity>> postResumeActions = new ArrayList<>(0);
+    private final List<Action<MainActivity>> postResumeActions = new ArrayList<>(0);
 
     private boolean resumed;
     private boolean bNoDestroyServiceAudio = false;

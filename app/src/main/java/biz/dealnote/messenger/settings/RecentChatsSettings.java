@@ -20,7 +20,7 @@ class RecentChatsSettings implements ISettings.IRecentChats {
 
     private final Context app;
 
-    private Gson gson;
+    private final Gson gson;
 
     RecentChatsSettings(Context app) {
         this.app = app.getApplicationContext();

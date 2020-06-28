@@ -44,9 +44,14 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
     private static final int PRECISION_DAY = 3;
     private static final int PRECISION_MONTH = 4;
     private static final int PRECISION_YEAR = 5;
-    private static SimpleDateFormat formatYearIn, formatYearOut;
-    private static SimpleDateFormat formatDateIn, formatDateOut, formatMonthOut;
-    private static SimpleDateFormat formatTimeIn, formatTimeOut, formatHoursOut;
+    private static final SimpleDateFormat formatYearIn;
+    private static final SimpleDateFormat formatYearOut;
+    private static final SimpleDateFormat formatDateIn;
+    private static final SimpleDateFormat formatDateOut;
+    private static final SimpleDateFormat formatMonthOut;
+    private static final SimpleDateFormat formatTimeIn;
+    private static final SimpleDateFormat formatTimeOut;
+    private static final SimpleDateFormat formatHoursOut;
 
     static {
         //This is allowable v24 format , we use UK Locale not because we are restricting to UK

@@ -80,8 +80,8 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     private final IWallsRepository walls;
     protected boolean endOfContent;
     private int wallFilter;
-    private CompositeDisposable cacheCompositeDisposable = new CompositeDisposable();
-    private CompositeDisposable netCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable netCompositeDisposable = new CompositeDisposable();
     private boolean requestNow;
     private int nowRequestOffset;
     private int nextOffset;

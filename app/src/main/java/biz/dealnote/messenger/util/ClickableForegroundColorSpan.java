@@ -11,7 +11,7 @@ import androidx.annotation.ColorInt;
 public class ClickableForegroundColorSpan extends ClickableSpan {
 
     private final int mColor;
-    private OnHashTagClickListener mOnHashTagClickListener;
+    private final OnHashTagClickListener mOnHashTagClickListener;
 
     public ClickableForegroundColorSpan(@ColorInt int color, OnHashTagClickListener listener) {
         mColor = color;

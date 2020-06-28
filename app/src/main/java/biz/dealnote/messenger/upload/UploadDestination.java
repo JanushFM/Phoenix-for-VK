@@ -18,10 +18,10 @@ public class UploadDestination implements Parcelable {
             return new UploadDestination[size];
         }
     };
-    private int id;
-    private int ownerId;
+    private final int id;
+    private final int ownerId;
     @Method
-    private int method;
+    private final int method;
 
     @MessageMethod
     private int message_method;

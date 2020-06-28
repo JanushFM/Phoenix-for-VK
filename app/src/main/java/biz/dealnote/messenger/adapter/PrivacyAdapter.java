@@ -31,8 +31,8 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_ENTRY = 0;
     private static final int TYPE_TITLE = 1;
 
-    private Context mContext;
-    private Privacy mPrivacy;
+    private final Context mContext;
+    private final Privacy mPrivacy;
     private RecyclerView.LayoutManager mLayoutManager;
     private ActionListener mActionListener;
 

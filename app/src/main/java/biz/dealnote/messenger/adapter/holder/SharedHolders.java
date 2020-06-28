@@ -16,9 +16,9 @@ public class SharedHolders<T extends IdentificableHolder> {
 
     //private static final String TAG = SharedHolders.class.getSimpleName();
 
-    private SparseArray<Set<WeakReference<T>>> mHoldersCache;
+    private final SparseArray<Set<WeakReference<T>>> mHoldersCache;
 
-    private boolean mSupportManyHoldersForEntity;
+    private final boolean mSupportManyHoldersForEntity;
 
     public SharedHolders(boolean supportManyHoldersForEntity) {
         mHoldersCache = new SparseArray<>(0);

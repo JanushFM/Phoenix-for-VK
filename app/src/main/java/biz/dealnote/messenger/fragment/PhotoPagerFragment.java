@@ -117,7 +117,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
     private Adapter mPagerAdapter;
     private boolean mCanSaveYourself;
     private boolean mCanDelete;
-    private WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
+    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
 
     public static Bundle buildArgsForSimpleGallery(int aid, int index, ArrayList<Photo> photos,
                                                    boolean needUpdate) {
@@ -612,7 +612,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
         public ProgressBar progress;
         public FloatingActionButton reload;
         private boolean mLoadingNow;
-        private WeakPicassoLoadCallback mPicassoLoadCallback;
+        private final WeakPicassoLoadCallback mPicassoLoadCallback;
 
         public PhotoViewHolder(View view) {
             super(view);

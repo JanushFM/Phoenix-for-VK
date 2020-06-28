@@ -61,7 +61,7 @@ public class SinglePhotoFragment extends BaseFragment
     private String prefix;
     private String photo_prefix;
 
-    private WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
+    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
 
     public static SinglePhotoFragment newInstance(Bundle args) {
         SinglePhotoFragment fragment = new SinglePhotoFragment();
@@ -216,7 +216,7 @@ public class SinglePhotoFragment extends BaseFragment
         public ProgressBar progress;
         public FloatingActionButton reload;
         private boolean mLoadingNow;
-        private WeakPicassoLoadCallback mPicassoLoadCallback;
+        private final WeakPicassoLoadCallback mPicassoLoadCallback;
 
         public PhotoViewHolder(View view) {
             photo = view.findViewById(R.id.image_view);

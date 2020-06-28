@@ -24,7 +24,7 @@ public class VideoAlbumsNewAdapter extends RecyclerView.Adapter<VideoAlbumsNewAd
 
     public static final String PICASSO_TAG = "VideoAlbumsNewAdapter";
 
-    private Context context;
+    private final Context context;
     private List<VideoAlbum> data;
     private Listener listener;
 

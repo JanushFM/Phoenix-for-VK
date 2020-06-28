@@ -46,22 +46,22 @@ public class LikeFCMMessage {
 // key: context, value: {"feedback":true,"item_id":"456239045","owner_id":"280186075","type":"photo"}, class: class java.lang.String
 
     private final int accountId;
-    private long from;
-    private String id;
-    private String url;
-    private long time;
-    private boolean sound;
-    private String title;
-    private int from_id;
-    private String body;
-    private int badge;
-    private int to_id;
-    private String group_id;
-    private boolean is_feedback;
-    private int item_id;
-    private int owner_id;
-    private String like_type;
-    private int reply_id;
+    private final long from;
+    private final String id;
+    private final String url;
+    private final long time;
+    private final boolean sound;
+    private final String title;
+    private final int from_id;
+    private final String body;
+    private final int badge;
+    private final int to_id;
+    private final String group_id;
+    private final boolean is_feedback;
+    private final int item_id;
+    private final int owner_id;
+    private final String like_type;
+    private final int reply_id;
 
     public LikeFCMMessage(int accountId, RemoteMessage remote) {
         this.accountId = accountId;

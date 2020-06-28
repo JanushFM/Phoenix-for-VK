@@ -28,9 +28,9 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
     private boolean endOfContent;
 
     private boolean actualDataReceived;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean cacheLoading;
-    private CompositeDisposable actualDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDisposable = new CompositeDisposable();
     private boolean actualLoading;
 
     public FaveLinksPresenter(int accountId, @Nullable Bundle savedInstanceState) {

@@ -15,7 +15,7 @@ public class CreatePhotoAlbumStep1Holder extends AbsStepHolder<CreatePhotoAlbumS
 
     private TextView mTitle;
     private TextView mDescription;
-    private ActionListener mActionListener;
+    private final ActionListener mActionListener;
 
     public CreatePhotoAlbumStep1Holder(ViewGroup parent, @NonNull ActionListener actionListener) {
         super(parent, R.layout.step_create_photo_album_1, CreatePhotoAlbumStepsHost.STEP_TITLE_AND_DESCRIPTION);

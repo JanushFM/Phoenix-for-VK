@@ -122,7 +122,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
     private ArrayList<Account> mData;
     private IOwnersRepository mOwnersInteractor;
     private IAccountsInteractor accountsInteractor;
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

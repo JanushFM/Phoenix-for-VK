@@ -26,7 +26,7 @@ public class CaptchaActivity extends AppCompatActivity {
 
     private EditText mTextField;
 
-    private CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private ICaptchaProvider captchaProvider;
 
     private String requestSid;

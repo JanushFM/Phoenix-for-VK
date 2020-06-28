@@ -39,15 +39,15 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     private final ICommunitiesInteractor communitiesInteractor;
     private boolean actualEndOfContent;
     private boolean netSearchEndOfContent;
-    private CompositeDisposable actualDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDisposable = new CompositeDisposable();
     private boolean actualLoadingNow;
-    private CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     //private int actualLoadingOffset;
     private boolean cacheLoadingNow;
-    private CompositeDisposable netSeacrhDisposable = new CompositeDisposable();
+    private final CompositeDisposable netSeacrhDisposable = new CompositeDisposable();
     private boolean netSeacrhNow;
     private String filter;
-    private CompositeDisposable filterDisposable = new CompositeDisposable();
+    private final CompositeDisposable filterDisposable = new CompositeDisposable();
 
     public CommunitiesPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

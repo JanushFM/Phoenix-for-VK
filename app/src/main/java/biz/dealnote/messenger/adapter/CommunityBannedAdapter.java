@@ -33,7 +33,7 @@ public class CommunityBannedAdapter extends RecyclerView.Adapter<CommunityBanned
 
     private final Transformation transformation;
     private List<Banned> data;
-    private OwnerLinkSpanFactory.ActionListener ownerLinkActionListener = new LinkActionAdapter();
+    private final OwnerLinkSpanFactory.ActionListener ownerLinkActionListener = new LinkActionAdapter();
     private ActionListener actionListener;
 
     public CommunityBannedAdapter(Context context, List<Banned> data) {

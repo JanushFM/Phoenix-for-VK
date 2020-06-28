@@ -41,7 +41,7 @@ import static biz.dealnote.messenger.util.Utils.intValueIn;
 class VkApies implements IAccountApis {
 
     @SuppressLint("UseSparseArrays")
-    private static volatile Map<Integer, VkApies> APIS = new HashMap<>(1);
+    private static final Map<Integer, VkApies> APIS = new HashMap<>(1);
 
     private final IMessagesApi messagesApi;
     private final IPhotosApi photosApi;

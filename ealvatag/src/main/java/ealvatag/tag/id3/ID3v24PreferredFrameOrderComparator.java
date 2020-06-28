@@ -95,7 +95,7 @@ import static ealvatag.tag.id3.ID3v24Frames.FRAME_ID_YEAR;
  */
 public class ID3v24PreferredFrameOrderComparator implements Comparator<String> {
     private static ID3v24PreferredFrameOrderComparator comparator;
-    private static List<String> frameIdsInPreferredOrder = new ArrayList<>();
+    private static final List<String> frameIdsInPreferredOrder = new ArrayList<>();
 
     static {
         //these are the key ones we want at the top

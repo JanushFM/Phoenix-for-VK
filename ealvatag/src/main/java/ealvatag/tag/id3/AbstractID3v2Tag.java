@@ -2415,9 +2415,9 @@ public abstract class AbstractID3v2Tag extends AbstractID3Tag implements TagFiel
      * much easier for end users to  to use.
      */
     static class FrameAndSubId {
-        private FieldKey genericKey;
-        private String frameId;
-        private String subId;
+        private final FieldKey genericKey;
+        private final String frameId;
+        private final String subId;
 
         FrameAndSubId(FieldKey genericKey, String frameId, String subId) {
             this.genericKey = genericKey;

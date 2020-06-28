@@ -2,7 +2,7 @@ package biz.dealnote.messenger.media.record;
 
 public class AudioRecordException extends Exception {
 
-    private int code;
+    private final int code;
 
     public AudioRecordException(int code) {
         this.code = code;

@@ -19,9 +19,9 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 public class OwnerLinkSpanFactory {
 
     private static final Comparator<AbsInternalLink> LINK_COMPARATOR = (link1, link2) -> link1.start - link2.start;
-    private static Pattern ownerPattern;
-    private static Pattern topicCommentPattern;
-    private static Pattern linkPattern;
+    private static final Pattern ownerPattern;
+    private static final Pattern topicCommentPattern;
+    private static final Pattern linkPattern;
 
     static {
         ownerPattern = Pattern.compile("\\[(id|club)(\\d+)\\|([^]]+)]");

@@ -38,7 +38,7 @@ public enum MusicalKey {
         }
     }
 
-    private String value;
+    private final String value;
 
     MusicalKey(String value) {
         this.value = value;

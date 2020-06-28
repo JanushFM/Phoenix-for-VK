@@ -12,14 +12,14 @@ public class VkPlace {
     //+ photo_comment246484771_456239032
     //+ video25651989_171388574
 
-    private static Pattern PATTERN_PHOTO = Pattern.compile("photo(-?\\d+)_(\\d+)");
-    private static Pattern PATTERN_PHOTO_COMMENT = Pattern.compile("photo_comment(-?\\d+)_(\\d+)");
+    private static final Pattern PATTERN_PHOTO = Pattern.compile("photo(-?\\d+)_(\\d+)");
+    private static final Pattern PATTERN_PHOTO_COMMENT = Pattern.compile("photo_comment(-?\\d+)_(\\d+)");
 
-    private static Pattern PATTERN_VIDEO = Pattern.compile("video(-?\\d+)_(\\d+)");
-    private static Pattern PATTERN_VIDEO_COMMENT = Pattern.compile("video_comment(-?\\d+)_(\\d+)");
+    private static final Pattern PATTERN_VIDEO = Pattern.compile("video(-?\\d+)_(\\d+)");
+    private static final Pattern PATTERN_VIDEO_COMMENT = Pattern.compile("video_comment(-?\\d+)_(\\d+)");
 
-    private static Pattern PATTERN_WALL = Pattern.compile("wall(-?\\d+)_(\\d+)");
-    private static Pattern PATTERN_WALL_COMMENT = Pattern.compile("wall_comment(-?\\d+)_(\\d+)");
+    private static final Pattern PATTERN_WALL = Pattern.compile("wall(-?\\d+)_(\\d+)");
+    private static final Pattern PATTERN_WALL_COMMENT = Pattern.compile("wall_comment(-?\\d+)_(\\d+)");
 
     public static VkPlace parse(String object) {
         Matcher matcher = PATTERN_PHOTO.matcher(object);

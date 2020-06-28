@@ -39,9 +39,9 @@ public class SelectCityDialog extends AccountDependencyDialogFragment implements
     private RecyclerView mRecyclerView;
     private CitiesAdapter mAdapter;
     private String filter;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     private IDatabaseInteractor databaseInteractor;
-    private Runnable mRunSearchRunnable = () -> request(0);
+    private final Runnable mRunSearchRunnable = () -> request(0);
 
     public static SelectCityDialog newInstance(int aid, int countryId, Bundle additional) {
         Bundle args = additional == null ? new Bundle() : additional;

@@ -14,9 +14,9 @@ public class DateTimePicker {
 
     private static final String TAG = DateTimePicker.class.getSimpleName();
 
-    private long time;
-    private Context context;
-    private Callback callback;
+    private final long time;
+    private final Context context;
+    private final Callback callback;
 
     private DateTimePicker(Builder builder) {
         this.time = builder.time;
@@ -51,7 +51,7 @@ public class DateTimePicker {
 
     public static class Builder {
 
-        private Context context;
+        private final Context context;
         private Callback callback;
         private long time;
 

@@ -46,8 +46,8 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     private int mCurrentIndex;
     private boolean mLoadingNow;
     private boolean mFullScreen;
-    private boolean isStory;
-    private Context context;
+    private final boolean isStory;
+    private final Context context;
 
     PhotoPagerPresenter(@NonNull ArrayList<Photo> initialData, int accountId, boolean Story, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

@@ -7,7 +7,7 @@ import java.lang.ref.WeakReference;
 
 public class WeakGoBackAnimationAdapter extends AnimatorListenerAdapter {
 
-    private WeakReference<GoBackCallback> mReference;
+    private final WeakReference<GoBackCallback> mReference;
 
     public WeakGoBackAnimationAdapter(GoBackCallback holder) {
         this.mReference = new WeakReference<>(holder);

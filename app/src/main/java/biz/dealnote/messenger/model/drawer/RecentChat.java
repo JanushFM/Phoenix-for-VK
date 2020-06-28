@@ -14,7 +14,7 @@ public class RecentChat extends AbsMenuItem implements Parcelable {
             return new RecentChat[size];
         }
     };
-    private int aid;
+    private final int aid;
     private int peerId;
     private String title;
     private String iconUrl;

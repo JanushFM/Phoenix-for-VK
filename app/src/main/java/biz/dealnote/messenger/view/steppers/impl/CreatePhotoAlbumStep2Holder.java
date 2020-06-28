@@ -16,7 +16,7 @@ public class CreatePhotoAlbumStep2Holder extends AbsStepHolder<CreatePhotoAlbumS
     private CheckBox mUploadByAdminsOnly;
     private CheckBox mDisableComments;
 
-    private ActionListener mActionListener;
+    private final ActionListener mActionListener;
 
     public CreatePhotoAlbumStep2Holder(@NonNull ViewGroup parent, @NonNull ActionListener actionListener) {
         super(parent, R.layout.content_create_photo_album_step_2, CreatePhotoAlbumStepsHost.STEP_UPLOAD_AND_COMMENTS);

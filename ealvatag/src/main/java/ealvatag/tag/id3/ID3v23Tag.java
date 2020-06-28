@@ -104,10 +104,10 @@ public class ID3v23Tag extends AbstractID3v2Tag {
     private static final String TYPE_EXTENDED = "extended";
     private static final String TYPE_PADDINGSIZE = "paddingsize";
     private static final String TYPE_UNSYNCHRONISATION = "unsyncronisation";
-    private static int TAG_EXT_HEADER_LENGTH = 10;
-    private static int TAG_EXT_HEADER_CRC_LENGTH = 4;
-    private static int FIELD_TAG_EXT_SIZE_LENGTH = 4;
-    private static int TAG_EXT_HEADER_DATA_LENGTH = TAG_EXT_HEADER_LENGTH - FIELD_TAG_EXT_SIZE_LENGTH;
+    private static final int TAG_EXT_HEADER_LENGTH = 10;
+    private static final int TAG_EXT_HEADER_CRC_LENGTH = 4;
+    private static final int FIELD_TAG_EXT_SIZE_LENGTH = 4;
+    private static final int TAG_EXT_HEADER_DATA_LENGTH = TAG_EXT_HEADER_LENGTH - FIELD_TAG_EXT_SIZE_LENGTH;
     /**
      * Contains extended header
      */

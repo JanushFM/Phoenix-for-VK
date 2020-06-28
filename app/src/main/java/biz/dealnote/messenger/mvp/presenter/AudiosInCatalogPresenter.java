@@ -26,9 +26,9 @@ public class AudiosInCatalogPresenter extends AccountDependencyPresenter<IAudios
     private final IAudioInteractor audioInteractor;
     private final ArrayList<Audio> audios;
     private boolean actualReceived;
-    private String block_id;
+    private final String block_id;
     private String next_from;
-    private CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private boolean loadingNow;
     private boolean endOfContent;
 

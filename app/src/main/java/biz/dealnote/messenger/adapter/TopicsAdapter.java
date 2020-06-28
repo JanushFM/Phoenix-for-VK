@@ -30,8 +30,8 @@ import static biz.dealnote.messenger.util.Utils.isEmpty;
 
 public class TopicsAdapter extends RecyclerBindableAdapter<Topic, TopicsAdapter.ViewHolder> {
 
-    private Transformation transformation;
-    private ActionListener mActionListener;
+    private final Transformation transformation;
+    private final ActionListener mActionListener;
     private int firstLastPadding = 0;
 
     public TopicsAdapter(Context context, List<Topic> topics, @NonNull ActionListener actionListener) {
@@ -109,9 +109,9 @@ public class TopicsAdapter extends RecyclerBindableAdapter<Topic, TopicsAdapter.
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView title;
-        private TextView subtitle;
-        private ImageView creator;
+        private final TextView title;
+        private final TextView subtitle;
+        private final ImageView creator;
 
         private ViewHolder(View root) {
             super(root);

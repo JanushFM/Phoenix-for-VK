@@ -26,7 +26,7 @@ public class GifPagerPresenter extends BaseDocumentPresenter<IGifPagerView> impl
     private static final String SAVE_PAGER_INDEX = "save_pager_index";
     private static final VideoSize DEF_SIZE = new VideoSize(1, 1);
     private IGifPlayer mGifPlayer;
-    private ArrayList<Document> mDocuments;
+    private final ArrayList<Document> mDocuments;
     private int mCurrentIndex;
 
     public GifPagerPresenter(int accountId, @NonNull ArrayList<Document> documents, int index, @Nullable Bundle savedInstanceState) {

@@ -21,7 +21,7 @@ public class KeyExchangeSession {
     private PrivateKey myPrivateKey;
     private String myAesKey;
     private String hisAesKey;
-    private Set<Integer> messageIds = new HashSet<>();
+    private final Set<Integer> messageIds = new HashSet<>();
 
     private KeyExchangeSession(long id, int accountId, int peerId, @KeyLocationPolicy int keyLocationPolicy) {
         this.id = id;

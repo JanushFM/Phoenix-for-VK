@@ -11,7 +11,7 @@ import biz.dealnote.messenger.db.Stores;
 
 public class LocalPhotoRequestHandler extends RequestHandler {
 
-    private Context mContext;
+    private final Context mContext;
 
     public LocalPhotoRequestHandler(Context context) {
         this.mContext = context;

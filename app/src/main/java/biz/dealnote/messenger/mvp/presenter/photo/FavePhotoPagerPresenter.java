@@ -20,8 +20,8 @@ public class FavePhotoPagerPresenter extends PhotoPagerPresenter {
 
     private static final String SAVE_UPDATED = "save_updated";
 
-    private boolean[] mUpdated;
-    private boolean[] refreshing;
+    private final boolean[] mUpdated;
+    private final boolean[] refreshing;
 
     public FavePhotoPagerPresenter(@NonNull ArrayList<Photo> photos, int index, int accountId, Context context, @Nullable Bundle savedInstanceState) {
         super(photos, accountId, false, context, savedInstanceState);

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ID3v23PreferredFrameOrderComparator implements Comparator<String> {
     private static ID3v23PreferredFrameOrderComparator comparator;
-    private static List<String> frameIdsInPreferredOrder = new ArrayList<>();
+    private static final List<String> frameIdsInPreferredOrder = new ArrayList<>();
 
     static {
         //these are the key ones we want at the top

@@ -24,9 +24,9 @@ public class LocalVideosAdapter extends RecyclerView.Adapter<LocalVideosAdapter.
 
     public static final String TAG = LocalVideosAdapter.class.getSimpleName();
 
-    private Context context;
-    private List<LocalVideo> data;
-    private Set<ViewHolder> holders;
+    private final Context context;
+    private final List<LocalVideo> data;
+    private final Set<ViewHolder> holders;
     private ClickListener clickListener;
 
     public LocalVideosAdapter(Context context, List<LocalVideo> data) {

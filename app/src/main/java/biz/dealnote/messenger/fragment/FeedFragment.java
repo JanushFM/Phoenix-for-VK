@@ -70,7 +70,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
     private HorizontalOptionsAdapter<FeedSource> mFeedSourceAdapter;
     private LinearLayoutManager mHeaderLayoutManager;
-    private Gson mGson = new Gson();
+    private final Gson mGson = new Gson();
 
     public static Bundle buildArgs(int accountId) {
         Bundle args = new Bundle();

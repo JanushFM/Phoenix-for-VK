@@ -2,9 +2,9 @@ package biz.dealnote.messenger.model;
 
 public class DraftMessage {
 
-    private int id;
+    private final int id;
 
-    private String body;
+    private final String body;
 
     private int attachmentsCount;
 

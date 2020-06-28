@@ -21,8 +21,8 @@ public class PostFilter implements Entry, Parcelable {
             return new PostFilter[size];
         }
     };
-    private int mode;
-    private String title;
+    private final int mode;
+    private final String title;
     private boolean active;
     private int count;
 

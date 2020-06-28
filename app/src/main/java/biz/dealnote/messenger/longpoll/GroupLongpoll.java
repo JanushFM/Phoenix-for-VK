@@ -24,9 +24,9 @@ class GroupLongpoll implements ILongpoll {
     private String key;
     private String server;
     private String ts;
-    private Callback callback;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private Observable<Long> delayedObservable = Observable.interval(DELAY_ON_ERROR, DELAY_ON_ERROR,
+    private final Callback callback;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final Observable<Long> delayedObservable = Observable.interval(DELAY_ON_ERROR, DELAY_ON_ERROR,
             TimeUnit.MILLISECONDS, Injection.provideMainThreadScheduler());
 
     GroupLongpoll(INetworker networker, int groupId, Callback callback) {
