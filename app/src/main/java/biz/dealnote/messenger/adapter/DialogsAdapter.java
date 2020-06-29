@@ -55,13 +55,13 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
     private static final SimpleDateFormat DF_TODAY = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private static final SimpleDateFormat DF_OLD = new SimpleDateFormat("dd/MM", Locale.getDefault());
     private final Context mContext;
-    private List<Dialog> mDialogs;
     private final Transformation mTransformation;
     private final ForegroundColorSpan mForegroundColorSpan;
-    private long mStartOfToday;
     private final RecyclerView.AdapterDataObserver mDataObserver;
-    private ClickListener mClickListener;
     private final Set<Integer> hidden;
+    private List<Dialog> mDialogs;
+    private long mStartOfToday;
+    private ClickListener mClickListener;
 
     public DialogsAdapter(Context context, @NonNull List<Dialog> dialogs) {
         this.mContext = context;

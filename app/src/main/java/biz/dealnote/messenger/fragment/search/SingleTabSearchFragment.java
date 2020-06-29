@@ -27,17 +27,17 @@ import biz.dealnote.messenger.view.MySearchView;
 
 public class SingleTabSearchFragment extends Fragment implements MySearchView.OnQueryTextListener, MySearchView.OnAdditionalButtonClickListener {
 
-    @SearchContentType
-    private int mContentType;
-    private int mAccountId;
-    private BaseSearchCriteria mInitialCriteria;
-    private boolean attachedChild;
     private final FragmentManager.FragmentLifecycleCallbacks mFragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
         @Override
         public void onFragmentViewCreated(@NotNull FragmentManager fm, @NotNull Fragment f, @NotNull View v, Bundle savedInstanceState) {
             syncChildFragment();
         }
     };
+    @SearchContentType
+    private int mContentType;
+    private int mAccountId;
+    private BaseSearchCriteria mInitialCriteria;
+    private boolean attachedChild;
 
     public static Bundle buildArgs(int accountId, @SearchContentType int contentType, @Nullable BaseSearchCriteria criteria) {
         Bundle args = new Bundle();

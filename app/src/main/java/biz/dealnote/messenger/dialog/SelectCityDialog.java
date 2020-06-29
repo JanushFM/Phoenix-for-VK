@@ -33,13 +33,13 @@ public class SelectCityDialog extends AccountDependencyDialogFragment implements
 
     private static final int COUNT_PER_REQUEST = 1000;
     private static final int RUN_SEACRH_DELAY = 1000;
+    private final Handler mHandler = new Handler();
     private int accountId;
     private int countryId;
     private ArrayList<City> mData;
     private RecyclerView mRecyclerView;
     private CitiesAdapter mAdapter;
     private String filter;
-    private final Handler mHandler = new Handler();
     private IDatabaseInteractor databaseInteractor;
     private final Runnable mRunSearchRunnable = () -> request(0);
 

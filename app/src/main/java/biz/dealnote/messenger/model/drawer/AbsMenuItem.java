@@ -18,8 +18,8 @@ public class AbsMenuItem implements Parcelable {
             return new AbsMenuItem[size];
         }
     };
-    private boolean selected;
     private final int type;
+    private boolean selected;
 
     public AbsMenuItem(int type) {
         this.type = type;

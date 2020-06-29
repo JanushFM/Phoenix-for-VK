@@ -62,13 +62,13 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
     private final ArrayList<Dialog> dialogs;
     private final IMessagesRepository messagesInteractor;
     private final ILongpollManager longpollManager;
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheLoadingDisposable = new CompositeDisposable();
     private int dialogsOwnerId;
     private boolean endOfContent;
     private int offset;
     private boolean netLoadnigNow;
-    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean cacheNowLoading;
-    private final CompositeDisposable cacheLoadingDisposable = new CompositeDisposable();
 
     public DialogsPresenter(int accountId, int initialDialogsOwnerId, int offset, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

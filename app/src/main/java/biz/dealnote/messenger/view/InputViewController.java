@@ -31,29 +31,23 @@ public class InputViewController {
     private final OnInputActionCallback callback;
     private final EditText mInputField;
     private final RelativeLayout rlEmojiContainer;
-    private EmojiconsPopup emojiPopup;
     private final ImageView ibEmoji;
     private final ImageView ibAttach;
     private final ViewGroup vgInputViewHolder;
     private final ViewGroup vgMessageInput;
     private final ViewGroup vgVoiceInput;
-
+    private final TextView tvAttCount;
+    private final ImageView mButtonSend;
+    private final ImageView mRecordResumePause;
+    private final TextWatcherAdapter mTextWatcher;
+    private final int mIconColorActive;
+    private final int mIconColorInactive;
+    private final TextView mRecordingDuration;
+    private EmojiconsPopup emojiPopup;
     private boolean emojiOnScreen;
     private boolean emojiNeed;
     private boolean sendOnEnter;
-
-    private final TextView tvAttCount;
-
-    private final ImageView mButtonSend;
-
-    private final ImageView mRecordResumePause;
-
-    private final TextWatcherAdapter mTextWatcher;
-
-    private final int mIconColorActive;
-    private final int mIconColorInactive;
     private int mCurrentMode = Mode.NORMAL;
-    private final TextView mRecordingDuration;
     private boolean canEditingSave;
     private boolean canNormalSend;
     private boolean canStartRecording;

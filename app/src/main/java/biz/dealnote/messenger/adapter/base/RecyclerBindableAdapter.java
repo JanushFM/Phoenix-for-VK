@@ -24,13 +24,13 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
     private final List<View> footers = new ArrayList<>();
     private List<T> items;
     private RecyclerView.LayoutManager manager;
-    private LayoutInflater inflater;
     private final GridLayoutManager.SpanSizeLookup spanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
         @Override
         public int getSpanSize(int position) {
             return getGridSpan(position);
         }
     };
+    private LayoutInflater inflater;
 
     public RecyclerBindableAdapter(List<T> items) {
         this.items = items;

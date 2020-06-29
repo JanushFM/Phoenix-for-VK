@@ -27,11 +27,11 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
     private final int ownerId;
     private final List<Topic> topics;
     private final IBoardInteractor boardInteractor;
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean endOfContent;
     private boolean actualDataReceived;
-    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean cacheLoadingNow;
-    private final CompositeDisposable netDisposable = new CompositeDisposable();
     private boolean netLoadingNow;
     private int netLoadingNowOffset;
 

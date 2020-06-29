@@ -42,13 +42,12 @@ import biz.dealnote.mvp.core.IPresenterFactory;
 public class GifPagerFragment extends AbsDocumentPreviewFragment<GifPagerPresenter, IGifPagerView>
         implements IGifPagerView {
 
+    private final SparseArray<WeakReference<Holder>> mHolderSparseArray = new SparseArray<>();
     private ViewPager2 mViewPager;
-
     private Toolbar mToolbar;
     private View mButtonsRoot;
     private CircleCounterButton mButtonAddOrDelete;
     private boolean mFullscreen;
-    private final SparseArray<WeakReference<Holder>> mHolderSparseArray = new SparseArray<>();
 
     public static GifPagerFragment newInstance(Bundle args) {
         GifPagerFragment fragment = new GifPagerFragment();

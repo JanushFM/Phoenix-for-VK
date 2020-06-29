@@ -65,10 +65,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
     private final Transformation avatarTransformation;
     private final ShapeDrawable selectedDrawable;
     private final int unreadColor;
-    private EmojiconTextView.OnHashTagClickListener onHashTagClickListener;
-    private OnMessageActionListener onMessageActionListener;
     private final AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
-    private LastReadId lastReadId;
     private final OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
         @Override
         public void onOwnerClick(int ownerId) {
@@ -77,6 +74,9 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             }
         }
     };
+    private EmojiconTextView.OnHashTagClickListener onHashTagClickListener;
+    private OnMessageActionListener onMessageActionListener;
+    private LastReadId lastReadId;
 
     public MessagesAdapter(Context context, List<Message> items, AttachmentsViewBinder.OnAttachmentsActionCallback callback) {
         this(context, items, new LastReadId(0, 0), callback);

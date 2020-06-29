@@ -21,10 +21,10 @@ public class LinksInCatalogPresenter extends AccountDependencyPresenter<ILinksIn
 
     private final IAudioInteractor audioInteractor;
     private final ArrayList<Link> links;
-    private boolean actualReceived;
     private final String block_id;
-    private String next_from;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private boolean actualReceived;
+    private String next_from;
     private boolean loadingNow;
     private boolean endOfContent;
 

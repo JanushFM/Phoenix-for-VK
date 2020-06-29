@@ -26,8 +26,8 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class LinksAdapter extends RecyclerBindableAdapter<Link, LinksAdapter.LinkViewHolder> {
 
-    private ActionListener mActionListner;
     private final Context context;
+    private ActionListener mActionListner;
 
     public LinksAdapter(List<Link> data, Context context) {
         super(data);

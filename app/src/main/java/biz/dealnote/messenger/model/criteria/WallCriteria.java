@@ -10,11 +10,8 @@ public class WallCriteria extends Criteria {
     public static final int MODE_SUGGEST = 3;
 
     private final int accountId;
-
-    private DatabaseIdRange range;
-
     private final int ownerId;
-
+    private DatabaseIdRange range;
     private int mode;
 
     public WallCriteria(int accountId, int ownerId) {

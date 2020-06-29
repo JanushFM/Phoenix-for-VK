@@ -38,13 +38,13 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     private final IWallsRepository walls;
     private final List<News> mFeed;
     private final List<FeedSource> mFeedSources;
+    private final DisposableHolder<Void> loadingHolder = new DisposableHolder<>();
+    private final DisposableHolder<Void> cacheLoadingHolder = new DisposableHolder<>();
     private String mNextFrom;
     private String mSourceIds;
     private boolean loadingNow;
     private String loadingNowNextFrom;
-    private final DisposableHolder<Void> loadingHolder = new DisposableHolder<>();
     private boolean cacheLoadingNow;
-    private final DisposableHolder<Void> cacheLoadingHolder = new DisposableHolder<>();
     private String mTmpFeedScrollOnGuiReady;
 
     public FeedPresenter(int accountId, @Nullable Bundle savedInstanceState) {

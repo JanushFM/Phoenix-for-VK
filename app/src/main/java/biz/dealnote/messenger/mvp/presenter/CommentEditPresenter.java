@@ -43,9 +43,9 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
     private final Comment orig;
     private final UploadDestination destination;
     private final ICommentsInteractor commentsInteractor;
+    private final Integer CommentThread;
     private boolean editingNow;
     private boolean canGoBack;
-    private final Integer CommentThread;
 
     public CommentEditPresenter(Comment comment, int accountId, Integer CommentThread, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

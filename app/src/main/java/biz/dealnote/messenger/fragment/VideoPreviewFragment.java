@@ -74,18 +74,18 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
     private static final String EXTRA_VIDEO_ID = "video_id";
     private static final Section SECTION_PLAY = new Section(new Text(R.string.section_play_title));
     private static final Section SECTION_OTHER = new Section(new Text(R.string.other));
-    private View mRootView;
-    private CircleCounterButton likeButton;
-    private CircleCounterButton commentsButton;
-    private TextView mTitleText;
-    private TextView mSubtitleText;
-    private ImageView mPreviewImage;
     private final OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
         @Override
         public void onOwnerClick(int ownerId) {
             getPresenter().fireOwnerClick(ownerId);
         }
     };
+    private View mRootView;
+    private CircleCounterButton likeButton;
+    private CircleCounterButton commentsButton;
+    private TextView mTitleText;
+    private TextView mSubtitleText;
+    private ImageView mPreviewImage;
 
     public static Bundle buildArgs(int accountId, int ownerId, int videoId, @Nullable Video video) {
         Bundle bundle = new Bundle();

@@ -202,6 +202,11 @@ public class ID3v24Tag extends AbstractID3v2Tag {
     @SuppressWarnings("FieldCanBeLocal")
     private static final int TAG_EXT_NUMBER_BYTES_DATA_LENGTH = 1;
     /**
+     * Tag padding
+     */
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int paddingSize = 0;
+    /**
      * Contains extended header
      */
     protected boolean extended = false;
@@ -267,11 +272,6 @@ public class ID3v24Tag extends AbstractID3v2Tag {
      * UTF-8 [UTF-8].
      */
     private byte textEncodingRestriction = 0;
-    /**
-     * Tag padding
-     */
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int paddingSize = 0;
     /**
      * If set Text fields size restrictions
      * <p>

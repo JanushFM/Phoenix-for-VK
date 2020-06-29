@@ -186,8 +186,8 @@ public enum ID3v23FieldKey {
     private final String fieldName;
 
     private final String frameId;
-    private String subId;
     private final Id3FieldType fieldType;
+    private String subId;
 
     /**
      * For usual metadata fields that use a data field

@@ -35,10 +35,10 @@ public class PostShareDialog extends DialogFragment {
 
     private static final String EXTRA_METHOD = "share-method";
     private static final String EXTRA_OWNER_ID = "share-owner-id";
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private int mAccountId;
     private Post mPost;
     private MenuAdapter mAdapter;
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public static PostShareDialog newInstance(int accountId, @NonNull Post post) {
         Bundle args = new Bundle();

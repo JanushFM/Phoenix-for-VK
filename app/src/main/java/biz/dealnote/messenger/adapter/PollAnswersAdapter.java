@@ -21,10 +21,10 @@ import biz.dealnote.messenger.util.Utils;
 
 public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, PollAnswersAdapter.ViewHolder> {
 
+    private final Context context;
     private Set<Integer> checkedIds;
     private boolean checkable;
     private OnAnswerChangedCallback listener;
-    private final Context context;
     private boolean multiple;
 
     public PollAnswersAdapter(Context context, @NonNull List<Poll.Answer> items) {

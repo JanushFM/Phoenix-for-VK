@@ -8,8 +8,8 @@ import java.util.List;
  * Orders frame Ids so that the most important frames are writtne first
  */
 public class ID3v22PreferredFrameOrderComparator implements Comparator<String> {
-    private static ID3v22PreferredFrameOrderComparator comparator;
     private static final List frameIdsInPreferredOrder = new ArrayList<String>();
+    private static ID3v22PreferredFrameOrderComparator comparator;
 
     static {
         //these are the key ones we want at the top

@@ -28,13 +28,12 @@ public class WallLinksAttachmentsPresenter extends PlaceSupportPresenter<IWallLi
 
     private final ArrayList<Link> mLinks;
     private final IWallsRepository fInteractor;
+    private final int owner_id;
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private int loaded;
     private boolean actualDataReceived;
-    private final int owner_id;
-
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public WallLinksAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

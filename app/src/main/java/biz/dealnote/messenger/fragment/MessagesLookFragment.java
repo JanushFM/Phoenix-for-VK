@@ -46,7 +46,7 @@ public class MessagesLookFragment extends PlaceSupportMvpFragment<MessagesLookPr
         implements IMessagesLookView, MessagesAdapter.OnMessageActionListener {
 
     private static final String TAG = MessagesLookFragment.class.getSimpleName();
-
+    private final ActionModeCallback mActionModeCallback = new ActionModeCallback();
     private RecyclerView mRecyclerView;
     private MessagesAdapter mMessagesAdapter;
     private View mHeaderView;
@@ -55,7 +55,6 @@ public class MessagesLookFragment extends PlaceSupportMvpFragment<MessagesLookPr
     private LoadMoreFooterHelper mFooterHelper;
     private EndlessRecyclerOnScrollListener mEndlessRecyclerOnScrollListener;
     private ActionMode mActionMode;
-    private final ActionModeCallback mActionModeCallback = new ActionModeCallback();
 
     public static Bundle buildArgs(int accountId, int peerId, int focusMesssageId) {
         Bundle args = new Bundle();

@@ -59,18 +59,15 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedView> implements IFeedView,
         SwipeRefreshLayout.OnRefreshListener, FeedAdapter.ClickListener, HorizontalOptionsAdapter.Listener<FeedSource> {
 
+    private final Gson mGson = new Gson();
     private FeedAdapter mAdapter;
     private TextView mEmptyText;
     private RecyclerView mRecycleView;
     private RecyclerView.LayoutManager mFeedLayoutManager;
-
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
     private LoadMoreFooterHelper mLoadMoreFooterHelper;
-
     private HorizontalOptionsAdapter<FeedSource> mFeedSourceAdapter;
     private LinearLayoutManager mHeaderLayoutManager;
-    private final Gson mGson = new Gson();
 
     public static Bundle buildArgs(int accountId) {
         Bundle args = new Bundle();

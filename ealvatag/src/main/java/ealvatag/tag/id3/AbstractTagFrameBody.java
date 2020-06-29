@@ -37,6 +37,12 @@ import ealvatag.tag.id3.valuepair.TextEncoding;
  * A frame body contains the data content for a frame
  */
 public abstract class AbstractTagFrameBody extends AbstractTagItem {
+    // set to default ArrayList.DEFAULT_CAPACITY, which happens to match our max.
+    private final ArrayList<AbstractDataType> dataTypeList = new ArrayList<>(10);
+    // 10 is currently our max size and one 1 has that many. 5 would be the max if not for that outlier. So knowing that current HashMaps
+    // will take 5 to the next power of 2 (8), I'll choose 5. That one case of 10 will cause a map resize, but I'll save a lot of space as
+    // average waste will be approximately 3 and not 11.
+    private final HashMap<String, AbstractDataType> dataTypeMap = new HashMap<>(5);
     /**
      * Reference to the header associated with this frame body, a framebody can be created without a header
      * but one it is associated with a header this should be set. It is principally useful for the framebody to know
@@ -44,12 +50,6 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
      * between tag versions.
      */
     private AbstractTagFrame header;
-    // set to default ArrayList.DEFAULT_CAPACITY, which happens to match our max.
-    private final ArrayList<AbstractDataType> dataTypeList = new ArrayList<>(10);
-    // 10 is currently our max size and one 1 has that many. 5 would be the max if not for that outlier. So knowing that current HashMaps
-    // will take 5 to the next power of 2 (8), I'll choose 5. That one case of 10 will cause a map resize, but I'll save a lot of space as
-    // average waste will be approximately 3 and not 11.
-    private final HashMap<String, AbstractDataType> dataTypeMap = new HashMap<>(5);
 
     /**
      * Creates a new framebody, at this point the bodys

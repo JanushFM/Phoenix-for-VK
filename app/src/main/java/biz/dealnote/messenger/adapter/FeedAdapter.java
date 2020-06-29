@@ -195,6 +195,7 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
 
     class PostHolder extends RecyclerView.ViewHolder implements IdentificableHolder {
 
+        private final View cardView;
         View topDivider;
         TextView tvOwnerName;
         ImageView ivOwnerAvatar;
@@ -209,7 +210,6 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
         AttachmentsHolder attachmentsHolder;
         View viewsCounterRoot;
         TextView viewsCounter;
-        private final View cardView;
 
         PostHolder(View root) {
             super(root);

@@ -42,12 +42,12 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     private static final String SAVE_INDEX = "save-index";
     private static final String SAVE_DATA = "save-data";
     final IPhotosInteractor photosInteractor;
+    private final boolean isStory;
+    private final Context context;
     ArrayList<Photo> mPhotos;
     private int mCurrentIndex;
     private boolean mLoadingNow;
     private boolean mFullScreen;
-    private final boolean isStory;
-    private final Context context;
 
     PhotoPagerPresenter(@NonNull ArrayList<Photo> initialData, int accountId, boolean Story, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

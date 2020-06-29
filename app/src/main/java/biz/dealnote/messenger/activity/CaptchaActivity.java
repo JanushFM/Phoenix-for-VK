@@ -24,9 +24,8 @@ import static biz.dealnote.messenger.util.RxUtils.ignore;
 
 public class CaptchaActivity extends AppCompatActivity {
 
-    private EditText mTextField;
-
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private EditText mTextField;
     private ICaptchaProvider captchaProvider;
 
     private String requestSid;

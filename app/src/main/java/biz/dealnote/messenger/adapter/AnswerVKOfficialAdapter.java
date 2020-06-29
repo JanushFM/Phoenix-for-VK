@@ -38,10 +38,10 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
     private static final int DIV_YESTERDAY = 2;
     private static final int DIV_THIS_WEEK = 3;
     private static final int DIV_OLD = 4;
-    private AnswerVKOfficialList data;
     private final Context context;
     private final Transformation transformation;
     private final long mStartOfToday;
+    private AnswerVKOfficialList data;
     private ClickListener clickListener;
 
     public AnswerVKOfficialAdapter(AnswerVKOfficialList data, Context context) {

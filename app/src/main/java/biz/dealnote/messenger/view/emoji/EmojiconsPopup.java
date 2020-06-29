@@ -52,22 +52,17 @@ import io.reactivex.disposables.CompositeDisposable;
 public class EmojiconsPopup {
 
     private static final String KEY_PAGE = "emoji_page";
-
-    private EmojisPagerAdapter mEmojisAdapter;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private final Activity mContext;
+    private EmojisPagerAdapter mEmojisAdapter;
     private int keyBoardHeight;
-
     private boolean isOpened;
-
     private OnEmojiconClickedListener onEmojiconClickedListener;
     private OnStickerClickedListener onStickerClickedListener;
     private OnEmojiconBackspaceClickedListener onEmojiconBackspaceClickedListener;
     private OnSoftKeyboardOpenCloseListener onSoftKeyboardOpenCloseListener;
-
     private View rootView;
     private View emojiContainer;
-    private final Activity mContext;
-    private ViewPager2 emojisPager;
     private final OnGlobalLayoutListener onGlobalLayoutListener = new OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
@@ -115,6 +110,7 @@ public class EmojiconsPopup {
             }
         }
     };
+    private ViewPager2 emojisPager;
 
     public EmojiconsPopup(View rootView, Activity context) {
         this.mContext = context;

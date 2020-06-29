@@ -83,6 +83,10 @@ public class MP3File extends AudioFileImpl {
 
     private static AbstractTagDisplayFormatter tagFormatter;
     /**
+     * The Lyrics3 tag that this file contains.
+     */
+    private final AbstractLyrics3 lyrics3tag = null;
+    /**
      * the ID3v2 tag that this file contains.
      */
     private AbstractID3v2Tag id3v2tag = null;
@@ -90,10 +94,6 @@ public class MP3File extends AudioFileImpl {
      * Representation of the idv2 tag as a idv24 tag
      */
     private ID3v24Tag id3v2Asv24tag = null;
-    /**
-     * The Lyrics3 tag that this file contains.
-     */
-    private final AbstractLyrics3 lyrics3tag = null;
     /**
      * The ID3v1 tag that this file contains.
      */

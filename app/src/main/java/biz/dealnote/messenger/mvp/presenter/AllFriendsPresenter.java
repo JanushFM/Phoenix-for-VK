@@ -41,16 +41,15 @@ public class AllFriendsPresenter extends AccountDependencyPresenter<IAllFriendsV
     private final int userId;
 
     private final ArrayList<UsersPart> data;
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable seacrhDisposable = new CompositeDisposable();
     private String q;
-
     private boolean actualDataReceived;
     private boolean actualDataEndOfContent;
     private boolean actualDataLoadingNow;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private boolean cacheLoadingNow;
-    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean searchRunNow;
-    private final CompositeDisposable seacrhDisposable = new CompositeDisposable();
 
     public AllFriendsPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

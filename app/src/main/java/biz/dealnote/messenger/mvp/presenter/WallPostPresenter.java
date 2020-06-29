@@ -48,9 +48,9 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     private final IWallsRepository wallInteractor;
     private final IOwnersRepository ownersRepository;
     private final Context context;
+    private final IFaveInteractor faveInteractor;
     private Post post;
     private Owner owner;
-    private final IFaveInteractor faveInteractor;
     private boolean loadingPostNow;
 
     public WallPostPresenter(int accountId, int postId, int ownerId, @Nullable Post post,

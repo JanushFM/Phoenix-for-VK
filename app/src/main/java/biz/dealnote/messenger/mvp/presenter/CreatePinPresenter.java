@@ -20,11 +20,10 @@ public class CreatePinPresenter extends RxSupportPresenter<ICreatePinView> {
 
     private static final int STEP_CREATE = 1;
     private static final int STEP_REPEAT = 2;
-
-    private int mCurrentStep;
     private final int[] mCreatedPin;
     private final int[] mRepeatedPin;
     private final Handler mHandler = new Handler();
+    private int mCurrentStep;
     private final Runnable mOnFullyEnteredRunnable = () -> {
         if (mCurrentStep == STEP_CREATE) {
             onCreatedPinFullyEntered();

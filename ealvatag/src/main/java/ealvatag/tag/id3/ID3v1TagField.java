@@ -17,6 +17,10 @@ import ealvatag.utils.StandardCharsets;
 public class ID3v1TagField implements TagTextField {
 
     /**
+     * Stores the id (name) of the tag field. <br>
+     */
+    private final String id;
+    /**
      * If <code>true</code>, the id of the current encapsulated tag field is
      * specified as a common field. <br>
      * Example is "ARTIST" which should be interpreted by any application as the
@@ -24,16 +28,10 @@ public class ID3v1TagField implements TagTextField {
      * Will be set during construction with {@link #checkCommon()}.
      */
     private boolean common;
-
     /**
      * Stores the content of the tag field. <br>
      */
     private String content;
-
-    /**
-     * Stores the id (name) of the tag field. <br>
-     */
-    private final String id;
 
     /**
      * Creates an instance.

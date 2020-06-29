@@ -24,13 +24,11 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
     private final IFaveInteractor faveInteractor;
 
     private final List<FaveLink> links;
-
-    private boolean endOfContent;
-
-    private boolean actualDataReceived;
     private final CompositeDisposable cacheDisposable = new CompositeDisposable();
-    private boolean cacheLoading;
     private final CompositeDisposable actualDisposable = new CompositeDisposable();
+    private boolean endOfContent;
+    private boolean actualDataReceived;
+    private boolean cacheLoading;
     private boolean actualLoading;
 
     public FaveLinksPresenter(int accountId, @Nullable Bundle savedInstanceState) {

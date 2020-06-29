@@ -25,13 +25,11 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     private final List<AudioPlaylist> pages;
 
     private final IAudioInteractor fInteractor;
-
-    private boolean actualDataReceived;
     private final int owner_id;
-
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private boolean actualDataReceived;
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public AudioPlaylistsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

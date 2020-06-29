@@ -29,11 +29,10 @@ import biz.dealnote.messenger.util.ViewUtils;
 public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAdapter.Holder> {
 
     private static final int STATUS_COLOR_OFFLINE = Color.parseColor("#999999");
-
-    private List<UsersPart> data;
-    private boolean group;
     private final Context context;
     private final Transformation transformation;
+    private List<UsersPart> data;
+    private boolean group;
     private Listener listener;
 
     public FriendsRecycleAdapter(List<UsersPart> data, Context context) {

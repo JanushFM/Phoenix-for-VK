@@ -20,9 +20,9 @@ public class MutualFriendsPresenter extends SimpleOwnersPresenter<ISimpleOwnersV
 
     private final int userId;
     private final IRelationshipInteractor relationshipInteractor;
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public MutualFriendsPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

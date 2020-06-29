@@ -25,23 +25,18 @@ public class CommentsInputViewController {
     private final OnInputActionCallback callback;
     private final EditText mInputField;
     private final RelativeLayout rlEmojiContainer;
-    private EmojiconsPopup emojiPopup;
     private final ImageView ibEmoji;
     private final ImageView ibAttach;
-
+    private final TextView tvAttCount;
+    private final ImageView mButtonSend;
+    private final TextWatcherAdapter mTextWatcher;
+    private final int mIconColorActive;
+    private final int mIconColorInactive;
+    private EmojiconsPopup emojiPopup;
     private boolean emojiOnScreen;
     private boolean emojiNeed;
     private boolean mCanSendNormalMessage;
     private boolean sendOnEnter;
-
-    private final TextView tvAttCount;
-
-    private final ImageView mButtonSend;
-
-    private final TextWatcherAdapter mTextWatcher;
-
-    private final int mIconColorActive;
-    private final int mIconColorInactive;
 
     public CommentsInputViewController(@NonNull final Activity activity, @NonNull View rootView, @NonNull OnInputActionCallback callback) {
         this.callback = callback;

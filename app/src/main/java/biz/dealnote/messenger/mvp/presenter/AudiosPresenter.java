@@ -30,13 +30,13 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
     private final IAudioInteractor audioInteractor;
     private final ArrayList<Audio> audios;
     private final int ownerId;
-    private boolean actualReceived;
     private final int option_menu_id;
     private final int isAlbum;
     private final boolean iSSelectMode;
-    private List<AudioPlaylist> Curr;
     private final String accessKey;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private boolean actualReceived;
+    private List<AudioPlaylist> Curr;
     private boolean loadingNow;
     private boolean endOfContent;
 

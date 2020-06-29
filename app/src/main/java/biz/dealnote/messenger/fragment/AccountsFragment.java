@@ -97,6 +97,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
     private static final String SAVE_DATA = "save_data";
     private static final int REQUEST_LOGIN = 107;
     private static final int REQEUST_DIRECT_LOGIN = 108;
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private TextView empty;
     private RecyclerView mRecyclerView;
     private AccountAdapter mAdapter;
@@ -122,7 +123,6 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
     private ArrayList<Account> mData;
     private IOwnersRepository mOwnersInteractor;
     private IAccountsInteractor accountsInteractor;
-    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -111,12 +111,12 @@ public class AttachmentsViewBinder {
     private final int mActiveWaveFormColor;
     private final int mNoactiveWaveFormColor;
     private final SharedHolders<VoiceHolder> mVoiceSharedHolders;
-    private VoiceActionListener mVoiceActionListener;
     private final OnAttachmentsActionCallback mAttachmentsActionCallback;
-    private EmojiconTextView.OnHashTagClickListener mOnHashTagClickListener;
     private final Context mContext;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private final IAudioInteractor mAudioInteractor;
+    private VoiceActionListener mVoiceActionListener;
+    private EmojiconTextView.OnHashTagClickListener mOnHashTagClickListener;
 
     public AttachmentsViewBinder(Context context, @NonNull OnAttachmentsActionCallback attachmentsActionCallback) {
         this.mContext = context;

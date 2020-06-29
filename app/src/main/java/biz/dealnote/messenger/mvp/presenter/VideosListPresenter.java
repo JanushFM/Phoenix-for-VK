@@ -48,14 +48,14 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     private final IVideosInteractor interactor;
     private final IUploadManager uploadManager;
     private final String albumTitle;
+    private final UploadDestination destination;
+    private final List<Upload> uploadsData;
+    private final CompositeDisposable netDisposable = new CompositeDisposable();
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean endOfContent;
     private IntNextFrom intNextFrom;
     private boolean hasActualNetData;
-    private final UploadDestination destination;
-    private final List<Upload> uploadsData;
     private boolean requestNow;
-    private final CompositeDisposable netDisposable = new CompositeDisposable();
-    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean cacheNowLoading;
 
     public VideosListPresenter(int accountId, int ownerId, int albumId, String action,

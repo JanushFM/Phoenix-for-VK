@@ -2,8 +2,8 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/CardViewMD2"
     android:id="@+id/card_view"
+    style="@style/CardViewMD2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/card_margin"
@@ -15,10 +15,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingStart="1dp"
         android:paddingEnd="1dp"
-        android:paddingBottom="2dp"
-        android:orientation="vertical">
+        android:paddingBottom="2dp">
 
         <LinearLayout
             android:id="@+id/item_post_normal_pin_root"

@@ -106,6 +106,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
         SIZES.put(4, PhotoSize.W);
     }
 
+    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
     private ViewPager2 mViewPager;
     private CircleCounterButton mButtonLike;
     private CircleCounterButton mButtonComments;
@@ -117,7 +118,6 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
     private Adapter mPagerAdapter;
     private boolean mCanSaveYourself;
     private boolean mCanDelete;
-    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
 
     public static Bundle buildArgsForSimpleGallery(int aid, int index, ArrayList<Photo> photos,
                                                    boolean needUpdate) {
@@ -608,11 +608,11 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
     }
 
     private class PhotoViewHolder extends RecyclerView.ViewHolder implements Callback {
+        private final WeakPicassoLoadCallback mPicassoLoadCallback;
         public TouchImageView photo;
         public ProgressBar progress;
         public FloatingActionButton reload;
         private boolean mLoadingNow;
-        private final WeakPicassoLoadCallback mPicassoLoadCallback;
 
         public PhotoViewHolder(View view) {
             super(view);

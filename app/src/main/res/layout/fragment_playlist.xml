@@ -21,19 +21,19 @@
             android:alpha="0.9"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_menu_24_white"
-                app:tint="?colorPrimary" />
+            app:tint="?colorPrimary" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="?attr/selectableItemBackground"
-                android:ellipsize="marquee"
-                android:padding="2dp"
-                android:singleLine="true"
-                android:text="@string/playlist"
-                android:textSize="16sp" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:ellipsize="marquee"
+            android:padding="2dp"
+            android:singleLine="true"
+            android:text="@string/playlist"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

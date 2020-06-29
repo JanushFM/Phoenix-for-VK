@@ -75,9 +75,9 @@ public class UploadManagerImpl implements IUploadManager {
     private final Flowable<Long> timer;
     private final CompositeDisposable notificationUpdateDisposable = new CompositeDisposable();
     private final Map<String, UploadServer> serverMap = Collections.synchronizedMap(new HashMap<>());
-    private volatile Upload current;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final CompositeDisposable otherDisposables = new CompositeDisposable();
+    private volatile Upload current;
     private boolean needCreateChannel = true;
 
     public UploadManagerImpl(Context context, INetworker networker, IStorages storages, IAttachmentsRepository attachmentsRepository,

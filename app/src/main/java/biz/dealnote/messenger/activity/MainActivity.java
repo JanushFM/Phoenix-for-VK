@@ -204,6 +204,8 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private static final int REQUEST_LOGIN = 101;
     private static final int REQUEST_CODE_CLOSE = 102;
     private static final int REQUEST_ENTER_PIN = 103;
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private final List<Action<MainActivity>> postResumeActions = new ArrayList<>(0);
     protected int mAccountId;
     protected int mLayoutRes = R.layout.activity_main;
     protected long mLastBackPressedTime;
@@ -216,19 +218,16 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private ViewGroup mBottomNavigationContainer;
     private FragmentContainerView mMiniPlayer;
     private FragmentContainerView mViewFragment;
-    private MusicUtils.ServiceToken mAudioPlayServiceToken;
-    private boolean mDestroyed;
-    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = () -> {
         resolveToolbarNavigationIcon();
         keyboardHide();
     };
+    private MusicUtils.ServiceToken mAudioPlayServiceToken;
+    private boolean mDestroyed;
     /**
      * First - DrawerItem, second - Clear back stack before adding
      */
     private Pair<AbsMenuItem, Boolean> mTargetPage;
-    private final List<Action<MainActivity>> postResumeActions = new ArrayList<>(0);
-
     private boolean resumed;
     private boolean bNoDestroyServiceAudio = false;
 

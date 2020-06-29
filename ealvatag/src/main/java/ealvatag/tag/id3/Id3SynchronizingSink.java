@@ -35,9 +35,8 @@ public class Id3SynchronizingSink extends ForwardingSink {
     // keep as bytes to not worry with casting
     private static final byte FF = (byte) 0xFF;
     private static final byte ZERO = (byte) 0x00;
-
-    private boolean lastByteWasFF = false;
     private final BufferedSink sink;
+    private boolean lastByteWasFF = false;
 
     /**
      * This is a {@link ForwardingSink} which transforms the stream of bytes substituting every occurrence of [0xFF, 0x00] with [0xFF]. This

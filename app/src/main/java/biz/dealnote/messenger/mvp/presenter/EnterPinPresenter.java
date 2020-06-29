@@ -37,9 +37,9 @@ public class EnterPinPresenter extends RxSupportPresenter<IEnterPinView> {
     private final ISettings.ISecuritySettings securitySettings;
     private final int[] mValues;
     private final Fragment myContext;
-    private Owner mOwner;
     private final Handler mHandler = new Handler();
     private final Runnable mOnFullyEnteredRunnable = this::onFullyEntered;
+    private Owner mOwner;
 
     public EnterPinPresenter(Fragment Context, @Nullable Bundle savedState) {
         super(savedState);

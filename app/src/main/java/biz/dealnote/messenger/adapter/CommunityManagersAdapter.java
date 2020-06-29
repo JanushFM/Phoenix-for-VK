@@ -36,8 +36,8 @@ public class CommunityManagersAdapter extends RecyclerView.Adapter<CommunityMana
         roleTextResources.put("creator", R.string.role_creator);
     }
 
-    private List<Manager> users;
     private final Transformation transformation;
+    private List<Manager> users;
     private ActionListener actionListener;
 
     public CommunityManagersAdapter(Context context, List<Manager> users) {

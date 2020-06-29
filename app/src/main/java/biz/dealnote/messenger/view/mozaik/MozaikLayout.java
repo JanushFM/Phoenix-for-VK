@@ -19,12 +19,11 @@ import biz.dealnote.messenger.adapter.PostImage;
 public class MozaikLayout extends RelativeLayout {
 
     private List<PostImage> photos = new ArrayList<>();
-
+    private final MatrixCalculator.Libra libra = index -> photos.get(index).getAspectRatio();
     private int maxSingleImageHeight;
     private int prefImageSize;
     private int spacing;
     private MozaikLayoutParamsCalculator layoutParamsCalculator;
-    private final MatrixCalculator.Libra libra = index -> photos.get(index).getAspectRatio();
 
     public MozaikLayout(Context context) {
         super(context);

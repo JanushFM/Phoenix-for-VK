@@ -48,8 +48,8 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
     private final AttachmentsViewBinder attachmentsViewBinder;
     private final Transformation transformation;
     private final ClickListener clickListener;
-    private NonPublishedPostActionListener nonPublishedPostActionListener;
     private final LinkActionAdapter mLinkActionAdapter;
+    private NonPublishedPostActionListener nonPublishedPostActionListener;
     private EmojiconTextView.OnHashTagClickListener mOnHashTagClickListener;
 
     public WallAdapter(Context context, List<Post> items, @NonNull AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback,

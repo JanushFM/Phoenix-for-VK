@@ -18,12 +18,10 @@ import android.graphics.drawable.Drawable;
  */
 public class AlphaPatternDrawable extends Drawable {
 
-    private int mRectangleSize = 10;
-
     private final Paint mPaint = new Paint();
     private final Paint mPaintWhite = new Paint();
     private final Paint mPaintGray = new Paint();
-
+    private int mRectangleSize = 10;
     private int numRectanglesHorizontal;
     private int numRectanglesVertical;
 

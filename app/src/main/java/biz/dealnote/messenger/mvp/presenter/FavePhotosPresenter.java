@@ -26,9 +26,9 @@ public class FavePhotosPresenter extends AccountDependencyPresenter<IFavePhotosV
     private static final int COUNT_PER_REQUEST = 50;
     private final IFaveInteractor faveInteractor;
     private final ArrayList<Photo> mPhotos;
-    private boolean mEndOfContent;
     private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private final CompositeDisposable netDisposable = new CompositeDisposable();
+    private boolean mEndOfContent;
     private boolean cacheLoadingNow;
     private boolean requestNow;
 

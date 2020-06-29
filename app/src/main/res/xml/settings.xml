@@ -521,6 +521,7 @@
             android:title="@string/settings_no_push"
             app:iconSpaceReserved="false" />
         <SwitchPreference
+            android:icon="@drawable/bratishka"
             android:key="keep_longpoll"
             android:summary="@string/settings_keep_longpoll_summary"
             android:title="@string/settings_keep_longpoll_title"

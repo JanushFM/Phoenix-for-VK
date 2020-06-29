@@ -80,6 +80,8 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         implements IStoryPagerView, GoBackCallback, BackPressCallback {
 
     private static final int REQUEST_WRITE_PERMISSION = 160;
+    private final SparseArray<WeakReference<MultiHolder>> mHolderSparseArray = new SparseArray<>();
+    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
     private ViewPager2 mViewPager;
     private Toolbar mToolbar;
     private ImageView Avatar;
@@ -87,8 +89,6 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     private Transformation transformation;
     private CircleCounterButton mDownload;
     private boolean mFullscreen;
-    private final SparseArray<WeakReference<MultiHolder>> mHolderSparseArray = new SparseArray<>();
-    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
 
     public static StoryPagerFragment newInstance(Bundle args) {
         StoryPagerFragment fragment = new StoryPagerFragment();
@@ -414,11 +414,11 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     }
 
     private class PhotoViewHolder extends MultiHolder implements Callback {
+        private final WeakPicassoLoadCallback mPicassoLoadCallback;
         public TouchImageView photo;
         public ProgressBar progress;
         public FloatingActionButton reload;
         private boolean mLoadingNow;
-        private final WeakPicassoLoadCallback mPicassoLoadCallback;
 
         public PhotoViewHolder(View view) {
             super(view);

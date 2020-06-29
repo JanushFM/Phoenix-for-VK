@@ -64,26 +64,25 @@ public class VideoControllerView extends FrameLayout {
     private static final int sDefaultTimeout = 0;
     private static final int FADE_OUT = 1;
     private static final int SHOW_PROGRESS = 2;
-    private MediaPlayerControl mPlayer;
     private final Context mContext;
+    private final boolean mUseFastForward;
+    private final Handler mHandler = new MessageHandler(this);
+    private MediaPlayerControl mPlayer;
     private ViewGroup mAnchor;
     private View mRoot;
     private ProgressBar mProgress;
     private TextView mEndTime, mCurrentTime;
     private boolean mShowing;
     private boolean mDragging;
-    private final boolean mUseFastForward;
     private boolean mFromXml;
     private boolean mListenersSet;
     private OnClickListener mNextListener, mPrevListener;
-
     private FloatingActionButton mPauseButton;
     private ImageButton mFfwdButton;
     private ImageButton mRewButton;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
     private ImageView mFullscreenButton;
-    private final Handler mHandler = new MessageHandler(this);
     private final OnClickListener mPauseListener = v -> {
         doPauseResume();
         show(sDefaultTimeout);

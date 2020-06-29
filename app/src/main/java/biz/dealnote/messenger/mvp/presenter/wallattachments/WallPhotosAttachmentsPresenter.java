@@ -32,13 +32,12 @@ public class WallPhotosAttachmentsPresenter extends PlaceSupportPresenter<IWallP
 
     private final ArrayList<Photo> mPhotos;
     private final IWallsRepository fInteractor;
+    private final int owner_id;
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private int loaded;
     private boolean actualDataReceived;
-    private final int owner_id;
-
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public WallPhotosAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

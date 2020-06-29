@@ -25,7 +25,6 @@ import biz.dealnote.messenger.player.util.MusicUtils
 import biz.dealnote.messenger.settings.Settings
 import biz.dealnote.messenger.util.Objects
 import biz.dealnote.messenger.util.PhoenixToast.Companion.CreatePhoenixToast
-import biz.dealnote.messenger.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

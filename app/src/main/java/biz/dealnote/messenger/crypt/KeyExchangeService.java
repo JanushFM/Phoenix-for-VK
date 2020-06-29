@@ -67,11 +67,11 @@ public class KeyExchangeService extends Service {
     private static final int NOTIFICATION_KEY_EXCHANGE_REQUEST = 10;
     private static final int WHAT_STOP_SERVICE = 12;
     private final ISessionIdGenerator mSessionIdGenerator = new FirebaseSessionIdGenerator();
+    private final CompositeDisposable mCompositeSubscription = new CompositeDisposable();
     private LongSparseArray<KeyExchangeSession> mCurrentActiveSessions;
     private LongSparseArray<NotificationCompat.Builder> mCurrentActiveNotifications;
     private Set<Long> mFinishedSessionsIds;
     private NotificationManager mNotificationManager;
-    private final CompositeDisposable mCompositeSubscription = new CompositeDisposable();
     private final Handler mStopServiceHandler = new Handler(msg -> {
         if (msg.what == WHAT_STOP_SERVICE) {
             finishAllByTimeout();

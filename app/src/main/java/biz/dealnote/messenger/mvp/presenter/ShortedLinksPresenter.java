@@ -25,13 +25,11 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
     private final List<ShortLink> links;
 
     private final IUtilsInteractor fInteractor;
-
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private boolean actualDataReceived;
-
     private boolean endOfContent;
     private boolean actualDataLoading;
     private String mInput;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public ShortedLinksPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

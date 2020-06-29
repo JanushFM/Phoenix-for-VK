@@ -34,8 +34,8 @@ public class OwnersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int TYPE_USER = 0;
     private static final int TYPE_COMMUNITY = 1;
     private final Context mContext;
-    private List<? extends Owner> mData;
     private final Transformation transformation;
+    private List<? extends Owner> mData;
     private ClickListener mClickListener;
     private LongClickListener longClickListener;
 

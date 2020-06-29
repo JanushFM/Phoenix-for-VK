@@ -25,9 +25,9 @@ import static biz.dealnote.messenger.util.Utils.safeIsEmpty;
 public class CreatePollPresenter extends AccountDependencyPresenter<ICreatePollView> {
 
     private final IPollInteractor pollInteractor;
+    private final int mOwnerId;
     private String mQuestion;
     private String[] mOptions;
-    private final int mOwnerId;
     private boolean mAnonymous;
     private boolean mMultiply;
     private boolean creationNow;

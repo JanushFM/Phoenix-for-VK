@@ -25,8 +25,8 @@ import biz.dealnote.messenger.util.ViewUtils;
 public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdapter.DialogPreviewHolder> {
 
     private final ActionListener actionListener;
-    private List<Object> mData;
     private final Transformation mTransformation;
+    private List<Object> mData;
 
     public DialogPreviewAdapter(Context context, List<Object> items, ActionListener actionListener) {
         this.mData = items;

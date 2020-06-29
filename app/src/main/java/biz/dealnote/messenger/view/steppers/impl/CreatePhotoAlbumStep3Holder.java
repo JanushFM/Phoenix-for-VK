@@ -13,11 +13,10 @@ import biz.dealnote.messenger.view.steppers.base.BaseHolderListener;
 
 public class CreatePhotoAlbumStep3Holder extends AbsStepHolder<CreatePhotoAlbumStepsHost> {
 
+    private final ActionListener mActionListener;
     private View mRootView;
     private TextView mPrivacyViewAllowed;
     private TextView mPrivacyViewDisabled;
-
-    private final ActionListener mActionListener;
 
     public CreatePhotoAlbumStep3Holder(@NonNull ViewGroup parent, @NonNull ActionListener actionListener) {
         super(parent, R.layout.content_create_photo_album_step_3, CreatePhotoAlbumStepsHost.STEP_PRIVACY_VIEW);

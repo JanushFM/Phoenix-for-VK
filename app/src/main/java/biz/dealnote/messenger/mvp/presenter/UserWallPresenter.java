@@ -59,10 +59,10 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     private final IPhotosInteractor photosInteractor;
     private final IFaveInteractor faveInteractor;
     private final IUploadManager uploadManager;
+    private final Context context;
     private User user;
     private UserDetails details;
     private boolean loadingAvatarPhotosNow;
-    private final Context context;
 
     public UserWallPresenter(int accountId, int ownerId, @Nullable User owner, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, ownerId, savedInstanceState);

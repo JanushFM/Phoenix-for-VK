@@ -24,9 +24,9 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     private static final int COUNT_PER_REQUEST = 25;
     private final IFaveInteractor faveInteractor;
     private final ArrayList<Video> mVideos;
-    private boolean mEndOfContent;
     private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private final CompositeDisposable netDisposable = new CompositeDisposable();
+    private boolean mEndOfContent;
     private boolean cacheLoadingNow;
     private boolean netLoadingNow;
 

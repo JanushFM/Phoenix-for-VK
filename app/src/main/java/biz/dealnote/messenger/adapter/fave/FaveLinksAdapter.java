@@ -20,8 +20,8 @@ import biz.dealnote.messenger.util.ViewUtils;
 
 public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Holder> {
 
-    private List<FaveLink> data;
     private final Context context;
+    private List<FaveLink> data;
     private RecyclerView recyclerView;
     private ClickListener clickListener;
 

@@ -57,11 +57,10 @@ public class SinglePhotoFragment extends BaseFragment
         implements GoBackCallback, BackPressCallback {
 
     private static final int REQUEST_WRITE_PERMISSION = 160;
+    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
     private String url;
     private String prefix;
     private String photo_prefix;
-
-    private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
 
     public static SinglePhotoFragment newInstance(Bundle args) {
         SinglePhotoFragment fragment = new SinglePhotoFragment();
@@ -212,11 +211,11 @@ public class SinglePhotoFragment extends BaseFragment
     }
 
     private class PhotoViewHolder implements Callback {
+        private final WeakPicassoLoadCallback mPicassoLoadCallback;
         public TouchImageView photo;
         public ProgressBar progress;
         public FloatingActionButton reload;
         private boolean mLoadingNow;
-        private final WeakPicassoLoadCallback mPicassoLoadCallback;
 
         public PhotoViewHolder(View view) {
             photo = view.findViewById(R.id.image_view);

@@ -33,13 +33,13 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
     private final int groupId;
     private final IGroupSettingsInteractor interactor;
     private final boolean creator;
+    private final boolean adding;
     private int currentUserIndex;
     private int adminLevel;
     private boolean showAsContact;
     private String position;
     private String email;
     private String phone;
-    private final boolean adding;
     private boolean savingNow;
 
     public CommunityManagerEditPresenter(int accountId, int groupId, Manager manager, @Nullable Bundle savedInstanceState) {

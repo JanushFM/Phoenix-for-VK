@@ -24,9 +24,9 @@ import biz.dealnote.messenger.util.ViewUtils;
 
 public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Holder> {
 
-    private List<FavePage> data;
     private final Context context;
     private final Transformation transformation;
+    private List<FavePage> data;
     private RecyclerView recyclerView;
     private ClickListener clickListener;
 

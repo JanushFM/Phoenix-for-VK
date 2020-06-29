@@ -33,6 +33,7 @@ public class SelectUniversityDialog extends AccountDependencyDialogFragment impl
 
     private static final int COUNT_PER_REQUEST = 1000;
     private static final int RUN_SEACRH_DELAY = 1000;
+    private final Handler mHandler = new Handler();
     private int mAccountId;
     private int countryId;
     private IDatabaseInteractor mDatabaseInteractor;
@@ -40,7 +41,6 @@ public class SelectUniversityDialog extends AccountDependencyDialogFragment impl
     private RecyclerView mRecyclerView;
     private UniversitiesAdapter mAdapter;
     private String filter;
-    private final Handler mHandler = new Handler();
     private final Runnable runSearchRunnable = () -> request(0);
 
     public static SelectUniversityDialog newInstance(int aid, int countryId, Bundle additional) {

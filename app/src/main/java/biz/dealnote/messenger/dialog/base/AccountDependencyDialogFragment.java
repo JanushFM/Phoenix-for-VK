@@ -36,8 +36,8 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
         implements AttachmentsViewBinder.OnAttachmentsActionCallback {
 
     private static final String ARGUMENT_INVALID_ACCOUNT_CONTEXT = "invalid_account_context";
-    private int accountId;
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private int accountId;
     private boolean supportAccountHotSwap;
 
     @Override

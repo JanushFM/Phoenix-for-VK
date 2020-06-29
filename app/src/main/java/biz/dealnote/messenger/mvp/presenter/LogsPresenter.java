@@ -29,8 +29,8 @@ public class LogsPresenter extends RxSupportPresenter<ILogsView> {
     private final List<LogEventWrapper> events;
 
     private final ILogsStorage store;
-    private boolean loadingNow;
     private final DisposableHolder<Integer> disposableHolder = new DisposableHolder<>();
+    private boolean loadingNow;
 
     public LogsPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);

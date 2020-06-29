@@ -31,13 +31,12 @@ public class WallAudiosAttachmentsPresenter extends PlaceSupportPresenter<IWallA
 
     private final ArrayList<Post> mAudios;
     private final IWallsRepository fInteractor;
+    private final int owner_id;
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private int loaded;
     private boolean actualDataReceived;
-    private final int owner_id;
-
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public WallAudiosAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

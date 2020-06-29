@@ -33,8 +33,8 @@ public class SecuritySettings implements ISettings.ISecuritySettings {
     private static final int PIN_HISTORY_DEPTH = 3;
     private final SharedPreferences mPrefs;
     private final Context mApplication;
-    private String mPinHash;
     private final List<Long> mPinEnterHistory;
+    private String mPinHash;
     private boolean mKeyEncryptionPolicyAccepted;
     private boolean isShowHiddenDialogs;
 

@@ -89,19 +89,15 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
     public static final SectionMenuItem SECTION_ITEM_ACCOUNTS = new IconMenuItem(PAGE_ACCOUNTS, R.drawable.account_circle, R.string.accounts);
 
     private static final int MAX_RECENT_COUNT = 5;
-
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private NavigationDrawerCallbacks mCallbacks;
     private BottomSheetBehavior mBottomSheetBehavior;
-
     private ImageView ivHeaderAvatar;
     private TextView tvUserName;
     private TextView tvDomain;
-
     private List<RecentChat> mRecentChats;
     private MenuListAdapter mAdapter;
     private List<AbsMenuItem> mDrawerItems;
-
-    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private int mAccountId;
 
     private IOwnersRepository ownersRepository;

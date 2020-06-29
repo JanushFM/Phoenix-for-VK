@@ -44,20 +44,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     public static final String EXTRA_VIDEO = "video";
     public static final String EXTRA_SIZE = "size";
-
+    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private View mDecorView;
     private VideoControllerView mControllerView;
     private AlternativeAspectRatioFrameLayout Frame;
-
     private IVideoPlayer mPlayer;
-
     private Video video;
     private @InternalVideoSize
     int size;
-
     private boolean isLandscape = false;
-
-    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     private void onOpen() {
         Intent intent = new Intent(this, MainActivity.class);

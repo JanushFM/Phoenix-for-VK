@@ -32,8 +32,8 @@ import biz.dealnote.messenger.view.OnlineView;
 public class CommunityBannedAdapter extends RecyclerView.Adapter<CommunityBannedAdapter.Holder> {
 
     private final Transformation transformation;
-    private List<Banned> data;
     private final OwnerLinkSpanFactory.ActionListener ownerLinkActionListener = new LinkActionAdapter();
+    private List<Banned> data;
     private ActionListener actionListener;
 
     public CommunityBannedAdapter(Context context, List<Banned> data) {

@@ -37,12 +37,12 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 public class Injection {
 
     private static final Object UPLOADMANAGERLOCK = new Object();
-    private static volatile ICaptchaProvider captchaProvider;
     private static final IProxySettings proxySettings = new ProxySettingsImpl(provideApplicationContext());
+    private static final INetworker networkerInstance = new Networker(proxySettings);
+    private static volatile ICaptchaProvider captchaProvider;
     private static volatile IPushRegistrationResolver resolver;
     private static volatile IUploadManager uploadManager;
     private static volatile IAttachmentsRepository attachmentsRepository;
-    private static final INetworker networkerInstance = new Networker(proxySettings);
     private static volatile IBlacklistRepository blacklistRepository;
     private static volatile ILogsStorage logsStore;
 

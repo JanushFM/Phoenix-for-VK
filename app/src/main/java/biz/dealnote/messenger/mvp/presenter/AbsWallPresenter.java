@@ -78,10 +78,10 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     protected final List<Story> stories;
     private final IOwnersRepository ownersRepository;
     private final IWallsRepository walls;
-    protected boolean endOfContent;
-    private int wallFilter;
     private final CompositeDisposable cacheCompositeDisposable = new CompositeDisposable();
     private final CompositeDisposable netCompositeDisposable = new CompositeDisposable();
+    protected boolean endOfContent;
+    private int wallFilter;
     private boolean requestNow;
     private int nowRequestOffset;
     private int nextOffset;

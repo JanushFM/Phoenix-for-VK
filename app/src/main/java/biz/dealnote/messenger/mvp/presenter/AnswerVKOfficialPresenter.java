@@ -26,12 +26,10 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
     private final AnswerVKOfficialList pages;
 
     private final IFeedbackInteractor fInteractor;
-
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
     private boolean actualDataReceived;
-
     private boolean endOfContent;
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public AnswerVKOfficialPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

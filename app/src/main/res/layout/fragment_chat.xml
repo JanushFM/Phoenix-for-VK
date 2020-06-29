@@ -194,8 +194,8 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/CardViewMD2"
         android:id="@+id/writingGroup"
+        style="@style/CardViewMD2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pinned_root_view"

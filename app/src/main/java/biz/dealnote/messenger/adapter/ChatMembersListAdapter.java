@@ -29,9 +29,9 @@ import static biz.dealnote.messenger.util.Utils.isEmpty;
 
 public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersListAdapter.ViewHolder> {
 
-    private List<AppChatUser> data;
     private final Transformation transformation;
     private final int paddingForFirstLast;
+    private List<AppChatUser> data;
     private ActionListener actionListener;
 
     public ChatMembersListAdapter(Context context, List<AppChatUser> users) {

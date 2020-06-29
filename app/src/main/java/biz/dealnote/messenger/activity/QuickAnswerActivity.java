@@ -52,16 +52,14 @@ public class QuickAnswerActivity extends AppCompatActivity {
 
     public static final String EXTRA_FOCUS_TO_FIELD = "focus_to_field";
     public static final String EXTRA_LIVE_DELAY = "live_delay";
-
+    private final CompositeDisposable mLiveSubscription = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private EditText etText;
     private TextingNotifier notifier;
     private int accountId;
     private Message msg;
-
     private boolean messageIsRead;
     private IMessagesRepository messagesRepository;
-    private final CompositeDisposable mLiveSubscription = new CompositeDisposable();
-    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public static Intent forStart(Context context, int accountId, Message msg, String body, String imgUrl, String title) {
         Intent intent = new Intent(context, QuickAnswerActivity.class);

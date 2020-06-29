@@ -18,8 +18,8 @@
             android:src="@drawable/valknut" />
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/CardViewMD2"
             android:id="@+id/runes_icon"
+            style="@style/CardViewMD2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin"
@@ -104,8 +104,8 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            style="@style/CardViewMD2"
             android:id="@+id/card_view"
+            style="@style/CardViewMD2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin"

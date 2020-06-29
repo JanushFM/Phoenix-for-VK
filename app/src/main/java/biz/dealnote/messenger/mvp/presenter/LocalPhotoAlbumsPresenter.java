@@ -20,8 +20,8 @@ import biz.dealnote.messenger.util.Utils;
 
 public class LocalPhotoAlbumsPresenter extends RxSupportPresenter<ILocalPhotoAlbumsView> {
 
-    private boolean permissionRequestedOnce;
     private final List<LocalImageAlbum> mLocalImageAlbums;
+    private boolean permissionRequestedOnce;
     private boolean mLoadingNow;
 
     public LocalPhotoAlbumsPresenter(@Nullable Bundle savedInstanceState) {

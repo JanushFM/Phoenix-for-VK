@@ -22,10 +22,10 @@ public class PlaylistsInCatalogPresenter extends AccountDependencyPresenter<IPla
 
     private final IAudioInteractor audioInteractor;
     private final ArrayList<AudioPlaylist> audios;
-    private boolean actualReceived;
     private final String block_id;
-    private String next_from;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private boolean actualReceived;
+    private String next_from;
     private boolean loadingNow;
     private boolean endOfContent;
 

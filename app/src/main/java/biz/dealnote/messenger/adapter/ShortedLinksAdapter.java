@@ -19,8 +19,8 @@ import biz.dealnote.messenger.util.AppTextUtils;
 
 public class ShortedLinksAdapter extends RecyclerView.Adapter<ShortedLinksAdapter.Holder> {
 
-    private List<ShortLink> data;
     private final Context context;
+    private List<ShortLink> data;
     private RecyclerView recyclerView;
     private ClickListener clickListener;
 

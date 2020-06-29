@@ -33,10 +33,10 @@ public class FavePostsPresenter extends PlaceSupportPresenter<IFavePostsView> {
     private final List<Post> posts;
     private final IFaveInteractor faveInteractor;
     private final IWallsRepository wallInteractor;
+    private final CompositeDisposable cacheCompositeDisposable = new CompositeDisposable();
     private boolean requestNow;
     private boolean actualInfoReceived;
     private int nextOffset;
-    private final CompositeDisposable cacheCompositeDisposable = new CompositeDisposable();
     private boolean endOfContent;
 
     public FavePostsPresenter(int accountId, @Nullable Bundle savedInstanceState) {

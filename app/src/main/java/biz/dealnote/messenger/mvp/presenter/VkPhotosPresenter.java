@@ -62,11 +62,10 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
 
     private final UploadDestination destination;
     private final String action;
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private PhotoAlbum album;
     private Owner owner;
     private boolean requestNow;
-
-    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean endOfContent;
 
     public VkPhotosPresenter(int accountId, int ownerId, int albumId, String action,

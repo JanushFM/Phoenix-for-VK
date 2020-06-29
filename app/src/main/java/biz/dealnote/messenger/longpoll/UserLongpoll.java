@@ -29,13 +29,13 @@ class UserLongpoll implements ILongpoll {
                     128; //возвращать с сообщением параметр random_id (random_id может быть передан при отправке сообщения методом messages.send).
     private final int accountId;
     private final INetworker networker;
+    private final Callback callback;
+    private final Observable<Long> mDelayedObservable = Observable.interval(DELAY_ON_ERROR, DELAY_ON_ERROR,
+            TimeUnit.MILLISECONDS, Injection.provideMainThreadScheduler());
     private String key;
     private String server;
     private Long ts;
-    private final Callback callback;
     private Disposable mCurrentUpdatesDisposable;
-    private final Observable<Long> mDelayedObservable = Observable.interval(DELAY_ON_ERROR, DELAY_ON_ERROR,
-            TimeUnit.MILLISECONDS, Injection.provideMainThreadScheduler());
 
     UserLongpoll(INetworker networker, int accountId, Callback callback) {
         this.accountId = accountId;

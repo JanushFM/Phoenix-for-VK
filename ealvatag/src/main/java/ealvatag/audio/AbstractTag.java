@@ -69,13 +69,6 @@ import static ealvatag.utils.Check.checkArgNotNullOrEmpty;
 public abstract class AbstractTag implements TagFieldContainer {
 
     private static final List<TagField> EMPTY_TAG_FIELD_LIST = ImmutableList.of();
-
-    private boolean readOnly;
-    /**
-     * Stores the amount of {@link TagField} with {@link TagField#isCommon()}
-     * <code>true</code>.
-     */
-    private int commonNumber = 0;
     /**
      * This map stores the {@linkplain TagField#getId() ids} of the stored
      * fields to the {@linkplain TagField fields} themselves. Because a linked hashMap is used the order
@@ -83,6 +76,12 @@ public abstract class AbstractTag implements TagFieldContainer {
      * exist, both will be returned according to when the first item was added to the file. <br>
      */
     private final Map<String, List<TagField>> fields = new LinkedHashMap<>();
+    private boolean readOnly;
+    /**
+     * Stores the amount of {@link TagField} with {@link TagField#isCommon()}
+     * <code>true</code>.
+     */
+    private int commonNumber = 0;
 
     protected AbstractTag(final boolean readOnly) {
         this.readOnly = readOnly;

@@ -25,8 +25,8 @@ import biz.dealnote.messenger.view.OnlineView;
 
 public class CommunityInfoContactsAdapter extends RecyclerView.Adapter<CommunityInfoContactsAdapter.Holder> {
 
-    private List<Manager> users;
     private final Transformation transformation;
+    private List<Manager> users;
     private ActionListener actionListener;
 
     public CommunityInfoContactsAdapter(Context context, List<Manager> users) {

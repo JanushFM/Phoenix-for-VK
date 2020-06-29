@@ -13,10 +13,9 @@ import biz.dealnote.messenger.view.steppers.base.BaseHolderListener;
 
 public class CreatePhotoAlbumStep2Holder extends AbsStepHolder<CreatePhotoAlbumStepsHost> {
 
+    private final ActionListener mActionListener;
     private CheckBox mUploadByAdminsOnly;
     private CheckBox mDisableComments;
-
-    private final ActionListener mActionListener;
 
     public CreatePhotoAlbumStep2Holder(@NonNull ViewGroup parent, @NonNull ActionListener actionListener) {
         super(parent, R.layout.content_create_photo_album_step_2, CreatePhotoAlbumStepsHost.STEP_UPLOAD_AND_COMMENTS);

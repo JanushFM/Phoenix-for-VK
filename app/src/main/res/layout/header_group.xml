@@ -6,8 +6,8 @@
     android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
-        style="@style/CardViewMD2"
         android:id="@+id/card_view"
+        style="@style/CardViewMD2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_margin"
@@ -129,8 +129,8 @@
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:scrollbarSize="2dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:scrollbarSize="2dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"

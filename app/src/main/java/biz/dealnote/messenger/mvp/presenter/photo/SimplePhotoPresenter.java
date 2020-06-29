@@ -20,8 +20,8 @@ import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 public class SimplePhotoPresenter extends PhotoPagerPresenter {
 
     private static final String SAVE_DATA_REFRESH_RESULT = "save-data-refresh-result";
-    private boolean mDataRefreshSuccessfull;
     private final boolean isHistory;
+    private boolean mDataRefreshSuccessfull;
 
     public SimplePhotoPresenter(@NonNull ArrayList<Photo> photos, int index, boolean needToRefreshData,
                                 int accountId, Integer History, Context context, @Nullable Bundle savedInstanceState) {

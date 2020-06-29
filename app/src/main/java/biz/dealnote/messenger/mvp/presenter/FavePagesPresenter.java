@@ -31,16 +31,14 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
     private final List<FavePage> search_pages;
 
     private final IFaveInteractor faveInteractor;
-
-    private boolean actualDataReceived;
     private final boolean isUser;
+    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
+    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private boolean actualDataReceived;
     private boolean endOfContent;
-
     private String q;
     private boolean cacheLoadingNow;
-    private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean actualDataLoading;
-    private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
 
     public FavePagesPresenter(int accountId, boolean isUser, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);

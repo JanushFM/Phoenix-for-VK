@@ -28,9 +28,9 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
     private final INetworker networker;
     private final boolean editing;
     private final int ownerId;
-    private PhotoAlbum album;
     private final Context context;
     private final PhotoAlbumEditor editor;
+    private PhotoAlbum album;
     private CreatePhotoAlbumStepsHost stepsHost;
 
     public EditPhotoAlbumPresenter(int accountId, int ownerId, Context context, @Nullable Bundle savedInstanceState) {
