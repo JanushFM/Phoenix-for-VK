@@ -329,7 +329,7 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.add(R.string.create_dir)
                 .setIcon(R.drawable.plus)

@@ -100,7 +100,7 @@ public class DrawerEditFragment extends AbsMvpFragment<DrawerEditPresenter, IDra
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.drawer_edit, menu);
     }

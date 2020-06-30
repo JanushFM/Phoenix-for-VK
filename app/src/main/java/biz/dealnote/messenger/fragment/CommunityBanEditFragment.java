@@ -120,7 +120,7 @@ public class CommunityBanEditFragment extends BaseMvpFragment<CommunityBanEditPr
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.community_ban_edit, menu);
     }

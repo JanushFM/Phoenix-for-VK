@@ -571,7 +571,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.comments_list_menu, menu);
     }

@@ -244,8 +244,6 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <include layout="@layout/line_divider" />
-
         <RelativeLayout
             android:id="@+id/editMessageGroup"
             android:layout_width="match_parent"

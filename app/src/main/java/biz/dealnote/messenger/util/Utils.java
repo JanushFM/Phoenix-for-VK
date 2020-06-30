@@ -43,8 +43,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.graphics.ColorUtils;
 
-import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSourceFactory;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -62,6 +60,7 @@ import java.util.concurrent.TimeUnit;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.ProxyUtil;
 import biz.dealnote.messenger.api.model.Identificable;
+import biz.dealnote.messenger.media.exo.OkHttpDataSourceFactory;
 import biz.dealnote.messenger.model.ISelectable;
 import biz.dealnote.messenger.model.ISomeones;
 import biz.dealnote.messenger.model.ProxyConfig;

@@ -186,7 +186,7 @@ public class LogsFragement extends BaseMvpFragment<LogsPresenter, ILogsView>
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.logs_menu, menu);
     }

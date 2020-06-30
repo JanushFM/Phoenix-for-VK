@@ -347,7 +347,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.add(R.string.goto_user).setOnMenuItemClickListener(item -> {
             openOwnerWall();

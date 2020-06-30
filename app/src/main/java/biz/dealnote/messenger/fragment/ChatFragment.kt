@@ -7,6 +7,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -106,6 +107,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     private var toolbar: Toolbar? = null
     private var EmptyAvatar: TextView? = null
 
+    private var InputView: View? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_chat, container, false) as ViewGroup
         root.background = CurrentTheme.getChatBackground(activity)
@@ -128,6 +131,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         Writing_msg_Group = root.findViewById(R.id.writingGroup)
         Writing_msg = root.findViewById(R.id.writing)
         Writing_msg_Ava = root.findViewById(R.id.writingava)
+        InputView = root.findViewById(R.id.linearLayout)
 
         Writing_msg_Group?.visibility = View.GONE
 
@@ -673,7 +677,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     override fun showSnackbar(@StringRes res: Int, isLong: Boolean) {
         val view = super.getView()
         if (Objects.nonNull(view)) {
-            Snackbar.make(view!!, res, if (isLong) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(view!!, res, if (isLong) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT).setAnchorView(InputView).show()
         }
     }
 
@@ -1077,11 +1081,12 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                 return true
             }
             R.id.delete_chat -> {
-                MaterialAlertDialogBuilder(requireActivity())
-                        .setTitle(R.string.delete_chat)
-                        .setPositiveButton(R.string.button_yes) { _: DialogInterface?, _: Int -> presenter?.removeDialog() }
-                        .setNegativeButton(R.string.cancel, null)
-                        .show()
+                Snackbar.make(requireView(), R.string.delete_chat, Snackbar.LENGTH_LONG).setAction(R.string.button_yes
+                ) { presenter?.removeDialog() }
+                        .setAnchorView(InputView)
+                        .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity())).setActionTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity())))
+                            Color.parseColor("#ffffff") else Color.parseColor("#000000")).setTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity())))
+                            Color.parseColor("#ffffff") else Color.parseColor("#000000")).show()
                 return true
             }
             R.id.action_change_chat_title -> {

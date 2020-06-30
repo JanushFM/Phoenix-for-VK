@@ -2,6 +2,7 @@ package biz.dealnote.messenger.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -261,10 +262,14 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
         new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(contextView.isHidden && !Settings.get().security().getShowHiddenDialogs() ? getString(R.string.dialogs) : dialog.getDisplayTitle(requireActivity()))
-                .setItems(options.toArray(new String[options.size()]), (dialogInterface, which) -> {
+                .setItems(options.toArray(new String[0]), (dialogInterface, which) -> {
                     final String selected = options.get(which);
                     if (selected.equals(delete)) {
-                        getPresenter().fireRemoveDialogClick(dialog);
+                        Snackbar.make(requireView(), R.string.delete_chat, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                                v1 -> getPresenter().fireRemoveDialogClick(dialog))
+                                .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity())).setActionTextColor(Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))
+                                ? Color.parseColor("#ffffff") : Color.parseColor("#000000")).setTextColor(Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))
+                                ? Color.parseColor("#ffffff") : Color.parseColor("#000000")).show();
                     } else if (selected.equals(addToHomeScreen)) {
                         getPresenter().fireCreateShortcutClick(dialog);
                     } else if (selected.equals(notificationSettings)) {

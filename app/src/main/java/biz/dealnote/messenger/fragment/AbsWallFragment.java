@@ -242,7 +242,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_wall, menu);
         menu.findItem(R.id.action_open_url).setVisible(Settings.get().other().isDebug_mode());

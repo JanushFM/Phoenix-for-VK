@@ -153,7 +153,7 @@ public class CommunityManagerEditFragment extends BaseMvpFragment<CommunityManag
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.community_manager_edit, menu);
     }

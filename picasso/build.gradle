@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 29
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 29
+        consumerProguardFiles 'consumer-proguard-rules.txt'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        warning 'InvalidPackage'
+        abortOnError false
+    }
+}
+
+ext {
+    okhttpLibraryVersion = '4.7.2'
+}
+
+dependencies {
+    implementation "com.squareup.okhttp3:okhttp:$okhttpLibraryVersion"
+    implementation 'androidx.annotation:annotation:1.2.0-alpha01'
+    implementation "androidx.exifinterface:exifinterface:1.2.0"
+}

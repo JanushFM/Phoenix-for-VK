@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Callback;
 
 import java.io.File;
@@ -40,6 +39,7 @@ import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.view.CircleCounterButton;
+import biz.dealnote.messenger.view.TouchImageView;
 import biz.dealnote.messenger.view.pager.GoBackCallback;
 import biz.dealnote.messenger.view.pager.WeakGoBackAnimationAdapter;
 import biz.dealnote.messenger.view.pager.WeakPicassoLoadCallback;

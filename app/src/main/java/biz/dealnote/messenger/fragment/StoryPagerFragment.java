@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ortiz.touchview.TouchImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Transformation;
 
@@ -61,6 +60,7 @@ import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.AlternativeAspectRatioFrameLayout;
 import biz.dealnote.messenger.view.CircleCounterButton;
 import biz.dealnote.messenger.view.FlingRelativeLayout;
+import biz.dealnote.messenger.view.TouchImageView;
 import biz.dealnote.messenger.view.pager.CloseOnFlingListener;
 import biz.dealnote.messenger.view.pager.GoBackCallback;
 import biz.dealnote.messenger.view.pager.WeakGoBackAnimationAdapter;

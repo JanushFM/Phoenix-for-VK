@@ -43,7 +43,7 @@ public class CommentCreateFragment extends AbsAttachmentsEditFragment<CommentCre
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_attchments, menu);
     }

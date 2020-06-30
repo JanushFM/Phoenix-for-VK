@@ -60,7 +60,7 @@
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="load_history_notif"
             android:summary="@string/load_history_notif_summary"
             android:title="@string/load_history_notif"
@@ -516,16 +516,6 @@
             android:key="force_cache"
             android:title="@string/force_cache"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
-            android:key="settings_no_push"
-            android:title="@string/settings_no_push"
-            app:iconSpaceReserved="false" />
-        <SwitchPreference
-            android:icon="@drawable/bratishka"
-            android:key="keep_longpoll"
-            android:summary="@string/settings_keep_longpoll_summary"
-            android:title="@string/settings_keep_longpoll_title"
-            app:iconSpaceReserved="false" />
 
         <ListPreference
             android:defaultValue="1"
@@ -549,6 +539,18 @@
         <SwitchPreference
             android:key="delete_cache_images"
             android:title="@string/delete_cache_images"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:key="settings_no_push"
+            android:title="@string/settings_no_push"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:icon="@drawable/bratishka"
+            android:key="keep_longpoll"
+            android:summary="@string/settings_keep_longpoll_summary"
+            android:title="@string/settings_keep_longpoll_title"
             app:iconSpaceReserved="false" />
     </PreferenceCategory>
 

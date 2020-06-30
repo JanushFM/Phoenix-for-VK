@@ -40,8 +40,8 @@
         <item name="toast_background">#FFFFFF</item>
 
         <item name="messages_background_color">#151515</item>
-        <item name="my_messages_bubble_color">#D4151515</item>
-        <item name="my_messages_secondary_bubble_color">#D4151515</item>
+        <item name="my_messages_bubble_color">#D42C3C53</item>
+        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
         <item name="message_unread_color">#f564b5f6</item>
 
         <item name="message_bubble_color">#313131</item>
@@ -51,54 +51,6 @@
         <item name="chat_background_runes">@drawable/runes_dark</item>
         <item name="buttonAddPhotoBackground">@drawable/background_rectangle_dash</item>
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
-    </style>
-
-    <style name="App.DayNight.Ice" parent="App.DayNight">
-        <item name="colorPrimary">#448AFF</item>
-        <item name="colorControlNormal">#448AFF</item>
-        <item name="colorSecondary">#1E88E5</item>
-        <item name="colorOnPrimary">#FFF</item>
-        <item name="colorOnSecondary">#FFF</item>
-        <item name="icon_color_active">#AA448AFF</item>
-        <item name="icon_color_inactive">#AAFF0000</item>
-        <item name="my_messages_bubble_color">#D42C3C53</item>
-        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
-    </style>
-
-    <style name="App.DayNight.IceGreen" parent="App.DayNight">
-        <item name="colorPrimary">#448AFF</item>
-        <item name="colorControlNormal">#448AFF</item>
-        <item name="colorSecondary">#4CAF50</item>
-        <item name="colorOnPrimary">#FFF</item>
-        <item name="colorOnSecondary">#FFF</item>
-        <item name="icon_color_active">#AA448AFF</item>
-        <item name="icon_color_inactive">#AAFF0000</item>
-        <item name="my_messages_bubble_color">#D42C3C53</item>
-        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
-    </style>
-
-    <style name="App.DayNight.OldIce" parent="App.DayNight">
-        <item name="colorPrimary">#448AFF</item>
-        <item name="colorControlNormal">#448AFF</item>
-        <item name="colorSecondary">#82B1FF</item>
-        <item name="colorOnPrimary">#FFF</item>
-        <item name="colorOnSecondary">#FFF</item>
-        <item name="icon_color_active">#AA448AFF</item>
-        <item name="icon_color_inactive">#AAFF0000</item>
-        <item name="my_messages_bubble_color">#D42C3C53</item>
-        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
-    </style>
-
-    <style name="App.DayNight.BlueRed" parent="App.DayNight">
-        <item name="colorPrimary">#448AFF</item>
-        <item name="colorControlNormal">#448AFF</item>
-        <item name="colorSecondary">#FF0000</item>
-        <item name="colorOnPrimary">#FFF</item>
-        <item name="colorOnSecondary">#FFF</item>
-        <item name="icon_color_active">#AA448AFF</item>
-        <item name="icon_color_inactive">#AA5C5858</item>
-        <item name="my_messages_bubble_color">#D42C3C53</item>
-        <item name="my_messages_secondary_bubble_color">#D42C3C53</item>
     </style>
 
     <style name="App.DayNight.Violet" parent="App.DayNight">

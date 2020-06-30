@@ -216,7 +216,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private Toolbar mToolbar;
     private BottomNavigationView mBottomNavigation;
     private ViewGroup mBottomNavigationContainer;
-    private FragmentContainerView mMiniPlayer;
     private FragmentContainerView mViewFragment;
     private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = () -> {
         resolveToolbarNavigationIcon();
@@ -302,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
         mBottomNavigationContainer = findViewById(R.id.bottom_navigation_menu_container);
         mViewFragment = findViewById(R.id.fragment);
-        mMiniPlayer = findViewById(R.id.miniplayer);
 
         getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
         resolveToolbarNavigationIcon();
@@ -1057,14 +1055,11 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
     @Override
     public void hideMenu(boolean hide) {
-        //MusicUtils.setMiniPlayerVisibility(!hide);
         if (hide) {
-            mMiniPlayer.setVisibility(View.GONE);
             getNavigationFragment().closeSheet();
             getNavigationFragment().blockSheet();
             mBottomNavigationContainer.setVisibility(View.GONE);
         } else {
-            mMiniPlayer.setVisibility(View.VISIBLE);
             mBottomNavigationContainer.setVisibility(View.VISIBLE);
             getNavigationFragment().unblockSheet();
         }

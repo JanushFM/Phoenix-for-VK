@@ -156,7 +156,7 @@ class MainSettings implements ISettings.IMainSettings {
 
     @Override
     public boolean isLoad_history_notif() {
-        return getDefaultPreferences().getBoolean("load_history_notif", true);
+        return getDefaultPreferences().getBoolean("load_history_notif", false);
     }
 
     @Override
