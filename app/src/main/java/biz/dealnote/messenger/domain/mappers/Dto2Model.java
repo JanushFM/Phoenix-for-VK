@@ -310,6 +310,7 @@ public class Dto2Model {
                 .setFriend(user.is_friend)
                 .setFriendStatus(user.friend_status)
                 .setCanWritePrivateMessage(user.can_write_private_message)
+                .setBlacklisted(user.blacklisted)
                 .setBlacklisted_by_me(user.blacklisted_by_me);
     }
 

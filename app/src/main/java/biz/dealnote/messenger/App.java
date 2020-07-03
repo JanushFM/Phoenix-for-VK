@@ -5,6 +5,10 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import org.conscrypt.Conscrypt;
+
+import java.security.Security;
+
 import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.service.ErrorLocalizer;
@@ -39,6 +43,7 @@ public class App extends Application {
         sInstanse = this;
         AppCompatDelegate.setDefaultNightMode(Settings.get().ui().getNightMode());
         TagOptionSingleton.getInstance().setAndroid(true);
+        Security.insertProviderAt(Conscrypt.newProvider(), 1);
 
         super.onCreate();
 

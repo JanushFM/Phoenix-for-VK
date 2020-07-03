@@ -684,6 +684,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + UserColumns.FRIEND_STATUS + "] INTEGER, " +
                 " [" + UserColumns.WRITE_MESSAGE_STATUS + "] BOOLEAN, " +
                 " [" + UserColumns.IS_USER_BLACK_LIST + "] BOOLEAN, " +
+                " [" + UserColumns.IS_BLACK_LISTED + "] BOOLEAN, " +
                 " CONSTRAINT [] PRIMARY KEY([" + UserColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }

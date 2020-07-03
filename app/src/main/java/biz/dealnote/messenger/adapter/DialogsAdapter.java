@@ -189,6 +189,13 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
             onlineMobile = interlocuter.isOnlineMobile();
             platform = interlocuter.getPlatform();
             app = interlocuter.getOnlineApp();
+            if (interlocuter.getBlacklisted()) {
+                holder.blacklisted.setVisibility(View.VISIBLE);
+            } else {
+                holder.blacklisted.setVisibility(View.GONE);
+            }
+        } else {
+            holder.blacklisted.setVisibility(View.GONE);
         }
 
         Integer iconRes = ViewUtils.getOnlineIcon(online, onlineMobile, platform, app);
@@ -340,6 +347,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
         TextView mDialogMessage;
         ImageView ivDialogType;
         ImageView ivAvatar;
+        ImageView blacklisted;
         TextView tvUnreadCount;
         ImageView ivUnreadTicks;
         OnlineView ivOnline;
@@ -364,6 +372,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
             mHeaderTitle = view.findViewById(R.id.header_title);
             EmptyAvatar = view.findViewById(R.id.empty_avatar_text);
             mDialogContentRoot = view.findViewById(R.id.dialog_content);
+            blacklisted = itemView.findViewById(R.id.item_blacklisted);
         }
     }
 }

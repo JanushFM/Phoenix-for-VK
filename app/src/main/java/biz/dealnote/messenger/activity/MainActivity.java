@@ -158,6 +158,7 @@ import biz.dealnote.messenger.place.PlaceProvider;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.push.IPushRegistrationResolver;
+import biz.dealnote.messenger.service.KeepLongpollService;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.Settings;
@@ -460,7 +461,13 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
     private void checkFCMRegistration() {
         if (!checkPlayServices(this)) {
-            Utils.showRedTopToast(this, R.string.this_device_does_not_support_gcm);
+            if (!Settings.get().other().isKeepLongpoll()) {
+                Utils.ThemedSnack(mViewFragment, getString(R.string.this_device_does_not_support_fcm), Snackbar.LENGTH_LONG)
+                        .setAnchorView(mBottomNavigationContainer).setAction(R.string.button_yes, v -> {
+                    Settings.get().other().setKeepLongpoll(true);
+                    KeepLongpollService.start(MainActivity.this);
+                }).show();
+            }
             return;
         }
 

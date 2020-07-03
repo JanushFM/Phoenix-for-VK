@@ -15,16 +15,44 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <biz.dealnote.messenger.view.AspectRatioImageView
-            android:id="@+id/avatar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:aspectRatioEnabled="true"
-            app:aspectRatioH="1"
-            app:aspectRatioW="1"
-            app:dominantMeasurement="width" />
+            android:layout_height="wrap_content">
+
+            <biz.dealnote.messenger.view.AspectRatioImageView
+                android:id="@+id/avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:aspectRatioEnabled="true"
+                app:aspectRatioH="1"
+                app:aspectRatioW="1"
+                app:dominantMeasurement="width" />
+
+            <biz.dealnote.messenger.view.OnlineView
+                android:id="@+id/header_navi_menu_online"
+                android:layout_width="@dimen/online_dot_size_big"
+                android:layout_height="@dimen/online_dot_size_big"
+                android:layout_alignStart="@+id/avatar"
+                android:layout_alignBottom="@+id/avatar"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
+                android:padding="4dp"
+                app:circle_color="?icon_color_active" />
+
+            <ImageView
+                android:id="@+id/item_blacklisted"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignEnd="@+id/avatar"
+                android:layout_alignBottom="@+id/avatar"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="4dp"
+                android:padding="4dp"
+                android:src="@drawable/audio_died"
+                app:tint="?icon_color_inactive" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

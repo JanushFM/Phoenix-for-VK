@@ -15,8 +15,8 @@ android {
         applicationId "dev.freya.phoenix"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 29987
-        versionName '2.87'
+        versionCode 29988
+        versionName '2.88'
 
         buildConfigField 'int', 'VK_API_APP_ID', getProps("vk_app_id")
         buildConfigField 'String', 'FCM_SENDER_ID', getProps("fcm_sender_id")
@@ -24,7 +24,10 @@ android {
         buildConfigField 'String', 'VK_CLIENT_SECRET', getProps("vk_client_secret")
         buildConfigField 'String', 'YOUTUBE_DEV_KEY', getProps("youtube_dev_key")
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilters 'x86', 'armeabi-v7a', 'arm64-v8a'
+        }
+
     }
 
     lintOptions {
@@ -40,14 +43,13 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            multiDexEnabled false
-            shrinkResources false
+            multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
             minifyEnabled false
-            multiDexEnabled false
+            multiDexEnabled true
         }
     }
 }
@@ -120,6 +122,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitLibraryVersion"
     implementation "com.squareup.okhttp3:okhttp:$okhttpLibraryVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttpLibraryVersion"
+    implementation 'org.conscrypt:conscrypt-android:2.4.0'
     implementation 'com.google.firebase:firebase-database:19.3.1'
     implementation 'com.google.firebase:firebase-messaging:20.1.0'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.11.7'

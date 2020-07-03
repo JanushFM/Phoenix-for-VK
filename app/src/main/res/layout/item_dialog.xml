@@ -72,10 +72,20 @@
                 android:id="@+id/item_chat_online"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
+                android:layout_alignStart="@+id/item_chat_avatar"
                 android:layout_alignBottom="@+id/item_chat_avatar"
                 android:padding="3dp"
                 app:circle_color="?icon_color_active"
                 app:stroke_color="?android:colorBackground" />
+
+            <ImageView
+                android:id="@+id/item_blacklisted"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignEnd="@+id/item_chat_avatar"
+                android:layout_alignBottom="@+id/item_chat_avatar"
+                android:src="@drawable/audio_died"
+                app:tint="?icon_color_inactive" />
         </RelativeLayout>
 
         <LinearLayout

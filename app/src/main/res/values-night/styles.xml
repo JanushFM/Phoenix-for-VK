@@ -301,6 +301,7 @@
         <item name="windowNoTitle">true</item>
         <item name="message_bubble_color">#F01E1E1E</item>
         <item name="quick_reply_icon_color">#FFF</item>
+        <item name="dividerColor">#313131</item>
     </style>
 
     <style name="Theme.MaterialCardView" parent="Widget.MaterialComponents.CardView">

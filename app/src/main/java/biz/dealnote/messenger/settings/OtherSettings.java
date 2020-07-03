@@ -109,6 +109,11 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public void setKeepLongpoll(boolean en) {
+        PreferenceManager.getDefaultSharedPreferences(app).edit().putBoolean("keep_longpoll", en).apply();
+    }
+
+    @Override
     public boolean isSettings_no_push() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("settings_no_push", false);
     }

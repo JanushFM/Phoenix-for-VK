@@ -319,6 +319,7 @@ public class Entity2Model {
                 .setFriend(entity.isFriend())
                 .setFriendStatus(entity.getFriendStatus())
                 .setCanWritePrivateMessage(entity.getCanWritePrivateMessage())
+                .setBlacklisted(entity.getBlacklisted())
                 .setBlacklisted_by_me(entity.getBlacklisted_by_me());
     }
 

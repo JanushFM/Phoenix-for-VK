@@ -35,6 +35,7 @@ public class RelationshipColumns implements BaseColumns {
     public static final String FOREIGN_SUBJECT_USER_FRIEND_STATUS = "subject_user_friend_status";
     public static final String FOREIGN_SUBJECT_WRITE_MESSAGE_STATUS = "subject_write_message_status";
     public static final String FOREIGN_SUBJECT_IS_USER_BLACK_LIST = "subject_is_user_in_black_list";
+    public static final String FOREIGN_SUBJECT_IS_BLACK_LISTED = "subject_is_black_listed";
     public static final String FOREIGN_SUBJECT_GROUP_NAME = "subject_group_name";
     public static final String FOREIGN_SUBJECT_GROUP_SCREEN_NAME = "subject_group_screen_name";
     public static final String FOREIGN_SUBJECT_GROUP_PHOTO_50 = "subject_group_photo_50";

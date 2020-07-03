@@ -70,6 +70,8 @@ public interface ISettings {
 
         boolean isKeepLongpoll();
 
+        void setKeepLongpoll(boolean en);
+
         boolean isSettings_no_push();
 
         boolean isCommentsDesc();

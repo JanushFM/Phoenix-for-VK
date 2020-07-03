@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Vibrator;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -37,11 +36,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.graphics.ColorUtils;
+
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -64,12 +67,15 @@ import biz.dealnote.messenger.media.exo.OkHttpDataSourceFactory;
 import biz.dealnote.messenger.model.ISelectable;
 import biz.dealnote.messenger.model.ISomeones;
 import biz.dealnote.messenger.model.ProxyConfig;
+import biz.dealnote.messenger.settings.CurrentTheme;
 import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 
 public class Utils {
+
+    private static String device_id = null;
 
     private Utils() {
     }
@@ -787,7 +793,12 @@ public class Utils {
 
     @SuppressLint("HardwareIds")
     public static String getDiviceId(Context context) {
-        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+        if (device_id == null) {
+            device_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            if (isEmpty(device_id))
+                device_id = "0123456789A";
+        }
+        return device_id;
     }
 
     /**
@@ -1099,9 +1110,31 @@ public class Utils {
         return str;
     }
 
-    public static void vibrateShort(Context context) {
-        Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        v.vibrate(50);
+    @NonNull
+    public static Snackbar ThemedSnack(@NonNull View view, @StringRes int resId, @BaseTransientBottomBar.Duration int duration) {
+        return ThemedSnack(view, view.getResources().getText(resId), duration);
+    }
+
+    @NonNull
+    public static Snackbar ThemedSnack(@NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration) {
+        int color = CurrentTheme.getColorPrimary(view.getContext());
+        int text_color = Utils.isColorDark(color)
+                ? Color.parseColor("#ffffff") : Color.parseColor("#000000");
+
+        return Snackbar.make(view, text, duration).setBackgroundTint(color).setActionTextColor(text_color).setTextColor(text_color);
+    }
+
+    @NonNull
+    public static Snackbar ColoredSnack(@NonNull View view, @StringRes int resId, @BaseTransientBottomBar.Duration int duration, @ColorInt int color) {
+        return ColoredSnack(view, view.getResources().getText(resId), duration, color);
+    }
+
+    @NonNull
+    public static Snackbar ColoredSnack(@NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration, @ColorInt int color) {
+        int text_color = Utils.isColorDark(color)
+                ? Color.parseColor("#ffffff") : Color.parseColor("#000000");
+
+        return Snackbar.make(view, text, duration).setBackgroundTint(color).setActionTextColor(text_color).setTextColor(text_color);
     }
 
     public interface SimpleFunction<F, S> {

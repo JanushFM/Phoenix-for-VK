@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -932,11 +931,8 @@ public class AttachmentsViewBinder {
                     if (ret == 0)
                         PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
                     else if (ret == 1) {
-                        Snackbar.make(v, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
-                                v1 -> DownloadUtil.downloadTrack(mContext, audio, true))
-                                .setBackgroundTint(CurrentTheme.getColorPrimary(mContext)).setActionTextColor(Utils.isColorDark(CurrentTheme.getColorPrimary(mContext))
-                                ? Color.parseColor("#ffffff") : Color.parseColor("#000000")).setTextColor(Utils.isColorDark(CurrentTheme.getColorPrimary(mContext))
-                                ? Color.parseColor("#ffffff") : Color.parseColor("#000000")).show();
+                        Utils.ThemedSnack(v, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                                v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
 
                     } else {
                         holder.saved.setVisibility(View.GONE);
@@ -1025,11 +1021,8 @@ public class AttachmentsViewBinder {
                                 if (ret == 0)
                                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
                                 else if (ret == 1) {
-                                    Snackbar.make(view, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
-                                            v1 -> DownloadUtil.downloadTrack(mContext, audio, true))
-                                            .setBackgroundTint(CurrentTheme.getColorPrimary(mContext)).setActionTextColor(Utils.isColorDark(CurrentTheme.getColorPrimary(mContext))
-                                            ? Color.parseColor("#ffffff") : Color.parseColor("#000000")).setTextColor(Utils.isColorDark(CurrentTheme.getColorPrimary(mContext))
-                                            ? Color.parseColor("#ffffff") : Color.parseColor("#000000")).show();
+                                    Utils.ThemedSnack(view, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                                            v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
                                 } else {
                                     holder.saved.setVisibility(View.GONE);
                                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.error_audio);

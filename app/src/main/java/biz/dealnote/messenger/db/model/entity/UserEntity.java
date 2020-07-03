@@ -37,6 +37,7 @@ public class UserEntity {
     private int friendStatus;
     private boolean can_write_private_message;
     private boolean blacklisted_by_me;
+    private boolean blacklisted;
 
     public UserEntity(int id) {
         this.id = id;
@@ -196,6 +197,15 @@ public class UserEntity {
 
     public UserEntity setBlacklisted_by_me(boolean blacklisted_by_me) {
         this.blacklisted_by_me = blacklisted_by_me;
+        return this;
+    }
+
+    public boolean getBlacklisted() {
+        return blacklisted;
+    }
+
+    public UserEntity setBlacklisted(boolean blacklisted) {
+        this.blacklisted = blacklisted;
         return this;
     }
 

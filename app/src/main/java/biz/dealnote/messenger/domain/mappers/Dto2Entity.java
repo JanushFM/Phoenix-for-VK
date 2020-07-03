@@ -427,7 +427,8 @@ public class Dto2Entity {
                 .setFriend(user.is_friend)
                 .setFriendStatus(user.friend_status)
                 .setCanWritePrivateMessage(user.can_write_private_message)
-                .setBlacklisted_by_me(user.blacklisted_by_me);
+                .setBlacklisted_by_me(user.blacklisted_by_me)
+                .setBlacklisted(user.blacklisted);
     }
 
     public static UserDetailsEntity mapUserDetails(VKApiUser user) {

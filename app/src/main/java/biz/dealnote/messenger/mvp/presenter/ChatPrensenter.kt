@@ -190,7 +190,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         appendDisposable(longpollManager.observeKeepAlive()
                 .toMainThread()
-                .subscribe(Consumer { onLongpollKeepAliveRequest() }, ignore()))
+                .subscribe({ onLongpollKeepAliveRequest() }, ignore()))
 
         appendDisposable(Processors.realtimeMessages()
                 .observeResults()
@@ -208,27 +208,27 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         appendDisposable(uploadManager.observeAdding()
                 .toMainThread()
-                .subscribe(Consumer { onUploadAdded(it) }, ignore()))
+                .subscribe({ onUploadAdded(it) }, ignore()))
 
         appendDisposable(uploadManager.observeDeleting(true)
                 .toMainThread()
-                .subscribe(Consumer { onUploadRemoved(it) }, ignore()))
+                .subscribe({ onUploadRemoved(it) }, ignore()))
 
         appendDisposable(uploadManager.observeResults()
                 .toMainThread()
-                .subscribe(Consumer { onUploadResult(it) }, ignore()))
+                .subscribe({ onUploadResult(it) }, ignore()))
 
         appendDisposable(uploadManager.obseveStatus()
                 .toMainThread()
-                .subscribe(Consumer { onUploadStatusChange(it) }, ignore()))
+                .subscribe({ onUploadStatusChange(it) }, ignore()))
 
         appendDisposable(uploadManager.observeProgress()
                 .toMainThread()
-                .subscribe(Consumer { onUploadProgressUpdate(it) }, ignore()))
+                .subscribe({ onUploadProgressUpdate(it) }, ignore()))
 
         appendDisposable(messagesRepository.observePeerUpdates()
                 .toMainThread()
-                .subscribe(Consumer { onPeerUpdate(it) }, ignore()))
+                .subscribe({ onPeerUpdate(it) }, ignore()))
 
         appendDisposable(Repository.owners.observeUpdates()
                 .toMainThread()
@@ -538,10 +538,8 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         }
 
         resolveEmptyTextVisibility()
-        if (Settings.get().other().isAuto_read && !isCache)
+        if (Settings.get().other().isAuto_read && !isCache) {
             readAllUnreadMessagesIfExists()
-
-        if (!isCache) {
             var need = false
             for (i: Message in data) {
                 if (i.status == MessageStatus.ERROR) {

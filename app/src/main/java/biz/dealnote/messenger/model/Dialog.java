@@ -212,13 +212,12 @@ public class Dialog implements Identificable, Parcelable {
 
     public String getImageUrl() {
         if (Peer.getType(peerId) == Peer.CHAT) {
-            String img = firstNonEmptyString(photo200, photo100, photo50);
 
             //if (isEmpty(img) && interlocutor != null) {
             //img = interlocutor.getMaxSquareAvatar();
             // }
 
-            return img;
+            return firstNonEmptyString(photo200, photo100, photo50);
         }
         return interlocutor == null ? null : interlocutor.getMaxSquareAvatar();
     }

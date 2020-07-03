@@ -16,6 +16,7 @@ import biz.dealnote.messenger.api.model.Error;
 import biz.dealnote.messenger.api.model.response.VkReponse;
 import biz.dealnote.messenger.exception.UnauthorizedException;
 import biz.dealnote.messenger.service.ApiErrorCodes;
+import biz.dealnote.messenger.util.Utils;
 import okhttp3.FormBody;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -57,12 +58,15 @@ abstract class AbsVkApiInterceptor implements Interceptor {
         RequestBody body = original.body();
 
         boolean HasVersion = false;
+        boolean HasDeviceId = false;
         if (body instanceof FormBody) {
             FormBody formBody = (FormBody) body;
             for (int i = 0; i < formBody.size(); i++) {
                 String name = formBody.name(i);
                 if (name.equals("v"))
                     HasVersion = true;
+                else if (name.equals("device_id"))
+                    HasDeviceId = true;
                 String value = formBody.value(i);
                 formBuiler.add(name, value);
             }
@@ -71,7 +75,10 @@ abstract class AbsVkApiInterceptor implements Interceptor {
             formBuiler.add("v", version);
 
         formBuiler.add("access_token", token)
-                .add("lang", Constants.DEVICE_COUNTRY_CODE);
+                .add("lang", Constants.DEVICE_COUNTRY_CODE)
+                .add("https", "1");
+        if (!HasDeviceId)
+            formBuiler.add("device_id", Utils.getDiviceId(Injection.provideApplicationContext()));
 
         Request request = original.newBuilder()
                 .method("POST", formBuiler.build())

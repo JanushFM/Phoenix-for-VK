@@ -9,7 +9,7 @@ First open-sourced VK client for Android inspired by Material Design With Music.
 
 <b>Build guide:</b>
 Requirements:
-  1) Android Studio 4.2 CANARY 2 or higher
+  1) Android Studio 4.2 CANARY 3 or higher
   2) Android SDK r28
   
 <b>Setting up environment:</b>

@@ -125,6 +125,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
         cv.put(UserColumns.FRIEND_STATUS, dbo.getFriendStatus());
         cv.put(UserColumns.WRITE_MESSAGE_STATUS, dbo.getCanWritePrivateMessage());
         cv.put(UserColumns.IS_USER_BLACK_LIST, dbo.getBlacklisted_by_me());
+        cv.put(UserColumns.IS_BLACK_LISTED, dbo.getBlacklisted());
         return cv;
     }
 
@@ -161,7 +162,8 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
                 .setFriend(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_FRIEND)) == 1)
                 .setFriendStatus(cursor.getInt(cursor.getColumnIndex(UserColumns.FRIEND_STATUS)))
                 .setCanWritePrivateMessage(cursor.getInt(cursor.getColumnIndex(UserColumns.WRITE_MESSAGE_STATUS)) == 1)
-                .setBlacklisted_by_me(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_USER_BLACK_LIST)) == 1);
+                .setBlacklisted_by_me(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_USER_BLACK_LIST)) == 1)
+                .setBlacklisted(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_BLACK_LISTED)) == 1);
     }
 
     @Override

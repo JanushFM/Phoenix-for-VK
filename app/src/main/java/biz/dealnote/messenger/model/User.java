@@ -41,6 +41,7 @@ public class User extends Owner implements Parcelable, Identificable {
     private int friendStatus;
     private boolean can_write_private_message;
     private boolean blacklisted_by_me;
+    private boolean blacklisted;
 
     public User(int id) {
         super(OwnerType.USER);
@@ -70,6 +71,7 @@ public class User extends Owner implements Parcelable, Identificable {
         friendStatus = in.readInt();
         can_write_private_message = in.readByte() != 0;
         blacklisted_by_me = in.readByte() != 0;
+        blacklisted = in.readByte() != 0;
     }
 
     @Override
@@ -242,6 +244,15 @@ public class User extends Owner implements Parcelable, Identificable {
         return this;
     }
 
+    public boolean getBlacklisted() {
+        return blacklisted;
+    }
+
+    public User setBlacklisted(boolean blacklisted) {
+        this.blacklisted = blacklisted;
+        return this;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
@@ -264,6 +275,7 @@ public class User extends Owner implements Parcelable, Identificable {
         dest.writeInt(friendStatus);
         dest.writeByte((byte) (can_write_private_message ? 1 : 0));
         dest.writeByte((byte) (blacklisted_by_me ? 1 : 0));
+        dest.writeByte((byte) (blacklisted ? 1 : 0));
     }
 
     @Override

@@ -271,6 +271,7 @@
         <item name="windowNoTitle">true</item>
         <item name="message_bubble_color">@color/white</item>
         <item name="quick_reply_icon_color">#151515</item>
+        <item name="dividerColor">#E1E3E7</item>
     </style>
 
     <style name="QuickReply.Amoled" parent="QuickReply" />

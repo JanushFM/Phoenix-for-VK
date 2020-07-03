@@ -2,6 +2,7 @@ package biz.dealnote.messenger.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,6 +50,7 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.InputTextDialog;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.OnlineView;
 import biz.dealnote.mvp.core.IPresenterFactory;
@@ -96,6 +99,9 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
 
         if (onlineIcon != null) {
             mHeaderHolder.ivOnline.setIcon(onlineIcon);
+        }
+        if (user.getBlacklisted()) {
+            Utils.ColoredSnack(requireView(), R.string.blacklisted, Snackbar.LENGTH_LONG, Color.parseColor("#ccaa0000")).show();
         }
     }
 

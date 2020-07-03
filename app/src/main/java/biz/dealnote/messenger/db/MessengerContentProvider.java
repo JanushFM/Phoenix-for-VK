@@ -316,6 +316,7 @@ public class MessengerContentProvider extends ContentProvider {
         sUsersProjectionMap.put(UserColumns.FRIEND_STATUS, UserColumns.FULL_FRIEND_STATUS);
         sUsersProjectionMap.put(UserColumns.WRITE_MESSAGE_STATUS, UserColumns.FULL_WRITE_MESSAGE_STATUS);
         sUsersProjectionMap.put(UserColumns.IS_USER_BLACK_LIST, UserColumns.FULL_IS_USER_BLACK_LIST);
+        sUsersProjectionMap.put(UserColumns.IS_BLACK_LISTED, UserColumns.FULL_IS_BLACK_LISTED);
 
         sRelativeshipProjectionMap = new HashMap<>();
         sRelativeshipProjectionMap.put(RelationshipColumns._ID, RelationshipColumns.FULL_ID);
@@ -339,6 +340,7 @@ public class MessengerContentProvider extends ContentProvider {
         sRelativeshipProjectionMap.put(RelationshipColumns.FOREIGN_SUBJECT_USER_FRIEND_STATUS, UserColumns.FULL_FRIEND_STATUS + " AS " + RelationshipColumns.FOREIGN_SUBJECT_USER_FRIEND_STATUS);
         sRelativeshipProjectionMap.put(RelationshipColumns.FOREIGN_SUBJECT_WRITE_MESSAGE_STATUS, UserColumns.FULL_WRITE_MESSAGE_STATUS + " AS " + RelationshipColumns.FOREIGN_SUBJECT_WRITE_MESSAGE_STATUS);
         sRelativeshipProjectionMap.put(RelationshipColumns.FOREIGN_SUBJECT_IS_USER_BLACK_LIST, UserColumns.FULL_IS_USER_BLACK_LIST + " AS " + RelationshipColumns.FOREIGN_SUBJECT_IS_USER_BLACK_LIST);
+        sRelativeshipProjectionMap.put(RelationshipColumns.FOREIGN_SUBJECT_IS_BLACK_LISTED, UserColumns.FULL_IS_BLACK_LISTED + " AS " + RelationshipColumns.FOREIGN_SUBJECT_IS_BLACK_LISTED);
 
         sRelativeshipProjectionMap.put(RelationshipColumns.FOREIGN_SUBJECT_GROUP_NAME, GroupColumns.FULL_NAME + " AS " + RelationshipColumns.FOREIGN_SUBJECT_GROUP_NAME);
         sRelativeshipProjectionMap.put(RelationshipColumns.FOREIGN_SUBJECT_GROUP_SCREEN_NAME, GroupColumns.FULL_SCREEN_NAME + " AS " + RelationshipColumns.FOREIGN_SUBJECT_GROUP_SCREEN_NAME);
