@@ -320,7 +320,9 @@ public class Entity2Model {
                 .setFriendStatus(entity.getFriendStatus())
                 .setCanWritePrivateMessage(entity.getCanWritePrivateMessage())
                 .setBlacklisted(entity.getBlacklisted())
-                .setBlacklisted_by_me(entity.getBlacklisted_by_me());
+                .setBlacklisted_by_me(entity.getBlacklisted_by_me())
+                .setVerified(entity.isVerified())
+                .setCan_access_closed(entity.isCan_access_closed());
     }
 
     public static FavePage map(FavePageEntity entity) {
@@ -697,7 +699,8 @@ public class Entity2Model {
                 .setCanReport(entity.canReport)
                 .setCanShare(entity.canShare)
                 .setEndDate(entity.endDate)
-                .setMultiple(entity.multiple);
+                .setMultiple(entity.multiple)
+                .setPhoto(entity.getPhoto());
     }
 
     public static Link buildLinkFromDbo(LinkEntity dbo) {

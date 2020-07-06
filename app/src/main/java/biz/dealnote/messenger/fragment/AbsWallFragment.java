@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -189,14 +188,20 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         PlaceFactory.getSingleTabSearchPlace(accountId, SearchContentType.WALL, criteria).tryOpenWith(requireActivity());
     }
 
-    private void goToConversationAttachments() {
+    @Override
+    public void goToConversationAttachments(int accountId, int ownerId) {
         String[] types = new String[]{VKApiAttachment.TYPE_PHOTO, VKApiAttachment.TYPE_VIDEO, VKApiAttachment.TYPE_DOC, VKApiAttachment.TYPE_AUDIO, VKApiAttachment.TYPE_LINK};
 
-        String[] items = new String[]{getString(R.string.photos), getString(R.string.videos), getString(R.string.documents), getString(R.string.music), getString(R.string.links)};
+        ModalBottomSheetDialogFragment.Builder menus = new ModalBottomSheetDialogFragment.Builder();
+        menus.add(new OptionRequest(0, getString(R.string.photos), R.drawable.camera));
+        menus.add(new OptionRequest(1, getString(R.string.videos), R.drawable.video));
+        menus.add(new OptionRequest(2, getString(R.string.documents), R.drawable.book));
+        menus.add(new OptionRequest(3, getString(R.string.music), R.drawable.song));
+        menus.add(new OptionRequest(4, getString(R.string.links), R.drawable.web));
 
-        new MaterialAlertDialogBuilder(requireActivity()).setItems(items, (dialogInterface, j) -> {
-            PlaceFactory.getWallAttachmentsPlace(getPresenter().getAccountId(), getPresenter().getOwnerId(), types[j]).tryOpenWith(requireActivity());
-        }).show();
+        menus.header(getString(R.string.select_attachments), R.drawable.attachment, null);
+
+        menus.show(getChildFragmentManager(), "attachments_select", option -> PlaceFactory.getWallAttachmentsPlace(accountId, ownerId, types[option.getId()]).tryOpenWith(requireActivity()));
     }
 
     @Override
@@ -212,7 +217,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
                 getPresenter().fireSearchClick();
                 return true;
             case R.id.wall_attachments:
-                goToConversationAttachments();
+                getPresenter().openConversationAttachments();
                 return true;
             case R.id.search_stories:
                 ModalBottomSheetDialogFragment.Builder menus = new ModalBottomSheetDialogFragment.Builder();

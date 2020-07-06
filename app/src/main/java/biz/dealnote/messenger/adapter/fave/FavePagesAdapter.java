@@ -22,6 +22,7 @@ import biz.dealnote.messenger.model.FavePageType;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.settings.CurrentTheme;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.AspectRatioImageView;
 import biz.dealnote.messenger.view.OnlineView;
@@ -56,11 +57,9 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
         if (favePage.getType().equals(FavePageType.USER)) {
             holder.ivOnline.setVisibility(View.VISIBLE);
             User user = favePage.getUser();
-            if (user.getBlacklisted()) {
-                holder.blacklisted.setVisibility(View.VISIBLE);
-            } else {
-                holder.blacklisted.setVisibility(View.GONE);
-            }
+            holder.name.setTextColor(Utils.getVerifiedColor(context, user.isVerified()));
+            holder.blacklisted.setVisibility(user.getBlacklisted() ? View.VISIBLE : View.GONE);
+            holder.ivVerified.setVisibility(user.isVerified() ? View.VISIBLE : View.GONE);
             Integer onlineIcon = ViewUtils.getOnlineIcon(true, user.isOnlineMobile(), user.getPlatform(), user.getOnlineApp());
             if (!user.isOnline())
                 holder.ivOnline.setCircleColor(CurrentTheme.getColorFromAttrs(R.attr.icon_color_inactive, context, "#000000"));
@@ -71,6 +70,7 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
                 holder.ivOnline.setIcon(onlineIcon);
             }
         } else {
+            holder.name.setTextColor(Utils.getVerifiedColor(context, false));
             holder.ivOnline.setVisibility(View.GONE);
             holder.blacklisted.setVisibility(View.GONE);
         }
@@ -121,6 +121,7 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
         TextView name;
         TextView description;
         OnlineView ivOnline;
+        ImageView ivVerified;
 
         public Holder(View itemView) {
             super(itemView);
@@ -130,6 +131,7 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
             name = itemView.findViewById(R.id.name);
             description = itemView.findViewById(R.id.description);
             blacklisted = itemView.findViewById(R.id.item_blacklisted);
+            ivVerified = itemView.findViewById(R.id.item_verified);
         }
 
         @Override

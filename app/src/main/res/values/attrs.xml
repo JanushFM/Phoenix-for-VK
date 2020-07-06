@@ -13,7 +13,7 @@
     </declare-styleable>
 
 
-    <declare-styleable name="CircleRoadProgressWidget">
+    <declare-styleable name="CircleRoadProgress">
         <attr name="circleCenterPointX" format="float" />
         <attr name="circleCenterPointY" format="float" />
 

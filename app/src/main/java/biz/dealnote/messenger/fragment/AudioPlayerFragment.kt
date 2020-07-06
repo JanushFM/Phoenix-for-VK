@@ -45,6 +45,7 @@ import biz.dealnote.messenger.util.PhoenixToast.Companion.CreatePhoenixToast
 import biz.dealnote.messenger.util.RxUtils
 import biz.dealnote.messenger.util.Utils
 import biz.dealnote.messenger.util.Utils.isEmpty
+import biz.dealnote.messenger.view.AspectRatioImageView
 import biz.dealnote.messenger.view.CircleCounterButton
 import biz.dealnote.messenger.view.SeekBarSamsungFixed
 import com.github.zawadz88.materialpopupmenu.MaterialPopupMenuBuilder
@@ -85,7 +86,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private var tvTitle: TextView? = null
     private var tvAlbum: TextView? = null
     private var tvSubtitle: TextView? = null
-    private var ivCover: ImageView? = null
+    private var ivCover: AspectRatioImageView? = null
 
     // Broadcast receiver
     private var mPlaybackStatus: PlaybackStatus? = null

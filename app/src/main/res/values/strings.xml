@@ -553,6 +553,7 @@
 
     <string name="button_ok">OK</string>
     <string name="button_yes">Да</string>
+    <string name="button_access">Понял</string>
     <string name="button_no">Нет</string>
     <string name="button_cancel">Отмена</string>
     <string name="field_is_required">Обязательное поле для заполнения</string>
@@ -1351,6 +1352,7 @@
     <string name="donate">Донат: 5599005042882048</string>
     <string name="telegram">Телеграм-канал: https://t.me/phoenixvk_mod</string>
     <string name="open_photo">Открыть фото</string>
+    <string name="open_avatar">Открыть аватар</string>
     <string name="add_and_download_button">Скачать и добавить</string>
     <string name="delete_cache_images">Очищать кэш изображений при входе</string>
     <string name="click_next_track">Тап по обложке - следующий трек</string>
@@ -1387,4 +1389,5 @@
     <string name="link_banned">Запрещённая ссылка</string>
     <string name="link_processing">Ссылка проверяется</string>
     <string name="blacklisted">Вы в чёрном списке!!!</string>
+    <string name="additional_info">Дополнительная информация</string>
 </resources>

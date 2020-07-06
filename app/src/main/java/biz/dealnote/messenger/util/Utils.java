@@ -50,6 +50,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -905,13 +906,15 @@ public class Utils {
     }
 
     @StringRes
-    public static int declOfNum(int number, @StringRes int[] titles) {
+    public static int declOfNum(int number_z, @StringRes int[] titles) {
+        int number = Math.abs(number_z);
         int[] cases = {2, 0, 1, 1, 1, 2};
         return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[Math.min(number % 10, 5)]];
     }
 
     @StringRes
-    public static int declOfNum(Long number, @StringRes int[] titles) {
+    public static int declOfNum(long number_z, @StringRes int[] titles) {
+        long number = Math.abs(number_z);
         int[] cases = {2, 0, 1, 1, 1, 2};
         return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(int) Math.min(number % 10, 5)]];
     }
@@ -1135,6 +1138,25 @@ public class Utils {
                 ? Color.parseColor("#ffffff") : Color.parseColor("#000000");
 
         return Snackbar.make(view, text, duration).setBackgroundTint(color).setActionTextColor(text_color).setTextColor(text_color);
+    }
+
+    public static int getVerifiedColor(Context context, boolean verified) {
+        return !verified ? CurrentTheme.getPrimaryTextColorCode(context) : Color.parseColor("#009900");
+    }
+
+
+    public static <T> boolean isValueAssigned(@NonNull T value, @NonNull T[] args) {
+        return Arrays.asList(args).contains(value);
+    }
+
+    public static void safeCall(@Nullable Object object, @NonNull safeCallInt function) {
+        if (object != null) {
+            function.call();
+        }
+    }
+
+    public interface safeCallInt {
+        void call();
     }
 
     public interface SimpleFunction<F, S> {

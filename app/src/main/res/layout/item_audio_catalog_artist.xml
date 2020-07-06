@@ -25,7 +25,7 @@
             tools:text="Title" />
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="14dp"
@@ -34,11 +34,15 @@
             app:cardCornerRadius="10dp"
             app:cardElevation="1dp">
 
-            <ImageView
+            <biz.dealnote.messenger.view.AspectRatioImageView
                 android:id="@+id/item_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                app:aspectRatioEnabled="true"
+                app:aspectRatioH="9"
+                app:aspectRatioW="16"
+                app:dominantMeasurement="width" />
         </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>

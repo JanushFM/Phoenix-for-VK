@@ -42,6 +42,22 @@
                 app:circle_color="?icon_color_active" />
 
             <ImageView
+                android:id="@+id/item_verified"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignTop="@+id/avatar"
+                android:layout_alignEnd="@+id/avatar"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/sel_button_round_5_white"
+                android:backgroundTint="#009900"
+                android:backgroundTintMode="add"
+                android:padding="4dp"
+                android:src="@drawable/check_all"
+                android:visibility="gone"
+                app:tint="@color/white" />
+
+            <ImageView
                 android:id="@+id/item_blacklisted"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
@@ -51,6 +67,7 @@
                 android:layout_marginBottom="4dp"
                 android:padding="4dp"
                 android:src="@drawable/audio_died"
+                android:visibility="gone"
                 app:tint="?icon_color_inactive" />
         </RelativeLayout>
 

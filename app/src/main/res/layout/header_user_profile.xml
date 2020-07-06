@@ -137,6 +137,22 @@
                             android:background="@drawable/sel_button_round_5_white"
                             android:padding="1.5dp" />
 
+                        <ImageView
+                            android:id="@+id/item_verified"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_alignTop="@+id/avatar"
+                            android:layout_alignEnd="@+id/avatar"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/sel_button_round_5_white"
+                            android:backgroundTint="#009900"
+                            android:backgroundTintMode="add"
+                            android:padding="4dp"
+                            android:src="@drawable/check_all"
+                            android:visibility="gone"
+                            app:tint="@color/white" />
+
                         <biz.dealnote.messenger.view.OnlineView
                             android:id="@+id/header_navi_menu_online"
                             android:layout_width="@dimen/online_dot_size_big"
@@ -164,7 +180,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:textAppearance="@style/ProfileText"
-                            tools:text="Emin Guliev" />
+                            tools:text="Umerov Artem" />
 
                         <TextView
                             android:id="@+id/fragment_user_profile_id"
@@ -172,7 +188,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="end"
                             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                            tools:text="\@ezorrio" />
+                            tools:text="\@irish_asm" />
 
                         <TextView
                             android:id="@+id/fragment_user_profile_activity"

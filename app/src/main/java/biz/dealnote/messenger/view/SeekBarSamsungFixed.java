@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -22,6 +23,7 @@ public class SeekBarSamsungFixed extends AppCompatSeekBar {
         super(context, attributeSet, i);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent motionEvent) {
         return this.f50581a && super.onTouchEvent(motionEvent);
     }

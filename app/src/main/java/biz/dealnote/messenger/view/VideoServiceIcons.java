@@ -8,12 +8,12 @@ import biz.dealnote.messenger.model.VideoPlatform;
 public class VideoServiceIcons {
 
     @DrawableRes
-    public static Integer getIconByType(String platfrom) {
-        if (platfrom == null) {
+    public static Integer getIconByType(String platform) {
+        if (platform == null) {
             return null;
         }
 
-        switch (platfrom) {
+        switch (platform) {
             default:
                 return null;
             case VideoPlatform.COUB:

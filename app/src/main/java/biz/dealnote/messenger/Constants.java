@@ -16,7 +16,7 @@ public class Constants {
     public static final boolean NEED_CHECK_UPDATE = true;
 
     public static final String API_VERSION = "5.120";
-    public static final int DATABASE_VERSION = 192;
+    public static final int DATABASE_VERSION = 194;
     public static final int VERSION_APK = BuildConfig.VERSION_CODE;
     public static final String APK_ID = BuildConfig.APPLICATION_ID;
 
@@ -28,7 +28,7 @@ public class Constants {
     //public static final String DEVICE_COUNTRY_CODE = Injection.provideApplicationContext().getResources().getConfiguration().locale.getCountry().toLowerCase();
     public static final String DEVICE_COUNTRY_CODE = "ru";
     public static final String KATE_USER_AGENT = String.format(Locale.US, "KateMobileAndroid/62.1 lite-471 (Android %s; SDK %d; %s; %s; %s; %s)", Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
-    public static final String VKANDROID_USER_AGENT = String.format(Locale.US, "VKAndroidApp/6.7-5603 (Android %s; SDK %d; %s; %s; %s; %s)", Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
+    public static final String VKANDROID_USER_AGENT = String.format(Locale.US, "VKAndroidApp/6.7-5620 (Android %s; SDK %d; %s; %s; %s; %s)", Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
     public static final int API_ID = BuildConfig.VK_API_APP_ID;
     public static final String SECRET = BuildConfig.VK_CLIENT_SECRET;
     public static final String MAIN_OWNER_FIELDS = UserColumns.API_FIELDS + "," + GroupColumns.API_FIELDS;
@@ -55,8 +55,11 @@ public class Constants {
             else if (type.equals("vkofficial") || type.equals("hacked"))
                 return VKANDROID_USER_AGENT;
         }
-        String Type = Injection.provideSettings().accounts().getType(Injection.provideSettings().accounts().getCurrent());
-        if (Injection.provideSettings().accounts().getCurrent() != ISettings.IAccountsSettings.INVALID_ID && Type != null && Type.equals("kate"))
+        int account_id = Injection.provideSettings().accounts().getCurrent();
+        if (account_id == ISettings.IAccountsSettings.INVALID_ID) {
+            return VKANDROID_USER_AGENT;
+        }
+        if (Injection.provideSettings().accounts().getType(account_id).equals("kate"))
             return KATE_USER_AGENT;
         return VKANDROID_USER_AGENT;
     }

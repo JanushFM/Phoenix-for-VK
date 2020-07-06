@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import biz.dealnote.messenger.adapter.holder.SharedHolders;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.Objects;
@@ -26,8 +28,9 @@ public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends
         this.mActionListener = actionListener;
     }
 
+    @NotNull
     @Override
-    public AbsStepHolder<H> onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AbsStepHolder<H> onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return createHolderForStep(parent, mHost, viewType);
     }
 
@@ -39,7 +42,7 @@ public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends
     public abstract AbsStepHolder<H> createHolderForStep(ViewGroup parent, H host, int step);
 
     @Override
-    public void onBindViewHolder(final AbsStepHolder<H> holder, final int position) {
+    public void onBindViewHolder(@NotNull final AbsStepHolder<H> holder, final int position) {
         mSharedHolders.put(position, holder);
 
         holder.counterText.setText(String.valueOf(position + 1));

@@ -114,6 +114,16 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public void setDisableErrorFCM(boolean en) {
+        PreferenceManager.getDefaultSharedPreferences(app).edit().putBoolean("disable_error_fcm", en).apply();
+    }
+
+    @Override
+    public boolean isDisabledErrorFCM() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("disable_error_fcm", false);
+    }
+
+    @Override
     public boolean isSettings_no_push() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("settings_no_push", false);
     }

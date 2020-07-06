@@ -184,18 +184,18 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
         int app = 0;
 
         if (dialog.getInterlocutor() instanceof User) {
-            User interlocuter = (User) dialog.getInterlocutor();
-            online = interlocuter.isOnline();
-            onlineMobile = interlocuter.isOnlineMobile();
-            platform = interlocuter.getPlatform();
-            app = interlocuter.getOnlineApp();
-            if (interlocuter.getBlacklisted()) {
-                holder.blacklisted.setVisibility(View.VISIBLE);
-            } else {
-                holder.blacklisted.setVisibility(View.GONE);
-            }
+            User interlocutor = (User) dialog.getInterlocutor();
+            holder.mDialogTitle.setTextColor(Utils.getVerifiedColor(mContext, interlocutor.isVerified()));
+            online = interlocutor.isOnline();
+            onlineMobile = interlocutor.isOnlineMobile();
+            platform = interlocutor.getPlatform();
+            app = interlocutor.getOnlineApp();
+            holder.ivVerified.setVisibility(interlocutor.isVerified() ? View.VISIBLE : View.GONE);
+            holder.blacklisted.setVisibility(interlocutor.getBlacklisted() ? View.VISIBLE : View.GONE);
         } else {
+            holder.ivVerified.setVisibility(View.GONE);
             holder.blacklisted.setVisibility(View.GONE);
+            holder.mDialogTitle.setTextColor(Utils.getVerifiedColor(mContext, false));
         }
 
         Integer iconRes = ViewUtils.getOnlineIcon(online, onlineMobile, platform, app);
@@ -347,6 +347,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
         TextView mDialogMessage;
         ImageView ivDialogType;
         ImageView ivAvatar;
+        ImageView ivVerified;
         ImageView blacklisted;
         TextView tvUnreadCount;
         ImageView ivUnreadTicks;
@@ -373,6 +374,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
             EmptyAvatar = view.findViewById(R.id.empty_avatar_text);
             mDialogContentRoot = view.findViewById(R.id.dialog_content);
             blacklisted = itemView.findViewById(R.id.item_blacklisted);
+            ivVerified = itemView.findViewById(R.id.item_verified);
         }
     }
 }

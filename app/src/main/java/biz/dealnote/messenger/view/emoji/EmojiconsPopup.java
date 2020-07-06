@@ -75,6 +75,7 @@ public class EmojiconsPopup {
             int screenHeight = rootView.getRootView().getHeight();
             int heightDifference = screenHeight - (r.bottom - r.top);
 
+            /*
             int navBarHeight = mContext.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
 
             if (navBarHeight > 0) {
@@ -85,6 +86,8 @@ public class EmojiconsPopup {
             if (statusbarHeight > 0) {
                 heightDifference -= mContext.getResources().getDimensionPixelSize(statusbarHeight);
             }
+
+             */
 
             if (heightDifference > 200) {
                 keyBoardHeight = heightDifference;

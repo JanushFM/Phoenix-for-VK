@@ -23,7 +23,7 @@ public class VKApiUser extends VKApiOwner {
             " has_mobile, contacts, connections, site, education, universities, schools, can_post, can_see_all_posts," +
             " can_see_audio, can_write_private_message, status, last_seen, common_count, relation, relatives," +
             " counters, screen_name, maiden_name, timezone, occupation,activities, interests, music, movies, tv," +
-            " books, games, about, quotes, personal, friend_status, military, career, is_friend, blacklisted_by_me, blacklisted";
+            " books, games, about, quotes, personal, friend_status, military, career, is_friend, blacklisted_by_me, blacklisted, can_access_closed, verified";
     /**
      * First name of user.
      */
@@ -246,6 +246,9 @@ public class VKApiUser extends VKApiOwner {
      * Information whether private messages can be sent to this user.
      */
     public boolean can_write_private_message;
+
+    public boolean can_access_closed;
+
     /**
      * Information whether user can comment wall posts.
      */

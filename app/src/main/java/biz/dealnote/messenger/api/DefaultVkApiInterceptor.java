@@ -19,4 +19,11 @@ public class DefaultVkApiInterceptor extends AbsVkApiInterceptor {
                 .accounts()
                 .getAccessToken(accountId);
     }
+
+    @Override
+    protected String getType() {
+        return Settings.get()
+                .accounts()
+                .getType(accountId);
+    }
 }

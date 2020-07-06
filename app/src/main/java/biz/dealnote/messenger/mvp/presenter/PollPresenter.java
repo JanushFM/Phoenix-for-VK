@@ -73,6 +73,7 @@ public class PollPresenter extends AccountDependencyPresenter<IPollView> {
         resolveVotesCountView();
         resolvePollTypeView();
         resolveVotesListView();
+        resolvePhotoView();
     }
 
     @OnGuiCreated
@@ -115,6 +116,13 @@ public class PollPresenter extends AccountDependencyPresenter<IPollView> {
     private void resolveCreationTimeView() {
         if (isGuiReady()) {
             getView().displayCreationTime(mPoll.getCreationTime());
+        }
+    }
+
+    @OnGuiCreated
+    private void resolvePhotoView() {
+        if (isGuiReady()) {
+            getView().displayPhoto(mPoll.getPhoto());
         }
     }
 

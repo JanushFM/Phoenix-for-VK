@@ -555,6 +555,10 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
         getView().goToWallSearch(getAccountId(), getOwnerId());
     }
 
+    public void openConversationAttachments() {
+        getView().goToConversationAttachments(getAccountId(), getOwnerId());
+    }
+
     public void fireButtonRemoveClick(Post post) {
         appendDisposable(walls.delete(getAccountId(), ownerId, post.getVkid())
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())

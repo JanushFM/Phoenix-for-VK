@@ -18,12 +18,12 @@ public class VkMethodHttpClientFactory implements IVkMethodHttpClientFactory {
 
     @Override
     public OkHttpClient createCustomVkHttpClient(int accountId, String token, Gson gson, ProxyConfig config) {
-        return createDefaultVkApiOkHttpClient(new CustomTokenVkApiInterceptor(token, Constants.API_VERSION, gson), config);
+        return createDefaultVkApiOkHttpClient(new CustomTokenVkApiInterceptor(token, Constants.API_VERSION, gson, null, accountId), config);
     }
 
     @Override
     public OkHttpClient createServiceVkHttpClient(Gson gson, ProxyConfig config) {
-        return createDefaultVkApiOkHttpClient(new CustomTokenVkApiInterceptor(Constants.SERVICE_TOKEN, Constants.API_VERSION, gson), config);
+        return createDefaultVkApiOkHttpClient(new CustomTokenVkApiInterceptor(Constants.SERVICE_TOKEN, Constants.API_VERSION, gson, "vkofficial", null), config);
     }
 
     private OkHttpClient createDefaultVkApiOkHttpClient(AbsVkApiInterceptor interceptor, ProxyConfig config) {
@@ -33,7 +33,7 @@ public class VkMethodHttpClientFactory implements IVkMethodHttpClientFactory {
                 .readTimeout(40, TimeUnit.SECONDS)
                 .connectTimeout(40, TimeUnit.SECONDS)
                 .writeTimeout(40, TimeUnit.SECONDS).addInterceptor(chain -> {
-                    Request request = chain.request().newBuilder().addHeader("User-Agent", Constants.USER_AGENT(null)).build();
+                    Request request = chain.request().newBuilder().addHeader("User-Agent", Constants.USER_AGENT(interceptor.getType())).build();
                     return chain.proceed(request);
                 });
 

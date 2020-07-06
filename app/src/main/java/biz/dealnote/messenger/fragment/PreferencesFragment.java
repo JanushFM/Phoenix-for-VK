@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +35,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
@@ -55,6 +58,7 @@ import biz.dealnote.messenger.settings.AvatarStyle;
 import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.NightMode;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.settings.VkPushRegistration;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.ElipseTransformation;
 import biz.dealnote.messenger.util.Objects;
@@ -267,6 +271,14 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             version.setSummary(Utils.getAppVersionName(requireActivity()) + ", VK API " + Constants.API_VERSION);
             version.setOnPreferenceClickListener(preference -> {
                 openAboutUs();
+                return true;
+            });
+        }
+
+        Preference additional_debug = findPreference("additional_debug");
+        if (additional_debug != null) {
+            additional_debug.setOnPreferenceClickListener(preference -> {
+                ShowAdditionalInfo();
                 return true;
             });
         }
@@ -548,6 +560,30 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                 .show();
     }
 
+    private String PushToken() {
+        int accountId = Settings.get().accounts().getCurrent();
+
+        if (accountId == ISettings.IAccountsSettings.INVALID_ID) {
+            return null;
+        }
+
+        final List<VkPushRegistration> available = Settings.get().pushSettings().getRegistrations();
+        boolean can = available.size() == 1 && available.get(0).getUserId() == accountId;
+        return can ? available.get(0).getGmcToken() : null;
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void ShowAdditionalInfo() {
+        View view = View.inflate(requireActivity(), R.layout.dialog_additional_us, null);
+        ((TextView) view.findViewById(R.id.item_user_agent)).setText("User-Agent: " + Constants.USER_AGENT(null));
+        ((TextView) view.findViewById(R.id.item_device_id)).setText("Device-ID: " + Utils.getDiviceId(requireActivity()));
+        ((TextView) view.findViewById(R.id.item_gcm_token)).setText("GMS-Token: " + PushToken());
+
+        new MaterialAlertDialogBuilder(requireActivity())
+                .setView(view)
+                .show();
+    }
+
     private void openAboutUs() {
         ShowDialogInfo();
     }
@@ -670,8 +706,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             enabledCategoriesValues.add("12");
         }
 
-        lp.setEntries(enabledCategoriesName.toArray(new CharSequence[enabledCategoriesName.size()]));
-        lp.setEntryValues(enabledCategoriesValues.toArray(new CharSequence[enabledCategoriesValues.size()]));
+        lp.setEntries(enabledCategoriesName.toArray(new CharSequence[0]));
+        lp.setEntryValues(enabledCategoriesValues.toArray(new CharSequence[0]));
     }
 
     @Override

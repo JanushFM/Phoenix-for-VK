@@ -62,6 +62,7 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
         }
 
         holder.name.setText(user.getFullName());
+        holder.name.setTextColor(Utils.getVerifiedColor(context, user.isVerified()));
 
         holder.status.setText(UserInfoResolveUtil.getUserActivityLine(context, user, true));
         holder.status.setTextColor(user.isOnline() ? CurrentTheme.getColorPrimary(context) : STATUS_COLOR_OFFLINE);
@@ -82,6 +83,8 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
         });
 
         SelectionUtils.addSelectionProfileSupport(context, holder.avatarRoot, user);
+
+        holder.ivVerified.setVisibility(user.isVerified() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -163,6 +166,7 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
         ViewGroup avatarRoot;
         ImageView avatar;
         ImageView online;
+        ImageView ivVerified;
 
         public Holder(View itemView) {
             super(itemView);
@@ -174,6 +178,7 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
             this.avatar = itemView.findViewById(R.id.item_friend_avatar);
             this.avatarRoot = itemView.findViewById(R.id.item_friend_avatar_container);
             this.online = itemView.findViewById(R.id.item_friend_online);
+            this.ivVerified = itemView.findViewById(R.id.item_verified);
             Utils.setColorFilter(this.online, CurrentTheme.getColorPrimary(context));
         }
     }

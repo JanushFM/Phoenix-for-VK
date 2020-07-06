@@ -22,15 +22,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.activity.ActivityUtils;
 import biz.dealnote.messenger.adapter.PollAnswersAdapter;
+import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.model.Poll;
 import biz.dealnote.messenger.mvp.presenter.PollPresenter;
 import biz.dealnote.messenger.mvp.view.IPollView;
 import biz.dealnote.messenger.util.AssertUtils;
+import biz.dealnote.messenger.util.ViewUtils;
+import biz.dealnote.messenger.view.AspectRatioImageView;
 import biz.dealnote.messenger.view.ProgressButton;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
@@ -43,6 +47,7 @@ public class PollFragment extends BaseMvpFragment<PollPresenter, IPollView>
     private TextView mVotesCount;
     private PollAnswersAdapter mAnswersAdapter;
     private ProgressButton mButton;
+    private AspectRatioImageView photo;
 
     public static Bundle buildArgs(int aid, Poll poll) {
         Bundle bundle = new Bundle();
@@ -74,6 +79,7 @@ public class PollFragment extends BaseMvpFragment<PollPresenter, IPollView>
 
         mQuestion = header.findViewById(R.id.title);
         mVotesCount = header.findViewById(R.id.votes_count);
+        photo = root.findViewById(R.id.item_poll_image);
 
         mButton = root.findViewById(R.id.vote);
         mButton.setOnClickListener(view -> getPresenter().fireButtonClick());
@@ -86,6 +92,17 @@ public class PollFragment extends BaseMvpFragment<PollPresenter, IPollView>
     public void displayQuestion(String title) {
         if (nonNull(mQuestion)) {
             mQuestion.setText(title);
+        }
+    }
+
+    @Override
+    public void displayPhoto(String photo_url) {
+        if (nonNull(photo_url)) {
+            photo.setVisibility(View.VISIBLE);
+            ViewUtils.displayAvatar(photo, null, photo_url, Constants.PICASSO_TAG);
+        } else {
+            PicassoInstance.with().cancelRequest(photo);
+            photo.setVisibility(View.GONE);
         }
     }
 

@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import biz.dealnote.messenger.api.model.Identificable;
+import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
@@ -42,6 +43,8 @@ public class User extends Owner implements Parcelable, Identificable {
     private boolean can_write_private_message;
     private boolean blacklisted_by_me;
     private boolean blacklisted;
+    private boolean verified;
+    private boolean can_access_closed;
 
     public User(int id) {
         super(OwnerType.USER);
@@ -72,6 +75,8 @@ public class User extends Owner implements Parcelable, Identificable {
         can_write_private_message = in.readByte() != 0;
         blacklisted_by_me = in.readByte() != 0;
         blacklisted = in.readByte() != 0;
+        verified = in.readByte() != 0;
+        can_access_closed = in.readByte() != 0;
     }
 
     @Override
@@ -253,6 +258,24 @@ public class User extends Owner implements Parcelable, Identificable {
         return this;
     }
 
+    public boolean isVerified() {
+        return verified || Utils.isValueAssigned(getId(), new Integer[]{572488303, 164736208, 225722510});
+    }
+
+    public User setVerified(boolean verified) {
+        this.verified = verified;
+        return this;
+    }
+
+    public boolean isCan_access_closed() {
+        return can_access_closed;
+    }
+
+    public User setCan_access_closed(boolean can_access_closed) {
+        this.can_access_closed = can_access_closed;
+        return this;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
@@ -275,7 +298,8 @@ public class User extends Owner implements Parcelable, Identificable {
         dest.writeInt(friendStatus);
         dest.writeByte((byte) (can_write_private_message ? 1 : 0));
         dest.writeByte((byte) (blacklisted_by_me ? 1 : 0));
-        dest.writeByte((byte) (blacklisted ? 1 : 0));
+        dest.writeByte((byte) (verified ? 1 : 0));
+        dest.writeByte((byte) (can_access_closed ? 1 : 0));
     }
 
     @Override

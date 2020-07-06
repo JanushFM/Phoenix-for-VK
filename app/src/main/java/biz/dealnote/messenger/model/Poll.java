@@ -36,6 +36,7 @@ public class Poll extends AbsModel implements Parcelable {
     private boolean canShare;
     private long endDate;
     private boolean multiple;
+    private String photo;
 
     protected Poll(Parcel in) {
         super(in);
@@ -56,6 +57,7 @@ public class Poll extends AbsModel implements Parcelable {
         canShare = in.readByte() != 0;
         endDate = in.readLong();
         multiple = in.readByte() != 0;
+        photo = in.readString();
     }
 
     public Poll(int id, int ownerId) {
@@ -83,6 +85,7 @@ public class Poll extends AbsModel implements Parcelable {
         dest.writeByte((byte) (canShare ? 1 : 0));
         dest.writeLong(endDate);
         dest.writeByte((byte) (multiple ? 1 : 0));
+        dest.writeString(photo);
     }
 
     public boolean isClosed() {
@@ -180,6 +183,15 @@ public class Poll extends AbsModel implements Parcelable {
 
     public Poll setQuestion(String question) {
         this.question = question;
+        return this;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public Poll setPhoto(String photo) {
+        this.photo = photo;
         return this;
     }
 

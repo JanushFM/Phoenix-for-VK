@@ -80,9 +80,6 @@ public class VideoControllerView extends FrameLayout {
     private FloatingActionButton mPauseButton;
     private ImageButton mFfwdButton;
     private ImageButton mRewButton;
-    private ImageButton mNextButton;
-    private ImageButton mPrevButton;
-    private ImageView mFullscreenButton;
     private final OnClickListener mPauseListener = v -> {
         doPauseResume();
         show(sDefaultTimeout);
@@ -174,6 +171,9 @@ public class VideoControllerView extends FrameLayout {
             show(sDefaultTimeout);
         }
     };
+    private ImageButton mNextButton;
+    private ImageButton mPrevButton;
+    private ImageView mFullscreenButton;
 
     public VideoControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -209,7 +209,6 @@ public class VideoControllerView extends FrameLayout {
     public void setMediaPlayer(MediaPlayerControl player) {
         mPlayer = player;
         updatePausePlay();
-        updateFullScreen();
     }
 
     /**
@@ -358,7 +357,6 @@ public class VideoControllerView extends FrameLayout {
             mShowing = true;
         }
         updatePausePlay();
-        updateFullScreen();
 
         // cause the progress bar to be updated even if mShowing
         // was already true.  This happens, for example, if we're
@@ -513,12 +511,6 @@ public class VideoControllerView extends FrameLayout {
             mPauseButton.setImageResource(R.drawable.pause);
         } else {
             mPauseButton.setImageResource(R.drawable.play);
-        }
-    }
-
-    public void updateFullScreen() {
-        if (mRoot == null || mFullscreenButton == null || mPlayer == null) {
-            return;
         }
     }
 

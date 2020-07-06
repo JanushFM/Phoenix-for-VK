@@ -51,18 +51,18 @@ public class SawView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        int count = (int) ((float) canvas.getWidth() / mToothPrefWidht);
+        int count = (int) ((float) getWidth() / mToothPrefWidht);
 
         if (count % 2 == 1) {
             count = count + 1;
         }
 
         int startH = 0;
-        int endH = canvas.getHeight();
+        int endH = getHeight();
 
         FILL_PAINT.setColor(mBackgroundColor);
 
-        float realToothWidth = (float) canvas.getWidth() / (float) count;
+        float realToothWidth = (float) getWidth() / (float) count;
 
         float offset = 0;
 

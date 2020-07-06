@@ -311,7 +311,9 @@ public class Dto2Model {
                 .setFriendStatus(user.friend_status)
                 .setCanWritePrivateMessage(user.can_write_private_message)
                 .setBlacklisted(user.blacklisted)
-                .setBlacklisted_by_me(user.blacklisted_by_me);
+                .setBlacklisted_by_me(user.blacklisted_by_me)
+                .setCan_access_closed(user.can_access_closed)
+                .setVerified(user.verified);
     }
 
     @NonNull
@@ -607,6 +609,20 @@ public class Dto2Model {
         return topic;
     }
 
+    private static String buildPollPhoto(VKApiPoll.Photo photo) {
+        String url = null;
+        if (photo != null && !Utils.isEmpty(photo.images)) {
+            int def = 0;
+            for (VKApiPoll.Image i : photo.images) {
+                if (i.width * i.height > def) {
+                    def = i.width * i.height;
+                    url = i.url;
+                }
+            }
+        }
+        return url;
+    }
+
     public static Poll transform(@NonNull VKApiPoll dto) {
         List<Poll.Answer> answers = new ArrayList<>(safeCountOf(dto.answers));
         if (nonNull(dto.answers)) {
@@ -634,7 +650,8 @@ public class Dto2Model {
                 .setCanReport(dto.can_report)
                 .setCanShare(dto.can_share)
                 .setEndDate(dto.end_date)
-                .setMultiple(dto.multiple);
+                .setMultiple(dto.multiple)
+                .setPhoto(buildPollPhoto(dto.photo));
     }
 
     public static Story transformStory(@NonNull VKApiStory dto, @NonNull IOwnersBundle owners) {

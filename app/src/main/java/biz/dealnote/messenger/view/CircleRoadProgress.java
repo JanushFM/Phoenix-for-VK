@@ -36,7 +36,6 @@ public class CircleRoadProgress extends View {
     private int arcLoadingColor;
     private float arcLoadingStrokeWidth;
     private float arcLoadingStartAngle;
-    private int percent;
     private float displayedPercentage;
 
     public CircleRoadProgress(Context context, AttributeSet attrs) {
@@ -47,47 +46,47 @@ public class CircleRoadProgress extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        circleCenterPointX = w / 2;
-        circleCenterPointY = h / 2;
+        circleCenterPointX = (float) w / 2;
+        circleCenterPointY = (float) h / 2;
         int paddingInContainer = 3;
-        roadRadius = (w / 2) - (roadStrokeWidth / 2) - paddingInContainer;
+        roadRadius = ((float) w / 2) - (roadStrokeWidth / 2) - paddingInContainer;
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        drawRoad(PAINT, canvas);
-        drawArcLoading(PAINT, canvas);
+        drawRoad(canvas);
+        drawArcLoading(canvas);
     }
 
     private void initializeAttributes(Context context, AttributeSet attrs) {
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CircleRoadProgressWidget);
-        circleCenterPointX = ta.getFloat(R.styleable.CircleRoadProgressWidget_circleCenterPointX, 54f);
-        circleCenterPointY = ta.getFloat(R.styleable.CircleRoadProgressWidget_circleCenterPointY, 54f);
-        roadColor = ta.getColor(R.styleable.CircleRoadProgressWidget_roadColor, Color.parseColor("#575757"));
-        roadStrokeWidth = ta.getDimensionPixelSize(R.styleable.CircleRoadProgressWidget_roadStrokeWidth, 10);
-        roadRadius = ta.getDimensionPixelSize(R.styleable.CircleRoadProgressWidget_roadRadius, 42);
-        arcLoadingColor = ta.getColor(R.styleable.CircleRoadProgressWidget_arcLoadingColor, Color.parseColor("#f5d600"));
-        arcLoadingStrokeWidth = ta.getDimensionPixelSize(R.styleable.CircleRoadProgressWidget_arcLoadingStrokeWidth, 3);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CircleRoadProgress);
+        circleCenterPointX = ta.getFloat(R.styleable.CircleRoadProgress_circleCenterPointX, 54f);
+        circleCenterPointY = ta.getFloat(R.styleable.CircleRoadProgress_circleCenterPointY, 54f);
+        roadColor = ta.getColor(R.styleable.CircleRoadProgress_roadColor, Color.parseColor("#575757"));
+        roadStrokeWidth = ta.getDimensionPixelSize(R.styleable.CircleRoadProgress_roadStrokeWidth, 10);
+        roadRadius = ta.getDimensionPixelSize(R.styleable.CircleRoadProgress_roadRadius, 42);
+        arcLoadingColor = ta.getColor(R.styleable.CircleRoadProgress_arcLoadingColor, Color.parseColor("#f5d600"));
+        arcLoadingStrokeWidth = ta.getDimensionPixelSize(R.styleable.CircleRoadProgress_arcLoadingStrokeWidth, 3);
 
-        arcLoadingStartAngle = ta.getFloat(R.styleable.CircleRoadProgressWidget_arcLoadingStartAngle, 270f);
+        arcLoadingStartAngle = ta.getFloat(R.styleable.CircleRoadProgress_arcLoadingStartAngle, 270f);
 
         ta.recycle();
     }
 
-    private void drawRoad(Paint paint, Canvas canvas) {
-        paint.setDither(true);
-        paint.setColor(roadColor);
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(roadStrokeWidth);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        canvas.drawCircle(circleCenterPointX, circleCenterPointY, roadRadius, paint);
+    private void drawRoad(Canvas canvas) {
+        CircleRoadProgress.PAINT.setDither(true);
+        CircleRoadProgress.PAINT.setColor(roadColor);
+        CircleRoadProgress.PAINT.setStyle(Paint.Style.STROKE);
+        CircleRoadProgress.PAINT.setStrokeWidth(roadStrokeWidth);
+        CircleRoadProgress.PAINT.setStrokeCap(Paint.Cap.ROUND);
+        CircleRoadProgress.PAINT.setStrokeJoin(Paint.Join.ROUND);
+        canvas.drawCircle(circleCenterPointX, circleCenterPointY, roadRadius, CircleRoadProgress.PAINT);
     }
 
-    private void drawArcLoading(Paint paint, Canvas canvas) {
-        paint.setColor(arcLoadingColor);
-        paint.setStrokeWidth(arcLoadingStrokeWidth);
+    private void drawArcLoading(Canvas canvas) {
+        CircleRoadProgress.PAINT.setColor(arcLoadingColor);
+        CircleRoadProgress.PAINT.setStrokeWidth(arcLoadingStrokeWidth);
 
         float delta = circleCenterPointX - roadRadius;
         float arcSize = (circleCenterPointX - (delta / 2f)) * 2f;
@@ -95,18 +94,16 @@ public class CircleRoadProgress extends View {
         RectF box = new RectF(delta, delta, arcSize, arcSize);
         //float sweep = 360 * percent * 0.01f;
         float sweep = 360 * displayedPercentage * 0.01f;
-        canvas.drawArc(box, arcLoadingStartAngle, sweep, false, paint);
+        canvas.drawArc(box, arcLoadingStartAngle, sweep, false, CircleRoadProgress.PAINT);
     }
 
     public void changePercentage(int percent) {
-        this.percent = percent;
         this.displayedPercentage = percent;
 
         invalidate();
     }
 
     public void changePercentageSmoothly(int percent) {
-        this.percent = percent;
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, PROGRESS_PROPERTY, percent);
         animator.setDuration(750);

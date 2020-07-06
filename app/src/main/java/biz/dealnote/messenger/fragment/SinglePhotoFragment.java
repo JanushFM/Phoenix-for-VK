@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -84,6 +85,7 @@ public class SinglePhotoFragment extends BaseFragment
         this.photo_prefix = requireArguments().getString(Extra.KEY);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -123,6 +125,22 @@ public class SinglePhotoFragment extends BaseFragment
 
         ret.photo.setOnLongClickListener(v -> {
             doSaveOnDrive(true);
+            return true;
+        });
+        ret.photo.setOnTouchListener((view, event) -> {
+            if (event.getPointerCount() >= 2 || view.canScrollHorizontally(1) && view.canScrollHorizontally(-1)) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                    case MotionEvent.ACTION_MOVE:
+                        ui.setCanSwipe(false);
+                        container.requestDisallowInterceptTouchEvent(true);
+                        return false;
+                    case MotionEvent.ACTION_UP:
+                        ui.setCanSwipe(true);
+                        container.requestDisallowInterceptTouchEvent(false);
+                        return true;
+                }
+            }
             return true;
         });
         mDownload.setOnClickListener(v -> doSaveOnDrive(true));

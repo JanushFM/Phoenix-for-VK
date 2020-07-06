@@ -565,6 +565,12 @@
             app:iconSpaceReserved="false" />
 
         <Preference
+            android:dependency="debug_mode"
+            android:key="additional_debug"
+            android:title="@string/additional_info"
+            app:iconSpaceReserved="false" />
+
+        <Preference
             android:key="version"
             android:title="@string/app_name"
             app:iconSpaceReserved="false" />

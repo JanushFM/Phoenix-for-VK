@@ -428,7 +428,9 @@ public class Dto2Entity {
                 .setFriendStatus(user.friend_status)
                 .setCanWritePrivateMessage(user.can_write_private_message)
                 .setBlacklisted_by_me(user.blacklisted_by_me)
-                .setBlacklisted(user.blacklisted);
+                .setBlacklisted(user.blacklisted)
+                .setCan_access_closed(user.can_access_closed)
+                .setVerified(user.verified);
     }
 
     public static UserDetailsEntity mapUserDetails(VKApiUser user) {
@@ -808,6 +810,20 @@ public class Dto2Entity {
         return new PollEntity.Answer(dto.id, dto.text, dto.votes, dto.rate);
     }
 
+    private static String buildPollPhoto(VKApiPoll.Photo photo) {
+        String url = null;
+        if (photo != null && !Utils.isEmpty(photo.images)) {
+            int def = 0;
+            for (VKApiPoll.Image i : photo.images) {
+                if (i.width * i.height > def) {
+                    def = i.width * i.height;
+                    url = i.url;
+                }
+            }
+        }
+        return url;
+    }
+
     public static PollEntity buildPollEntity(VKApiPoll dto) {
         return new PollEntity(dto.id, dto.owner_id)
                 .setAnonymous(dto.anonymous)
@@ -824,7 +840,8 @@ public class Dto2Entity {
                 .setCanReport(dto.can_report)
                 .setCanShare(dto.can_share)
                 .setEndDate(dto.end_date)
-                .setMultiple(dto.multiple);
+                .setMultiple(dto.multiple)
+                .setPhoto(buildPollPhoto(dto.photo));
     }
 
     public static PostEntity mapPost(VKApiPost dto) {

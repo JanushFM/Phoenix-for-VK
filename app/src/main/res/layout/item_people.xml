@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -17,6 +18,30 @@
             android:id="@+id/item_people_avatar"
             android:layout_width="@dimen/avatar_size_usual"
             android:layout_height="@dimen/avatar_size_usual" />
+
+        <ImageView
+            android:id="@+id/item_verified"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_alignTop="@+id/item_people_avatar"
+            android:layout_alignEnd="@+id/item_people_avatar"
+            android:background="@drawable/sel_button_round_5_white"
+            android:backgroundTint="#009900"
+            android:backgroundTintMode="add"
+            android:padding="3dp"
+            android:src="@drawable/check_all"
+            android:visibility="gone"
+            app:tint="@color/white" />
+
+        <ImageView
+            android:id="@+id/item_blacklisted"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignEnd="@+id/item_people_avatar"
+            android:layout_alignBottom="@+id/item_people_avatar"
+            android:src="@drawable/audio_died"
+            android:visibility="gone"
+            app:tint="?icon_color_inactive" />
 
     </RelativeLayout>
 
@@ -44,7 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
             tools:text="Time" />
 
     </LinearLayout>

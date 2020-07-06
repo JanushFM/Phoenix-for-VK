@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -38,6 +39,7 @@ public class FlingRelativeLayout extends RelativeLayout {
         });
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         boolean handled = false;

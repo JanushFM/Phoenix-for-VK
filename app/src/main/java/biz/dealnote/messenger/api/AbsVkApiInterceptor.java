@@ -42,6 +42,8 @@ abstract class AbsVkApiInterceptor implements Interceptor {
 
     protected abstract String getToken();
 
+    protected abstract String getType();
+
     @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {

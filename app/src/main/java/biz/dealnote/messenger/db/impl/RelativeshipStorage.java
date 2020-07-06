@@ -65,7 +65,9 @@ class RelativeshipStorage extends AbsStorage implements IRelativeshipStorage {
                 .setFriendStatus(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_USER_FRIEND_STATUS)))
                 .setCanWritePrivateMessage(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_WRITE_MESSAGE_STATUS)) == 1)
                 .setBlacklisted_by_me(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_IS_USER_BLACK_LIST)) == 1)
-                .setBlacklisted(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_IS_BLACK_LISTED)) == 1);
+                .setBlacklisted(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_IS_BLACK_LISTED)) == 1)
+                .setCan_access_closed(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_IS_CAN_ACCESS_CLOSED)) == 1)
+                .setVerified(cursor.getInt(cursor.getColumnIndex(RelationshipColumns.FOREIGN_SUBJECT_IS_VERIFIED)) == 1);
     }
 
     @Override

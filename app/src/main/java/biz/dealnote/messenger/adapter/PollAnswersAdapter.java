@@ -2,12 +2,13 @@ package biz.dealnote.messenger.adapter;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.radiobutton.MaterialRadioButton;
 
 import java.util.HashSet;
 import java.util.List;
@@ -50,7 +51,8 @@ public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, Pol
         holder.rbButton.setChecked(isMyAnswer);
         holder.rbButton.setOnCheckedChangeListener((compoundButton, checked) -> changeChecked(answer.getId(), checked));
 
-        holder.mVotedRoot.setVisibility(checkable ? View.GONE : View.VISIBLE);
+        //holder.mVotedRoot.setVisibility(checkable ? View.GONE : View.VISIBLE);
+        holder.tvTitle.setVisibility(checkable ? View.GONE : View.VISIBLE);
         holder.rbButton.setVisibility(checkable ? View.VISIBLE : View.GONE);
     }
 
@@ -67,12 +69,10 @@ public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, Pol
     private void changeChecked(int id, boolean isChecked) {
         if (checkable) {
             if (isChecked) {
-                if (multiple) {
-                    checkedIds.add(id);
-                } else {
+                if (!multiple) {
                     checkedIds.clear();
-                    checkedIds.add(id);
                 }
+                checkedIds.add(id);
             } else {
                 checkedIds.remove(id);
             }
@@ -104,7 +104,7 @@ public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, Pol
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvCount;
-        CheckBox rbButton;
+        MaterialRadioButton rbButton;
         TextView tvTitle;
         ProgressBar pbRate;
         View mVotedRoot;

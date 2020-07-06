@@ -68,6 +68,8 @@ public class VKApiPoll implements VKApiAttachment {
 
     public boolean multiple;
 
+    public Photo photo;
+
 
     /**
      * Creates empty Country instance.
@@ -105,5 +107,17 @@ public class VKApiPoll implements VKApiAttachment {
          * Rate of this answer in percent
          */
         public double rate;
+    }
+
+    public static final class Photo {
+        public int color;
+        public int id;
+        public List<Image> images;
+    }
+
+    public static final class Image {
+        public int width;
+        public int height;
+        public String url;
     }
 }

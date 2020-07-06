@@ -54,6 +54,20 @@
                 android:layout_centerVertical="true"
                 android:stateListAnimator="@animator/clicked" />
 
+            <ImageView
+                android:id="@+id/item_verified"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignTop="@+id/item_chat_avatar"
+                android:layout_alignEnd="@+id/item_chat_avatar"
+                android:background="@drawable/sel_button_round_5_white"
+                android:backgroundTint="#009900"
+                android:backgroundTintMode="add"
+                android:padding="3dp"
+                android:src="@drawable/check_all"
+                android:visibility="gone"
+                app:tint="@color/white" />
+
             <TextView
                 android:id="@+id/empty_avatar_text"
                 android:layout_width="wrap_content"
@@ -85,6 +99,7 @@
                 android:layout_alignEnd="@+id/item_chat_avatar"
                 android:layout_alignBottom="@+id/item_chat_avatar"
                 android:src="@drawable/audio_died"
+                android:visibility="gone"
                 app:tint="?icon_color_inactive" />
         </RelativeLayout>
 

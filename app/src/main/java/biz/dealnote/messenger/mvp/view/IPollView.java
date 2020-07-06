@@ -11,6 +11,8 @@ import biz.dealnote.mvp.core.IMvpView;
 public interface IPollView extends IAccountDependencyView, IMvpView, IErrorView {
     void displayQuestion(String title);
 
+    void displayPhoto(String photo_url);
+
     void displayType(boolean anonymous);
 
     void displayCreationTime(long unixtime);

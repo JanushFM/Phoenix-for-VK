@@ -41,6 +41,9 @@ import biz.dealnote.messenger.listener.BackPressCallback
 import biz.dealnote.messenger.listener.EndlessRecyclerOnScrollListener
 import biz.dealnote.messenger.listener.OnSectionResumeCallback
 import biz.dealnote.messenger.listener.PicassoPauseOnScrollListener
+import biz.dealnote.messenger.modalbottomsheetdialogfragment.ModalBottomSheetDialogFragment
+import biz.dealnote.messenger.modalbottomsheetdialogfragment.Option
+import biz.dealnote.messenger.modalbottomsheetdialogfragment.OptionRequest
 import biz.dealnote.messenger.model.*
 import biz.dealnote.messenger.model.Types
 import biz.dealnote.messenger.model.selection.*
@@ -901,11 +904,22 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     override fun goToConversationAttachments(accountId: Int, peerId: Int) {
         val types = arrayOf(VKApiAttachment.TYPE_PHOTO, VKApiAttachment.TYPE_VIDEO, VKApiAttachment.TYPE_DOC, VKApiAttachment.TYPE_AUDIO, VKApiAttachment.TYPE_LINK, VKApiAttachment.TYPE_POST)
 
-        val items = arrayOf(getString(R.string.photos), getString(R.string.videos), getString(R.string.documents), getString(R.string.music), getString(R.string.links), getString(R.string.posts))
+        val menus = ModalBottomSheetDialogFragment.Builder()
+        menus.add(OptionRequest(0, getString(R.string.photos), R.drawable.camera))
+        menus.add(OptionRequest(1, getString(R.string.videos), R.drawable.video))
+        menus.add(OptionRequest(2, getString(R.string.documents), R.drawable.book))
+        menus.add(OptionRequest(3, getString(R.string.music), R.drawable.song))
+        menus.add(OptionRequest(4, getString(R.string.links), R.drawable.web))
+        menus.add(OptionRequest(5, getString(R.string.posts), R.drawable.pencil))
 
-        MaterialAlertDialogBuilder(requireActivity()).setItems(items) { _, which ->
-            showConversationAttachments(accountId, peerId, types[which])
-        }.show()
+        menus.header(getString(R.string.select_attachments), R.drawable.attachment, null)
+
+        menus.show(childFragmentManager, "attachments_select",
+                object : ModalBottomSheetDialogFragment.Listener {
+                    override fun onModalOptionSelected(option: Option) {
+                        showConversationAttachments(accountId, peerId, types[option.id])
+                    }
+                })
     }
 
     private fun showConversationAttachments(accountId: Int, peerId: Int, type: String) {

@@ -169,6 +169,8 @@ public class UserDtoAdapter extends AbsAdapter implements JsonDeserializer<VKApi
         dto.wall_default_owner = "owner".equals(optString(root, WALL_DEFAULT));
         dto.verified = optInt(root, VERIFIED) == 1;
 
+        dto.can_access_closed = optBoolean(root, "can_access_closed");
+
         // other
         dto.sex = optInt(root, SEX);
 

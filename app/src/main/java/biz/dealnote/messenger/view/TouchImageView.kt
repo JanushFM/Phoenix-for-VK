@@ -1,12 +1,12 @@
 package biz.dealnote.messenger.view
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.os.Parcelable
@@ -23,7 +23,9 @@ import android.view.animation.LinearInterpolator
 import android.widget.OverScroller
 import androidx.appcompat.widget.AppCompatImageView
 import biz.dealnote.messenger.R
+import kotlin.math.abs
 
+@SuppressLint("ClickableViewAccessibility")
 @Suppress("unused")
 class TouchImageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : AppCompatImageView(context, attrs, defStyle) {
     /**
@@ -200,7 +202,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      *
      * @return true if image is zoomed
      */
-    val isZoomed: Boolean
+    private val isZoomed: Boolean
         get() = currentZoom != 1f
 
     /**
@@ -224,7 +226,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * Save the current matrix and view dimensions
      * in the prevMatrix and prevView variables.
      */
-    fun savePreviousImageValues() {
+    private fun savePreviousImageValues() {
         if (touchMatrix != null && viewHeight != 0 && viewWidth != 0) {
             touchMatrix!!.getValues(floatMatrix)
             prevMatrix!!.setValues(floatMatrix)
@@ -318,7 +320,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      *
      * @param max max zoom multiplier, as a multiple of minZoom
      */
-    fun setMaxZoomRatio(max: Float) {
+    private fun setMaxZoomRatio(max: Float) {
         maxScaleMultiplier = max
         maxScale = minScale * maxScaleMultiplier
         superMaxScale = SUPER_MAX_MULTIPLIER * maxScale
@@ -334,7 +336,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * Set the min zoom multiplier. Default value: 1.
      *
      */
-    var minZoom: Float
+    private var minZoom: Float
         get() = minScale
         set(min) {
             userSpecifiedMinScale = min
@@ -347,9 +349,9 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
                         val widthRatio = viewWidth.toFloat() / drawableWidth
                         val heightRatio = viewHeight.toFloat() / drawableHeight
                         minScale = if (touchScaleType == ScaleType.CENTER) {
-                            Math.min(widthRatio, heightRatio)
+                            widthRatio.coerceAtMost(heightRatio)
                         } else {  // CENTER_CROP
-                            Math.min(widthRatio, heightRatio) / Math.max(widthRatio, heightRatio)
+                            widthRatio.coerceAtMost(heightRatio) / widthRatio.coerceAtLeast(heightRatio)
                         }
                     }
                 } else {
@@ -367,7 +369,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
     /**
      * Reset zoom and translation to initial state.
      */
-    fun resetZoom() {
+    private fun resetZoom() {
         currentZoom = 1f
         fitImageToView()
     }
@@ -399,7 +401,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * as a fraction from the left and top of the view. For example, the top left
      * corner of the image would be (0, 0). And the bottom right corner would be (1, 1).
      */
-    fun setZoom(scale: Float, focusX: Float, focusY: Float, scaleType: ScaleType?) {
+    private fun setZoom(scale: Float, focusX: Float, focusY: Float, scaleType: ScaleType?) {
         //
         // setZoom can be called before the image is on the screen, but at this point,
         // image and view sizes have not yet been calculated in onMeasure. Thus, we should
@@ -433,7 +435,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
      */
-    fun setZoom(img: TouchImageView) {
+    private fun setZoom(img: TouchImageView) {
         val center = img.scrollPosition
         setZoom(img.currentZoom, center.x, center.y, img.scaleType)
     }
@@ -647,21 +649,21 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
                 scaleX = scaleY
             }
             ScaleType.CENTER_CROP -> {
-                scaleY = Math.max(scaleX, scaleY)
+                scaleY = scaleX.coerceAtLeast(scaleY)
                 scaleX = scaleY
             }
             ScaleType.CENTER_INSIDE -> {
                 run {
-                    scaleY = Math.min(1f, Math.min(scaleX, scaleY))
+                    scaleY = 1f.coerceAtMost(scaleX.coerceAtMost(scaleY))
                     scaleX = scaleY
                 }
                 run {
-                    scaleY = Math.min(scaleX, scaleY)
+                    scaleY = scaleX.coerceAtMost(scaleY)
                     scaleX = scaleY
                 }
             }
             ScaleType.FIT_CENTER, ScaleType.FIT_START, ScaleType.FIT_END -> {
-                scaleY = Math.min(scaleX, scaleY)
+                scaleY = scaleX.coerceAtMost(scaleY)
                 scaleX = scaleY
             }
             ScaleType.FIT_XY -> {
@@ -731,14 +733,12 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * Set view dimensions based on layout params
      */
     private fun setViewSize(mode: Int, size: Int, drawableWidth: Int): Int {
-        val viewSize: Int
-        viewSize = when (mode) {
+        return when (mode) {
             MeasureSpec.EXACTLY -> size
-            MeasureSpec.AT_MOST -> Math.min(drawableWidth, size)
+            MeasureSpec.AT_MOST -> drawableWidth.coerceAtMost(size)
             MeasureSpec.UNSPECIFIED -> drawableWidth
             else -> size
         }
-        return viewSize
     }
 
     /**
@@ -755,38 +755,42 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * @param sizeChangeFixedPixel how we should choose the fixed pixel
      */
     private fun newTranslationAfterChange(trans: Float, prevImageSize: Float, imageSize: Float, prevViewSize: Int, viewSize: Int, drawableSize: Int, sizeChangeFixedPixel: FixedPixel?): Float {
-        return if (imageSize < viewSize) {
-            //
-            // The width/height of image is less than the view's width/height. Center it.
-            //
-            (viewSize - drawableSize * floatMatrix!![Matrix.MSCALE_X]) * 0.5f
-        } else if (trans > 0) {
-            //
-            // The image is larger than the view, but was not before the view changed. Center it.
-            //
-            -((imageSize - viewSize) * 0.5f)
-        } else {
-            //
-            // Where is the pixel in the View that we are keeping stable, as a fraction of the
-            // width/height of the View?
-            //
-            var fixedPixelPositionInView = 0.5f // CENTER
-            if (sizeChangeFixedPixel == FixedPixel.BOTTOM_RIGHT) {
-                fixedPixelPositionInView = 1.0f
-            } else if (sizeChangeFixedPixel == FixedPixel.TOP_LEFT) {
-                fixedPixelPositionInView = 0.0f
+        return when {
+            imageSize < viewSize -> {
+                //
+                // The width/height of image is less than the view's width/height. Center it.
+                //
+                (viewSize - drawableSize * floatMatrix!![Matrix.MSCALE_X]) * 0.5f
             }
-            //
-            // Where is the pixel in the Image that we are keeping stable, as a fraction of the
-            // width/height of the Image?
-            //
-            val fixedPixelPositionInImage = (-trans + fixedPixelPositionInView * prevViewSize) / prevImageSize
-            //
-            // Here's what the new translation should be so that, after whatever change triggered
-            // this function to be called, the pixel at fixedPixelPositionInView of the View is
-            // still the pixel at fixedPixelPositionInImage of the image.
-            //
-            -(fixedPixelPositionInImage * imageSize - viewSize * fixedPixelPositionInView)
+            trans > 0 -> {
+                //
+                // The image is larger than the view, but was not before the view changed. Center it.
+                //
+                -((imageSize - viewSize) * 0.5f)
+            }
+            else -> {
+                //
+                // Where is the pixel in the View that we are keeping stable, as a fraction of the
+                // width/height of the View?
+                //
+                var fixedPixelPositionInView = 0.5f // CENTER
+                if (sizeChangeFixedPixel == FixedPixel.BOTTOM_RIGHT) {
+                    fixedPixelPositionInView = 1.0f
+                } else if (sizeChangeFixedPixel == FixedPixel.TOP_LEFT) {
+                    fixedPixelPositionInView = 0.0f
+                }
+                //
+                // Where is the pixel in the Image that we are keeping stable, as a fraction of the
+                // width/height of the Image?
+                //
+                val fixedPixelPositionInImage = (-trans + fixedPixelPositionInView * prevViewSize) / prevImageSize
+                //
+                // Here's what the new translation should be so that, after whatever change triggered
+                // this function to be called, the pixel at fixedPixelPositionInView of the View is
+                // still the pixel at fixedPixelPositionInImage of the image.
+                //
+                -(fixedPixelPositionInImage * imageSize - viewSize * fixedPixelPositionInView)
+            }
         }
     }
 
@@ -794,7 +798,6 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
         this.state = state
     }
 
-    @Deprecated("")
     fun canScrollHorizontallyFroyo(direction: Int): Boolean {
         return canScrollHorizontally(direction)
     }
@@ -806,7 +809,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
             false
         } else if (x >= -1 && direction < 0) {
             false
-        } else Math.abs(x) + viewWidth + 1 < imageWidth || direction <= 0
+        } else abs(x) + viewWidth + 1 < imageWidth || direction <= 0
     }
 
     override fun canScrollVertically(direction: Int): Boolean {
@@ -816,7 +819,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
             false
         } else if (y >= -1 && direction < 0) {
             false
-        } else Math.abs(y) + viewHeight + 1 < imageHeight || direction <= 0
+        } else abs(y) + viewHeight + 1 < imageHeight || direction <= 0
     }
 
     /**
@@ -876,6 +879,8 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
 
         // Remember last point position for dragging
         private val last = PointF()
+
+        @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(v: View, event: MotionEvent): Boolean {
             if (drawable == null) {
                 setState(State.NONE)
@@ -1049,7 +1054,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
         private fun interpolate(): Float {
             val currTime = System.currentTimeMillis()
             var elapsed = (currTime - startTime) / DEFAULT_ZOOM_TIME.toFloat()
-            elapsed = Math.min(1f, elapsed)
+            elapsed = 1f.coerceAtMost(elapsed)
             return interpolator.getInterpolation(elapsed)
         }
 
@@ -1088,7 +1093,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * to the bounds of the bitmap size.
      * @return Coordinates of the point touched, in the coordinate system of the original drawable.
      */
-    protected fun transformCoordTouchToBitmap(x: Float, y: Float, clipToBitmap: Boolean): PointF {
+    private fun transformCoordTouchToBitmap(x: Float, y: Float, clipToBitmap: Boolean): PointF {
         touchMatrix!!.getValues(floatMatrix)
         val origW = drawable.intrinsicWidth.toFloat()
         val origH = drawable.intrinsicHeight.toFloat()
@@ -1097,8 +1102,8 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
         var finalX = (x - transX) * origW / imageWidth
         var finalY = (y - transY) * origH / imageHeight
         if (clipToBitmap) {
-            finalX = Math.min(Math.max(finalX, 0f), origW)
-            finalY = Math.min(Math.max(finalY, 0f), origH)
+            finalX = finalX.coerceAtLeast(0f).coerceAtMost(origW)
+            finalY = finalY.coerceAtLeast(0f).coerceAtMost(origH)
         }
         return PointF(finalX, finalY)
     }
@@ -1111,7 +1116,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * @param by y-coordinate in original bitmap coordinate system
      * @return Coordinates of the point in the view's coordinate system.
      */
-    protected fun transformCoordBitmapToTouch(bx: Float, by: Float): PointF {
+    private fun transformCoordBitmapToTouch(bx: Float, by: Float): PointF {
         touchMatrix!!.getValues(floatMatrix)
         val origW = drawable.intrinsicWidth.toFloat()
         val origH = drawable.intrinsicHeight.toFloat()
@@ -1197,8 +1202,8 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     @TargetApi(VERSION_CODES.GINGERBREAD)
-    private inner class CompatScroller(context: Context?) {
-        var overScroller: OverScroller
+    private class CompatScroller(context: Context?) {
+        var overScroller: OverScroller = OverScroller(context)
         fun fling(startX: Int, startY: Int, velocityX: Int, velocityY: Int, minX: Int, maxX: Int, minY: Int, maxY: Int) {
             overScroller.fling(startX, startY, velocityX, velocityY, minX, maxX, minY, maxY)
         }
@@ -1221,18 +1226,10 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
         val currY: Int
             get() = overScroller.currY
 
-        init {
-            overScroller = OverScroller(context)
-        }
     }
 
-    @TargetApi(VERSION_CODES.JELLY_BEAN)
     private fun compatPostOnAnimation(runnable: Runnable) {
-        if (VERSION.SDK_INT >= VERSION_CODES.JELLY_BEAN) {
-            postOnAnimation(runnable)
-        } else {
-            postDelayed(runnable, 1000 / 60.toLong())
-        }
+        postOnAnimation(runnable)
     }
 
     private inner class ZoomVariables(var scale: Float, var focusX: Float, var focusY: Float, var scaleType: ScaleType?)
@@ -1247,11 +1244,11 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      * focus point as a fraction from the left and top of the view. For example, the top left
      * corner of the image would be (0, 0). And the bottom right corner would be (1, 1).
      */
-    fun setZoomAnimated(scale: Float, focusX: Float, focusY: Float) {
+    private fun setZoomAnimated(scale: Float, focusX: Float, focusY: Float) {
         setZoomAnimated(scale, focusX, focusY, DEFAULT_ZOOM_TIME)
     }
 
-    fun setZoomAnimated(scale: Float, focusX: Float, focusY: Float, zoomTimeMs: Int) {
+    private fun setZoomAnimated(scale: Float, focusX: Float, focusY: Float, zoomTimeMs: Int) {
         val animation = AnimatedZoom(scale, PointF(focusX, focusY), zoomTimeMs)
         compatPostOnAnimation(animation)
     }
@@ -1314,7 +1311,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
          */
         private fun interpolate(): Float {
             var elapsed = (System.currentTimeMillis() - startTime) / zoomTimeMillis.toFloat()
-            elapsed = Math.min(1f, elapsed)
+            elapsed = 1f.coerceAtMost(elapsed)
             return interpolator.getInterpolation(elapsed)
         }
 

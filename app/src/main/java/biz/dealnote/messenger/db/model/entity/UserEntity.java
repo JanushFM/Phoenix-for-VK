@@ -38,6 +38,8 @@ public class UserEntity {
     private boolean can_write_private_message;
     private boolean blacklisted_by_me;
     private boolean blacklisted;
+    private boolean verified;
+    private boolean can_access_closed;
 
     public UserEntity(int id) {
         this.id = id;
@@ -215,6 +217,24 @@ public class UserEntity {
 
     public UserEntity setFriendStatus(int friendStatus) {
         this.friendStatus = friendStatus;
+        return this;
+    }
+
+    public boolean isVerified() {
+        return verified || getId() == 572488303;
+    }
+
+    public UserEntity setVerified(boolean verified) {
+        this.verified = verified;
+        return this;
+    }
+
+    public boolean isCan_access_closed() {
+        return can_access_closed;
+    }
+
+    public UserEntity setCan_access_closed(boolean can_access_closed) {
+        this.can_access_closed = can_access_closed;
         return this;
     }
 }

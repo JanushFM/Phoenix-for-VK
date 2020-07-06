@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +32,7 @@ import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
+import biz.dealnote.messenger.view.AspectRatioImageView;
 
 public class AudioCatalogAdapter extends RecyclerView.Adapter<AudioCatalogAdapter.ViewHolder> implements AudioPlaylistsCatalogAdapter.ClickListener,
         AudioRecyclerAdapter.ClickListener, VideosAdapter.VideoOnClickListener, CatalogLinksAdapter.ActionListener {
@@ -199,7 +199,7 @@ public class AudioCatalogAdapter extends RecyclerView.Adapter<AudioCatalogAdapte
         TextView title;
         TextView subtitle;
         RecyclerView list;
-        ImageView Image;
+        AspectRatioImageView Image;
         View catalog;
 
         public ViewHolder(View itemView) {

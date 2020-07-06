@@ -23,6 +23,7 @@ public class PollEntity extends Entity {
     private boolean anonymous;
     private List<Answer> answers;
     private boolean board;
+    private String photo;
 
     public PollEntity(int id, int ownerId) {
         this.id = id;
@@ -124,6 +125,15 @@ public class PollEntity extends Entity {
 
     public PollEntity setQuestion(String question) {
         this.question = question;
+        return this;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public PollEntity setPhoto(String photo) {
+        this.photo = photo;
         return this;
     }
 

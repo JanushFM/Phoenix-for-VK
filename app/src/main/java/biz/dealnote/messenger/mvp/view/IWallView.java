@@ -48,4 +48,6 @@ public interface IWallView extends IAttachmentsPlacesView,
     void openPostEditor(int accountId, Post post);
 
     void notifyWallItemRemoved(int index);
+
+    void goToConversationAttachments(int accountId, int ownerId);
 }

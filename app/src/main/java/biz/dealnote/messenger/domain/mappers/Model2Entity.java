@@ -193,7 +193,8 @@ public class Model2Entity {
                 .setCanReport(poll.isCanReport())
                 .setCanShare(poll.isCanShare())
                 .setEndDate(poll.getEndDate())
-                .setMultiple(poll.isMultiple());
+                .setMultiple(poll.isMultiple())
+                .setPhoto(poll.getPhoto());
     }
 
     public static LinkEntity buildLinkDbo(Link link) {

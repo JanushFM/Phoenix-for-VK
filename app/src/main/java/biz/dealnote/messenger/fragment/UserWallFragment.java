@@ -71,6 +71,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
         if (isNull(mHeaderHolder)) return;
 
         mHeaderHolder.tvName.setText(user.getFullName());
+        mHeaderHolder.tvName.setTextColor(Utils.getVerifiedColor(requireActivity(), user.isVerified()));
         mHeaderHolder.tvLastSeen.setText(UserInfoResolveUtil.getUserActivityLine(getContext(), user, true));
 
         if (!user.getCanWritePrivateMessage())
@@ -81,6 +82,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
         NeedShowClBlk = user.getBlacklisted_by_me();
         String screenName = nonEmpty(user.getDomain()) ? "@" + user.getDomain() : null;
         mHeaderHolder.tvScreenName.setText(screenName);
+        mHeaderHolder.tvScreenName.setTextColor(Utils.getVerifiedColor(requireActivity(), user.isVerified()));
 
         String photoUrl = user.getMaxSquareAvatar();
 
@@ -103,6 +105,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
         if (user.getBlacklisted()) {
             Utils.ColoredSnack(requireView(), R.string.blacklisted, Snackbar.LENGTH_LONG, Color.parseColor("#ccaa0000")).show();
         }
+        mHeaderHolder.ivVerified.setVisibility(user.isVerified() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -288,9 +291,9 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
     public void showAvatarContextMenu(boolean canUploadAvatar) {
         String[] items;
         if (canUploadAvatar) {
-            items = new String[]{getString(R.string.open_photo_album), getString(R.string.open_photo), getString(R.string.upload_new_photo)};
+            items = new String[]{getString(R.string.open_photo), getString(R.string.open_avatar), getString(R.string.upload_new_photo)};
         } else {
-            items = new String[]{getString(R.string.open_photo_album), getString(R.string.open_photo)};
+            items = new String[]{getString(R.string.open_photo), getString(R.string.open_avatar)};
         }
 
         new MaterialAlertDialogBuilder(requireActivity()).setItems(items, (dialogInterface, i) -> {
@@ -371,6 +374,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
 
         ViewGroup avatarRoot;
         ImageView ivAvatar;
+        ImageView ivVerified;
         TextView tvName;
         TextView tvScreenName;
         TextView tvStatus;
@@ -410,6 +414,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
             bPrimaryAction = root.findViewById(R.id.subscribe_btn);
             Valknut = root.findViewById(R.id.valknut_icon);
             Runes = root.findViewById(R.id.runes_icon);
+            ivVerified = root.findViewById(R.id.item_verified);
 
             RecyclerView filtersList = root.findViewById(R.id.post_filter_recyclerview);
             filtersList.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));

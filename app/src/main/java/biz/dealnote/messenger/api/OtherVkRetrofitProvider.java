@@ -55,7 +55,7 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
             OkHttpClient.Builder builder = new OkHttpClient.Builder()
                     .readTimeout(30, TimeUnit.SECONDS)
                     .addInterceptor(HttpLogger.DEFAULT_LOGGING_INTERCEPTOR).addInterceptor(chain -> {
-                        Request request = chain.request().newBuilder().addHeader("User-Agent", Constants.USER_AGENT(null)).build();
+                        Request request = chain.request().newBuilder().addHeader("User-Agent", Constants.USER_AGENT("vkofficial")).build();
                         return chain.proceed(request);
                     });
 

@@ -18,6 +18,7 @@ public class SquareFrameLayout extends FrameLayout {
         super(context, attrs, defStyleAttr);
     }
 
+    @SuppressWarnings("SuspiciousNameCombination")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);

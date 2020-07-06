@@ -126,6 +126,8 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
         cv.put(UserColumns.WRITE_MESSAGE_STATUS, dbo.getCanWritePrivateMessage());
         cv.put(UserColumns.IS_USER_BLACK_LIST, dbo.getBlacklisted_by_me());
         cv.put(UserColumns.IS_BLACK_LISTED, dbo.getBlacklisted());
+        cv.put(UserColumns.IS_VERIFIED, dbo.isVerified());
+        cv.put(UserColumns.IS_CAN_ACCESS_CLOSED, dbo.isCan_access_closed());
         return cv;
     }
 
@@ -163,7 +165,9 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
                 .setFriendStatus(cursor.getInt(cursor.getColumnIndex(UserColumns.FRIEND_STATUS)))
                 .setCanWritePrivateMessage(cursor.getInt(cursor.getColumnIndex(UserColumns.WRITE_MESSAGE_STATUS)) == 1)
                 .setBlacklisted_by_me(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_USER_BLACK_LIST)) == 1)
-                .setBlacklisted(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_BLACK_LISTED)) == 1);
+                .setBlacklisted(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_BLACK_LISTED)) == 1)
+                .setVerified(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_VERIFIED)) == 1)
+                .setCan_access_closed(cursor.getInt(cursor.getColumnIndex(UserColumns.IS_CAN_ACCESS_CLOSED)) == 1);
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Transformation;
@@ -45,20 +46,20 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_USER:
                 return new PeopleHolder(LayoutInflater.from(mContext).inflate(R.layout.item_people, parent, false));
             case TYPE_COMMUNITY:
                 return new CommunityHolder(LayoutInflater.from(mContext).inflate(R.layout.item_group, parent, false));
-            default:
-                return null;
         }
+        throw new RuntimeException("OwnersAdapter.onCreateViewHolder");
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         switch (getItemViewType(position)) {
             case TYPE_USER:
                 bindUserHolder((PeopleHolder) holder, (User) mData.get(position));
@@ -89,9 +90,13 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private void bindUserHolder(PeopleHolder holder, final User user) {
         holder.name.setText(user.getFullName());
+        holder.name.setTextColor(Utils.getVerifiedColor(mContext, user.isVerified()));
 
         holder.subtitle.setText(UserInfoResolveUtil.getUserActivityLine(mContext, user, true));
         holder.subtitle.setTextColor(user.isOnline() ? CurrentTheme.getColorPrimary(mContext) : STATUS_COLOR_OFFLINE);
+
+        holder.ivVerified.setVisibility(user.isVerified() ? View.VISIBLE : View.GONE);
+        holder.blacklisted.setVisibility(user.getBlacklisted() ? View.VISIBLE : View.GONE);
 
         holder.online.setVisibility(user.isOnline() ? View.VISIBLE : View.GONE);
         Integer onlineIcon = ViewUtils.getOnlineIcon(user.isOnline(), user.isOnlineMobile(), user.getPlatform(), user.getOnlineApp());
@@ -167,7 +172,8 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView subtitle;
         ImageView avatar;
         ImageView online;
-
+        ImageView blacklisted;
+        ImageView ivVerified;
         ViewGroup avatarRoot;
 
         PeopleHolder(View itemView) {
@@ -177,6 +183,8 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             subtitle = itemView.findViewById(R.id.item_people_subtitle);
             avatar = itemView.findViewById(R.id.item_people_avatar);
             online = itemView.findViewById(R.id.item_people_online);
+            ivVerified = itemView.findViewById(R.id.item_verified);
+            blacklisted = itemView.findViewById(R.id.item_blacklisted);
             Utils.setColorFilter(online, CurrentTheme.getColorPrimary(mContext));
         }
     }

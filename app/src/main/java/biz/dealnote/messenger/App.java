@@ -43,7 +43,7 @@ public class App extends Application {
         sInstanse = this;
         AppCompatDelegate.setDefaultNightMode(Settings.get().ui().getNightMode());
         TagOptionSingleton.getInstance().setAndroid(true);
-        Security.insertProviderAt(Conscrypt.newProvider(), 1);
+        Security.addProvider(Conscrypt.newProvider());
 
         super.onCreate();
 

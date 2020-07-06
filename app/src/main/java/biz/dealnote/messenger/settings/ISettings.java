@@ -72,6 +72,10 @@ public interface ISettings {
 
         void setKeepLongpoll(boolean en);
 
+        void setDisableErrorFCM(boolean en);
+
+        boolean isDisabledErrorFCM();
+
         boolean isSettings_no_push();
 
         boolean isCommentsDesc();

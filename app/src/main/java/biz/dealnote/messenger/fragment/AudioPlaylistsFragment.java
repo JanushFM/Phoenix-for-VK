@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -57,9 +57,8 @@ public class AudioPlaylistsFragment extends BaseMvpFragment<AudioPlaylistsPresen
         toolbar.setVisibility(View.GONE);
         mEmpty = root.findViewById(R.id.fragment_audio_playlist_empty_text);
 
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(requireActivity());
         RecyclerView recyclerView = root.findViewById(R.id.recycleView);
-        recyclerView.setLayoutManager(manager);
+        recyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 2));
         recyclerView.addOnScrollListener(new PicassoPauseOnScrollListener(Constants.PICASSO_TAG));
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
