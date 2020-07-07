@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -72,8 +74,8 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         this.iCatalogBlock = iCatalogBlock;
     }
 
-    private void deleteTrack(final int accoutnId, Audio audio) {
-        audioListDisposable.add(mAudioInteractor.delete(accoutnId, audio.getId(), audio.getOwnerId()).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
+    private void deleteTrack(final int accountId, Audio audio) {
+        audioListDisposable.add(mAudioInteractor.delete(accountId, audio.getId(), audio.getOwnerId()).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
         }, ignore -> {
         }));
     }
@@ -115,6 +117,33 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
     private Transformation TransformCover() {
         return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
+    }
+
+    private void updateAudioStatus(AudioHolder holder, final Audio audio) {
+        switch (MusicUtils.AudioStatus(audio)) {
+            case 1:
+                holder.visual.setVisibility(View.VISIBLE);
+                Utils.doAnimateLottie(holder.visual, true, 104);
+                holder.play_icon.setVisibility(View.GONE);
+                holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
+                break;
+            case 2:
+                holder.visual.setVisibility(View.VISIBLE);
+                Utils.doAnimateLottie(holder.visual, false, 104);
+                holder.play_icon.setVisibility(View.GONE);
+                holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
+                break;
+            default:
+                if (holder.visual.isAnimating()) {
+                    holder.visual.cancelAnimation();
+                }
+                holder.visual.setVisibility(View.GONE);
+                holder.play_icon.setVisibility(View.VISIBLE);
+                holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+                holder.play_cover.clearColorFilter();
+                break;
+
+        }
     }
 
     @Override
@@ -160,8 +189,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         else if (Status == 2)
             holder.saved.setImageResource(R.drawable.remote_cloud);
 
-        holder.play_icon.setImageResource(MusicUtils.isNowPlayingOrPreparing(audio) ? R.drawable.voice_state_animation : (MusicUtils.isNowPaused(audio) ? R.drawable.paused : (Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song)));
-        Utils.doAnimate(holder.play_icon.getDrawable(), true);
+        updateAudioStatus(holder, audio);
 
         if (Settings.get().other().isShow_audio_cover()) {
             if (!Utils.isEmpty(audio.getThumb_image_little())) {
@@ -183,21 +211,12 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         holder.play.setOnClickListener(v -> {
             if (MusicUtils.isNowPlayingOrPreparingOrPaused(audio)) {
                 if (!Settings.get().other().isUse_stop_audio()) {
-                    if (!MusicUtils.isNowPaused(audio))
-                        holder.play_icon.setImageResource(R.drawable.paused);
-                    else {
-                        holder.play_icon.setImageResource(R.drawable.voice_state_animation);
-                        Utils.doAnimate(holder.play_icon.getDrawable(), true);
-                    }
                     MusicUtils.playOrPause();
                 } else {
-                    holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
                     MusicUtils.stop();
                 }
             } else {
                 if (mClickListener != null) {
-                    holder.play_icon.setImageResource(R.drawable.voice_state_animation);
-                    Utils.doAnimate(holder.play_icon.getDrawable(), true);
                     mClickListener.onClick(position, iCatalogBlock, audio);
                 }
             }
@@ -367,6 +386,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         View play;
         ImageView play_icon;
         ImageView play_cover;
+        LottieAnimationView visual;
         TextView time;
         ImageView saved;
         ImageView lyric;
@@ -393,6 +413,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
             quality = itemView.findViewById(R.id.quality);
             isSelectedView = itemView.findViewById(R.id.item_audio_select_add);
             selectionView = itemView.findViewById(R.id.item_audio_selection);
+            visual = itemView.findViewById(R.id.item_audio_visual);
             animationAdapter = new WeakViewAnimatorAdapter<View>(selectionView) {
                 @Override
                 public void onAnimationEnd(View view) {

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import org.jetbrains.annotations.NotNull;
+
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.DualTabPhotosFragment;
@@ -46,7 +48,7 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt("mMaxSelectionCount", mMaxSelectionCount);
         outState.putParcelable("mSources", mSources);

@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import biz.dealnote.messenger.R;
@@ -24,8 +26,9 @@ public class SchoolClassesAdapter extends RecyclerView.Adapter<SchoolClassesAdap
         this.mData = mData;
     }
 
+    @NotNull
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(mContext).inflate(R.layout.item_country, parent, false));
     }
 

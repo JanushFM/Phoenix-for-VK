@@ -77,8 +77,8 @@ public class WallLinksAttachmentsFragment extends PlaceSupportMvpFragment<WallLi
         mSwipeRefreshLayout.setOnRefreshListener(() -> getPresenter().fireRefresh());
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
-        mAdapter = new LinksAdapter(Collections.emptyList(), requireActivity());
-        mAdapter.setActionListner(this);
+        mAdapter = new LinksAdapter(Collections.emptyList());
+        mAdapter.setActionListener(this);
 
         recyclerView.setAdapter(mAdapter);
 

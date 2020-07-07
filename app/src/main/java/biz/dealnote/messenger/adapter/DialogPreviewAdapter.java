@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EventListener;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
         this.actionListener = actionListener;
     }
 
+    @NotNull
     @Override
     public DialogPreviewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new DialogPreviewHolder(LayoutInflater.from(parent.getContext())
@@ -41,7 +44,7 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
     }
 
     @Override
-    public void onBindViewHolder(DialogPreviewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull DialogPreviewHolder holder, int position) {
         Object item = mData.get(position);
 
         if (item instanceof User) {
@@ -88,7 +91,7 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
         void onEntryClick(Object o);
     }
 
-    class DialogPreviewHolder extends RecyclerView.ViewHolder {
+    static class DialogPreviewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView mAvatar;
         private final TextView mTitle;

@@ -602,6 +602,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
     private fun onMessagesGetError(t: Throwable) {
         setNetLoadingNow(false)
+        PersistentLogger.logThrowable("Chat issues", getCauseIfRuntime(t))
         showError(view, getCauseIfRuntime(t))
     }
 
@@ -1029,9 +1030,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private fun updateSubtitle() {
         subtitle = null
 
-        val peerType = Peer.getType(peerId)
-
-        when (peerType) {
+        when (Peer.getType(peerId)) {
             Peer.GROUP -> {
                 subtitle = null
                 resolveToolbarSubtitle()
@@ -1213,7 +1212,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
             appendDisposable(messagesRepository.markAsRead(messagesOwnerId, peer.id, last.id)
                     .fromIOToMain()
-                    .subscribe(dummy(), Consumer { t -> showError(view, t) }))
+                    .subscribe(dummy(), { t -> showError(view, t) }))
         }
     }
 
@@ -1279,6 +1278,9 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
                     iterator.remove()
                     hasChanged = true
                 }
+                MessageStatus.EDITING -> {
+                    TODO()
+                }
             }
         }
 
@@ -1298,7 +1300,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private fun deleteSentImpl(ids: Collection<Int>, forAll: Boolean) {
         appendDisposable(messagesRepository.deleteMessages(messagesOwnerId, peerId, ids, forAll)
                 .fromIOToMain()
-                .subscribe(dummy(), Consumer { t -> showError(view, t) }))
+                .subscribe(dummy(), { t -> showError(view, t) }))
     }
 
     private fun canDeleteForAll(message: Message): Boolean {
@@ -1350,7 +1352,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         appendDisposable(messagesRepository.removeChatMember(accountId, chatId, accountId)
                 .fromIOToMain()
-                .subscribe(dummy(), Consumer { t -> showError(view, t) }))
+                .subscribe(dummy(), { t -> showError(view, t) }))
     }
 
     fun fireChatTitleClick() {
@@ -1441,7 +1443,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         appendDisposable(messagesRepository.editChat(messagesOwnerId, chatId, newValue)
                 .fromIOToMain()
-                .subscribe(dummy(), Consumer { t -> showError(view, t) }))
+                .subscribe(dummy(), { t -> showError(view, t) }))
     }
 
     fun fireForwardToHereClick(messages: ArrayList<Message>) {
@@ -1784,7 +1786,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private fun doPin(message: Message?) {
         appendDisposable(messagesRepository.pin(accountId, peerId, message)
                 .fromIOToMain()
-                .subscribe(dummy(), Consumer { onPinFail(it) }))
+                .subscribe(dummy(), { onPinFail(it) }))
     }
 
     fun fireActionModePinClick() {

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collection;
 import java.util.EventListener;
 
@@ -41,8 +43,9 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.mPrivacy = privacy;
     }
 
+    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         switch (viewType) {
             case TYPE_ENTRY:
@@ -55,7 +58,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TitleViewHolder) {
             bindTitle((TitleViewHolder) holder);
             return;
@@ -182,13 +185,13 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.mLayoutManager = recyclerView.getLayoutManager();
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         this.mLayoutManager = null;
     }
@@ -235,7 +238,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         void onAddToDisallowedClick();
     }
 
-    class TitleViewHolder extends RecyclerView.ViewHolder {
+    static class TitleViewHolder extends RecyclerView.ViewHolder {
 
         TextView title;
         View buttonAdd;
@@ -248,7 +251,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    class EntryViewHolder extends RecyclerView.ViewHolder {
+    static class EntryViewHolder extends RecyclerView.ViewHolder {
 
         ImageView avatar;
         View buttonRemove;

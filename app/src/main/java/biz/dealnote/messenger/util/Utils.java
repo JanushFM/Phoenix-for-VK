@@ -2,6 +2,7 @@ package biz.dealnote.messenger.util;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -21,7 +22,6 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Parcel;
@@ -37,12 +37,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.graphics.ColorUtils;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -919,24 +919,16 @@ public class Utils {
         return titles[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[(int) Math.min(number % 10, 5)]];
     }
 
-    public static void doAnimate(Drawable dr, boolean Play) {
-        if (dr instanceof Animatable) {
-            if (Play)
-                ((Animatable) dr).start();
-            else
-                ((Animatable) dr).stop();
+    public static void doAnimateLottie(LottieAnimationView visual, boolean Play, int stopFrame) {
+        if (Play) {
+            visual.setRepeatCount(ValueAnimator.INFINITE);
+            visual.playAnimation();
+        } else {
+            if (visual.isAnimating()) {
+                visual.setFrame(stopFrame);
+            }
+            visual.setRepeatCount(0);
         }
-    }
-
-    public static Drawable AnimateDrawable(Context context, @DrawableRes int Res, boolean Play) {
-        @SuppressLint("UseCompatLoadingForDrawables") Drawable dr = context.getDrawable(Res);
-        if (dr instanceof Animatable) {
-            if (Play)
-                ((Animatable) dr).start();
-            else
-                ((Animatable) dr).stop();
-        }
-        return dr;
     }
 
     public static Bitmap createGradientChatImage(int width, int height, int owner_id) {

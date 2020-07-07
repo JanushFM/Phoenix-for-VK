@@ -380,7 +380,6 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         TextView dateTime;
         TextView title;
         AspectRatioImageView image;
-        View divider;
 
         PhotoHolder(View itemView) {
             super(itemView);

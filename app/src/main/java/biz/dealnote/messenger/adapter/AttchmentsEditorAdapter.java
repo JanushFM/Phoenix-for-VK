@@ -248,7 +248,7 @@ public class AttchmentsEditorAdapter extends RecyclerBindableAdapter<AttachmenEn
         }
     }
 
-    private void bindCall(ViewHolder holder, Call call) {
+    private void bindCall(ViewHolder holder) {
         holder.tvTitle.setText(R.string.call);
         PicassoInstance.with().cancelRequest(holder.photoImageView);
         holder.photoImageView.setImageResource(R.drawable.phone_call_color);
@@ -384,7 +384,7 @@ public class AttchmentsEditorAdapter extends RecyclerBindableAdapter<AttachmenEn
         } else if (model instanceof Story) {
             bindStory(holder, (Story) model);
         } else if (model instanceof Call) {
-            bindCall(holder, (Call) model);
+            bindCall(holder);
         } else if (model instanceof AudioPlaylist) {
             bindAudioPlaylist(holder, (AudioPlaylist) model);
         } else if (model instanceof Graffiti) {

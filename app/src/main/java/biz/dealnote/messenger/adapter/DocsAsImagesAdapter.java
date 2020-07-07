@@ -22,7 +22,7 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 public class DocsAsImagesAdapter extends RecyclerBindableAdapter<Document, DocsAsImagesAdapter.DocViewHolder> {
 
-    private ActionListener mActionListner;
+    private ActionListener mActionListener;
 
     public DocsAsImagesAdapter(List<Document> data) {
         super(data);
@@ -32,8 +32,8 @@ public class DocsAsImagesAdapter extends RecyclerBindableAdapter<Document, DocsA
         super.setItems(data);
     }
 
-    public void setActionListner(ActionListener listner) {
-        this.mActionListner = listner;
+    public void setActionListener(ActionListener listener) {
+        this.mActionListener = listener;
     }
 
     @Override
@@ -56,13 +56,13 @@ public class DocsAsImagesAdapter extends RecyclerBindableAdapter<Document, DocsA
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (nonNull(mActionListner)) {
-                mActionListner.onDocClick(holder.getBindingAdapterPosition(), item);
+            if (nonNull(mActionListener)) {
+                mActionListener.onDocClick(holder.getBindingAdapterPosition(), item);
             }
         });
 
-        holder.itemView.setOnLongClickListener(v -> nonNull(mActionListner)
-                && mActionListner.onDocLongClick(holder.getBindingAdapterPosition(), item));
+        holder.itemView.setOnLongClickListener(v -> nonNull(mActionListener)
+                && mActionListener.onDocLongClick(holder.getBindingAdapterPosition(), item));
     }
 
     @Override

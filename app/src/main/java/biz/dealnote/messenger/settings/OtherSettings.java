@@ -8,7 +8,6 @@ import androidx.preference.PreferenceManager;
 
 import java.io.File;
 
-import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 
@@ -252,7 +251,7 @@ class OtherSettings implements ISettings.IOtherSettings {
     public String getPhotoDir() {
         String ret = PreferenceManager.getDefaultSharedPreferences(app).getString("photo_dir", null);
         if (Utils.isEmpty(ret) || !new File(ret).exists()) {
-            ret = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Constants.PHOTOS_PATH;
+            ret = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath() + "/Phoenix";
             PreferenceManager.getDefaultSharedPreferences(app).edit().putString("photo_dir", ret).apply();
         }
         return ret;

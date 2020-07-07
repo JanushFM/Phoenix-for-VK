@@ -110,7 +110,7 @@ public class VKApiPoll implements VKApiAttachment {
     }
 
     public static final class Photo {
-        public int color;
+        public String color;
         public int id;
         public List<Image> images;
     }

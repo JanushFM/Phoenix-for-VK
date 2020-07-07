@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import biz.dealnote.messenger.R;
@@ -40,6 +42,7 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
         this.paddingForFirstLast = Utils.is600dp(context) ? (int) Utils.dpToPx(16, context) : 0;
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_user_list, viewGroup, false));

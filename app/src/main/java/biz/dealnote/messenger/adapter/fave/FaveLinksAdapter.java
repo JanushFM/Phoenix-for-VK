@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import biz.dealnote.messenger.Constants;
@@ -30,8 +32,9 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
         this.context = context;
     }
 
+    @NotNull
     @Override
-    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(context).inflate(R.layout.item_fave_link, parent, false));
     }
 
@@ -63,13 +66,13 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         this.recyclerView = null;
     }

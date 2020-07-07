@@ -112,7 +112,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         } else if (model instanceof Story) {
             bindStory(holder, (Story) model);
         } else if (model instanceof Call) {
-            bindCall(holder, (Call) model);
+            bindCall(holder);
         } else if (model instanceof AudioPlaylist) {
             bindAudioPlaylist(holder, (AudioPlaylist) model);
         } else if (model instanceof Graffiti) {
@@ -205,7 +205,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         bindImageView(holder, photoLink);
     }
 
-    private void bindCall(EntryHolder holder, Call call) {
+    private void bindCall(EntryHolder holder) {
         holder.title.setText(R.string.call);
         holder.progress.setVisibility(View.INVISIBLE);
         holder.Retry.setVisibility(View.GONE);

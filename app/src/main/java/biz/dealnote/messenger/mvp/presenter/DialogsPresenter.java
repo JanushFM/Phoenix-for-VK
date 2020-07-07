@@ -36,6 +36,7 @@ import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Analytics;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.Optional;
+import biz.dealnote.messenger.util.PersistentLogger;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.ShortcutUtils;
@@ -186,7 +187,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
         if (cause instanceof UnauthorizedException) {
             return;
         }
-
+        PersistentLogger.logThrowable("Dialogs issues", cause);
         showError(getView(), cause);
     }
 

@@ -136,6 +136,16 @@
                 android:layout_height="42dp"
                 android:padding="8dp"
                 android:src="@drawable/song" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/item_audio_visual"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:lottie_autoPlay="false"
+                app:lottie_fileName="play_visual.json"
+                app:lottie_loop="false" />
         </FrameLayout>
 
     </RelativeLayout>

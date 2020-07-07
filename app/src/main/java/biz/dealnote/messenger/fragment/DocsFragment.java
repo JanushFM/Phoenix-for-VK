@@ -121,7 +121,7 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
         RecyclerView uploadRecyclerView = root.findViewById(R.id.uploads_recycler_view);
         uploadRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        mUploadAdapter = new DocsUploadAdapter(requireActivity(), Collections.emptyList(), this);
+        mUploadAdapter = new DocsUploadAdapter(Collections.emptyList(), this);
 
         uploadRecyclerView.setAdapter(mUploadAdapter);
 
@@ -191,11 +191,11 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
 
         if (asImages) {
             DocsAsImagesAdapter docsAsImagesAdapter = new DocsAsImagesAdapter(documents);
-            docsAsImagesAdapter.setActionListner(this);
+            docsAsImagesAdapter.setActionListener(this);
             mDocsAdapter = docsAsImagesAdapter;
         } else {
             DocsAdapter docsAdapter = new DocsAdapter(documents);
-            docsAdapter.setActionListner(this);
+            docsAdapter.setActionListener(this);
             mDocsAdapter = docsAdapter;
         }
 
@@ -210,11 +210,11 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
     private RecyclerBindableAdapter createAdapter(boolean asImages, List<Document> documents) {
         if (asImages) {
             DocsAsImagesAdapter docsAsImagesAdapter = new DocsAsImagesAdapter(documents);
-            docsAsImagesAdapter.setActionListner(this);
+            docsAsImagesAdapter.setActionListener(this);
             return docsAsImagesAdapter;
         } else {
             DocsAdapter docsAdapter = new DocsAdapter(documents);
-            docsAdapter.setActionListner(this);
+            docsAdapter.setActionListener(this);
             return docsAdapter;
         }
     }

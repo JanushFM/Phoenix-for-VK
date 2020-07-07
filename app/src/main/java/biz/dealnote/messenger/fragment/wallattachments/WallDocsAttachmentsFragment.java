@@ -78,7 +78,7 @@ public class WallDocsAttachmentsFragment extends PlaceSupportMvpFragment<WallDoc
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
         mAdapter = new DocsAdapter(Collections.emptyList());
-        mAdapter.setActionListner(this);
+        mAdapter.setActionListener(this);
 
         recyclerView.setAdapter(mAdapter);
 

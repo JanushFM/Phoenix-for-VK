@@ -199,8 +199,6 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         menus.add(new OptionRequest(3, getString(R.string.music), R.drawable.song));
         menus.add(new OptionRequest(4, getString(R.string.links), R.drawable.web));
 
-        menus.header(getString(R.string.select_attachments), R.drawable.attachment, null);
-
         menus.show(getChildFragmentManager(), "attachments_select", option -> PlaceFactory.getWallAttachmentsPlace(accountId, ownerId, types[option.getId()]).tryOpenWith(requireActivity()));
     }
 

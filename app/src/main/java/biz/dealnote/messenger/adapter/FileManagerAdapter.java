@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import biz.dealnote.messenger.Constants;
@@ -35,6 +37,7 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
         this.mContext = context;
     }
 
+    @NotNull
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_file, parent, false));
@@ -90,7 +93,7 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
         void onClick(int position, FileItem item);
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public static class Holder extends RecyclerView.ViewHolder {
 
         TextView fileName;
         TextView fileDetails;

@@ -3,6 +3,7 @@ package biz.dealnote.messenger.adapter;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Transformation;
@@ -58,6 +60,33 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
         return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
     }
 
+    private void updateAudioStatus(AudioHolder holder, final Audio audio) {
+        switch (MusicUtils.AudioStatus(audio)) {
+            case 1:
+                holder.visual.setVisibility(View.VISIBLE);
+                Utils.doAnimateLottie(holder.visual, true, 104);
+                holder.play_icon.setVisibility(View.GONE);
+                holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
+                break;
+            case 2:
+                holder.visual.setVisibility(View.VISIBLE);
+                Utils.doAnimateLottie(holder.visual, false, 104);
+                holder.play_icon.setVisibility(View.GONE);
+                holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
+                break;
+            default:
+                if (holder.visual.isAnimating()) {
+                    holder.visual.cancelAnimation();
+                }
+                holder.visual.setVisibility(View.GONE);
+                holder.play_icon.setVisibility(View.VISIBLE);
+                holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+                holder.play_cover.clearColorFilter();
+                break;
+
+        }
+    }
+
     @Override
     protected void onBindItemViewHolder(AudioHolder holder, int position, int type) {
         final Audio audio = getItem(position);
@@ -71,8 +100,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
         holder.artist.setText(audio.getArtist());
         holder.title.setText(audio.getTitle());
 
-        holder.play_icon.setImageResource(MusicUtils.isNowPlayingOrPreparing(audio) ? R.drawable.voice_state_animation : (MusicUtils.isNowPaused(audio) ? R.drawable.paused : (Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song)));
-        Utils.doAnimate(holder.play_icon.getDrawable(), true);
+        updateAudioStatus(holder, audio);
 
         if (Settings.get().other().isShow_audio_cover()) {
             if (!Utils.isEmpty(audio.getThumb_image_little())) {
@@ -94,21 +122,12 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
         holder.play.setOnClickListener(v -> {
             if (MusicUtils.isNowPlayingOrPreparingOrPaused(audio)) {
                 if (!Settings.get().other().isUse_stop_audio()) {
-                    if (!MusicUtils.isNowPaused(audio))
-                        holder.play_icon.setImageResource(R.drawable.paused);
-                    else {
-                        holder.play_icon.setImageResource(R.drawable.voice_state_animation);
-                        Utils.doAnimate(holder.play_icon.getDrawable(), true);
-                    }
                     MusicUtils.playOrPause();
                 } else {
-                    holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
                     MusicUtils.stop();
                 }
             } else {
                 if (mClickListener != null) {
-                    holder.play_icon.setImageResource(R.drawable.voice_state_animation);
-                    Utils.doAnimate(holder.play_icon.getDrawable(), true);
                     mClickListener.onClick(position, audio);
                 }
             }
@@ -184,6 +203,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
         MaterialCardView selectionView;
         Animator.AnimatorListener animationAdapter;
         ObjectAnimator animator;
+        LottieAnimationView visual;
 
         AudioHolder(View itemView) {
             super(itemView);
@@ -194,6 +214,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
             play_cover = itemView.findViewById(R.id.item_audio_play_cover);
             Track = itemView.findViewById(R.id.track_option);
             selectionView = itemView.findViewById(R.id.item_audio_selection);
+            visual = itemView.findViewById(R.id.item_audio_visual);
             animationAdapter = new WeakViewAnimatorAdapter<View>(selectionView) {
                 @Override
                 public void onAnimationEnd(View view) {

@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EventListener;
 import java.util.List;
 
@@ -35,8 +37,9 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.mTransformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
+    @NotNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case VIEW_TYPE_CHECK:
                 return new CheckViewHolder(LayoutInflater.from(mContext)
@@ -51,7 +54,7 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull RecyclerView.ViewHolder holder, int position) {
         if (position == 0) {
             bindCheckViewHolder((CheckViewHolder) holder);
         } else {
@@ -121,7 +124,7 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
         void onCheckClick();
     }
 
-    private class CheckViewHolder extends RecyclerView.ViewHolder {
+    private static class CheckViewHolder extends RecyclerView.ViewHolder {
 
         TextView counter;
         View root;

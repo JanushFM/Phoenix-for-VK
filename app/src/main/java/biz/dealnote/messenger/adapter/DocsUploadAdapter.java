@@ -1,6 +1,5 @@
 package biz.dealnote.messenger.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class DocsUploadAdapter extends RecyclerView.Adapter<DocsUploadAdapter.Ho
     private final ActionListener actionListener;
     private List<Upload> data;
 
-    public DocsUploadAdapter(Context context, List<Upload> data, ActionListener actionListener) {
+    public DocsUploadAdapter(List<Upload> data, ActionListener actionListener) {
         this.data = data;
         this.actionListener = actionListener;
         this.sharedHolders = new SharedHolders<>(false);
@@ -40,13 +41,14 @@ public class DocsUploadAdapter extends RecyclerView.Adapter<DocsUploadAdapter.Ho
         return idGenerator;
     }
 
+    @NotNull
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(parent.getContext()).inflate(R.layout.doc_upload_entry, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
+    public void onBindViewHolder(@NotNull Holder holder, int position) {
         Upload upload = data.get(position);
         sharedHolders.put(position, holder);
 

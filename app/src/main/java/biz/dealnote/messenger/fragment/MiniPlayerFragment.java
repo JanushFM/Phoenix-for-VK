@@ -1,10 +1,12 @@
 package biz.dealnote.messenger.fragment;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
+
+import com.airbnb.lottie.LottieAnimationView;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -46,7 +50,7 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
     private static final int REFRESH_TIME = 1;
     private int mAccountId;
     private PlaybackStatus mPlaybackStatus;
-    private ImageView play_icon;
+    private LottieAnimationView visual;
     private ImageView play_cover;
     private TextView Title;
     private SeekBar mProgress;
@@ -93,8 +97,8 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mini_player, container, false);
         View play = root.findViewById(R.id.item_audio_play);
-        play_icon = root.findViewById(R.id.item_audio_play_icon);
         play_cover = root.findViewById(R.id.item_audio_play_cover);
+        visual = root.findViewById(R.id.item_audio_visual);
         lnt = root.findViewById(R.id.miniplayer_layout);
         lnt.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
         ImageButton mPClosePlay = root.findViewById(R.id.close_player);
@@ -106,10 +110,11 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         play.setOnClickListener(v -> {
             MusicUtils.playOrPause();
             if (MusicUtils.isPlaying()) {
-                play_icon.setImageResource(R.drawable.voice_state_animation);
-                Utils.doAnimate(play_icon.getDrawable(), true);
+                Utils.doAnimateLottie(visual, true, 104);
+                play_cover.setColorFilter(Color.parseColor("#44000000"));
             } else {
-                play_icon.setImageResource(R.drawable.song);
+                Utils.doAnimateLottie(visual, false, 104);
+                play_cover.clearColorFilter();
             }
         });
         play.setOnLongClickListener(v -> {
@@ -132,25 +137,30 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         if (!isAdded()) {
             return;
         }
-        if (nonNull(play_cover) && nonNull(play_icon)) {
+        if (nonNull(play_cover)) {
             Audio audio = MusicUtils.getCurrentAudio();
             if (audio != null && !Utils.isEmpty(audio.getThumb_image_little())) {
                 PicassoInstance.with()
                         .load(audio.getThumb_image_little())
-                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), R.drawable.audio_button_material, requireActivity().getTheme())))
+                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), R.drawable.audio_button_material_with_icon, requireActivity().getTheme())))
                         .transform(new PolyTransformation())
                         .tag(Constants.PICASSO_TAG)
                         .into(play_cover);
             } else {
                 PicassoInstance.with().cancelRequest(play_cover);
-                play_cover.setImageResource(R.drawable.audio_button_material);
+                play_cover.setImageResource(R.drawable.audio_button_material_with_icon);
             }
 
             if (MusicUtils.isPlaying()) {
-                play_icon.setImageResource(R.drawable.voice_state_animation);
-                Utils.doAnimate(play_icon.getDrawable(), true);
+                visual.setRepeatCount(ValueAnimator.INFINITE);
+                visual.playAnimation();
+                play_cover.setColorFilter(Color.parseColor("#44000000"));
             } else {
-                play_icon.setImageResource(R.drawable.song);
+                if (visual.isAnimating()) {
+                    visual.setFrame(104);
+                }
+                visual.setRepeatCount(0);
+                play_cover.clearColorFilter();
             }
         }
     }

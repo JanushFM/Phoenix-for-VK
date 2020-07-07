@@ -29,8 +29,8 @@ public class ConversationLinksFragment extends AbsChatAttachmentsFragment<Link, 
 
     @Override
     public RecyclerView.Adapter createAdapter() {
-        LinksAdapter simpleDocRecycleAdapter = new LinksAdapter(Collections.emptyList(), requireActivity());
-        simpleDocRecycleAdapter.setActionListner(this);
+        LinksAdapter simpleDocRecycleAdapter = new LinksAdapter(Collections.emptyList());
+        simpleDocRecycleAdapter.setActionListener(this);
         return simpleDocRecycleAdapter;
     }
 

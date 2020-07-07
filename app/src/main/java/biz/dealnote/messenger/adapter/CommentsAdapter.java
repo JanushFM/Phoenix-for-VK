@@ -218,7 +218,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
     }
 
     @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+    public void onDetachedFromRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
         this.recyclerView = null;
     }
@@ -240,7 +240,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
         void populateCommentContextMenu(ContextMenu menu, Comment comment);
     }
 
-    private class DeletedHolder extends RecyclerView.ViewHolder {
+    private static class DeletedHolder extends RecyclerView.ViewHolder {
 
         Button buttonRestore;
 

@@ -221,7 +221,7 @@ public class DocLink {
                     if (item.isIs_expired()) {
                         return context.getString(R.string.is_expired);
                     } else {
-                        Long exp = (item.getExpires() - Calendar.getInstance().getTime().getTime() / 1000) / 3600;
+                        long exp = (item.getExpires() - Calendar.getInstance().getTime().getTime() / 1000) / 3600;
                         return (context.getString(R.string.expires, String.valueOf(exp), context.getString(Utils.declOfNum(exp, new int[]{R.string.hour, R.string.hour_sec, R.string.hours}))));
                     }
                 }

@@ -230,7 +230,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         void onOptionCleared(BaseOption option);
     }
 
-    public class NormalHolder extends RecyclerView.ViewHolder {
+    public static class NormalHolder extends RecyclerView.ViewHolder {
 
         TextView title;
         TextView value;
@@ -244,7 +244,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         }
     }
 
-    public class SimpleBooleanHolder extends RecyclerView.ViewHolder {
+    public static class SimpleBooleanHolder extends RecyclerView.ViewHolder {
 
         SwitchCompat checkableView;
 

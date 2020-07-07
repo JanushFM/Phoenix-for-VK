@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import biz.dealnote.messenger.Constants;
@@ -31,6 +33,7 @@ public class FavePhotosAdapter extends RecyclerView.Adapter<FavePhotosAdapter.Vi
         this.colorPrimary = CurrentTheme.getColorPrimary(context);
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View root = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fave_photo, parent, false);
@@ -85,7 +88,7 @@ public class FavePhotosAdapter extends RecyclerView.Adapter<FavePhotosAdapter.Vi
         void onPhotoClicked(int position, Photo photo);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         View cardView;
         ImageView photoImageView;

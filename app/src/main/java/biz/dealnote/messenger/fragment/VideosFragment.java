@@ -266,7 +266,7 @@ public class VideosFragment extends BaseMvpFragment<VideosListPresenter, IVideos
 
         mAdapter = new VideosAdapter(requireActivity(), Collections.emptyList());
         mAdapter.setVideoOnClickListener(this);
-        mUploadAdapter = new DocsUploadAdapter(requireActivity(), Collections.emptyList(), this);
+        mUploadAdapter = new DocsUploadAdapter(Collections.emptyList(), this);
         uploadRecyclerView.setAdapter(mUploadAdapter);
         mUploadRoot = root.findViewById(R.id.uploads_root);
         recyclerView.setAdapter(mAdapter);

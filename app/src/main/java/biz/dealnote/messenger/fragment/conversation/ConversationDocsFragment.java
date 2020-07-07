@@ -30,7 +30,7 @@ public class ConversationDocsFragment extends AbsChatAttachmentsFragment<Documen
     @Override
     public RecyclerView.Adapter createAdapter() {
         DocsAdapter simpleDocRecycleAdapter = new DocsAdapter(Collections.emptyList());
-        simpleDocRecycleAdapter.setActionListner(this);
+        simpleDocRecycleAdapter.setActionListener(this);
         return simpleDocRecycleAdapter;
     }
 

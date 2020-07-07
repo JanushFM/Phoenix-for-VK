@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.EventListener;
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapte
         this.transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext())
@@ -54,7 +57,7 @@ public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
         final Object item = mData.get(position);
 
         String title = null;
@@ -152,14 +155,13 @@ public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapte
         private final TextView mTitle;
         private final TextView mSubtitle;
         private final ImageView ivImage;
-        private final ImageView ivForward;
 
         ViewHolder(View root) {
             super(root);
             mTitle = root.findViewById(R.id.item_feedback_link_text);
             mSubtitle = root.findViewById(R.id.item_feedback_link_text2);
             ivImage = root.findViewById(R.id.item_feedback_link_image);
-            ivForward = root.findViewById(R.id.item_feedback_link_forward);
+            ImageView ivForward = root.findViewById(R.id.item_feedback_link_forward);
             Utils.setColorFilter(ivForward, CurrentTheme.getColorPrimary(mContext));
 
             root.setOnClickListener(v -> {

@@ -284,7 +284,7 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
         void onNotificationClick(Feedback notification);
     }
 
-    class FeedbackHolder extends RecyclerView.ViewHolder {
+    static class FeedbackHolder extends RecyclerView.ViewHolder {
 
         View headerRoot;
         View contentRoot;
@@ -298,7 +298,7 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
         }
     }
 
-    class UsersHolder extends FeedbackHolder {
+    static class UsersHolder extends FeedbackHolder {
 
         ImageView uAvatar;
         TextView uName;
@@ -318,7 +318,7 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
         }
     }
 
-    class CommentHolder extends FeedbackHolder {
+    static class CommentHolder extends FeedbackHolder {
 
         ImageView cOwnerAvatar;
         OnlineView cChangable;

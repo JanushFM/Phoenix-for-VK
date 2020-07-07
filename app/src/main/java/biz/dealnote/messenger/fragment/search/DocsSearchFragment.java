@@ -45,7 +45,7 @@ public class DocsSearchFragment extends AbsSearchFragment<DocsSearchPresenter, I
     @Override
     DocsAdapter createAdapter(List<Document> data) {
         DocsAdapter adapter = new DocsAdapter(data);
-        adapter.setActionListner(this);
+        adapter.setActionListener(this);
         return adapter;
     }
 

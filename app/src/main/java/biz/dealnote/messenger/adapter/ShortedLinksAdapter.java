@@ -21,7 +21,6 @@ public class ShortedLinksAdapter extends RecyclerView.Adapter<ShortedLinksAdapte
 
     private final Context context;
     private List<ShortLink> data;
-    private RecyclerView recyclerView;
     private ClickListener clickListener;
 
     public ShortedLinksAdapter(List<ShortLink> data, Context context) {
@@ -68,13 +67,11 @@ public class ShortedLinksAdapter extends RecyclerView.Adapter<ShortedLinksAdapte
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        this.recyclerView = recyclerView;
     }
 
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        this.recyclerView = null;
     }
 
     public void setClickListener(ClickListener clickListener) {
@@ -87,7 +84,7 @@ public class ShortedLinksAdapter extends RecyclerView.Adapter<ShortedLinksAdapte
         void onDelete(int index, ShortLink link);
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public static class Holder extends RecyclerView.ViewHolder {
         TextView short_link;
         TextView original;
         TextView time;

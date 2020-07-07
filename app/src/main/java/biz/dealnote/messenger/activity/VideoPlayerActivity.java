@@ -19,8 +19,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
@@ -114,19 +112,15 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
         resolveControlsVisibility();
 
-        try {
-            mPlayer = createPlayer();
-            mPlayer.addVideoSizeChangeListener(this);
-            mPlayer.play();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mPlayer = createPlayer();
+        mPlayer.addVideoSizeChangeListener(this);
+        mPlayer.play();
 
         mControllerView.setMediaPlayer(this);
         mControllerView.setAnchorView(findViewById(R.id.videoSurfaceContainer));
     }
 
-    private IVideoPlayer createPlayer() throws IOException {
+    private IVideoPlayer createPlayer() {
         IProxySettings settings = Injection.provideProxySettings();
         ProxyConfig config = settings.getActiveProxy();
 

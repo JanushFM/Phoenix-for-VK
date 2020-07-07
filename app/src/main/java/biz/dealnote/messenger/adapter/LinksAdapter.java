@@ -1,6 +1,5 @@
 package biz.dealnote.messenger.adapter;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,16 +25,14 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class LinksAdapter extends RecyclerBindableAdapter<Link, LinksAdapter.LinkViewHolder> {
 
-    private final Context context;
-    private ActionListener mActionListner;
+    private ActionListener mActionListener;
 
-    public LinksAdapter(List<Link> data, Context context) {
+    public LinksAdapter(List<Link> data) {
         super(data);
-        this.context = context;
     }
 
-    public void setActionListner(ActionListener listner) {
-        this.mActionListner = listner;
+    public void setActionListener(ActionListener listener) {
+        this.mActionListener = listener;
     }
 
     public String getImageUrl(Link link) {
@@ -86,8 +83,8 @@ public class LinksAdapter extends RecyclerBindableAdapter<Link, LinksAdapter.Lin
         }
 
         holder.itemView.setOnClickListener(v -> {
-            if (nonNull(mActionListner)) {
-                mActionListner.onLinkClick(holder.getBindingAdapterPosition(), item);
+            if (nonNull(mActionListener)) {
+                mActionListener.onLinkClick(holder.getBindingAdapterPosition(), item);
             }
         });
     }

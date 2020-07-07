@@ -298,6 +298,7 @@ public class User extends Owner implements Parcelable, Identificable {
         dest.writeInt(friendStatus);
         dest.writeByte((byte) (can_write_private_message ? 1 : 0));
         dest.writeByte((byte) (blacklisted_by_me ? 1 : 0));
+        dest.writeByte((byte) (blacklisted ? 1 : 0));
         dest.writeByte((byte) (verified ? 1 : 0));
         dest.writeByte((byte) (can_access_closed ? 1 : 0));
     }

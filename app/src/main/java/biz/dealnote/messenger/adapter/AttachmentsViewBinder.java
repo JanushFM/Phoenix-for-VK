@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -817,6 +818,33 @@ public class AttachmentsViewBinder {
         return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
     }
 
+    private void updateAudioStatus(AudioHolder holder, final Audio audio) {
+        switch (MusicUtils.AudioStatus(audio)) {
+            case 1:
+                holder.visual.setVisibility(View.VISIBLE);
+                Utils.doAnimateLottie(holder.visual, true, 104);
+                holder.play_icon.setVisibility(View.GONE);
+                holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
+                break;
+            case 2:
+                holder.visual.setVisibility(View.VISIBLE);
+                Utils.doAnimateLottie(holder.visual, false, 104);
+                holder.play_icon.setVisibility(View.GONE);
+                holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
+                break;
+            default:
+                if (holder.visual.isAnimating()) {
+                    holder.visual.cancelAnimation();
+                }
+                holder.visual.setVisibility(View.GONE);
+                holder.play_icon.setVisibility(View.VISIBLE);
+                holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+                holder.play_cover.clearColorFilter();
+                break;
+
+        }
+    }
+
     /**
      * Отображение аудиозаписей
      *
@@ -854,16 +882,14 @@ public class AttachmentsViewBinder {
                 } else
                     holder.quality.setVisibility(View.GONE);
 
-                holder.play_icon.setImageResource(MusicUtils.isNowPlayingOrPreparing(audio) ? R.drawable.voice_state_animation : (MusicUtils.isNowPaused(audio) ? R.drawable.paused : (Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song)));
-                Utils.doAnimate(holder.play_icon.getDrawable(), true);
+                updateAudioStatus(holder, audio);
                 int finalG = g;
                 AtomicInteger PlayState = new AtomicInteger(MusicUtils.AudioStatus(audio));
                 holder.play_icon.getViewTreeObserver().addOnPreDrawListener(() -> {
                     Integer PlayStateCurrent = MusicUtils.AudioStatus(audio);
                     if (PlayStateCurrent != PlayState.get()) {
                         PlayState.set(PlayStateCurrent);
-                        holder.play_icon.setImageResource(PlayStateCurrent == 1 ? R.drawable.voice_state_animation : (PlayStateCurrent == 2 ? R.drawable.paused : (Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song)));
-                        Utils.doAnimate(holder.play_icon.getDrawable(), true);
+                        updateAudioStatus(holder, audio);
                     }
                     return true;
                 });
@@ -888,20 +914,14 @@ public class AttachmentsViewBinder {
                 holder.ibPlay.setOnClickListener(v -> {
                     if (MusicUtils.isNowPlayingOrPreparingOrPaused(audio)) {
                         if (!Settings.get().other().isUse_stop_audio()) {
-                            if (!MusicUtils.isNowPaused(audio))
-                                holder.play_icon.setImageResource(R.drawable.paused);
-                            else {
-                                holder.play_icon.setImageResource(R.drawable.voice_state_animation);
-                                Utils.doAnimate(holder.play_icon.getDrawable(), true);
-                            }
+                            updateAudioStatus(holder, audio);
                             MusicUtils.playOrPause();
                         } else {
-                            holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+                            updateAudioStatus(holder, audio);
                             MusicUtils.stop();
                         }
                     } else {
-                        holder.play_icon.setImageResource(R.drawable.voice_state_animation);
-                        Utils.doAnimate(holder.play_icon.getDrawable(), true);
+                        updateAudioStatus(holder, audio);
                         mAttachmentsActionCallback.onAudioPlay(finalG, audios);
                     }
                 });
@@ -1150,6 +1170,7 @@ public class AttachmentsViewBinder {
         MaterialCardView isSelectedView;
         Animator.AnimatorListener animationAdapter;
         ObjectAnimator animator;
+        LottieAnimationView visual;
 
         AudioHolder(View root) {
             tvTitle = root.findViewById(R.id.dialog_title);
@@ -1166,6 +1187,7 @@ public class AttachmentsViewBinder {
             isSelectedView = root.findViewById(R.id.item_audio_select_add);
             isSelectedView.setVisibility(View.GONE);
             quality = root.findViewById(R.id.quality);
+            visual = root.findViewById(R.id.item_audio_visual);
             animationAdapter = new WeakViewAnimatorAdapter<View>(selectionView) {
                 @Override
                 public void onAnimationEnd(View view) {

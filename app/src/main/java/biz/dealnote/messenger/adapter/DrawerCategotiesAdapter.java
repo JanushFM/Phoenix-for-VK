@@ -7,6 +7,8 @@ import android.widget.CheckBox;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import biz.dealnote.messenger.R;
@@ -20,6 +22,7 @@ public class DrawerCategotiesAdapter extends RecyclerView.Adapter<DrawerCategoti
         this.data = data;
     }
 
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_drawer_category, parent, false));
@@ -46,7 +49,7 @@ public class DrawerCategotiesAdapter extends RecyclerView.Adapter<DrawerCategoti
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         CheckBox checkBox;
 

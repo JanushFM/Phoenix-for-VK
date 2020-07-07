@@ -912,8 +912,6 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         menus.add(OptionRequest(4, getString(R.string.links), R.drawable.web))
         menus.add(OptionRequest(5, getString(R.string.posts), R.drawable.pencil))
 
-        menus.header(getString(R.string.select_attachments), R.drawable.attachment, null)
-
         menus.show(childFragmentManager, "attachments_select",
                 object : ModalBottomSheetDialogFragment.Listener {
                     override fun onModalOptionSelected(option: Option) {

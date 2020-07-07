@@ -85,7 +85,7 @@ public class VkPhotoAlbumsAdapter extends RecyclerView.Adapter<VkPhotoAlbumsAdap
         boolean onVkPhotoAlbumLongClick(@NonNull PhotoAlbum album);
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public static class Holder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
         TextView title;

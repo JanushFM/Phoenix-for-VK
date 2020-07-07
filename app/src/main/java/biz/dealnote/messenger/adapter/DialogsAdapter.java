@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Spannable;
@@ -52,7 +53,9 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
     private static final int DIV_YESTERDAY = 2;
     private static final int DIV_THIS_WEEK = 3;
     private static final int DIV_OLD = 4;
+    @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat DF_TODAY = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat DF_OLD = new SimpleDateFormat("dd/MM", Locale.getDefault());
     private final Context mContext;
     private final Transformation mTransformation;
