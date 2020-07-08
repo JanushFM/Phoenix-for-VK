@@ -49,6 +49,11 @@ class MainSettings implements ISettings.IMainSettings {
     }
 
     @Override
+    public boolean Ismini_player_audio_round_icon() {
+        return getDefaultPreferences().getBoolean("mini_player_audio_round_icon", false);
+    }
+
+    @Override
     public boolean isPlayer_support_volume() {
         return getDefaultPreferences().getBoolean("is_player_support_volume", false);
     }

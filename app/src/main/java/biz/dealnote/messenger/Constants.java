@@ -21,7 +21,6 @@ public class Constants {
     public static final String APK_ID = BuildConfig.APPLICATION_ID;
 
     public static final boolean IS_HAS_LOGIN_WEB = false;
-    public static final String PRIVACY_POLICY_LINK = "https://github.com/PhoenixDevTeam/Phoenix-for-VK/wiki/Privacy-policy";
 
     public static final String FILE_PROVIDER_AUTHORITY = BuildConfig.APPLICATION_ID + ".fileprovider";
 

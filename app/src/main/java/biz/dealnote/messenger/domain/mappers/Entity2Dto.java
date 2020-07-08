@@ -20,6 +20,7 @@ import biz.dealnote.messenger.db.model.entity.PollEntity;
 import biz.dealnote.messenger.db.model.entity.PostEntity;
 import biz.dealnote.messenger.db.model.entity.StoryEntity;
 import biz.dealnote.messenger.db.model.entity.VideoEntity;
+import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.safeCountOf;
@@ -81,7 +82,11 @@ public class Entity2Dto {
 
         if (entity instanceof AudioPlaylistEntity) {
             AudioPlaylistEntity playlist = (AudioPlaylistEntity) entity;
-            return AttachmentsTokenCreator.ofAudioPlaylist(playlist.getId(), playlist.getOwnerId(), playlist.getAccess_key());
+            if (Utils.isEmpty(playlist.getOriginal_access_key()) || playlist.getOriginal_id() == 0 || playlist.getOriginal_owner_id() == 0) {
+                return AttachmentsTokenCreator.ofAudioPlaylist(playlist.getId(), playlist.getOwnerId(), playlist.getAccess_key());
+            } else {
+                return AttachmentsTokenCreator.ofAudioPlaylist(playlist.getOriginal_id(), playlist.getOriginal_owner_id(), playlist.getOriginal_access_key());
+            }
         }
 
         if (entity instanceof PhotoEntity) {

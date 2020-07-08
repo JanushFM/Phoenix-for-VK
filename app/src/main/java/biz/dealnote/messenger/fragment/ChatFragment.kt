@@ -641,12 +641,12 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         startActivityForResult(intent, REQUEST_ADD_ATTACHMENT)
     }
 
-    override fun startAudioSelection(accountId: Int, ownerId: Int) {
-        val intent = AudioSelectActivity.createIntent(activity, accountId, ownerId)
+    override fun startAudioSelection(accountId: Int) {
+        val intent = AudioSelectActivity.createIntent(activity, accountId)
         startActivityForResult(intent, REQUEST_ADD_ATTACHMENT)
     }
 
-    override fun startDocSelection(accountId: Int, ownerId: Int) {
+    override fun startDocSelection(accountId: Int) {
         val intent = AttachmentsActivity.createIntent(activity, accountId, Types.DOC)
         startActivityForResult(intent, REQUEST_ADD_ATTACHMENT)
     }

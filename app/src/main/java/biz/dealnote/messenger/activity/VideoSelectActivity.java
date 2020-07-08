@@ -20,10 +20,8 @@ import biz.dealnote.messenger.util.Utils;
 public class VideoSelectActivity extends NoMainActivity implements PlaceProvider {
 
     /**
-     * @param context
      * @param accountId От чьего имени получать
      * @param ownerId   Чьи получать
-     * @return
      */
     public static Intent createIntent(Context context, int accountId, int ownerId) {
         return new Intent(context, VideoSelectActivity.class)

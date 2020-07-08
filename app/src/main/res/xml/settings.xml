@@ -105,6 +105,13 @@
         android:title="@string/appearance_settings"
         app:iconSpaceReserved="false">
 
+        <Preference
+            android:defaultValue="ice"
+            android:icon="@drawable/select_colored"
+            android:key="app_theme"
+            android:title="@string/choose_theme_title"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
             android:defaultValue="2"
             android:entries="@array/night_mode_names"
@@ -113,12 +120,6 @@
             android:title="@string/night_mode_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
-
-        <Preference
-            android:defaultValue="ice"
-            android:key="app_theme"
-            android:title="@string/choose_theme_title"
-            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -347,6 +348,12 @@
             android:defaultValue="true"
             android:key="audio_round_icon"
             android:title="@string/audio_round_icon"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="mini_player_audio_round_icon"
+            android:title="@string/mini_player_audio_round_icon"
             app:iconSpaceReserved="false" />
 
         <SwitchPreference

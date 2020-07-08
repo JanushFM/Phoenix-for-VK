@@ -179,6 +179,8 @@ public interface ISettings {
 
         boolean isAudio_round_icon();
 
+        boolean Ismini_player_audio_round_icon();
+
         boolean isPlayer_support_volume();
 
         boolean isMusic_enable_toolbar();

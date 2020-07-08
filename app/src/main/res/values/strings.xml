@@ -1390,4 +1390,6 @@
     <string name="link_processing">Ссылка проверяется</string>
     <string name="blacklisted">Вы в чёрном списке!!!</string>
     <string name="additional_info">Дополнительная информация</string>
+    <string name="mini_player_audio_round_icon">Круглые обложки в мини-плеере</string>
+    <string name="select_audio">Выбор аудио</string>
 </resources>

@@ -1803,11 +1803,11 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun onEditAddAudioClick() {
-        view?.startAudioSelection(accountId, messagesOwnerId)
+        view?.startAudioSelection(accountId)
     }
 
     fun onEditAddDocClick() {
-        view?.startDocSelection(accountId, messagesOwnerId)
+        view?.startDocSelection(accountId)
     }
 
     fun fireEditCameraClick() {

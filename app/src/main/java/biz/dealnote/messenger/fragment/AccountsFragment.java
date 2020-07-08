@@ -1,11 +1,8 @@
 package biz.dealnote.messenger.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -54,9 +50,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +81,6 @@ import biz.dealnote.messenger.modalbottomsheetdialogfragment.OptionRequest;
 import biz.dealnote.messenger.model.Account;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.spots.SpotsDialog;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.PhoenixToast;
@@ -588,11 +580,6 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             return true;
         }
 
-        if (item.getItemId() == R.id.privacy_policy) {
-            showPrivacyPolicy();
-            return true;
-        }
-
         if (item.getItemId() == R.id.action_proxy) {
             startProxySettings();
             return true;
@@ -662,11 +649,6 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
 
     private void startProxySettings() {
         startActivity(new Intent(requireActivity(), ProxyManagerActivity.class));
-    }
-
-    private void showPrivacyPolicy() {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PRIVACY_POLICY_LINK));
-        startActivity(browserIntent);
     }
 
     @Override

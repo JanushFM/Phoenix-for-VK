@@ -251,8 +251,8 @@ public class MessageAttachmentsFragment extends AbsPresenterBottomSheetFragment<
     }
 
     @Override
-    public void startAddAudioActivity(int accountId, int ownerId) {
-        Intent intent = AudioSelectActivity.createIntent(requireActivity(), accountId, ownerId);
+    public void startAddAudioActivity(int accountId) {
+        Intent intent = AudioSelectActivity.createIntent(requireActivity(), accountId);
         startActivityForResult(intent, REQUEST_SELECT_ATTACHMENTS);
     }
 

@@ -440,7 +440,7 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     }
 
     public void fireButtonAudioClick() {
-        getView().startAddAudioActivity(accountId, messageOwnerId);
+        getView().startAddAudioActivity(accountId);
     }
 
     public void fireButtonDocClick() {

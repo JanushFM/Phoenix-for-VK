@@ -232,7 +232,7 @@ public abstract class AbsAttachmentsEditFragment<P extends AbsAttachmentsEditPre
 
     @Override
     public void openAddAudiosWindow(int maxSelectionCount, int accountId) {
-        Intent intent = AudioSelectActivity.createIntent(requireActivity(), accountId, accountId);
+        Intent intent = AudioSelectActivity.createIntent(requireActivity(), accountId);
         startActivityForResult(intent, REQUEST_AUDIO_SELECT);
     }
 

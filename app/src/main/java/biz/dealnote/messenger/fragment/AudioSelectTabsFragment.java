@@ -35,30 +35,26 @@ import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
 
-public class AudiosTabsFragment extends BaseFragment {
+public class AudioSelectTabsFragment extends BaseFragment {
 
-    public static final int LOCAL = -5;
-    public static final int CATALOG = -4;
     public static final int PLAYLISTS = -3;
     public static final int MY_RECOMMENDATIONS = -2;
     public static final int MY_AUDIO = -1;
     public static final int TOP_ALL = 0;
     private int accountId;
-    private int ownerId;
 
-    public static Bundle buildArgs(int accountId, int ownerId) {
+    public static Bundle buildArgs(int accountId) {
         Bundle args = new Bundle();
         args.putInt(Extra.ACCOUNT_ID, accountId);
-        args.putInt(Extra.OWNER_ID, ownerId);
         return args;
     }
 
-    public static AudiosTabsFragment newInstance(int accountId, int ownerId) {
-        return newInstance(buildArgs(accountId, ownerId));
+    public static AudioSelectTabsFragment newInstance(int accountId) {
+        return newInstance(buildArgs(accountId));
     }
 
-    public static AudiosTabsFragment newInstance(Bundle args) {
-        AudiosTabsFragment fragment = new AudiosTabsFragment();
+    public static AudioSelectTabsFragment newInstance(Bundle args) {
+        AudioSelectTabsFragment fragment = new AudioSelectTabsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -68,7 +64,6 @@ public class AudiosTabsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         accountId = requireArguments().getInt(Extra.ACCOUNT_ID);
-        ownerId = requireArguments().getInt(Extra.OWNER_ID);
     }
 
     @Override
@@ -99,21 +94,9 @@ public class AudiosTabsFragment extends BaseFragment {
                 tab.setText(getString(R.string.recommendation));
             else if (fid == TOP_ALL)
                 tab.setText(getString(R.string.top));
-            else if (fid == CATALOG)
-                tab.setText(getString(R.string.audio_catalog));
-            else if (fid == LOCAL)
-                tab.setText(getString(R.string.local_audios));
             else
                 tab.setText(VKApiAudio.Genre.getTitleByGenre(requireActivity(), fid));
         }).attach();
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                Integer fid = adapter.mFragments.get(position);
-                viewPager.setUserInputEnabled(fid != CATALOG);
-            }
-        });
     }
 
     public int getAccountId() {
@@ -122,15 +105,11 @@ public class AudiosTabsFragment extends BaseFragment {
 
     private Fragment CreateAudiosFragment(int option_menu) {
         if (option_menu == PLAYLISTS) {
-            AudioPlaylistsFragment fragment = AudioPlaylistsFragment.newInstance(getAccountId(), ownerId);
+            AudioPlaylistsFragment fragment = AudioPlaylistsFragment.newInstanceSelect(getAccountId());
             fragment.requireArguments().putBoolean(AudiosFragment.EXTRA_IN_TABS_CONTAINER, true);
             return fragment;
-        } else if (option_menu == CATALOG)
-            return AudioCatalogFragment.newInstance(getAccountId(), null, true);
-        else if (option_menu == LOCAL) {
-            return AudiosLocalFragment.newInstance(getAccountId());
         } else {
-            AudiosFragment fragment = AudiosFragment.newInstance(getAccountId(), ownerId, option_menu, 0, null);
+            AudiosFragment fragment = AudiosFragment.newInstanceSelect(getAccountId(), option_menu, 0, null);
             fragment.requireArguments().putBoolean(AudiosFragment.EXTRA_IN_TABS_CONTAINER, true);
             return fragment;
         }
@@ -139,14 +118,8 @@ public class AudiosTabsFragment extends BaseFragment {
     private void setupViewPager(ViewPager2 viewPager, Adapter adapter) {
         adapter.addFragment(MY_AUDIO);
         adapter.addFragment(PLAYLISTS);
-        if (ownerId >= 0) {
-            if (getAccountId() == ownerId) {
-                adapter.addFragment(LOCAL);
-                adapter.addFragment(CATALOG);
-            }
-            adapter.addFragment(MY_RECOMMENDATIONS);
-        }
-        if (getAccountId() == ownerId && Settings.get().other().isEnable_show_audio_top()) {
+        adapter.addFragment(MY_RECOMMENDATIONS);
+        if (Settings.get().other().isEnable_show_audio_top()) {
             adapter.addFragment(TOP_ALL);
             adapter.addFragment(VKApiAudio.Genre.ETHNIC);
             adapter.addFragment(VKApiAudio.Genre.INSTRUMENTAL);
@@ -175,7 +148,7 @@ public class AudiosTabsFragment extends BaseFragment {
 
         ActionBar actionBar = ActivityUtils.supportToolbarFor(this);
         if (actionBar != null) {
-            actionBar.setTitle(R.string.music);
+            actionBar.setTitle(R.string.select_audio);
             actionBar.setSubtitle(null);
         }
 
@@ -195,7 +168,7 @@ public class AudiosTabsFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_search) {
             AudioSearchCriteria criteria = new AudioSearchCriteria("", false, true);
-            PlaceFactory.getSingleTabSearchPlace(getAccountId(), SearchContentType.AUDIOS, criteria).tryOpenWith(requireActivity());
+            PlaceFactory.getSingleTabSearchPlace(getAccountId(), SearchContentType.AUDIOS_SELECT, criteria).tryOpenWith(requireActivity());
             return true;
         }
 

@@ -42,5 +42,5 @@ public interface IMessageAttachmentsView extends IMvpView, IErrorView {
 
     void startAddVideoActivity(int accountId, int ownerId);
 
-    void startAddAudioActivity(int accountId, int ownerId);
+    void startAddAudioActivity(int accountId);
 }

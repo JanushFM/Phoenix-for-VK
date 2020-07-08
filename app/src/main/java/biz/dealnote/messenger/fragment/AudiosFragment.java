@@ -94,12 +94,13 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
         return fragment;
     }
 
-    public static AudiosFragment newInstanceSelect(int accountId, int ownerId) {
+    public static AudiosFragment newInstanceSelect(int accountId, int option_menu_id, int isAlbum, String access_key) {
         Bundle args = new Bundle();
-        args.putInt(Extra.OWNER_ID, ownerId);
+        args.putInt(Extra.OWNER_ID, accountId);
         args.putInt(Extra.ACCOUNT_ID, accountId);
-        args.putInt(Extra.ID, -1);
-        args.putInt(Extra.ALBUM, 0);
+        args.putInt(Extra.ID, option_menu_id);
+        args.putInt(Extra.ALBUM, isAlbum);
+        args.putString(Extra.ACCESS_KEY, access_key);
         args.putBoolean(ACTION_SELECT, true);
         AudiosFragment fragment = new AudiosFragment();
         fragment.setArguments(args);

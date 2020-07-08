@@ -1,25 +1,22 @@
-# Phoenix Freya for VK
-First open-sourced VK client for Android inspired by Material Design With Music.
+# Phoenix V Mod
+Форк ВК клиента Феникс, с поддержкой музыки и других фич.
 
-<b>Screenshots:</b>
+<b>Все языки вырезаны, кроме русского</b>
+
+<b>Скриншоты:</b>
 <img src="Screenshots.jpg"/>
-<img src="Screenshot_20200506-004901.jpg" height="924" width="476"/>
 
-<b>Available at Google Play:</b> https://play.google.com/store/apps/details?id=dev.ezorrio.phoenix <br>
-
-<b>Build guide:</b>
-Requirements:
-  1) Android Studio 4.2 CANARY 3 or higher
-  2) Android SDK r28
+<b>Инструкция по сборке:</b>
+Требуется:
+  1) Android Studio 4.2 CANARY 3 или выше с включенным Kotlin 1.4 Preview
+  2) Android SDK r29
   
-<b>Setting up environment:</b>
+<b>Компиляция:</b>
 
-  All project variables are setup now.
+  1) Для релизных сборок вам нужен сертификат.
 
-  1) Create cert to build for release
+  2) Выберите тип сборки Debug или Release и соберите apk :)
 
-  2) Build APK :)
+Telegram канал мода: https://t.me/phoenixvk_mod
 
-Telegram: https://t.me/phoenixvk_mod
-
-Donate: 5599005042882048
+Донат на энергетик: 5599005042882048

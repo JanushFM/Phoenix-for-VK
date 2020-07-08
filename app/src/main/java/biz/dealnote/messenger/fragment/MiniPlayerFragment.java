@@ -19,10 +19,12 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.squareup.picasso.Transformation;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -38,6 +40,7 @@ import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.PolyTransformation;
+import biz.dealnote.messenger.util.RoundTransformation;
 import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.player.util.MusicUtils.mService;
@@ -93,6 +96,15 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         }
     }
 
+    private Transformation TransformCover() {
+        return Settings.get().main().Ismini_player_audio_round_icon() ? new RoundTransformation() : new PolyTransformation();
+    }
+
+    @DrawableRes
+    private int getAudioCoverSimple() {
+        return Settings.get().main().Ismini_player_audio_round_icon() ? R.drawable.audio_button : R.drawable.audio_button_material;
+    }
+
     @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mini_player, container, false);
@@ -142,13 +154,13 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
             if (audio != null && !Utils.isEmpty(audio.getThumb_image_little())) {
                 PicassoInstance.with()
                         .load(audio.getThumb_image_little())
-                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), R.drawable.audio_button_material_with_icon, requireActivity().getTheme())))
-                        .transform(new PolyTransformation())
+                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), getAudioCoverSimple(), requireActivity().getTheme())))
+                        .transform(TransformCover())
                         .tag(Constants.PICASSO_TAG)
                         .into(play_cover);
             } else {
                 PicassoInstance.with().cancelRequest(play_cover);
-                play_cover.setImageResource(R.drawable.audio_button_material_with_icon);
+                play_cover.setImageResource(getAudioCoverSimple());
             }
 
             if (MusicUtils.isPlaying()) {

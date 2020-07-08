@@ -19,6 +19,7 @@ import biz.dealnote.messenger.model.Poll;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Story;
 import biz.dealnote.messenger.model.Video;
+import biz.dealnote.messenger.util.Utils;
 
 public class Model2Dto {
 
@@ -106,7 +107,11 @@ public class Model2Dto {
 
         if (model instanceof AudioPlaylist) {
             AudioPlaylist playlist = (AudioPlaylist) model;
-            return AttachmentsTokenCreator.ofAudioPlaylist(playlist.getId(), playlist.getOwnerId(), playlist.getAccess_key());
+            if (Utils.isEmpty(playlist.getOriginal_access_key()) || playlist.getOriginal_id() == 0 || playlist.getOriginal_owner_id() == 0) {
+                return AttachmentsTokenCreator.ofAudioPlaylist(playlist.getId(), playlist.getOwnerId(), playlist.getAccess_key());
+            } else {
+                return AttachmentsTokenCreator.ofAudioPlaylist(playlist.getOriginal_id(), playlist.getOriginal_owner_id(), playlist.getOriginal_access_key());
+            }
         }
 
         throw new UnsupportedOperationException("Token for class " + model.getClass() + " not supported");
