@@ -204,8 +204,8 @@ class UISettings implements ISettings.IUISettings {
     }
 
     @Override
-    public boolean isEmojis_recents() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("emojis_recents", true);
+    public boolean isEmojis_full_screen() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("emojis_full_screen", false);
     }
 
     @Override

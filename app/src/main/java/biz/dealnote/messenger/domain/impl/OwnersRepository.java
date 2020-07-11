@@ -23,6 +23,7 @@ import biz.dealnote.messenger.db.column.UserColumns;
 import biz.dealnote.messenger.db.interfaces.IOwnersStorage;
 import biz.dealnote.messenger.db.model.UserPatch;
 import biz.dealnote.messenger.db.model.entity.CareerEntity;
+import biz.dealnote.messenger.db.model.entity.CommunityDetailsEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.OwnerEntities;
 import biz.dealnote.messenger.db.model.entity.UserDetailsEntity;
@@ -142,6 +143,26 @@ public class OwnersRepository implements IOwnersRepository {
                 });
     }
 
+    private Single<Optional<CommunityDetails>> getCachedGroupsDetails(int accountId, int groupId) {
+        return cache.getGroupsDetails(accountId, groupId)
+                .flatMap(optional -> {
+                    if (optional.isEmpty()) {
+                        return Single.just(Optional.empty());
+                    }
+
+                    CommunityDetailsEntity entity = optional.get();
+                    return Single.just(Optional.wrap(Entity2Model.buildCommunityDetailsFromDbo(entity)));
+                });
+    }
+
+    private Single<Pair<Community, CommunityDetails>> getCachedGroupsFullData(int accountId, int groupId) {
+        return cache.findCommunityDboById(accountId, groupId)
+                .zipWith(getCachedGroupsDetails(accountId, groupId), (groupsEntityOptional, groupsDetailsOptional) -> {
+                    Community group = groupsEntityOptional.isEmpty() ? null : Entity2Model.map(groupsEntityOptional.get());
+                    return Pair.Companion.create(group, groupsDetailsOptional.get());
+                });
+    }
+
     private Single<Pair<User, UserDetails>> getCachedFullData(int accountId, int userId) {
         return cache.findUserDboById(accountId, userId)
                 .zipWith(getCachedDetails(accountId, userId), (userEntityOptional, userDetailsOptional) -> {
@@ -250,14 +271,17 @@ public class OwnersRepository implements IOwnersRepository {
     public Single<Pair<Community, CommunityDetails>> getFullCommunityInfo(int accountId, int comminityId, int mode) {
         switch (mode) {
             case MODE_CACHE:
+                return getCachedGroupsFullData(accountId, comminityId);
             case MODE_NET:
                 return networker.vkDefault(accountId)
                         .groups()
                         .getWallInfo(String.valueOf(comminityId), FIELDS_GROUPS_ALL)
                         .flatMap(dto -> {
-                            Community community = Dto2Model.transformCommunity(dto);
-                            CommunityDetails details = Dto2Model.transformCommunityDetails(dto);
-                            return Single.just(Pair.Companion.create(community, details));
+                            CommunityEntity community = Dto2Entity.mapCommunity(dto);
+                            CommunityDetailsEntity details = Dto2Entity.mapCommunityDetails(dto);
+                            return cache.storeCommunityDbos(accountId, singletonList(community))
+                                    .andThen(cache.storeGroupsDetails(accountId, comminityId, details))
+                                    .andThen(getCachedGroupsFullData(accountId, comminityId));
                         });
         }
 

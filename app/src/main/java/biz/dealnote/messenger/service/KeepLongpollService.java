@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.IBinder;
 
@@ -117,12 +118,24 @@ public class KeepLongpollService extends Service {
             builder = new NotificationCompat.Builder(this).setPriority(Notification.PRIORITY_MIN);
         }
 
+        NotificationCompat.Action action_stop = new NotificationCompat.Action.Builder
+                (R.drawable.ic_arrow_down,
+                        getString(R.string.stop_action), pendingIntent)
+                .build();
+
         builder.setContentTitle(getString(R.string.keep_longpoll_notification_title))
-                .setContentText(getString(R.string.press_to_stop_service))
+                .setContentText(getString(R.string.may_down_charge))
                 .setSmallIcon(R.drawable.phoenix_round)
-                .setContentIntent(pendingIntent)
+                .addAction(action_stop)
+                .setColor(Color.parseColor("#dd0000"))
                 .setOngoing(true)
                 .build();
+
+        NotificationCompat.WearableExtender War = new NotificationCompat.WearableExtender();
+        War.addAction(action_stop);
+        War.setStartScrollBottom(true);
+
+        builder.extend(War);
 
         startForeground(FOREGROUND_SERVICE, builder.build());
     }

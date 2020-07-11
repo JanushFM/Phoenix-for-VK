@@ -27,6 +27,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Holder
         this.mContext = mContext;
     }
 
+    @NotNull
     @Override
     public Holder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(mContext).inflate(R.layout.emoji_section_item, parent, false));
@@ -48,7 +49,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Holder
 
             case AbsSection.TYPE_STICKER:
                 StickerSection stickerSection = (StickerSection) section;
-                if (stickerSection.stickerSet.getPhoto70() != null && stickerSection.stickerSet.getPhoto70().equals("recent")) {
+                if (stickerSection.stickerSet.getTitle() != null && stickerSection.stickerSet.getTitle().equals("recent")) {
                     holder.icon.setImageResource(R.drawable.pin);
                     holder.icon.getDrawable().setTint(CurrentTheme.getColorPrimary(mContext));
                 } else {
@@ -95,7 +96,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Holder
         void onClick(int position);
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    public static class Holder extends RecyclerView.ViewHolder {
 
         View root;
         ImageView icon;

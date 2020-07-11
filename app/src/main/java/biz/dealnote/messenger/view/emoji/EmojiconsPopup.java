@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.view.emoji;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -37,7 +38,6 @@ import biz.dealnote.messenger.model.StickerSet;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
-import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.emoji.section.Cars;
 import biz.dealnote.messenger.view.emoji.section.Electronics;
@@ -47,14 +47,11 @@ import biz.dealnote.messenger.view.emoji.section.Nature;
 import biz.dealnote.messenger.view.emoji.section.People;
 import biz.dealnote.messenger.view.emoji.section.Sport;
 import biz.dealnote.messenger.view.emoji.section.Symbols;
-import io.reactivex.disposables.CompositeDisposable;
 
 public class EmojiconsPopup {
 
     private static final String KEY_PAGE = "emoji_page";
-    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private final Activity mContext;
-    private EmojisPagerAdapter mEmojisAdapter;
     private int keyBoardHeight;
     private boolean isOpened;
     private OnEmojiconClickedListener onEmojiconClickedListener;
@@ -75,7 +72,6 @@ public class EmojiconsPopup {
             int screenHeight = rootView.getRootView().getHeight();
             int heightDifference = screenHeight - (r.bottom - r.top);
 
-            /*
             int navBarHeight = mContext.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
 
             if (navBarHeight > 0) {
@@ -87,12 +83,10 @@ public class EmojiconsPopup {
                 heightDifference -= mContext.getResources().getDimensionPixelSize(statusbarHeight);
             }
 
-             */
-
             if (heightDifference > 200) {
                 keyBoardHeight = heightDifference;
 
-                if (Objects.nonNull(emojiContainer)) {
+                if (Objects.nonNull(emojiContainer) && !Settings.get().ui().isEmojis_full_screen()) {
                     ViewGroup.LayoutParams layoutParams = emojiContainer.getLayoutParams();
                     layoutParams.height = keyBoardHeight;
                     layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -193,7 +187,7 @@ public class EmojiconsPopup {
         if (Objects.isNull(emojiContainer)) {
             emojiContainer = createCustomView(emojiParentView);
 
-            final int finalKeyboardHeight = this.keyBoardHeight > 0 ? keyBoardHeight : (int) mContext.getResources().getDimension(R.dimen.keyboard_height);
+            final int finalKeyboardHeight = Settings.get().ui().isEmojis_full_screen() ? ViewGroup.LayoutParams.MATCH_PARENT : (this.keyBoardHeight > 0 ? keyBoardHeight : (int) mContext.getResources().getDimension(R.dimen.keyboard_height));
             ViewGroup.LayoutParams layoutParams = emojiContainer.getLayoutParams();
             layoutParams.height = finalKeyboardHeight;
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -242,7 +236,7 @@ public class EmojiconsPopup {
         }
 
 
-        mEmojisAdapter = new EmojisPagerAdapter(views, stickersGridViews, this);
+        EmojisPagerAdapter mEmojisAdapter = new EmojisPagerAdapter(views, stickersGridViews, this);
         emojisPager.setAdapter(mEmojisAdapter);
 
         int storedPage = PreferenceManager.getDefaultSharedPreferences(mContext).getInt(KEY_PAGE, 0);
@@ -262,21 +256,6 @@ public class EmojiconsPopup {
         sections.get(emojisPager.getCurrentItem()).active = true;
 
         final SectionsAdapter topSectionAdapter = new SectionsAdapter(sections, mContext);
-
-        audioListDisposable.add(InteractorFactory.createStickersInteractor()
-                .getRecentStickers(accountId)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe(t -> {
-                    for (StickerSet stickerSet : t) {
-                        stickersGridViews.add(stickerSet);
-                        sections.add(new StickerSection(stickerSet));
-                        topSectionAdapter.notifyDataSetChanged();
-                        mEmojisAdapter.notifyDataSetChanged();
-                        if (Settings.get().ui().isEmojis_recents())
-                            emojisPager.setCurrentItem(sections.size() - 1);
-                    }
-                }, throwable -> {
-                }));
         recyclerView.setAdapter(topSectionAdapter);
 
         view.findViewById(R.id.backspase).setOnTouchListener(new RepeatListener(700, 50, v -> {
@@ -325,7 +304,6 @@ public class EmojiconsPopup {
 
         rootView.getViewTreeObserver().removeOnGlobalLayoutListener(onGlobalLayoutListener);
         rootView = null;
-        audioListDisposable.dispose();
     }
 
     public interface OnStickerClickedListener {
@@ -489,6 +467,7 @@ public class EmojiconsPopup {
             this.clickListener = clickListener;
         }
 
+        @SuppressLint("ClickableViewAccessibility")
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:

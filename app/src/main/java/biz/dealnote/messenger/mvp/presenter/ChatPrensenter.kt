@@ -91,8 +91,6 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private var isLoadingFromDbNow = false
     private var isLoadingFromNetNow = false
 
-    private var inPinned = false
-
     private val isLoadingNow: Boolean
         get() = isLoadingFromDbNow || isLoadingFromNetNow
 
@@ -108,15 +106,8 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private val peerId: Int
         get() = peer.id
 
-    val inPinnedHas: Boolean
-        get() = inPinned
-
     val inInverHrono: Boolean
         get() = HronoType
-
-    fun setInPinnedHas(type: Boolean) {
-        inPinned = type
-    }
 
     private val isEncryptionSupport: Boolean
         get() = Peer.isUser(peerId) && peerId != messagesOwnerId && !Settings.get().other().isDisabled_encryption
@@ -591,15 +582,6 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
                 .subscribe({ messages -> onNetDataReceived(messages, startMessageId) }, { this.onMessagesGetError(it) })
     }
 
-    fun requestFromNetInMessage(startMessageId: Int?) {
-        setNetLoadingNow(true)
-
-        val peerId = this.peerId
-        netLoadingDisposable = messagesRepository.getPeerMessages(messagesOwnerId, peerId, COUNT, -1, startMessageId, false, HronoType)
-                .fromIOToMain()
-                .subscribe({ messages -> run { inPinned = true; onNetDataReceived(messages, null); } }, { this.onMessagesGetError(it) })
-    }
-
     private fun onMessagesGetError(t: Throwable) {
         setNetLoadingNow(false)
         PersistentLogger.logThrowable("Chat issues", getCauseIfRuntime(t))
@@ -1070,6 +1052,39 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         }
     }
 
+    private fun doStar(): Boolean {
+        val selectionCount = countOfSelection(data)
+        if (selectionCount <= 0)
+            return false
+        return !data.find {
+            it.isSelected
+        }!!.isImportant
+    }
+
+    private fun canStar(): Boolean {
+        val selectionCount = countOfSelection(data)
+        if (selectionCount <= 0)
+            return false
+
+        val iterator = data.iterator()
+        var status = false
+        var has = false
+        while (iterator.hasNext()) {
+            val message = iterator.next()
+            if (!message.isSelected) {
+                continue
+            }
+            if (!has) {
+                has = true
+                status = message.isImportant
+            } else {
+                if (message.isImportant != status || message.status != MessageStatus.SENT)
+                    return false
+            }
+        }
+        return true
+    }
+
     @OnGuiCreated
     override fun resolveActionMode() {
         val selectionCount = countOfSelection(data)
@@ -1079,9 +1094,9 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
                     it.isSelected
                 }!!
 
-                view?.showActionMode(selectionCount.toString(), canEdit(message), canChangePin())
+                view?.showActionMode(selectionCount.toString(), canEdit(message), canChangePin(), canStar(), doStar())
             } else {
-                view?.showActionMode(selectionCount.toString(), false, false)
+                view?.showActionMode(selectionCount.toString(), false, false, canStar(), doStar())
             }
         } else {
             view?.finishActionMode()
@@ -1236,6 +1251,29 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     override fun onActionModeDeleteClick() {
         super.onActionModeDeleteClick()
         deleteSelectedMessages()
+    }
+
+    fun fireActionModeStarClick() {
+        val sent = ArrayList<Int>(0)
+        val iterator = data.iterator()
+        var hasChanged = false
+        var isImportant = false
+        while (iterator.hasNext()) {
+            val message = iterator.next()
+            if (!message.isSelected) {
+                continue
+            }
+            if (!hasChanged) {
+                hasChanged = true
+                isImportant = message.isImportant
+            }
+            sent.add(message.id)
+        }
+        if (sent.nonEmpty()) {
+            appendDisposable(messagesRepository.markAsImportant(messagesOwnerId, peer.id, sent, if (!isImportant) 1 else 0)
+                    .fromIOToMain()
+                    .subscribe(dummy(), { t -> showError(view, t) }))
+        }
     }
 
     /**
@@ -1436,6 +1474,10 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         if (outConfig.uploadFiles.nonEmpty()) {
             uploadStreams(outConfig.uploadFiles)
         }
+    }
+
+    fun fireMessagesLookup(message: Message) {
+        view?.goToMessagesLookup(accountId, message.peerId, message.id)
     }
 
     fun fireChatTitleTyped(newValue: String) {

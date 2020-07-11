@@ -28,6 +28,8 @@ public interface IDialogsView extends IAccountDependencyView, IMvpView, IErrorVi
 
     void goToSearch(int accountId);
 
+    void goToImportant(int accountId);
+
     void showSnackbar(@StringRes int res, boolean isLong);
 
     void showEnterNewGroupChatTitle(List<User> users);

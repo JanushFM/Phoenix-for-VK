@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.OnlineView;
 
 import static biz.dealnote.messenger.util.Utils.isEmpty;
+import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersListAdapter.ViewHolder> {
 
@@ -48,6 +50,7 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
         return new ViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_user_list, viewGroup, false));
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Context context = holder.itemView.getContext();
@@ -97,6 +100,12 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
             holder.tvSubline.setText(context.getString(R.string.invited_by, item.getInviter().getFullName()));
         }
 
+        if (nonEmpty(user.getDomain())) {
+            holder.tvDomain.setText("@" + user.getDomain());
+        } else {
+            holder.tvDomain.setText("@id" + user.getOwnerId());
+        }
+
         holder.itemView.setOnClickListener(view -> {
             if (Objects.nonNull(actionListener)) {
                 actionListener.onUserClick(item);
@@ -143,6 +152,7 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
         OnlineView vOnline;
         ImageView ivAvatar;
         TextView tvName;
+        TextView tvDomain;
         TextView tvSubline;
         View vRemove;
 
@@ -153,6 +163,7 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
             tvName = root.findViewById(R.id.item_user_name);
             tvSubline = root.findViewById(R.id.item_user_invited_by);
             vRemove = root.findViewById(R.id.item_user_remove);
+            tvDomain = root.findViewById(R.id.item_user_domain);
         }
     }
 }

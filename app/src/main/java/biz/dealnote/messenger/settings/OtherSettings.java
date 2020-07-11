@@ -163,6 +163,11 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public boolean isShow_wall_cover() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("show_wall_cover", true);
+    }
+
+    @Override
     public int getColorChat() {
         return PreferenceManager.getDefaultSharedPreferences(app).getInt("custom_chat_color", Color.argb(255, 255, 255, 255));
     }

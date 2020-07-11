@@ -16,6 +16,7 @@ import biz.dealnote.messenger.api.model.response.DialogsResponse;
 import biz.dealnote.messenger.api.model.response.ItemsProfilesGroupsResponse;
 import biz.dealnote.messenger.api.model.response.LongpollHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageHistoryResponse;
+import biz.dealnote.messenger.api.model.response.MessageImportantResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
 import io.reactivex.Single;
 import retrofit2.http.Field;
@@ -177,6 +178,11 @@ public interface IMessageService {
     @POST("messages.markAsRead")
     Single<BaseResponse<Integer>> markAsRead(@Field("peer_id") Integer peerId,
                                              @Field("start_message_id") Integer startMessageId);
+
+    @FormUrlEncoded
+    @POST("messages.markAsImportant")
+    Single<BaseResponse<List<Integer>>> markAsImportant(@Field("message_ids") String messageIds,
+                                                        @Field("important") Integer important);
 
     /**
      * Changes the status of a user as typing in a conversation.
@@ -353,14 +359,23 @@ public interface IMessageService {
                                                             @Field("peer_id") int peerId,
                                                             @Field("start_message_id") Integer startMessageId,
                                                             @Field("rev") Integer rev,
-                                                            @Field("extended") Integer extended);
+                                                            @Field("extended") Integer extended,
+                                                            @Field("fields") String fields);
+
+    @FormUrlEncoded
+    @POST("messages.getImportantMessages")
+    Single<BaseResponse<MessageImportantResponse>> getImportantMessages(@Field("offset") Integer offset,
+                                                                        @Field("count") Integer count,
+                                                                        @Field("start_message_id") Integer startMessageId,
+                                                                        @Field("extended") Integer extended,
+                                                                        @Field("fields") String fields);
 
     //https://vk.com/dev/messages.searchDialogs
     @FormUrlEncoded
     @POST("messages.searchDialogs")
     Single<BaseResponse<SearchDialogsResponse>> searchDialogs(@Field("q") String q,
                                                               @Field("limit") Integer limit,
-                                                              @Field("fields") String fileds);
+                                                              @Field("fields") String fields);
 
     @FormUrlEncoded
     @POST("messages.recogniseAudioMessage")

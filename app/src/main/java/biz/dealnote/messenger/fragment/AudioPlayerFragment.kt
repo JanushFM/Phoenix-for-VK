@@ -259,20 +259,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             ivShare.setOnClickListener { shareAudio() }
         }
 
-//        if (isAudioStreaming()) {
-//            broadcastAudio();
-//        }
         resolveAddButton()
         return root
-    }
-
-    private fun onAudioBroadcastButtonClick() {
-        ivTranslate!!.isActive = !ivTranslate.isActive
-        Settings.get()
-                .other().isAudioBroadcastActive = ivTranslate.isActive
-        if (isAudioStreaming) {
-            broadcastAudio()
-        }
     }
 
     private val isAudioStreaming: Boolean

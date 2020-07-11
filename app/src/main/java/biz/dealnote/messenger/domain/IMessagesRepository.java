@@ -97,6 +97,8 @@ public interface IMessagesRepository {
      */
     Single<List<Message>> getPeerMessages(int accountId, int peerId, int count, Integer offset, Integer startMessageId, boolean cacheData, boolean rev);
 
+    Single<List<Message>> getImportantMessages(int accountId, int count, Integer offset, Integer startMessageId);
+
     Single<List<Dialog>> getDialogs(int accountId, int count, Integer startMessageId);
 
     Single<List<Message>> findCachedMessages(int accountId, List<Integer> ids);
@@ -138,6 +140,8 @@ public interface IMessagesRepository {
     Single<Integer> recogniseAudioMessage(int accountId, Integer message_id, String audio_message_id);
 
     Completable markAsRead(int accountId, int peerId, int toId);
+
+    Completable markAsImportant(int accountId, int peerId, @NonNull Collection<Integer> ids, Integer important);
 
     Completable pin(int accountId, int peerId, @Nullable Message message);
 }

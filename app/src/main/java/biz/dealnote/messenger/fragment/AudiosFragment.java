@@ -62,7 +62,7 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
     public static final String ACTION_SELECT = "AudiosFragment.ACTION_SELECT";
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AudioRecyclerAdapter mAudioRecyclerAdapter;
-    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private final ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         public boolean onMove(@NotNull RecyclerView recyclerView,
                               @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
             return false;

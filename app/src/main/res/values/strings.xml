@@ -236,7 +236,7 @@
     <string name="chat_empty_text">Здесь будет выводиться история переписки.</string>
 
     <string name="emojis_type_title">Использовать системные смайлы</string>
-    <string name="emojis_recents">Показывать последние стикеры</string>
+    <string name="emojis_full_screen">Стикеры на весь экран</string>
     <string name="appearance_settings">Внешний вид</string>
     <string name="behaviour_settings">Поведение</string>
     <string name="music_settings">Плеер</string>
@@ -1201,8 +1201,8 @@
     <string name="service_invite_user_by_link">%1$s присоединился по ссылке</string>
     <string name="photo_preview_size_title">Размер предпросмотра фото</string>
     <string name="channel_keep_longpoll">Longpoll</string>
-    <string name="press_to_stop_service">Нажмите, чтобы остановить!</string>
-    <string name="keep_longpoll_notification_title">Уведомления Phoenix</string>
+    <string name="may_down_charge">Расходует заряд</string>
+    <string name="keep_longpoll_notification_title">Удержание Longpoll</string>
     <string name="settings_keep_longpoll_title">Удерживать Longpoll</string>
     <string name="settings_no_push">Не принимать Push FCM уведомления</string>
     <string name="settings_keep_longpoll_summary">Поддерживать связь со службой уведомлений. Может привести к увеличению энергопотребления!</string>
@@ -1278,6 +1278,8 @@
     <string name="biometric_not_support">Данная функция не поддерживается"</string>
     <string name="show_recent_dialogs">Отображать последние чаты</string>
     <string name="show_mini_player">Показывать мини-плеер</string>
+    <string name="audio_in_status">Аудио в статусе</string>
+    <string name="audio_in_status_summary">Обновление происходит, если открыть основной плеер</string>
     <string name="show_audio_top">Популярные треки</string>
     <string name="my_message_no_color">Отключить цвет исходящих сообщений</string>
     <string name="show_audio_cover">Показывать обложки аудио</string>
@@ -1392,4 +1394,8 @@
     <string name="additional_info">Дополнительная информация</string>
     <string name="mini_player_audio_round_icon">Круглые обложки в мини-плеере</string>
     <string name="select_audio">Выбор аудио</string>
+    <string name="stop_action">Стоп</string>
+    <string name="important">Важные сообщения</string>
+    <string name="show_wall_cover">Обложка профиля</string>
+    <string name="mention_user">Упомянуть</string>
 </resources>

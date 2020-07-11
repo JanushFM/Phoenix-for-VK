@@ -889,6 +889,14 @@ public class Utils {
         activity.startActivity(Intent.createChooser(sharingIntent, activity.getResources().getString(R.string.share_using)));
     }
 
+    public static void setColorFilterATOP(Drawable dr, int Color) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            dr.setColorFilter(new BlendModeColorFilter(Color, BlendMode.SRC_ATOP));
+        } else {
+            dr.setColorFilter(Color, PorterDuff.Mode.SRC_ATOP);
+        }
+    }
+
     public static void setColorFilter(Drawable dr, int Color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             dr.setColorFilter(new BlendModeColorFilter(Color, BlendMode.MODULATE));

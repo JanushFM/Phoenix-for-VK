@@ -1,1 +1,1 @@
-include ':app', ':mvpcore', ':material-popup-menu', ':ealvatag', ':picasso'
+include ':app', ':material-popup-menu', ':ealvatag', ':picasso'

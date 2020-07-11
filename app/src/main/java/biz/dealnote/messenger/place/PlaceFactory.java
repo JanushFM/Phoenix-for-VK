@@ -380,6 +380,10 @@ public class PlaceFactory {
         return new Place(Place.SHORT_LINKS).withIntExtra(Extra.ACCOUNT_ID, accountId);
     }
 
+    public static Place getImportantMessages(int accountId) {
+        return new Place(Place.IMPORTANT_MESSAGES).withIntExtra(Extra.ACCOUNT_ID, accountId);
+    }
+
     public static Place getMentionsPlace(int accountId, int ownerId) {
         return new Place(Place.MENTIONS).withIntExtra(Extra.ACCOUNT_ID, accountId).withIntExtra(Extra.OWNER_ID, ownerId);
     }

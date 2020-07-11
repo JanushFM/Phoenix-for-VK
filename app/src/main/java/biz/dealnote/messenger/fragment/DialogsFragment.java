@@ -142,6 +142,8 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
         toolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
                 getPresenter().fireSearchClick();
+            } else if (item.getItemId() == R.id.action_star) {
+                getPresenter().fireImportantClick();
             }
             return true;
         });
@@ -413,6 +415,12 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
         PlaceFactory.getSingleTabSearchPlace(accountId, SearchContentType.DIALOGS, criteria)
                 .tryOpenWith(requireActivity());
     }
+
+    @Override
+    public void goToImportant(int accountId) {
+        PlaceFactory.getImportantMessages(accountId).tryOpenWith(requireActivity());
+    }
+
 
     @Override
     public void showSnackbar(@StringRes int res, boolean isLong) {

@@ -17,7 +17,7 @@ import biz.dealnote.messenger.R
 import biz.dealnote.messenger.settings.CurrentTheme
 
 
-class PhoenixToast private constructor(context: Context, Timage: Bitmap?) {
+class PhoenixToast private constructor(context: Context?, Timage: Bitmap?) {
     private val M_context: Context?
     private var duration: Int
     private var image: Bitmap?
@@ -89,7 +89,7 @@ class PhoenixToast private constructor(context: Context, Timage: Bitmap?) {
 
     companion object {
         @JvmStatic
-        fun CreatePhoenixToast(context: Context): PhoenixToast {
+        fun CreatePhoenixToast(context: Context?): PhoenixToast {
             return PhoenixToast(context, null)
         }
     }

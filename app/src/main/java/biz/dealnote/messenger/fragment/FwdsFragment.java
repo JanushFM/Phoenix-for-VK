@@ -62,7 +62,7 @@ public class FwdsFragment extends PlaceSupportMvpFragment<FwdsPresenter, IFwdsVi
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
-        mAdapter = new MessagesAdapter(requireActivity(), Collections.emptyList(), this);
+        mAdapter = new MessagesAdapter(requireActivity(), Collections.emptyList(), this, true);
         mAdapter.setOnMessageActionListener(this);
         mAdapter.setVoiceActionListener(this);
         recyclerView.setAdapter(mAdapter);
@@ -167,7 +167,7 @@ public class FwdsFragment extends PlaceSupportMvpFragment<FwdsPresenter, IFwdsVi
     }
 
     @Override
-    public void showActionMode(String title, Boolean canEdit, Boolean canPin) {
+    public void showActionMode(String title, Boolean canEdit, Boolean canPin, Boolean canStar, Boolean doStar) {
         // not supported
     }
 

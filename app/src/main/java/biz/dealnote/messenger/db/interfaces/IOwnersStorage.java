@@ -9,6 +9,7 @@ import java.util.Map;
 
 import biz.dealnote.messenger.db.model.BanAction;
 import biz.dealnote.messenger.db.model.UserPatch;
+import biz.dealnote.messenger.db.model.entity.CommunityDetailsEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.FriendListEntity;
 import biz.dealnote.messenger.db.model.entity.OwnerEntities;
@@ -60,6 +61,10 @@ public interface IOwnersStorage extends IStorage {
     Completable fireManagementChangeAction(Pair<Integer, Manager> manager);
 
     Observable<Pair<Integer, Manager>> observeManagementChanges();
+
+    Single<Optional<CommunityDetailsEntity>> getGroupsDetails(int accountId, int groupId);
+
+    Completable storeGroupsDetails(int accountId, int groupId, CommunityDetailsEntity dbo);
 
     Single<Optional<UserDetailsEntity>> getUserDetails(int accountId, int userId);
 

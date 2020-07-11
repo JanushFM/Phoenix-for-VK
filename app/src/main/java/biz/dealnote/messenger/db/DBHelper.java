@@ -298,20 +298,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + StikerSetColumns.PHOTO_35 + "] TEXT, " +
                 " [" + StikerSetColumns.PHOTO_70 + "] TEXT, " +
                 " [" + StikerSetColumns.PHOTO_140 + "] TEXT, " +
-                //" [" + StikerSetColumns.PHOTO_296 + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.PHOTO_592 + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.BACKGROUND + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.DESCRIPTION + "] VARCHAR(2048), " +
                 " [" + StikerSetColumns.PURCHASED + "] BOOLEAN, " +
                 " [" + StikerSetColumns.PROMOTED + "] BOOLEAN, " +
                 " [" + StikerSetColumns.ACTIVE + "] BOOLEAN, " +
-                //" [" + StikerSetColumns.TYPE + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.BASE_URL + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.AUTHOR + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.FREE + "] BOOLEAN, " +
-                //" [" + StikerSetColumns.CAN_PURCHASE + "] BOOLEAN, " +
-                //" [" + StikerSetColumns.PAYMENT_TYPE + "] VARCHAR(2048), " +
-                //" [" + StikerSetColumns.STICKERS_BASE_URL + "] VARCHAR(2048), " +
                 " [" + StikerSetColumns.STICKERS + "] TEXT, " +
                 " CONSTRAINT [] PRIMARY KEY([" + StikerSetColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
@@ -816,33 +805,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private void createGroupsDetTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + GroupsDetColumns.TABLENAME + "] (\n" +
                 " [" + GroupsDetColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
-                " [" + GroupsDetColumns.BLACKLISTED + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.BAN_END_DATE + "] BIGINT, " +
-                " [" + GroupsDetColumns.BAN_COMEMNT + "] TEXT, " +
-                " [" + GroupsDetColumns.CITY_ID + "] INTEGER, " +
-                " [" + GroupsDetColumns.COUNTRY_ID + "] INTEGER, " +
-                " [" + GroupsDetColumns.GEO_ID + "] INTEGER, " +
-                " [" + GroupsDetColumns.DESCRIPTION + "] TEXT, " +
-                " [" + GroupsDetColumns.WIKI_PAGE + "] TEXT, " +
-                " [" + GroupsDetColumns.MEMBERS_COUNT + "] INTEGER, " +
-                " [" + GroupsDetColumns.COUNTERS + "] BLOB, " +
-                " [" + GroupsDetColumns.START_DATE + "] BIGINT, " +
-                " [" + GroupsDetColumns.FINISH_DATE + "] BIGINT, " +
-                " [" + GroupsDetColumns.CAN_POST + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.CAN_SEE_ALL_POSTS + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.CAN_UPLOAD_DOC + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.CAN_UPLOAD_VIDEO + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.CAN_CREATE_TOPIC + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.ACTIVITY + "] TEXT, " +
-                " [" + GroupsDetColumns.STATUS + "] TEXT, " +
-                " [" + GroupsDetColumns.FIXED_POST + "] INTEGER, " +
-                " [" + GroupsDetColumns.VERIFIED + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.SITE + "] TEXT, " +
-                " [" + GroupsDetColumns.MAIN_ALBUM_ID + "] INTEGER, " +
-                " [" + GroupsDetColumns.IS_FAVORITE + "] BOOLEAN, " +
-                " [" + GroupsDetColumns.LINKS_COUNT + "] INTEGER, " +
-                " [" + GroupsDetColumns.CONTACTS_COUNT + "] INTEGER, " +
-                " [" + GroupsDetColumns.CAN_MESSAGE + "] BOOLEAN, " +
+                " [" + GroupsDetColumns.DATA + "] TEXT, " +
                 " CONSTRAINT [] PRIMARY KEY([" + GroupsDetColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }

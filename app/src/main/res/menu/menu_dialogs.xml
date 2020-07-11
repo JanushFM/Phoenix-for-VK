@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_star"
+        android:icon="@drawable/star"
+        android:title="@string/important"
+        app:iconTint="?colorOnSurface"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_search"
         android:icon="@drawable/magnify"
         android:title="@string/search"

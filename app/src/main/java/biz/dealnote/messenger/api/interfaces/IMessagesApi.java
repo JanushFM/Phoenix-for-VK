@@ -19,6 +19,7 @@ import biz.dealnote.messenger.api.model.response.DialogsResponse;
 import biz.dealnote.messenger.api.model.response.ItemsProfilesGroupsResponse;
 import biz.dealnote.messenger.api.model.response.LongpollHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageHistoryResponse;
+import biz.dealnote.messenger.api.model.response.MessageImportantResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -66,6 +67,9 @@ public interface IMessagesApi {
                                        Integer offset, Integer count);
 
     @CheckResult
+    Single<List<Integer>> markAsImportant(Collection<Integer> messageIds, Integer important);
+
+    @CheckResult
     Single<LongpollHistoryResponse> getLongPollHistory(Long ts, Long pts, Integer previewLength,
                                                        Boolean onlines, String fields,
                                                        Integer eventsLimit, Integer msgsLimit,
@@ -91,7 +95,10 @@ public interface IMessagesApi {
     Single<List<VKApiMessage>> getById(Collection<Integer> ids);
 
     @CheckResult
-    Single<MessageHistoryResponse> getHistory(Integer offset, Integer count, int peerId, Integer startMessageId, Boolean rev, Boolean extended);
+    Single<MessageHistoryResponse> getHistory(Integer offset, Integer count, int peerId, Integer startMessageId, Boolean rev, Boolean extended, String fields);
+
+    @CheckResult
+    Single<MessageImportantResponse> getImportantMessages(Integer offset, Integer count, Integer startMessageId, Boolean extended, String fields);
 
     @CheckResult
     Single<VkApiLongpollServer> getLongpollServer(boolean needPts, int lpVersion);

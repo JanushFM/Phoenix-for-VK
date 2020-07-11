@@ -638,33 +638,7 @@ public class MessengerContentProvider extends ContentProvider {
 
         sGroupsDetProjectionMap = new HashMap<>();
         sGroupsDetProjectionMap.put(GroupsDetColumns._ID, GroupsDetColumns.FULL_ID);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.BLACKLISTED, GroupsDetColumns.FULL_BLACKLISTED);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.BAN_END_DATE, GroupsDetColumns.FULL_BAN_END_DATE);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.BAN_COMEMNT, GroupsDetColumns.FULL_BAN_COMEMNT);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CITY_ID, GroupsDetColumns.FULL_CITY_ID);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.COUNTRY_ID, GroupsDetColumns.FULL_COUNTRY_ID);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.GEO_ID, GroupsDetColumns.FULL_GEO_ID);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.DESCRIPTION, GroupsDetColumns.FULL_DESCRIPTION);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.WIKI_PAGE, GroupsDetColumns.FULL_WIKI_PAGE);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.MEMBERS_COUNT, GroupsDetColumns.FULL_MEMBERS_COUNT);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.COUNTERS, GroupsDetColumns.FULL_COUNTERS);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.START_DATE, GroupsDetColumns.FULL_START_DATE);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.FINISH_DATE, GroupsDetColumns.FULL_FINISH_DATE);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CAN_POST, GroupsDetColumns.FULL_CAN_POST);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CAN_SEE_ALL_POSTS, GroupsDetColumns.FULL_CAN_SEE_ALL_POSTS);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CAN_UPLOAD_DOC, GroupsDetColumns.FULL_CAN_UPLOAD_DOC);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CAN_UPLOAD_VIDEO, GroupsDetColumns.FULL_CAN_UPLOAD_VIDEO);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CAN_CREATE_TOPIC, GroupsDetColumns.FULL_CAN_CREATE_TOPIC);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.ACTIVITY, GroupsDetColumns.FULL_ACTIVITY);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.STATUS, GroupsDetColumns.FULL_STATUS);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.FIXED_POST, GroupsDetColumns.FULL_FIXED_POST);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.VERIFIED, GroupsDetColumns.FULL_VERIFIED);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.SITE, GroupsDetColumns.FULL_SITE);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.MAIN_ALBUM_ID, GroupsDetColumns.FULL_MAIN_ALBUM_ID);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.IS_FAVORITE, GroupsDetColumns.FULL_IS_FAVORITE);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.LINKS_COUNT, GroupsDetColumns.FULL_LINKS_COUNT);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CONTACTS_COUNT, GroupsDetColumns.FULL_CONTACTS_COUNT);
-        sGroupsDetProjectionMap.put(GroupsDetColumns.CAN_MESSAGE, GroupsDetColumns.FULL_CAN_MESSAGE);
+        sGroupsDetProjectionMap.put(GroupsDetColumns.DATA, GroupsDetColumns.FULL_DATA);
 
         sVideoAlbumsProjectionMap = new HashMap<>();
         sVideoAlbumsProjectionMap.put(VideoAlbumsColumns._ID, VideoAlbumsColumns.FULL_ID);

@@ -123,7 +123,7 @@ public class MessagesLookFragment extends PlaceSupportMvpFragment<MessagesLookPr
 
     @Override
     public void displayMessages(@NonNull List<Message> messages, @NonNull LastReadId lastReadId) {
-        mMessagesAdapter = new MessagesAdapter(requireActivity(), messages, lastReadId, this);
+        mMessagesAdapter = new MessagesAdapter(requireActivity(), messages, lastReadId, this, true);
         mMessagesAdapter.setOnMessageActionListener(this);
         mMessagesAdapter.addFooter(mHeaderView);
         mMessagesAdapter.addHeader(mFooterView);
@@ -154,21 +154,21 @@ public class MessagesLookFragment extends PlaceSupportMvpFragment<MessagesLookPr
 
     @Override
     public void configNowVoiceMessagePlaying(int id, float progress, boolean paused, boolean amin) {
-        // TODO: 09.10.2016
+        mMessagesAdapter.configNowVoiceMessagePlaying(id, progress, paused, amin);
     }
 
     @Override
     public void bindVoiceHolderById(int holderId, boolean play, boolean paused, float progress, boolean amin) {
-        // TODO: 09.10.2016
+        mMessagesAdapter.bindVoiceHolderById(holderId, play, paused, progress, amin);
     }
 
     @Override
     public void disableVoicePlaying() {
-        // TODO: 09.10.2016
+        mMessagesAdapter.disableVoiceMessagePlaying();
     }
 
     @Override
-    public void showActionMode(String title, Boolean canEdit, Boolean canPin) {
+    public void showActionMode(String title, Boolean canEdit, Boolean canPin, Boolean canStar, Boolean doStar) {
         if (Objects.isNull(mActionMode)) {
             mActionMode = ((AppCompatActivity) requireActivity()).startSupportActionMode(mActionModeCallback);
         }

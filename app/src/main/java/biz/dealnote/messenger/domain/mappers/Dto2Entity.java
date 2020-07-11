@@ -43,6 +43,7 @@ import biz.dealnote.messenger.api.model.VKApiWikiPage;
 import biz.dealnote.messenger.api.model.VkApiAttachments;
 import biz.dealnote.messenger.api.model.VkApiAudioMessage;
 import biz.dealnote.messenger.api.model.VkApiConversation;
+import biz.dealnote.messenger.api.model.VkApiCover;
 import biz.dealnote.messenger.api.model.VkApiDialog;
 import biz.dealnote.messenger.api.model.VkApiDoc;
 import biz.dealnote.messenger.api.model.VkApiPostSource;
@@ -70,6 +71,7 @@ import biz.dealnote.messenger.db.model.entity.CallEntity;
 import biz.dealnote.messenger.db.model.entity.CareerEntity;
 import biz.dealnote.messenger.db.model.entity.CityEntity;
 import biz.dealnote.messenger.db.model.entity.CommentEntity;
+import biz.dealnote.messenger.db.model.entity.CommunityDetailsEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.CopiesEntity;
 import biz.dealnote.messenger.db.model.entity.CountryEntity;
@@ -125,6 +127,7 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
+import static biz.dealnote.messenger.util.Utils.safeCountOf;
 
 
 public class Dto2Entity {
@@ -431,6 +434,44 @@ public class Dto2Entity {
                 .setBlacklisted(user.blacklisted)
                 .setCan_access_closed(user.can_access_closed)
                 .setVerified(user.verified);
+    }
+
+    public static CommunityDetailsEntity mapCommunityDetails(VKApiCommunity dto) {
+        final CommunityDetailsEntity details = new CommunityDetailsEntity()
+                .setCanMessage(dto.can_message)
+                .setStatus(dto.status)
+                .setStatusAudio(nonNull(dto.status_audio) ? mapAudio(dto.status_audio) : null);
+
+        if (nonNull(dto.counters)) {
+            details.setAllWallCount(dto.counters.all_wall)
+                    .setOwnerWallCount(dto.counters.owner_wall)
+                    .setPostponedWallCount(dto.counters.postponed_wall)
+                    .setSuggestedWallCount(dto.counters.suggest_wall)
+                    .setMembersCount(dto.members_count)
+                    .setTopicsCount(dto.counters.topics)
+                    .setDocsCount(dto.counters.docs)
+                    .setPhotosCount(dto.counters.photos)
+                    .setAudiosCount(dto.counters.audios)
+                    .setVideosCount(dto.counters.videos);
+        }
+
+        if (nonNull(dto.cover)) {
+            CommunityDetailsEntity.Cover cover = new CommunityDetailsEntity.Cover()
+                    .setEnabled(dto.cover.enabled)
+                    .setImages(new ArrayList<>(safeCountOf(dto.cover.images)));
+
+            if (nonNull(dto.cover.images)) {
+                for (VkApiCover.Image imageDto : dto.cover.images) {
+                    cover.getImages().add(new CommunityDetailsEntity.CoverImage(imageDto.url, imageDto.height, imageDto.width));
+                }
+            }
+
+            details.setCover(cover);
+        } else {
+            details.setCover(new CommunityDetailsEntity.Cover().setEnabled(false));
+        }
+
+        return details;
     }
 
     public static UserDetailsEntity mapUserDetails(VKApiUser user) {

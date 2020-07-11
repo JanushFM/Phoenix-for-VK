@@ -64,6 +64,8 @@ public interface ISettings {
 
         boolean isDisable_history();
 
+        boolean isShow_wall_cover();
+
         boolean isDebug_mode();
 
         boolean isForce_cache();
@@ -365,7 +367,7 @@ public interface ISettings {
 
         boolean isSystemEmoji();
 
-        boolean isEmojis_recents();
+        boolean isEmojis_full_screen();
 
         boolean isPhoto_swipe_pos_top_to_bottom();
 

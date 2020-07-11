@@ -21,8 +21,8 @@ public final class GroupColumns implements BaseColumns {
     public static final String PHOTO_200 = "photo_200";
     public static final String CAN_ADD_TOPICS = "can_add_topics";
     public static final String TOPICS_ORDER = "topics_order";
-    public static final String API_FIELDS = "name, screen_name, is_closed, is_admin, admin_level, " +
-            "is_member, member_status, type, photo_50, photo_100, photo_200";
+    public static final String API_FIELDS = "name,screen_name,is_closed,is_admin,admin_level," +
+            "is_member,member_status,type,photo_50,photo_100,photo_200";
     public static final String FULL_ID = TABLENAME + "." + _ID;
     public static final String FULL_NAME = TABLENAME + "." + NAME;
     public static final String FULL_SCREEN_NAME = TABLENAME + "." + SCREEN_NAME;

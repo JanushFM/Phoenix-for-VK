@@ -21,6 +21,7 @@ import biz.dealnote.messenger.api.model.response.DialogsResponse;
 import biz.dealnote.messenger.api.model.response.ItemsProfilesGroupsResponse;
 import biz.dealnote.messenger.api.model.response.LongpollHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageHistoryResponse;
+import biz.dealnote.messenger.api.model.response.MessageImportantResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
 import biz.dealnote.messenger.api.services.IMessageService;
 import io.reactivex.Completable;
@@ -145,6 +146,14 @@ class MessagesApi extends AbsApi implements IMessagesApi {
     }
 
     @Override
+    public Single<List<Integer>> markAsImportant(Collection<Integer> messageIds, Integer important) {
+        return serviceRx(TokenType.USER, TokenType.COMMUNITY)
+                .flatMap(service -> service
+                        .markAsImportant(join(messageIds, ","), important)
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
     public Single<Boolean> setActivity(int peerId, boolean typing) {
         return serviceRx(TokenType.USER, TokenType.COMMUNITY)
                 .flatMap(service -> service
@@ -248,10 +257,18 @@ class MessagesApi extends AbsApi implements IMessagesApi {
     }
 
     @Override
-    public Single<MessageHistoryResponse> getHistory(Integer offset, Integer count, int peerId, Integer startMessageId, Boolean rev, Boolean extended) {
+    public Single<MessageHistoryResponse> getHistory(Integer offset, Integer count, int peerId, Integer startMessageId, Boolean rev, Boolean extended, String fields) {
         return serviceRx(TokenType.USER, TokenType.COMMUNITY)
                 .flatMap(service -> service
-                        .getHistory(offset, count, peerId, startMessageId, integerFromBoolean(rev), integerFromBoolean(extended))
+                        .getHistory(offset, count, peerId, startMessageId, integerFromBoolean(rev), integerFromBoolean(extended), fields)
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
+    public Single<MessageImportantResponse> getImportantMessages(Integer offset, Integer count, Integer startMessageId, Boolean extended, String fields) {
+        return serviceRx(TokenType.USER, TokenType.COMMUNITY)
+                .flatMap(service -> service
+                        .getImportantMessages(offset, count, startMessageId, integerFromBoolean(extended), fields)
                         .map(extractResponseWithErrorHandling()));
     }
 

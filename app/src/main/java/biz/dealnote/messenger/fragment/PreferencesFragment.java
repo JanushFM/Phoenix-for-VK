@@ -372,7 +372,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     properties.offset = new File(Settings.get().other().getMusicDir());
                     properties.extensions = null;
                     properties.show_hidden_files = true;
-                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties);
+                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties, Settings.get().ui().getMainTheme());
                     dialog.setTitle(R.string.music_dir);
                     dialog.setDialogSelectionListener(files -> PreferenceManager.getDefaultSharedPreferences(Injection.provideApplicationContext()).edit().putString("music_dir", files[0]).apply());
                     dialog.show();
@@ -393,7 +393,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     properties.offset = new File(Settings.get().other().getPhotoDir());
                     properties.extensions = null;
                     properties.show_hidden_files = true;
-                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties);
+                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties, Settings.get().ui().getMainTheme());
                     dialog.setTitle(R.string.photo_dir);
                     dialog.setDialogSelectionListener(files -> PreferenceManager.getDefaultSharedPreferences(Injection.provideApplicationContext()).edit().putString("photo_dir", files[0]).apply());
                     dialog.show();
@@ -414,7 +414,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     properties.offset = new File(Settings.get().other().getVideoDir());
                     properties.extensions = null;
                     properties.show_hidden_files = true;
-                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties);
+                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties, Settings.get().ui().getMainTheme());
                     dialog.setTitle(R.string.video_dir);
                     dialog.setDialogSelectionListener(files -> PreferenceManager.getDefaultSharedPreferences(Injection.provideApplicationContext()).edit().putString("video_dir", files[0]).apply());
                     dialog.show();
@@ -435,7 +435,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     properties.offset = new File(Settings.get().other().getDocDir());
                     properties.extensions = null;
                     properties.show_hidden_files = true;
-                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties);
+                    FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties, Settings.get().ui().getMainTheme());
                     dialog.setTitle(R.string.docs_dir);
                     dialog.setDialogSelectionListener(files -> PreferenceManager.getDefaultSharedPreferences(Injection.provideApplicationContext()).edit().putString("docs_dir", files[0]).apply());
                     dialog.show();

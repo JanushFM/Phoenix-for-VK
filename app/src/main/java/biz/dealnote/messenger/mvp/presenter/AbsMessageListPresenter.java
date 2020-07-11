@@ -101,7 +101,7 @@ public abstract class AbsMessageListPresenter<V extends IBasicMessageListView> e
 
         int selectionCount = countOfSelection(getData());
         if (selectionCount > 0) {
-            getView().showActionMode(String.valueOf(selectionCount), false, false);
+            getView().showActionMode(String.valueOf(selectionCount), false, false, false, false);
         } else {
             getView().finishActionMode();
         }

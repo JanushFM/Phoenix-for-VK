@@ -239,7 +239,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         animator?.setDuration(200)?.start()
     }
 
-    var simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private var simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
             return false
         }
@@ -276,6 +276,10 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                     reference.get()?.presenter?.fireActionModePinClick()
                     hide()
                 }
+                R.id.buttonStar -> {
+                    reference.get()?.presenter?.fireActionModeStarClick()
+                    hide()
+                }
             }
         }
 
@@ -286,6 +290,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         val buttonCopy: View = rootView.findViewById(R.id.buttonCopy)
         val buttonDelete: View = rootView.findViewById(R.id.buttonDelete)
         val buttonPin: View = rootView.findViewById(R.id.buttonPin)
+        val buttonStar: ImageView = rootView.findViewById(R.id.buttonStar)
         val titleView: TextView = rootView.findViewById(R.id.actionModeTitle)
 
         init {
@@ -295,6 +300,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             buttonCopy.setOnClickListener(this)
             buttonDelete.setOnClickListener(this)
             buttonPin.setOnClickListener(this)
+            buttonStar.setOnClickListener(this)
         }
 
         fun show() {
@@ -334,7 +340,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     override fun displayMessages(messages: List<Message>, lastReadId: LastReadId) {
-        adapter = MessagesAdapter(activity, messages, lastReadId, this)
+        adapter = MessagesAdapter(activity, messages, lastReadId, this, false)
                 .also {
                     it.setOnMessageActionListener(this)
                     it.setVoiceActionListener(this)
@@ -470,6 +476,10 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         }
     }
 
+    override fun goToMessagesLookup(accountId: Int, peerId: Int, messageId: Int) {
+        PlaceFactory.getMessagesLookupPlace(accountId, peerId, messageId).tryOpenWith(requireActivity())
+    }
+
     override fun displayPinnedMessage(pinned: Message?, canChange: Boolean) {
         pinnedView?.run {
             visibility = if (pinned == null) View.GONE else View.VISIBLE
@@ -484,7 +494,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                 }
                 pinnedSubtitle?.text = body
                 buttonUnpin?.visibility = if (canChange) View.VISIBLE else View.GONE
-                pinnedView?.setOnClickListener { recyclerView?.scrollToPosition(0); presenter?.requestFromNetInMessage(pinned.id); }
+                pinnedView?.setOnClickListener { presenter?.fireMessagesLookup(pinned); }
             }
         }
     }
@@ -515,7 +525,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         presenter?.fireHashtagClick(hashTag)
     }
 
-    override fun showActionMode(title: String, canEdit: Boolean, canPin: Boolean) {
+    override fun showActionMode(title: String, canEdit: Boolean, canPin: Boolean, canStar: Boolean, doStar: Boolean) {
         toolbarRootView?.run {
             if (childCount == 1) {
                 val v = LayoutInflater.from(context).inflate(R.layout.view_actionmode, this, false)
@@ -529,6 +539,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         actionModeHolder?.titleView?.text = title
         actionModeHolder?.buttonEdit?.visibility = if (canEdit) View.VISIBLE else View.GONE
         actionModeHolder?.buttonPin?.visibility = if (canPin) View.VISIBLE else View.GONE
+        actionModeHolder?.buttonStar?.visibility = if (canStar) View.VISIBLE else View.GONE
+        actionModeHolder?.buttonStar?.setImageResource(if (doStar) R.drawable.star_add else R.drawable.star_none)
     }
 
     override fun finishActionMode() {
@@ -880,8 +892,9 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                         true
                     }
                 } else {
+                    Avatar?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                     Avatar?.setOnClickListener {
-                        PlaceFactory.getChatMembersPlace(Settings.get().accounts().current, Peer.toChatId(peerId)).tryOpenWith(requireActivity())
+                        ChatUsersDomainFragment.newInstance(Settings.get().accounts().current, Peer.toChatId(peerId)) { t -> insertDomain(t) }.show(childFragmentManager, "chat_users_domain")
                     }
                     Avatar?.setOnLongClickListener {
                         AppendMessageText("@all,")
@@ -890,6 +903,14 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                 }
             }
         } catch (ignored: java.lang.Exception) {
+        }
+    }
+
+    private fun insertDomain(owner: Owner) {
+        if (nonEmpty(owner.domain)) {
+            AppendMessageText("@" + owner.domain + ",")
+        } else {
+            AppendMessageText("@id" + owner.ownerId + ",")
         }
     }
 
@@ -1070,7 +1091,6 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             R.id.action_refresh -> {
                 recyclerView?.scrollToPosition(0)
                 presenter?.reset_Hrono()
-                presenter?.setInPinnedHas(false)
                 presenter?.fireRefreshClick()
                 return true
             }
@@ -1161,9 +1181,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             return false
         }
 
-        if (presenter!!.inPinnedHas || presenter!!.inInverHrono) {
+        if (presenter!!.inInverHrono) {
             presenter?.reset_Hrono()
-            presenter?.setInPinnedHas(false)
             presenter?.fireRefreshClick()
             return false
         }

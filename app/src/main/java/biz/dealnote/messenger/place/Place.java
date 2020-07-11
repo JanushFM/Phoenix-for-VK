@@ -93,6 +93,7 @@ public class Place implements Parcelable {
     public static final int CATALOG_BLOCK_VIDEOS = 82;
     public static final int CATALOG_BLOCK_LINKS = 83;
     public static final int SHORT_LINKS = 84;
+    public static final int IMPORTANT_MESSAGES = 85;
     public static final Creator<Place> CREATOR = new Creator<Place>() {
         @Override
         public Place createFromParcel(Parcel in) {

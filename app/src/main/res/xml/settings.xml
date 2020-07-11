@@ -140,6 +140,12 @@
             android:title="@string/disable_history"
             app:iconSpaceReserved="false" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="show_wall_cover"
+            android:title="@string/show_wall_cover"
+            app:iconSpaceReserved="false" />
+
         <Preference
             android:key="avatar_style"
             android:title="@string/avatar_style_title"
@@ -167,9 +173,9 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="emojis_recents"
-            android:title="@string/emojis_recents"
+            android:defaultValue="false"
+            android:key="emojis_full_screen"
+            android:title="@string/emojis_full_screen"
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
@@ -228,29 +234,31 @@
             app:allowDividerAbove="true"
             app:iconSpaceReserved="false" />
 
-        <com.skydoves.colorpickerpreference.ColorPickerPreference
+        <biz.dealnote.messenger.colorpicker.ColorPickerPreference
             android:dependency="custom_chat_color_usage"
             android:key="custom_chat_color"
             android:title="@string/custom_chat_color"
-            app:default_color="#ffffffff"
+            app:alphaSlider="true"
+            app:density="12"
             app:iconSpaceReserved="false"
-            app:preference_dialog_negative="@string/button_cancel"
-            app:preference_dialog_positive="@string/button_yes"
-            app:preference_dialog_title="@string/custom_chat_color"
-            app:preference_palette="@drawable/palette"
-            app:preference_selector="@drawable/wheel" />
+            app:initialColor="#ffffffff"
+            app:lightnessSlider="true"
+            app:pickerButtonCancel="@string/button_cancel"
+            app:pickerButtonOk="@string/button_yes"
+            app:pickerTitle="@string/custom_chat_color" />
 
-        <com.skydoves.colorpickerpreference.ColorPickerPreference
+        <biz.dealnote.messenger.colorpicker.ColorPickerPreference
             android:dependency="custom_chat_color_usage"
             android:key="custom_chat_color_second"
             android:title="@string/custom_chat_color_second"
-            app:default_color="#ffffffff"
+            app:alphaSlider="true"
+            app:density="12"
             app:iconSpaceReserved="false"
-            app:preference_dialog_negative="@string/button_cancel"
-            app:preference_dialog_positive="@string/button_yes"
-            app:preference_dialog_title="@string/custom_chat_color_second"
-            app:preference_palette="@drawable/palette"
-            app:preference_selector="@drawable/wheel" />
+            app:initialColor="#ffffffff"
+            app:lightnessSlider="true"
+            app:pickerButtonCancel="@string/button_cancel"
+            app:pickerButtonOk="@string/button_yes"
+            app:pickerTitle="@string/custom_chat_color_second" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -266,29 +274,31 @@
             android:title="@string/usage_custom_message_color"
             app:iconSpaceReserved="false" />
 
-        <com.skydoves.colorpickerpreference.ColorPickerPreference
+        <biz.dealnote.messenger.colorpicker.ColorPickerPreference
             android:dependency="custom_message_color_usage"
             android:key="custom_message_color"
             android:title="@string/custom_message_color"
-            app:default_color="#CBD438FF"
+            app:alphaSlider="true"
+            app:density="12"
             app:iconSpaceReserved="false"
-            app:preference_dialog_negative="@string/button_cancel"
-            app:preference_dialog_positive="@string/button_yes"
-            app:preference_dialog_title="@string/custom_message_color"
-            app:preference_palette="@drawable/palette"
-            app:preference_selector="@drawable/wheel" />
+            app:initialColor="#CBD438FF"
+            app:lightnessSlider="true"
+            app:pickerButtonCancel="@string/button_cancel"
+            app:pickerButtonOk="@string/button_yes"
+            app:pickerTitle="@string/custom_message_color" />
 
-        <com.skydoves.colorpickerpreference.ColorPickerPreference
+        <biz.dealnote.messenger.colorpicker.ColorPickerPreference
             android:dependency="custom_message_color_usage"
             android:key="custom_second_message_color"
             android:title="@string/custom_second_message_color"
-            app:default_color="#BF6539DF"
+            app:alphaSlider="true"
+            app:density="12"
             app:iconSpaceReserved="false"
-            app:preference_dialog_negative="@string/button_cancel"
-            app:preference_dialog_positive="@string/button_yes"
-            app:preference_dialog_title="@string/custom_second_message_color"
-            app:preference_palette="@drawable/palette"
-            app:preference_selector="@drawable/wheel" />
+            app:initialColor="#BF6539DF"
+            app:lightnessSlider="true"
+            app:pickerButtonCancel="@string/button_cancel"
+            app:pickerButtonOk="@string/button_yes"
+            app:pickerTitle="@string/custom_second_message_color" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -366,6 +376,13 @@
             android:defaultValue="true"
             android:key="show_mini_player"
             android:title="@string/show_mini_player"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="broadcast"
+            android:summary="@string/audio_in_status_summary"
+            android:title="@string/audio_in_status"
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
@@ -554,7 +571,7 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:icon="@drawable/bratishka"
+            android:icon="@drawable/low_battery"
             android:key="keep_longpoll"
             android:summary="@string/settings_keep_longpoll_summary"
             android:title="@string/settings_keep_longpoll_title"

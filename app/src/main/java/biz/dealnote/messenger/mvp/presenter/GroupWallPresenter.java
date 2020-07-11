@@ -104,8 +104,13 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     private void onFullInfoReceived(Community community, CommunityDetails details) {
-        this.community = community;
-        this.details = details;
+        if (nonNull(community)) {
+            this.community = community;
+        }
+
+        if (nonNull(details)) {
+            this.details = details;
+        }
 
         filters.clear();
         filters.addAll(createPostFilters());
@@ -240,7 +245,9 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     public void fireHeaderStatusClick() {
-
+        if (nonNull(details) && nonNull(details.getStatusAudio())) {
+            getView().playAudioList(getAccountId(), 0, Utils.singletonArrayList(details.getStatusAudio()));
+        }
     }
 
     @OnGuiCreated

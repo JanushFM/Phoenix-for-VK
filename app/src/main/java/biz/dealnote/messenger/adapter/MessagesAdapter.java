@@ -65,6 +65,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
     private final Transformation avatarTransformation;
     private final ShapeDrawable selectedDrawable;
     private final int unreadColor;
+    private final boolean disable_read;
     private final AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback;
     private final OwnerLinkSpanFactory.ActionListener ownerLinkAdapter = new LinkActionAdapter() {
         @Override
@@ -78,11 +79,11 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
     private OnMessageActionListener onMessageActionListener;
     private LastReadId lastReadId;
 
-    public MessagesAdapter(Context context, List<Message> items, AttachmentsViewBinder.OnAttachmentsActionCallback callback) {
-        this(context, items, new LastReadId(0, 0), callback);
+    public MessagesAdapter(Context context, List<Message> items, AttachmentsViewBinder.OnAttachmentsActionCallback callback, boolean disable_read) {
+        this(context, items, new LastReadId(0, 0), callback, disable_read);
     }
 
-    public MessagesAdapter(Context context, List<Message> items, LastReadId lastReadId, AttachmentsViewBinder.OnAttachmentsActionCallback callback) {
+    public MessagesAdapter(Context context, List<Message> items, LastReadId lastReadId, AttachmentsViewBinder.OnAttachmentsActionCallback callback, boolean disable_read) {
         super(items);
         this.context = context;
         this.lastReadId = lastReadId;
@@ -92,6 +93,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         this.selectedDrawable = new ShapeDrawable(new OvalShape());
         this.selectedDrawable.getPaint().setColor(CurrentTheme.getColorPrimary(context));
         this.unreadColor = CurrentTheme.getMessageUnreadColor(context);
+        this.disable_read = disable_read;
     }
 
     @Override
@@ -228,6 +230,8 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         bindStatusText(holder.status, message.getStatus(), message.getDate(), message.getUpdateTime());
 
         boolean read = message.isOut() ? lastReadId.getOutgoing() >= message.getId() : lastReadId.getIncoming() >= message.getId();
+        if (disable_read)
+            read = true;
 
         bindReadState(holder.itemView, message.getStatus() == MessageStatus.SENT && read);
 
@@ -350,6 +354,8 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         }
 
         boolean read = message.isOut() ? lastReadId.getOutgoing() >= message.getId() : lastReadId.getIncoming() >= message.getId();
+        if (disable_read)
+            read = true;
         bindReadState(holder.itemView, message.getStatus() == MessageStatus.SENT && read);
         holder.tvAction.setText(message.getServiceText(context));
         holder.itemView.setOnClickListener(v -> {

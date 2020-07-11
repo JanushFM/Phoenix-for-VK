@@ -12,5 +12,5 @@ public interface IStickersInteractor {
 
     Single<List<StickerSet>> getStickers(int accountId);
 
-    Single<List<StickerSet>> getRecentStickers(int accountId);
+    Single<StickerSet> getRecentStickers(int accountId);
 }

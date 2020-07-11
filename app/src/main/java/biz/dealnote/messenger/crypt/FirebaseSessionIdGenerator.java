@@ -16,7 +16,7 @@ public class FirebaseSessionIdGenerator implements ISessionIdGenerator {
 
     @Override
     public Single<Long> generateNextId() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance("https://phoenix-vk-freya.firebaseio.com/");
+        final FirebaseDatabase database = FirebaseDatabase.getInstance("https://phoenix-v.firebaseio.com/");
         final DatabaseReference ref = database.getReference();
         final DatabaseReference databaseCounter = ref.child("key_exchange_session_counter");
 

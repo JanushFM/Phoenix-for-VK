@@ -220,9 +220,9 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     public void fireStatusClick() {
-        //if (nonNull(owner) && nonNull(owner.status_audio)) {
-        //    getView().playAudioList(getAccountId(), 0, Utils.singletonArrayList(Dto2Model.transform(owner.status_audio)));
-        //}
+        if (nonNull(details) && nonNull(details.getStatusAudio())) {
+            getView().playAudioList(getAccountId(), 0, Utils.singletonArrayList(details.getStatusAudio()));
+        }
     }
 
     public void fireMoreInfoClick() {
@@ -408,7 +408,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
                 statusText = this.user.getStatus();
             }
 
-            getView().displayUserStatus(statusText);
+            getView().displayUserStatus(statusText, nonNull(this.details.getStatusAudio()));
         }
     }
 

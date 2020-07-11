@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.developer.crashx.config.CrashConfig;
+
 import org.conscrypt.Conscrypt;
 
 import java.security.Security;
@@ -42,6 +44,10 @@ public class App extends Application {
     public void onCreate() {
         sInstanse = this;
         AppCompatDelegate.setDefaultNightMode(Settings.get().ui().getNightMode());
+
+        CrashConfig.Builder.create()
+                .apply();
+
         TagOptionSingleton.getInstance().setAndroid(true);
         Security.addProvider(Conscrypt.newProvider());
 

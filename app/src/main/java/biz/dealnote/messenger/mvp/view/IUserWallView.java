@@ -34,7 +34,7 @@ public interface IUserWallView extends IWallView, IProgressView, ISnackbarView {
 
     void displayCounters(int friends, int followers, int groups, int photos, int audios, int videos);
 
-    void displayUserStatus(String statusText);
+    void displayUserStatus(String statusText, boolean swAudioIcon);
 
     void InvalidateOptionsMenu();
 

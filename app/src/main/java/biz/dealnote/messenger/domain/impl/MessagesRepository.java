@@ -720,13 +720,47 @@ public class MessagesRepository implements IMessagesRepository {
     }
 
     @Override
+    public Single<List<Message>> getImportantMessages(int accountId, int count, Integer offset,
+                                                      Integer startMessageId) {
+        return networker.vkDefault(accountId)
+                .messages()
+                .getImportantMessages(offset, count, startMessageId, true, Constants.MAIN_OWNER_FIELDS)
+                .flatMap(response -> {
+                    final List<VKApiMessage> dtos = response.messages == null ? Collections.emptyList() : listEmptyIfNull(response.messages.items);
+                    if (nonNull(startMessageId) && nonEmpty(dtos) && startMessageId == dtos.get(0).id) {
+                        dtos.remove(0);
+                    }
+                    Completable completable = Completable.complete();
+                    VKOwnIds ownerIds = new VKOwnIds();
+                    ownerIds.append(dtos);
+
+                    List<Owner> existsOwners = Dto2Model.transformOwners(response.profiles, response.groups);
+                    OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+
+                    return completable
+                            .andThen(ownersRepository
+                                    .findBaseOwnersDataAsBundle(accountId, ownerIds.getAll(), IOwnersRepository.MODE_ANY, existsOwners)
+                                    .flatMap(owners -> {
+                                        final Completable insertCompletable = ownersRepository.insertOwners(accountId, ownerEntities);
+                                        List<Message> messages = new ArrayList<>(dtos.size());
+                                        for (VKApiMessage dto : dtos) {
+                                            messages.add(Dto2Model.transform(accountId, dto, owners));
+                                        }
+
+                                        return insertCompletable.andThen(Single.just(messages)
+                                                .compose(decryptor.withMessagesDecryption(accountId)));
+                                    }));
+                });
+    }
+
+    @Override
     public Single<List<Message>> getPeerMessages(int accountId, int peerId, int count, Integer offset,
                                                  Integer startMessageId, boolean cacheData, boolean rev) {
         if (rev)
             count = 200;
         return networker.vkDefault(accountId)
                 .messages()
-                .getHistory(offset, count, peerId, startMessageId, rev, cacheData)
+                .getHistory(offset, count, peerId, startMessageId, rev, true, Constants.MAIN_OWNER_FIELDS)
                 .flatMap(response -> {
                     final List<VKApiMessage> dtos = listEmptyIfNull(response.messages);
 
@@ -757,25 +791,29 @@ public class MessagesRepository implements IMessagesRepository {
                     VKOwnIds ownerIds = new VKOwnIds();
                     ownerIds.append(dtos);
 
+                    List<Owner> existsOwners = Dto2Model.transformOwners(response.profiles, response.groups);
+                    OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+
                     return completable
                             .andThen(ownersRepository
-                                    .findBaseOwnersDataAsBundle(accountId, ownerIds.getAll(), IOwnersRepository.MODE_ANY)
+                                    .findBaseOwnersDataAsBundle(accountId, ownerIds.getAll(), IOwnersRepository.MODE_ANY, existsOwners)
                                     .flatMap(owners -> {
+                                        final Completable insertCompletable = ownersRepository.insertOwners(accountId, ownerEntities);
                                         if (isNull(startMessageId) && cacheData) {
                                             // Это важно !!!
                                             // Если мы получаем сообщения сначала и кэшируем их в базу,
                                             // то нельзя отдать этот список в ответ (как сделано чуть ниже)
                                             // Так как мы теряем сообщения со статусами, отличными от SENT
-                                            return this.getCachedPeerMessages(accountId, peerId);
+                                            return insertCompletable.andThen(this.getCachedPeerMessages(accountId, peerId));
                                         }
 
-                                        List<Message> messages = new ArrayList<>(response.messages.size());
+                                        List<Message> messages = new ArrayList<>(dtos.size());
                                         for (VKApiMessage dto : dtos) {
                                             messages.add(Dto2Model.transform(accountId, dto, owners));
                                         }
 
-                                        return Single.just(messages)
-                                                .compose(decryptor.withMessagesDecryption(accountId));
+                                        return insertCompletable.andThen(Single.just(messages)
+                                                .compose(decryptor.withMessagesDecryption(accountId)));
                                     }));
                 });
     }
@@ -1144,6 +1182,25 @@ public class MessagesRepository implements IMessagesRepository {
                             patch.setDeletion(new MessagePatch.Deletion(true, forAll));
                             patches.add(patch);
                         }
+                    }
+
+                    return applyMessagesPatchesAndPublish(accountId, patches);
+                });
+    }
+
+    @Override
+    public Completable markAsImportant(int accountId, int peerId, @NonNull Collection<Integer> ids, Integer important) {
+        return networker.vkDefault(accountId)
+                .messages()
+                .markAsImportant(ids, important)
+                .flatMapCompletable(result -> {
+                    List<MessagePatch> patches = new ArrayList<>(result.size());
+
+                    for (Integer entry : result) {
+                        boolean marked = important == 1;
+                        MessagePatch patch = new MessagePatch(entry, peerId);
+                        patch.setImportant(new MessagePatch.Important(marked));
+                        patches.add(patch);
                     }
 
                     return applyMessagesPatchesAndPublish(accountId, patches);

@@ -2,15 +2,11 @@ package biz.dealnote.messenger.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,8 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,7 +47,10 @@ import biz.dealnote.messenger.mvp.presenter.GroupWallPresenter;
 import biz.dealnote.messenger.mvp.view.IGroupWallView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.CurrentTheme;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AssertUtils;
+import biz.dealnote.messenger.util.BlurTransformation;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
@@ -71,6 +68,30 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
 
         mHeaderHolder.tvName.setText(community.getFullName());
 
+        if (details.getCover() != null && !Utils.isEmpty(details.getCover().getImages())) {
+            int def = 0;
+            String url = null;
+            for (CommunityDetails.CoverImage i : details.getCover().getImages()) {
+                if (i.getWidth() * i.getHeight() > def) {
+                    def = i.getWidth() * i.getHeight();
+                    url = i.getUrl();
+                }
+            }
+            displayCommunityCover(url);
+        } else {
+            displayCommunityCover(community.getMaxSquareAvatar());
+        }
+
+        final String statusText;
+        if (nonNull(details.getStatusAudio())) {
+            statusText = details.getStatusAudio().getArtistAndTitle();
+        } else {
+            statusText = details.getStatus();
+        }
+
+        mHeaderHolder.tvStatus.setText(statusText);
+        mHeaderHolder.tvAudioStatus.setVisibility(nonNull(details.getStatusAudio()) ? View.VISIBLE : View.GONE);
+
         String screenName = nonEmpty(community.getScreenName()) ? "@" + community.getScreenName() : null;
         mHeaderHolder.tvScreenName.setText(screenName);
 
@@ -83,6 +104,7 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
         if (nonEmpty(photoUrl)) {
             PicassoInstance.with()
                     .load(photoUrl).transform(CurrentTheme.createTransformationForAvatar(requireActivity()))
+                    .tag(Constants.PICASSO_TAG)
                     .into(mHeaderHolder.ivAvatar);
         }
         mHeaderHolder.ivAvatar.setOnClickListener(v -> {
@@ -91,28 +113,14 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
         });
     }
 
-    @Override
-    public void displayCommunityCover(boolean enabled, String resource) {
-        if (enabled) {
+    private void displayCommunityCover(String resource) {
+        if (!Settings.get().other().isShow_wall_cover())
+            return;
+        if (!Utils.isEmpty(resource)) {
             PicassoInstance.with()
                     .load(resource)
-                    .into(new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-                            mHeaderHolder.vgCover.setBackground(drawable);
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-                            //do nothing
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                            //do nothing
-                        }
-                    });
+                    .transform(new BlurTransformation(6, 1))
+                    .into(mHeaderHolder.vgCover);
         }
     }
 
@@ -306,10 +314,11 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
     }
 
     private class GroupHeaderHolder {
-        ViewGroup vgCover;
+        ImageView vgCover;
         ImageView ivAvatar;
         TextView tvName;
         TextView tvStatus;
+        ImageView tvAudioStatus;
         TextView tvScreenName;
 
         TextView bTopics;
@@ -325,10 +334,11 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
         HorizontalOptionsAdapter<PostFilter> mFiltersAdapter;
 
         GroupHeaderHolder(@NonNull View root) {
-            vgCover = root.findViewById(R.id.profile_data_container);
+            vgCover = root.findViewById(R.id.cover);
             ivAvatar = root.findViewById(R.id.header_group_avatar);
             tvName = root.findViewById(R.id.header_group_name);
             tvStatus = root.findViewById(R.id.header_group_status);
+            tvAudioStatus = root.findViewById(R.id.fragment_group_audio);
             tvScreenName = root.findViewById(R.id.header_group_id);
             bTopics = root.findViewById(R.id.header_group_btopics);
             bMembers = root.findViewById(R.id.header_group_bmembers);

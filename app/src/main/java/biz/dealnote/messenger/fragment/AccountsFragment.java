@@ -101,7 +101,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
     private TextView empty;
     private RecyclerView mRecyclerView;
     private AccountAdapter mAdapter;
-    ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+    private final ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
         public boolean onMove(@NotNull RecyclerView recyclerView,
                               @NotNull RecyclerView.ViewHolder viewHolder, @NotNull RecyclerView.ViewHolder target) {
             return false;
@@ -230,7 +230,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         properties.offset = Environment.getExternalStorageDirectory();
         properties.extensions = null;
         properties.show_hidden_files = true;
-        FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties);
+        FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties, Settings.get().ui().getMainTheme());
         dialog.setTitle(R.string.export_accounts);
         dialog.setDialogSelectionListener(files -> {
             File file = new File(files[0], "phoenix_accounts_backup.json");
@@ -612,7 +612,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             properties.offset = Environment.getExternalStorageDirectory();
             properties.extensions = new String[]{"json"};
             properties.show_hidden_files = true;
-            FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties);
+            FilePickerDialog dialog = new FilePickerDialog(requireActivity(), properties, Settings.get().ui().getMainTheme());
             dialog.setTitle(R.string.import_accounts);
             dialog.setDialogSelectionListener(files -> {
                 try {

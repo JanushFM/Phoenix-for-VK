@@ -49,6 +49,7 @@ import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AssertUtils;
+import biz.dealnote.messenger.util.BlurTransformation;
 import biz.dealnote.messenger.util.InputTextDialog;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
@@ -91,6 +92,13 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
                     .load(photoUrl)
                     .transform(CurrentTheme.createTransformationForAvatar(requireActivity()))
                     .into(mHeaderHolder.ivAvatar);
+
+            if (Settings.get().other().isShow_wall_cover()) {
+                PicassoInstance.with()
+                        .load(photoUrl)
+                        .transform(new BlurTransformation(6, 1))
+                        .into(mHeaderHolder.vgCover);
+            }
         }
 
         Integer onlineIcon = ViewUtils.getOnlineIcon(true, user.isOnlineMobile(), user.getPlatform(), user.getOnlineApp());
@@ -187,9 +195,10 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
     }*/
 
     @Override
-    public void displayUserStatus(String statusText) {
+    public void displayUserStatus(String statusText, boolean swAudioIcon) {
         if (nonNull(mHeaderHolder)) {
             mHeaderHolder.tvStatus.setText(statusText);
+            mHeaderHolder.tvAudioStatus.setVisibility(swAudioIcon ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -371,13 +380,14 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
     }
 
     private class UserHeaderHolder {
-
+        ImageView vgCover;
         ViewGroup avatarRoot;
         ImageView ivAvatar;
         ImageView ivVerified;
         TextView tvName;
         TextView tvScreenName;
         TextView tvStatus;
+        ImageView tvAudioStatus;
         TextView tvLastSeen;
         OnlineView ivOnline;
 
@@ -397,7 +407,9 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
         HorizontalOptionsAdapter<PostFilter> mPostFilterAdapter;
 
         UserHeaderHolder(@NonNull View root) {
+            vgCover = root.findViewById(R.id.cover);
             tvStatus = root.findViewById(R.id.fragment_user_profile_status);
+            tvAudioStatus = root.findViewById(R.id.fragment_user_profile_audio);
             tvName = root.findViewById(R.id.fragment_user_profile_name);
             tvScreenName = root.findViewById(R.id.fragment_user_profile_id);
             tvLastSeen = root.findViewById(R.id.fragment_user_profile_activity);

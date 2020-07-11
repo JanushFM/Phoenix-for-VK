@@ -12,13 +12,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_margin"
         android:foreground="?android:attr/selectableItemBackground"
-        app:contentPadding="16dp"
         tools:ignore="UnusedAttribute">
+
+        <ImageView
+            android:id="@+id/cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0.6"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <RelativeLayout
                 android:id="@+id/profile_data_container"
@@ -58,18 +65,33 @@
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                         android:visibility="visible" />
 
-
-                    <biz.dealnote.messenger.view.emoji.EmojiconTextView xmlns:emojicon="http://schemas.android.com/apk/res-auto"
-                        android:id="@+id/header_group_status"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
 
-                        android:gravity="end"
-                        android:maxLines="6"
-                        android:textAppearance="@style/ProfileSubText"
-                        android:visibility="visible"
-                        emojicon:emojiconSize="20sp" />
+                        <ImageView
+                            android:id="@+id/fragment_group_audio"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="center_vertical"
+                            android:src="@drawable/song"
+                            android:visibility="gone"
+                            app:tint="?colorOnSurface" />
+
+                        <biz.dealnote.messenger.view.emoji.EmojiconTextView
+                            android:id="@+id/header_group_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:maxLines="6"
+                            android:stateListAnimator="@animator/clicked"
+                            android:textAppearance="@style/ProfileSubText"
+                            android:visibility="visible"
+                            app:emojiconSize="20sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

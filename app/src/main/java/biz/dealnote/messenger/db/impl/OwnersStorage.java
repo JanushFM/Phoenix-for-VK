@@ -20,11 +20,13 @@ import java.util.Set;
 import biz.dealnote.messenger.db.MessengerContentProvider;
 import biz.dealnote.messenger.db.column.FriendListsColumns;
 import biz.dealnote.messenger.db.column.GroupColumns;
+import biz.dealnote.messenger.db.column.GroupsDetColumns;
 import biz.dealnote.messenger.db.column.UserColumns;
 import biz.dealnote.messenger.db.column.UsersDetColumns;
 import biz.dealnote.messenger.db.interfaces.IOwnersStorage;
 import biz.dealnote.messenger.db.model.BanAction;
 import biz.dealnote.messenger.db.model.UserPatch;
+import biz.dealnote.messenger.db.model.entity.CommunityDetailsEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.FriendListEntity;
 import biz.dealnote.messenger.db.model.entity.OwnerEntities;
@@ -139,6 +141,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
                 .setAdmin(cursor.getInt(cursor.getColumnIndex(GroupColumns.IS_ADMIN)) == 1)
                 .setAdminLevel(cursor.getInt(cursor.getColumnIndex(GroupColumns.ADMIN_LEVEL)))
                 .setMember(cursor.getInt(cursor.getColumnIndex(GroupColumns.IS_MEMBER)) == 1)
+                .setMemberStatus(cursor.getInt(cursor.getColumnIndex(GroupColumns.MEMBER_STATUS)))
                 .setType(cursor.getInt(cursor.getColumnIndex(GroupColumns.TYPE)))
                 .setPhoto50(cursor.getString(cursor.getColumnIndex(GroupColumns.PHOTO_50)))
                 .setPhoto100(cursor.getString(cursor.getColumnIndex(GroupColumns.PHOTO_100)))
@@ -212,6 +215,44 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
             }
 
             return Optional.wrap(details);
+        });
+    }
+
+    @Override
+    public Single<Optional<CommunityDetailsEntity>> getGroupsDetails(int accountId, int groupId) {
+        return Single.fromCallable(() -> {
+            final Uri uri = MessengerContentProvider.getGroupsDetContentUriFor(accountId);
+            final String where = GroupsDetColumns._ID + " = ?";
+            final String[] args = {String.valueOf(groupId)};
+
+            Cursor cursor = getContentResolver().query(uri, null, where, args, null);
+            CommunityDetailsEntity details = null;
+
+            if (nonNull(cursor)) {
+                if (cursor.moveToNext()) {
+                    String json = cursor.getString(cursor.getColumnIndex(GroupsDetColumns.DATA));
+                    if (nonEmpty(json)) {
+                        details = GSON.fromJson(json, CommunityDetailsEntity.class);
+                    }
+                }
+
+                cursor.close();
+            }
+
+            return Optional.wrap(details);
+        });
+    }
+
+    @Override
+    public Completable storeGroupsDetails(int accountId, int groupId, CommunityDetailsEntity dbo) {
+        return Completable.fromAction(() -> {
+            ContentValues cv = new ContentValues();
+            cv.put(GroupsDetColumns._ID, groupId);
+            cv.put(GroupsDetColumns.DATA, GSON.toJson(dbo));
+
+            final Uri uri = MessengerContentProvider.getGroupsDetContentUriFor(accountId);
+
+            getContentResolver().insert(uri, cv);
         });
     }
 

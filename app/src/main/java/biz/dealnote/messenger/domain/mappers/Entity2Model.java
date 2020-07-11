@@ -15,6 +15,7 @@ import biz.dealnote.messenger.db.model.entity.CallEntity;
 import biz.dealnote.messenger.db.model.entity.CareerEntity;
 import biz.dealnote.messenger.db.model.entity.CityEntity;
 import biz.dealnote.messenger.db.model.entity.CommentEntity;
+import biz.dealnote.messenger.db.model.entity.CommunityDetailsEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.CountryEntity;
 import biz.dealnote.messenger.db.model.entity.DialogEntity;
@@ -56,6 +57,7 @@ import biz.dealnote.messenger.model.City;
 import biz.dealnote.messenger.model.Comment;
 import biz.dealnote.messenger.model.Commented;
 import biz.dealnote.messenger.model.Community;
+import biz.dealnote.messenger.model.CommunityDetails;
 import biz.dealnote.messenger.model.CryptStatus;
 import biz.dealnote.messenger.model.Dialog;
 import biz.dealnote.messenger.model.Document;
@@ -156,6 +158,41 @@ public class Entity2Model {
                 .setPhoto50(dbo.getPhoto50())
                 .setPhoto100(dbo.getPhoto100())
                 .setPhoto200(dbo.getPhoto200());
+    }
+
+    public static CommunityDetails buildCommunityDetailsFromDbo(CommunityDetailsEntity dbo) {
+        final CommunityDetails details = new CommunityDetails()
+                .setCanMessage(dbo.isCanMessage())
+                .setStatus(dbo.getStatus())
+                .setStatusAudio(nonNull(dbo.getStatusAudio()) ? buildAudioFromDbo(dbo.getStatusAudio()) : null)
+                .setAllWallCount(dbo.getAllWallCount())
+                .setOwnerWallCount(dbo.getOwnerWallCount())
+                .setPostponedWallCount(dbo.getPostponedWallCount())
+                .setSuggestedWallCount(dbo.getSuggestedWallCount())
+                .setMembersCount(dbo.getMembersCount())
+                .setTopicsCount(dbo.getTopicsCount())
+                .setDocsCount(dbo.getDocsCount())
+                .setPhotosCount(dbo.getPhotosCount())
+                .setAudiosCount(dbo.getAudiosCount())
+                .setVideosCount(dbo.getVideosCount());
+
+        if (nonNull(dbo.getCover())) {
+            CommunityDetails.Cover cover = new CommunityDetails.Cover()
+                    .setEnabled(dbo.getCover().isEnabled())
+                    .setImages(new ArrayList<>(safeCountOf(dbo.getCover().getImages())));
+
+            if (nonNull(dbo.getCover().getImages())) {
+                for (CommunityDetailsEntity.CoverImage imageDto : dbo.getCover().getImages()) {
+                    cover.getImages().add(new CommunityDetails.CoverImage(imageDto.getUrl(), imageDto.getHeight(), imageDto.getWidth()));
+                }
+            }
+
+            details.setCover(cover);
+        } else {
+            details.setCover(new CommunityDetails.Cover().setEnabled(false));
+        }
+
+        return details;
     }
 
     public static List<User> buildUsersFromDbo(List<UserEntity> dbos) {

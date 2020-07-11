@@ -423,6 +423,11 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
         getView().goToSearch(getAccountId());
     }
 
+    public void fireImportantClick() {
+        AssertUtils.assertPositive(dialogsOwnerId);
+        getView().goToImportant(getAccountId());
+    }
+
     public void fireDialogClick(Dialog dialog, int offset) {
         this.openChat(dialog, offset);
     }

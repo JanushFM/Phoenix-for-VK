@@ -96,6 +96,7 @@ import biz.dealnote.messenger.fragment.FeedFragment;
 import biz.dealnote.messenger.fragment.FeedbackFragment;
 import biz.dealnote.messenger.fragment.FwdsFragment;
 import biz.dealnote.messenger.fragment.GifPagerFragment;
+import biz.dealnote.messenger.fragment.ImportantMessagesFragment;
 import biz.dealnote.messenger.fragment.LikesFragment;
 import biz.dealnote.messenger.fragment.LinksInCatalogFragment;
 import biz.dealnote.messenger.fragment.LogsFragement;
@@ -1463,6 +1464,10 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
             case Place.SHORT_LINKS:
                 attachToFrontNoAnim(ShortedLinksFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                break;
+
+            case Place.IMPORTANT_MESSAGES:
+                attachToFrontNoAnim(ImportantMessagesFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
                 break;
 
             case Place.USER_DETAILS:

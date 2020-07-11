@@ -45,7 +45,7 @@ public class MessagesSearchFragment extends AbsSearchFragment<MessagesSearchPres
 
     @Override
     MessagesAdapter createAdapter(List<Message> data) {
-        MessagesAdapter adapter = new MessagesAdapter(requireActivity(), data, this);
+        MessagesAdapter adapter = new MessagesAdapter(requireActivity(), data, this, true);
         //adapter.setOnHashTagClickListener(this);
         adapter.setOnMessageActionListener(this);
         return adapter;
