@@ -50,5 +50,7 @@ public interface IAudioInteractor {
 
     Single<CatalogBlock> getCatalogBlockById(int accountId, String block_id, String start_from);
 
+    Completable PlaceToAudioCache(Context context);
+
     Single<List<Audio>> loadLocalAudios(int accountId, Context context);
 }

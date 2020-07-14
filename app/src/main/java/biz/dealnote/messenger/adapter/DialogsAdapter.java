@@ -193,8 +193,13 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
             onlineMobile = interlocutor.isOnlineMobile();
             platform = interlocutor.getPlatform();
             app = interlocutor.getOnlineApp();
-            holder.ivVerified.setVisibility(interlocutor.isVerified() ? View.VISIBLE : View.GONE);
-            holder.blacklisted.setVisibility(interlocutor.getBlacklisted() ? View.VISIBLE : View.GONE);
+            if (!dialog.isChat()) {
+                holder.ivVerified.setVisibility(interlocutor.isVerified() ? View.VISIBLE : View.GONE);
+                holder.blacklisted.setVisibility(interlocutor.getBlacklisted() ? View.VISIBLE : View.GONE);
+            } else {
+                holder.blacklisted.setVisibility(View.GONE);
+                holder.ivVerified.setVisibility(View.GONE);
+            }
         } else {
             holder.ivVerified.setVisibility(View.GONE);
             holder.blacklisted.setVisibility(View.GONE);

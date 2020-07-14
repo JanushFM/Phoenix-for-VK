@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +18,7 @@ import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -399,7 +399,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
 
         FloatingActionButton fabMessage;
         FloatingActionButton fabMoreInfo;
-        Button bPrimaryAction;
+        MaterialButton bPrimaryAction;
 
         ImageView Valknut;
         View Runes;

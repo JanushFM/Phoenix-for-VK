@@ -11,7 +11,6 @@ import android.os.RemoteException;
 
 import androidx.collection.ArraySet;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.player.IAudioPlayerService;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.Logger;
 import biz.dealnote.messenger.util.Optional;
 import io.reactivex.Observable;
@@ -61,22 +59,6 @@ public final class MusicUtils {
         }
 
         return null;
-    }
-
-    public static void PlaceToAudioCache(Context context) {
-        if (!AppPerms.hasReadWriteStoragePermision(context))
-            return;
-        File temp = new File(Settings.get().other().getMusicDir());
-        if (!temp.exists())
-            return;
-        File[] file_list = temp.listFiles();
-        if (file_list == null || file_list.length <= 0)
-            return;
-        CachedAudios.clear();
-        for (File u : file_list) {
-            if (u.isFile())
-                CachedAudios.add(u.getName());
-        }
     }
 
     /**

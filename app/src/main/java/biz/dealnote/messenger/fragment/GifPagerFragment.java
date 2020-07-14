@@ -228,7 +228,7 @@ public class GifPagerFragment extends AbsDocumentPreviewFragment<GifPagerPresent
     }
 
     private void fireHolderCreate(@NonNull Holder holder) {
-        getPresenter().fireHolderCreate(holder.getBindingAdapterPosition());
+        getPresenter().fireHolderCreate(holder.getAdapterPosition());
     }
 
     public Holder findByPosition(int position) {
@@ -268,7 +268,7 @@ public class GifPagerFragment extends AbsDocumentPreviewFragment<GifPagerPresent
         public void surfaceCreated(SurfaceHolder holder) {
             mSurfaceReady = true;
             if (isPresenterPrepared()) {
-                getPresenter().fireSurfaceCreated(getBindingAdapterPosition());
+                getPresenter().fireSurfaceCreated(getAdapterPosition());
             }
         }
 
@@ -320,13 +320,13 @@ public class GifPagerFragment extends AbsDocumentPreviewFragment<GifPagerPresent
         @Override
         public void onViewDetachedFromWindow(@NotNull Holder holder) {
             super.onViewDetachedFromWindow(holder);
-            mHolderSparseArray.remove(holder.getBindingAdapterPosition());
+            mHolderSparseArray.remove(holder.getAdapterPosition());
         }
 
         @Override
         public void onViewAttachedToWindow(@NotNull Holder holder) {
             super.onViewAttachedToWindow(holder);
-            mHolderSparseArray.put(holder.getBindingAdapterPosition(), new WeakReference<>(holder));
+            mHolderSparseArray.put(holder.getAdapterPosition(), new WeakReference<>(holder));
             fireHolderCreate(holder);
         }
     }

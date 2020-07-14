@@ -375,6 +375,8 @@ public interface ISettings {
 
         boolean isDisable_swipes_chat();
 
+        boolean isSwipes_chat_new();
+
         boolean isDisplay_writing();
     }
 }

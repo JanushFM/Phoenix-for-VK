@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @IntDef({Method.PHOTO_TO_ALBUM,
-        Method.PHOTO_TO_WALL,
-        Method.PHOTO_TO_COMMENT,
+        Method.TO_WALL,
+        Method.TO_COMMENT,
         Method.PHOTO_TO_PROFILE,
         Method.TO_MESSAGE,
         Method.AUDIO,
@@ -16,8 +16,8 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.SOURCE)
 public @interface Method {
     int PHOTO_TO_ALBUM = 1;
-    int PHOTO_TO_WALL = 2;
-    int PHOTO_TO_COMMENT = 3;
+    int TO_WALL = 2;
+    int TO_COMMENT = 3;
     int PHOTO_TO_PROFILE = 4;
     int TO_MESSAGE = 6;
     int AUDIO = 7;

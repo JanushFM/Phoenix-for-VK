@@ -58,7 +58,7 @@ public class WallAudiosAttachmentsPresenter extends PlaceSupportPresenter<IWallA
         resolveRefreshingView();
 
         final int accountId = super.getAccountId();
-        actualDataDisposable.add(fInteractor.getWall(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
+        actualDataDisposable.add(fInteractor.getWallNoCache(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
 
@@ -71,12 +71,12 @@ public class WallAudiosAttachmentsPresenter extends PlaceSupportPresenter<IWallA
         resolveRefreshingView();
     }
 
-    private void updatePhotos(List<Post> data) {
+    private void update(List<Post> data) {
         for (Post i : data) {
             if (i.hasAttachments() && !isEmpty(i.getAttachments().getAudios()))
                 mAudios.add(i);
             if (i.hasCopyHierarchy())
-                updatePhotos(i.getCopyHierarchy());
+                update(i.getCopyHierarchy());
         }
     }
 
@@ -91,13 +91,13 @@ public class WallAudiosAttachmentsPresenter extends PlaceSupportPresenter<IWallA
         if (offset == 0) {
             this.loaded = data.size();
             this.mAudios.clear();
-            updatePhotos(data);
+            update(data);
             resolveToolbar();
             callView(IWallAudiosAttachmentsView::notifyDataSetChanged);
         } else {
             int startSize = mAudios.size();
             this.loaded += data.size();
-            updatePhotos(data);
+            update(data);
             resolveToolbar();
             callView(view -> view.notifyDataAdded(startSize, mAudios.size() - startSize));
         }

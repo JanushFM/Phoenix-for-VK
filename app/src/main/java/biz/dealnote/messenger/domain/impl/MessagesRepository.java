@@ -1,8 +1,6 @@
 package biz.dealnote.messenger.domain.impl;
 
 import android.annotation.SuppressLint;
-import android.os.Handler;
-import android.os.Looper;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
@@ -399,10 +397,7 @@ public class MessagesRepository implements IMessagesRepository {
                 if (Settings.get().other().isInfo_reading() && update.peer_id < VKApiMessage.CHAT_PEER) {
                     compositeDisposable.add(OwnerInfo.getRx(Injection.provideApplicationContext(), Settings.get().accounts().getCurrent(), update.peer_id)
                             .compose(RxUtils.applySingleIOToMainSchedulers())
-                            .subscribe(userInfo -> {
-                                Handler handlerMain = new Handler(Looper.getMainLooper());
-                                handlerMain.post(() -> PhoenixToast.CreatePhoenixToast(Injection.provideApplicationContext()).setBitmap(userInfo.getAvatar()).showToastInfo(userInfo.getOwner().getFullName() + " " + Injection.provideApplicationContext().getString(GetTypeUser(userInfo))));
-                            }, throwable -> {
+                            .subscribe(userInfo -> PhoenixToast.CreatePhoenixToast(Injection.provideApplicationContext()).setBitmap(userInfo.getAvatar()).showToastInfo(userInfo.getOwner().getFullName() + " " + Injection.provideApplicationContext().getString(GetTypeUser(userInfo))), throwable -> {
                             }));
                 }
                 patches.add(new PeerPatch(update.peer_id).withOutRead(update.local_id));

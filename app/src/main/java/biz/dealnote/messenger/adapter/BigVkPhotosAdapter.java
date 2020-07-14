@@ -134,6 +134,8 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
         holder.tvLike.setVisibility(photo.getLikesCount() > 0 ? View.VISIBLE : View.GONE);
         holder.ivLike.setVisibility(photo.getLikesCount() > 0 ? View.VISIBLE : View.GONE);
 
+        holder.ivDownload.setVisibility(photoWrapper.isDownloaded() ? View.VISIBLE : View.GONE);
+
         holder.tvComment.setText(AppTextUtils.getCounterWithK(photo.getCommentsCount()));
         holder.tvComment.setVisibility(photo.getCommentsCount() > 0 ? View.VISIBLE : View.GONE);
         holder.ivComment.setVisibility(photo.getCommentsCount() > 0 ? View.VISIBLE : View.GONE);
@@ -283,6 +285,7 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
         TextView tvComment;
         ImageView ivLike;
         ImageView ivComment;
+        ImageView ivDownload;
 
         PhotoViewHolder(View itemView) {
             super(itemView);
@@ -294,6 +297,7 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
             tvLike = itemView.findViewById(R.id.vk_photo_item_like_counter);
             ivComment = itemView.findViewById(R.id.vk_photo_item_comment);
             tvComment = itemView.findViewById(R.id.vk_photo_item_comment_counter);
+            ivDownload = itemView.findViewById(R.id.is_downloaded);
         }
 
         public void setSelected(boolean selected) {

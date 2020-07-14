@@ -128,7 +128,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             holder.Restore.setVisibility(View.VISIBLE);
             holder.Restore.setOnClickListener(v -> {
                 if (onMessageActionListener != null) {
-                    onMessageActionListener.onRestoreClick(message, holder.getBindingAdapterPosition());
+                    onMessageActionListener.onRestoreClick(message, holder.getAdapterPosition());
                 }
             });
         } else {
@@ -170,7 +170,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             holder.Restore.setVisibility(View.VISIBLE);
             holder.Restore.setOnClickListener(v -> {
                 if (onMessageActionListener != null) {
-                    onMessageActionListener.onRestoreClick(message, holder.getBindingAdapterPosition());
+                    onMessageActionListener.onRestoreClick(message, holder.getAdapterPosition());
                 }
             });
         } else {
@@ -280,7 +280,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             holder.Restore.setVisibility(View.VISIBLE);
             holder.Restore.setOnClickListener(v -> {
                 if (onMessageActionListener != null) {
-                    onMessageActionListener.onRestoreClick(message, holder.getBindingAdapterPosition());
+                    onMessageActionListener.onRestoreClick(message, holder.getAdapterPosition());
                 }
             });
         } else {
@@ -345,7 +345,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             holder.Restore.setVisibility(View.VISIBLE);
             holder.Restore.setOnClickListener(v -> {
                 if (onMessageActionListener != null) {
-                    onMessageActionListener.onRestoreClick(message, holder.getBindingAdapterPosition());
+                    onMessageActionListener.onRestoreClick(message, holder.getAdapterPosition());
                 }
             });
         } else {

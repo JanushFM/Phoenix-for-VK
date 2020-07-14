@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ import biz.dealnote.messenger.model.PhotoAlbum;
 import biz.dealnote.messenger.model.wrappers.SelectablePhotoWrapper;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IVkPhotosView;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.upload.IUploadManager;
 import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.upload.UploadDestination;
@@ -35,6 +37,7 @@ import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
+import io.reactivex.Completable;
 import io.reactivex.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
@@ -65,6 +68,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
     private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private PhotoAlbum album;
     private Owner owner;
+    private List<String> mDownloads;
     private boolean requestNow;
     private boolean endOfContent;
 
@@ -294,11 +298,25 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
 
         if (offset == 0) {
             this.photos.clear();
-            this.photos.addAll(wrappersOf(data));
+
+            if (Utils.isEmpty(mDownloads)) {
+                photos.addAll(wrappersOf(data));
+            } else {
+                for (Photo i : data) {
+                    photos.add(new SelectablePhotoWrapper(i).setDownloaded(existPhoto(i)));
+                }
+            }
             callView(IVkPhotosView::notifyDataSetChanged);
         } else {
             int startSize = this.photos.size();
-            this.photos.addAll(wrappersOf(data));
+
+            if (Utils.isEmpty(mDownloads)) {
+                photos.addAll(wrappersOf(data));
+            } else {
+                for (Photo i : data) {
+                    photos.add(new SelectablePhotoWrapper(i).setDownloaded(existPhoto(i)));
+                }
+            }
             callView(view -> view.notifyPhotosAdded(startSize, data.size()));
         }
     }
@@ -311,9 +329,31 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
                 .subscribe(this::onInitialDataReceived));
     }
 
+    private String transform_owner(int owner_id) {
+        if (owner_id < 0)
+            return "club" + Math.abs(owner_id);
+        else
+            return "id" + owner_id;
+    }
+
+    private boolean existPhoto(Photo photo) {
+        for (String i : mDownloads) {
+            if (i.contains(transform_owner(photo.getOwnerId()) + "_" + photo.getId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void onInitialDataReceived(Pair<List<Photo>, List<Upload>> data) {
         photos.clear();
-        photos.addAll(wrappersOf(data.getFirst()));
+        if (Utils.isEmpty(mDownloads)) {
+            photos.addAll(wrappersOf(data.getFirst()));
+        } else {
+            for (Photo i : data.getFirst()) {
+                photos.add(new SelectablePhotoWrapper(i).setDownloaded(existPhoto(i)));
+            }
+        }
 
         uploads.clear();
         uploads.addAll(data.getSecond());
@@ -471,5 +511,59 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
 
     public void fireReadStoragePermissionChanged() {
         getView().startLocalPhotosSelectionIfHasPermission();
+    }
+
+    private void loadDownloadPath(String Path) {
+        File temp = new File(Path);
+        if (!temp.exists())
+            return;
+        File[] file_list = temp.listFiles();
+        if (file_list == null || file_list.length <= 0)
+            return;
+        for (File u : file_list) {
+            if (u.isFile())
+                mDownloads.add(u.getName());
+            else if (u.isDirectory()) {
+                loadDownloadPath(u.getAbsolutePath());
+            }
+        }
+    }
+
+    public void loadDownload() {
+        setRequestNow(true);
+        appendDisposable(loadLocalImages()
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                .subscribe(this::onCacheLoaded, t -> {/*TODO*/}));
+    }
+
+    private void onCacheLoaded() {
+        for (SelectablePhotoWrapper i : photos) {
+            i.setDownloaded(existPhoto(i.getPhoto()));
+        }
+        callView(IVkPhotosView::notifyDataSetChanged);
+        setRequestNow(false);
+    }
+
+    private Completable loadLocalImages() {
+
+        File temp = new File(Settings.get().other().getPhotoDir());
+        if (!temp.exists())
+            return Completable.complete();
+        File[] file_list = temp.listFiles();
+        if (file_list == null || file_list.length <= 0)
+            return Completable.complete();
+        if (mDownloads == null) {
+            mDownloads = new ArrayList<>();
+        } else {
+            mDownloads.clear();
+        }
+        for (File u : file_list) {
+            if (u.isFile())
+                mDownloads.add(u.getName());
+            else if (u.isDirectory()) {
+                loadDownloadPath(u.getAbsolutePath());
+            }
+        }
+        return Completable.complete();
     }
 }

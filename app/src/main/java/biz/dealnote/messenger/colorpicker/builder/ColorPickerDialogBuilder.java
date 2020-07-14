@@ -8,11 +8,12 @@ import android.text.InputFilter;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.colorpicker.ColorPickerView;
@@ -212,7 +213,7 @@ public class ColorPickerDialogBuilder {
         }
         if (isColorEditEnabled) {
             LinearLayout.LayoutParams layoutParamsForColorEdit = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            EditText colorEdit = (EditText) View.inflate(context, R.layout.color_edit, null);
+            TextInputEditText colorEdit = (TextInputEditText) View.inflate(context, R.layout.color_edit, null);
             colorEdit.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
             colorEdit.setSingleLine();
             colorEdit.setVisibility(View.GONE);

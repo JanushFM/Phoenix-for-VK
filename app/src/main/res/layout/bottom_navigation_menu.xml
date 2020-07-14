@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/miniplayer"
+            android:id="@+id/bottom_mini_player"
             android:name="biz.dealnote.messenger.fragment.MiniPlayerFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

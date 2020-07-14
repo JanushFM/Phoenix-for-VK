@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -30,6 +29,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Callback;
@@ -114,7 +114,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
     private ProgressBar mLoadingProgressBar;
     private Toolbar mToolbar;
     private View mButtonsRoot;
-    private Button mButtonRestore;
+    private MaterialButton mButtonRestore;
     private Adapter mPagerAdapter;
     private boolean mCanSaveYourself;
     private boolean mCanDelete;

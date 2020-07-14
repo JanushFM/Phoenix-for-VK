@@ -35,6 +35,7 @@ import biz.dealnote.messenger.upload.impl.OwnerPhotoUploadable;
 import biz.dealnote.messenger.upload.impl.Photo2AlbumUploadable;
 import biz.dealnote.messenger.upload.impl.Photo2MessageUploadable;
 import biz.dealnote.messenger.upload.impl.Photo2WallUploadable;
+import biz.dealnote.messenger.upload.impl.Video2WallUploadable;
 import biz.dealnote.messenger.upload.impl.VideoToMessageUploadable;
 import biz.dealnote.messenger.upload.impl.VideoUploadable;
 import biz.dealnote.messenger.util.Optional;
@@ -120,8 +121,8 @@ public class UploadManagerImpl implements IUploadManager {
                     builder.append(Extra.GROUP_ID).append(Math.abs(dest.getOwnerId()));
                 }
                 break;
-            case Method.PHOTO_TO_COMMENT:
-            case Method.PHOTO_TO_WALL:
+            case Method.TO_COMMENT:
+            case Method.TO_WALL:
                 if (dest.getOwnerId() < 0) {
                     builder.append(Extra.GROUP_ID).append(Math.abs(dest.getOwnerId()));
                 }
@@ -422,9 +423,14 @@ public class UploadManagerImpl implements IUploadManager {
                 return new Photo2AlbumUploadable(context, networker, storages.photos());
             case Method.DOCUMENT:
                 return new DocumentUploadable(context, networker, storages.docs());
-            case Method.PHOTO_TO_COMMENT:
-            case Method.PHOTO_TO_WALL:
-                return new Photo2WallUploadable(context, networker, attachmentsRepository);
+            case Method.TO_COMMENT:
+            case Method.TO_WALL:
+                if (destination.getMessageMethod() == MessageMethod.PHOTO)
+                    return new Photo2WallUploadable(context, networker, attachmentsRepository);
+                else if (destination.getMessageMethod() == MessageMethod.VIDEO)
+                    return new Video2WallUploadable(context, networker, attachmentsRepository);
+                else
+                    throw new UnsupportedOperationException();
             case Method.PHOTO_TO_PROFILE:
                 return new OwnerPhotoUploadable(context, networker, walls);
         }

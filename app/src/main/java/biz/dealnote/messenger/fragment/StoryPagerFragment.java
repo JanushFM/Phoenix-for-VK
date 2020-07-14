@@ -308,7 +308,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     }
 
     private void fireHolderCreate(@NonNull MultiHolder holder) {
-        getPresenter().fireHolderCreate(holder.getBindingAdapterPosition());
+        getPresenter().fireHolderCreate(holder.getAdapterPosition());
     }
 
     public MultiHolder findByPosition(int position) {
@@ -378,7 +378,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         public void surfaceCreated(SurfaceHolder holder) {
             mSurfaceReady = true;
             if (isPresenterPrepared()) {
-                getPresenter().fireSurfaceCreated(getBindingAdapterPosition());
+                getPresenter().fireSurfaceCreated(getAdapterPosition());
             }
         }
 
@@ -595,13 +595,13 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         @Override
         public void onViewDetachedFromWindow(@NotNull MultiHolder holder) {
             super.onViewDetachedFromWindow(holder);
-            mHolderSparseArray.remove(holder.getBindingAdapterPosition());
+            mHolderSparseArray.remove(holder.getAdapterPosition());
         }
 
         @Override
         public void onViewAttachedToWindow(@NotNull MultiHolder holder) {
             super.onViewAttachedToWindow(holder);
-            mHolderSparseArray.put(holder.getBindingAdapterPosition(), new WeakReference<>(holder));
+            mHolderSparseArray.put(holder.getAdapterPosition(), new WeakReference<>(holder));
             fireHolderCreate(holder);
         }
     }

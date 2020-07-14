@@ -307,6 +307,13 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="swipes_chat_new"
+            android:summary="@string/experimental"
+            android:title="@string/swipes_chat_new"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="disable_encryption"
             android:title="@string/disable_encryption"

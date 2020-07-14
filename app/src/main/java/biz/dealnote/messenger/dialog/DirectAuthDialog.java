@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,10 +37,10 @@ public class DirectAuthDialog extends BaseMvpDialogFragment<DirectAuthPresenter,
     public static final String ACTION_LOGIN_COMPLETE = "ACTION_LOGIN_COMPLETE";
     public static final String ACTION_LOGIN_VIA_WEB = "ACTION_LOGIN_VIA_WEB";
     public static final String ACTION_VALIDATE_VIA_WEB = "ACTION_VALIDATE_VIA_WEB";
-    private EditText mLogin;
-    private EditText mPassword;
-    private EditText mCaptcha;
-    private EditText mSmsCode;
+    private TextInputEditText mLogin;
+    private TextInputEditText mPassword;
+    private TextInputEditText mCaptcha;
+    private TextInputEditText mSmsCode;
     private TextView mValidate;
     private View mSmsCodeRoot;
     private View mContentRoot;
@@ -48,7 +48,7 @@ public class DirectAuthDialog extends BaseMvpDialogFragment<DirectAuthPresenter,
     private View mCaptchaRoot;
     private ImageView mCaptchaImage;
     private View mEnterAppCodeRoot;
-    private EditText mAppCode;
+    private TextInputEditText mAppCode;
 
     public static DirectAuthDialog newInstance() {
         Bundle args = new Bundle();

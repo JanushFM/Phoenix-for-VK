@@ -66,6 +66,7 @@
     <string name="dialog_me">Я</string>
     <string name="attachments">[вложения]</string>
     <string name="forward_messages">[пересланные]</string>
+    <string name="forward_messages_view">ПЕРЕСЛАННЫЕ</string>
     <string name="service_message">[служебное]</string>
     <string name="title_mssages">Сообщения</string>
 
@@ -242,6 +243,8 @@
     <string name="music_settings">Плеер</string>
 
     <string name="wall_post">Запись на стене</string>
+
+    <string name="wall_post_view">(ЗАПИСЬ НА СТЕНЕ)</string>
 
     <string name="repost_title">Отправка записи</string>
     <string name="repost_send_message">Отправить личным сообщением</string>
@@ -629,6 +632,7 @@
     <string name="list_is_empty">Список пуст</string>
     <string name="people">Люди</string>
     <string name="links">Ссылки</string>
+    <string name="posts_with_comment">Посты с комментариями</string>
     <string name="posts">Записи</string>
     <string name="loading_owner_photo_album">Загрузка фотоальбома</string>
     <string name="no_photos_found">Фотографии не найдены</string>
@@ -745,6 +749,7 @@
     <string name="audios_posts_count">%1$d аудио-постов</string>
     <string name="audios_pattern_count">аудиозаписей</string>
     <string name="documents_count">%1$d документов</string>
+    <string name="photo_albums_count">%1$d альбомов</string>
     <string name="links_count">%1$d ссылок</string>
     <string name="posts_count">%1$d постов</string>
     <string name="cancel_invitation">Отклонить приглашение</string>
@@ -790,7 +795,6 @@
     <string name="double_press_to_exit">Двойное нажатие для выхода из приложения</string>
     <string name="from_list">Из списка</string>
     <string name="photo_size">Размер фото</string>
-    <string name="button_go">Перейти</string>
     <string name="additional_settings">Дополнительные параметры</string>
     <string name="button_continue">Продолжить</string>
     <string name="create_album">Создать новый альбом</string>
@@ -939,7 +943,6 @@
     <string name="in_a_civil_union">В гражданском браке</string>
     <string name="copied_text">Текст скопирован в буфер обмена</string>
     <string name="copy_text">Скопировать текст</string>
-    <string name="privacy_policy">Политика конфиденциальности</string>
     <string name="upload_not_resolved_exception_message">Загрузка не завершена или прервана</string>
     <string name="go_to_video">Перейти к видео</string>
     <string name="go_to_photo">Перейти к фото</string>
@@ -1272,6 +1275,7 @@
     <string name="info_reading">Уведомлять о прочтении вашего сообщения</string>
     <string name="use_stop_audio">Стоп вместо паузы аудио</string>
     <string name="download">Скачать"</string>
+    <string name="downloaded">Скаченные"</string>
     <string name="downloading">Скачивание"</string>
     <string name="recommendation">Рекомендации"</string>
     <string name="biometric">Приложите палец к сканеру отпечатков</string>
@@ -1302,6 +1306,8 @@
     <string name="enable_last_read">Быстрый переход к последнему прочитанному сообщению</string>
     <string name="show_profile_in_additional_page">Показывать профиль в всплывающем меню</string>
     <string name="disable_swipes_chat">Отключить свайпы для чатов</string>
+    <string name="swipes_chat_new">Свайпы для чатов v2</string>
+    <string name="experimental">Экспериментально</string>
     <string name="chat_users_count">%1$d участников</string>
     <string name="display_writing">Показывать набор сообщения собеседником</string>
     <string name="download_directory">Куда скачивать</string>
@@ -1398,4 +1404,5 @@
     <string name="important">Важные сообщения</string>
     <string name="show_wall_cover">Обложка профиля</string>
     <string name="mention_user">Упомянуть</string>
+    <string name="update_news">Обновить новости?</string>
 </resources>

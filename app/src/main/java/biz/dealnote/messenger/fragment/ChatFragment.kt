@@ -392,7 +392,10 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         config.isCloseOnSend = requireActivity() is SendAttachmentsActivity
 
         val inputStreams = ActivityUtils.checkLocalStreams(requireActivity())
-        config.uploadFiles = if (inputStreams.nullOrEmpty()) null else inputStreams
+        config.uploadFiles = if (inputStreams == null) null else {
+            if (inputStreams.uris.nullOrEmpty()) null else inputStreams.uris
+        }
+        config.uploadFilesMimeType = inputStreams?.mime
 
         val models = requireActivity().intent.getParcelableExtra<ModelsBundle>(MainActivity.EXTRA_INPUT_ATTACHMENTS)
 
@@ -563,14 +566,26 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     private fun onEditLocalFileSelected(file: String) {
-        when (val defaultSize = Settings.get().main().uploadImageSize) {
-            null -> {
-                ImageSizeAlertDialog.Builder(activity)
-                        .setOnSelectedCallback { size -> presenter?.fireFileForUploadSelected(file, size) }
-                        .show()
-            }
-            else -> presenter?.fireFileForUploadSelected(file, defaultSize)
-        }
+        MaterialAlertDialogBuilder(requireActivity())
+                .setTitle(R.string.select)
+                .setNegativeButton(R.string.video) { _, _ ->
+                    run {
+                        presenter?.fireFileVideoForUploadSelected(file)
+                    }
+                }
+                .setPositiveButton(R.string.photo) { _, _ ->
+                    run {
+                        when (val defaultSize = Settings.get().main().uploadImageSize) {
+                            null -> {
+                                ImageSizeAlertDialog.Builder(activity)
+                                        .setOnSelectedCallback { size -> presenter?.fireFilePhotoForUploadSelected(file, size) }
+                                        .show()
+                            }
+                            else -> presenter?.fireFilePhotoForUploadSelected(file, defaultSize)
+                        }
+                    }
+                }
+                .create().show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -892,7 +907,6 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                         true
                     }
                 } else {
-                    Avatar?.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
                     Avatar?.setOnClickListener {
                         ChatUsersDomainFragment.newInstance(Settings.get().accounts().current, Peer.toChatId(peerId)) { t -> insertDomain(t) }.show(childFragmentManager, "chat_users_domain")
                     }
@@ -1223,6 +1237,11 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
 
     override fun onLongAvatarClick(message: Message, userId: Int) {
         presenter?.fireLongAvatarClick(userId)
+    }
+
+    fun saveState() {
+        inputViewController?.storeEmoji()
+        presenter?.saveDraftMessageBody()
     }
 
     override fun onDestroyView() {

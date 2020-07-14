@@ -191,7 +191,7 @@ public class DocLink {
 
             case Types.POST:
                 Post post = (Post) attachment;
-                return post.hasText() ? post.getText() : (post.hasAttachments() ? "" : "[" + context.getString(R.string.wall_post) + "]");
+                return post.hasText() ? post.getText() : (post.hasAttachments() ? "" : context.getString(R.string.wall_post_view));
 
             case Types.LINK:
                 return ((Link) attachment).getUrl();

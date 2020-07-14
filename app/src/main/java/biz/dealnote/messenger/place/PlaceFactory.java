@@ -468,14 +468,14 @@ public class PlaceFactory {
 
     public static Place getCreatePostPlace(int accountId, int ownerId, @EditingPostType int editingType,
                                            @Nullable List<AbsModel> input, @NonNull WallEditorAttrs attrs,
-                                           @Nullable ArrayList<Uri> streams, @Nullable String body) {
+                                           @Nullable ArrayList<Uri> streams, @Nullable String body, @Nullable String mime) {
         ModelsBundle bundle = new ModelsBundle(Utils.safeCountOf(input));
         if (Objects.nonNull(input)) {
             bundle.append(input);
         }
 
         return new Place(Place.BUILD_NEW_POST)
-                .setArguments(PostCreateFragment.buildArgs(accountId, ownerId, editingType, bundle, attrs, streams, body));
+                .setArguments(PostCreateFragment.buildArgs(accountId, ownerId, editingType, bundle, attrs, streams, body, mime));
     }
 
     public static Place getForwardMessagesPlace(int accountId, ArrayList<Message> messages) {

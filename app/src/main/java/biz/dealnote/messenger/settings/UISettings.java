@@ -224,6 +224,11 @@ class UISettings implements ISettings.IUISettings {
     }
 
     @Override
+    public boolean isSwipes_chat_new() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("swipes_chat_new", true);
+    }
+
+    @Override
     public boolean isDisplay_writing() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("display_writing", true);
     }

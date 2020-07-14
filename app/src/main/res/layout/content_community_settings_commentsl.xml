@@ -51,12 +51,11 @@
         android:layout_height="wrap_content"
         android:text="@string/community_options_enable_keyword_filter" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/obscene_stopwords_values"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/backgroud_rectangle_border"
         android:gravity="top"
         android:hint="@string/community_options_separate_keywords_by_commas"
         android:importantForAutofill="no"

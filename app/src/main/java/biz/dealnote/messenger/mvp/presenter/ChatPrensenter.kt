@@ -13,6 +13,7 @@ import android.os.Looper
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import biz.dealnote.messenger.*
+import biz.dealnote.messenger.activity.ActivityUtils
 import biz.dealnote.messenger.api.model.VKApiMessage
 import biz.dealnote.messenger.crypt.AesKeyPair
 import biz.dealnote.messenger.crypt.KeyExchangeService
@@ -141,7 +142,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         fetchConversationThenCachedThenActual()
 
         if (savedInstanceState == null) {
-            tryToRestoreDraftMessage(draftMessageText.isNullOrEmpty())
+            tryToRestoreDraftMessage(!draftMessageText.isNullOrEmpty())
         }
 
         resolveAccountHotSwapSupport()
@@ -1201,7 +1202,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         super.onDestroyed()
     }
 
-    private fun saveDraftMessageBody() {
+    fun saveDraftMessageBody() {
         Stores.getInstance()
                 .messages()
                 .saveDraftMessageBody(messagesOwnerId, peerId, draftMessageText)
@@ -1418,20 +1419,22 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireImageUploadSizeSelected(streams: List<Uri>, size: Int) {
-        uploadStreamsImpl(streams, size)
+        uploadStreamsImpl(streams, size, false)
     }
 
-    private fun uploadStreams(streams: List<Uri>) {
-        if (streams.nullOrEmpty()) return
+    private fun uploadStreams(streams: List<Uri>, mime: String) {
+        if (streams.nullOrEmpty() || !mime.nonEmpty()) return
 
         val size = Settings.get()
                 .main()
                 .uploadImageSize
 
-        if (size == null) {
+        val isVideo = ActivityUtils.isMimeVideo(mime)
+
+        if (size == null && !isVideo) {
             view?.showImageSizeSelectDialog(streams)
         } else {
-            uploadStreamsImpl(streams, size)
+            uploadStreamsImpl(streams, size, isVideo)
         }
     }
 
@@ -1440,8 +1443,9 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         view?.notifyChatResume(accountId, peerId, peer.title, peer.avaUrl) // TODO: 15.08.2017
     }
 
-    private fun uploadStreamsImpl(streams: List<Uri>, size: Int) {
+    private fun uploadStreamsImpl(streams: List<Uri>, size: Int?, is_video: Boolean) {
         outConfig.uploadFiles = null
+        outConfig.uploadFilesMimeType = null
 
         view?.resetUploadImages()
 
@@ -1452,14 +1456,22 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
                     .blockingGet()
         }
 
-        val destination = UploadDestination.forMessage(draftMessageId!!)
+        val destination = if (is_video) UploadDestination.forMessage(draftMessageId!!, MessageMethod.VIDEO) else UploadDestination.forMessage(draftMessageId!!)
         val intents = ArrayList<UploadIntent>(streams.size)
 
-        for (uri in streams) {
-            intents.add(UploadIntent(messagesOwnerId, destination)
-                    .setAutoCommit(true)
-                    .setFileUri(uri)
-                    .setSize(size))
+        if (!is_video) {
+            for (uri in streams) {
+                intents.add(UploadIntent(messagesOwnerId, destination)
+                        .setAutoCommit(true)
+                        .setFileUri(uri)
+                        .setSize(size!!))
+            }
+        } else {
+            for (uri in streams) {
+                intents.add(UploadIntent(messagesOwnerId, destination)
+                        .setAutoCommit(true)
+                        .setFileUri(uri))
+            }
         }
 
         uploadManager.enqueue(intents)
@@ -1467,12 +1479,13 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
     fun fireUploadCancelClick() {
         outConfig.uploadFiles = null
+        outConfig.uploadFilesMimeType = null
     }
 
     @OnGuiCreated
     private fun resolveInputImagesUploading() {
-        if (outConfig.uploadFiles.nonEmpty()) {
-            uploadStreams(outConfig.uploadFiles)
+        if (outConfig.uploadFiles.nonEmpty() && outConfig.uploadFilesMimeType.nonEmpty()) {
+            uploadStreams(outConfig.uploadFiles, outConfig.uploadFilesMimeType)
         }
     }
 
@@ -1763,12 +1776,22 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         }
     }
 
-    fun fireFileForUploadSelected(file: String?, imageSize: Int) {
+    fun fireFilePhotoForUploadSelected(file: String?, imageSize: Int) {
         edited?.run {
             val destination = UploadDestination.forMessage(message.id)
             val intent = UploadIntent(accountId, destination)
                     .setAutoCommit(false)
                     .setFileUri(Uri.parse(file)).setSize(imageSize)
+            uploadManager.enqueue(listOf(intent))
+        }
+    }
+
+    fun fireFileVideoForUploadSelected(file: String?) {
+        edited?.run {
+            val destination = UploadDestination.forMessage(message.id, MessageMethod.VIDEO)
+            val intent = UploadIntent(accountId, destination)
+                    .setAutoCommit(false)
+                    .setFileUri(Uri.parse(file))
             uploadManager.enqueue(listOf(intent))
         }
     }

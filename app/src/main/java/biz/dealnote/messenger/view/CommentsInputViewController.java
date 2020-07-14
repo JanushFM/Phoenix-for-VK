@@ -7,12 +7,13 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.listener.TextWatcherAdapter;
@@ -23,7 +24,7 @@ public class CommentsInputViewController {
 
     private final Context mActivity;
     private final OnInputActionCallback callback;
-    private final EditText mInputField;
+    private final TextInputEditText mInputField;
     private final RelativeLayout rlEmojiContainer;
     private final ImageView ibEmoji;
     private final ImageView ibAttach;
@@ -165,7 +166,7 @@ public class CommentsInputViewController {
         this.mInputField.addTextChangedListener(mTextWatcher);
     }
 
-    public EditText getInputField() {
+    public TextInputEditText getInputField() {
         return mInputField;
     }
 

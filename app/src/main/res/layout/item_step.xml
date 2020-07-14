@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonNext"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
                     android:paddingEnd="16dp"
                     android:text="@string/button_continue" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buttonCancel"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"

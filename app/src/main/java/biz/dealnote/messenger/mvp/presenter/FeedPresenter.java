@@ -25,6 +25,7 @@ import biz.dealnote.messenger.mvp.view.IFeedView;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.DisposableHolder;
 import biz.dealnote.messenger.util.RxUtils;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -224,6 +225,10 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
 
         if (mFeed.isEmpty()) {
             requestFeedAtLast(null);
+        } else {
+            if (Utils.needReloadNews()) {
+                getView().askToReload();
+            }
         }
     }
 

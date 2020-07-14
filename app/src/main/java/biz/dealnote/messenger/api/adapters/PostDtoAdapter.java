@@ -15,6 +15,7 @@ import biz.dealnote.messenger.api.model.VKApiPlace;
 import biz.dealnote.messenger.api.model.VKApiPost;
 import biz.dealnote.messenger.api.model.VkApiAttachments;
 import biz.dealnote.messenger.api.model.VkApiPostSource;
+import biz.dealnote.messenger.util.Utils;
 
 public class PostDtoAdapter extends AbsAdapter implements JsonDeserializer<VKApiPost> {
 
@@ -44,6 +45,15 @@ public class PostDtoAdapter extends AbsAdapter implements JsonDeserializer<VKApi
 
         dto.date = optLong(root, "date");
         dto.text = optString(root, "text");
+        if (root.has("copyright") && root.get("copyright").isJsonObject()) {
+            JsonObject cop = root.getAsJsonObject("copyright");
+            if (Utils.isEmpty(dto.text)) {
+                dto.text = "";
+            }
+            String name = optString(cop, "name");
+            String link = optString(cop, "link");
+            dto.text = ("[" + link + "|©" + name + "]\r\n") + dto.text;
+        }
         dto.reply_owner_id = optInt(root, "reply_owner_id", 0);
 
         if (dto.reply_owner_id == 0) {

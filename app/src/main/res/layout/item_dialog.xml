@@ -64,7 +64,7 @@
                 android:backgroundTint="#009900"
                 android:backgroundTintMode="add"
                 android:padding="3dp"
-                android:src="@drawable/check_all"
+                android:src="@drawable/verified"
                 android:visibility="gone"
                 app:tint="@color/white" />
 

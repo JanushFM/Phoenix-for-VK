@@ -28,13 +28,14 @@ public class NewsfeedMentionsPresenter extends PlaceSupportPresenter<INewsfeedCo
     private final int ownerId;
     private boolean isEndOfContent;
     private boolean loadingNow;
+    private int offset;
 
     public NewsfeedMentionsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.data = new ArrayList<>();
         this.interactor = InteractorFactory.createNewsfeedInteractor();
         this.ownerId = ownerId;
-
+        this.offset = 0;
         loadAtLast();
     }
 
@@ -74,7 +75,7 @@ public class NewsfeedMentionsPresenter extends PlaceSupportPresenter<INewsfeedCo
 
     private void onDataReceived(int offset, List<NewsfeedComment> comments) {
         setLoadingNow(false);
-
+        this.offset = offset + 50;
         isEndOfContent = comments.isEmpty();
 
         if (offset == 0) {
@@ -100,7 +101,7 @@ public class NewsfeedMentionsPresenter extends PlaceSupportPresenter<INewsfeedCo
 
     public void fireScrollToEnd() {
         if (canLoadMore()) {
-            load(this.data.size());
+            load(offset);
         }
     }
 
@@ -108,7 +109,7 @@ public class NewsfeedMentionsPresenter extends PlaceSupportPresenter<INewsfeedCo
         if (loadingNow) {
             return;
         }
-
+        offset = 0;
         loadAtLast();
     }
 

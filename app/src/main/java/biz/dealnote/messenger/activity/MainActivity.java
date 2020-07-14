@@ -66,6 +66,7 @@ import biz.dealnote.messenger.api.HttpLogger;
 import biz.dealnote.messenger.api.ProxyUtil;
 import biz.dealnote.messenger.db.Stores;
 import biz.dealnote.messenger.dialog.ResolveDomainDialog;
+import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.domain.impl.CountersInteractor;
 import biz.dealnote.messenger.fragment.AbsWallFragment;
 import biz.dealnote.messenger.fragment.AdditionalNavigationFragment;
@@ -167,6 +168,7 @@ import biz.dealnote.messenger.util.Action;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.Logger;
+import biz.dealnote.messenger.util.MainActivityTransforms;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
@@ -222,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         resolveToolbarNavigationIcon();
         keyboardHide();
     };
+    private FragmentContainerView mMiniPlayer;
     private MusicUtils.ServiceToken mAudioPlayServiceToken;
     private boolean mDestroyed;
     /**
@@ -256,6 +259,11 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable(context);
         return resultCode == ConnectionResult.SUCCESS;
+    }
+
+    protected @MainActivityTransforms
+    int getMainActivityTransform() {
+        return MainActivityTransforms.MAIN;
     }
 
     private void postResume(Action<MainActivity> action) {
@@ -301,6 +309,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
 
         mBottomNavigationContainer = findViewById(R.id.bottom_navigation_menu_container);
+        mMiniPlayer = findViewById(R.id.bottom_mini_player);
         mViewFragment = findViewById(R.id.fragment);
 
         getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
@@ -322,12 +331,18 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
             if (!isAuthValid()) {
                 startAccountsActivity();
             } else {
-                MusicUtils.PlaceToAudioCache(this);
-                CheckMusicInPC();
-                CheckUpdate();
+                if (getMainActivityTransform() == MainActivityTransforms.MAIN) {
 
-                if (Settings.get().other().isDelete_cache_images()) {
-                    PreferencesFragment.CleanImageCache(this, false);
+                    mCompositeDisposable.add(InteractorFactory.createAudioInteractor().PlaceToAudioCache(this)
+                            .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                            .subscribe(RxUtils.dummy(), t -> {/*TODO*/}));
+
+                    CheckMusicInPC();
+                    CheckUpdate();
+
+                    if (Settings.get().other().isDelete_cache_images()) {
+                        PreferencesFragment.CleanImageCache(this, false);
+                    }
                 }
 
                 UpdateNotificationCount(mAccountId);
@@ -525,7 +540,11 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 Drawable tr = AppCompatResources.getDrawable(this, R.drawable.arrow_left);
                 Utils.setColorFilter(tr, CurrentTheme.getColorPrimary(this));
                 mToolbar.setNavigationIcon(tr);
-                mToolbar.setNavigationOnClickListener(v -> openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_FEED));
+                if (getMainActivityTransform() != MainActivityTransforms.SWIPEBLE) {
+                    mToolbar.setNavigationOnClickListener(v -> openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_FEED));
+                } else {
+                    mToolbar.setNavigationOnClickListener(v -> onBackPressed());
+                }
             }
         }
     }
@@ -666,10 +685,20 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
             ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
             attachToFrontNoAnim(chatFragment);
         } else {
-            if (!ChatOnly)
-                clearBackStack();
-            DialogsTabsFragment chatFragment = DialogsTabsFragment.newInstance(accountId, messagesOwnerId, peer, Offset);
-            attachToFrontNoAnim(chatFragment);
+            if (Settings.get().ui().isSwipes_chat_new() && getMainActivityTransform() == MainActivityTransforms.MAIN) {
+                Intent intent = new Intent(this, ChatActivity.class);
+                intent.setAction(ChatActivity.ACTION_OPEN_PLACE);
+                intent.putExtra(Extra.PLACE, PlaceFactory.getChatPlace(accountId, messagesOwnerId, peer, Offset));
+                startActivity(intent);
+            } else if (Settings.get().ui().isSwipes_chat_new() && getMainActivityTransform() != MainActivityTransforms.MAIN) {
+                ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
+                attachToFrontNoAnim(chatFragment);
+            } else {
+                if (!ChatOnly)
+                    clearBackStack();
+                DialogsTabsFragment chatFragment = DialogsTabsFragment.newInstance(accountId, messagesOwnerId, peer, Offset);
+                attachToFrontNoAnim(chatFragment);
+            }
         }
     }
 
@@ -912,13 +941,15 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         }
 
         if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-            if (isFragmentWithoutNavigation()) {
-                openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_FEED);
-                return;
-            }
-            if (isChatFragment()) {
-                openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_DIALOGS);
-                return;
+            if (getMainActivityTransform() != MainActivityTransforms.SWIPEBLE) {
+                if (isFragmentWithoutNavigation()) {
+                    openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_FEED);
+                    return;
+                }
+                if (isChatFragment()) {
+                    openNavigationPage(AdditionalNavigationFragment.SECTION_ITEM_DIALOGS);
+                    return;
+                }
             }
             if (mLastBackPressedTime < 0
                     || mLastBackPressedTime + DOUBLE_BACK_PRESSED_TIMEOUT > System.currentTimeMillis()

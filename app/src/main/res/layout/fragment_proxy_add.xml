@@ -49,12 +49,11 @@
                                 android:text="@string/proxy_address_helper_text"
                                 android:textColor="?android:textColorSecondary" />
 
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/address"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:background="@drawable/backgroud_rectangle_border"
                                 android:hint="@string/phoxy_address_hint"
                                 android:inputType="textVisiblePassword"
                                 android:padding="8dp"
@@ -76,12 +75,11 @@
                                 android:text="@string/proxy_port_helper_text"
                                 android:textColor="?android:textColorSecondary" />
 
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/port"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:background="@drawable/backgroud_rectangle_border"
                                 android:hint="@string/phoxy_port_hint"
                                 android:inputType="number"
                                 android:padding="8dp"
@@ -118,12 +116,11 @@
                                 android:text="@string/proxy_username_helper_text"
                                 android:textColor="?android:textColorSecondary" />
 
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/username"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:background="@drawable/backgroud_rectangle_border"
                                 android:hint="@string/phoxy_username_hint"
                                 android:inputType="textVisiblePassword"
                                 android:padding="8dp"
@@ -145,12 +142,11 @@
                                 android:text="@string/proxy_password_helper_text"
                                 android:textColor="?android:textColorSecondary" />
 
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/password"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
-                                android:background="@drawable/backgroud_rectangle_border"
                                 android:hint="@string/phoxy_pass_hint"
                                 android:inputType="textPassword"
                                 android:padding="8dp"
@@ -170,7 +166,7 @@
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_save"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"

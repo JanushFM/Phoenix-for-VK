@@ -11,12 +11,12 @@ import android.text.style.ClickableSpan;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Transformation;
 
 import org.jetbrains.annotations.NotNull;
@@ -242,7 +242,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
 
     private static class DeletedHolder extends RecyclerView.ViewHolder {
 
-        Button buttonRestore;
+        MaterialButton buttonRestore;
 
         DeletedHolder(View itemView) {
             super(itemView);

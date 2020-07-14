@@ -35,4 +35,6 @@ public interface IFeedView extends IAccountDependencyView, IAttachmentsPlacesVie
     void goToReposts(int accountId, String type, int ownerId, int id);
 
     void goToPostComments(int accountId, int postId, int ownerId);
+
+    void askToReload();
 }

@@ -82,7 +82,7 @@ public class CatalogLinksAdapter extends RecyclerBindableAdapter<Link, CatalogLi
 
         holder.itemView.setOnClickListener(v -> {
             if (nonNull(mActionListner)) {
-                mActionListner.onLinkClick(holder.getBindingAdapterPosition(), item);
+                mActionListner.onLinkClick(holder.getAdapterPosition(), item);
             }
         });
     }

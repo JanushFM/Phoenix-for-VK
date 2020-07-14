@@ -55,7 +55,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/avatar_size_small"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_toStartOf="@+id/end_content_root"
         android:layout_toEndOf="@+id/item_post_avatar"
@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/item_post_owner_name"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:singleLine="true"

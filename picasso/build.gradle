@@ -21,7 +21,7 @@ android {
 }
 
 ext {
-    okhttpLibraryVersion = '4.7.2'
+    okhttpLibraryVersion = '4.8.0'
 }
 
 dependencies {

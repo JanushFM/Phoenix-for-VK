@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -60,18 +58,11 @@ public class VideoAlbumsFragment extends BaseMvpFragment<VideoAlbumsPresenter, I
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_videos, container, false);
+        View root = inflater.inflate(R.layout.fragment_video_albums, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
 
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> getPresenter().fireRefresh());
-        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
-
-        FloatingActionButton Add = root.findViewById(R.id.add_button);
-
-        if (Add != null) {
-            Add.setVisibility(View.GONE);
-        }
 
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout, true);
 

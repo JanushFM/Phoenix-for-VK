@@ -10,10 +10,11 @@ import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.listener.TextWatcherAdapter;
@@ -25,7 +26,7 @@ public class MySearchView extends LinearLayout {
 
     private String mQuery;
 
-    private EditText mInput;
+    private MaterialAutoCompleteTextView mInput;
     private ImageView mButtonBack;
     private ImageView mButtonClear;
     private ImageView mButtonAdditional;

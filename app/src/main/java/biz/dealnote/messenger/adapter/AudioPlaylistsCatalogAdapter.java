@@ -65,7 +65,7 @@ public class AudioPlaylistsCatalogAdapter extends RecyclerView.Adapter<AudioPlay
         }
         holder.playlist_container.setOnClickListener(v -> {
             if (clickListener != null) {
-                clickListener.onAlbumClick(holder.getBindingAdapterPosition(), playlist);
+                clickListener.onAlbumClick(holder.getAdapterPosition(), playlist);
             }
         });
     }

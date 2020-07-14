@@ -61,12 +61,14 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     private final IAttachmentsRepository attachmentsRepository;
     private final UploadDestination destination;
     private final IUploadManager uploadManager;
+    private final Context context;
     private Uri currentPhotoCameraUri;
 
-    public MessageAttachmentsPresenter(int accountId, int messageOwnerId, int messageId, @Nullable ModelsBundle bundle, @Nullable Bundle savedInstanceState) {
+    public MessageAttachmentsPresenter(int accountId, int messageOwnerId, int messageId, Context context, @Nullable ModelsBundle bundle, @Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
         this.accountId = accountId;
         this.messageId = messageId;
+        this.context = context;
         this.messageOwnerId = messageOwnerId;
         this.destination = UploadDestination.forMessage(messageId);
         this.entries = new ArrayList<>();
@@ -278,15 +280,23 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     }
 
     private void doUploadFile(String file) {
-        Integer size = Settings.get()
-                .main()
-                .getUploadImageSize();
+        new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.select)
+                .setNegativeButton(R.string.video, (dialog, which) -> {
+                    doUploadFile(file, 0, true);
+                })
+                .setPositiveButton(R.string.photo, (dialog, which) -> {
+                    Integer size = Settings.get()
+                            .main()
+                            .getUploadImageSize();
 
-        if (isNull(size)) {
-            getView().displaySelectUploadFileSizeDialog(file);
-        } else {
-            doUploadFile(file, size);
-        }
+                    if (isNull(size)) {
+                        getView().displaySelectUploadFileSizeDialog(file);
+                    } else {
+                        doUploadFile(file, size, false);
+                    }
+                })
+                .create().show();
     }
 
     private void doUploadPhotos(List<LocalPhoto> photos) {
@@ -301,8 +311,13 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
         }
     }
 
-    private void doUploadFile(String file, int size) {
-        List<UploadIntent> intents = UploadUtils.createIntents(messageOwnerId, destination, file, size, true);
+    private void doUploadFile(String file, int size, boolean isVideo) {
+        List<UploadIntent> intents;
+        if (isVideo) {
+            intents = UploadUtils.createIntents(messageOwnerId, UploadDestination.forMessage(messageId, MessageMethod.VIDEO), file, size, true);
+        } else {
+            intents = UploadUtils.createIntents(messageOwnerId, destination, file, size, true);
+        }
         uploadManager.enqueue(intents);
     }
 
@@ -358,7 +373,7 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     }
 
     public void fireUploadFileSizeSelected(String file, int imageSize) {
-        doUploadFile(file, imageSize);
+        doUploadFile(file, imageSize, false);
     }
 
     public void fireCameraPermissionResolved() {

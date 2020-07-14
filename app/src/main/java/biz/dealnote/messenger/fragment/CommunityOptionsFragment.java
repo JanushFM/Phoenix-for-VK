@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -35,15 +35,15 @@ import biz.dealnote.mvp.core.IPresenterFactory;
 public class CommunityOptionsFragment extends BaseMvpFragment<CommunityOptionsPresenter, ICommunityOptionsView>
         implements ICommunityOptionsView {
 
-    private EditText mName;
-    private EditText mDescription;
+    private TextInputEditText mName;
+    private TextInputEditText mDescription;
     private View mCommunityTypeRoot;
-    private EditText mAddress;
+    private TextInputEditText mAddress;
     private View mCategoryRoot;
     private MySpinnerView mCategory;
     private View mSubjectRoot;
     private MySpinnerView[] mSubjects;
-    private EditText mWebsite;
+    private TextInputEditText mWebsite;
     private View mPublicDateRoot;
     private TextView mDay;
     private TextView mMonth;
@@ -52,7 +52,7 @@ public class CommunityOptionsFragment extends BaseMvpFragment<CommunityOptionsPr
     private CheckBox mFeedbackComments;
     private CheckBox mObsceneFilter;
     private CheckBox mObsceneStopWords;
-    private EditText mObsceneStopWordsEditText;
+    private TextInputEditText mObsceneStopWordsEditText;
 
     public static CommunityOptionsFragment newInstance(int accountId, Community community, GroupSettings settings) {
         Bundle args = new Bundle();

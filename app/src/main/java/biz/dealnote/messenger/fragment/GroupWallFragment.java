@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +16,7 @@ import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
@@ -327,8 +327,8 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
         TextView bPhotos;
         TextView bAudios;
         TextView bVideos;
-        Button primaryActionButton;
-        Button secondaryActionButton;
+        MaterialButton primaryActionButton;
+        MaterialButton secondaryActionButton;
 
         FloatingActionButton fabMessage;
         HorizontalOptionsAdapter<PostFilter> mFiltersAdapter;

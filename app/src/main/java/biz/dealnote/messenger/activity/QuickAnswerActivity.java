@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
     public static final String EXTRA_LIVE_DELAY = "live_delay";
     private final CompositeDisposable mLiveSubscription = new CompositeDisposable();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private EditText etText;
+    private TextInputEditText etText;
     private TextingNotifier notifier;
     private int accountId;
     private Message msg;

@@ -4,12 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.Injection;
@@ -25,7 +26,7 @@ import static biz.dealnote.messenger.util.RxUtils.ignore;
 public class CaptchaActivity extends AppCompatActivity {
 
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    private EditText mTextField;
+    private TextInputEditText mTextField;
     private ICaptchaProvider captchaProvider;
 
     private String requestSid;

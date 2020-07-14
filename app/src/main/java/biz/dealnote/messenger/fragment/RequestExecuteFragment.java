@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +30,7 @@ import biz.dealnote.mvp.core.IPresenterFactory;
 public class RequestExecuteFragment extends BaseMvpFragment<RequestExecutePresenter, IRequestExecuteView> implements IRequestExecuteView {
 
     private static final int REQUEST_PERMISSION_WRITE = 14;
-    private EditText mResposeBody;
+    private TextInputEditText mResposeBody;
 
     public static RequestExecuteFragment newInstance(int accountId) {
         Bundle args = new Bundle();
@@ -46,7 +48,7 @@ public class RequestExecuteFragment extends BaseMvpFragment<RequestExecutePresen
 
         mResposeBody = root.findViewById(R.id.response_body);
 
-        EditText methodEditText = root.findViewById(R.id.method);
+        MaterialAutoCompleteTextView methodEditText = root.findViewById(R.id.method);
         methodEditText.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -54,7 +56,7 @@ public class RequestExecuteFragment extends BaseMvpFragment<RequestExecutePresen
             }
         });
 
-        EditText bodyEditText = root.findViewById(R.id.body);
+        TextInputEditText bodyEditText = root.findViewById(R.id.body);
         bodyEditText.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

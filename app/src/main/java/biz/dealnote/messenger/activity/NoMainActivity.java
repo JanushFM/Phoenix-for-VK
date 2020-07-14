@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.activity;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -7,6 +8,7 @@ import android.view.WindowManager;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +18,7 @@ import biz.dealnote.messenger.listener.BackPressCallback;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
+import biz.dealnote.messenger.util.Utils;
 
 public abstract class NoMainActivity extends AppCompatActivity {
 
@@ -54,9 +57,13 @@ public abstract class NoMainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 1) {
-            mToolbar.setNavigationIcon(R.drawable.phoenix_round);
+            Drawable tr = AppCompatResources.getDrawable(this, R.drawable.phoenix_round);
+            Utils.setColorFilter(tr, CurrentTheme.getColorPrimary(this));
+            mToolbar.setNavigationIcon(tr);
         } else {
-            mToolbar.setNavigationIcon(R.drawable.close);
+            Drawable tr = AppCompatResources.getDrawable(this, R.drawable.close);
+            Utils.setColorFilter(tr, CurrentTheme.getColorPrimary(this));
+            mToolbar.setNavigationIcon(tr);
         }
 
         mToolbar.setNavigationOnClickListener(v -> onBackPressed());

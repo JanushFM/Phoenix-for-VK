@@ -42,6 +42,7 @@ final class PicassoDrawable extends BitmapDrawable {
     long startTimeMillis;
     boolean animating;
     int alpha = 0xFF;
+
     PicassoDrawable(Context context, Bitmap bitmap, Drawable placeholder,
                     Picasso.LoadedFrom loadedFrom, boolean noFade, boolean debugging) {
         super(context.getResources(), bitmap);

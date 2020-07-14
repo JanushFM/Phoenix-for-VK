@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -87,6 +90,7 @@ public class VKPhotosFragment extends BaseMvpFragment<VkPhotosPresenter, IVkPhot
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAction = requireArguments().getString(Extra.ACTION, ACTION_SHOW_PHOTOS);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -318,6 +322,26 @@ public class VKPhotosFragment extends BaseMvpFragment<VkPhotosPresenter, IVkPhot
         }
 
         startLocalPhotosSelectionActibity();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_photos, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_get_downloaded) {
+            if (!AppPerms.hasReadWriteStoragePermision(requireActivity())) {
+                AppPerms.requestReadExternalStoragePermission(requireActivity());
+                return true;
+            }
+            getPresenter().loadDownload();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

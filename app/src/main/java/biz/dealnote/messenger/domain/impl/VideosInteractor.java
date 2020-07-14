@@ -23,6 +23,7 @@ import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.VideoAlbum;
 import biz.dealnote.messenger.model.VideoAlbumCriteria;
 import biz.dealnote.messenger.model.VideoCriteria;
+import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Completable;
@@ -86,6 +87,34 @@ public class VideosInteractor implements IVideosInteractor {
                     return cache.videos()
                             .insertData(accountId, ownerId, albumId, dbos, offset == 0)
                             .andThen(Single.just(videos));
+                });
+    }
+
+    @Override
+    public Single<Pair<FindAt, List<Video>>> search_owner_video(int accountId, String q, int ownerId, int albumId, int count, int offset, int loaded) {
+        return networker.vkDefault(accountId)
+                .video()
+                .get(ownerId, null, albumId, count, offset, true)
+                .flatMap(items -> {
+                    List<VKApiVideo> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<Video> videos = new ArrayList<>(dtos.size());
+
+                    for (VKApiVideo dto : dtos) {
+                        if (dto.title.toLowerCase().contains(q.toLowerCase()) || dto.description.toLowerCase().contains(q.toLowerCase())) {
+                            videos.add(Dto2Model.transform(dto));
+                        }
+                    }
+                    final int ld = loaded + videos.size();
+
+                    if (ld >= count || Utils.isEmpty(dtos)) {
+                        return Single.just(new Pair<>(new FindAt(q, offset + count, Utils.isEmpty(dtos)), videos));
+                    }
+
+                    return search_owner_video(accountId, q, ownerId, albumId, count, offset + count, ld).flatMap(t -> {
+                        videos.addAll(t.getSecond());
+                        return Single.just(new Pair<>(t.getFirst(), videos));
+
+                    });
                 });
     }
 

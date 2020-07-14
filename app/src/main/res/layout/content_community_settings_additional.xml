@@ -110,12 +110,11 @@
         android:text="@string/community_options_website_title"
         android:textColor="?android:textColorSecondary" />
 
-    <EditText
+    <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/website"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/backgroud_rectangle_border"
         android:importantForAutofill="no"
         android:inputType="textUri"
         android:padding="8dp"

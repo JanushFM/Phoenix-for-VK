@@ -88,7 +88,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:autoLink="web"
-            android:paddingTop="20dp"
+            android:paddingTop="6dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
             app:displayHashTags="true"
             app:emojiconSize="20sp"

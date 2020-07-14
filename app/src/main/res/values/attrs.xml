@@ -158,4 +158,33 @@
     <declare-styleable name="BottomSheetLayout">
         <attr name="collapsedHeight" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="TouchImageView">
+        <attr name="zoom_enabled" format="boolean" />
+    </declare-styleable>
+
+    <attr name="mpm_activeIconColor" format="color|reference" />
+
+    <attr name="mpm_separatorColor" format="color|reference" />
+
+    <attr name="mpm_paddingBottom" format="dimension" />
+
+    <attr name="mpm_paddingStart" format="dimension" />
+
+    <attr name="mpm_paddingEnd" format="dimension" />
+
+    <attr name="mpm_paddingTop" format="dimension" />
+
+    <attr name="materialPopupMenuStyle" format="reference" />
+
+    <declare-styleable name="MaterialRecyclerViewPopupWindow">
+        <attr name="android:dropDownHorizontalOffset" />
+        <attr name="android:dropDownVerticalOffset" />
+        <attr name="android:backgroundDimEnabled" />
+        <attr name="android:backgroundDimAmount" />
+        <attr name="mpm_paddingBottom" />
+        <attr name="mpm_paddingStart" />
+        <attr name="mpm_paddingEnd" />
+        <attr name="mpm_paddingTop" />
+    </declare-styleable>
 </resources>

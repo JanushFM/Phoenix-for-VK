@@ -6,7 +6,6 @@
     <integer name="privacy_entry_column_count">5</integer>
 
     <!--Диаметр кнопки "Play" для вложенных аудиозаписей-->
-    <dimen name="audio_play_button_size">50dp</dimen>
     <dimen name="article_size">45dp</dimen>
 
     <!--Диаметр изображения аватара владельца поста-->

@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -313,7 +313,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     @Override
     public void replaceBodySelectionTextTo(String replyText) {
         if (nonNull(mInputController)) {
-            EditText edit = mInputController.getInputField();
+            TextInputEditText edit = mInputController.getInputField();
 
             int selectionStart = edit.getSelectionStart();
             int selectionEnd = edit.getSelectionEnd();

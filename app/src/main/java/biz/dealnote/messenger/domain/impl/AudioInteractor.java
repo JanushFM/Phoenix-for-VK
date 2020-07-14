@@ -19,6 +19,7 @@ import biz.dealnote.messenger.model.AudioCatalog;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.model.CatalogBlock;
 import biz.dealnote.messenger.model.IdPair;
+import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.Objects;
@@ -255,6 +256,24 @@ public class AudioInteractor implements IAudioInteractor {
                 .audio()
                 .getCatalogBlockById(block_id, start_from)
                 .map(Dto2Model::transform);
+    }
+
+    @Override
+    public Completable PlaceToAudioCache(Context context) {
+        if (!AppPerms.hasReadWriteStoragePermision(context))
+            return Completable.complete();
+        File temp = new File(Settings.get().other().getMusicDir());
+        if (!temp.exists())
+            return Completable.complete();
+        File[] file_list = temp.listFiles();
+        if (file_list == null || file_list.length <= 0)
+            return Completable.complete();
+        MusicUtils.CachedAudios.clear();
+        for (File u : file_list) {
+            if (u.isFile())
+                MusicUtils.CachedAudios.add(u.getName());
+        }
+        return Completable.complete();
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +104,7 @@ public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, Pol
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvCount;
-        MaterialRadioButton rbButton;
+        MaterialCheckBox rbButton;
         TextView tvTitle;
         ProgressBar pbRate;
         View mVotedRoot;

@@ -13,9 +13,10 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -47,7 +48,7 @@ public class ColorPickerView extends View {
     private ColorCircle currentColorCircle;
     private LightnessSlider lightnessSlider;
     private AlphaSlider alphaSlider;
-    private EditText colorEdit;
+    private TextInputEditText colorEdit;
     private LinearLayout colorPreview;
     private ColorWheelRenderer renderer;
     private final TextWatcher colorTextChange = new TextWatcher() {
@@ -436,7 +437,7 @@ public class ColorPickerView extends View {
         }
     }
 
-    public void setColorEdit(EditText colorEdit) {
+    public void setColorEdit(TextInputEditText colorEdit) {
         this.colorEdit = colorEdit;
         if (this.colorEdit != null) {
             this.colorEdit.setVisibility(View.VISIBLE);

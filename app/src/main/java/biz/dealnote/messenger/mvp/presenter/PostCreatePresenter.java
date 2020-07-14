@@ -12,6 +12,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.activity.ActivityUtils;
 import biz.dealnote.messenger.api.model.VKApiCommunity;
 import biz.dealnote.messenger.api.model.VKApiPost;
 import biz.dealnote.messenger.db.AttachToType;
@@ -31,6 +32,7 @@ import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.WallEditorAttrs;
 import biz.dealnote.messenger.mvp.view.IPostCreateView;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.upload.MessageMethod;
 import biz.dealnote.messenger.upload.Method;
 import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.upload.UploadDestination;
@@ -68,6 +70,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     private final WallEditorAttrs attrs;
     private final IAttachmentsRepository attachmentsRepository;
     private final IWallsRepository walls;
+    private final String mime;
     private Post post;
     private boolean postPublished;
     private Optional<ArrayList<Uri>> upload;
@@ -75,9 +78,10 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     private String links;
 
     public PostCreatePresenter(int accountId, int ownerId, @EditingPostType int editingType,
-                               ModelsBundle bundle, @NonNull WallEditorAttrs attrs, @Nullable ArrayList<Uri> streams, @Nullable String links, @Nullable Bundle savedInstanceState) {
+                               ModelsBundle bundle, @NonNull WallEditorAttrs attrs, @Nullable ArrayList<Uri> streams, @Nullable String links, @Nullable String mime, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.upload = Optional.wrap(streams);
+        this.mime = mime;
         this.attachmentsRepository = Injection.provideAttachmentsRepository();
         this.walls = Repository.INSTANCE.getWalls();
 
@@ -133,27 +137,37 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
                     .main()
                     .getUploadImageSize();
 
-            if (isNull(size)) {
+            boolean isVideo = ActivityUtils.isMimeVideo(mime);
+
+            if (isNull(size) && !isVideo) {
                 getView().displayUploadUriSizeDialog(uris);
             } else {
-                uploadStreamsImpl(uris, size);
+                uploadStreamsImpl(uris, size, isVideo);
             }
         }
     }
 
-    private void uploadStreamsImpl(@NonNull List<Uri> streams, int size) {
+    private void uploadStreamsImpl(@NonNull List<Uri> streams, int size, boolean isVideo) {
         AssertUtils.requireNonNull(post);
 
         upload = Optional.empty();
 
-        UploadDestination destination = UploadDestination.forPost(post.getDbid(), ownerId);
+        UploadDestination destination = isVideo ? UploadDestination.forPost(post.getDbid(), ownerId, MessageMethod.VIDEO) : UploadDestination.forPost(post.getDbid(), ownerId);
         List<UploadIntent> intents = new ArrayList<>(streams.size());
 
-        for (Uri uri : streams) {
-            intents.add(new UploadIntent(getAccountId(), destination)
-                    .setAutoCommit(true)
-                    .setFileUri(uri)
-                    .setSize(size));
+        if (!isVideo) {
+            for (Uri uri : streams) {
+                intents.add(new UploadIntent(getAccountId(), destination)
+                        .setAutoCommit(true)
+                        .setFileUri(uri)
+                        .setSize(size));
+            }
+        } else {
+            for (Uri uri : streams) {
+                intents.add(new UploadIntent(getAccountId(), destination)
+                        .setAutoCommit(true)
+                        .setFileUri(uri));
+            }
         }
 
         uploadManager.enqueue(intents);
@@ -255,7 +269,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     private boolean isUploadToThis(Upload upload) {
         UploadDestination dest = upload.getDestination();
         return nonNull(post)
-                && dest.getMethod() == Method.PHOTO_TO_WALL
+                && dest.getMethod() == Method.TO_WALL
                 && dest.getOwnerId() == ownerId
                 && dest.getId() == post.getDbid();
     }
@@ -503,6 +517,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     @SuppressWarnings("unused")
     private void onPostPublishSuccess(Post post) {
         changePublishingNowState(false);
+        releasePostDataAsync();
 
         this.postPublished = true;
 
@@ -547,7 +562,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     }
 
     public void fireUriUploadSizeSelected(List<Uri> uris, int size) {
-        uploadStreamsImpl(uris, size);
+        uploadStreamsImpl(uris, size, false);
     }
 
     public void fireUriUploadCancelClick() {

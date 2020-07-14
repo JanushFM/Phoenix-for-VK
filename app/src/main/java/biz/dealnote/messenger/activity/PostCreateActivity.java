@@ -19,12 +19,13 @@ import biz.dealnote.messenger.util.Objects;
 
 public class PostCreateActivity extends NoMainActivity {
 
-    public static Intent newIntent(@NonNull Context context, int accountId, @NonNull WallEditorAttrs attrs, @Nullable ArrayList<Uri> streams, @Nullable String links) {
+    public static Intent newIntent(@NonNull Context context, int accountId, @NonNull WallEditorAttrs attrs, @Nullable ArrayList<Uri> streams, @Nullable String links, @Nullable String mime) {
         return new Intent(context, PostCreateActivity.class)
                 .putExtra(Extra.ACCOUNT_ID, accountId)
                 .putParcelableArrayListExtra("streams", streams)
                 .putExtra("attrs", attrs)
-                .putExtra("links", links);
+                .putExtra("links", links)
+                .putExtra(Extra.TYPE, mime);
     }
 
     @Override
@@ -38,8 +39,9 @@ public class PostCreateActivity extends NoMainActivity {
             ArrayList<Uri> streams = getIntent().getParcelableArrayListExtra("streams");
             WallEditorAttrs attrs = getIntent().getParcelableExtra("attrs");
             String links = getIntent().getStringExtra("links");
+            String mime = getIntent().getStringExtra(Extra.TYPE);
 
-            Bundle args = PostCreateFragment.buildArgs(accountId, attrs.getOwner().getOwnerId(), EditingPostType.TEMP, null, attrs, streams, links);
+            Bundle args = PostCreateFragment.buildArgs(accountId, attrs.getOwner().getOwnerId(), EditingPostType.TEMP, null, attrs, streams, links, mime);
 
             PostCreateFragment fragment = PostCreateFragment.newInstance(args);
             getSupportFragmentManager()

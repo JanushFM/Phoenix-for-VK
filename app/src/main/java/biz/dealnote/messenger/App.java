@@ -7,10 +7,6 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.developer.crashx.config.CrashConfig;
 
-import org.conscrypt.Conscrypt;
-
-import java.security.Security;
-
 import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.service.ErrorLocalizer;
@@ -49,7 +45,6 @@ public class App extends Application {
                 .apply();
 
         TagOptionSingleton.getInstance().setAndroid(true);
-        Security.addProvider(Conscrypt.newProvider());
 
         super.onCreate();
 

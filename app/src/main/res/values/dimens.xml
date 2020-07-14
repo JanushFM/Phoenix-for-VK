@@ -22,7 +22,6 @@
     <integer name="privacy_entry_column_count">3</integer>
 
     <!--Диаметр кнопки "Play" для вложенных аудиозаписей-->
-    <dimen name="audio_play_button_size">40dp</dimen>
     <dimen name="article_size">38dp</dimen>
 
     <!--Диаметр изображения аватара владельца поста-->
@@ -76,8 +75,23 @@
     <dimen name="default_slider_margin">24dp</dimen>
     <dimen name="default_slider_bar_height">4dp</dimen>
     <dimen name="default_slider_handler_radius">10dp</dimen>
-    <dimen name="default_padding_side">24dp</dimen>
     <dimen name="default_preview_height">40dp</dimen>
     <dimen name="default_preview_image_height">36dp</dimen>
     <dimen name="default_margin_top">20dp</dimen>
+
+    <dimen name="mpm_popup_menu_vertical_padding">8dp</dimen>
+    <dimen name="mpm_popup_menu_max_width">280dp</dimen>
+    <dimen name="mpm_popup_menu_min_width">112dp</dimen>
+    <dimen name="mpm_popup_menu_width_unit">56dp</dimen>
+
+    <dimen name="mpm_popup_menu_item_height">48dp</dimen>
+    <dimen name="mpm_popup_menu_item_padding_horizontal">16dp</dimen>
+    <dimen name="mpm_popup_menu_item_label_text_size">16sp</dimen>
+    <dimen name="mpm_popup_menu_item_icon_margin_end">16dp</dimen>
+
+    <dimen name="mpm_popup_menu_item_section_label_text_size">14sp</dimen>
+    <dimen name="mpm_popup_menu_item_section_label_margin_bottom">8dp</dimen>
+    <dimen name="mpm_popup_menu_item_section_separator_height">0.5dp</dimen>
+    <dimen name="mpm_popup_menu_item_section_separator_margin_vertical">8dp</dimen>
+
 </resources>

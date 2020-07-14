@@ -103,7 +103,7 @@
                         android:text="@string/go_to_dialog"
                         android:tint="?quick_reply_icon_color" />
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/activity_quick_answer_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

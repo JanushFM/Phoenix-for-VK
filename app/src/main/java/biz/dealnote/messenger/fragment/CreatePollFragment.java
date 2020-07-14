@@ -12,13 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +38,7 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class CreatePollFragment extends BaseMvpFragment<CreatePollPresenter, ICreatePollView> implements ICreatePollView {
 
-    private EditText mQuestion;
+    private TextInputEditText mQuestion;
     private CheckBox mAnonymous;
     private CheckBox mMultiply;
     private ViewGroup mOptionsViewGroup;
@@ -74,7 +75,7 @@ public class CreatePollFragment extends BaseMvpFragment<CreatePollPresenter, ICr
         mOptionsViewGroup = root.findViewById(R.id.dialog_poll_create_options);
 
         for (int i = 0; i < mOptionsViewGroup.getChildCount(); i++) {
-            EditText editText = (EditText) mOptionsViewGroup.getChildAt(i);
+            TextInputEditText editText = (TextInputEditText) mOptionsViewGroup.getChildAt(i);
             final int position = i;
 
             editText.addTextChangedListener(new TextWatcherAdapter() {
@@ -89,7 +90,7 @@ public class CreatePollFragment extends BaseMvpFragment<CreatePollPresenter, ICr
                         return;
                     }
 
-                    EditText next = (EditText) mOptionsViewGroup.getChildAt(position + 1);
+                    TextInputEditText next = (TextInputEditText) mOptionsViewGroup.getChildAt(position + 1);
                     if (next.getVisibility() == View.GONE) {
                         next.setVisibility(View.VISIBLE);
                     }
@@ -161,7 +162,7 @@ public class CreatePollFragment extends BaseMvpFragment<CreatePollPresenter, ICr
     public void displayOptions(String[] options) {
         if (nonNull(mOptionsViewGroup)) {
             for (int i = 0; i < mOptionsViewGroup.getChildCount(); i++) {
-                EditText editText = (EditText) mOptionsViewGroup.getChildAt(i);
+                TextInputEditText editText = (TextInputEditText) mOptionsViewGroup.getChildAt(i);
                 editText.setVisibility(View.VISIBLE);
                 editText.setText(options[i]);
             }
@@ -207,7 +208,7 @@ public class CreatePollFragment extends BaseMvpFragment<CreatePollPresenter, ICr
     @Override
     public void showOptionError(int index, @StringRes int message) {
         if (nonNull(mOptionsViewGroup)) {
-            ((EditText) mOptionsViewGroup.getChildAt(index)).setError(getString(message));
+            ((TextInputEditText) mOptionsViewGroup.getChildAt(index)).setError(getString(message));
             mOptionsViewGroup.getChildAt(index).requestFocus();
         }
     }

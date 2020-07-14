@@ -390,4 +390,16 @@
         <item name="strokeColor">?dividerColor</item>
     </style>
 
+    <style name="Widget.MPM.Menu" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/popupmenu_background</item>
+        <item name="mpm_paddingBottom">@dimen/mpm_popup_menu_vertical_padding</item>
+        <item name="mpm_paddingStart">0dp</item>
+        <item name="mpm_paddingEnd">0dp</item>
+        <item name="mpm_paddingTop">@dimen/mpm_popup_menu_vertical_padding</item>
+    </style>
+
+    <style name="Widget.MPM.Item" parent="">
+        <item name="android:background">?attr/listChoiceBackgroundIndicator</item>
+    </style>
+
 </resources>

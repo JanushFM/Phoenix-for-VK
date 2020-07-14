@@ -28,6 +28,12 @@ public class WallAttachmentsFragmentFactory {
             case VKApiAttachment.TYPE_AUDIO:
                 fragment = WallAudiosAttachmentsFragment.newInstance(accountId, ownerId);
                 break;
+            case VKApiAttachment.TYPE_POST:
+                fragment = WallPostCommentAttachmentsFragment.newInstance(accountId, ownerId);
+                break;
+            case VKApiAttachment.TYPE_ALBUM:
+                fragment = WallPhotoAlbumAttachmentsFragment.newInstance(accountId, ownerId);
+                break;
         }
 
         return fragment;

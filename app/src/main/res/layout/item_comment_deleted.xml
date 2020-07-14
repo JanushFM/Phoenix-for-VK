@@ -12,7 +12,7 @@
         android:text="@string/comment_was_deleted"
         android:textSize="12sp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/item_comment_deleted_restore"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"

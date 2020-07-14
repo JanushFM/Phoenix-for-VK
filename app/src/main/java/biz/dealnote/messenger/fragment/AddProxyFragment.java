@@ -5,11 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -24,11 +25,11 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class AddProxyFragment extends BaseMvpFragment<AddProxyPresenter, IAddProxyView> implements IAddProxyView {
 
-    private EditText mAddress;
-    private EditText mPort;
+    private TextInputEditText mAddress;
+    private TextInputEditText mPort;
     private CheckBox mAuth;
-    private EditText mUsername;
-    private EditText mPassword;
+    private TextInputEditText mUsername;
+    private TextInputEditText mPassword;
     private View mAuthFieldsRoot;
 
     public static AddProxyFragment newInstance() {

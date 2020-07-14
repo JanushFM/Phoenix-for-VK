@@ -17,10 +17,17 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.util.Objects;
+import biz.dealnote.messenger.util.Utils;
 
 public class ActivityUtils {
 
-    public static ArrayList<Uri> checkLocalStreams(Activity activity) {
+    public static boolean isMimeVideo(String mime) {
+        if (Utils.isEmpty(mime))
+            return false;
+        return mime.contains("video/");
+    }
+
+    public static StreamData checkLocalStreams(Activity activity) {
         Intent intent = activity.getIntent();
         if (intent == null) {
             return null;
@@ -28,13 +35,14 @@ public class ActivityUtils {
 
         Bundle extras = intent.getExtras();
         String action = intent.getAction();
-        if (extras == null || action == null) {
+        String mime = intent.getType();
+        if (extras == null || action == null || mime == null) {
             return null;
         }
 
         if (Intent.ACTION_SEND_MULTIPLE.equals(action)) {
             if (extras.containsKey(Intent.EXTRA_STREAM)) {
-                return intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+                return new StreamData(intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM), mime);
             }
         }
 
@@ -44,7 +52,7 @@ public class ActivityUtils {
                 if (uri != null) {
                     ArrayList<Uri> streams = new ArrayList<>(1);
                     streams.add(uri);
-                    return streams;
+                    return new StreamData(streams, mime);
                 }
             }
         }
@@ -170,6 +178,16 @@ public class ActivityUtils {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public static class StreamData {
+        public ArrayList<Uri> uris;
+        public String mime;
+
+        public StreamData(ArrayList<Uri> uris, String mime) {
+            this.uris = uris;
+            this.mime = mime;
         }
     }
 }

@@ -18,16 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 import biz.dealnote.messenger.Constants
 import biz.dealnote.messenger.R
 import biz.dealnote.messenger.api.PicassoInstance
-import biz.dealnote.messenger.modalbottomsheetdialogfragment.ModalBottomSheetDialogFragment.Builder
 import biz.dealnote.messenger.settings.CurrentTheme
 import biz.dealnote.messenger.util.PolyTransformation
 import biz.dealnote.messenger.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-@SuppressLint("RestrictedApi")
-/**
- * [BottomSheetDialogFragment] which can show a selection of options. Create using the [Builder]
- */
 class ModalBottomSheetDialogFragment(listener: Listener) : BottomSheetDialogFragment() {
 
     companion object {
@@ -70,7 +65,6 @@ class ModalBottomSheetDialogFragment(listener: Listener) : BottomSheetDialogFrag
         dismiss()
     }
 
-    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list = view.findViewById(R.id.list)
@@ -249,9 +243,9 @@ class ModalBottomSheetDialogFragment(listener: Listener) : BottomSheetDialogFrag
                     val holder = ItemViewHolder(view)
                     view.setOnClickListener {
                         val position = if (header != null) {
-                            holder.bindingAdapterPosition - 1
+                            holder.adapterPosition - 1
                         } else {
-                            holder.bindingAdapterPosition
+                            holder.adapterPosition
                         }
                         val option = options[position]
                         callback.invoke(option)

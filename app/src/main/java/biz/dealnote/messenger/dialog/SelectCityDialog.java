@@ -9,12 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class SelectCityDialog extends AccountDependencyDialogFragment implements
 
         View root = inflater.inflate(R.layout.dialog_country_or_city_select, container, false);
 
-        EditText input = root.findViewById(R.id.input);
+        TextInputEditText input = root.findViewById(R.id.input);
         input.setText(filter);
         input.addTextChangedListener(new TextWatcherAdapter() {
             @Override

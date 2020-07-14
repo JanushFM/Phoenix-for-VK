@@ -24,10 +24,12 @@ import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.media.video.ExoVideoPlayer;
 import biz.dealnote.messenger.media.video.IVideoPlayer;
+import biz.dealnote.messenger.model.Commented;
 import biz.dealnote.messenger.model.InternalVideoSize;
 import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.VideoSize;
+import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.push.OwnerInfo;
 import biz.dealnote.messenger.settings.IProxySettings;
 import biz.dealnote.messenger.settings.Settings;
@@ -42,6 +44,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     public static final String EXTRA_VIDEO = "video";
     public static final String EXTRA_SIZE = "size";
+    private static final int CODE = 1088;
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private View mDecorView;
     private VideoControllerView mControllerView;
@@ -50,14 +53,23 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     private Video video;
     private @InternalVideoSize
     int size;
+    private boolean doNotPause = false;
     private boolean isLandscape = false;
 
     private void onOpen() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setAction(MainActivity.ACTION_OPEN_WALL);
+        Intent intent = new Intent(this, SwipebleActivity.class);
+        intent.setAction(SwipebleActivity.ACTION_OPEN_WALL);
         intent.putExtra(Extra.OWNER_ID, video.getOwnerId());
-        startActivity(intent);
-        finish();
+        doNotPause = true;
+        SwipebleActivity.start(this, intent, CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE) {
+            doNotPause = false;
+        }
     }
 
     @Override
@@ -102,6 +114,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
         }
 
         mControllerView = new VideoControllerView(this);
+        mControllerView.updateComment(video.isCanComment());
 
         SurfaceView mSurfaceView = findViewById(R.id.videoSurface);
         Frame = findViewById(R.id.aspect_ratio_layout);
@@ -143,7 +156,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
             mControllerView.show();
         }
         mDecorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
@@ -173,7 +188,9 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
 
     @Override
     protected void onPause() {
-        mPlayer.pause();
+        if (!doNotPause) {
+            mPlayer.pause();
+        }
         mControllerView.updatePausePlay();
         super.onPause();
     }
@@ -246,6 +263,16 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     @Override
     public boolean isFullScreen() {
         return false;
+    }
+
+    @Override
+    public void commentClick() {
+        Intent intent = new Intent(this, SwipebleActivity.class);
+        intent.setAction(SwipebleActivity.ACTION_OPEN_PLACE);
+        Commented commented = Commented.from(video);
+        intent.putExtra(Extra.PLACE, PlaceFactory.getCommentsPlace(Settings.get().accounts().getCurrent(), commented, null));
+        doNotPause = true;
+        SwipebleActivity.start(this, intent, CODE);
     }
 
     @Override

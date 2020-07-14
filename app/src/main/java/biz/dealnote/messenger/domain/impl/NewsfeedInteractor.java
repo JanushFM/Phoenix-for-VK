@@ -113,9 +113,8 @@ public class NewsfeedInteractor implements INewsfeedInteractor {
                             VKApiPost post = ((NewsfeedCommentsResponse.PostDto) dto).post;
                             ownIds.append(post);
                             ownIds.append(post.comments);
-                        } else {
-                            // TODO: 08.05.2017
                         }
+
                     }
 
                     return ownersRepository.findBaseOwnersDataAsBundle(accountId, ownIds.getAll(), IOwnersRepository.MODE_ANY, owners)
@@ -161,9 +160,8 @@ public class NewsfeedInteractor implements INewsfeedInteractor {
                         } else if (dto instanceof NewsfeedCommentsResponse.VideoDto) {
                             ownIds.append(((NewsfeedCommentsResponse.VideoDto) dto).video.owner_id);
                             ownIds.append(((NewsfeedCommentsResponse.VideoDto) dto).video.comments);
-                        } else {
-                            // TODO: 08.05.2017
                         }
+
                     }
 
                     return ownersRepository.findBaseOwnersDataAsBundle(accountId, ownIds.getAll(), IOwnersRepository.MODE_ANY, owners)

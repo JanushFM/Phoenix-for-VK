@@ -171,9 +171,9 @@ public class VideoControllerView extends FrameLayout {
             show(sDefaultTimeout);
         }
     };
+    private ImageView mComment;
     private ImageButton mNextButton;
     private ImageButton mPrevButton;
-    private ImageView mFullscreenButton;
 
     public VideoControllerView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -252,7 +252,7 @@ public class VideoControllerView extends FrameLayout {
             mPauseButton.setOnClickListener(mPauseListener);
         }
 
-        mFullscreenButton = v.findViewById(R.id.fullscreen);
+        ImageView mFullscreenButton = v.findViewById(R.id.fullscreen);
         if (mFullscreenButton != null) {
             mFullscreenButton.requestFocus();
             mFullscreenButton.setOnClickListener(mFullscreenListener);
@@ -272,6 +272,11 @@ public class VideoControllerView extends FrameLayout {
             if (!mFromXml) {
                 mRewButton.setVisibility(mUseFastForward ? View.VISIBLE : View.GONE);
             }
+        }
+
+        mComment = v.findViewById(R.id.comment);
+        if (mComment != null) {
+            mComment.setOnClickListener(v1 -> mPlayer.commentClick());
         }
 
         // By default these are hidden. They will be enabled when setPrevNextListeners() is called
@@ -514,6 +519,13 @@ public class VideoControllerView extends FrameLayout {
         }
     }
 
+    public void updateComment(boolean can) {
+        if (mRoot == null || mComment == null || mPlayer == null) {
+            return;
+        }
+        mComment.setVisibility(can ? VISIBLE : GONE);
+    }
+
     private void doPauseResume() {
         if (mPlayer == null) {
             return;
@@ -622,6 +634,8 @@ public class VideoControllerView extends FrameLayout {
         boolean canSeekForward();
 
         boolean isFullScreen();
+
+        void commentClick();
 
         void toggleFullScreen();
     }

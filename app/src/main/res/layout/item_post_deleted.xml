@@ -11,7 +11,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/deleted_post" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/item_post_deleted_restore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

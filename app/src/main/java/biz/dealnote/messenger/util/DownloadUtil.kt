@@ -278,14 +278,13 @@ object DownloadUtil {
     private class AudioInternalDownloader(private val context: Context, audio: Audio, file: String?) : DownloadImageTask(context, Audio.getMp3FromM3u8(audio.url), file, "audio_" + createPeerTagFor(audio.id, audio.ownerId), true) {
         @SuppressLint("CheckResult")
         private val current_audio = audio
-        private val ctx = context
         override fun onPostExecute(s: String?) {
             if (Objects.isNull(s)) {
                 CreatePhoenixToast(context).showToastBottom(R.string.saved)
                 if (!Utils.isEmpty(current_audio.thumb_image_very_big) || !Utils.isEmpty(current_audio.thumb_image_little))
                     TagAudioInternalDownloader(context, current_audio, file.replace(".mp3", ".jpg")).doDownload()
                 else
-                    MusicUtils.PlaceToAudioCache(ctx)
+                    MusicUtils.CachedAudios.add(File(file).name)
 
             } else {
                 CreatePhoenixToast(context).showToastError(R.string.error_with_message, s)
@@ -296,13 +295,12 @@ object DownloadUtil {
 
     private class TagAudioInternalDownloader(private val context: Context, audio: Audio, file: String?) : DownloadImageTask(context, Utils.firstNonEmptyString(audio.thumb_image_very_big, audio.thumb_image_little), file, "cover_" + createPeerTagFor(audio.id, audio.ownerId), false) {
         private val current_audio = audio
-        private val ctx = context
         private fun FlushAudio(Cover: File, audioFile: AudioFile, Flaudio: File, lst: Long) {
             audioFile.save()
             Flaudio.setLastModified(lst)
             Cover.delete()
             CreatePhoenixToast(context).showToastBottom(R.string.tag_modified)
-            MusicUtils.PlaceToAudioCache(ctx)
+            MusicUtils.CachedAudios.add(File(file!!.replace(".jpg", ".mp3")).name)
         }
 
         @SuppressLint("CheckResult")

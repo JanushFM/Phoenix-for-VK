@@ -10,6 +10,7 @@ import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.model.AbsModel;
 import biz.dealnote.messenger.model.ModelsBundle;
 import biz.dealnote.messenger.place.PlaceFactory;
+import biz.dealnote.messenger.util.MainActivityTransforms;
 import biz.dealnote.messenger.util.ViewUtils;
 
 /**
@@ -29,6 +30,12 @@ public class SendAttachmentsActivity extends MainActivity {
 
     public static void startForSendAttachments(@NonNull Context context, int accountId, AbsModel model) {
         startForSendAttachments(context, accountId, new ModelsBundle(1).append(model));
+    }
+
+    @Override
+    protected @MainActivityTransforms
+    int getMainActivityTransform() {
+        return MainActivityTransforms.SEND_ATTACHMENTS;
     }
 
     @Override

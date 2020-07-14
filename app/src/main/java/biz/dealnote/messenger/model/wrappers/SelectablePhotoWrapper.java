@@ -23,6 +23,7 @@ public class SelectablePhotoWrapper implements Parcelable, Comparable<Selectable
     };
     private final Photo photo;
     private boolean selected;
+    private boolean downloaded;
     private int index;
 
     public SelectablePhotoWrapper(@NonNull Photo photo) {
@@ -33,6 +34,7 @@ public class SelectablePhotoWrapper implements Parcelable, Comparable<Selectable
         photo = in.readParcelable(Photo.class.getClassLoader());
         selected = in.readByte() != 0;
         index = in.readInt();
+        downloaded = in.readByte() != 0;
     }
 
     @Override
@@ -52,6 +54,15 @@ public class SelectablePhotoWrapper implements Parcelable, Comparable<Selectable
         this.index = index;
     }
 
+    public boolean isDownloaded() {
+        return downloaded;
+    }
+
+    public SelectablePhotoWrapper setDownloaded(boolean downloaded) {
+        this.downloaded = downloaded;
+        return this;
+    }
+
     @NonNull
     public Photo getPhoto() {
         return photo;
@@ -62,6 +73,7 @@ public class SelectablePhotoWrapper implements Parcelable, Comparable<Selectable
         dest.writeParcelable(photo, flags);
         dest.writeByte((byte) (selected ? 1 : 0));
         dest.writeInt(index);
+        dest.writeByte((byte) (downloaded ? 1 : 0));
     }
 
     @Override

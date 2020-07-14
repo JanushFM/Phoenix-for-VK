@@ -92,6 +92,7 @@ public class PhotosViewHelper {
 
                     tmpV.setVisibility(View.VISIBLE);
                 } else {
+                    PicassoInstance.with().cancelRequest(holder.vgPhoto);
                     tmpV.setVisibility(View.GONE);
                 }
             } else {
@@ -197,6 +198,7 @@ public class PhotosViewHelper {
 
                     tmpV.setVisibility(View.VISIBLE);
                 } else {
+                    PicassoInstance.with().cancelRequest(holder.vgPhoto);
                     tmpV.setVisibility(View.GONE);
                 }
             } else {

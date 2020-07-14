@@ -78,7 +78,17 @@ public class Utils {
 
     private static String device_id = null;
 
+    private static boolean reload_news = true;
+
     private Utils() {
+    }
+
+    public static boolean needReloadNews() {
+        if (reload_news) {
+            reload_news = false;
+            return true;
+        }
+        return false;
     }
 
     public static <T> T lastOf(@NonNull List<T> data) {

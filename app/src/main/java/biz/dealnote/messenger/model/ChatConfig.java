@@ -23,6 +23,7 @@ public final class ChatConfig implements Parcelable {
     private boolean closeOnSend;
     private String initialText;
     private ArrayList<Uri> uploadFiles;
+    private String uploadFilesMimeType;
 
     public ChatConfig() {
         this.models = new ModelsBundle();
@@ -33,6 +34,7 @@ public final class ChatConfig implements Parcelable {
         this.models = in.readParcelable(ModelsBundle.class.getClassLoader());
         this.initialText = in.readString();
         this.uploadFiles = in.createTypedArrayList(Uri.CREATOR);
+        this.uploadFilesMimeType = in.readString();
     }
 
     public ModelsBundle getModels() {
@@ -67,6 +69,14 @@ public final class ChatConfig implements Parcelable {
         this.uploadFiles = uploadFiles;
     }
 
+    public String getUploadFilesMimeType() {
+        return uploadFilesMimeType;
+    }
+
+    public void setUploadFilesMimeType(String uploadFilesMimeType) {
+        this.uploadFilesMimeType = uploadFilesMimeType;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -78,6 +88,7 @@ public final class ChatConfig implements Parcelable {
         dest.writeParcelable(models, flags);
         dest.writeString(initialText);
         dest.writeTypedList(uploadFiles);
+        dest.writeString(uploadFilesMimeType);
     }
 
     public void appendAll(Iterable<? extends AbsModel> models) {

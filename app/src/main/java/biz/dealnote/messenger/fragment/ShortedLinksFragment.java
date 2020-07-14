@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,7 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -53,9 +53,9 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 public class ShortedLinksFragment extends BaseMvpFragment<ShortedLinksPresenter, IShortedLinksView> implements IShortedLinksView, ShortedLinksAdapter.ClickListener {
 
     private TextView mEmpty;
-    private EditText mLink;
-    private Button do_Short;
-    private Button do_Validate;
+    private TextInputEditText mLink;
+    private MaterialButton do_Short;
+    private MaterialButton do_Validate;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ShortedLinksAdapter mAdapter;

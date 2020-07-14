@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="?message_bubble_color"
     app:cardCornerRadius="6dp"
     app:cardUseCompatPadding="true">
 
@@ -25,6 +24,18 @@
             app:aspectRatioH="1"
             app:aspectRatioW="1"
             app:dominantMeasurement="width" />
+
+        <ImageView
+            android:id="@+id/is_downloaded"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/imageView"
+            android:layout_alignTop="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView"
+            android:layout_alignBottom="@+id/imageView"
+            android:src="@drawable/download"
+            android:visibility="gone"
+            app:tint="?colorPrimary" />
 
         <LinearLayout
             android:id="@+id/selected"
@@ -108,5 +119,5 @@
     </RelativeLayout>
 
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
 

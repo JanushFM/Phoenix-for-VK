@@ -36,6 +36,7 @@ abstract class Action<T> {
     final Object tag;
     boolean willReplay;
     boolean cancelled;
+
     Action(Picasso picasso, T target, Request request, int memoryPolicy, int networkPolicy,
            int errorResId, Drawable errorDrawable, String key, Object tag, boolean noFade) {
         this.picasso = picasso;

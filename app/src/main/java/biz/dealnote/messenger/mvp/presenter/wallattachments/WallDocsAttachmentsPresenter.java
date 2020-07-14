@@ -55,7 +55,7 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
         resolveRefreshingView();
 
         final int accountId = super.getAccountId();
-        actualDataDisposable.add(fInteractor.getWall(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
+        actualDataDisposable.add(fInteractor.getWallNoCache(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
 
@@ -68,12 +68,12 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
         resolveRefreshingView();
     }
 
-    private void updatePhotos(List<Post> data) {
+    private void update(List<Post> data) {
         for (Post i : data) {
             if (i.hasAttachments() && !isEmpty(i.getAttachments().getDocs()))
                 mDocs.addAll(i.getAttachments().getDocs());
             if (i.hasCopyHierarchy())
-                updatePhotos(i.getCopyHierarchy());
+                update(i.getCopyHierarchy());
         }
     }
 
@@ -88,13 +88,13 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
         if (offset == 0) {
             this.loaded = data.size();
             this.mDocs.clear();
-            updatePhotos(data);
+            update(data);
             resolveToolbar();
             callView(IWallDocsAttachmentsView::notifyDataSetChanged);
         } else {
             int startSize = mDocs.size();
             this.loaded += data.size();
-            updatePhotos(data);
+            update(data);
             resolveToolbar();
             callView(view -> view.notifyDataAdded(startSize, mDocs.size() - startSize));
         }

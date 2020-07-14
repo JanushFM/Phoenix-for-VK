@@ -3,11 +3,11 @@ package biz.dealnote.messenger.view.steppers.base;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.adapter.holder.IdentificableHolder;
@@ -23,8 +23,8 @@ public abstract class AbsStepHolder<T extends AbsStepsHost> extends RecyclerView
     public View line;
     public View contentRoot;
     public ViewGroup content;
-    public AppCompatButton buttonNext;
-    public Button buttonCancel;
+    public MaterialButton buttonNext;
+    public MaterialButton buttonCancel;
     protected View mContentView;
 
     public AbsStepHolder(ViewGroup parent, int internalLayoutRes, int stepIndex) {

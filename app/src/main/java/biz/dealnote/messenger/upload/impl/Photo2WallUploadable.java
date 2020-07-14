@@ -95,10 +95,10 @@ public class Photo2WallUploadable implements IUploadable<Photo> {
         UploadDestination dest = upload.getDestination();
 
         switch (dest.getMethod()) {
-            case Method.PHOTO_TO_COMMENT:
+            case Method.TO_COMMENT:
                 return repository
                         .attach(accountId, AttachToType.COMMENT, dest.getId(), Collections.singletonList(photo));
-            case Method.PHOTO_TO_WALL:
+            case Method.TO_WALL:
                 return repository
                         .attach(accountId, AttachToType.POST, dest.getId(), Collections.singletonList(photo));
         }

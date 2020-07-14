@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CardViewMD2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="?message_bubble_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -48,12 +48,11 @@
                         android:text="@string/request_method_title"
                         android:textColor="?android:textColorSecondary" />
 
-                    <EditText
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/method"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/backgroud_rectangle_border"
                         android:hint="store.getStockItems"
                         android:inputType="textVisiblePassword"
                         android:padding="8dp"
@@ -68,12 +67,11 @@
                         android:text="@string/request_body_title"
                         android:textColor="?android:textColorSecondary" />
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:background="@drawable/backgroud_rectangle_border"
                         android:gravity="top"
                         android:hint="type1=value1\ntype2=value2"
                         android:inputType="textVisiblePassword|textMultiLine"
@@ -82,7 +80,7 @@
                         android:textSize="14sp"
                         tools:ignore="HardcodedText" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_execute"
                         style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="wrap_content"
@@ -95,13 +93,13 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
+                style="@style/CardViewMD2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="?message_bubble_color"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="2dp">
 
@@ -158,12 +156,11 @@
 
                     </RelativeLayout>
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/response_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:background="@drawable/backgroud_rectangle_border"
                         android:gravity="top"
                         android:inputType="text|textMultiLine|textLongMessage|textNoSuggestions"
                         android:minHeight="200dp"
@@ -172,7 +169,7 @@
 
                 </LinearLayout>
 
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
 

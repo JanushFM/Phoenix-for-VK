@@ -69,6 +69,12 @@ public class DialogsTabsFragment extends BaseFragment implements BackPressCallba
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
+                if (mCurrentTab == 1 && position == 0) {
+                    Fragment tt = adapter.findFragmentByPosition(mCurrentTab);
+                    if (tt instanceof ChatFragment) {
+                        ((ChatFragment) tt).saveState();
+                    }
+                }
                 mCurrentTab = position;
                 ((InputMethodManager) requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
                         .hideSoftInputFromWindow(viewPager.getWindowToken(), 0);
@@ -103,6 +109,11 @@ public class DialogsTabsFragment extends BaseFragment implements BackPressCallba
         public Adapter(@NonNull Fragment fm) {
             super(fm);
             this.fragments = new LongSparseArray<>();
+        }
+
+        public void removeFragment(int position) {
+            fragments.removeAt(position);
+            notifyItemRemoved(position);
         }
 
         @NonNull

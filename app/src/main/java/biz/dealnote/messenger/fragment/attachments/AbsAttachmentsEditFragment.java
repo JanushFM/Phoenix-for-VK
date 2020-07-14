@@ -9,8 +9,6 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,7 +17,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -73,7 +73,7 @@ public abstract class AbsAttachmentsEditFragment<P extends AbsAttachmentsEditPre
     private static final int REQUEST_DOCS_SELECT = 21;
     private static final int REQUEST_CREATE_POLL = 22;
 
-    private EditText mTextBody;
+    private TextInputEditText mTextBody;
 
     private View mTimerRoot;
     private TextView mTimerTextInfo;
@@ -86,7 +86,7 @@ public abstract class AbsAttachmentsEditFragment<P extends AbsAttachmentsEditPre
     private YoutubeButton mButtonDoc;
     private YoutubeButton mButtonPoll;
 
-    private Button mButtonTimer;
+    private MaterialButton mButtonTimer;
 
     private AttchmentsEditorAdapter mAdapter;
 

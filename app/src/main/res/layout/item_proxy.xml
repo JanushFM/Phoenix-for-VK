@@ -141,14 +141,14 @@
             android:paddingEnd="8dp"
             android:paddingBottom="4dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_delete"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_disable"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
@@ -156,7 +156,7 @@
                 android:layout_marginStart="4dp"
                 android:text="@string/button_disable" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_set_as_active"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"

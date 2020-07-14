@@ -32,7 +32,6 @@ public class VideoSelectActivity extends NoMainActivity implements PlaceProvider
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (Objects.isNull(savedInstanceState)) {
             int accountId = super.getIntent().getExtras().getInt(Extra.ACCOUNT_ID);
             int ownerId = super.getIntent().getExtras().getInt(Extra.OWNER_ID);

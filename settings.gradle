@@ -1,1 +1,1 @@
-include ':app', ':material-popup-menu', ':ealvatag', ':picasso'
+include ':app', ':ealvatag', ':picasso', ':crashx'

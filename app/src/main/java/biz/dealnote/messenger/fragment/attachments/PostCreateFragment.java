@@ -40,7 +40,7 @@ public class PostCreateFragment extends AbsPostEditFragment<PostCreatePresenter,
 
     public static Bundle buildArgs(int accountId, int ownerId, @EditingPostType int editingType,
                                    ModelsBundle bundle, @NonNull WallEditorAttrs attrs,
-                                   @Nullable ArrayList<Uri> streams, @Nullable String body) {
+                                   @Nullable ArrayList<Uri> streams, @Nullable String body, @Nullable String mime) {
         Bundle args = new Bundle();
         args.putInt(EXTRA_EDITING_TYPE, editingType);
         args.putParcelableArrayList(EXTRA_STREAMS, streams);
@@ -50,6 +50,7 @@ public class PostCreateFragment extends AbsPostEditFragment<PostCreatePresenter,
         args.putString(Extra.BODY, body);
         args.putParcelable(Extra.BUNDLE, bundle);
         args.putParcelable(Extra.ATTRS, attrs);
+        args.putString(Extra.TYPE, mime);
         return args;
     }
 
@@ -75,11 +76,12 @@ public class PostCreateFragment extends AbsPostEditFragment<PostCreatePresenter,
             AssertUtils.requireNonNull(attrs);
 
             String links = requireArguments().getString(Extra.BODY);
+            String mime = requireArguments().getString(Extra.TYPE);
 
             ArrayList<Uri> streams = requireArguments().getParcelableArrayList(EXTRA_STREAMS);
             requireArguments().remove(EXTRA_STREAMS); // only first start
             requireArguments().remove(Extra.BODY);
-            return new PostCreatePresenter(accountId, ownerId, type, bundle, attrs, streams, links, saveInstanceState);
+            return new PostCreatePresenter(accountId, ownerId, type, bundle, attrs, streams, links, mime, saveInstanceState);
         };
     }
 
@@ -115,10 +117,9 @@ public class PostCreateFragment extends AbsPostEditFragment<PostCreatePresenter,
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.ready:
-                getPresenter().fireReadyClick();
-                return true;
+        if (item.getItemId() == R.id.ready) {
+            getPresenter().fireReadyClick();
+            return true;
         }
 
         return super.onOptionsItemSelected(item);

@@ -26,6 +26,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
@@ -444,7 +445,7 @@ public class AttachmentsViewBinder {
 
                 ((TextView) itemView.findViewById(R.id.item_fwd_message_username)).setText(message.getSender().getFullName());
                 ((TextView) itemView.findViewById(R.id.item_fwd_message_time)).setText(AppTextUtils.getDateFromUnixTime(message.getDate()));
-                TextView tvFwds = itemView.findViewById(R.id.item_forward_message_fwds);
+                MaterialButton tvFwds = itemView.findViewById(R.id.item_forward_message_fwds);
                 tvFwds.setVisibility(message.getForwardMessagesCount() > 0 ? View.VISIBLE : View.GONE);
 
                 tvFwds.setOnClickListener(v -> mAttachmentsActionCallback.onForwardMessagesOpen(message.getFwd()));
@@ -593,7 +594,7 @@ public class AttachmentsViewBinder {
                             backCardT.setVisibility(View.VISIBLE);
                             ViewUtils.displayAvatar(ivPhotoT, null, imageUrl, Constants.PICASSO_TAG);
                             Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
-                            ivType.setImageResource(R.drawable.camera);
+                            ivType.setImageResource(R.drawable.album_photo);
                         } else {
                             backCardT.setVisibility(View.GONE);
                         }

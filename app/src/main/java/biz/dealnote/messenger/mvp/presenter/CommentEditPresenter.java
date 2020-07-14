@@ -51,7 +51,7 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
         super(accountId, savedInstanceState);
         this.commentsInteractor = new CommentsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores(), Repository.INSTANCE.getOwners());
         this.orig = comment;
-        this.destination = new UploadDestination(comment.getId(), comment.getCommented().getSourceOwnerId(), Method.PHOTO_TO_COMMENT, MessageMethod.NULL);
+        this.destination = new UploadDestination(comment.getId(), comment.getCommented().getSourceOwnerId(), Method.TO_COMMENT, MessageMethod.NULL);
         this.CommentThread = CommentThread;
 
         if (isNull(savedInstanceState)) {
@@ -134,7 +134,7 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
     @OnGuiCreated
     private void resolveButtonsAvailability() {
         if (isGuiReady()) {
-            getView().setSupportedButtons(true, false, true, true, false, false);
+            getView().setSupportedButtons(true, true, true, true, false, false);
         }
     }
 

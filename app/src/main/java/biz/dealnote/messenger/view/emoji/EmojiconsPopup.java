@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
-import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -24,6 +23,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -115,7 +116,7 @@ public class EmojiconsPopup {
         listenKeyboardSize();
     }
 
-    public static void input(EditText editText, Emojicon emojicon) {
+    public static void input(TextInputEditText editText, Emojicon emojicon) {
         if (editText == null || emojicon == null) {
             return;
         }
@@ -129,12 +130,12 @@ public class EmojiconsPopup {
         }
     }
 
-    public static void backspace(EditText editText) {
+    public static void backspace(TextInputEditText editText) {
         KeyEvent event = new KeyEvent(0, 0, 0, KeyEvent.KEYCODE_DEL, 0, 0, 0, 0, KeyEvent.KEYCODE_ENDCALL);
         editText.dispatchKeyEvent(event);
     }
 
-    private void storeState() {
+    public void storeState() {
         if (Objects.nonNull(emojisPager)) {
             PreferenceManager.getDefaultSharedPreferences(mContext)
                     .edit()

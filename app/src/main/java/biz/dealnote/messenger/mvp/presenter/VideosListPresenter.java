@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
@@ -28,9 +29,12 @@ import biz.dealnote.messenger.upload.UploadIntent;
 import biz.dealnote.messenger.upload.UploadResult;
 import biz.dealnote.messenger.util.Analytics;
 import biz.dealnote.messenger.util.AppPerms;
+import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.Injection.provideMainThreadScheduler;
@@ -40,6 +44,8 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 public class VideosListPresenter extends AccountDependencyPresenter<IVideosListView> {
 
     private static final int COUNT = 50;
+    private static final int SEARCH_COUNT = 20;
+    private static final int WEB_SEARCH_DELAY = 1000;
 
     private final int ownerId;
     private final int albumId;
@@ -54,6 +60,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     private final CompositeDisposable cacheDisposable = new CompositeDisposable();
     private boolean endOfContent;
     private IntNextFrom intNextFrom;
+    private FindAt search_at;
     private boolean hasActualNetData;
     private boolean requestNow;
     private boolean cacheNowLoading;
@@ -72,6 +79,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
         this.albumTitle = albumTitle;
 
         this.intNextFrom = new IntNextFrom(0);
+        this.search_at = new FindAt();
 
         this.data = new ArrayList<>();
 
@@ -102,7 +110,11 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
 
 
         loadAllFromCache();
-        request(false);
+        if (this.search_at.isSearchMode()) {
+            search(false);
+        } else {
+            request(false);
+        }
         if (IVideosListView.ACTION_SELECT.equalsIgnoreCase(action)) {
             new MaterialAlertDialogBuilder(context)
                     .setTitle(R.string.confirmation)
@@ -110,6 +122,21 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
                     .setPositiveButton(R.string.button_yes, (dialog, which) -> doUpload())
                     .setNegativeButton(R.string.button_no, null)
                     .show();
+        }
+    }
+
+    public void fireSearchRequestChanged(String q) {
+        String query = q == null ? null : q.trim();
+        if (!search_at.do_compare(query)) {
+            this.setRequestNow(false);
+            if (Utils.isEmpty(query)) {
+                this.cacheDisposable.clear();
+                this.cacheNowLoading = false;
+                this.netDisposable.clear();
+                loadAllFromCache();
+            } else {
+                fireRefresh(true);
+            }
         }
     }
 
@@ -138,7 +165,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
             if (IVideosListView.ACTION_SELECT.equalsIgnoreCase(action)) {
                 getView().onUploaded(obj);
             } else
-                fireRefresh();
+                fireRefresh(false);
         }
 
     }
@@ -242,9 +269,55 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
                 }, this::onListGetError));
     }
 
+    private void doSearch(int accountId) {
+        setRequestNow(true);
+        netDisposable.add(interactor.search_owner_video(accountId, search_at.getQuery(), ownerId, albumId, SEARCH_COUNT, search_at.getOffset(), 0)
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(videos -> onSearched(videos.getFirst(), videos.getSecond()), this::onListGetError));
+    }
+
+    private void search(boolean sleep_search) {
+        if (requestNow) return;
+        int accountId = super.getAccountId();
+
+        if (!sleep_search) {
+            doSearch(accountId);
+            return;
+        }
+
+        netDisposable.add(Single.just(new Object())
+                .delay(WEB_SEARCH_DELAY, TimeUnit.MILLISECONDS)
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(videos -> doSearch(accountId), this::onListGetError));
+    }
+
     private void onListGetError(Throwable throwable) {
         setRequestNow(false);
         showError(getView(), throwable);
+    }
+
+    private void onSearched(FindAt search_at, List<Video> videos) {
+        this.cacheDisposable.clear();
+        this.cacheNowLoading = false;
+
+        this.hasActualNetData = true;
+        this.endOfContent = search_at.isEnded();
+
+        if (this.search_at.getOffset() == 0) {
+            data.clear();
+            data.addAll(videos);
+
+            callView(IVideosListView::notifyDataSetChanged);
+        } else {
+            if (nonEmpty(videos)) {
+                int startSize = data.size();
+                data.addAll(videos);
+                callView(view -> view.notifyDataAdded(startSize, videos.size()));
+            }
+        }
+        this.search_at = search_at;
+
+        setRequestNow(false);
     }
 
     private void onRequestResposnse(List<Video> videos, IntNextFrom startFrom, IntNextFrom nextFrom) {
@@ -310,13 +383,17 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
         super.onDestroyed();
     }
 
-    public void fireRefresh() {
+    public void fireRefresh(boolean sleep_search) {
         this.cacheDisposable.clear();
         this.cacheNowLoading = false;
-
         this.netDisposable.clear();
 
-        request(false);
+        if (this.search_at.isSearchMode()) {
+            this.search_at.reset();
+            search(sleep_search);
+        } else {
+            request(false);
+        }
     }
 
     private boolean canLoadMore() {
@@ -325,7 +402,11 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
 
     public void fireScrollToEnd() {
         if (canLoadMore()) {
-            request(true);
+            if (this.search_at.isSearchMode()) {
+                search(false);
+            } else {
+                request(true);
+            }
         }
     }
 

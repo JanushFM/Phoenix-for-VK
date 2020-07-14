@@ -59,7 +59,7 @@ public class UploadDestination implements Parcelable {
                 Method.TO_MESSAGE, MessageMethod.PHOTO);
     }
 
-    public static UploadDestination forMessage(int mdbid, int msg_method) {
+    public static UploadDestination forMessage(int mdbid, @MessageMethod int msg_method) {
         return new UploadDestination(mdbid, WITHOUT_OWNER,
                 Method.TO_MESSAGE, msg_method);
     }
@@ -68,12 +68,20 @@ public class UploadDestination implements Parcelable {
         return new UploadDestination(albumId, ownerId, Method.PHOTO_TO_ALBUM, MessageMethod.NULL);
     }
 
+    public static UploadDestination forPost(int dbid, int ownerId, @MessageMethod int msg_method) {
+        return new UploadDestination(dbid, ownerId, Method.TO_WALL, msg_method);
+    }
+
     public static UploadDestination forPost(int dbid, int ownerId) {
-        return new UploadDestination(dbid, ownerId, Method.PHOTO_TO_WALL, MessageMethod.NULL);
+        return new UploadDestination(dbid, ownerId, Method.TO_WALL, MessageMethod.PHOTO);
     }
 
     public static UploadDestination forComment(int dbid, int sourceOwnerId) {
-        return new UploadDestination(dbid, sourceOwnerId, Method.PHOTO_TO_COMMENT, MessageMethod.NULL);
+        return new UploadDestination(dbid, sourceOwnerId, Method.TO_COMMENT, MessageMethod.PHOTO);
+    }
+
+    public static UploadDestination forComment(int dbid, int sourceOwnerId, @MessageMethod int msg_method) {
+        return new UploadDestination(dbid, sourceOwnerId, Method.TO_COMMENT, msg_method);
     }
 
     @Override

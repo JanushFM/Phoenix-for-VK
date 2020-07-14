@@ -11,12 +11,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_url"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_margin="6dp"
-            android:background="@drawable/backgroud_rectangle_border"
             android:hint="@string/link"
             android:imeOptions="actionDone"
             android:importantForAutofill="no"
@@ -30,7 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/do_short"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
@@ -40,7 +39,7 @@
                 android:stateListAnimator="@animator/clicked"
                 android:text="@string/do_short_link" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/do_validate"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"

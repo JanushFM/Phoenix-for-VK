@@ -106,10 +106,12 @@
             android:src="@drawable/ic_arrow_down_vector"
             android:tint="?android:textColorPrimary" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:text="@string/save" />
     </LinearLayout>
 

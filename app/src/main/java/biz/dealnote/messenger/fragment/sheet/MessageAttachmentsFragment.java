@@ -133,7 +133,7 @@ public class MessageAttachmentsFragment extends AbsPresenterBottomSheetFragment<
             int messageId = getArguments().getInt(Extra.MESSAGE_ID);
             int messageOwnerId = getArguments().getInt(Extra.OWNER_ID);
             ModelsBundle bundle = getArguments().getParcelable(Extra.BUNDLE);
-            return new MessageAttachmentsPresenter(accountId, messageOwnerId, messageId, bundle, saveInstanceState);
+            return new MessageAttachmentsPresenter(accountId, messageOwnerId, messageId, requireActivity(), bundle, saveInstanceState);
         };
     }
 

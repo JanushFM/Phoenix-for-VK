@@ -75,11 +75,11 @@ public class PlaceUtil {
 
     public static void goToPostCreation(@NonNull Activity activity, int accountId, int ownerId,
                                         @EditingPostType int editingType, @Nullable List<AbsModel> input) {
-        goToPostCreation(activity, accountId, ownerId, editingType, input, null, null);
+        goToPostCreation(activity, accountId, ownerId, editingType, input, null, null, null);
     }
 
     public static void goToPostCreation(@NonNull Activity activity, int accountId, int ownerId,
-                                        @EditingPostType int editingType, @Nullable List<AbsModel> input, @Nullable ArrayList<Uri> streams, @Nullable String body) {
+                                        @EditingPostType int editingType, @Nullable List<AbsModel> input, @Nullable ArrayList<Uri> streams, @Nullable String body, @Nullable String mime) {
 
         AlertDialog dialog = createProgressDialog(activity);
         WeakReference<Dialog> dialogWeakReference = new WeakReference<>(dialog);
@@ -102,7 +102,7 @@ public class PlaceUtil {
 
                     Activity a = reference.get();
                     if (a != null) {
-                        PlaceFactory.getCreatePostPlace(accountId, ownerId, editingType, input, attrs, streams, body).tryOpenWith(a);
+                        PlaceFactory.getCreatePostPlace(accountId, ownerId, editingType, input, attrs, streams, body, mime).tryOpenWith(a);
                     }
                 }, throwable -> safelyShowError(reference, throwable));
 

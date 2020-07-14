@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import biz.dealnote.messenger.listener.TextWatcherAdapter;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.AppTextUtils;
 import biz.dealnote.messenger.util.Utils;
+import biz.dealnote.messenger.view.emoji.EmojiconEditText;
 import biz.dealnote.messenger.view.emoji.EmojiconsPopup;
 
 public class InputViewController {
@@ -29,7 +29,7 @@ public class InputViewController {
 
     private final Context mActivity;
     private final OnInputActionCallback callback;
-    private final EditText mInputField;
+    private final EmojiconEditText mInputField;
     private final RelativeLayout rlEmojiContainer;
     private final ImageView ibEmoji;
     private final ImageView ibAttach;
@@ -109,6 +109,12 @@ public class InputViewController {
         mRecordResumePause.setOnClickListener(v -> onResumePauseButtonClick());
 
         resolveModeViews();
+    }
+
+    public void storeEmoji() {
+        if (emojiPopup != null) {
+            emojiPopup.storeState();
+        }
     }
 
     public void destroyView() {

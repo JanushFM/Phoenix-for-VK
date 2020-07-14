@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
@@ -283,6 +284,11 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
     public void goToPostComments(int accountId, int postId, int ownerId) {
         Commented commented = new Commented(postId, ownerId, CommentedType.POST, null);
         PlaceFactory.getCommentsPlace(accountId, commented, null).tryOpenWith(requireActivity());
+    }
+
+    @Override
+    public void askToReload() {
+        Snackbar.make(getView(), R.string.update_news, Snackbar.LENGTH_LONG).setAction(R.string.button_yes, v -> getPresenter().fireRefresh()).show();
     }
 
     @Override

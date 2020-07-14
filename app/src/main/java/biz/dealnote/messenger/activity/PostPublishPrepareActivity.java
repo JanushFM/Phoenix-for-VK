@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -40,8 +39,9 @@ public class PostPublishPrepareActivity extends AppCompatActivity implements Rec
     private RecyclerView recyclerView;
     private View proressView;
 
-    private ArrayList<Uri> streams;
+    private ActivityUtils.StreamData streams;
     private String links;
+    private String mime;
     private int accountId;
     private boolean loading;
 
@@ -69,6 +69,7 @@ public class PostPublishPrepareActivity extends AppCompatActivity implements Rec
             }
 
             streams = ActivityUtils.checkLocalStreams(this);
+            mime = streams == null ? null : streams.mime;
             links = ActivityUtils.checkLinks(this);
 
             setLoading(true);
@@ -138,7 +139,7 @@ public class PostPublishPrepareActivity extends AppCompatActivity implements Rec
     public void onClick(AdvancedItem item) {
         WallEditorAttrs attrs = (WallEditorAttrs) item.getTag();
 
-        Intent intent = PostCreateActivity.newIntent(this, accountId, attrs, streams, links);
+        Intent intent = PostCreateActivity.newIntent(this, accountId, attrs, streams == null ? null : streams.uris, links, mime);
         startActivity(intent);
 
         finish();

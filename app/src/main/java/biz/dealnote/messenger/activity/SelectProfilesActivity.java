@@ -23,6 +23,7 @@ import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Logger;
+import biz.dealnote.messenger.util.MainActivityTransforms;
 import biz.dealnote.messenger.util.Utils;
 
 public class SelectProfilesActivity extends MainActivity implements SelectedProfilesAdapter.ActionListener, ProfileSelectable {
@@ -41,17 +42,6 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
                 .putExtra(Extra.CRITERIA, criteria);
     }
 
-    /*public static void start(Activity activity, @Nullable ArrayList<VKApiUser> users, int requestCode){
-        int aid = Accounts.getCurrentUid(activity);
-        Place place = PlaceFactory.getFriendsFollowersPlace(aid, aid, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
-
-        Intent intent = new Intent(activity, SelectProfilesActivity.class);
-        intent.setAction(SelectProfilesActivity.ACTION_OPEN_PLACE);
-        intent.putExtra(Extra.PLACE, place);
-        intent.putParcelableArrayListExtra(Extra.USERS, users);
-        activity.startActivityForResult(intent, requestCode);
-    }*/
-
     public static void startFriendsSelection(@NonNull Fragment fragment, int requestCode) {
         int aid = Settings.get()
                 .accounts()
@@ -66,6 +56,23 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
         intent.putExtra(Extra.PLACE, place);
         intent.putExtra(Extra.CRITERIA, criteria);
         fragment.startActivityForResult(intent, requestCode);
+    }
+
+    /*public static void start(Activity activity, @Nullable ArrayList<VKApiUser> users, int requestCode){
+        int aid = Accounts.getCurrentUid(activity);
+        Place place = PlaceFactory.getFriendsFollowersPlace(aid, aid, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
+
+        Intent intent = new Intent(activity, SelectProfilesActivity.class);
+        intent.setAction(SelectProfilesActivity.ACTION_OPEN_PLACE);
+        intent.putExtra(Extra.PLACE, place);
+        intent.putParcelableArrayListExtra(Extra.USERS, users);
+        activity.startActivityForResult(intent, requestCode);
+    }*/
+
+    @Override
+    protected @MainActivityTransforms
+    int getMainActivityTransform() {
+        return MainActivityTransforms.PROFILES;
     }
 
     @Override
