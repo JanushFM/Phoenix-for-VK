@@ -34,7 +34,8 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        getWindow().requestFeature(Window.FEATURE_SWIPE_TO_DISMISS);
+        requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
+        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         super.onCreate(savedInstanceState);
         handleIntent(getIntent());
     }

@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     public void onCreate(Bundle savedInstanceState) {
         setTheme(Settings.get().ui().getMainTheme());
         getDelegate().applyDayNight();
+
         super.onCreate(savedInstanceState);
         mDestroyed = false;
         bNoDestroyServiceAudio = false;

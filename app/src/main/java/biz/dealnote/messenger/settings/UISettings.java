@@ -104,16 +104,7 @@ class UISettings implements ISettings.IUISettings {
     public boolean isDarkModeEnabled(Context context) {
         int nightMode = context.getResources().getConfiguration().uiMode
                 & Configuration.UI_MODE_NIGHT_MASK;
-        switch (nightMode) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                return false;
-            case Configuration.UI_MODE_NIGHT_YES:
-                return true;
-            case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                return false;
-            default:
-                return false;
-        }
+        return nightMode == Configuration.UI_MODE_NIGHT_YES;
     }
 
     @NightMode
@@ -225,7 +216,7 @@ class UISettings implements ISettings.IUISettings {
 
     @Override
     public boolean isSwipes_chat_new() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("swipes_chat_new", true);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("swipes_chat_new", false);
     }
 
     @Override

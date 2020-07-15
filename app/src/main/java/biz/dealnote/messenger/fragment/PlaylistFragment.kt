@@ -95,7 +95,7 @@ class PlaylistFragment : BottomSheetDialogFragment(), AudioRecyclerAdapter.Click
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             mAdapter?.notifyDataSetChanged()
             startForPlayList(requireActivity(), mData!!, mAdapter!!.getItemRawPosition(viewHolder.layoutPosition), false)
         }

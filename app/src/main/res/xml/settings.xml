@@ -307,7 +307,7 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="swipes_chat_new"
             android:summary="@string/experimental"
             android:title="@string/swipes_chat_new"

@@ -186,7 +186,6 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             goto_button?.setOnClickListener { recyclerView?.smoothScrollToPosition(presenter?.getConversation()!!.unreadCount) }
         }
 
-
         if (!Settings.get().other().isEnable_last_read)
             goto_button?.visibility = View.GONE
         else
@@ -245,7 +244,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
+            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
             presenter?.fireResendSwipe(adapter!!.getItemRawPosition(viewHolder.layoutPosition), swipeDir)
             adapter?.notifyDataSetChanged()
         }
@@ -320,7 +319,9 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     override fun onEmojiOpened(opened: Boolean) {
-        PlaceFactory.enableTouchViewPagerDialogs(!opened).tryOpenWith(requireActivity())
+        if (!Settings.get().ui().isSwipes_chat_new) {
+            PlaceFactory.enableTouchViewPagerDialogs(!opened).tryOpenWith(requireActivity())
+        }
     }
 
     override fun onSwithToRecordMode() {

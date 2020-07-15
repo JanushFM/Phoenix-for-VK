@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:emojicon="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/message_container"
     android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
             android:autoLink="all"
             android:gravity="start"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            emojicon:emojiconSize="20sp"
+            app:emojiconSize="20sp"
             tools:text="Message" />
 
         <TextView
@@ -85,7 +85,9 @@
             android:padding="6dp"
             android:text="@string/forward_messages_view"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            emojicon:icon="@drawable/ic_fluent_channel_follow_24_regular" />
+            android:textColor="?colorOnSurface"
+            app:icon="@drawable/ic_fluent_channel_follow_24_regular"
+            app:iconTint="?colorOnSurface" />
 
 
     </RelativeLayout>
