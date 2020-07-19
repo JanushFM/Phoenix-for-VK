@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.api.interfaces.INetworker;
+import biz.dealnote.messenger.api.model.VKApiAudioPlaylist;
 import biz.dealnote.messenger.domain.IAudioInteractor;
 import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.fragment.search.criteria.AudioSearchCriteria;
@@ -22,7 +23,8 @@ import biz.dealnote.messenger.model.IdPair;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
-import biz.dealnote.messenger.util.Objects;
+import biz.dealnote.messenger.util.FindAt;
+import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -61,18 +63,11 @@ public class AudioInteractor implements IAudioInteractor {
     }
 
     @Override
-    public Single<Audio> add(int accountId, Audio orig, Integer groupId, Integer albumId) {
+    public Completable add(int accountId, Audio orig, Integer groupId, Integer albumId) {
         return networker.vkDefault(accountId)
                 .audio()
                 .add(orig.getId(), orig.getOwnerId(), groupId, albumId)
-                .map(resultId -> {
-                    final int targetOwnerId = Objects.nonNull(groupId) ? -groupId : accountId;
-                    //clone
-                    return orig
-                            .setId(resultId)
-                            .setOwnerId(targetOwnerId)
-                            .setAlbumId(Objects.nonNull(albumId) ? albumId : 0);
-                });
+                .ignoreElement();
     }
 
     @Override
@@ -181,7 +176,7 @@ public class AudioInteractor implements IAudioInteractor {
     public Single<List<AudioPlaylist>> getPlaylists(int accountId, int owner_id, int offset) {
         return networker.vkDefault(accountId)
                 .audio()
-                .getPlaylists(owner_id, offset)
+                .getPlaylists(owner_id, offset, 50)
                 .map(items -> listEmptyIfNull(items.getItems()))
                 .map(out -> {
                     List<AudioPlaylist> ret = new ArrayList<>();
@@ -274,6 +269,36 @@ public class AudioInteractor implements IAudioInteractor {
                 MusicUtils.CachedAudios.add(u.getName());
         }
         return Completable.complete();
+    }
+
+    @Override
+    public Single<Pair<FindAt, List<AudioPlaylist>>> search_owner_playlist(int accountId, String q, int ownerId, int count, int offset, int loaded) {
+        return networker.vkDefault(accountId)
+                .audio()
+                .getPlaylists(ownerId, offset, count)
+                .flatMap(items -> {
+                    List<VKApiAudioPlaylist> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<AudioPlaylist> playlists = new ArrayList<>(dtos.size());
+
+                    for (VKApiAudioPlaylist dto : dtos) {
+                        if (Utils.safeCheck(dto.title, () -> dto.title.toLowerCase().contains(q.toLowerCase()))
+                                || Utils.safeCheck(dto.artist_name, () -> dto.artist_name.toLowerCase().contains(q.toLowerCase()))
+                                || Utils.safeCheck(dto.description, () -> dto.description.toLowerCase().contains(q.toLowerCase()))) {
+                            playlists.add(Dto2Model.transform(dto));
+                        }
+                    }
+                    final int ld = loaded + playlists.size();
+
+                    if (ld >= count || Utils.isEmpty(dtos)) {
+                        return Single.just(new Pair<>(new FindAt(q, offset + count, Utils.isEmpty(dtos)), playlists));
+                    }
+
+                    return search_owner_playlist(accountId, q, ownerId, count, offset + count, ld).flatMap(t -> {
+                        playlists.addAll(t.getSecond());
+                        return Single.just(new Pair<>(t.getFirst(), playlists));
+
+                    });
+                });
     }
 
     @Override

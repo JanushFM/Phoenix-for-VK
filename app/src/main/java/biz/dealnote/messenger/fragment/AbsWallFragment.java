@@ -35,7 +35,6 @@ import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.activity.ActivityFeatures;
 import biz.dealnote.messenger.adapter.WallAdapter;
 import biz.dealnote.messenger.adapter.horizontal.HorizontalStoryAdapter;
-import biz.dealnote.messenger.api.model.VKApiAttachment;
 import biz.dealnote.messenger.fragment.base.PlaceSupportMvpFragment;
 import biz.dealnote.messenger.fragment.search.SearchContentType;
 import biz.dealnote.messenger.fragment.search.criteria.WallSearchCriteria;
@@ -58,6 +57,7 @@ import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.place.PlaceUtil;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppTextUtils;
+import biz.dealnote.messenger.util.FindAttachmentType;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.LoadMoreFooterHelper;
@@ -190,7 +190,8 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
 
     @Override
     public void goToConversationAttachments(int accountId, int ownerId) {
-        String[] types = new String[]{VKApiAttachment.TYPE_PHOTO, VKApiAttachment.TYPE_VIDEO, VKApiAttachment.TYPE_DOC, VKApiAttachment.TYPE_AUDIO, VKApiAttachment.TYPE_LINK, VKApiAttachment.TYPE_ALBUM, VKApiAttachment.TYPE_POST};
+        String[] types = new String[]{FindAttachmentType.TYPE_PHOTO, FindAttachmentType.TYPE_VIDEO, FindAttachmentType.TYPE_DOC, FindAttachmentType.TYPE_AUDIO,
+                FindAttachmentType.TYPE_LINK, FindAttachmentType.TYPE_ALBUM, FindAttachmentType.TYPE_POST_WITH_COMMENT, FindAttachmentType.TYPE_POST_WITH_QUERY};
 
         ModalBottomSheetDialogFragment.Builder menus = new ModalBottomSheetDialogFragment.Builder();
         menus.add(new OptionRequest(0, getString(R.string.photos), R.drawable.camera));
@@ -200,6 +201,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         menus.add(new OptionRequest(4, getString(R.string.links), R.drawable.web));
         menus.add(new OptionRequest(5, getString(R.string.photo_album), R.drawable.album_photo));
         menus.add(new OptionRequest(6, getString(R.string.posts_with_comment), R.drawable.comment));
+        menus.add(new OptionRequest(7, getString(R.string.posts_with_query), R.drawable.magnify));
 
         menus.show(getChildFragmentManager(), "attachments_select", option -> PlaceFactory.getWallAttachmentsPlace(accountId, ownerId, types[option.getId()]).tryOpenWith(requireActivity()));
     }

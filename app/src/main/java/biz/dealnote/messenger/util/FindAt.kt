@@ -28,11 +28,11 @@ class FindAt {
         this.ended = ended
     }
 
-    fun do_compare(q: String): Boolean {
+    fun do_compare(q: String?): Boolean {
         if (Utils.isEmpty(q) && Utils.isEmpty(this.q)) {
             return true
-        } else if (!Utils.isEmpty(this.q)) {
-            if (this.q!!.toLowerCase(Locale.ROOT) == q.toLowerCase(Locale.ROOT)) return true
+        } else if (!Utils.isEmpty(this.q) && !Utils.isEmpty(q)) {
+            if (this.q!!.toLowerCase(Locale.ROOT) == q!!.toLowerCase(Locale.ROOT)) return true
         }
         this.q = q
         this.offset = 0

@@ -81,7 +81,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
     }
 
     public void addTrack(int accountId, Audio audio) {
-        audioListDisposable.add(mAudioInteractor.add(accountId, audio, null, null).compose(RxUtils.applySingleIOToMainSchedulers()).subscribe(t -> {
+        audioListDisposable.add(mAudioInteractor.add(accountId, audio, null, null).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
         }, ignore -> {
         }));
     }

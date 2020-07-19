@@ -194,14 +194,72 @@
         <activity
             android:name=".activity.SwipebleActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:label="@string/opended_link"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="vk.com"
+                    android:scheme="http" />
+                <data
+                    android:host="vk.com"
+                    android:scheme="https" />
+
+                <data
+                    android:host="vk.cc"
+                    android:scheme="http" />
+                <data
+                    android:host="vk.cc"
+                    android:scheme="https" />
+
+                <data
+                    android:host="vk.me"
+                    android:scheme="http" />
+                <data
+                    android:host="vk.me"
+                    android:scheme="https" />
+
+                <data
+                    android:host="m.vk.com"
+                    android:scheme="http" />
+                <data
+                    android:host="m.vk.com"
+                    android:scheme="https" />
+
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".activity.ChatActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/chat"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".activity.LocalJsonToChatActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:label="@string/chat_json"
+            android:windowSoftInputMode="adjustResize|stateHidden">
+
+            <intent-filter tools:ignore="AppLinkUrlError">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="application/javascript" />
+                <data android:mimeType="application/json" />
+                <data android:mimeType="application/typescript" />
+                <data android:mimeType="application/x-sh" />
+                <data android:mimeType="application/x-shellscript" />
+                <data android:mimeType="application/xml" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".activity.SendAttachmentsActivity"

@@ -420,7 +420,7 @@ public class Utils {
         }
     }
 
-    public static void showRedTopToast(@NonNull Activity activity, String text) {
+    public static void showRedTopToast(@NonNull Context activity, String text) {
         View view = View.inflate(activity, R.layout.toast_error, null);
         ((TextView) view.findViewById(R.id.text)).setText(text);
 
@@ -430,7 +430,7 @@ public class Utils {
         toast.show();
     }
 
-    public static void showRedTopToast(@NonNull Activity activity, @StringRes int text, Object... params) {
+    public static void showRedTopToast(@NonNull Context activity, @StringRes int text, Object... params) {
         View view = View.inflate(activity, R.layout.toast_error, null);
         ((TextView) view.findViewById(R.id.text)).setText(activity.getString(text, params));
 
@@ -1159,14 +1159,43 @@ public class Utils {
         return Arrays.asList(args).contains(value);
     }
 
-    public static void safeCall(@Nullable Object object, @NonNull safeCallInt function) {
+    public static void safeObjectCall(@Nullable Object object, @NonNull safeCallInt function) {
         if (object != null) {
+            function.call();
+        }
+    }
+
+    public static boolean safeCheck(@Nullable CharSequence object, @NonNull safeCallCheckInt function) {
+        if (!isEmpty(object)) {
+            return function.check();
+        }
+        return false;
+    }
+
+    public static void safeCall(@Nullable CharSequence object, @NonNull safeCallInt function) {
+        if (!isEmpty(object)) {
+            function.call();
+        }
+    }
+
+    public static void safeCall(@Nullable Collection<?> object, @NonNull safeCallInt function) {
+        if (!isEmpty(object)) {
+            function.call();
+        }
+    }
+
+    public static void safeCall(@Nullable Map<?, ?> data, @NonNull safeCallInt function) {
+        if (!isEmpty(data)) {
             function.call();
         }
     }
 
     public interface safeCallInt {
         void call();
+    }
+
+    public interface safeCallCheckInt {
+        boolean check();
     }
 
     public interface SimpleFunction<F, S> {

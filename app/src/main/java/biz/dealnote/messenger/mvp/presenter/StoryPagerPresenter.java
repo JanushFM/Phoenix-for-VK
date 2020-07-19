@@ -23,7 +23,7 @@ import biz.dealnote.messenger.model.VideoSize;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IStoryPagerView;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.task.DownloadImageTask;
+import biz.dealnote.messenger.task.InternalDownloadTask;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.DownloadUtil;
@@ -309,7 +309,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
         }
     }
 
-    private final class InternalDownloader extends DownloadImageTask {
+    private final class InternalDownloader extends InternalDownloadTask {
 
         final WeakReference<StoryPagerPresenter> ref;
 

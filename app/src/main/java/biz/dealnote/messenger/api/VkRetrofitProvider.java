@@ -27,6 +27,7 @@ import biz.dealnote.messenger.api.adapters.FaveLinkDtoAdapter;
 import biz.dealnote.messenger.api.adapters.FeedbackDtoAdapter;
 import biz.dealnote.messenger.api.adapters.FeedbackUserArrayDtoAdapter;
 import biz.dealnote.messenger.api.adapters.GroupSettingsAdapter;
+import biz.dealnote.messenger.api.adapters.JsonStringDtoAdapter;
 import biz.dealnote.messenger.api.adapters.LikesListAdapter;
 import biz.dealnote.messenger.api.adapters.LongpollUpdateAdapter;
 import biz.dealnote.messenger.api.adapters.MessageDtoAdapter;
@@ -45,6 +46,7 @@ import biz.dealnote.messenger.api.adapters.UserDtoAdapter;
 import biz.dealnote.messenger.api.adapters.VKApiCatalogLinkDtoAdapter;
 import biz.dealnote.messenger.api.adapters.VideoAlbumDtoAdapter;
 import biz.dealnote.messenger.api.adapters.VideoDtoAdapter;
+import biz.dealnote.messenger.api.adapters.local_json.ChatJsonResponseDtoAdapter;
 import biz.dealnote.messenger.api.model.ChatUserDto;
 import biz.dealnote.messenger.api.model.FaveLinkDto;
 import biz.dealnote.messenger.api.model.GroupSettingsDto;
@@ -67,11 +69,13 @@ import biz.dealnote.messenger.api.model.VKApiVideo;
 import biz.dealnote.messenger.api.model.VKApiVideoAlbum;
 import biz.dealnote.messenger.api.model.VkApiAttachments;
 import biz.dealnote.messenger.api.model.VkApiDoc;
+import biz.dealnote.messenger.api.model.VkApiJsonString;
 import biz.dealnote.messenger.api.model.VkApiPostSource;
 import biz.dealnote.messenger.api.model.VkApiPrivacy;
 import biz.dealnote.messenger.api.model.database.SchoolClazzDto;
 import biz.dealnote.messenger.api.model.feedback.UserArray;
 import biz.dealnote.messenger.api.model.feedback.VkApiBaseFeedback;
+import biz.dealnote.messenger.api.model.local_json.ChatJsonResponse;
 import biz.dealnote.messenger.api.model.longpoll.AbsLongpollEvent;
 import biz.dealnote.messenger.api.model.response.ChatsInfoResponse;
 import biz.dealnote.messenger.api.model.response.CustomCommentsResponse;
@@ -130,6 +134,8 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
             .registerTypeAdapter(FaveLinkDto.class, new FaveLinkDtoAdapter())
             .registerTypeAdapter(VKApiArticle.class, new ArticleDtoAdapter())
             .registerTypeAdapter(VKApiCatalogLink.class, new VKApiCatalogLinkDtoAdapter())
+            .registerTypeAdapter(ChatJsonResponse.class, new ChatJsonResponseDtoAdapter())
+            .registerTypeAdapter(VkApiJsonString.class, new JsonStringDtoAdapter())
             .create();
 
     private static final GsonConverterFactory GSON_CONVERTER_FACTORY = GsonConverterFactory.create(VKGSON);
@@ -148,6 +154,10 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
         this.clientFactory = clientFactory;
         this.proxyManager.observeActive()
                 .subscribe(optional -> onProxySettingsChanged());
+    }
+
+    public static Gson getVkgson() {
+        return VKGSON;
     }
 
     private void onProxySettingsChanged() {

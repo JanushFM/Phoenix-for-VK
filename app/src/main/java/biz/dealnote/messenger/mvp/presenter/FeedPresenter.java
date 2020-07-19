@@ -227,7 +227,12 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
             requestFeedAtLast(null);
         } else {
             if (Utils.needReloadNews()) {
-                getView().askToReload();
+                int vr = Settings.get().main().getStart_newsMode();
+                if (vr == 2) {
+                    getView().askToReload();
+                } else if (vr == 1) {
+                    requestFeedAtLast(null);
+                }
             }
         }
     }

@@ -378,6 +378,14 @@ public class Dto2Model {
         return dialog;
     }
 
+    public static List<Message> transformMessages(int aid, List<VKApiMessage> dtos, @NonNull IOwnersBundle owners) {
+        List<Message> data = new ArrayList<>(dtos.size());
+        for (VKApiMessage dto : dtos) {
+            data.add(transform(aid, dto, owners));
+        }
+        return data;
+    }
+
     public static Message transform(int aid, @NonNull VKApiMessage message, @NonNull IOwnersBundle owners) {
         boolean encrypted = CryptHelper.analizeMessageBody(message.body) == MessageType.CRYPTED;
         Message appMessage = new Message(message.id)

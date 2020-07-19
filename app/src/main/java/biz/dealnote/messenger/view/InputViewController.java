@@ -149,7 +149,7 @@ public class InputViewController {
     public void setSendOnEnter(boolean sendOnEnter) {
         this.sendOnEnter = sendOnEnter;
         if (sendOnEnter) {
-            mInputField.setImeOptions(EditorInfo.IME_ACTION_SEND);
+            mInputField.setImeOptions(EditorInfo.IME_ACTION_SEND | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
             mInputField.setSingleLine();
         }
     }

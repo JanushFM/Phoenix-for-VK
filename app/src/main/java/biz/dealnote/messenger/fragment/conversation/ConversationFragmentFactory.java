@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import biz.dealnote.messenger.Extra;
-import biz.dealnote.messenger.api.model.VKApiAttachment;
+import biz.dealnote.messenger.util.FindAttachmentType;
 
 public class ConversationFragmentFactory {
 
@@ -17,22 +17,22 @@ public class ConversationFragmentFactory {
 
         Fragment fragment = null;
         switch (type) {
-            case VKApiAttachment.TYPE_PHOTO:
+            case FindAttachmentType.TYPE_PHOTO:
                 fragment = new ConversationPhotosFragment();
                 break;
-            case VKApiAttachment.TYPE_VIDEO:
+            case FindAttachmentType.TYPE_VIDEO:
                 fragment = new ConversationVideosFragment();
                 break;
-            case VKApiAttachment.TYPE_DOC:
+            case FindAttachmentType.TYPE_DOC:
                 fragment = new ConversationDocsFragment();
                 break;
-            case VKApiAttachment.TYPE_AUDIO:
+            case FindAttachmentType.TYPE_AUDIO:
                 fragment = new ConversationAudiosFragment();
                 break;
-            case VKApiAttachment.TYPE_LINK:
+            case FindAttachmentType.TYPE_LINK:
                 fragment = new ConversationLinksFragment();
                 break;
-            case VKApiAttachment.TYPE_POST:
+            case FindAttachmentType.TYPE_POST:
                 fragment = new ConversationPostsFragment();
                 break;
         }

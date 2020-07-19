@@ -47,6 +47,30 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="array_news_start_updates_names">
+        <item>Отключить</item>
+        <item>Обновлять</item>
+        <item>Спрашивать</item>
+    </string-array>
+
+    <string-array name="array_news_start_updates_items" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="array_swipes_chats_names">
+        <item>Отключить</item>
+        <item>Свайпы v1</item>
+        <item>Свайпы v2 (Нестабильно)</item>
+    </string-array>
+
+    <string-array name="array_swipes_chats_items" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="player_progress_state" translatable="false">
         <item> ••••••</item>
         <item>• •••••</item>
@@ -229,6 +253,7 @@
     <string name="from_vk_albums">Из альбомов ВК</string>
     <string name="from_local_albums">Из локальных альбомов</string>
     <string name="comments">Комментарии</string>
+    <string name="query">Ключевые фразы</string>
     <string name="for_wall_post">к записи на стене</string>
     <string name="for_photo">к фотографии</string>
 
@@ -630,9 +655,11 @@
     <string name="input">Ввод</string>
     <string name="bookmarks">Закладки</string>
     <string name="list_is_empty">Список пуст</string>
+    <string name="list_is_empty_support_disjunction">Список пуст. Идентификаторы (*id…) Дизъюнкция (A | B)</string>
     <string name="people">Люди</string>
     <string name="links">Ссылки</string>
     <string name="posts_with_comment">Посты с комментариями</string>
+    <string name="posts_with_query">Расширенный поиск</string>
     <string name="posts">Записи</string>
     <string name="loading_owner_photo_album">Загрузка фотоальбома</string>
     <string name="no_photos_found">Фотографии не найдены</string>
@@ -668,6 +695,7 @@
     <string name="invites_you_to_join_community">%1$s приглашает Вас вступить в сообщество</string>
     <string name="attachments_in_chat">Материалы беседы</string>
     <string name="attachments_in_wall">Материалы стены</string>
+    <string name="messages_in_json">Чат Json (%1$d сообщений)</string>
     <string name="change_hrono_history">Показать начало</string>
     <string name="show_profile">Профиль</string>
     <string name="unknown_photos_count">неизвестно</string>
@@ -1253,6 +1281,7 @@
     <string name="top">Популярные</string>
     <string name="gift">Подарок</string>
     <string name="chat">Чат</string>
+    <string name="chat_json">Чат из Json</string>
     <string name="get_root">Получение Root доступа…</string>
     <string name="open_clipboard_url">Открыть ссылку из буфера</string>
     <string name="set_offline">Стать Offline</string>
@@ -1305,9 +1334,7 @@
     <string name="last_read">Последнее прочитанное</string>
     <string name="enable_last_read">Быстрый переход к последнему прочитанному сообщению</string>
     <string name="show_profile_in_additional_page">Показывать профиль в всплывающем меню</string>
-    <string name="disable_swipes_chat">Отключить свайпы для чатов</string>
-    <string name="swipes_chat_new">Свайпы для чатов v2</string>
-    <string name="experimental">Экспериментально</string>
+    <string name="swipes_for_chats_mode">Свайпы в чатах</string>
     <string name="chat_users_count">%1$d участников</string>
     <string name="display_writing">Показывать набор сообщения собеседником</string>
     <string name="download_directory">Куда скачивать</string>
@@ -1319,7 +1346,7 @@
     <string name="import_accounts">Импорт аккаунтов</string>
     <string name="export_accounts">Экспорт аккаунтов</string>
     <string name="show_qr">Показать QR</string>
-    <string name="download_peer_html">Скачать переписку в HTML</string>
+    <string name="download_peer_to">Скачать переписку</string>
     <string name="usages">Использованные</string>
     <string name="is_player_support_volume">Переключатель громкости в плеере</string>
     <string name="notif_photos">%1$d фото</string>
@@ -1405,4 +1432,9 @@
     <string name="show_wall_cover">Обложка профиля</string>
     <string name="mention_user">Упомянуть</string>
     <string name="update_news">Обновить новости?</string>
+    <string name="opended_link">Свайпы v2</string>
+    <string name="to_html">В Html</string>
+    <string name="to_json">В Json</string>
+    <string name="select_type">Выберите формат:</string>
+    <string name="start_news">Обновление новостей при запуске</string>
 </resources>

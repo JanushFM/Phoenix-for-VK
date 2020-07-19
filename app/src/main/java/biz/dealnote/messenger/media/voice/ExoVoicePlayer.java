@@ -99,7 +99,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
             }
             isProximityNear = false;
             isHeadset = false;
-            exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), false);
+            exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), true);
             sensorManager.registerListener(ExoVoicePlayer.this, proxym, SensorManager.SENSOR_DELAY_NORMAL);
             IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
             app.registerReceiver(headset, filter);
@@ -290,7 +290,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
                             ProximitRegistered = false;
                             proximityWakelock.release(1); // this is non-public API before L
                         }
-                        exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), false);
+                        exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), true);
                     }
                 } catch (Exception ignored) {
                 }
@@ -322,7 +322,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
                                     ProximitRegistered = false;
                                     proximityWakelock.release(1); // this is non-public API before L
                                 }
-                                exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), false);
+                                exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), true);
                             } catch (Exception ignored) {
                             }
                         }

@@ -13,7 +13,7 @@ import biz.dealnote.messenger.model.Video
 import biz.dealnote.messenger.model.VoiceMessage
 import biz.dealnote.messenger.player.util.MusicUtils
 import biz.dealnote.messenger.settings.Settings
-import biz.dealnote.messenger.task.DownloadImageTask
+import biz.dealnote.messenger.task.InternalDownloadTask
 import biz.dealnote.messenger.util.PhoenixToast.Companion.CreatePhoenixToast
 import ealvatag.audio.AudioFile
 import ealvatag.audio.AudioFileIO
@@ -117,11 +117,11 @@ object DownloadUtil {
     fun TrackIsDownloaded(audio: Audio): Int {
         val audioName = makeLegalFilename(audio.artist + " - " + audio.title, "mp3")
         for (i in MusicUtils.RemoteAudios) {
-            if (i.equals(audioName, true))
+            if (i == audioName)
                 return 2
         }
         for (i in MusicUtils.CachedAudios) {
-            if (i.equals(audioName, true))
+            if (i == audioName)
                 return 1
         }
         return 0
@@ -239,7 +239,7 @@ object DownloadUtil {
         return aid.toString() + "_" + peerId
     }
 
-    private class VideoInternalDownloader(private val context: Context, video: Video, URL: String?, file: String?) : DownloadImageTask(context, URL, file, "video_" + createPeerTagFor(video.id, video.ownerId), true) {
+    private class VideoInternalDownloader(private val context: Context, video: Video, URL: String?, file: String?) : InternalDownloadTask(context, URL, file, "video_" + createPeerTagFor(video.id, video.ownerId), true) {
         @SuppressLint("CheckResult")
         override fun onPostExecute(s: String?) {
             if (Objects.isNull(s)) {
@@ -251,7 +251,7 @@ object DownloadUtil {
 
     }
 
-    private class DocsInternalDownloader(private val context: Context, doc: Document, URL: String?, file: String?) : DownloadImageTask(context, URL, file, "doc_" + createPeerTagFor(doc.id, doc.ownerId), true) {
+    private class DocsInternalDownloader(private val context: Context, doc: Document, URL: String?, file: String?) : InternalDownloadTask(context, URL, file, "doc_" + createPeerTagFor(doc.id, doc.ownerId), true) {
         @SuppressLint("CheckResult")
         override fun onPostExecute(s: String?) {
             if (Objects.isNull(s)) {
@@ -263,7 +263,7 @@ object DownloadUtil {
 
     }
 
-    private class VoiceInternalDownloader(private val context: Context, doc: VoiceMessage, URL: String?, file: String?) : DownloadImageTask(context, URL, file, "voice_" + createPeerTagFor(doc.id, doc.ownerId), true) {
+    private class VoiceInternalDownloader(private val context: Context, doc: VoiceMessage, URL: String?, file: String?) : InternalDownloadTask(context, URL, file, "voice_" + createPeerTagFor(doc.id, doc.ownerId), true) {
         @SuppressLint("CheckResult")
         override fun onPostExecute(s: String?) {
             if (Objects.isNull(s)) {
@@ -275,7 +275,7 @@ object DownloadUtil {
 
     }
 
-    private class AudioInternalDownloader(private val context: Context, audio: Audio, file: String?) : DownloadImageTask(context, Audio.getMp3FromM3u8(audio.url), file, "audio_" + createPeerTagFor(audio.id, audio.ownerId), true) {
+    private class AudioInternalDownloader(private val context: Context, audio: Audio, file: String?) : InternalDownloadTask(context, Audio.getMp3FromM3u8(audio.url), file, "audio_" + createPeerTagFor(audio.id, audio.ownerId), true) {
         @SuppressLint("CheckResult")
         private val current_audio = audio
         override fun onPostExecute(s: String?) {
@@ -293,7 +293,7 @@ object DownloadUtil {
 
     }
 
-    private class TagAudioInternalDownloader(private val context: Context, audio: Audio, file: String?) : DownloadImageTask(context, Utils.firstNonEmptyString(audio.thumb_image_very_big, audio.thumb_image_little), file, "cover_" + createPeerTagFor(audio.id, audio.ownerId), false) {
+    private class TagAudioInternalDownloader(private val context: Context, audio: Audio, file: String?) : InternalDownloadTask(context, Utils.firstNonEmptyString(audio.thumb_image_very_big, audio.thumb_image_little), file, "cover_" + createPeerTagFor(audio.id, audio.ownerId), false) {
         private val current_audio = audio
         private fun FlushAudio(Cover: File, audioFile: AudioFile, Flaudio: File, lst: Long) {
             audioFile.save()

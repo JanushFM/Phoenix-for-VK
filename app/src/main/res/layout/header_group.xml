@@ -110,7 +110,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:backgroundTint="@color/button_profile_tint" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/header_group_secondary_button"
@@ -118,7 +119,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    app:backgroundTint="@color/button_profile_tint" />
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/header_group_fab_message"

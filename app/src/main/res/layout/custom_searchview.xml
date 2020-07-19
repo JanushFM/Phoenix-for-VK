@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/CardViewMD2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,7 +9,7 @@
     android:layout_marginEnd="6dp"
     android:layout_marginBottom="2dp">
 
-    <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:paddingStart="2dp"
@@ -34,7 +35,7 @@
             android:layout_toEndOf="@+id/button_back"
             android:background="@null"
             android:hint="@string/search_hint"
-            android:imeOptions="actionSearch"
+            android:imeOptions="flagNoExtractUi|actionSearch"
             android:inputType="text|textAutoComplete|textNoSuggestions"
             android:maxLines="1"
             android:paddingTop="8dp"

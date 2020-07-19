@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.MimeTypeMap;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -163,6 +162,7 @@ import biz.dealnote.messenger.push.IPushRegistrationResolver;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.settings.SwipesChatMode;
 import biz.dealnote.messenger.util.Accounts;
 import biz.dealnote.messenger.util.Action;
 import biz.dealnote.messenger.util.AppPerms;
@@ -191,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     public static final String ACTION_CHAT_FROM_SHORTCUT = "biz.dealnote.messenger.ACTION_CHAT_FROM_SHORTCUT";
     public static final String ACTION_OPEN_PLACE = "biz.dealnote.messenger.activity.MainActivity.openPlace";
     public static final String ACTION_OPEN_AUDIO_PLAYER = "biz.dealnote.messenger.activity.MainActivity.openAudioPlayer";
-    public static final String ACTION_OPEN_FILE = "biz.dealnote.messenger.activity.MainActivity.openFile";
     public static final String ACTION_SEND_ATTACHMENTS = "biz.dealnote.messenger.ACTION_SEND_ATTACHMENTS";
     public static final String ACTION_SWITH_ACCOUNT = "biz.dealnote.messenger.ACTION_SWITH_ACCOUNT";
     public static final String ACTION_OPEN_WALL = "biz.dealnote.messenger.ACTION_OPEN_WALL";
@@ -232,23 +231,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
      */
     private Pair<AbsMenuItem, Boolean> mTargetPage;
     private boolean resumed;
-    private boolean bNoDestroyServiceAudio = false;
-
-    private static String getFileExtension(File file) {
-        String extension = "";
-
-        try {
-            if (file != null && file.exists()) {
-                String name = file.getName();
-                extension = name.substring(name.lastIndexOf('.') + 1);
-            }
-        } catch (Exception e) {
-            extension = "";
-        }
-
-        return extension;
-
-    }
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
@@ -281,7 +263,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
         super.onCreate(savedInstanceState);
         mDestroyed = false;
-        bNoDestroyServiceAudio = false;
 
         mCompositeDisposable.add(Settings.get()
                 .accounts()
@@ -611,25 +592,15 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         if (ACTION_OPEN_PLACE.equals(action)) {
             Place place = intent.getParcelableExtra(Extra.PLACE);
             openPlace(place);
+            if (place.type == Place.CHAT) {
+                return Settings.get().ui().getSwipes_chat_mode() != SwipesChatMode.V2 || Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.DISABLED;
+            }
             return true;
         }
 
         if (ACTION_OPEN_AUDIO_PLAYER.equals(action)) {
             openPlace(PlaceFactory.getPlayerPlace(mAccountId));
             return false;
-        }
-
-        if (ACTION_OPEN_FILE.equals(action)) {
-            Uri data = intent.getData();
-            Intent intent_open = new Intent(Intent.ACTION_VIEW);
-            intent_open.setDataAndType(data, MimeTypeMap.getSingleton().getMimeTypeFromExtension(getFileExtension(new File(data.toString()))));
-
-            if (nonNull(getPackageManager().resolveActivity(intent_open, 0))) {
-                startActivity(intent_open);
-            } else {
-                Utils.showRedTopToast(this, R.string.no_compatible_software_installed);
-            }
-            return true;
         }
 
         if (ACTION_CHAT_FROM_SHORTCUT.equals(action)) {
@@ -650,7 +621,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
             final Peer peer = new Peer(peerId).setTitle(title).setAvaUrl(imgUrl);
             PlaceFactory.getChatPlace(aid, aid, peer, 0).tryOpenWith(this);
-            return true;
+            return Settings.get().ui().getSwipes_chat_mode() != SwipesChatMode.V2 || Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.DISABLED;
         }
 
         if (Intent.ACTION_VIEW.equals(action)) {
@@ -682,16 +653,16 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
             getNavigationFragment().refreshNavigationItems();
             getNavigationFragment().selectPage(recentChat);
         }
-        if (Settings.get().ui().isDisable_swipes_chat()) {
+        if (Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.DISABLED) {
             ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
             attachToFrontNoAnim(chatFragment);
         } else {
-            if (Settings.get().ui().isSwipes_chat_new() && getMainActivityTransform() == MainActivityTransforms.MAIN) {
+            if (Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.V2 && getMainActivityTransform() == MainActivityTransforms.MAIN) {
                 Intent intent = new Intent(this, ChatActivity.class);
                 intent.setAction(ChatActivity.ACTION_OPEN_PLACE);
                 intent.putExtra(Extra.PLACE, PlaceFactory.getChatPlace(accountId, messagesOwnerId, peer, Offset));
                 startActivity(intent);
-            } else if (Settings.get().ui().isSwipes_chat_new() && getMainActivityTransform() != MainActivityTransforms.MAIN) {
+            } else if (Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.V2 && getMainActivityTransform() != MainActivityTransforms.MAIN) {
                 ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
                 attachToFrontNoAnim(chatFragment);
             } else {
@@ -840,12 +811,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     @Override
     public void onSheetClosed() {
         postResume(MainActivity::openTargetPage);
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        bNoDestroyServiceAudio = true;
     }
 
     @Override

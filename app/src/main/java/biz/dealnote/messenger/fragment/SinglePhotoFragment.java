@@ -35,7 +35,7 @@ import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.fragment.base.BaseFragment;
 import biz.dealnote.messenger.listener.BackPressCallback;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.task.DownloadImageTask;
+import biz.dealnote.messenger.task.InternalDownloadTask;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.PhoenixToast;
@@ -306,7 +306,7 @@ public class SinglePhotoFragment extends BaseFragment
     }
 
     @SuppressLint("StaticFieldLeak")
-    private final class InternalDownloader extends DownloadImageTask {
+    private final class InternalDownloader extends InternalDownloadTask {
 
         InternalDownloader(Context context, String url, String file, String photo) {
             super(context, url, file, photo, true);

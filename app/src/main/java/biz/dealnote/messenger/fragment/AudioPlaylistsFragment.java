@@ -40,6 +40,7 @@ import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.ViewUtils;
+import biz.dealnote.messenger.view.MySearchView;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -103,8 +104,25 @@ public class AudioPlaylistsFragment extends BaseMvpFragment<AudioPlaylistsPresen
             }
         });
 
+        MySearchView mySearchView = root.findViewById(R.id.searchview);
+        mySearchView.setRightButtonVisibility(false);
+        mySearchView.setLeftIcon(R.drawable.magnify);
+        mySearchView.setOnQueryTextListener(new MySearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getPresenter().fireSearchRequestChanged(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getPresenter().fireSearchRequestChanged(newText);
+                return false;
+            }
+        });
+
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> getPresenter().fireRefresh());
+        mSwipeRefreshLayout.setOnRefreshListener(() -> getPresenter().fireRefresh(false));
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
         mAdapter = new AudioPlaylistsAdapter(Collections.emptyList(), requireActivity());

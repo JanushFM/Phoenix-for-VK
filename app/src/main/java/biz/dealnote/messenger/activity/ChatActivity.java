@@ -1,14 +1,17 @@
 package biz.dealnote.messenger.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
@@ -23,6 +26,7 @@ import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceProvider;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.AssertUtils;
+import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.StatusbarUtil;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
@@ -31,13 +35,18 @@ import biz.dealnote.messenger.util.ViewUtils;
 public class ChatActivity extends NoMainActivity implements PlaceProvider, AppStyleable {
 
     public static final String ACTION_OPEN_PLACE = "biz.dealnote.messenger.activity.ChatActivity.openPlace";
+    //resolveToolbarNavigationIcon();
+    private final FragmentManager.OnBackStackChangedListener mOnBackStackChangedListener = this::keyboardHide;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         super.onCreate(savedInstanceState);
-        handleIntent(getIntent());
+        if (Objects.isNull(savedInstanceState)) {
+            handleIntent(getIntent());
+            getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
+        }
     }
 
     private void handleIntent(Intent intent) {
@@ -48,6 +57,17 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
         if (ACTION_OPEN_PLACE.equals(action)) {
             Place place = intent.getParcelableExtra(Extra.PLACE);
             openPlace(place);
+        }
+    }
+
+    public void keyboardHide() {
+        try {
+            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (inputManager != null) {
+                inputManager.hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        } catch (Exception ignored) {
+
         }
     }
 
@@ -100,8 +120,14 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
                 .commitAllowingStateLoss();
     }
 
+    public void onPause() {
+        ViewUtils.keyboardHide(this);
+        super.onPause();
+    }
+
     @Override
     public void onDestroy() {
+        getSupportFragmentManager().removeOnBackStackChangedListener(mOnBackStackChangedListener);
         ViewUtils.keyboardHide(this);
         super.onDestroy();
     }

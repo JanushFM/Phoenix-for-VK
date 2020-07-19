@@ -29,7 +29,6 @@ import biz.dealnote.messenger.adapter.AttachmentsBottomSheetAdapter
 import biz.dealnote.messenger.adapter.AttachmentsViewBinder
 import biz.dealnote.messenger.adapter.MessagesAdapter
 import biz.dealnote.messenger.api.PicassoInstance
-import biz.dealnote.messenger.api.model.VKApiAttachment
 import biz.dealnote.messenger.api.model.VKApiMessage
 import biz.dealnote.messenger.crypt.KeyLocationPolicy
 import biz.dealnote.messenger.dialog.ImageSizeAlertDialog
@@ -52,6 +51,7 @@ import biz.dealnote.messenger.mvp.view.IChatView
 import biz.dealnote.messenger.place.PlaceFactory
 import biz.dealnote.messenger.settings.CurrentTheme
 import biz.dealnote.messenger.settings.Settings
+import biz.dealnote.messenger.settings.SwipesChatMode
 import biz.dealnote.messenger.upload.UploadDestination
 import biz.dealnote.messenger.util.*
 import biz.dealnote.messenger.util.Objects
@@ -319,7 +319,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     override fun onEmojiOpened(opened: Boolean) {
-        if (!Settings.get().ui().isSwipes_chat_new) {
+        if (Settings.get().ui().swipes_chat_mode == SwipesChatMode.V1) {
             PlaceFactory.enableTouchViewPagerDialogs(!opened).tryOpenWith(requireActivity())
         }
     }
@@ -938,7 +938,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     override fun goToConversationAttachments(accountId: Int, peerId: Int) {
-        val types = arrayOf(VKApiAttachment.TYPE_PHOTO, VKApiAttachment.TYPE_VIDEO, VKApiAttachment.TYPE_DOC, VKApiAttachment.TYPE_AUDIO, VKApiAttachment.TYPE_LINK, VKApiAttachment.TYPE_POST)
+        val types = arrayOf(FindAttachmentType.TYPE_PHOTO, FindAttachmentType.TYPE_VIDEO, FindAttachmentType.TYPE_DOC, FindAttachmentType.TYPE_AUDIO, FindAttachmentType.TYPE_LINK, FindAttachmentType.TYPE_POST)
 
         val menus = ModalBottomSheetDialogFragment.Builder()
         menus.add(OptionRequest(0, getString(R.string.photos), R.drawable.camera))
@@ -1145,12 +1145,18 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                 return true
             }
 
-            R.id.download_peer_html -> {
+            R.id.download_peer_to -> {
                 if (!AppPerms.hasReadWriteStoragePermision(requireActivity())) {
                     AppPerms.requestReadWriteStoragePermission(requireActivity())
                     return true
                 }
-                presenter?.fireChatDownloadClick(requireActivity())
+                MaterialAlertDialogBuilder(requireActivity())
+                        .setTitle(R.string.confirmation)
+                        .setMessage(R.string.select_type)
+                        .setPositiveButton(R.string.to_json) { _, _ -> presenter?.fireChatDownloadClick(requireActivity(), "json") }
+                        .setNegativeButton(R.string.to_html) { _, _ -> presenter?.fireChatDownloadClick(requireActivity(), "html") }
+                        .setNeutralButton(R.string.button_cancel, null)
+                        .show()
                 return true
             }
 

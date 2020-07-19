@@ -1402,11 +1402,12 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         view?.goToChatMembers(accountId, Peer.toChatId(peerId))
     }
 
-    fun fireChatDownloadClick(context: Context) {
+    fun fireChatDownloadClick(context: Context, action: String) {
         val intent = Intent(context, ChatDownloadIntentService::class.java)
         intent.putExtra(Extra.OWNER_ID, peerId)
         intent.putExtra(Extra.ACCOUNT_ID, accountId)
         intent.putExtra(Extra.TITLE, conversation?.title)
+        intent.putExtra(Extra.ACTION, action)
         context.startService(intent)
     }
 

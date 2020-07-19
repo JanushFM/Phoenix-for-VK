@@ -67,7 +67,7 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="custom_tabs"
             android:title="@string/open_links_in_app"
             app:iconSpaceReserved="false" />
@@ -86,7 +86,7 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="use_internal_downloader"
             android:summary="@string/use_internal_downloader_summary"
             android:title="@string/use_internal_downloader"
@@ -97,6 +97,24 @@
             android:key="download_photo_tap"
             android:title="@string/download_photo_tap"
             app:iconSpaceReserved="false" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:entries="@array/array_news_start_updates_names"
+            android:entryValues="@array/array_news_start_updates_items"
+            android:key="start_news"
+            android:title="@string/start_news"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/array_swipes_chats_names"
+            android:entryValues="@array/array_swipes_chats_items"
+            android:key="swipes_for_chats_mode"
+            android:title="@string/swipes_for_chats_mode"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
@@ -299,19 +317,6 @@
             app:pickerButtonCancel="@string/button_cancel"
             app:pickerButtonOk="@string/button_yes"
             app:pickerTitle="@string/custom_second_message_color" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="disable_swipes_chat"
-            android:title="@string/disable_swipes_chat"
-            app:iconSpaceReserved="false" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="swipes_chat_new"
-            android:summary="@string/experimental"
-            android:title="@string/swipes_chat_new"
-            app:iconSpaceReserved="false" />
 
         <SwitchPreference
             android:defaultValue="false"

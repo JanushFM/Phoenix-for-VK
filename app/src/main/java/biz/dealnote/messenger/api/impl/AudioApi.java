@@ -164,10 +164,10 @@ class AudioApi extends AbsApi implements IAudioApi {
     }
 
     @Override
-    public Single<Items<VKApiAudioPlaylist>> getPlaylists(int owner_id, int offset) {
+    public Single<Items<VKApiAudioPlaylist>> getPlaylists(int owner_id, int offset, int count) {
         return provideService(IAudioService.class)
                 .flatMap(service -> service
-                        .getPlaylists(owner_id, offset, 50)
+                        .getPlaylists(owner_id, offset, count)
                         .map(extractResponseWithErrorHandling()));
     }
 

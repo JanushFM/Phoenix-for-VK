@@ -313,7 +313,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
 
     private fun add(accountId: Int, audio: Audio) {
         appendDisposable(mAudioInteractor!!.add(accountId, audio, null, null)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe({ onAudioAdded() }) { })
     }
 

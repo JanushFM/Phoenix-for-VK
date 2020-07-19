@@ -23,7 +23,7 @@ import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IPhotoPagerView;
 import biz.dealnote.messenger.push.OwnerInfo;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.task.DownloadImageTask;
+import biz.dealnote.messenger.task.InternalDownloadTask;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.DownloadUtil;
@@ -436,7 +436,7 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
         getView().goToLikesList(getAccountId(), photo.getOwnerId(), photo.getId());
     }
 
-    private final class InternalDownloader extends DownloadImageTask {
+    private final class InternalDownloader extends InternalDownloadTask {
 
         final WeakReference<PhotoPagerPresenter> ref;
 

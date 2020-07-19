@@ -204,6 +204,8 @@ public interface ISettings {
         @PhotoSize
         int getPrefDisplayImageSize(@PhotoSize int byDefault);
 
+        int getStart_newsMode();
+
         void setPrefDisplayImageSize(@PhotoSize int size);
 
         boolean isWebview_night_mode();
@@ -373,9 +375,8 @@ public interface ISettings {
 
         boolean isShow_profile_in_additional_page();
 
-        boolean isDisable_swipes_chat();
-
-        boolean isSwipes_chat_new();
+        @SwipesChatMode
+        int getSwipes_chat_mode();
 
         boolean isDisplay_writing();
     }

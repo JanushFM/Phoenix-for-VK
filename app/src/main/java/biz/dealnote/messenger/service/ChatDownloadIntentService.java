@@ -7,14 +7,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.PowerManager;
 import android.util.Base64;
+import android.webkit.MimeTypeMap;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.FileProvider;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.Streams;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,7 +37,6 @@ import java.util.Map;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
-import biz.dealnote.messenger.activity.MainActivity;
 import biz.dealnote.messenger.api.model.VKApiMessage;
 import biz.dealnote.messenger.domain.IMessagesRepository;
 import biz.dealnote.messenger.domain.Repository;
@@ -40,9 +49,11 @@ import biz.dealnote.messenger.model.Link;
 import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Photo;
+import biz.dealnote.messenger.model.PhotoAlbum;
 import biz.dealnote.messenger.model.PhotoSize;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Story;
+import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.push.OwnerInfo;
 import biz.dealnote.messenger.settings.Settings;
@@ -61,6 +72,22 @@ public class ChatDownloadIntentService extends IntentService {
     public ChatDownloadIntentService() {
         super(TAG);
         messagesRepository = Repository.INSTANCE.getMessages();
+    }
+
+    private static String getFileExtension(File file) {
+        String extension = "";
+
+        try {
+            if (file != null && file.exists()) {
+                String name = file.getName();
+                extension = name.substring(name.lastIndexOf('.') + 1);
+            }
+        } catch (Exception e) {
+            extension = "";
+        }
+
+        return extension;
+
     }
 
     private String readBase64(String val) {
@@ -154,29 +181,49 @@ public class ChatDownloadIntentService extends IntentService {
         if (i.isHasAttachments()) {
             boolean HasPhotos = false;
             boolean HasVideos = false;
+            boolean HasStory = false;
+            boolean HasAlbum = false;
+            boolean HasArticle = false;
             boolean HasDocs = false;
             boolean HasLinks = false;
+            boolean HasPosts = false;
             if (!Utils.isEmpty(i.getAttachments().getPhotos()))
                 HasPhotos = true;
             if (!Utils.isEmpty(i.getAttachments().getVideos()))
                 HasVideos = true;
             if (!Utils.isEmpty(i.getAttachments().getDocs()))
                 HasDocs = true;
-            if (!Utils.isEmpty(i.getAttachments().getLinks()) || !Utils.isEmpty(i.getAttachments().getPosts()))
+            if (!Utils.isEmpty(i.getAttachments().getStories()))
+                HasStory = true;
+            if (!Utils.isEmpty(i.getAttachments().getPhotoAlbums()))
+                HasAlbum = true;
+            if (!Utils.isEmpty(i.getAttachments().getArticles()))
+                HasArticle = true;
+            if (!Utils.isEmpty(i.getAttachments().getLinks()))
                 HasLinks = true;
+            if (!Utils.isEmpty(i.getAttachments().getPosts()))
+                HasPosts = true;
 
-            if (!HasDocs && !HasLinks && !HasPhotos && !HasVideos)
+            if (!HasPhotos && !HasVideos && !HasStory && !HasAlbum && !HasArticle && !HasDocs && !HasLinks && !HasPosts)
                 AttacmentHeader = Apply("<#ATTACHMENT_TYPE#>", " !ИНОЕ!", AttacmentHeader);
             else {
                 StringBuilder Type = new StringBuilder();
                 if (HasDocs)
                     Type.append(" !ДОКУМЕНТ!");
+                if (HasStory)
+                    Type.append(" !ИСТОРИЯ!");
+                if (HasAlbum)
+                    Type.append(" !АЛЬБОМ!");
+                if (HasArticle)
+                    Type.append(" !СТАТЬЯ!");
                 if (HasPhotos)
                     Type.append(" !ФОТО!");
                 if (HasVideos)
                     Type.append(" !ВИДЕО!");
                 if (HasLinks)
                     Type.append(" !ССЫЛКА!");
+                if (HasPosts)
+                    Type.append(" !ПОСТ!");
                 AttacmentHeader = Apply("<#ATTACHMENT_TYPE#>", Type.toString(), AttacmentHeader);
             }
 
@@ -191,22 +238,27 @@ public class ChatDownloadIntentService extends IntentService {
 
             if (!Utils.isEmpty(i.getAttachments().getLinks())) {
                 for (Link att : i.getAttachments().getLinks()) {
-                    if (att.getPhoto() == null)
-                        continue;
                     String atcontent = Image;
                     atcontent = Apply("<#ORIGINAL_IMAGE_LINK#>", att.getUrl(), atcontent);
-                    atcontent = Apply("<#IMAGE_LINK#>", att.getPhoto().getUrlForSize(PhotoSize.Y, false), atcontent);
+                    atcontent = Apply("<#IMAGE_LINK#>", att.getPhoto() == null ? null : att.getPhoto().getUrlForSize(PhotoSize.Y, false), atcontent);
                     Attachments.append(atcontent);
                 }
             }
 
             if (!Utils.isEmpty(i.getAttachments().getArticles())) {
                 for (Article att : i.getAttachments().getArticles()) {
-                    if (att.getPhoto() == null)
-                        continue;
                     String atcontent = Image;
                     atcontent = Apply("<#ORIGINAL_IMAGE_LINK#>", att.getURL(), atcontent);
-                    atcontent = Apply("<#IMAGE_LINK#>", att.getPhoto().getUrlForSize(PhotoSize.Y, false), atcontent);
+                    atcontent = Apply("<#IMAGE_LINK#>", att.getPhoto() == null ? null : att.getPhoto().getUrlForSize(PhotoSize.Y, false), atcontent);
+                    Attachments.append(atcontent);
+                }
+            }
+
+            if (!Utils.isEmpty(i.getAttachments().getPhotoAlbums())) {
+                for (PhotoAlbum att : i.getAttachments().getPhotoAlbums()) {
+                    String atcontent = Image;
+                    atcontent = Apply("<#ORIGINAL_IMAGE_LINK#>", "https://vk.com/album" + att.getOwnerId() + "_" + att.getId(), atcontent);
+                    atcontent = Apply("<#IMAGE_LINK#>", att.getSizes() == null ? null : att.getSizes().getUrlForSize(PhotoSize.Y, false), atcontent);
                     Attachments.append(atcontent);
                 }
             }
@@ -229,11 +281,9 @@ public class ChatDownloadIntentService extends IntentService {
 
             if (!Utils.isEmpty(i.getAttachments().getPosts())) {
                 for (Post att : i.getAttachments().getPosts()) {
-                    if (att.getAuthor() == null || att.getAuthor().getMaxSquareAvatar() == null)
-                        continue;
                     String atcontent = Image;
                     atcontent = Apply("<#ORIGINAL_IMAGE_LINK#>", "https://vk.com/wall" + att.getOwnerId() + "_" + att.getVkid(), atcontent);
-                    atcontent = Apply("<#IMAGE_LINK#>", att.getAuthor().getMaxSquareAvatar(), atcontent);
+                    atcontent = Apply("<#IMAGE_LINK#>", att.getAuthor() == null ? null : att.getAuthor().getMaxSquareAvatar(), atcontent);
                     Attachments.append(atcontent);
                 }
             }
@@ -274,18 +324,7 @@ public class ChatDownloadIntentService extends IntentService {
         return msg_html.toString();
     }
 
-    @Override
-    protected void onHandleIntent(Intent intent) {
-        int owner_id = intent.getIntExtra(Extra.OWNER_ID, 0);
-        int account_id = intent.getIntExtra(Extra.ACCOUNT_ID, 0);
-        String chat_title = intent.getStringExtra(Extra.TITLE);
-        if (Utils.isEmpty(chat_title))
-            chat_title = getString(R.string.chat) + " " + owner_id;
-        if (owner_id == 0 || account_id == 0)
-            return;
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
-        wl.acquire(10 * 60 * 1000L /*10 minutes*/);
+    private void doDownloadAsHTML(String chat_title, int account_id, int owner_id) {
         try {
             Owner owner = null;
             if (owner_id < VKApiMessage.CHAT_PEER) {
@@ -356,9 +395,9 @@ public class ChatDownloadIntentService extends IntentService {
             output.close();
 
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(html)));
-            Intent intent_open = new Intent(this, MainActivity.class);
-            intent_open.setAction(Intent.ACTION_VIEW);
-            intent_open.setData(Uri.fromFile(html));
+            Intent intent_open = new Intent(Intent.ACTION_VIEW);
+            intent_open.setDataAndType(FileProvider.getUriForFile(this, Constants.FILE_PROVIDER_AUTHORITY, html), MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(getFileExtension(html))).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             PendingIntent ReadPendingIntent = PendingIntent.getActivity(this, peer_title.hashCode(), intent_open, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.setContentIntent(ReadPendingIntent);
@@ -371,6 +410,118 @@ public class ChatDownloadIntentService extends IntentService {
             mNotifyManager.notify(peer_title, NotificationHelper.NOTIFICATION_DOWNLOAD, mBuilder.build());
         } catch (RuntimeException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void doJsonDownload(String chat_title, int account_id, int owner_id) {
+        try {
+            Owner owner = null;
+            if (owner_id < VKApiMessage.CHAT_PEER) {
+                owner = OwnerInfo.getRx(this, account_id, owner_id)
+                        .blockingGet().getOwner();
+            }
+            String peer_title = getTitle(owner, owner_id, chat_title);
+            NotificationManagerCompat mNotifyManager = NotificationManagerCompat.from(this);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, AppNotificationChannels.DOWNLOAD_CHANNEL_ID);
+            mBuilder.setContentTitle(getString(R.string.downloading))
+                    .setContentText(getString(R.string.downloading) + " " + getString(R.string.chat) + " " + peer_title)
+                    .setSmallIcon(R.drawable.save)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(false)
+                    .setOngoing(true)
+                    .setOnlyAlertOnce(true);
+            mNotifyManager.notify(getTitle(owner, owner_id, chat_title), NotificationHelper.NOTIFICATION_DOWNLOADING, mBuilder.build());
+
+            JsonArray mps = new JsonArray();
+
+            int offset = 0;
+            while (true) {
+                try {
+                    List<String> messages = messagesRepository.getJsonHistory(account_id, offset, 200, owner_id).blockingGet();
+                    if (messages.isEmpty())
+                        break;
+                    mBuilder.setContentTitle(getString(R.string.downloading) + " " + offset);
+                    mNotifyManager.notify(getTitle(owner, owner_id, chat_title), NotificationHelper.NOTIFICATION_DOWNLOADING, mBuilder.build());
+
+                    for (String i : messages) {
+                        try {
+                            mps.add(Streams.parse(new JsonReader(new StringReader(i))));
+                        } catch (Exception ignored) {
+                        }
+                    }
+                    offset += messages.size();
+                } catch (RuntimeException e) {
+                    break;
+                }
+            }
+            JsonObject result = new JsonObject();
+
+
+            if (owner_id >= VKApiMessage.CHAT_PEER) {
+                result.addProperty("type", "chat");
+                result.add("chat", mps);
+            } else {
+                result.addProperty("type", "dialog");
+                result.add("dialog", mps);
+            }
+            JsonObject vers = new JsonObject();
+            vers.addProperty("string", Constants.API_VERSION);
+            vers.addProperty("float", Float.parseFloat(Constants.API_VERSION));
+
+            result.add("vk_api_version", vers);
+            result.addProperty("page_id", owner_id);
+            result.addProperty("page_title", peer_title);
+            if (owner_id < VKApiMessage.CHAT_PEER && owner_id >= 0) {
+                User own = (User) owner;
+                result.addProperty("page_avatar", own.getOriginalAvatar());
+            }
+
+            DownloadUtil.CheckDirectory(Settings.get().other().getDocDir());
+
+            File html = new File(Settings.get().other().getDocDir(), DownloadUtil.makeLegalFilename(peer_title + "_" + DOWNLOAD_DATE_FORMAT.format(new Date()), "json"));
+            OutputStreamWriter output = new OutputStreamWriter(new FileOutputStream(html));
+            Streams.write(result, new JsonWriter(output));
+            output.flush();
+            output.close();
+
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(html)));
+            Intent intent_open = new Intent(Intent.ACTION_VIEW);
+            intent_open.setDataAndType(FileProvider.getUriForFile(this, Constants.FILE_PROVIDER_AUTHORITY, html), MimeTypeMap.getSingleton()
+                    .getMimeTypeFromExtension(getFileExtension(html))).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            PendingIntent ReadPendingIntent = PendingIntent.getActivity(this, peer_title.hashCode(), intent_open, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(ReadPendingIntent);
+
+            mBuilder.setContentText(getString(R.string.success) + " " + getString(R.string.chat) + " " + peer_title)
+                    .setContentTitle(html.getAbsolutePath())
+                    .setAutoCancel(true)
+                    .setOngoing(false);
+            mNotifyManager.cancel(peer_title, NotificationHelper.NOTIFICATION_DOWNLOADING);
+            mNotifyManager.notify(peer_title, NotificationHelper.NOTIFICATION_DOWNLOAD, mBuilder.build());
+        } catch (RuntimeException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        int owner_id = intent.getIntExtra(Extra.OWNER_ID, 0);
+        int account_id = intent.getIntExtra(Extra.ACCOUNT_ID, 0);
+        String chat_title = intent.getStringExtra(Extra.TITLE);
+        String action = intent.getStringExtra(Extra.ACTION);
+
+        if (Utils.isEmpty(chat_title))
+            chat_title = getString(R.string.chat) + " " + owner_id;
+        if (owner_id == 0 || account_id == 0)
+            return;
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
+        wl.acquire(10 * 60 * 1000L /*10 minutes*/);
+
+        if (action != null && action.equals("html")) {
+            doDownloadAsHTML(chat_title, account_id, owner_id);
+        } else {
+            doJsonDownload(chat_title, account_id, owner_id);
         }
     }
 }

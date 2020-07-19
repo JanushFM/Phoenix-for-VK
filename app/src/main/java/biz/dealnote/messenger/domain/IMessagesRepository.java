@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.domain;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -19,12 +21,14 @@ import biz.dealnote.messenger.model.Conversation;
 import biz.dealnote.messenger.model.Dialog;
 import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.model.MessageUpdate;
+import biz.dealnote.messenger.model.Peer;
 import biz.dealnote.messenger.model.PeerDeleting;
 import biz.dealnote.messenger.model.PeerUpdate;
 import biz.dealnote.messenger.model.SaveMessageBuilder;
 import biz.dealnote.messenger.model.SentMsg;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.model.WriteText;
+import biz.dealnote.messenger.util.Pair;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -75,6 +79,8 @@ public interface IMessagesRepository {
      */
     Single<List<Dialog>> getCachedDialogs(int accountId);
 
+    Single<Pair<Peer, List<Message>>> getMessagesFromLocalJSon(int accountId, Context context);
+
     /**
      * Сохранить в локальную БД сообщения
      *
@@ -96,6 +102,8 @@ public interface IMessagesRepository {
      * @return полученные сообщения
      */
     Single<List<Message>> getPeerMessages(int accountId, int peerId, int count, Integer offset, Integer startMessageId, boolean cacheData, boolean rev);
+
+    Single<List<String>> getJsonHistory(int accountId, Integer offset, Integer count, int peerId);
 
     Single<List<Message>> getImportantMessages(int accountId, int count, Integer offset, Integer startMessageId);
 

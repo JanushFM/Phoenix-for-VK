@@ -1,16 +1,22 @@
 package biz.dealnote.messenger.domain.impl;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +31,7 @@ import java.util.concurrent.Executors;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.api.VkRetrofitProvider;
 import biz.dealnote.messenger.api.interfaces.IDocsApi;
 import biz.dealnote.messenger.api.interfaces.IMessagesApi;
 import biz.dealnote.messenger.api.interfaces.INetworker;
@@ -38,6 +45,8 @@ import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.api.model.VkApiConversation;
 import biz.dealnote.messenger.api.model.VkApiDialog;
 import biz.dealnote.messenger.api.model.VkApiDoc;
+import biz.dealnote.messenger.api.model.VkApiJsonString;
+import biz.dealnote.messenger.api.model.local_json.ChatJsonResponse;
 import biz.dealnote.messenger.api.model.longpoll.BadgeCountChangeUpdate;
 import biz.dealnote.messenger.api.model.longpoll.InputMessagesSetReadUpdate;
 import biz.dealnote.messenger.api.model.longpoll.MessageFlagsResetUpdate;
@@ -106,6 +115,7 @@ import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.upload.UploadDestination;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
+import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Unixtime;
@@ -551,6 +561,24 @@ public class MessagesRepository implements IMessagesRepository {
     }
 
     @Override
+    public Single<Pair<Peer, List<Message>>> getMessagesFromLocalJSon(int accountId, Context context) {
+        Gson gson = VkRetrofitProvider.getVkgson();
+        try {
+            InputStreamReader b = new InputStreamReader(context.getContentResolver().openInputStream(((Activity) context).getIntent().getData()));
+            ChatJsonResponse resp = gson.fromJson(b, ChatJsonResponse.class);
+            b.close();
+            VKOwnIds ids = new VKOwnIds().append(resp.messages);
+
+            return ownersRepository.findBaseOwnersDataAsBundle(accountId, ids.getAll(), IOwnersRepository.MODE_ANY, Collections.emptyList())
+                    .map(bundle -> new Pair<>(new Peer(resp.page_id).setAvaUrl(resp.page_avatar).setTitle(resp.page_title), Dto2Model.transformMessages(resp.page_id, resp.messages, bundle)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return Single.just(new Pair<>(null, Collections.emptyList()));
+    }
+
+    @Override
     public Single<List<Dialog>> getCachedDialogs(int accountId) {
         DialogsCriteria criteria = new DialogsCriteria(accountId);
 
@@ -745,6 +773,23 @@ public class MessagesRepository implements IMessagesRepository {
                                         return insertCompletable.andThen(Single.just(messages)
                                                 .compose(decryptor.withMessagesDecryption(accountId)));
                                     }));
+                });
+    }
+
+    @Override
+    public Single<List<String>> getJsonHistory(int accountId, Integer offset, Integer count, int peerId) {
+        return networker.vkDefault(accountId)
+                .messages()
+                .getJsonHistory(offset, count, peerId)
+                .flatMap(response -> {
+                    final List<VkApiJsonString> dtos = listEmptyIfNull(response.items);
+                    List<String> messages = new ArrayList<>(dtos.size());
+                    for (VkApiJsonString i : dtos) {
+                        if (!Utils.isEmpty(i.json_data)) {
+                            messages.add(i.json_data);
+                        }
+                    }
+                    return Single.just(messages);
                 });
     }
 

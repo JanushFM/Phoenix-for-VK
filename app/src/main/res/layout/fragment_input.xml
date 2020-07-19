@@ -89,6 +89,7 @@
                             android:layout_marginEnd="8dp"
                             android:background="@android:color/transparent"
                             android:hint="@string/text_hint"
+                            android:imeOptions="flagNoExtractUi"
                             android:importantForAutofill="yes"
                             android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences|textAutoComplete"
                             android:maxLines="8"

@@ -95,6 +95,15 @@ class MainSettings implements ISettings.IMainSettings {
     }
 
     @Override
+    public int getStart_newsMode() {
+        try {
+            return Integer.parseInt(Objects.requireNonNull(getDefaultPreferences().getString("start_news", "2")));
+        } catch (Exception e) {
+            return 2;
+        }
+    }
+
+    @Override
     public int getPrefPreviewImageSize() {
         if (prefferedPhotoPreviewSize.isEmpty()) {
             prefferedPhotoPreviewSize = Optional.wrap(restorePhotoPreviewSize());
@@ -151,7 +160,7 @@ class MainSettings implements ISettings.IMainSettings {
 
     @Override
     public boolean isCustomTabEnabled() {
-        return getDefaultPreferences().getBoolean(KEY_CUSTOM_TABS, true);
+        return getDefaultPreferences().getBoolean(KEY_CUSTOM_TABS, false);
     }
 
     @Override

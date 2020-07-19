@@ -239,7 +239,7 @@ class OtherSettings implements ISettings.IOtherSettings {
 
     @Override
     public boolean isUse_internal_downloader() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("use_internal_downloader", false);
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("use_internal_downloader", true);
     }
 
     @Override

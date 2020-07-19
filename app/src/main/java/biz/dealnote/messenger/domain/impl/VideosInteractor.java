@@ -100,7 +100,8 @@ public class VideosInteractor implements IVideosInteractor {
                     List<Video> videos = new ArrayList<>(dtos.size());
 
                     for (VKApiVideo dto : dtos) {
-                        if (dto.title.toLowerCase().contains(q.toLowerCase()) || dto.description.toLowerCase().contains(q.toLowerCase())) {
+                        if (Utils.safeCheck(dto.title, () -> dto.title.toLowerCase().contains(q.toLowerCase()))
+                                || Utils.safeCheck(dto.description, () -> dto.description.toLowerCase().contains(q.toLowerCase()))) {
                             videos.add(Dto2Model.transform(dto));
                         }
                     }
@@ -219,7 +220,7 @@ public class VideosInteractor implements IVideosInteractor {
     }
 
     @Override
-    public Single<List<Video>> seacrh(int accountId, VideoSearchCriteria criteria, int count, int offset) {
+    public Single<List<Video>> search(int accountId, VideoSearchCriteria criteria, int count, int offset) {
         SpinnerOption sortOption = criteria.findOptionByKey(VideoSearchCriteria.KEY_SORT);
         Integer sort = (sortOption == null || sortOption.value == null) ? null : sortOption.value.id;
 

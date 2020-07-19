@@ -28,5 +28,5 @@ public interface IVideosInteractor {
 
     Single<List<VideoAlbum>> getActualAlbums(int accoutnId, int ownerId, int count, int offset);
 
-    Single<List<Video>> seacrh(int accountId, VideoSearchCriteria criteria, int count, int offset);
+    Single<List<Video>> search(int accountId, VideoSearchCriteria criteria, int count, int offset);
 }

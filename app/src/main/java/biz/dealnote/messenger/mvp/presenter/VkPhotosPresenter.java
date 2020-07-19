@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.Injection;
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.model.VKApiCommunity;
 import biz.dealnote.messenger.domain.IOwnersRepository;
 import biz.dealnote.messenger.domain.IPhotosInteractor;
@@ -179,9 +180,9 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
     private void resolveToolbarView() {
         if (isGuiReady()) {
             String ownerName = nonNull(owner) ? owner.getFullName() : null;
-            String albumTitle = nonNull(album) ? album.getTitle() : null;
+            String albumTitle = nonNull(album) ? album.getTitle() : "";
 
-            getView().setToolbarSubtitle(albumTitle);
+            getView().setToolbarSubtitle(albumTitle + " " + getString(R.string.photos_count, photos.size()));
 
             if (nonEmpty(ownerName)) {
                 getView().setToolbarTitle(ownerName);
@@ -319,6 +320,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
             }
             callView(view -> view.notifyPhotosAdded(startSize, data.size()));
         }
+        resolveToolbarView();
     }
 
     private void loadInitialData() {
@@ -359,6 +361,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
         uploads.addAll(data.getSecond());
 
         callView(IVkPhotosView::notifyDataSetChanged);
+        resolveToolbarView();
 
         requestActualData(0);
     }

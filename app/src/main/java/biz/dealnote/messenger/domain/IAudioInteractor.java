@@ -11,12 +11,14 @@ import biz.dealnote.messenger.model.AudioCatalog;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.model.CatalogBlock;
 import biz.dealnote.messenger.model.IdPair;
+import biz.dealnote.messenger.util.FindAt;
+import biz.dealnote.messenger.util.Pair;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.annotations.Nullable;
 
 public interface IAudioInteractor {
-    Single<Audio> add(int accountId, Audio audio, Integer groupId, Integer albumId);
+    Completable add(int accountId, Audio orig, Integer groupId, Integer albumId);
 
     Completable delete(int accountId, int audioId, int ownerId);
 
@@ -53,4 +55,6 @@ public interface IAudioInteractor {
     Completable PlaceToAudioCache(Context context);
 
     Single<List<Audio>> loadLocalAudios(int accountId, Context context);
+
+    Single<Pair<FindAt, List<AudioPlaylist>>> search_owner_playlist(int accountId, String q, int ownerId, int count, int offset, int loaded);
 }

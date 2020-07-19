@@ -14,6 +14,7 @@ import biz.dealnote.messenger.api.model.Items;
 import biz.dealnote.messenger.api.model.VKApiChat;
 import biz.dealnote.messenger.api.model.VKApiMessage;
 import biz.dealnote.messenger.api.model.VkApiConversation;
+import biz.dealnote.messenger.api.model.VkApiJsonString;
 import biz.dealnote.messenger.api.model.VkApiLongpollServer;
 import biz.dealnote.messenger.api.model.response.AttachmentsHistoryResponse;
 import biz.dealnote.messenger.api.model.response.ConversationDeleteResult;
@@ -261,6 +262,14 @@ class MessagesApi extends AbsApi implements IMessagesApi {
         return serviceRx(TokenType.USER, TokenType.COMMUNITY)
                 .flatMap(service -> service
                         .getHistory(offset, count, peerId, startMessageId, integerFromBoolean(rev), integerFromBoolean(extended), fields)
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
+    public Single<Items<VkApiJsonString>> getJsonHistory(Integer offset, Integer count, int peerId) {
+        return serviceRx(TokenType.USER, TokenType.COMMUNITY)
+                .flatMap(service -> service
+                        .getJsonHistory(offset, count, peerId)
                         .map(extractResponseWithErrorHandling()));
     }
 

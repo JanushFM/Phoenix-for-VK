@@ -12,6 +12,7 @@ import biz.dealnote.messenger.api.model.Items;
 import biz.dealnote.messenger.api.model.VKApiChat;
 import biz.dealnote.messenger.api.model.VKApiMessage;
 import biz.dealnote.messenger.api.model.VkApiConversation;
+import biz.dealnote.messenger.api.model.VkApiJsonString;
 import biz.dealnote.messenger.api.model.VkApiLongpollServer;
 import biz.dealnote.messenger.api.model.response.AttachmentsHistoryResponse;
 import biz.dealnote.messenger.api.model.response.ConversationDeleteResult;
@@ -96,6 +97,9 @@ public interface IMessagesApi {
 
     @CheckResult
     Single<MessageHistoryResponse> getHistory(Integer offset, Integer count, int peerId, Integer startMessageId, Boolean rev, Boolean extended, String fields);
+
+    @CheckResult
+    Single<Items<VkApiJsonString>> getJsonHistory(Integer offset, Integer count, int peerId);
 
     @CheckResult
     Single<MessageImportantResponse> getImportantMessages(Integer offset, Integer count, Integer startMessageId, Boolean extended, String fields);

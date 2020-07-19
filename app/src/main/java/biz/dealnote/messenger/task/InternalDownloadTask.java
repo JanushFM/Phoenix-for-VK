@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.PowerManager;
+import android.webkit.MimeTypeMap;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.FileProvider;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -26,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
-import biz.dealnote.messenger.activity.MainActivity;
 import biz.dealnote.messenger.api.HttpLogger;
 import biz.dealnote.messenger.api.ProxyUtil;
 import biz.dealnote.messenger.longpoll.AppNotificationChannels;
@@ -36,7 +37,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DownloadImageTask extends AsyncTask<String, Integer, String> {
+public class InternalDownloadTask extends AsyncTask<String, Integer, String> {
 
     private static final DateFormat DOWNLOAD_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
     @SuppressLint("StaticFieldLeak")
@@ -49,7 +50,7 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
     protected String file;
     private String filename;
 
-    public DownloadImageTask(Context context, String url, String file, String ID, boolean UseMediaScanner) {
+    public InternalDownloadTask(Context context, String url, String file, String ID, boolean UseMediaScanner) {
         this.mContext = context.getApplicationContext();
         this.file = file;
         this.photourl = url;
@@ -84,6 +85,22 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
                 .setAutoCancel(false)
                 .setOngoing(true)
                 .setOnlyAlertOnce(true);
+    }
+
+    private static String getFileExtension(File file) {
+        String extension = "";
+
+        try {
+            if (file != null && file.exists()) {
+                String name = file.getName();
+                extension = name.substring(name.lastIndexOf('.') + 1);
+            }
+        } catch (Exception e) {
+            extension = "";
+        }
+
+        return extension;
+
     }
 
     @Override
@@ -137,13 +154,15 @@ public class DownloadImageTask extends AsyncTask<String, Integer, String> {
             if (UseMediaScanner) {
                 mContext.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(file))));
 
-                Intent intent = new Intent(Injection.provideApplicationContext(), MainActivity.class);
-                intent.setAction(MainActivity.ACTION_OPEN_FILE);
-                intent.setData(Uri.parse(file));
+                Intent intent_open = new Intent(Intent.ACTION_VIEW);
+                intent_open.setDataAndType(FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER_AUTHORITY, new File(file)), MimeTypeMap.getSingleton()
+                        .getMimeTypeFromExtension(getFileExtension(new File(file)))).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                PendingIntent ReadPendingIntent = PendingIntent.getActivity(mContext, ID.hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                PendingIntent ReadPendingIntent = PendingIntent.getActivity(mContext, ID.hashCode(), intent_open, PendingIntent.FLAG_UPDATE_CURRENT);
                 mBuilder.setContentIntent(ReadPendingIntent);
             }
+
             mBuilder.setContentText(mContext.getString(R.string.success) + " " + this.filename)
                     .setProgress(0, 0, false)
                     .setAutoCancel(true)

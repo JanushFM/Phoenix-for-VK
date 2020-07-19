@@ -7,6 +7,7 @@ import biz.dealnote.messenger.api.model.ChatUserDto;
 import biz.dealnote.messenger.api.model.Items;
 import biz.dealnote.messenger.api.model.VKApiMessage;
 import biz.dealnote.messenger.api.model.VkApiConversation;
+import biz.dealnote.messenger.api.model.VkApiJsonString;
 import biz.dealnote.messenger.api.model.VkApiLongpollServer;
 import biz.dealnote.messenger.api.model.response.AttachmentsHistoryResponse;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
@@ -361,6 +362,12 @@ public interface IMessageService {
                                                             @Field("rev") Integer rev,
                                                             @Field("extended") Integer extended,
                                                             @Field("fields") String fields);
+
+    @FormUrlEncoded
+    @POST("messages.getHistory")
+    Single<BaseResponse<Items<VkApiJsonString>>> getJsonHistory(@Field("offset") Integer offset,
+                                                                @Field("count") Integer count,
+                                                                @Field("peer_id") int peerId);
 
     @FormUrlEncoded
     @POST("messages.getImportantMessages")

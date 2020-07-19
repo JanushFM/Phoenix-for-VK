@@ -64,7 +64,7 @@ public interface IAudioApi {
     Single<VkApiLyrics> getLyrics(int lyrics_id);
 
     @CheckResult
-    Single<Items<VKApiAudioPlaylist>> getPlaylists(int owner_id, int offset);
+    Single<Items<VKApiAudioPlaylist>> getPlaylists(int owner_id, int offset, int count);
 
     @CheckResult
     Single<Items<VKApiAudioCatalog>> getCatalog(String artist_id);

@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 
 import androidx.preference.PreferenceManager;
 
+import java.util.Objects;
+
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.PreferencesFragment;
 import biz.dealnote.messenger.fragment.fave.FaveTabsFragment;
@@ -209,14 +211,14 @@ class UISettings implements ISettings.IUISettings {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("show_profile_in_additional_page", true);
     }
 
+    @SwipesChatMode
     @Override
-    public boolean isDisable_swipes_chat() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("disable_swipes_chat", false);
-    }
-
-    @Override
-    public boolean isSwipes_chat_new() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("swipes_chat_new", false);
+    public int getSwipes_chat_mode() {
+        try {
+            return Integer.parseInt(Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(app).getString("swipes_for_chats_mode", "1")));
+        } catch (Exception e) {
+            return SwipesChatMode.V1;
+        }
     }
 
     @Override
