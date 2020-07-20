@@ -17,6 +17,7 @@ package biz.dealnote.messenger.view.emoji;
 
 import android.content.Context;
 import android.text.Spannable;
+import android.text.Spanned;
 import android.util.SparseIntArray;
 
 import biz.dealnote.messenger.R;
@@ -224,7 +225,7 @@ public final class EmojiconHandler {
             }
 
             if (icon > 0) {
-                text.setSpan(new EmojiconSpan(context, icon, emojiSize), i, i + skip, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                text.setSpan(new EmojiconSpan(context, icon, emojiSize), i, i + skip, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
     }

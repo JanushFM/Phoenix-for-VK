@@ -33,7 +33,6 @@ public class FrameBodyMVNM extends AbstractFrameBodyTextInfo implements ID3v23Fr
      * Creates a new FrameBodyMVNM datatype.
      */
     public FrameBodyMVNM() {
-        super();
     }
 
     public FrameBodyMVNM(FrameBodyMVNM body) {

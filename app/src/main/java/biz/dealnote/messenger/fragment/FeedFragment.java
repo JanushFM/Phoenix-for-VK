@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
@@ -106,6 +107,11 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void scrollTo(int pos) {
+        mFeedLayoutManager.scrollToPosition(pos);
     }
 
     @Override
@@ -235,7 +241,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
     @Override
     public void onOwnerClick(int ownerId) {
-        this.onOpenOwner(ownerId);
+        onOpenOwner(ownerId);
     }
 
     @Override
@@ -288,7 +294,10 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
     @Override
     public void askToReload() {
-        Snackbar.make(getView(), R.string.update_news, Snackbar.LENGTH_LONG).setAction(R.string.button_yes, v -> getPresenter().fireRefresh()).show();
+        Snackbar.make(getView(), R.string.update_news, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes, v -> {
+            mFeedLayoutManager.scrollToPosition(0);
+            getPresenter().fireRefresh();
+        }).show();
     }
 
     @Override

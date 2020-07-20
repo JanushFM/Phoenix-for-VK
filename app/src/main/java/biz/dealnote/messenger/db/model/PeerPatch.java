@@ -17,22 +17,22 @@ public final class PeerPatch {
     }
 
     public PeerPatch withInRead(int id) {
-        this.inRead = new ReadTo(id);
+        inRead = new ReadTo(id);
         return this;
     }
 
     public PeerPatch withOutRead(int id) {
-        this.outRead = new ReadTo(id);
+        outRead = new ReadTo(id);
         return this;
     }
 
     public PeerPatch withUnreadCount(int count) {
-        this.unread = new Unread(count);
+        unread = new Unread(count);
         return this;
     }
 
     public PeerPatch withLastMessage(int id) {
-        this.lastMessage = new LastMessage(id);
+        lastMessage = new LastMessage(id);
         return this;
     }
 
@@ -41,7 +41,7 @@ public final class PeerPatch {
     }
 
     public PeerPatch withPin(MessageEntity pinned) {
-        this.pin = new Pin(pinned);
+        pin = new Pin(pinned);
         return this;
     }
 

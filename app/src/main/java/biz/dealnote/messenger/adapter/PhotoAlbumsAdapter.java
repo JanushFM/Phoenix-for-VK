@@ -34,7 +34,7 @@ public class PhotoAlbumsAdapter extends RecyclerView.Adapter<PhotoAlbumsAdapter.
     public PhotoAlbumsAdapter(List<PhotoAlbum> data, Context context) {
         this.data = data;
         this.context = context;
-        this.mPhotoPreviewSize = Settings.get().main().getPrefPreviewImageSize();
+        mPhotoPreviewSize = Settings.get().main().getPrefPreviewImageSize();
     }
 
     @NonNull
@@ -44,10 +44,10 @@ public class PhotoAlbumsAdapter extends RecyclerView.Adapter<PhotoAlbumsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        final PhotoAlbum album = data.get(position);
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
+        PhotoAlbum album = data.get(position);
 
-        final String url = album.getSizes().getUrlForSize(mPhotoPreviewSize, false);
+        String url = album.getSizes().getUrlForSize(mPhotoPreviewSize, false);
 
         if (nonEmpty(url)) {
             PicassoInstance.with()

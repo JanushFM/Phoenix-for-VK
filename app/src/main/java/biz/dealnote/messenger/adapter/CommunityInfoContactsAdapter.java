@@ -33,7 +33,7 @@ public class CommunityInfoContactsAdapter extends RecyclerView.Adapter<Community
 
     public CommunityInfoContactsAdapter(Context context, List<Manager> users) {
         this.users = users;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NotNull
@@ -87,7 +87,7 @@ public class CommunityInfoContactsAdapter extends RecyclerView.Adapter<Community
     }
 
     public void setData(List<Manager> data) {
-        this.users = data;
+        users = data;
         notifyDataSetChanged();
     }
 
@@ -104,10 +104,10 @@ public class CommunityInfoContactsAdapter extends RecyclerView.Adapter<Community
 
         Holder(View itemView) {
             super(itemView);
-            this.avatar = itemView.findViewById(R.id.avatar);
-            this.onlineView = itemView.findViewById(R.id.online);
-            this.name = itemView.findViewById(R.id.name);
-            this.role = itemView.findViewById(R.id.role);
+            avatar = itemView.findViewById(R.id.avatar);
+            onlineView = itemView.findViewById(R.id.online);
+            name = itemView.findViewById(R.id.name);
+            role = itemView.findViewById(R.id.role);
         }
     }
 }

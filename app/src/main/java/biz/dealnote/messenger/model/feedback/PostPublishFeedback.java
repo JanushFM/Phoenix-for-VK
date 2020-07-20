@@ -1,11 +1,10 @@
 package biz.dealnote.messenger.model.feedback;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import biz.dealnote.messenger.model.Post;
 
-public final class PostPublishFeedback extends Feedback implements Parcelable {
+public final class PostPublishFeedback extends Feedback {
 
     public static final Creator<PostPublishFeedback> CREATOR = new Creator<PostPublishFeedback>() {
         @Override

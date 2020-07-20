@@ -93,7 +93,6 @@ import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.VoiceMessage;
 import biz.dealnote.messenger.model.WikiPage;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.domain.mappers.MapUtil.mapAll;
@@ -199,7 +198,7 @@ public class Dto2Model {
     }
 
     public static CommunityDetails transformCommunityDetails(VKApiCommunity dto) {
-        final CommunityDetails details = new CommunityDetails()
+        CommunityDetails details = new CommunityDetails()
                 .setCanMessage(dto.can_message)
                 .setStatus(dto.status)
                 .setStatusAudio(nonNull(dto.status_audio) ? transform(dto.status_audio) : null);
@@ -281,11 +280,11 @@ public class Dto2Model {
                 .setUpdatedDate(favePage.updated_date);
 
         if (favePage.user != null) {
-            page.setUser(Dto2Model.transformUser(favePage.user));
+            page.setUser(transformUser(favePage.user));
         }
 
         if (favePage.group != null) {
-            page.setGroup(Dto2Model.transformCommunity(favePage.group));
+            page.setGroup(transformCommunity(favePage.group));
         }
 
         return page;
@@ -420,7 +419,7 @@ public class Dto2Model {
         }
 
         if (nonNull(message.attachments) && !message.attachments.isEmpty()) {
-            appMessage.setAttachments(Dto2Model.buildAttachments(message.attachments, owners));
+            appMessage.setAttachments(buildAttachments(message.attachments, owners));
         }
 
         if (nonEmpty(message.fwd_messages)) {
@@ -520,7 +519,7 @@ public class Dto2Model {
     }
 
     public static Privacy transform(@NonNull SimplePrivacy simplePrivacy, @NonNull IOwnersBundle owners, @NonNull Map<Integer, FriendList> friendListMap) {
-        final Privacy privacy = new Privacy();
+        Privacy privacy = new Privacy();
         privacy.setType(simplePrivacy.getType());
 
         for (SimplePrivacy.Entry entry : simplePrivacy.getEntries()) {
@@ -716,7 +715,7 @@ public class Dto2Model {
                 .setAccessKey(dto.access_key)
                 .setDeleted(false)
                 .setPostId(dto.post_id)
-                .setSizes(Objects.isNull(dto.sizes) ? null : transform(dto.sizes));
+                .setSizes(isNull(dto.sizes) ? null : transform(dto.sizes));
     }
 
     public static Audio transform(@NonNull VKApiAudio dto) {
@@ -792,7 +791,7 @@ public class Dto2Model {
                 .setCaption(link.caption)
                 .setDescription(link.description)
                 .setPreviewPhoto(link.preview_photo)
-                .setPhoto(Objects.isNull(link.photo) ? null : transform(link.photo));
+                .setPhoto(isNull(link.photo) ? null : transform(link.photo));
     }
 
     public static Link transform(@NonNull VKApiCatalogLink link) {
@@ -808,7 +807,7 @@ public class Dto2Model {
         return new Article(article.id, article.owner_id)
                 .setAccessKey(article.access_key)
                 .setOwnerName(article.owner_name)
-                .setPhoto(Objects.isNull(article.photo) ? null : transform(article.photo))
+                .setPhoto(isNull(article.photo) ? null : transform(article.photo))
                 .setTitle(article.title)
                 .setSubTitle(article.subtitle)
                 .setURL(article.url);
@@ -942,8 +941,8 @@ public class Dto2Model {
                 .setUserLikes(dto.user_likes)
                 .setRepeat(dto.repeat)
                 .setLikesCount(dto.likes)
-                .setPrivacyView(Objects.isNull(dto.privacy_view) ? null : transform(dto.privacy_view))
-                .setPrivacyComment(Objects.isNull(dto.privacy_comment) ? null : transform(dto.privacy_comment))
+                .setPrivacyView(isNull(dto.privacy_view) ? null : transform(dto.privacy_view))
+                .setPrivacyComment(isNull(dto.privacy_comment) ? null : transform(dto.privacy_comment))
                 .setMp4link240(dto.mp4_240)
                 .setMp4link360(dto.mp4_360)
                 .setMp4link480(dto.mp4_480)

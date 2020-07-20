@@ -43,7 +43,7 @@ public class DirectAuthPresenter extends RxSupportPresenter<IDirectAuthView> {
 
     public DirectAuthPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
-        this.networker = Injection.provideNetworkInterfaces();
+        networker = Injection.provideNetworkInterfaces();
     }
 
     public void fireLoginClick() {
@@ -53,12 +53,12 @@ public class DirectAuthPresenter extends RxSupportPresenter<IDirectAuthView> {
     private void doLogin(boolean forceSms) {
         getView().hideKeyboard();
 
-        final String trimmedUsername = nonEmpty(username) ? username.trim() : "";
-        final String trimmedPass = nonEmpty(pass) ? pass.trim() : "";
-        final String captchaSid = Objects.nonNull(requieredCaptcha) ? requieredCaptcha.getSid() : null;
-        final String captchaCode = nonEmpty(captcha) ? captcha.trim() : null;
+        String trimmedUsername = nonEmpty(username) ? username.trim() : "";
+        String trimmedPass = nonEmpty(pass) ? pass.trim() : "";
+        String captchaSid = Objects.nonNull(requieredCaptcha) ? requieredCaptcha.getSid() : null;
+        String captchaCode = nonEmpty(captcha) ? captcha.trim() : null;
 
-        final String code;
+        String code;
 
         if (requireSmsCode) {
             code = (nonEmpty(smsCode) ? smsCode.trim() : null);
@@ -80,14 +80,14 @@ public class DirectAuthPresenter extends RxSupportPresenter<IDirectAuthView> {
     private void onLoginError(Throwable t) {
         setLoginNow(false);
 
-        this.requieredCaptcha = null;
-        this.requireAppCode = false;
-        this.requireSmsCode = false;
+        requieredCaptcha = null;
+        requireAppCode = false;
+        requireSmsCode = false;
 
         if (t instanceof CaptchaNeedException) {
             String sid = ((CaptchaNeedException) t).getSid();
             String img = ((CaptchaNeedException) t).getImg();
-            this.requieredCaptcha = new Captcha(sid, img);
+            requieredCaptcha = new Captcha(sid, img);
         } else if (t instanceof NeedValidationException) {
             String type = ((NeedValidationException) t).getValidationType();
             String sid = ((NeedValidationException) t).getSid();
@@ -159,8 +159,8 @@ public class DirectAuthPresenter extends RxSupportPresenter<IDirectAuthView> {
                 TwFa = "2fa_sms";
             else if (requireAppCode)
                 TwFa = "2fa_app";
-            final String Passwd = Pass;
-            final String TwFafin = TwFa;
+            String Passwd = Pass;
+            String TwFafin = TwFa;
             callView(view -> view.returnSuccessToParent(response.user_id, response.access_token, nonEmpty(username) ? username.trim() : "", Passwd, TwFafin));
         }
     }
@@ -198,22 +198,22 @@ public class DirectAuthPresenter extends RxSupportPresenter<IDirectAuthView> {
     }
 
     public void fireLoginEdit(CharSequence sequence) {
-        this.username = sequence.toString();
+        username = sequence.toString();
         resolveButtonLoginState();
     }
 
     public void firePasswordEdit(CharSequence s) {
-        this.pass = s.toString();
+        pass = s.toString();
         resolveButtonLoginState();
     }
 
     public void fireSmsCodeEdit(CharSequence sequence) {
-        this.smsCode = sequence.toString();
+        smsCode = sequence.toString();
         resolveButtonLoginState();
     }
 
     public void fireCaptchaEdit(CharSequence s) {
-        this.captcha = s.toString();
+        captcha = s.toString();
         resolveButtonLoginState();
     }
 
@@ -222,7 +222,7 @@ public class DirectAuthPresenter extends RxSupportPresenter<IDirectAuthView> {
     }
 
     public void fireAppCodeEdit(CharSequence s) {
-        this.appCode = s.toString();
+        appCode = s.toString();
         resolveButtonLoginState();
     }
 

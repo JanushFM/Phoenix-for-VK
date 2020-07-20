@@ -44,7 +44,7 @@ public class AudioCatalogAdapter extends RecyclerView.Adapter<AudioCatalogAdapte
 
     public AudioCatalogAdapter(List<AudioCatalog> data, int account_id, Context context) {
         this.data = data;
-        this.mContext = context;
+        mContext = context;
         this.account_id = account_id;
     }
 
@@ -65,7 +65,7 @@ public class AudioCatalogAdapter extends RecyclerView.Adapter<AudioCatalogAdapte
 
     @Override
     public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
-        final AudioCatalog category = data.get(position);
+        AudioCatalog category = data.get(position);
 
         if (category.getArtist() != null) {
             if (Utils.isEmpty(category.getArtist().getName()))

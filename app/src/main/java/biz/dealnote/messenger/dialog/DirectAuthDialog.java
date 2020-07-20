@@ -3,6 +3,7 @@ package biz.dealnote.messenger.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -69,25 +70,25 @@ public class DirectAuthDialog extends BaseMvpDialogFragment<DirectAuthPresenter,
 
         View view = View.inflate(requireActivity(), R.layout.dialog_direct_auth, null);
 
-        this.mLogin = view.findViewById(R.id.field_username);
-        this.mLogin.addTextChangedListener(new TextWatcherAdapter() {
+        mLogin = view.findViewById(R.id.field_username);
+        mLogin.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 getPresenter().fireLoginEdit(s);
             }
         });
 
-        this.mPassword = view.findViewById(R.id.field_password);
-        this.mPassword.addTextChangedListener(new TextWatcherAdapter() {
+        mPassword = view.findViewById(R.id.field_password);
+        mPassword.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 getPresenter().firePasswordEdit(s);
             }
         });
 
-        this.mEnterAppCodeRoot = view.findViewById(R.id.field_app_code_root);
-        this.mAppCode = view.findViewById(R.id.field_app_code);
-        this.mAppCode.addTextChangedListener(new TextWatcherAdapter() {
+        mEnterAppCodeRoot = view.findViewById(R.id.field_app_code_root);
+        mAppCode = view.findViewById(R.id.field_app_code);
+        mAppCode.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 getPresenter().fireAppCodeEdit(s);
@@ -101,26 +102,26 @@ public class DirectAuthDialog extends BaseMvpDialogFragment<DirectAuthPresenter,
 
         view.findViewById(R.id.button_send_code_via_sms).setOnClickListener(view1 -> getPresenter().fireButtonSendCodeViaSmsClick());
 
-        this.mSmsCodeRoot = view.findViewById(R.id.field_sms_code_root);
-        this.mSmsCode = view.findViewById(R.id.field_sms_code);
-        this.mSmsCode.addTextChangedListener(new TextWatcherAdapter() {
+        mSmsCodeRoot = view.findViewById(R.id.field_sms_code_root);
+        mSmsCode = view.findViewById(R.id.field_sms_code);
+        mSmsCode.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 getPresenter().fireSmsCodeEdit(s);
             }
         });
 
-        this.mContentRoot = view.findViewById(R.id.content_root);
-        this.mLoadingRoot = view.findViewById(R.id.loading_root);
-        this.mCaptchaRoot = view.findViewById(R.id.captcha_root);
-        this.mCaptcha = view.findViewById(R.id.field_captcha);
-        this.mCaptcha.addTextChangedListener(new TextWatcherAdapter() {
+        mContentRoot = view.findViewById(R.id.content_root);
+        mLoadingRoot = view.findViewById(R.id.loading_root);
+        mCaptchaRoot = view.findViewById(R.id.captcha_root);
+        mCaptcha = view.findViewById(R.id.field_captcha);
+        mCaptcha.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 getPresenter().fireCaptchaEdit(s);
             }
         });
-        this.mCaptchaImage = view.findViewById(R.id.captcha_img);
+        mCaptchaImage = view.findViewById(R.id.captcha_img);
 
         builder.setView(view);
         builder.setPositiveButton(R.string.button_login, null);
@@ -132,7 +133,7 @@ public class DirectAuthDialog extends BaseMvpDialogFragment<DirectAuthPresenter,
         AlertDialog dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
 
-        super.fireViewCreated();
+        fireViewCreated();
         return dialog;
     }
 
@@ -150,13 +151,13 @@ public class DirectAuthDialog extends BaseMvpDialogFragment<DirectAuthPresenter,
     public void onResume() {
         super.onResume();
 
-        Button buttonLogin = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
+        Button buttonLogin = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
         buttonLogin.setOnClickListener(view -> getPresenter().fireLoginClick());
     }
 
     @Override
     public void setLoginButtonEnabled(boolean enabled) {
-        Button buttonLogin = ((AlertDialog) getDialog()).getButton(AlertDialog.BUTTON_POSITIVE);
+        Button buttonLogin = ((AlertDialog) getDialog()).getButton(DialogInterface.BUTTON_POSITIVE);
 
         if (Objects.nonNull(buttonLogin)) {
             buttonLogin.setEnabled(enabled);

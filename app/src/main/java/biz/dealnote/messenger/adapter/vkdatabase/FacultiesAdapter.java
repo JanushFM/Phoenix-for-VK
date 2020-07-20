@@ -34,7 +34,7 @@ public class FacultiesAdapter extends RecyclerView.Adapter<FacultiesAdapter.Hold
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Faculty faculty = mData.get(position);
+        Faculty faculty = mData.get(position);
         holder.name.setText(faculty.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
@@ -50,7 +50,7 @@ public class FacultiesAdapter extends RecyclerView.Adapter<FacultiesAdapter.Hold
     }
 
     public void setListener(Listener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 
     public interface Listener {

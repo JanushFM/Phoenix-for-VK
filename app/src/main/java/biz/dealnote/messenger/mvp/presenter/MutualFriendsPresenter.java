@@ -27,7 +27,7 @@ public class MutualFriendsPresenter extends SimpleOwnersPresenter<ISimpleOwnersV
     public MutualFriendsPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.userId = userId;
-        this.relationshipInteractor = InteractorFactory.createRelationshipInteractor();
+        relationshipInteractor = InteractorFactory.createRelationshipInteractor();
 
         requestActualData(0);
     }
@@ -45,34 +45,34 @@ public class MutualFriendsPresenter extends SimpleOwnersPresenter<ISimpleOwnersV
     }
 
     private void requestActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(relationshipInteractor.getMutualFriends(accountId, userId, 200, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(users -> onDataReceived(offset, users), this::onDataGetError));
     }
 
     private void onDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         resolveRefreshingView();
 
         showError(getView(), t);
     }
 
     private void onDataReceived(int offset, List<User> users) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
 
-        this.endOfContent = users.isEmpty();
+        endOfContent = users.isEmpty();
 
         if (offset == 0) {
-            super.data.clear();
-            super.data.addAll(users);
+            data.clear();
+            data.addAll(users);
             callView(ISimpleOwnersView::notifyDataSetChanged);
         } else {
-            int sizeBefore = super.data.size();
-            super.data.addAll(users);
+            int sizeBefore = data.size();
+            data.addAll(users);
             callView(view -> view.notifyDataAdded(sizeBefore, users.size()));
         }
 
@@ -81,14 +81,14 @@ public class MutualFriendsPresenter extends SimpleOwnersPresenter<ISimpleOwnersV
 
     @Override
     void onUserScrolledToEnd() {
-        if (!endOfContent && !actualDataLoading && nonEmpty(super.data)) {
-            requestActualData(super.data.size());
+        if (!endOfContent && !actualDataLoading && nonEmpty(data)) {
+            requestActualData(data.size());
         }
     }
 
     @Override
     void onUserRefreshed() {
-        this.actualDataDisposable.clear();
+        actualDataDisposable.clear();
         requestActualData(0);
     }
 

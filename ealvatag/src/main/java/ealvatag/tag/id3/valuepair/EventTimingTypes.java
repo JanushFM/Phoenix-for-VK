@@ -102,12 +102,12 @@ public class EventTimingTypes implements SimpleIntStringMap {
     }
 
     @Override
-    public boolean containsKey(final int key) {
+    public boolean containsKey(int key) {
         return CORE_TYPES.contains(key) || NOT_PREDEFINED_SYNC_TYPES.contains(key) || AUDIO_END_TYPES.contains(key);
     }
 
     @Override
-    public String getValue(final int key) {
+    public String getValue(int key) {
         if (CORE_TYPES.contains(key)) {
             return nullToEmpty(coreValues[key - CORE_TYPES.getLowerBounds()]);
         }

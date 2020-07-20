@@ -13,13 +13,13 @@ import biz.dealnote.messenger.player.util.MusicUtils;
 
 public class RepeatButton extends AppCompatImageButton implements OnClickListener {
 
-    public RepeatButton(final Context context, final AttributeSet attrs) {
+    public RepeatButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnClickListener(this);
     }
 
     @Override
-    public void onClick(final View v) {
+    public void onClick(View v) {
         MusicUtils.cycleRepeat();
         updateRepeatState();
     }

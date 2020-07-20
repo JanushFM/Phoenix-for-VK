@@ -28,7 +28,6 @@ import java.util.Locale;
  */
 public class CannotReadException extends Exception {
     public CannotReadException() {
-        super();
     }
 
     public CannotReadException(Throwable ex) {

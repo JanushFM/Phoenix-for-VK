@@ -64,9 +64,9 @@ public class FrameBodyENCR extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyENCR datatype.
      */
     public FrameBodyENCR() {
-        this.setObjectValue(DataTypes.OBJ_OWNER, "");
-        this.setObjectValue(DataTypes.OBJ_METHOD_SYMBOL, (byte) 0);
-        this.setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, new byte[0]);
+        setObjectValue(DataTypes.OBJ_OWNER, "");
+        setObjectValue(DataTypes.OBJ_METHOD_SYMBOL, (byte) 0);
+        setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, new byte[0]);
     }
 
     public FrameBodyENCR(FrameBodyENCR body) {
@@ -81,9 +81,9 @@ public class FrameBodyENCR extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param data
      */
     public FrameBodyENCR(String owner, byte methodSymbol, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_OWNER, owner);
-        this.setObjectValue(DataTypes.OBJ_METHOD_SYMBOL, methodSymbol);
-        this.setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, data);
+        setObjectValue(DataTypes.OBJ_OWNER, owner);
+        setObjectValue(DataTypes.OBJ_METHOD_SYMBOL, methodSymbol);
+        setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, data);
     }
 
     /**

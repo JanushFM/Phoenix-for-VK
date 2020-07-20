@@ -177,7 +177,7 @@ public class WallAudiosAttachmentsFragment extends PlaceSupportMvpFragment<WallA
 
     @Override
     public void onAvatarClick(int ownerId) {
-        super.onOwnerClick(ownerId);
+        onOwnerClick(ownerId);
     }
 
     @Override

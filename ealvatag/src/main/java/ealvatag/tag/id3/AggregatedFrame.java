@@ -52,7 +52,7 @@ public class AggregatedFrame implements TagTextField {
      * @return Charset encoding.
      */
     public Charset getEncoding() {
-        final byte textEncoding = frames.iterator().next().getBody().getTextEncoding();
+        byte textEncoding = frames.iterator().next().getBody().getTextEncoding();
         return TextEncoding.getInstanceOf().getCharsetForId(textEncoding);
     }
 

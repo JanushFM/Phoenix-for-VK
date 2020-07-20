@@ -56,7 +56,7 @@ public class WallPublishFCMMessage {
         return message;
     }
 
-    public void notify(final Context context, int accountId) {
+    public void notify(Context context, int accountId) {
         if (!Settings.get()
                 .notifications()
                 .isWallPublishNotifEnabled()) {
@@ -80,7 +80,7 @@ public class WallPublishFCMMessage {
 
         WallPostLink wallPostLink = (WallPostLink) link;
 
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getNewPostChannel(context));
         }

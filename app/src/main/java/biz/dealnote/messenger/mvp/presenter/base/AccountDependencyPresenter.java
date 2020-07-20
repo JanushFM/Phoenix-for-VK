@@ -86,7 +86,7 @@ public abstract class AccountDependencyPresenter<V extends IMvpView & IAccountDe
     }
 
     protected void setSupportAccountHotSwap(boolean supportAccountHotSwap) {
-        this.mSupportAccountHotSwap = supportAccountHotSwap;
+        mSupportAccountHotSwap = supportAccountHotSwap;
     }
 
     @Override

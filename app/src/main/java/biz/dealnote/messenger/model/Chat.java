@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
-public class Chat extends AbsModel implements Parcelable {
+public class Chat extends AbsModel {
 
     public static Parcelable.Creator<Chat> CREATOR = new Parcelable.Creator<Chat>() {
         public Chat createFromParcel(Parcel source) {
@@ -28,11 +28,11 @@ public class Chat extends AbsModel implements Parcelable {
 
     public Chat(Parcel in) {
         super(in);
-        this.id = in.readInt();
-        this.title = in.readString();
-        this.photo50 = in.readString();
-        this.photo100 = in.readString();
-        this.photo200 = in.readString();
+        id = in.readInt();
+        title = in.readString();
+        photo50 = in.readString();
+        photo100 = in.readString();
+        photo200 = in.readString();
     }
 
     public int getId() {

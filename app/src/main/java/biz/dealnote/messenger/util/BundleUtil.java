@@ -13,13 +13,13 @@ import java.util.zip.GZIPOutputStream;
 
 public class BundleUtil {
 
-    public static String serializeBundle(final Bundle bundle) {
+    public static String serializeBundle(Bundle bundle) {
         String base64;
-        final Parcel parcel = Parcel.obtain();
+        Parcel parcel = Parcel.obtain();
         try {
             parcel.writeBundle(bundle);
-            final ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            final GZIPOutputStream zos = new GZIPOutputStream(new BufferedOutputStream(bos));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            GZIPOutputStream zos = new GZIPOutputStream(new BufferedOutputStream(bos));
             zos.write(parcel.marshall());
             zos.close();
             base64 = Base64.encodeToString(bos.toByteArray(), 0);
@@ -32,14 +32,14 @@ public class BundleUtil {
         return base64;
     }
 
-    public static Bundle deserializeBundle(final String base64) {
+    public static Bundle deserializeBundle(String base64) {
         Bundle bundle;
 
-        final Parcel parcel = Parcel.obtain();
+        Parcel parcel = Parcel.obtain();
         try {
-            final ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-            final byte[] buffer = new byte[1024];
-            final GZIPInputStream zis = new GZIPInputStream(new ByteArrayInputStream(Base64.decode(base64, 0)));
+            ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            GZIPInputStream zis = new GZIPInputStream(new ByteArrayInputStream(Base64.decode(base64, 0)));
             int len;
             while ((len = zis.read(buffer)) != -1) {
                 byteBuffer.write(buffer, 0, len);

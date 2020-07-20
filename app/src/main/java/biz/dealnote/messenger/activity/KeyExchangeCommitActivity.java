@@ -53,12 +53,12 @@ public class KeyExchangeCommitActivity extends AppCompatActivity {
         userName.setText(user.getFullName());
 
         findViewById(R.id.accept_button).setOnClickListener(v -> {
-            startService(KeyExchangeService.createIntentForApply(KeyExchangeCommitActivity.this, message, accountId, peerId, messageId));
+            startService(KeyExchangeService.createIntentForApply(this, message, accountId, peerId, messageId));
             finish();
         });
 
         findViewById(R.id.decline_button).setOnClickListener(v -> {
-            startService(KeyExchangeService.createIntentForDecline(KeyExchangeCommitActivity.this, message, accountId, peerId, messageId));
+            startService(KeyExchangeService.createIntentForDecline(this, message, accountId, peerId, messageId));
             finish();
         });
     }

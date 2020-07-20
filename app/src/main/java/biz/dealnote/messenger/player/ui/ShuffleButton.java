@@ -12,13 +12,13 @@ import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 
 public class ShuffleButton extends AppCompatImageButton implements OnClickListener {
-    public ShuffleButton(final Context context, final AttributeSet attrs) {
+    public ShuffleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnClickListener(this);
     }
 
     @Override
-    public void onClick(final View v) {
+    public void onClick(View v) {
         MusicUtils.cycleShuffle();
         updateShuffleState();
     }

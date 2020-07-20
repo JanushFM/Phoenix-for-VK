@@ -62,24 +62,24 @@ public class Check {
         }
     }
 
-    public static String checkArgNotNullOrEmpty(final String reference) {
+    public static String checkArgNotNullOrEmpty(String reference) {
         if (reference == null || Strings.isNullOrEmpty(reference)) {
             throw new IllegalArgumentException();
         }
         return reference;
     }
 
-    public static String checkArgNotNullOrEmpty(final String reference,
-                                                final String errorMessageTemplate) {
+    public static String checkArgNotNullOrEmpty(String reference,
+                                                String errorMessageTemplate) {
         if (reference == null || Strings.isNullOrEmpty(reference)) {
             throw new IllegalArgumentException(errorMessageTemplate);
         }
         return reference;
     }
 
-    public static String checkArgNotNullOrEmpty(final String reference,
-                                                final String errorMessageTemplate,
-                                                final Object... errorMessageArgs) {
+    public static String checkArgNotNullOrEmpty(String reference,
+                                                String errorMessageTemplate,
+                                                Object... errorMessageArgs) {
         if (reference == null || Strings.isNullOrEmpty(reference)) {
             throw new IllegalArgumentException(String.format(errorMessageTemplate, errorMessageArgs));
         }

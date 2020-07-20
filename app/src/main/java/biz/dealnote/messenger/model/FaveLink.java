@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class FaveLink extends AbsModel implements Parcelable {
+public class FaveLink extends AbsModel {
 
     public static final Creator<FaveLink> CREATOR = new Creator<FaveLink>() {
         @Override

@@ -19,8 +19,8 @@ public class UriSerializer implements JsonSerializer<Uri>, JsonDeserializer<Uri>
     }
 
     @Override
-    public Uri deserialize(final JsonElement src, final Type srcType,
-                           final JsonDeserializationContext context) throws JsonParseException {
+    public Uri deserialize(JsonElement src, Type srcType,
+                           JsonDeserializationContext context) throws JsonParseException {
         return Uri.parse(src.getAsString());
     }
 }

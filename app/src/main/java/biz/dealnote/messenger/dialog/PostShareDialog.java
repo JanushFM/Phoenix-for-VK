@@ -108,9 +108,9 @@ public class PostShareDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final IOwnersRepository interactor = Repository.INSTANCE.getOwners();
+        IOwnersRepository interactor = Repository.INSTANCE.getOwners();
 
-        final List<Item> items = new ArrayList<>();
+        List<Item> items = new ArrayList<>();
 
         items.add(new Item(Methods.SHARE_LINK, new Text(R.string.share_link)).setIcon(R.drawable.web));
         items.add(new Item(Methods.SEND_MESSAGE, new Text(R.string.repost_send_message)).setIcon(R.drawable.share));

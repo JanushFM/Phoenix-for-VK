@@ -15,9 +15,9 @@ public class ActivityFeatures {
     private final boolean statusBarInvertIconsOption;
 
     public ActivityFeatures(@NonNull Builder builder) {
-        this.hideMenu = builder.blockNavigationFeature.blockNavigationDrawer;
-        this.statusBarColorOption = builder.statusbarColorFeature.statusBarColorOption;
-        this.statusBarInvertIconsOption = builder.statusbarColorFeature.statusBarIconInvertedOption;
+        hideMenu = builder.blockNavigationFeature.blockNavigationDrawer;
+        statusBarColorOption = builder.statusbarColorFeature.statusBarColorOption;
+        statusBarInvertIconsOption = builder.statusbarColorFeature.statusBarIconInvertedOption;
     }
 
     public void apply(@NonNull Activity activity) {
@@ -47,7 +47,7 @@ public class ActivityFeatures {
         Builder builder;
 
         Feature(Builder b) {
-            this.builder = b;
+            builder = b;
         }
     }
 
@@ -65,14 +65,14 @@ public class ActivityFeatures {
         }
 
         public Builder setBarsColored(Context context, boolean colored) {
-            this.statusBarColorOption = colored ? STATUSBAR_COLOR_COLORED : STATUSBAR_COLOR_NON_COLORED;
-            this.statusBarIconInvertedOption = !Settings.get().ui().isDarkModeEnabled(context);
+            statusBarColorOption = colored ? STATUSBAR_COLOR_COLORED : STATUSBAR_COLOR_NON_COLORED;
+            statusBarIconInvertedOption = !Settings.get().ui().isDarkModeEnabled(context);
             return builder;
         }
 
         public Builder setBarsColored(boolean colored, boolean invertIcons) {
-            this.statusBarColorOption = colored ? STATUSBAR_COLOR_COLORED : STATUSBAR_COLOR_NON_COLORED;
-            this.statusBarIconInvertedOption = invertIcons;
+            statusBarColorOption = colored ? STATUSBAR_COLOR_COLORED : STATUSBAR_COLOR_NON_COLORED;
+            statusBarIconInvertedOption = invertIcons;
             return builder;
         }
     }
@@ -87,7 +87,7 @@ public class ActivityFeatures {
 
         public StatusbarColorFeature setHideNavigationMenu(boolean blockNavigationDrawer) {
             this.blockNavigationDrawer = blockNavigationDrawer;
-            return new StatusbarColorFeature(super.builder);
+            return new StatusbarColorFeature(builder);
         }
     }
 }

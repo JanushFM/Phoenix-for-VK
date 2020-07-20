@@ -62,15 +62,15 @@ public class XingFrame {
     private static final byte[] XING_CBR_ID = {'I', 'n', 'f', 'o'};
 
 
-    private boolean vbr = false;
-    private boolean isFrameCountEnabled = false;
+    private boolean vbr;
+    private boolean isFrameCountEnabled;
     private int frameCount = -1;
-    private boolean isAudioSizeEnabled = false;
+    private boolean isAudioSizeEnabled;
     private int audioSize = -1;
     private LameFrame lameFrame;
 
-    private XingFrame(final Buffer buffer) throws EOFException {
-        final byte[] tempBuf = new byte[TEMP_BUF_SIZE];
+    private XingFrame(Buffer buffer) throws EOFException {
+        byte[] tempBuf = new byte[TEMP_BUF_SIZE];
 
         int skipLess = setVbr(buffer, tempBuf);
 
@@ -78,8 +78,8 @@ public class XingFrame {
         buffer.read(tempBuf, 0, XING_FLAG_BUFFER_SIZE);
         skipLess += XING_FLAG_BUFFER_SIZE;
 
-        final boolean hasFrameCount = (tempBuf[BYTE_4] & (byte) (1)) != 0;
-        final boolean readSize = (tempBuf[BYTE_4] & (byte) (1 << 1)) != 0;
+        boolean hasFrameCount = (tempBuf[BYTE_4] & (byte) (1)) != 0;
+        boolean readSize = (tempBuf[BYTE_4] & (byte) (1 << 1)) != 0;
 
         if (hasFrameCount) {
             skipLess += setFrameCount(buffer, tempBuf);
@@ -102,7 +102,7 @@ public class XingFrame {
         }
     }
 
-    static XingFrame parseXingFrame(final Buffer buffer)
+    static XingFrame parseXingFrame(Buffer buffer)
             throws EOFException {
         return new XingFrame(buffer);
     }
@@ -143,7 +143,7 @@ public class XingFrame {
         return lameFrame;
     }
 
-    private int setVbr(Buffer buffer, final byte[] tempBuf) {
+    private int setVbr(Buffer buffer, byte[] tempBuf) {
         //Is it VBR or CBR
         buffer.read(tempBuf, 0, XING_IDENTIFIER_BUFFER_SIZE);
         if (ArrayUtil.equals(tempBuf, XING_VBR_ID, XING_VBR_ID.length)) {
@@ -152,7 +152,7 @@ public class XingFrame {
         return XING_IDENTIFIER_BUFFER_SIZE;
     }
 
-    private int setFrameCount(final Buffer header, final byte[] frameCountBuffer)
+    private int setFrameCount(Buffer header, byte[] frameCountBuffer)
             throws EOFException {
         frameCount = header.readInt();
         isFrameCountEnabled = true;
@@ -178,7 +178,7 @@ public class XingFrame {
         return frameCount;
     }
 
-    private int setAudioSize(final Buffer header) throws EOFException {
+    private int setAudioSize(Buffer header) throws EOFException {
         audioSize = header.readInt();
         isAudioSizeEnabled = true;
 //        ArrayUtil.fill(frameSizeBuffer, ArrayUtil.ZERO, XING_AUDIOSIZE_BUFFER_SIZE);

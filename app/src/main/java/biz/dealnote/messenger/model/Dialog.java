@@ -43,25 +43,25 @@ public class Dialog implements Identificable, Parcelable {
     }
 
     protected Dialog(Parcel in) {
-        this.peerId = in.readInt();
-        this.title = in.readString();
-        this.unreadCount = in.readInt();
-        this.photo50 = in.readString();
-        this.photo100 = in.readString();
-        this.photo200 = in.readString();
-        this.message = in.readParcelable(Message.class.getClassLoader());
+        peerId = in.readInt();
+        title = in.readString();
+        unreadCount = in.readInt();
+        photo50 = in.readString();
+        photo100 = in.readString();
+        photo200 = in.readString();
+        message = in.readParcelable(Message.class.getClassLoader());
 
         boolean interlocutorIsNull = in.readInt() == 1;
         if (!interlocutorIsNull) {
             int ownerType = in.readInt();
-            this.interlocutor = in.readParcelable(ownerType == OwnerType.COMMUNITY
+            interlocutor = in.readParcelable(ownerType == OwnerType.COMMUNITY
                     ? Community.class.getClassLoader() : User.class.getClassLoader());
         }
 
-        this.lastMessageId = in.readInt();
-        this.inRead = in.readInt();
-        this.outRead = in.readInt();
-        this.isGroupChannel = in.readInt() == 1;
+        lastMessageId = in.readInt();
+        inRead = in.readInt();
+        outRead = in.readInt();
+        isGroupChannel = in.readInt() == 1;
     }
 
     public int getPeerId() {

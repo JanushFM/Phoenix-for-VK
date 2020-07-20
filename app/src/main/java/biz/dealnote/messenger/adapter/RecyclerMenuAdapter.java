@@ -33,13 +33,13 @@ public class RecyclerMenuAdapter extends RecyclerView.Adapter<RecyclerMenuAdapte
     private ActionListener actionListener;
 
     public RecyclerMenuAdapter(@LayoutRes int itemLayout, @NonNull List<AdvancedItem> items) {
-        this.itemRes = itemLayout;
+        itemRes = itemLayout;
         this.items = items;
     }
 
     public RecyclerMenuAdapter(List<AdvancedItem> items) {
         this.items = items;
-        this.itemRes = R.layout.item_advanced_menu;
+        itemRes = R.layout.item_advanced_menu;
     }
 
     public void setItems(List<AdvancedItem> items) {
@@ -72,7 +72,7 @@ public class RecyclerMenuAdapter extends RecyclerView.Adapter<RecyclerMenuAdapte
     }
 
     private void onBindMenuItemHolder(MenuItemHolder holder, int position) {
-        final Context context = holder.itemView.getContext();
+        Context context = holder.itemView.getContext();
 
         AdvancedItem item = getItem(position);
 
@@ -187,16 +187,16 @@ public class RecyclerMenuAdapter extends RecyclerView.Adapter<RecyclerMenuAdapte
 
         MenuItemHolder(View itemView) {
             super(itemView);
-            this.headerRoot = itemView.findViewById(R.id.header_root);
-            this.headerIcon = itemView.findViewById(R.id.header_icon);
-            this.headerText = itemView.findViewById(R.id.header_text);
-            this.itemRoot = itemView.findViewById(R.id.item_root);
-            this.itemOffsetView = itemView.findViewById(R.id.item_offset);
-            this.itemIcon = itemView.findViewById(R.id.item_icon);
-            this.itemTitle = itemView.findViewById(R.id.item_title);
-            this.itemSubtitle = itemView.findViewById(R.id.item_subtitle);
+            headerRoot = itemView.findViewById(R.id.header_root);
+            headerIcon = itemView.findViewById(R.id.header_icon);
+            headerText = itemView.findViewById(R.id.header_text);
+            itemRoot = itemView.findViewById(R.id.item_root);
+            itemOffsetView = itemView.findViewById(R.id.item_offset);
+            itemIcon = itemView.findViewById(R.id.item_icon);
+            itemTitle = itemView.findViewById(R.id.item_title);
+            itemSubtitle = itemView.findViewById(R.id.item_subtitle);
 
-            this.divider = itemView.findViewById(R.id.divider);
+            divider = itemView.findViewById(R.id.divider);
         }
     }
 }

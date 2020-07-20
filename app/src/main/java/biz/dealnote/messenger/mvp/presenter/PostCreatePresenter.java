@@ -80,10 +80,10 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     public PostCreatePresenter(int accountId, int ownerId, @EditingPostType int editingType,
                                ModelsBundle bundle, @NonNull WallEditorAttrs attrs, @Nullable ArrayList<Uri> streams, @Nullable String links, @Nullable String mime, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.upload = Optional.wrap(streams);
+        upload = Optional.wrap(streams);
         this.mime = mime;
-        this.attachmentsRepository = Injection.provideAttachmentsRepository();
-        this.walls = Repository.INSTANCE.getWalls();
+        attachmentsRepository = Injection.provideAttachmentsRepository();
+        walls = Repository.INSTANCE.getWalls();
 
         this.attrs = attrs;
         this.ownerId = ownerId;
@@ -290,7 +290,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
 
     private void onPostRestored(Post post) {
         this.post = post;
-        super.checkFriendsOnly(post.isFriendsOnly());
+        checkFriendsOnly(post.isFriendsOnly());
 
         boolean postpone = post.getPostType() == VKApiPost.Type.POSTPONE;
         setTimerValue(postpone ? post.getDate() : null);
@@ -457,7 +457,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     }
 
     private void changePublishingNowState(boolean publishing) {
-        this.publishingNow = publishing;
+        publishingNow = publishing;
         resolvePublishDialogVisibility();
     }
 
@@ -482,7 +482,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
         }
 
         post.setText(getTextBody());
-        post.setFriendsOnly(super.friendsOnly.get());
+        post.setFriendsOnly(friendsOnly.get());
     }
 
     public void fireReadyClick() {
@@ -504,9 +504,9 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
 
         changePublishingNowState(true);
 
-        final boolean fromGroup = super.fromGroup.get();
-        final boolean showSigner = super.addSignature.get();
-        final int accountId = super.getAccountId();
+        boolean fromGroup = super.fromGroup.get();
+        boolean showSigner = addSignature.get();
+        int accountId = getAccountId();
 
         appendDisposable(walls
                 .post(accountId, post, fromGroup, showSigner)
@@ -519,7 +519,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
         changePublishingNowState(false);
         releasePostDataAsync();
 
-        this.postPublished = true;
+        postPublished = true;
 
         getView().goBack();
     }
@@ -543,7 +543,7 @@ public class PostCreatePresenter extends AbsPostEditPresenter<IPostCreateView> {
     private void safeDraftAsync() {
         commitDataToPost();
 
-        final int accountId = getAccountId();
+        int accountId = getAccountId();
         subscribeOnIOAndIgnore(walls.cachePostWithIdSaving(accountId, post));
     }
 

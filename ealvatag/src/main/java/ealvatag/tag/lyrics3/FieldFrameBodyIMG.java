@@ -51,7 +51,7 @@ public class FieldFrameBodyIMG extends AbstractLyrics3v2FieldFrameBody {
 
         for (int i = 0; i < copyObject.images.size(); i++) {
             old = copyObject.images.get(i);
-            this.images.add(new Lyrics3Image(old));
+            images.add(new Lyrics3Image(old));
         }
     }
 
@@ -80,7 +80,7 @@ public class FieldFrameBodyIMG extends AbstractLyrics3v2FieldFrameBody {
      * @throws InvalidTagException
      */
     public FieldFrameBodyIMG(ByteBuffer byteBuffer) throws InvalidTagException {
-        this.read(byteBuffer);
+        read(byteBuffer);
     }
 
     /**
@@ -157,7 +157,7 @@ public class FieldFrameBodyIMG extends AbstractLyrics3v2FieldFrameBody {
 
         FieldFrameBodyIMG object = (FieldFrameBodyIMG) obj;
 
-        return this.images.equals(object.images) && super.equals(obj);
+        return images.equals(object.images) && super.equals(obj);
 
     }
 
@@ -198,7 +198,7 @@ public class FieldFrameBodyIMG extends AbstractLyrics3v2FieldFrameBody {
         String str = getIdentifier() + " : ";
 
         for (Object image : images) {
-            str += (image.toString() + " ; ");
+            str += (image + " ; ");
         }
 
         return str;

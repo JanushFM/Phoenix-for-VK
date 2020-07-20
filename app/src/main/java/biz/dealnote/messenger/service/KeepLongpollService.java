@@ -76,7 +76,7 @@ public class KeepLongpollService extends Service {
     }
 
     private void cancelNotification() {
-        NotificationManager manager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (manager != null) {
             manager.cancel(FOREGROUND_SERVICE);
         }
@@ -103,12 +103,12 @@ public class KeepLongpollService extends Service {
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, notificationIntent, 0);
 
-        final NotificationCompat.Builder builder;
+        NotificationCompat.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(KEEP_LONGPOLL_CHANNEL, getString(R.string.channel_keep_longpoll),
                     NotificationManager.IMPORTANCE_NONE);
 
-            final NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             if (nManager != null) {
                 nManager.createNotificationChannel(channel);
             }

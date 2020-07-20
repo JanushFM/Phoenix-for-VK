@@ -31,7 +31,7 @@ public class HorizontalStoryAdapter extends RecyclerBindableAdapter<Story, Horiz
 
     @Override
     protected void onBindItemViewHolder(Holder holder, int position, int type) {
-        final Story item = getItem(position);
+        Story item = getItem(position);
 
         Context context = holder.itemView.getContext();
         holder.name.setText(item.getOwner().getFullName());

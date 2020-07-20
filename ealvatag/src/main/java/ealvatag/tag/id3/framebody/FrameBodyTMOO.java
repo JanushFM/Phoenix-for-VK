@@ -52,8 +52,8 @@ public class FrameBodyTMOO extends AbstractFrameBodyTextInfo implements ID3v24Fr
 
     public FrameBodyTMOO(FrameBodyTXXX body) {
         setObjectValue(DataTypes.OBJ_TEXT_ENCODING, body.getTextEncoding());
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
-        this.setObjectValue(DataTypes.OBJ_TEXT, body.getText());
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
+        setObjectValue(DataTypes.OBJ_TEXT, body.getText());
     }
 
     /**

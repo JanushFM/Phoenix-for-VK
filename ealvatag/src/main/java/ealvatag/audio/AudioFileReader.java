@@ -63,11 +63,11 @@ public abstract class AudioFileReader {
      * manually)
      * @exception CannotReadException when an error occured during the parsing of the tag
      */
-    protected abstract TagFieldContainer getTag(RandomAccessFile raf, final boolean ignoreArtwork) throws CannotReadException, IOException;
+    protected abstract TagFieldContainer getTag(RandomAccessFile raf, boolean ignoreArtwork) throws CannotReadException, IOException;
 
     public AudioFile read(File file,
-                          final String extension,
-                          final boolean ignoreArtwork) throws CannotReadException,
+                          String extension,
+                          boolean ignoreArtwork) throws CannotReadException,
             IOException,
             TagException,
             InvalidAudioFrameException {
@@ -93,10 +93,10 @@ public abstract class AudioFileReader {
      * @throws CannotReadException if there is some parsing error
      * @throws IOException         if there is an error reading from the file
      */
-    private AudioFile makeAudioFile(final RandomAccessFile raf,
-                                    final File file,
-                                    final String extension,
-                                    final boolean ignoreArtwork) throws CannotReadException, IOException {
+    private AudioFile makeAudioFile(RandomAccessFile raf,
+                                    File file,
+                                    String extension,
+                                    boolean ignoreArtwork) throws CannotReadException, IOException {
         GenericAudioHeader info = getEncodingInfo(raf);
         raf.seek(0);
         return new AudioFileImpl(file, extension, info, getTag(raf, ignoreArtwork));

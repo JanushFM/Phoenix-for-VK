@@ -24,7 +24,7 @@ public class RepostPresenter extends AbsAttachmentsEditPresenter<IRepostView> {
 
     public RepostPresenter(int accountId, Post post, Integer targetGroupId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.walls = Repository.INSTANCE.getWalls();
+        walls = Repository.INSTANCE.getWalls();
         this.post = post;
         this.targetGroupId = targetGroupId;
 
@@ -67,8 +67,8 @@ public class RepostPresenter extends AbsAttachmentsEditPresenter<IRepostView> {
     public final void fireReadyClick() {
         setPublishingNow(true);
 
-        final int accountId = super.getAccountId();
-        final String body = getTextBody();
+        int accountId = getAccountId();
+        String body = getTextBody();
 
         appendDisposable(walls.repost(accountId, post.getVkid(), post.getOwnerId(), targetGroupId, body)
                 .compose(RxUtils.applySingleIOToMainSchedulers())

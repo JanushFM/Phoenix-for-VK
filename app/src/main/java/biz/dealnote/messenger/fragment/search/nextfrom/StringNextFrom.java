@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.fragment.search.nextfrom;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class StringNextFrom extends AbsNextFrom implements Parcelable {
+public class StringNextFrom extends AbsNextFrom {
 
     public static final Creator<StringNextFrom> CREATOR = new Creator<StringNextFrom>() {
         @Override
@@ -46,6 +45,6 @@ public class StringNextFrom extends AbsNextFrom implements Parcelable {
 
     @Override
     public void reset() {
-        this.nextFrom = null;
+        nextFrom = null;
     }
 }

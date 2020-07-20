@@ -28,8 +28,8 @@ public class ChatUsersDomainPresenter extends AccountDependencyPresenter<IChatUs
     public ChatUsersDomainPresenter(int accountId, int chatId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.chatId = chatId;
-        this.users = new ArrayList<>();
-        this.messagesInteractor = Repository.INSTANCE.getMessages();
+        users = new ArrayList<>();
+        messagesInteractor = Repository.INSTANCE.getMessages();
 
         requestData();
     }
@@ -37,7 +37,7 @@ public class ChatUsersDomainPresenter extends AccountDependencyPresenter<IChatUs
     @Override
     public void onGuiCreated(@NonNull IChatUsersDomainView view) {
         super.onGuiCreated(view);
-        view.displayData(this.users);
+        view.displayData(users);
     }
 
     private void resolveRefreshing() {
@@ -58,7 +58,7 @@ public class ChatUsersDomainPresenter extends AccountDependencyPresenter<IChatUs
     }
 
     private void requestData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setRefreshing(true);
         appendDisposable(messagesInteractor.getChatUsers(accountId, chatId)

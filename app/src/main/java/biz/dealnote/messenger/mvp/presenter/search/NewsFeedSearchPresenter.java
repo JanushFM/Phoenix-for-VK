@@ -32,8 +32,8 @@ public class NewsFeedSearchPresenter extends AbsSearchPresenter<INewsFeedSearchV
 
     public NewsFeedSearchPresenter(int accountId, @Nullable NewsFeedCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.feedInteractor = InteractorFactory.createFeedInteractor();
-        this.walls = Repository.INSTANCE.getWalls();
+        feedInteractor = InteractorFactory.createFeedInteractor();
+        walls = Repository.INSTANCE.getWalls();
 
         appendDisposable(walls.observeMinorChanges()
                 .observeOn(Injection.provideMainThreadScheduler())
@@ -80,7 +80,7 @@ public class NewsFeedSearchPresenter extends AbsSearchPresenter<INewsFeedSearchV
     }
 
     public void fireLikeClick(Post post) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(walls.like(accountId, post.getOwnerId(), post.getVkid(), !post.isUserLikes())
                 .compose(RxUtils.applySingleIOToMainSchedulers())

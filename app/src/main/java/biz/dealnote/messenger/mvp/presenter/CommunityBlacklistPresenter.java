@@ -45,13 +45,13 @@ public class CommunityBlacklistPresenter extends AccountDependencyPresenter<ICom
     public CommunityBlacklistPresenter(int accountId, int groupId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.groupId = groupId;
-        this.data = new ArrayList<>();
-        this.moreStartFrom = new IntNextFrom(0);
+        data = new ArrayList<>();
+        moreStartFrom = new IntNextFrom(0);
 
         INetworker networker = Injection.provideNetworkInterfaces();
         IOwnersStorage repository = Injection.provideStores().owners();
 
-        this.groupSettingsInteractor = new GroupSettingsInteractor(networker, repository, Repository.INSTANCE.getOwners());
+        groupSettingsInteractor = new GroupSettingsInteractor(networker, repository, Repository.INSTANCE.getOwners());
 
         appendDisposable(repository.observeBanActions()
                 .filter(action -> action.getGroupId() == groupId)
@@ -92,7 +92,7 @@ public class CommunityBlacklistPresenter extends AccountDependencyPresenter<ICom
     private void request(IntNextFrom startFrom) {
         if (loadingNow) return;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingNow(true);
         appendDisposable(groupSettingsInteractor.getBanned(accountId, groupId, startFrom, COUNT)
@@ -104,7 +104,7 @@ public class CommunityBlacklistPresenter extends AccountDependencyPresenter<ICom
     @Override
     public void onGuiCreated(@NonNull ICommunityBlacklistView view) {
         super.onGuiCreated(view);
-        view.diplayData(this.data);
+        view.diplayData(data);
     }
 
     private void onRequqestError(Throwable throwable) {
@@ -115,16 +115,16 @@ public class CommunityBlacklistPresenter extends AccountDependencyPresenter<ICom
     }
 
     private void onBannedUsersReceived(IntNextFrom startFrom, IntNextFrom nextFrom, List<Banned> users) {
-        this.endOfContent = users.isEmpty();
-        this.moreStartFrom = nextFrom;
+        endOfContent = users.isEmpty();
+        moreStartFrom = nextFrom;
 
         if (startFrom.getOffset() != 0) {
-            int startSize = this.data.size();
-            this.data.addAll(users);
+            int startSize = data.size();
+            data.addAll(users);
             callView(view -> view.notifyItemsAdded(startSize, users.size()));
         } else {
-            this.data.clear();
-            this.data.addAll(users);
+            data.clear();
+            data.addAll(users);
             callView(ICommunityBlacklistView::notifyDataSetChanged);
         }
 

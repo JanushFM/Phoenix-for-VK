@@ -33,9 +33,9 @@ public class CommunityInfoLinksPresenter extends AccountDependencyPresenter<ICom
     public CommunityInfoLinksPresenter(int accountId, Community groupId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.networker = Injection.provideNetworkInterfaces();
+        networker = Injection.provideNetworkInterfaces();
         this.groupId = groupId;
-        this.links = new ArrayList<>();
+        links = new ArrayList<>();
 
         requestLinks();
     }
@@ -64,7 +64,7 @@ public class CommunityInfoLinksPresenter extends AccountDependencyPresenter<ICom
     }
 
     private void requestLinks() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingNow(true);
         appendDisposable(networker.vkDefault(accountId)

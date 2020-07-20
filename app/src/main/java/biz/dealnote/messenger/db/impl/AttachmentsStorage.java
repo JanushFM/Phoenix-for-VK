@@ -5,6 +5,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -77,11 +78,11 @@ class AttachmentsStorage extends AbsStorage implements IAttachmentsStorage {
     private static String idColumnFor(@AttachToType int type) {
         switch (type) {
             case AttachToType.COMMENT:
-                return CommentsAttachmentsColumns._ID;
+                return BaseColumns._ID;
             case AttachToType.MESSAGE:
-                return AttachmentsColumns._ID;
+                return BaseColumns._ID;
             case AttachToType.POST:
-                return PostAttachmentsColumns._ID;
+                return BaseColumns._ID;
         }
 
         throw new IllegalArgumentException();
@@ -165,7 +166,7 @@ class AttachmentsStorage extends AbsStorage implements IAttachmentsStorage {
         return Single.create(emitter -> {
             Cursor cursor = createCursor(accountId, attachToType, attachToDbid);
 
-            final List<Pair<Integer, Entity>> dbos = new ArrayList<>(safeCountOf(cursor));
+            List<Pair<Integer, Entity>> dbos = new ArrayList<>(safeCountOf(cursor));
 
             if (nonNull(cursor)) {
                 while (cursor.moveToNext()) {
@@ -173,10 +174,10 @@ class AttachmentsStorage extends AbsStorage implements IAttachmentsStorage {
                         break;
                     }
 
-                    final int id = cursor.getInt(cursor.getColumnIndex(idColumnFor(attachToType)));
-                    final int type = cursor.getInt(cursor.getColumnIndex(typeColumnFor(attachToType)));
-                    final String json = cursor.getString(cursor.getColumnIndex(dataColumnFor(attachToType)));
-                    final Entity entity = deserializeDbo(type, json);
+                    int id = cursor.getInt(cursor.getColumnIndex(idColumnFor(attachToType)));
+                    int type = cursor.getInt(cursor.getColumnIndex(typeColumnFor(attachToType)));
+                    String json = cursor.getString(cursor.getColumnIndex(dataColumnFor(attachToType)));
+                    Entity entity = deserializeDbo(type, json);
 
                     dbos.add(Pair.Companion.create(id, entity));
                 }
@@ -198,7 +199,7 @@ class AttachmentsStorage extends AbsStorage implements IAttachmentsStorage {
     public List<Entity> getAttachmentsDbosSync(int accountId, int attachToType, int attachToDbid, @NonNull Cancelable cancelable) {
         Cursor cursor = createCursor(accountId, attachToType, attachToDbid);
 
-        final List<Entity> entities = new ArrayList<>(safeCountOf(cursor));
+        List<Entity> entities = new ArrayList<>(safeCountOf(cursor));
 
         if (nonNull(cursor)) {
             while (cursor.moveToNext()) {

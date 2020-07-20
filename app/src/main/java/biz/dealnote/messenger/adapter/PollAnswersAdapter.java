@@ -31,7 +31,7 @@ public class PollAnswersAdapter extends RecyclerBindableAdapter<Poll.Answer, Pol
     public PollAnswersAdapter(Context context, @NonNull List<Poll.Answer> items) {
         super(items);
         this.context = context;
-        this.checkedIds = new HashSet<>();
+        checkedIds = new HashSet<>();
     }
 
     @Override

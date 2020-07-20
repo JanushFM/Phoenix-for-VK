@@ -8,7 +8,7 @@ public class WeakPercentagePublisher implements PercentagePublisher {
     private final WeakReference<PercentagePublisher> ref;
 
     public WeakPercentagePublisher(PercentagePublisher listener) {
-        this.ref = new WeakReference<>(listener);
+        ref = new WeakReference<>(listener);
     }
 
     @Override

@@ -50,10 +50,10 @@ class Stats {
 
     Stats(Cache cache) {
         this.cache = cache;
-        this.statsThread = new HandlerThread(STATS_THREAD_NAME, THREAD_PRIORITY_BACKGROUND);
-        this.statsThread.start();
+        statsThread = new HandlerThread(STATS_THREAD_NAME, THREAD_PRIORITY_BACKGROUND);
+        statsThread.start();
         Utils.flushStackLocalLeaks(statsThread.getLooper());
-        this.handler = new StatsHandler(statsThread.getLooper(), this);
+        handler = new StatsHandler(statsThread.getLooper(), this);
     }
 
     private static long getAverage(int count, long totalSize) {
@@ -133,7 +133,7 @@ class Stats {
         }
 
         @Override
-        public void handleMessage(final Message msg) {
+        public void handleMessage(Message msg) {
             switch (msg.what) {
                 case CACHE_HIT:
                     stats.performCacheHit();

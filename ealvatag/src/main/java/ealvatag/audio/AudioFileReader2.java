@@ -42,11 +42,11 @@ public abstract class AudioFileReader2 extends AudioFileReader {
      * @exception NoReadPermissionsException if permissions prevent reading of file
      * @exception CannotReadException If anything went bad during the read of this file
      */
-    public AudioFileImpl read(File f, final String extension, final boolean ignoreArtwork)
+    public AudioFileImpl read(File f, String extension, boolean ignoreArtwork)
             throws CannotReadException, IOException, TagException, InvalidAudioFrameException {
 
         try (FileChannel channel = new RandomAccessFile(f, "r").getChannel()) {
-            final String absolutePath = f.getAbsolutePath();
+            String absolutePath = f.getAbsolutePath();
             GenericAudioHeader info = getEncodingInfo(channel, absolutePath);
             channel.position(0);
             return new AudioFileImpl(f, extension, info, getTag(channel, absolutePath, ignoreArtwork));
@@ -58,7 +58,7 @@ public abstract class AudioFileReader2 extends AudioFileReader {
     /**
      * Read Encoding Information
      */
-    protected abstract GenericAudioHeader getEncodingInfo(FileChannel channel, final String fileName)
+    protected abstract GenericAudioHeader getEncodingInfo(FileChannel channel, String fileName)
             throws CannotReadException, IOException;
 
     protected GenericAudioHeader getEncodingInfo(RandomAccessFile raf) {
@@ -68,10 +68,10 @@ public abstract class AudioFileReader2 extends AudioFileReader {
     /**
      * Read tag Information
      */
-    protected abstract TagFieldContainer getTag(FileChannel channel, final String fileName, final boolean ignoreArtwork)
+    protected abstract TagFieldContainer getTag(FileChannel channel, String fileName, boolean ignoreArtwork)
             throws CannotReadException, IOException;
 
-    protected TagFieldContainer getTag(RandomAccessFile file, final boolean ignoreArtwork) {
+    protected TagFieldContainer getTag(RandomAccessFile file, boolean ignoreArtwork) {
         throw new UnsupportedOperationException("Old method not used in version 2");
     }
 }

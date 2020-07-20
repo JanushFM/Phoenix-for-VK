@@ -33,16 +33,16 @@ public abstract class AbstractArtworkFrameBody extends AbstractID3v2FrameBody {
     AbstractArtworkFrameBody() {
     }
 
-    AbstractArtworkFrameBody(final ByteBuffer byteBuffer, final int frameSize) throws InvalidTagException {
+    AbstractArtworkFrameBody(ByteBuffer byteBuffer, int frameSize) throws InvalidTagException {
         super(byteBuffer,
                 frameSize);
     }
 
-    AbstractArtworkFrameBody(final Buffer buffer, final int frameSize) throws InvalidTagException {
+    AbstractArtworkFrameBody(Buffer buffer, int frameSize) throws InvalidTagException {
         super(buffer, frameSize);
     }
 
-    AbstractArtworkFrameBody(final AbstractID3v2FrameBody copyObject) {
+    AbstractArtworkFrameBody(AbstractID3v2FrameBody copyObject) {
         super(copyObject);
     }
 

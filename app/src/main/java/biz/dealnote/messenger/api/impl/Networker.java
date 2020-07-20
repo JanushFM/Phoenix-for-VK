@@ -24,9 +24,9 @@ public class Networker implements INetworker {
     private final IUploadRetrofitProvider uploadRetrofitProvider;
 
     public Networker(IProxySettings settings) {
-        this.otherVkRetrofitProvider = new OtherVkRetrofitProvider(settings);
-        this.vkRetrofitProvider = new VkRetrofitProvider(settings, new VkMethodHttpClientFactory());
-        this.uploadRetrofitProvider = new UploadRetrofitProvider(settings);
+        otherVkRetrofitProvider = new OtherVkRetrofitProvider(settings);
+        vkRetrofitProvider = new VkRetrofitProvider(settings, new VkMethodHttpClientFactory());
+        uploadRetrofitProvider = new UploadRetrofitProvider(settings);
     }
 
     @Override

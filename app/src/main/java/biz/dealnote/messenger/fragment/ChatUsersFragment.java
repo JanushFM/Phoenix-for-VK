@@ -117,7 +117,7 @@ public class ChatUsersFragment extends BaseMvpFragment<ChatMembersPresenter, ICh
     }
 
     @Override
-    public void onRemoveClick(final AppChatUser user) {
+    public void onRemoveClick(AppChatUser user) {
         new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.confirmation)
                 .setMessage(getString(R.string.remove_chat_user_commit, user.getMember().getFullName()))
@@ -168,8 +168,8 @@ public class ChatUsersFragment extends BaseMvpFragment<ChatMembersPresenter, ICh
 
     @Override
     public void startSelectUsersActivity(int accountId) {
-        final Place place = PlaceFactory.getFriendsFollowersPlace(accountId, accountId, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
-        final SelectProfileCriteria criteria = new SelectProfileCriteria().setFriendsOnly(true);
+        Place place = PlaceFactory.getFriendsFollowersPlace(accountId, accountId, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
+        SelectProfileCriteria criteria = new SelectProfileCriteria().setFriendsOnly(true);
 
         Intent intent = SelectProfilesActivity.createIntent(requireActivity(), place, criteria);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -89,7 +90,7 @@ public class CenteredToolbar extends MaterialToolbar {
 
         tvSubtitle.setVisibility(GONE);
 
-        MaterialToolbar.LayoutParams lp = new MaterialToolbar.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        MaterialToolbar.LayoutParams lp = new MaterialToolbar.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.gravity = Gravity.CENTER;
         linear.setLayoutParams(lp);
 

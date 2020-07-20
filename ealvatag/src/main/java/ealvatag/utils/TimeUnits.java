@@ -30,10 +30,10 @@ public final class TimeUnits {
     private TimeUnits() {
     }
 
-    public static long convert(final long sourceDuration,
-                               final TimeUnit sourceUnit,
-                               final TimeUnit targetUnit,
-                               final boolean round) {
+    public static long convert(long sourceDuration,
+                               TimeUnit sourceUnit,
+                               TimeUnit targetUnit,
+                               boolean round) {
         if (!round) {
             return targetUnit.convert(sourceDuration, sourceUnit);
         }

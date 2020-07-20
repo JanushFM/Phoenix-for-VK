@@ -107,7 +107,7 @@ public class CreatePinFragment extends BaseMvpFragment<CreatePinPresenter, ICrea
 
     @NotNull
     @Override
-    public IPresenterFactory<CreatePinPresenter> getPresenterFactory(@Nullable final Bundle saveInstanceState) {
+    public IPresenterFactory<CreatePinPresenter> getPresenterFactory(@Nullable Bundle saveInstanceState) {
         return () -> new CreatePinPresenter(saveInstanceState);
     }
 

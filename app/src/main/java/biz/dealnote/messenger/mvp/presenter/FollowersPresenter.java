@@ -30,17 +30,17 @@ public class FollowersPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
     public FollowersPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.userId = userId;
-        this.relationshipInteractor = InteractorFactory.createRelationshipInteractor();
+        relationshipInteractor = InteractorFactory.createRelationshipInteractor();
 
         loadAllCacheData();
         requestActualData(0);
     }
 
     private void requestActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(relationshipInteractor.getFollowers(accountId, userId, 200, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(users -> onActualDataReceived(offset, users), this::onActualDataGetError));
@@ -59,28 +59,28 @@ public class FollowersPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
     }
 
     private void onActualDataReceived(int offset, List<User> users) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
 
-        this.cacheDisposable.clear();
-        this.actualDataLoading = false;
+        cacheDisposable.clear();
+        actualDataLoading = false;
 
-        this.actualDataReceived = true;
-        this.endOfContent = users.isEmpty();
+        actualDataReceived = true;
+        endOfContent = users.isEmpty();
 
         if (offset == 0) {
-            super.data.clear();
-            super.data.addAll(users);
+            data.clear();
+            data.addAll(users);
             callView(ISimpleOwnersView::notifyDataSetChanged);
         } else {
-            int startSzie = super.data.size();
-            super.data.addAll(users);
+            int startSzie = data.size();
+            data.addAll(users);
             callView(view -> view.notifyDataAdded(startSzie, users.size()));
         }
 
@@ -90,37 +90,37 @@ public class FollowersPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
     @Override
     void onUserScrolledToEnd() {
         if (!endOfContent && !cacheLoadingNow && !actualDataLoading && actualDataReceived) {
-            requestActualData(super.data.size());
+            requestActualData(data.size());
         }
     }
 
     @Override
     void onUserRefreshed() {
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.actualDataDisposable.clear();
+        actualDataDisposable.clear();
         requestActualData(0);
     }
 
     private void loadAllCacheData() {
-        this.cacheLoadingNow = true;
+        cacheLoadingNow = true;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         cacheDisposable.add(relationshipInteractor.getCachedFollowers(accountId, userId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, this::onCacheDataGetError));
     }
 
     private void onCacheDataGetError(Throwable t) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
         showError(getView(), getCauseIfRuntime(t));
     }
 
     private void onCachedDataReceived(List<User> users) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
-        super.data.addAll(users);
+        data.addAll(users);
         callView(ISimpleOwnersView::notifyDataSetChanged);
     }
 

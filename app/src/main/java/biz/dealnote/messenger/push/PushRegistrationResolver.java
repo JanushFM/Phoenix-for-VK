@@ -64,7 +64,7 @@ public class PushRegistrationResolver implements IPushRegistrationResolver {
             return false;
         }
 
-        final List<VkPushRegistration> available = settings.pushSettings().getRegistrations();
+        List<VkPushRegistration> available = settings.pushSettings().getRegistrations();
         boolean can = available.size() == 1 && available.get(0).getUserId() == accountId;
 
         Logger.d(TAG, "canReceivePushNotification, reason: " + String.valueOf(can).toUpperCase());
@@ -76,7 +76,7 @@ public class PushRegistrationResolver implements IPushRegistrationResolver {
         return getInfo()
                 .observeOn(Schedulers.io())
                 .flatMapCompletable(data -> {
-                    final List<VkPushRegistration> available = settings.pushSettings().getRegistrations();
+                    List<VkPushRegistration> available = settings.pushSettings().getRegistrations();
 
                     int accountId = settings.accounts().getCurrent();
                     boolean hasAuth = accountId != ISettings.IAccountsSettings.INVALID_ID;
@@ -125,11 +125,11 @@ public class PushRegistrationResolver implements IPushRegistrationResolver {
                         completable = completable.andThen(unregister(unreg));
                     }
 
-                    final List<VkPushRegistration> target = new ArrayList<>();
+                    List<VkPushRegistration> target = new ArrayList<>();
 
                     if (!hasOk && hasAuth) {
-                        final String vkToken = settings.accounts().getAccessToken(accountId);
-                        final VkPushRegistration current = new VkPushRegistration(accountId, data.deviceId, vkToken, data.gcmToken);
+                        String vkToken = settings.accounts().getAccessToken(accountId);
+                        VkPushRegistration current = new VkPushRegistration(accountId, data.deviceId, vkToken, data.gcmToken);
                         target.add(current);
 
                         completable = completable.andThen(register(current));
@@ -171,9 +171,9 @@ public class PushRegistrationResolver implements IPushRegistrationResolver {
 
             json.put("new_post", "on"); //записи выбранных людей и сообществ;
 
-            final String targetSettingsStr = json.toString();
-            final String deviceModel = Utils.getDeviceName();
-            final String osVersion = Utils.getAndroidVersion();
+            String targetSettingsStr = json.toString();
+            String deviceModel = Utils.getDeviceName();
+            String osVersion = Utils.getAndroidVersion();
 
             return networker.vkManual(registration.getUserId(), registration.getVkToken())
                     .account()

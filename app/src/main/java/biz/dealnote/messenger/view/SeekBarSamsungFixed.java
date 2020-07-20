@@ -25,10 +25,10 @@ public class SeekBarSamsungFixed extends AppCompatSeekBar {
 
     @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent motionEvent) {
-        return this.f50581a && super.onTouchEvent(motionEvent);
+        return f50581a && super.onTouchEvent(motionEvent);
     }
 
     public void setEnabled(boolean z) {
-        this.f50581a = z;
+        f50581a = z;
     }
 }

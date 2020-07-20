@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -206,7 +207,7 @@ public class ShortedLinksFragment extends BaseMvpFragment<ShortedLinksPresenter,
         int text_color = Utils.isColorDark(color)
                 ? Color.parseColor("#ffffff") : Color.parseColor("#000000");
 
-        Snackbar.make(mLink, stat, Snackbar.LENGTH_LONG)
+        Snackbar.make(mLink, stat, BaseTransientBottomBar.LENGTH_LONG)
                 .setBackgroundTint(color).setTextColor(text_color).setAnchorView(R.id.recycler_view).show();
     }
 

@@ -27,11 +27,11 @@ public final class ModelsBundle implements Parcelable, Iterable<AbsModel> {
     private final List<ParcelableModelWrapper> wrappers;
 
     public ModelsBundle() {
-        this.wrappers = new ArrayList<>();
+        wrappers = new ArrayList<>();
     }
 
     public ModelsBundle(int capacity) {
-        this.wrappers = new ArrayList<>(capacity);
+        wrappers = new ArrayList<>(capacity);
     }
 
     private ModelsBundle(Parcel in) {
@@ -43,21 +43,21 @@ public final class ModelsBundle implements Parcelable, Iterable<AbsModel> {
     }
 
     public void clear() {
-        this.wrappers.clear();
+        wrappers.clear();
     }
 
     public ModelsBundle append(AbsModel model) {
-        this.wrappers.add(ParcelableModelWrapper.wrap(model));
+        wrappers.add(ParcelableModelWrapper.wrap(model));
         return this;
     }
 
     public void remove(AbsModel model) {
-        this.wrappers.remove(model);
+        wrappers.remove(model);
     }
 
     public ModelsBundle append(Collection<? extends AbsModel> data) {
         for (AbsModel model : data) {
-            this.wrappers.add(ParcelableModelWrapper.wrap(model));
+            wrappers.add(ParcelableModelWrapper.wrap(model));
         }
         return this;
     }

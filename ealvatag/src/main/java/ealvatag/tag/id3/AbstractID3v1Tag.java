@@ -110,7 +110,7 @@ abstract public class AbstractID3v1Tag extends AbstractID3Tag {
         byteBuffer = ByteBuffer.allocate(TAG_LENGTH);
         fc.read(byteBuffer);
         byteBuffer.rewind();
-        if (AbstractID3v1Tag.seekForV1OrV11Tag(byteBuffer)) {
+        if (seekForV1OrV11Tag(byteBuffer)) {
             try {
                 file.setLength(file.length() - TAG_LENGTH);
             } catch (IOException ignored) {

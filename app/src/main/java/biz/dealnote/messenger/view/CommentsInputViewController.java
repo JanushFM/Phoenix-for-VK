@@ -39,9 +39,9 @@ public class CommentsInputViewController {
     private boolean mCanSendNormalMessage;
     private boolean sendOnEnter;
 
-    public CommentsInputViewController(@NonNull final Activity activity, @NonNull View rootView, @NonNull OnInputActionCallback callback) {
+    public CommentsInputViewController(@NonNull Activity activity, @NonNull View rootView, @NonNull OnInputActionCallback callback) {
         this.callback = callback;
-        this.mActivity = activity.getApplicationContext();
+        mActivity = activity.getApplicationContext();
 
         mInputField = rootView.findViewById(R.id.fragment_input_text);
         mTextWatcher = new TextWatcherAdapter() {
@@ -161,9 +161,9 @@ public class CommentsInputViewController {
     }
 
     public void setTextQuietly(String text) {
-        this.mInputField.removeTextChangedListener(mTextWatcher);
-        this.mInputField.setText(text);
-        this.mInputField.addTextChangedListener(mTextWatcher);
+        mInputField.removeTextChangedListener(mTextWatcher);
+        mInputField.setText(text);
+        mInputField.addTextChangedListener(mTextWatcher);
     }
 
     public TextInputEditText getInputField() {

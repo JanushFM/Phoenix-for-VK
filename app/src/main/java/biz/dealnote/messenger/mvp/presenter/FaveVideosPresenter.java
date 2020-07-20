@@ -33,7 +33,7 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     public FaveVideosPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
+        faveInteractor = InteractorFactory.createFaveInteractor();
         mVideos = new ArrayList<>();
 
         loadCachedData();
@@ -51,24 +51,24 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     }
 
     private void loadCachedData() {
-        this.cacheLoadingNow = true;
+        cacheLoadingNow = true;
 
-        final int accoutnId = super.getAccountId();
+        int accoutnId = getAccountId();
         cacheDisposable.add(faveInteractor.getCachedVideos(accoutnId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, this::onCacheGetError));
     }
 
     private void onCacheGetError(Throwable t) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
         showError(getView(), t);
     }
 
     private void onCachedDataReceived(List<Video> videos) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
-        this.mVideos.clear();
-        this.mVideos.addAll(videos);
+        mVideos.clear();
+        mVideos.addAll(videos);
         callView(IFaveVideosView::notifyDataSetChanged);
     }
 
@@ -80,10 +80,10 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     }
 
     private void request(int offset) {
-        this.netLoadingNow = true;
+        netLoadingNow = true;
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         netDisposable.add(faveInteractor.getVideos(accountId, COUNT_PER_REQUEST, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -91,17 +91,17 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     }
 
     private void onNetDataGetError(Throwable t) {
-        this.netLoadingNow = false;
+        netLoadingNow = false;
         resolveRefreshingView();
         showError(getView(), t);
     }
 
     private void onNetDataReceived(int offset, List<Video> videos) {
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.mEndOfContent = videos.isEmpty();
-        this.netLoadingNow = false;
+        mEndOfContent = videos.isEmpty();
+        netLoadingNow = false;
 
         if (offset == 0) {
             mVideos.clear();
@@ -135,9 +135,9 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
     }
 
     public void fireRefresh() {
-        this.cacheDisposable.clear();
-        this.netDisposable.clear();
-        this.netLoadingNow = false;
+        cacheDisposable.clear();
+        netDisposable.clear();
+        netLoadingNow = false;
 
         requestAtLast();
     }

@@ -80,7 +80,7 @@ public class CommentsInteractor implements ICommentsInteractor {
 
     @Override
     public Single<List<Comment>> getAllCachedData(int accounrId, @NonNull Commented commented) {
-        final CommentsCriteria criteria = new CommentsCriteria(accounrId, commented);
+        CommentsCriteria criteria = new CommentsCriteria(accounrId, commented);
         return cache.comments()
                 .getDbosByCriteria(criteria)
                 .compose(dbos2models(accounrId));
@@ -106,9 +106,9 @@ public class CommentsInteractor implements ICommentsInteractor {
     }
 
     private Completable cacheData(int accountId, @NonNull Commented commented, List<CommentEntity> data, OwnerEntities owners, boolean invalidateCache) {
-        final int sourceId = commented.getSourceId();
-        final int ownerId = commented.getSourceOwnerId();
-        final int type = commented.getSourceType();
+        int sourceId = commented.getSourceId();
+        int ownerId = commented.getSourceOwnerId();
+        int type = commented.getSourceType();
 
         return Single.just(data)
                 .flatMapCompletable(dbos -> cache.comments().insert(accountId, sourceId, ownerId, type, dbos, owners, invalidateCache)
@@ -136,7 +136,7 @@ public class CommentsInteractor implements ICommentsInteractor {
 
     @Override
     public Single<CommentsBundle> getCommentsPortion(int accountId, @NonNull Commented commented, int offset, int count, Integer startCommentId, Integer threadComment, boolean invalidateCache, String sort) {
-        final String type = commented.getTypeForStoredProcedure();
+        String type = commented.getTypeForStoredProcedure();
 
         return networker.vkDefault(accountId)
                 .comments()
@@ -201,7 +201,7 @@ public class CommentsInteractor implements ICommentsInteractor {
 
     @Override
     public Completable like(int accountId, Commented commented, int commentId, boolean add) {
-        final String type;
+        String type;
 
         switch (commented.getSourceType()) {
             case CommentedType.PHOTO:
@@ -221,9 +221,9 @@ public class CommentsInteractor implements ICommentsInteractor {
                 throw new IllegalArgumentException();
         }
 
-        final ILikesApi api = networker.vkDefault(accountId).likes();
+        ILikesApi api = networker.vkDefault(accountId).likes();
 
-        final CommentUpdate update = CommentUpdate.create(accountId, commented, commentId);
+        CommentUpdate update = CommentUpdate.create(accountId, commented, commentId);
 
         if (add) {
             return api.add(type, commented.getSourceOwnerId(), commentId, commented.getAccessKey())
@@ -242,9 +242,9 @@ public class CommentsInteractor implements ICommentsInteractor {
 
     @Override
     public Completable deleteRestore(int accountId, Commented commented, int commentId, boolean delete) {
-        final IAccountApis apis = networker.vkDefault(accountId);
-        final int ownerId = commented.getSourceOwnerId();
-        final CommentUpdate update = CommentUpdate.create(accountId, commented, commentId)
+        IAccountApis apis = networker.vkDefault(accountId);
+        int ownerId = commented.getSourceOwnerId();
+        CommentUpdate update = CommentUpdate.create(accountId, commented, commentId)
                 .withDeletion(delete);
 
         Single<Boolean> single;
@@ -299,8 +299,8 @@ public class CommentsInteractor implements ICommentsInteractor {
     }
 
     @Override
-    public Single<Comment> send(int accountId, Commented commented, Integer commentThread, final CommentIntent intent) {
-        final Single<List<IAttachmentToken>> cachedAttachments;
+    public Single<Comment> send(int accountId, Commented commented, Integer commentThread, CommentIntent intent) {
+        Single<List<IAttachmentToken>> cachedAttachments;
 
         if (nonNull(intent.getDraftMessageId())) {
             cachedAttachments = getCachedAttachmentsToken(accountId, intent.getDraftMessageId());
@@ -310,7 +310,7 @@ public class CommentsInteractor implements ICommentsInteractor {
 
         return cachedAttachments
                 .flatMap(cachedTokens -> {
-                    final List<IAttachmentToken> tokens = new ArrayList<>();
+                    List<IAttachmentToken> tokens = new ArrayList<>();
 
                     if (nonNull(cachedTokens)) {
                         tokens.addAll(cachedTokens);
@@ -349,7 +349,7 @@ public class CommentsInteractor implements ICommentsInteractor {
 
     @Override
     public Single<List<Comment>> getAllCommentsRange(int accountId, Commented commented, int startFromCommentId, int continueToCommentId) {
-        final TempData tempData = new TempData();
+        TempData tempData = new TempData();
 
         BooleanSupplier booleanSupplier = () -> {
             for (VKApiComment c : tempData.comments) {
@@ -437,7 +437,7 @@ public class CommentsInteractor implements ICommentsInteractor {
     }
 
     private Completable startLooking(int accountId, Commented commented, TempData tempData, int startFromCommentId, int continueToCommentId) {
-        final int[] tryNumber = {0};
+        int[] tryNumber = {0};
 
         return Single
                 .fromCallable(() -> {
@@ -529,10 +529,10 @@ public class CommentsInteractor implements ICommentsInteractor {
     }
 
     private Single<Comment> getCommentByIdAndStore(int accountId, Commented commented, int commentId, Integer commentThread, boolean storeToCache) {
-        final String type = commented.getTypeForStoredProcedure();
-        final int sourceId = commented.getSourceId();
-        final int ownerId = commented.getSourceOwnerId();
-        final int sourceType = commented.getSourceType();
+        String type = commented.getTypeForStoredProcedure();
+        int sourceId = commented.getSourceId();
+        int ownerId = commented.getSourceOwnerId();
+        int sourceType = commented.getSourceType();
 
         return networker.vkDefault(accountId)
                 .comments()

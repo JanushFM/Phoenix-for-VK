@@ -98,7 +98,7 @@ public class SpotsDialog extends AlertDialog {
     private Animator[] createAnimations() {
         Animator[] animators = new Animator[size];
         for (int i = 0; i < spots.length; i++) {
-            final AnimatedView animatedView = spots[i];
+            AnimatedView animatedView = spots[i];
             Animator move = ObjectAnimator.ofFloat(animatedView, "xFactor", 0, 1);
             move.setDuration(DURATION);
             move.setInterpolator(new HesitateInterpolator());

@@ -46,9 +46,9 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
             this.criteria = savedInstanceState.getParcelable(SAVE_CRITERIA);
         }
 
-        this.nextFrom = getInitialNextFrom();
-        this.data = new ArrayList<>();
-        this.actionHandler.setAction((what, object) -> object.doSearch());
+        nextFrom = getInitialNextFrom();
+        data = new ArrayList<>();
+        actionHandler.setAction((what, object) -> object.doSearch());
     }
 
     @Override
@@ -56,7 +56,7 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
         super.onGuiCreated(view);
 
         // пробуем искать при первом создании view
-        if (super.getViewCreationCount() == 1) {
+        if (getViewCreationCount() == 1) {
             doSearch();
         }
     }
@@ -79,14 +79,14 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
 
     @SuppressWarnings("unchecked")
     void doSearch() {
-        if (!canSearch(this.criteria) || isNull(this.nextFrom)) {
+        if (!canSearch(criteria) || isNull(nextFrom)) {
             //setLoadingNow(false);
             return;
         }
 
-        final int accountId = getAccountId();
-        final C cloneCriteria = (C) criteria.safellyClone();
-        final N nf = this.nextFrom;
+        int accountId = getAccountId();
+        C cloneCriteria = (C) criteria.safellyClone();
+        N nf = nextFrom;
 
         setLoadingNow(true);
         searchDisposable.add(doSearch(accountId, cloneCriteria, nf)
@@ -107,8 +107,8 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
         boolean clearPrevious = isAtLast(startFrom);
 
         this.nextFrom = nextFrom;
-        this.resultsForCriteria = criteria;
-        this.endOfContent = data.isEmpty();
+        resultsForCriteria = criteria;
+        endOfContent = data.isEmpty();
 
         if (clearPrevious) {
             this.data.clear();
@@ -168,8 +168,8 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
         searchDisposable.clear();
         setLoadingNow(false);
 
-        this.nextFrom = getInitialNextFrom();
-        this.data.clear();
+        nextFrom = getInitialNextFrom();
+        data.clear();
 
         resolveListData();
         resolveEmptyText();
@@ -187,8 +187,8 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
 
     @Override
     public void onDestroyed() {
-        this.actionHandler.setAction(null);
-        this.searchDisposable.clear();
+        actionHandler.setAction(null);
+        searchDisposable.clear();
         super.onDestroyed();
     }
 
@@ -210,7 +210,7 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
             return;
         }
 
-        this.nextFrom = getInitialNextFrom();
+        nextFrom = getInitialNextFrom();
         doSearch();
     }
 

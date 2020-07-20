@@ -32,12 +32,12 @@ public class Lyrics3TimeStamp extends AbstractDataType {
     /**
      *
      */
-    private long minute = 0;
+    private long minute;
 
     /**
      *
      */
-    private long second = 0;
+    private long second;
 
     public Lyrics3TimeStamp(String identifier, AbstractTagFrameBody frameBody) {
         super(identifier, frameBody);
@@ -49,8 +49,8 @@ public class Lyrics3TimeStamp extends AbstractDataType {
 
     Lyrics3TimeStamp(Lyrics3TimeStamp copy) {
         super(copy);
-        this.minute = copy.minute;
-        this.second = copy.second;
+        minute = copy.minute;
+        second = copy.second;
     }
 
     // TODO: 3/14/17  implement?
@@ -94,7 +94,7 @@ public class Lyrics3TimeStamp extends AbstractDataType {
 
         Lyrics3TimeStamp object = (Lyrics3TimeStamp) obj;
 
-        return this.minute == object.minute && this.second == object.second && super.equals(obj);
+        return minute == object.minute && second == object.second && super.equals(obj);
 
     }
 
@@ -161,7 +161,7 @@ public class Lyrics3TimeStamp extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         readString(Arrays.toString(buffer.readByteArray()), 0);
     }
 

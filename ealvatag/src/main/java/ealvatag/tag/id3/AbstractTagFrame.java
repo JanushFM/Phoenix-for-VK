@@ -43,8 +43,8 @@ public abstract class AbstractTagFrame extends AbstractTagItem {
      * @param copyObject
      */
     public AbstractTagFrame(AbstractTagFrame copyObject) {
-        this.frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(copyObject.frameBody);
-        this.frameBody.setHeader(this);
+        frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(copyObject.frameBody);
+        frameBody.setHeader(this);
     }
 
     /**
@@ -54,7 +54,7 @@ public abstract class AbstractTagFrame extends AbstractTagItem {
      * @return the body datatype
      */
     public AbstractTagFrameBody getBody() {
-        return this.frameBody;
+        return frameBody;
     }
 
     /**
@@ -110,8 +110,8 @@ public abstract class AbstractTagFrame extends AbstractTagItem {
         }
 
         AbstractTagFrame that = (AbstractTagFrame) obj;
-        return Objects.equal(this.getIdentifier(), that.getIdentifier()) &&
-                Objects.equal(this.frameBody, that.frameBody);
+        return Objects.equal(getIdentifier(), that.getIdentifier()) &&
+                Objects.equal(frameBody, that.frameBody);
 
     }
 

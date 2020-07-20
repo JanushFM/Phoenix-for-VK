@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model.selection;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class FileManagerSelectableSource extends AbsSelectableSource implements Parcelable {
+public class FileManagerSelectableSource extends AbsSelectableSource {
 
     public static final Creator<FileManagerSelectableSource> CREATOR = new Creator<FileManagerSelectableSource>() {
         @Override

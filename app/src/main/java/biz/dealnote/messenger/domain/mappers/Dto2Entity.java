@@ -141,7 +141,7 @@ public class Dto2Entity {
             case FeedbackType.FRIEND_ACCEPTED:
                 VkApiUsersFeedback usersNotifcation = (VkApiUsersFeedback) feedback;
 
-                final UsersEntity usersDbo = new UsersEntity(type);
+                UsersEntity usersDbo = new UsersEntity(type);
                 usersDbo.setOwners(usersNotifcation.users.ids);
                 usersDbo.setDate(feedback.date);
                 return usersDbo;
@@ -149,7 +149,7 @@ public class Dto2Entity {
             case FeedbackType.MENTION:
                 VkApiMentionWallFeedback mentionWallFeedback = (VkApiMentionWallFeedback) feedback;
 
-                final MentionEntity mentionDbo = new MentionEntity(type);
+                MentionEntity mentionDbo = new MentionEntity(type);
                 PostEntity post = mapPost(mentionWallFeedback.post);
                 mentionDbo.setWhere(post);
 
@@ -166,7 +166,7 @@ public class Dto2Entity {
                 VkApiMentionCommentFeedback mentionCommentFeedback = (VkApiMentionCommentFeedback) feedback;
                 CEntity entity = createFromCommentable(mentionCommentFeedback.comment_of);
 
-                final MentionCommentEntity mentionCommentDbo = new MentionCommentEntity(type);
+                MentionCommentEntity mentionCommentDbo = new MentionCommentEntity(type);
                 mentionCommentDbo.setDate(feedback.date);
                 mentionCommentDbo.setCommented(entity.entity);
                 mentionCommentDbo.setWhere(mapComment(entity.id, entity.ownerId, entity.type, entity.accessKey, mentionCommentFeedback.where));
@@ -182,7 +182,7 @@ public class Dto2Entity {
                 VkApiWallFeedback wallFeedback = (VkApiWallFeedback) feedback;
                 PostEntity postEntity = mapPost(wallFeedback.post);
 
-                final PostFeedbackEntity postFeedbackEntity = new PostFeedbackEntity(type);
+                PostFeedbackEntity postFeedbackEntity = new PostFeedbackEntity(type);
                 postFeedbackEntity.setDate(feedback.date);
                 postFeedbackEntity.setPost(postEntity);
 
@@ -198,7 +198,7 @@ public class Dto2Entity {
                 VkApiCommentFeedback commentFeedback = (VkApiCommentFeedback) feedback;
                 CEntity commented = createFromCommentable(commentFeedback.comment_of);
 
-                final NewCommentEntity commentEntity = new NewCommentEntity(type);
+                NewCommentEntity commentEntity = new NewCommentEntity(type);
                 commentEntity.setComment(mapComment(commented.id, commented.ownerId, commented.type, commented.accessKey, commentFeedback.comment));
                 commentEntity.setCommented(commented.entity);
                 commentEntity.setDate(feedback.date);
@@ -216,7 +216,7 @@ public class Dto2Entity {
                 VkApiReplyCommentFeedback replyCommentFeedback = (VkApiReplyCommentFeedback) feedback;
                 CEntity c = createFromCommentable(replyCommentFeedback.comments_of);
 
-                final ReplyCommentEntity replyCommentEntity = new ReplyCommentEntity(type);
+                ReplyCommentEntity replyCommentEntity = new ReplyCommentEntity(type);
                 replyCommentEntity.setDate(feedback.date);
                 replyCommentEntity.setCommented(c.entity);
                 replyCommentEntity.setFeedbackComment(mapComment(c.id, c.ownerId, c.type, c.accessKey, replyCommentFeedback.feedback_comment));
@@ -236,7 +236,7 @@ public class Dto2Entity {
             case FeedbackType.LIKE_VIDEO:
                 VkApiLikeFeedback likeFeedback = (VkApiLikeFeedback) feedback;
 
-                final LikeEntity likeEntity = new LikeEntity(type);
+                LikeEntity likeEntity = new LikeEntity(type);
                 likeEntity.setLiked(createFromLikeable(likeFeedback.liked));
                 likeEntity.setLikesOwnerIds(likeFeedback.users.ids);
                 likeEntity.setDate(feedback.date);
@@ -249,7 +249,7 @@ public class Dto2Entity {
                 VkApiLikeCommentFeedback likeCommentFeedback = (VkApiLikeCommentFeedback) feedback;
                 CEntity ce = createFromCommentable(likeCommentFeedback.commented);
 
-                final LikeCommentEntity likeCommentEntity = new LikeCommentEntity(type);
+                LikeCommentEntity likeCommentEntity = new LikeCommentEntity(type);
                 likeCommentEntity.setCommented(ce.entity);
                 likeCommentEntity.setLiked(mapComment(ce.id, ce.ownerId, ce.type, ce.accessKey, likeCommentFeedback.comment));
                 likeCommentEntity.setDate(feedback.date);
@@ -261,7 +261,7 @@ public class Dto2Entity {
             case FeedbackType.COPY_VIDEO:
                 VkApiCopyFeedback copyFeedback = (VkApiCopyFeedback) feedback;
 
-                final CopyEntity copyEntity = new CopyEntity(type);
+                CopyEntity copyEntity = new CopyEntity(type);
                 copyEntity.setDate(feedback.date);
 
                 if (type == FeedbackType.COPY_POST) {
@@ -437,7 +437,7 @@ public class Dto2Entity {
     }
 
     public static CommunityDetailsEntity mapCommunityDetails(VKApiCommunity dto) {
-        final CommunityDetailsEntity details = new CommunityDetailsEntity()
+        CommunityDetailsEntity details = new CommunityDetailsEntity()
                 .setCanMessage(dto.can_message)
                 .setStatus(dto.status)
                 .setStatusAudio(nonNull(dto.status_audio) ? mapAudio(dto.status_audio) : null);
@@ -1069,7 +1069,7 @@ public class Dto2Entity {
                 .setImportant(dto.important)
                 .setDeleted(dto.deleted)
                 .setDeletedForAll(false) // cant be deleted for all?
-                .setForwardCount(Utils.safeCountOf(dto.fwd_messages))
+                .setForwardCount(safeCountOf(dto.fwd_messages))
                 .setHasAttachmens(nonNull(dto.attachments) && !dto.attachments.isEmpty())
                 .setStatus(MessageStatus.SENT) // only sent can be
                 .setOriginalId(dto.id)

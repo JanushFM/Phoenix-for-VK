@@ -22,12 +22,12 @@ public class Sources implements Parcelable {
     private final ArrayList<AbsSelectableSource> sources;
 
     public Sources() {
-        this.sources = new ArrayList<>(2);
+        sources = new ArrayList<>(2);
     }
 
     protected Sources(Parcel in) {
         int size = in.readInt();
-        this.sources = new ArrayList<>(size);
+        sources = new ArrayList<>(size);
 
         for (int i = 0; i < size; i++) {
             @Types
@@ -35,19 +35,19 @@ public class Sources implements Parcelable {
 
             switch (type) {
                 case Types.FILES:
-                    this.sources.add(in.readParcelable(FileManagerSelectableSource.class.getClassLoader()));
+                    sources.add(in.readParcelable(FileManagerSelectableSource.class.getClassLoader()));
                     break;
                 case Types.LOCAL_PHOTOS:
-                    this.sources.add(in.readParcelable(LocalPhotosSelectableSource.class.getClassLoader()));
+                    sources.add(in.readParcelable(LocalPhotosSelectableSource.class.getClassLoader()));
                     break;
                 case Types.LOCAL_GALLERY:
-                    this.sources.add(in.readParcelable(LocalGallerySelectableSource.class.getClassLoader()));
+                    sources.add(in.readParcelable(LocalGallerySelectableSource.class.getClassLoader()));
                     break;
                 case Types.VIDEOS:
-                    this.sources.add(in.readParcelable(LocalVideosSelectableSource.class.getClassLoader()));
+                    sources.add(in.readParcelable(LocalVideosSelectableSource.class.getClassLoader()));
                     break;
                 case Types.VK_PHOTOS:
-                    this.sources.add(in.readParcelable(VkPhotosSelectableSource.class.getClassLoader()));
+                    sources.add(in.readParcelable(VkPhotosSelectableSource.class.getClassLoader()));
                     break;
                 default:
                     throw new UnsupportedOperationException("Invalid type " + type);
@@ -60,7 +60,7 @@ public class Sources implements Parcelable {
     }
 
     public Sources with(AbsSelectableSource source) {
-        this.sources.add(source);
+        sources.add(source);
         return this;
     }
 

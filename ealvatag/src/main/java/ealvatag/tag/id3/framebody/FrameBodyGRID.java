@@ -82,9 +82,9 @@ public class FrameBodyGRID extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param data
      */
     public FrameBodyGRID(String owner, byte groupSymbol, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_OWNER, owner);
-        this.setObjectValue(DataTypes.OBJ_GROUP_SYMBOL, groupSymbol);
-        this.setObjectValue(DataTypes.OBJ_GROUP_DATA, data);
+        setObjectValue(DataTypes.OBJ_OWNER, owner);
+        setObjectValue(DataTypes.OBJ_GROUP_SYMBOL, groupSymbol);
+        setObjectValue(DataTypes.OBJ_GROUP_DATA, data);
     }
 
     /**

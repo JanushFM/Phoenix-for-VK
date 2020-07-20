@@ -63,22 +63,22 @@ public class NewPostPushMessage {
     public NewPostPushMessage(int accountId, RemoteMessage remote) {
         this.accountId = accountId;
         Map<String, String> data = remote.getData();
-        this.from = Long.parseLong(remote.getFrom());
-        this.from_id = Integer.parseInt(data.get("from_id"));
-        this.url = data.get("url");
-        this.body = data.get("body");
-        this.time = Long.parseLong(data.get("time"));
-        this.badge = Integer.parseInt(data.get("badge"));
-        this.image = data.get("image");
-        this.sound = Integer.parseInt(data.get("sound")) == 1;
-        this.title = data.get("title");
-        this.to_id = Integer.parseInt(data.get("to_id"));
-        this.group_id = data.get("group_id");
+        from = Long.parseLong(remote.getFrom());
+        from_id = Integer.parseInt(data.get("from_id"));
+        url = data.get("url");
+        body = data.get("body");
+        time = Long.parseLong(data.get("time"));
+        badge = Integer.parseInt(data.get("badge"));
+        image = data.get("image");
+        sound = Integer.parseInt(data.get("sound")) == 1;
+        title = data.get("title");
+        to_id = Integer.parseInt(data.get("to_id"));
+        group_id = data.get("group_id");
 
         PostContext context = new Gson().fromJson(data.get("context"), PostContext.class);
-        this.item_id = context.item_id;
-        this.owner_id = context.owner_id;
-        this.context_type = context.type;
+        item_id = context.item_id;
+        owner_id = context.owner_id;
+        context_type = context.type;
     }
 
     public void notifyIfNeed(Context context) {
@@ -97,7 +97,7 @@ public class NewPostPushMessage {
     }
 
     private void notifyImpl(Context context) {
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getNewPostChannel(context));
         }

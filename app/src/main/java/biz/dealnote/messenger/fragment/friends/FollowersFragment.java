@@ -12,7 +12,7 @@ import biz.dealnote.messenger.mvp.presenter.FollowersPresenter;
 import biz.dealnote.messenger.mvp.view.ISimpleOwnersView;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
-public class FollowersFragment extends AbsOwnersListFragment<FollowersPresenter, ISimpleOwnersView> implements ISimpleOwnersView {
+public class FollowersFragment extends AbsOwnersListFragment<FollowersPresenter, ISimpleOwnersView> {
 
     public static FollowersFragment newInstance(int accountId, int userId) {
         Bundle args = new Bundle();

@@ -25,7 +25,7 @@ public class CommunitiesSearchPresenter extends AbsSearchPresenter<ICommunitiesS
 
     public CommunitiesSearchPresenter(int accountId, @Nullable GroupSearchCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.communitiesInteractor = InteractorFactory.createCommunitiesInteractor();
+        communitiesInteractor = InteractorFactory.createCommunitiesInteractor();
     }
 
     private static String extractTypeFromCriteria(GroupSearchCriteria criteria) {
@@ -56,17 +56,17 @@ public class CommunitiesSearchPresenter extends AbsSearchPresenter<ICommunitiesS
 
     @Override
     Single<Pair<List<Community>, IntNextFrom>> doSearch(int accountId, GroupSearchCriteria criteria, IntNextFrom startFrom) {
-        final String type = extractTypeFromCriteria(criteria);
+        String type = extractTypeFromCriteria(criteria);
 
-        final Integer countryId = criteria.extractDatabaseEntryValueId(GroupSearchCriteria.KEY_COUNTRY);
-        final Integer cityId = criteria.extractDatabaseEntryValueId(GroupSearchCriteria.KEY_CITY);
-        final Boolean future = criteria.extractBoleanValueFromOption(GroupSearchCriteria.KEY_FUTURE_ONLY);
+        Integer countryId = criteria.extractDatabaseEntryValueId(GroupSearchCriteria.KEY_COUNTRY);
+        Integer cityId = criteria.extractDatabaseEntryValueId(GroupSearchCriteria.KEY_CITY);
+        Boolean future = criteria.extractBoleanValueFromOption(GroupSearchCriteria.KEY_FUTURE_ONLY);
 
-        final SpinnerOption sortOption = criteria.findOptionByKey(GroupSearchCriteria.KEY_SORT);
-        final Integer sort = (sortOption == null || sortOption.value == null) ? null : sortOption.value.id;
+        SpinnerOption sortOption = criteria.findOptionByKey(GroupSearchCriteria.KEY_SORT);
+        Integer sort = (sortOption == null || sortOption.value == null) ? null : sortOption.value.id;
 
-        final int offset = startFrom.getOffset();
-        final IntNextFrom nextFrom = new IntNextFrom(offset + 50);
+        int offset = startFrom.getOffset();
+        IntNextFrom nextFrom = new IntNextFrom(offset + 50);
 
         return communitiesInteractor.search(accountId, criteria.getQuery(), type, countryId, cityId, future, sort, 50, offset)
                 .map(communities -> Pair.Companion.create(communities, nextFrom));

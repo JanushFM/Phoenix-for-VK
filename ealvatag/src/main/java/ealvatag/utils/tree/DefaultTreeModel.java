@@ -84,7 +84,6 @@ public class DefaultTreeModel implements Serializable, TreeModel {
      * @see #asksAllowsChildren
      */
     public DefaultTreeModel(TreeNode root, boolean asksAllowsChildren) {
-        super();
         this.root = root;
         this.asksAllowsChildren = asksAllowsChildren;
     }

@@ -42,7 +42,7 @@ public final class OkHttp3Downloader implements Downloader {
      * Create new downloader that uses OkHttp. This will install an image cache into your application
      * cache directory.
      */
-    public OkHttp3Downloader(final Context context) {
+    public OkHttp3Downloader(Context context) {
         this(Utils.createDefaultCacheDir(context));
     }
 
@@ -52,7 +52,7 @@ public final class OkHttp3Downloader implements Downloader {
      *
      * @param cacheDir The directory in which the cache should be stored
      */
-    public OkHttp3Downloader(final File cacheDir) {
+    public OkHttp3Downloader(File cacheDir) {
         this(cacheDir, Utils.calculateDiskCacheSize(cacheDir));
     }
 
@@ -62,7 +62,7 @@ public final class OkHttp3Downloader implements Downloader {
      *
      * @param maxSize The size limit for the cache.
      */
-    public OkHttp3Downloader(final Context context, final long maxSize) {
+    public OkHttp3Downloader(Context context, long maxSize) {
         this(Utils.createDefaultCacheDir(context), maxSize);
     }
 
@@ -73,7 +73,7 @@ public final class OkHttp3Downloader implements Downloader {
      * @param cacheDir The directory in which the cache should be stored
      * @param maxSize  The size limit for the cache.
      */
-    public OkHttp3Downloader(final File cacheDir, final long maxSize) {
+    public OkHttp3Downloader(File cacheDir, long maxSize) {
         this(new OkHttpClient.Builder().cache(new Cache(cacheDir, maxSize)).build());
         sharedClient = false;
     }
@@ -84,7 +84,7 @@ public final class OkHttp3Downloader implements Downloader {
      */
     public OkHttp3Downloader(OkHttpClient client) {
         this.client = client;
-        this.cache = client.cache();
+        cache = client.cache();
     }
 
     /**
@@ -92,7 +92,7 @@ public final class OkHttp3Downloader implements Downloader {
      */
     public OkHttp3Downloader(Call.Factory client) {
         this.client = client;
-        this.cache = null;
+        cache = null;
     }
 
     @NonNull

@@ -26,8 +26,8 @@ public final class ParcelableOwnerWrapper implements Parcelable {
 
     public ParcelableOwnerWrapper(Owner owner) {
         this.owner = owner;
-        this.type = owner == null ? 0 : owner.getOwnerType();
-        this.isNull = owner == null;
+        type = owner == null ? 0 : owner.getOwnerType();
+        isNull = owner == null;
     }
 
     private ParcelableOwnerWrapper(Parcel in) {

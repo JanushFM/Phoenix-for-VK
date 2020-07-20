@@ -42,9 +42,9 @@ public class FrameBodyRBUF extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyRBUF datatype.
      */
     public FrameBodyRBUF() {
-        this.setObjectValue(DataTypes.OBJ_BUFFER_SIZE, (byte) 0);
-        this.setObjectValue(DataTypes.OBJ_EMBED_FLAG, Boolean.FALSE);
-        this.setObjectValue(DataTypes.OBJ_OFFSET, (byte) 0);
+        setObjectValue(DataTypes.OBJ_BUFFER_SIZE, (byte) 0);
+        setObjectValue(DataTypes.OBJ_EMBED_FLAG, Boolean.FALSE);
+        setObjectValue(DataTypes.OBJ_OFFSET, (byte) 0);
     }
 
     public FrameBodyRBUF(FrameBodyRBUF body) {
@@ -59,9 +59,9 @@ public class FrameBodyRBUF extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param offsetToNextTag
      */
     public FrameBodyRBUF(byte bufferSize, boolean embeddedInfoFlag, byte offsetToNextTag) {
-        this.setObjectValue(DataTypes.OBJ_BUFFER_SIZE, bufferSize);
-        this.setObjectValue(DataTypes.OBJ_EMBED_FLAG, embeddedInfoFlag);
-        this.setObjectValue(DataTypes.OBJ_OFFSET, offsetToNextTag);
+        setObjectValue(DataTypes.OBJ_BUFFER_SIZE, bufferSize);
+        setObjectValue(DataTypes.OBJ_EMBED_FLAG, embeddedInfoFlag);
+        setObjectValue(DataTypes.OBJ_OFFSET, offsetToNextTag);
     }
 
     /**

@@ -231,7 +231,7 @@ class RelativeshipStorage extends AbsStorage implements IRelativeshipStorage {
         Uri uri = MessengerContentProvider.getRelativeshipContentUriFor(accountId);
 
         String clearWhere = RelationshipColumns.OBJECT_ID + " = ? AND " + RelationshipColumns.TYPE + " = ?";
-        String[] clearWhereArgs = new String[]{
+        String[] clearWhereArgs = {
                 String.valueOf(objectId),
                 String.valueOf(type)
         };

@@ -262,8 +262,8 @@ public class GenreTypes implements SimpleIntStringMap {
         return instance;
     }
 
-    public void iterateValues(final ValuesIterator iterator) {
-        final int length = values.length;
+    public void iterateValues(ValuesIterator iterator) {
+        int length = values.length;
         if (iterator.begin(length)) {
             for (int i = 0; i < length; i++) {
                 if (!iterator.value(values[i])) {
@@ -294,7 +294,7 @@ public class GenreTypes implements SimpleIntStringMap {
     }
 
     @Override
-    public boolean containsKey(final int key) {
+    public boolean containsKey(int key) {
         return key >= 0 && key < values.length;
     }
 
@@ -319,7 +319,7 @@ public class GenreTypes implements SimpleIntStringMap {
                 if (valueToId == null) {
                     valueToId = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
                     for (int i = 0, size = values.length; i < size; i++) {
-                        final String value = Strings.nullToEmpty(values[i]);
+                        String value = Strings.nullToEmpty(values[i]);
                         valueToId.put(value, i);
                     }
                 }
@@ -329,9 +329,9 @@ public class GenreTypes implements SimpleIntStringMap {
     }
 
     public interface ValuesIterator {
-        boolean begin(final int count);
+        boolean begin(int count);
 
-        boolean value(final String value);
+        boolean value(String value);
 
         void end();
     }

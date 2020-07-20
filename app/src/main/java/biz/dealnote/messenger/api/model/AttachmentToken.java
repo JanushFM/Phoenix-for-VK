@@ -15,7 +15,7 @@ public class AttachmentToken implements IAttachmentToken {
         this.type = type;
         this.id = id;
         this.ownerId = ownerId;
-        this.accessKey = null;
+        accessKey = null;
     }
 
     public AttachmentToken(String type, int id, int ownerId, String accessKey) {

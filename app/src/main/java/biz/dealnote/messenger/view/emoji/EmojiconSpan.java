@@ -30,7 +30,6 @@ class EmojiconSpan extends DynamicDrawableSpan {
     private Drawable mDrawable;
 
     public EmojiconSpan(Context context, int resourceId, int size) {
-        super();
         mContext = context;
         mResourceId = resourceId;
         mSize = size;

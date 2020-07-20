@@ -29,11 +29,11 @@ public class DocsAsImagesAdapter extends RecyclerBindableAdapter<Document, DocsA
     }
 
     public void setData(List<Document> data) {
-        super.setItems(data);
+        setItems(data);
     }
 
     public void setActionListener(ActionListener listener) {
-        this.mActionListener = listener;
+        mActionListener = listener;
     }
 
     @Override

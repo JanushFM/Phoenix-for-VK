@@ -45,8 +45,8 @@ public class AudioPlaylistsAdapter extends RecyclerView.Adapter<AudioPlaylistsAd
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        final AudioPlaylist playlist = data.get(position);
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
+        AudioPlaylist playlist = data.get(position);
         if (!Utils.isEmpty(playlist.getThumb_image()))
             ViewUtils.displayAvatar(holder.thumb, new PolyTransformation(), playlist.getThumb_image(), Constants.PICASSO_TAG);
         else
@@ -147,8 +147,8 @@ public class AudioPlaylistsAdapter extends RecyclerView.Adapter<AudioPlaylistsAd
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            final int position = recyclerView.getChildAdapterPosition(v);
-            final AudioPlaylist playlist = data.get(position);
+            int position = recyclerView.getChildAdapterPosition(v);
+            AudioPlaylist playlist = data.get(position);
 
             if (Settings.get().accounts().getCurrent() == playlist.getOwnerId()) {
                 menu.add(0, v.getId(), 0, R.string.delete).setOnMenuItemClickListener(item -> {

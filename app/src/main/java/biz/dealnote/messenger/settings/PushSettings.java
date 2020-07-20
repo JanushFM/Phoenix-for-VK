@@ -19,8 +19,8 @@ class PushSettings implements ISettings.IPushSettings {
     private final Gson gson;
 
     PushSettings(Context context) {
-        this.app = context.getApplicationContext();
-        this.gson = new Gson();
+        app = context.getApplicationContext();
+        gson = new Gson();
     }
 
     @Override

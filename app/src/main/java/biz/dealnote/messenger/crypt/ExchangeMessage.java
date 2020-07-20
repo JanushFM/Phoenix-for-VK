@@ -39,13 +39,13 @@ public class ExchangeMessage implements Parcelable {
     private final Integer keyLocationPolicy;
 
     private ExchangeMessage(Builder builder) {
-        this.publicKey = builder.publicKey;
-        this.version = builder.version;
-        this.sessionId = builder.sessionId;
-        this.aesKey = builder.aesKey;
-        this.senderSessionState = builder.sessionState;
-        this.errorCode = builder.errorCode;
-        this.keyLocationPolicy = builder.keyLocationPolicy;
+        publicKey = builder.publicKey;
+        version = builder.version;
+        sessionId = builder.sessionId;
+        aesKey = builder.aesKey;
+        senderSessionState = builder.sessionState;
+        errorCode = builder.errorCode;
+        keyLocationPolicy = builder.keyLocationPolicy;
     }
 
     protected ExchangeMessage(Parcel in) {
@@ -134,7 +134,7 @@ public class ExchangeMessage implements Parcelable {
         public Builder(int version, long sessionId, @SessionState int senderSessionState) {
             this.version = version;
             this.sessionId = sessionId;
-            this.sessionState = senderSessionState;
+            sessionState = senderSessionState;
         }
 
         public Builder setPublicKey(String publicKey) {

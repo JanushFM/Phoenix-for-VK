@@ -114,12 +114,12 @@ public class FrameBodyAPIC extends AbstractArtworkFrameBody implements ID3v24Fra
      * @param body
      */
     public FrameBodyAPIC(FrameBodyPIC body) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, body.getTextEncoding());
-        this.setObjectValue(DataTypes.OBJ_MIME_TYPE,
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, body.getTextEncoding());
+        setObjectValue(DataTypes.OBJ_MIME_TYPE,
                 ImageFormats.getMimeTypeForFormat((String) body.getObjectValue(DataTypes.OBJ_IMAGE_FORMAT)));
-        this.setObjectValue(DataTypes.OBJ_PICTURE_TYPE, body.getObjectValue(DataTypes.OBJ_PICTURE_TYPE));
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, body.getDescription());
-        this.setObjectValue(DataTypes.OBJ_PICTURE_DATA, body.getObjectValue(DataTypes.OBJ_PICTURE_DATA));
+        setObjectValue(DataTypes.OBJ_PICTURE_TYPE, body.getObjectValue(DataTypes.OBJ_PICTURE_TYPE));
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, body.getDescription());
+        setObjectValue(DataTypes.OBJ_PICTURE_DATA, body.getObjectValue(DataTypes.OBJ_PICTURE_DATA));
 
     }
 
@@ -133,11 +133,11 @@ public class FrameBodyAPIC extends AbstractArtworkFrameBody implements ID3v24Fra
      * @param data
      */
     public FrameBodyAPIC(byte textEncoding, String mimeType, byte pictureType, String description, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setMimeType(mimeType);
-        this.setPictureType(pictureType);
-        this.setDescription(description);
-        this.setImageData(data);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setMimeType(mimeType);
+        setPictureType(pictureType);
+        setDescription(description);
+        setImageData(data);
     }
 
     /**
@@ -241,13 +241,13 @@ public class FrameBodyAPIC extends AbstractArtworkFrameBody implements ID3v24Fra
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         if (TagOptionSingleton.getInstance().isAPICDescriptionITunesCompatible()) {
-            this.setTextEncoding(TextEncoding.ISO_8859_1);
+            setTextEncoding(TextEncoding.ISO_8859_1);
             if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
                 setDescription("");
             }
         } else {
             if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-                this.setTextEncoding(TextEncoding.UTF_16);
+                setTextEncoding(TextEncoding.UTF_16);
             }
         }
         super.write(tagBuffer);

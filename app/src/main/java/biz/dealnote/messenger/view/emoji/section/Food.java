@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.view.emoji.section;
 
 public class Food {
-    public static final Emojicon[] DATA = new Emojicon[]{
+    public static final Emojicon[] DATA = {
 
             Emojicon.fromCodePoint(0x1f34f),
             Emojicon.fromCodePoint(0x1f34e),

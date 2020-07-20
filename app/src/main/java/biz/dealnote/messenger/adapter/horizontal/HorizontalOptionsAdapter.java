@@ -24,7 +24,7 @@ public class HorizontalOptionsAdapter<T extends Entry> extends RecyclerBindableA
 
     @Override
     protected void onBindItemViewHolder(Holder holder, int position, int type) {
-        final T item = getItem(position);
+        T item = getItem(position);
 
         String title = item.getTitle(holder.itemView.getContext());
         String targetTitle = title.startsWith("#") ? title : "#" + title;

@@ -93,7 +93,7 @@ public class KeyExchangeService extends Service {
                 String exchangeMessageBody = messageBody.substring(3); // without RSA on start
                 ExchangeMessage message = new Gson().fromJson(exchangeMessageBody, ExchangeMessage.class);
                 if (!out) {
-                    KeyExchangeService.processMessage(context, accountId, peerId, messageId, message);
+                    processMessage(context, accountId, peerId, messageId, message);
                 }
                 return true;
             } catch (Exception e) {
@@ -142,7 +142,7 @@ public class KeyExchangeService extends Service {
 
     public static Intent createIntentForApply(@NonNull Context context, @NonNull ExchangeMessage message, int accountId, int peerId, int messageId) {
         Intent apply = new Intent(context, KeyExchangeService.class);
-        apply.setAction(KeyExchangeService.ACTION_APPLY_EXHANGE);
+        apply.setAction(ACTION_APPLY_EXHANGE);
         apply.putExtra(Extra.ACCOUNT_ID, accountId);
         apply.putExtra(Extra.PEER_ID, peerId);
         apply.putExtra(Extra.MESSAGE_ID, messageId);
@@ -152,7 +152,7 @@ public class KeyExchangeService extends Service {
 
     public static Intent createIntentForDecline(@NonNull Context context, @NonNull ExchangeMessage message, int accountId, int peerId, int messageId) {
         Intent intent = new Intent(context, KeyExchangeService.class);
-        intent.setAction(KeyExchangeService.ACTION_DECLINE);
+        intent.setAction(ACTION_DECLINE);
         intent.putExtra(Extra.MESSAGE, message);
         intent.putExtra(Extra.ACCOUNT_ID, accountId);
         intent.putExtra(Extra.PEER_ID, peerId);
@@ -351,7 +351,7 @@ public class KeyExchangeService extends Service {
         }
 
         String targetContentText = getString(R.string.key_exchange_content_text, info.getUser().getFullName());
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(KeyExchangeService.this, AppNotificationChannels.KEY_EXCHANGE_CHANNEL_ID)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, AppNotificationChannels.KEY_EXCHANGE_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_crypt_key_vector)
                 .setLargeIcon(info.getAvatar())
                 .setContentTitle(getString(R.string.key_exchange))

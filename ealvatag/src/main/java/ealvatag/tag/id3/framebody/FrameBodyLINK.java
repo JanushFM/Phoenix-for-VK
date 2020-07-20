@@ -93,9 +93,9 @@ public class FrameBodyLINK extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param additionalData
      */
     public FrameBodyLINK(String frameIdentifier, String url, String additionalData) {
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, frameIdentifier);
-        this.setObjectValue(DataTypes.OBJ_URL, url);
-        this.setObjectValue(DataTypes.OBJ_ID, additionalData);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, frameIdentifier);
+        setObjectValue(DataTypes.OBJ_URL, url);
+        setObjectValue(DataTypes.OBJ_ID, additionalData);
     }
 
     /**

@@ -57,7 +57,7 @@ public class MultipleTextEncodedStringNullTerminated extends AbstractDataType {
      */
     public boolean canBeEncoded() {
         if (null == value) return false;
-        final List<String> list = ((Values) value).getList();
+        List<String> list = ((Values) value).getList();
         if (list.isEmpty()) return false;
         for (String s : list) {
             if (!new TextEncodedStringNullTerminated(identifier, frameBody, s).canBeEncoded())
@@ -108,10 +108,10 @@ public class MultipleTextEncodedStringNullTerminated extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         int runningSize = getSize();
         while (runningSize > 0) {
-            final TextEncodedStringNullTerminated next = new TextEncodedStringNullTerminated(identifier, frameBody);
+            TextEncodedStringNullTerminated next = new TextEncodedStringNullTerminated(identifier, frameBody);
             if (next.getSize() == 0) {
                 break;
             } else {

@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class DatabaseOption extends BaseOption implements Parcelable {
+public class DatabaseOption extends BaseOption {
 
     public static final int TYPE_COUNTRY = 1;
     public static final int TYPE_CITY = 2;
@@ -75,7 +75,7 @@ public class DatabaseOption extends BaseOption implements Parcelable {
     @Override
     public DatabaseOption clone() throws CloneNotSupportedException {
         DatabaseOption clone = (DatabaseOption) super.clone();
-        clone.value = this.value == null ? null : this.value.clone();
+        clone.value = value == null ? null : value.clone();
         return clone;
     }
 
@@ -89,7 +89,7 @@ public class DatabaseOption extends BaseOption implements Parcelable {
 
     @Override
     public void reset() {
-        this.value = null;
+        value = null;
     }
 
     public static class Entry implements Parcelable, Cloneable {

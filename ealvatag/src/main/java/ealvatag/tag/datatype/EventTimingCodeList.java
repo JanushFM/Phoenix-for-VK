@@ -29,11 +29,11 @@ public class EventTimingCodeList extends AbstractDataTypeList<EventTimingCode> {
      *
      * @param copy instance to copy
      */
-    public EventTimingCodeList(final EventTimingCodeList copy) {
+    public EventTimingCodeList(EventTimingCodeList copy) {
         super(copy);
     }
 
-    public EventTimingCodeList(final FrameBodyETCO body) {
+    public EventTimingCodeList(FrameBodyETCO body) {
         super(DataTypes.OBJ_TIMED_EVENT_LIST, body);
     }
 

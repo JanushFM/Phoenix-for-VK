@@ -27,10 +27,10 @@ public class PhotoAlbumPagerPresenter extends PhotoPagerPresenter {
     public PhotoAlbumPagerPresenter(int indexx, int accountId, int ownerId, int albumId, ArrayList<Photo> photos, Context context,
                                     @Nullable Bundle savedInstanceState) {
         super(new ArrayList<>(0), accountId, false, context, savedInstanceState);
-        this.photosInteractor = InteractorFactory.createPhotosInteractor();
-        this.mOwnerId = ownerId;
-        this.mAlbumId = albumId;
-        this.canLoad = true;
+        photosInteractor = InteractorFactory.createPhotosInteractor();
+        mOwnerId = ownerId;
+        mAlbumId = albumId;
+        canLoad = true;
 
         getData().addAll(photos);
         setCurrentIndex(indexx);
@@ -43,7 +43,7 @@ public class PhotoAlbumPagerPresenter extends PhotoPagerPresenter {
 
     @Override
     void initPhotosData(@NonNull ArrayList<Photo> initialData, @Nullable Bundle savedInstanceState) {
-        super.mPhotos = initialData;
+        mPhotos = initialData;
     }
 
     @Override

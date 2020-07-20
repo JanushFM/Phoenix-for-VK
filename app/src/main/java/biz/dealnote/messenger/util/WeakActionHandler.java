@@ -11,7 +11,7 @@ public class WeakActionHandler<T> extends Handler {
     private Action<T> action;
 
     public WeakActionHandler(T object) {
-        this.ref = new WeakReference<>(object);
+        ref = new WeakReference<>(object);
     }
 
     @Override

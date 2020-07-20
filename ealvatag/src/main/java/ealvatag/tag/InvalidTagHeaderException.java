@@ -25,7 +25,7 @@ package ealvatag.tag;
 public class InvalidTagHeaderException extends TagException {
     private static final long serialVersionUID = 4516572559198337550L;
 
-    public InvalidTagHeaderException(final String message) {
+    public InvalidTagHeaderException(String message) {
         super(message);
     }
 

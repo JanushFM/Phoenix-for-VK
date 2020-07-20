@@ -76,7 +76,7 @@ public class ChatAttachmentPhotoPresenter extends BaseChatAttachmentsPresenter<P
 
     @SuppressWarnings("unused")
     public void firePhotoClick(int position, Photo photo) {
-        final List<Photo> photos = super.data;
+        List<Photo> photos = data;
 
         TmpSource source = new TmpSource(getInstanceId(), 0);
 

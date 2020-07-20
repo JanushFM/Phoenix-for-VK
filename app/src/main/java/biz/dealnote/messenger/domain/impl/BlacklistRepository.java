@@ -13,8 +13,8 @@ public class BlacklistRepository implements IBlacklistRepository {
     private final PublishSubject<Pair<Integer, Integer>> removePublisher;
 
     public BlacklistRepository() {
-        this.addPublisher = PublishSubject.create();
-        this.removePublisher = PublishSubject.create();
+        addPublisher = PublishSubject.create();
+        removePublisher = PublishSubject.create();
     }
 
     @Override

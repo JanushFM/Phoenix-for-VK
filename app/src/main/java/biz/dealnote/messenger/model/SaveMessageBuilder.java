@@ -28,7 +28,7 @@ public class SaveMessageBuilder {
     public SaveMessageBuilder(int accountId, int peerId) {
         this.accountId = accountId;
         this.peerId = peerId;
-        this.keyLocationPolicy = KeyLocationPolicy.PERSIST;
+        keyLocationPolicy = KeyLocationPolicy.PERSIST;
     }
 
     public Integer getDraftMessageId() {

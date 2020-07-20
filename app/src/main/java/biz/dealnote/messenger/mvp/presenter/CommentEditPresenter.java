@@ -49,13 +49,13 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
 
     public CommentEditPresenter(Comment comment, int accountId, Integer CommentThread, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.commentsInteractor = new CommentsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores(), Repository.INSTANCE.getOwners());
-        this.orig = comment;
-        this.destination = new UploadDestination(comment.getId(), comment.getCommented().getSourceOwnerId(), Method.TO_COMMENT, MessageMethod.NULL);
+        commentsInteractor = new CommentsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores(), Repository.INSTANCE.getOwners());
+        orig = comment;
+        destination = new UploadDestination(comment.getId(), comment.getCommented().getSourceOwnerId(), Method.TO_COMMENT, MessageMethod.NULL);
         this.CommentThread = CommentThread;
 
         if (isNull(savedInstanceState)) {
-            super.setTextBody(orig.getText());
+            setTextBody(orig.getText());
             initialPopulateEntries();
         }
 
@@ -92,7 +92,7 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
 
         int index = findUploadIndexById(upload.getId());
 
-        final AttachmenEntry entry;
+        AttachmenEntry entry;
         if (result.getResult() instanceof Photo) {
             entry = new AttachmenEntry(true, (Photo) result.getResult());
         } else {
@@ -111,7 +111,7 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
 
     @Override
     void onAttachmentRemoveClick(int index, @NonNull AttachmenEntry attachment) {
-        super.manuallyRemoveElement(index);
+        manuallyRemoveElement(index);
     }
 
     @Override
@@ -155,16 +155,16 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
         }
 
         List<AbsModel> models = new ArrayList<>();
-        for (AttachmenEntry entry : super.getData()) {
+        for (AttachmenEntry entry : getData()) {
             models.add(entry.getAttachment());
         }
 
         setEditingNow(true);
 
-        final int accountId = super.getAccountId();
-        final Commented commented = this.orig.getCommented();
-        final int commentId = this.orig.getId();
-        final String body = super.getTextBody();
+        int accountId = getAccountId();
+        Commented commented = orig.getCommented();
+        int commentId = orig.getId();
+        String body = getTextBody();
 
         appendDisposable(commentsInteractor.edit(accountId, commented, commentId, body, CommentThread, models)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -179,7 +179,7 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
     private void onEditComplete(@Nullable Comment comment) {
         setEditingNow(false);
 
-        this.canGoBack = true;
+        canGoBack = true;
 
         callView(view -> view.goBackWithResult(comment));
     }
@@ -211,7 +211,7 @@ public class CommentEditPresenter extends AbsAttachmentsEditPresenter<ICommentEd
 
     public void fireSavingCancelClick() {
         uploadManager.cancelAll(getAccountId(), destination);
-        this.canGoBack = true;
+        canGoBack = true;
         getView().goBack();
     }
 }

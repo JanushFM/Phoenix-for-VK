@@ -81,9 +81,9 @@ public abstract class AbstractTag implements TagFieldContainer {
      * Stores the amount of {@link TagField} with {@link TagField#isCommon()}
      * <code>true</code>.
      */
-    private int commonNumber = 0;
+    private int commonNumber;
 
-    protected AbstractTag(final boolean readOnly) {
+    protected AbstractTag(boolean readOnly) {
         this.readOnly = readOnly;
     }
 
@@ -141,8 +141,8 @@ public abstract class AbstractTag implements TagFieldContainer {
      * @param id the tag field key
      * @return associated list. Empty if no such field exists
      */
-    protected List<TagField> getFieldList(final String id) {
-        final List<TagField> list = fields.get(id);
+    protected List<TagField> getFieldList(String id) {
+        List<TagField> list = fields.get(id);
         return list == null ? EMPTY_TAG_FIELD_LIST : list;
     }
 
@@ -162,7 +162,7 @@ public abstract class AbstractTag implements TagFieldContainer {
     }
 
     @Override
-    public int getFieldCount(final Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public int getFieldCount(Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         return getFieldList(genericKey.name()).size();
     }
 
@@ -218,7 +218,7 @@ public abstract class AbstractTag implements TagFieldContainer {
         return getValue(genericKey, 0).or("");
     }
 
-    public Optional<String> getValue(final FieldKey genericKey) throws IllegalArgumentException {
+    public Optional<String> getValue(FieldKey genericKey) throws IllegalArgumentException {
         return getValue(genericKey, 0);
     }
 
@@ -228,7 +228,7 @@ public abstract class AbstractTag implements TagFieldContainer {
         return (l.size() != 0) ? l.get(0).toString() : "";
     }
 
-    public Tag deleteField(final String id) throws IllegalArgumentException, UnsupportedFieldException {
+    public Tag deleteField(String id) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNullOrEmpty(id, CANNOT_BE_NULL_OR_EMPTY, "id");
         fields.remove(id);
         return this;
@@ -274,7 +274,7 @@ public abstract class AbstractTag implements TagFieldContainer {
     /**
      * Set or add encoding
      */
-    public boolean setEncoding(final Charset enc) {
+    public boolean setEncoding(Charset enc) {
         if (!isAllowedEncoding(enc)) {
             return false;
         }
@@ -301,7 +301,7 @@ public abstract class AbstractTag implements TagFieldContainer {
 
     @Override
     public Iterator<TagField> getFields() {
-        final Iterator<Map.Entry<String, List<TagField>>> it = this.fields.entrySet().iterator();
+        Iterator<Map.Entry<String, List<TagField>>> it = fields.entrySet().iterator();
         return new Iterator<TagField>() {
             private Iterator<TagField> fieldsIt;
 
@@ -341,7 +341,7 @@ public abstract class AbstractTag implements TagFieldContainer {
 
     @Override
     public ImmutableList<TagField> getFields(String id) {
-        final List<TagField> tagFields = fields.get(id);
+        List<TagField> tagFields = fields.get(id);
         if (tagFields == null) {
             return ImmutableList.of();
         }
@@ -407,7 +407,7 @@ public abstract class AbstractTag implements TagFieldContainer {
             out.append("\t");
             out.append(field.getId());
             out.append(":");
-            out.append(field.toString());
+            out.append(field);
             out.append("\n");
         }
         return out.toString().substring(0, out.length() - 1);
@@ -415,7 +415,7 @@ public abstract class AbstractTag implements TagFieldContainer {
 
 
     @Override
-    public ImmutableList<TagField> getFields(final FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public ImmutableList<TagField> getFields(FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
         return ImmutableList.copyOf(getFieldList(genericKey.name()));
     }

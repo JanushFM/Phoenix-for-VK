@@ -7,7 +7,7 @@ import android.animation.AnimatorSet;
 class AnimatorPlayer extends AnimatorListenerAdapter {
 
     private final Animator[] animators;
-    private boolean interrupted = false;
+    private boolean interrupted;
 
     AnimatorPlayer(Animator[] animators) {
         this.animators = animators;

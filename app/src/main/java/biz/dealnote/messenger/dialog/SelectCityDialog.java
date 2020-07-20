@@ -57,9 +57,9 @@ public class SelectCityDialog extends AccountDependencyDialogFragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.accountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.databaseInteractor = InteractorFactory.createDatabaseInteractor();
-        this.countryId = getArguments().getInt(Extra.COUNTRY_ID);
+        accountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        databaseInteractor = InteractorFactory.createDatabaseInteractor();
+        countryId = getArguments().getInt(Extra.COUNTRY_ID);
     }
 
     @Override

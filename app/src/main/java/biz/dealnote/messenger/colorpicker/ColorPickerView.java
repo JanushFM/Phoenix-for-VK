@@ -42,8 +42,8 @@ public class ColorPickerView extends View {
     private int density = 8;
     private float lightness = 1;
     private float alpha = 1;
-    private Integer[] initialColors = new Integer[]{null, null, null, null, null};
-    private int colorSelection = 0;
+    private Integer[] initialColors = {null, null, null, null, null};
+    private int colorSelection;
     private Integer initialColor;
     private ColorCircle currentColorCircle;
     private LightnessSlider lightnessSlider;
@@ -95,7 +95,7 @@ public class ColorPickerView extends View {
     }
 
     private void initWith(Context context, AttributeSet attrs) {
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
 
         density = typedArray.getInt(R.styleable.ColorPickerView_density, 10);
         initialColor = typedArray.getInt(R.styleable.ColorPickerView_initialColor, 0xffffffff);
@@ -172,7 +172,7 @@ public class ColorPickerView extends View {
         float cSize = maxRadius / (density - 1) / 2;
 
         ColorWheelRenderOption colorWheelRenderOption = renderer.getRenderOption();
-        colorWheelRenderOption.density = this.density;
+        colorWheelRenderOption.density = density;
         colorWheelRenderOption.maxRadius = maxRadius;
         colorWheelRenderOption.cSize = cSize;
         colorWheelRenderOption.strokeWidth = strokeWidth;
@@ -270,7 +270,7 @@ public class ColorPickerView extends View {
         float maxRadius = getWidth() / (1f + ColorWheelRenderer.GAP_PERCENTAGE);
         float size = maxRadius / density / 2;
         if (colorWheel != null && currentColorCircle != null) {
-            colorWheelFill.setColor(Color.HSVToColor(currentColorCircle.getHsvWithLightness(this.lightness)));
+            colorWheelFill.setColor(Color.HSVToColor(currentColorCircle.getHsvWithLightness(lightness)));
             colorWheelFill.setAlpha((int) (alpha * 0xff));
 
             // a separate canvas is used to erase an issue with the alpha pattern around the edges
@@ -331,14 +331,14 @@ public class ColorPickerView extends View {
     public int getSelectedColor() {
         int color = 0;
         if (currentColorCircle != null)
-            color = Utils.colorAtLightness(currentColorCircle.getColor(), this.lightness);
-        return Utils.adjustAlpha(this.alpha, color);
+            color = Utils.colorAtLightness(currentColorCircle.getColor(), lightness);
+        return Utils.adjustAlpha(alpha, color);
     }
 
     public void setSelectedColor(int previewNumber) {
         if (initialColors == null || initialColors.length < previewNumber)
             return;
-        this.colorSelection = previewNumber;
+        colorSelection = previewNumber;
         setHighlightedColor(previewNumber);
         Integer color = initialColors[previewNumber];
         if (color == null)
@@ -351,9 +351,9 @@ public class ColorPickerView extends View {
     }
 
     public void setInitialColors(Integer[] colors, int selectedColor) {
-        this.initialColors = colors;
-        this.colorSelection = selectedColor;
-        Integer initialColor = this.initialColors[this.colorSelection];
+        initialColors = colors;
+        colorSelection = selectedColor;
+        Integer initialColor = initialColors[colorSelection];
         if (initialColor == null) initialColor = 0xffffffff;
         setInitialColor(initialColor, true);
     }
@@ -362,13 +362,13 @@ public class ColorPickerView extends View {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
 
-        this.alpha = Utils.getAlphaPercent(color);
-        this.lightness = hsv[2];
-        this.initialColors[this.colorSelection] = color;
-        this.initialColor = color;
+        alpha = Utils.getAlphaPercent(color);
+        lightness = hsv[2];
+        initialColors[colorSelection] = color;
+        initialColor = color;
         setColorPreviewColor(color);
         setColorToSliders(color);
-        if (this.colorEdit != null && updateText)
+        if (colorEdit != null && updateText)
             setColorText(color);
         currentColorCircle = findNearestByColor(color);
     }
@@ -378,13 +378,13 @@ public class ColorPickerView extends View {
 
         this.lightness = lightness;
         if (currentColorCircle != null) {
-            this.initialColor = Color.HSVToColor(Utils.alphaValueAsInt(this.alpha), currentColorCircle.getHsvWithLightness(lightness));
-            if (this.colorEdit != null)
-                this.colorEdit.setText(Utils.getHexString(this.initialColor, this.alphaSlider != null));
-            if (this.alphaSlider != null && this.initialColor != null)
-                this.alphaSlider.setColor(this.initialColor);
+            initialColor = Color.HSVToColor(Utils.alphaValueAsInt(alpha), currentColorCircle.getHsvWithLightness(lightness));
+            if (colorEdit != null)
+                colorEdit.setText(Utils.getHexString(initialColor, alphaSlider != null));
+            if (alphaSlider != null && initialColor != null)
+                alphaSlider.setColor(initialColor);
 
-            callOnColorChangedListeners(lastSelectedColor, this.initialColor);
+            callOnColorChangedListeners(lastSelectedColor, initialColor);
 
             updateColorWheel();
             invalidate();
@@ -401,24 +401,24 @@ public class ColorPickerView extends View {
         int lastSelectedColor = getSelectedColor();
 
         this.alpha = alpha;
-        this.initialColor = Color.HSVToColor(Utils.alphaValueAsInt(this.alpha), currentColorCircle.getHsvWithLightness(this.lightness));
-        if (this.colorEdit != null)
-            this.colorEdit.setText(Utils.getHexString(this.initialColor, this.alphaSlider != null));
-        if (this.lightnessSlider != null && this.initialColor != null)
-            this.lightnessSlider.setColor(this.initialColor);
+        initialColor = Color.HSVToColor(Utils.alphaValueAsInt(this.alpha), currentColorCircle.getHsvWithLightness(lightness));
+        if (colorEdit != null)
+            colorEdit.setText(Utils.getHexString(initialColor, alphaSlider != null));
+        if (lightnessSlider != null && initialColor != null)
+            lightnessSlider.setColor(initialColor);
 
-        callOnColorChangedListeners(lastSelectedColor, this.initialColor);
+        callOnColorChangedListeners(lastSelectedColor, initialColor);
 
         updateColorWheel();
         invalidate();
     }
 
     public void addOnColorChangedListener(OnColorChangedListener listener) {
-        this.colorChangedListeners.add(listener);
+        colorChangedListeners.add(listener);
     }
 
     public void addOnColorSelectedListener(OnColorSelectedListener listener) {
-        this.listeners.add(listener);
+        listeners.add(listener);
     }
 
     public void setLightnessSlider(LightnessSlider lightnessSlider) {
@@ -528,7 +528,7 @@ public class ColorPickerView extends View {
     private void setColorText(int argb) {
         if (colorEdit == null)
             return;
-        colorEdit.setText(Utils.getHexString(argb, this.alphaSlider != null));
+        colorEdit.setText(Utils.getHexString(argb, alphaSlider != null));
     }
 
     private void setColorToSliders(int selectedColor) {

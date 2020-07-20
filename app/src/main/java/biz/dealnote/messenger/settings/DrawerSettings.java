@@ -25,8 +25,8 @@ class DrawerSettings implements ISettings.IDrawerSettings {
     private final PublishSubject<Object> publishSubject;
 
     DrawerSettings(Context context) {
-        this.app = context.getApplicationContext();
-        this.publishSubject = PublishSubject.create();
+        app = context.getApplicationContext();
+        publishSubject = PublishSubject.create();
     }
 
     private static int findCategoryIndex(int[] array, @SwitchableCategory int category) {

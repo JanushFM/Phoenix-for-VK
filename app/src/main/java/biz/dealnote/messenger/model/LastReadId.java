@@ -25,7 +25,7 @@ public final class LastReadId {
     }
 
     public LastReadId setIncoming(int in) {
-        this.incoming = in;
+        incoming = in;
         return this;
     }
 }

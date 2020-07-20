@@ -66,25 +66,25 @@ public class LikeFCMMessage {
     public LikeFCMMessage(int accountId, RemoteMessage remote) {
         this.accountId = accountId;
         Map<String, String> data = remote.getData();
-        this.from = Long.parseLong(remote.getFrom());
-        this.id = data.get("id");
-        this.url = data.get("url");
-        this.time = Long.parseLong(data.get("time"));
-        this.sound = Integer.parseInt(data.get("sound")) == 1;
-        this.title = data.get("title");
-        this.from_id = Integer.parseInt("from_id");
-        this.body = data.get("body");
-        this.badge = Integer.parseInt(data.get("badge"));
-        this.to_id = Integer.parseInt(data.get("to_id"));
-        this.group_id = data.get("group_id");
+        from = Long.parseLong(remote.getFrom());
+        id = data.get("id");
+        url = data.get("url");
+        time = Long.parseLong(data.get("time"));
+        sound = Integer.parseInt(data.get("sound")) == 1;
+        title = data.get("title");
+        from_id = Integer.parseInt("from_id");
+        body = data.get("body");
+        badge = Integer.parseInt(data.get("badge"));
+        to_id = Integer.parseInt(data.get("to_id"));
+        group_id = data.get("group_id");
 
         LikeContext context = new Gson().fromJson(data.get("context"), LikeContext.class);
 
-        this.is_feedback = context.feedback == 1;
-        this.item_id = context.item_id;
-        this.owner_id = context.owner_id;
-        this.like_type = context.type;
-        this.reply_id = context.reply_id;
+        is_feedback = context.feedback == 1;
+        item_id = context.item_id;
+        owner_id = context.owner_id;
+        like_type = context.type;
+        reply_id = context.reply_id;
     }
 
     //todo implement place
@@ -167,7 +167,7 @@ public class LikeFCMMessage {
 //            return;
 //        }
 
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getLikesChannel(context));
         }

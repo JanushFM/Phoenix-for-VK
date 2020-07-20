@@ -34,8 +34,8 @@ public class CreatePollPresenter extends AccountDependencyPresenter<ICreatePollV
 
     public CreatePollPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.mOwnerId = ownerId;
-        this.pollInteractor = InteractorFactory.createPollInteractor();
+        mOwnerId = ownerId;
+        pollInteractor = InteractorFactory.createPollInteractor();
 
         if (isNull(savedInstanceState)) {
             mOptions = new String[10];
@@ -75,7 +75,7 @@ public class CreatePollPresenter extends AccountDependencyPresenter<ICreatePollV
         }
 
         setCreationNow(true);
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(pollInteractor.createPoll(accountId, mQuestion, mAnonymous, mMultiply, mOwnerId, nonEmptyOptions)
                 .compose(RxUtils.applySingleIOToMainSchedulers())

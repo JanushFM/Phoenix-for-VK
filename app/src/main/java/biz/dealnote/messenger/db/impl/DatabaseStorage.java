@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -37,7 +38,7 @@ public class DatabaseStorage extends AbsStorage implements IDatabaseStore {
 
             for (CountryEntity dbo : dbos) {
                 ContentValues cv = new ContentValues();
-                cv.put(CountriesColumns._ID, dbo.getId());
+                cv.put(BaseColumns._ID, dbo.getId());
                 cv.put(CountriesColumns.NAME, dbo.getTitle());
 
                 operations.add(ContentProviderOperation.newInsert(uri)
@@ -64,7 +65,7 @@ public class DatabaseStorage extends AbsStorage implements IDatabaseStore {
                         break;
                     }
 
-                    int id = cursor.getInt(cursor.getColumnIndex(CountriesColumns._ID));
+                    int id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
                     String title = cursor.getString(cursor.getColumnIndex(CountriesColumns.NAME));
                     dbos.add(new CountryEntity(id, title));
                 }

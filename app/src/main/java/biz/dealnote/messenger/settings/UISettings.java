@@ -21,7 +21,7 @@ class UISettings implements ISettings.IUISettings {
     private final Context app;
 
     UISettings(Context context) {
-        this.app = context.getApplicationContext();
+        app = context.getApplicationContext();
     }
 
     @Override

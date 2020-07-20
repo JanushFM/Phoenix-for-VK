@@ -12,7 +12,7 @@ import biz.dealnote.messenger.model.PostFilter;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.model.UserDetails;
 
-public interface IUserWallView extends IWallView, IProgressView, ISnackbarView {
+public interface IUserWallView extends IWallView, IProgressView {
 
     void displayWallFilters(List<PostFilter> filters);
 

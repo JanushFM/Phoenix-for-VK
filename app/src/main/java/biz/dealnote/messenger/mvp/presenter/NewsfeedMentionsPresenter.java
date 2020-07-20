@@ -32,10 +32,10 @@ public class NewsfeedMentionsPresenter extends PlaceSupportPresenter<INewsfeedCo
 
     public NewsfeedMentionsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.data = new ArrayList<>();
-        this.interactor = InteractorFactory.createNewsfeedInteractor();
+        data = new ArrayList<>();
+        interactor = InteractorFactory.createNewsfeedInteractor();
         this.ownerId = ownerId;
-        this.offset = 0;
+        offset = 0;
         loadAtLast();
     }
 

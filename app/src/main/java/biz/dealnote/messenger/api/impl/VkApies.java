@@ -101,29 +101,29 @@ class VkApies implements IAccountApis {
             }
         };
 
-        this.accountApi = new AccountApi(accountId, retrofitProvider);
-        this.audioApi = new AudioApi(accountId, retrofitProvider);
-        this.boardApi = new BoardApi(accountId, retrofitProvider);
-        this.commentsApi = new CommentsApi(accountId, retrofitProvider);
-        this.databaseApi = new DatabaseApi(accountId, retrofitProvider);
-        this.docsApi = new DocsApi(accountId, retrofitProvider);
-        this.faveApi = new FaveApi(accountId, retrofitProvider);
-        this.friendsApi = new FriendsApi(accountId, retrofitProvider);
-        this.groupsApi = new GroupsApi(accountId, retrofitProvider);
-        this.likesApi = new LikesApi(accountId, retrofitProvider);
-        this.messagesApi = new MessagesApi(accountId, retrofitProvider);
-        this.newsfeedApi = new NewsfeedApi(accountId, retrofitProvider);
-        this.notificationsApi = new NotificationsApi(accountId, retrofitProvider);
-        this.pagesApi = new PagesApi(accountId, retrofitProvider);
-        this.photosApi = new PhotosApi(accountId, retrofitProvider);
-        this.pollsApi = new PollsApi(accountId, retrofitProvider);
-        this.statusApi = new StatusApi(accountId, retrofitProvider);
-        this.storeApi = new StoreApi(accountId, retrofitProvider);
-        this.usersApi = new UsersApi(accountId, retrofitProvider);
-        this.utilsApi = new UtilsApi(accountId, retrofitProvider);
-        this.videoApi = new VideoApi(accountId, retrofitProvider);
-        this.wallApi = new WallApi(accountId, retrofitProvider);
-        this.otherApi = new OtherApi(accountId, provider);
+        accountApi = new AccountApi(accountId, retrofitProvider);
+        audioApi = new AudioApi(accountId, retrofitProvider);
+        boardApi = new BoardApi(accountId, retrofitProvider);
+        commentsApi = new CommentsApi(accountId, retrofitProvider);
+        databaseApi = new DatabaseApi(accountId, retrofitProvider);
+        docsApi = new DocsApi(accountId, retrofitProvider);
+        faveApi = new FaveApi(accountId, retrofitProvider);
+        friendsApi = new FriendsApi(accountId, retrofitProvider);
+        groupsApi = new GroupsApi(accountId, retrofitProvider);
+        likesApi = new LikesApi(accountId, retrofitProvider);
+        messagesApi = new MessagesApi(accountId, retrofitProvider);
+        newsfeedApi = new NewsfeedApi(accountId, retrofitProvider);
+        notificationsApi = new NotificationsApi(accountId, retrofitProvider);
+        pagesApi = new PagesApi(accountId, retrofitProvider);
+        photosApi = new PhotosApi(accountId, retrofitProvider);
+        pollsApi = new PollsApi(accountId, retrofitProvider);
+        statusApi = new StatusApi(accountId, retrofitProvider);
+        storeApi = new StoreApi(accountId, retrofitProvider);
+        usersApi = new UsersApi(accountId, retrofitProvider);
+        utilsApi = new UtilsApi(accountId, retrofitProvider);
+        videoApi = new VideoApi(accountId, retrofitProvider);
+        wallApi = new WallApi(accountId, retrofitProvider);
+        otherApi = new OtherApi(accountId, provider);
     }
 
     public static VkApies create(int accountId, String accessToken, IVkRetrofitProvider provider) {

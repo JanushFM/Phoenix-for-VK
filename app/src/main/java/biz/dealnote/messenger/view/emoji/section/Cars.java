@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.view.emoji.section;
 
 public class Cars {
-    public static final Emojicon[] DATA = new Emojicon[]{
+    public static final Emojicon[] DATA = {
             Emojicon.fromCodePoint(0x1f697),
             Emojicon.fromCodePoint(0x1f695),
             Emojicon.fromCodePoint(0x1f699),

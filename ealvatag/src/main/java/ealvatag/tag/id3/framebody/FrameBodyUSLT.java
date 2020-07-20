@@ -209,14 +209,14 @@ public class FrameBodyUSLT extends AbstractID3v2FrameBody implements ID3v23Frame
     public void write(ByteArrayOutputStream tagBuffer) {
 
         //Ensure valid for type
-        this.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(getHeader(), getTextEncoding()));
+        setTextEncoding(ID3TextEncodingConversion.getTextEncoding(getHeader(), getTextEncoding()));
 
         //Ensure valid for data
         if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-            this.setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
+            setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
         }
         if (!((AbstractString) getObject(DataTypes.OBJ_LYRICS)).canBeEncoded()) {
-            this.setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
+            setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
         }
         super.write(tagBuffer);
     }

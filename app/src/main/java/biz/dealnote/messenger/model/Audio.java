@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -11,7 +10,7 @@ import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Utils.stringEmptyIfNull;
 
-public class Audio extends AbsModel implements Parcelable {
+public class Audio extends AbsModel {
 
     public static final Creator<Audio> CREATOR = new Creator<Audio>() {
         @Override
@@ -84,16 +83,16 @@ public class Audio extends AbsModel implements Parcelable {
             final String regex = "^(.+?)/[^/]+?/audios/([^/]+)/.+$";
             final String subst = "$1/audios/$2.mp3";
 
-            final Pattern pattern = Pattern.compile(regex);
-            final Matcher matcher = pattern.matcher(url);
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(url);
 
             return matcher.replaceFirst(subst);
         } else {
             final String regex = "^(.+?)/(p[0-9]+)/[^/]+?/([^/]+)/.+$";
             final String subst = "$1/$2/$3.mp3";
 
-            final Pattern pattern = Pattern.compile(regex);
-            final Matcher matcher = pattern.matcher(url);
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(url);
             return matcher.replaceFirst(subst);
         }
     }

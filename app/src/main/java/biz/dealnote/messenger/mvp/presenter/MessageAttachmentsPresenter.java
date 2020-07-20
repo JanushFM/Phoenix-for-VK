@@ -70,16 +70,16 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
         this.messageId = messageId;
         this.context = context;
         this.messageOwnerId = messageOwnerId;
-        this.destination = UploadDestination.forMessage(messageId);
-        this.entries = new ArrayList<>();
-        this.attachmentsRepository = Injection.provideAttachmentsRepository();
-        this.uploadManager = Injection.provideUploadManager();
+        destination = UploadDestination.forMessage(messageId);
+        entries = new ArrayList<>();
+        attachmentsRepository = Injection.provideAttachmentsRepository();
+        uploadManager = Injection.provideUploadManager();
 
         if (nonNull(savedInstanceState)) {
-            this.currentPhotoCameraUri = savedInstanceState.getParcelable(SAVE_CAMERA_FILE_URI);
+            currentPhotoCameraUri = savedInstanceState.getParcelable(SAVE_CAMERA_FILE_URI);
             ArrayList<AttachmenEntry> accompanying = savedInstanceState.getParcelableArrayList(SAVE_ACCOMPANYING_ENTRIES);
             AssertUtils.requireNonNull(accompanying);
-            this.entries.addAll(accompanying);
+            entries.addAll(accompanying);
         } else {
             handleInputModels(bundle);
         }
@@ -187,7 +187,7 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
         int count = 0;
         for (int i = uploads.size() - 1; i >= 0; i--) {
             Upload upload = uploads.get(i);
-            if (this.destination.compareTo(upload.getDestination())) {
+            if (destination.compareTo(upload.getDestination())) {
                 AttachmenEntry entry = new AttachmenEntry(true, upload);
                 entries.add(0, entry);
                 count++;
@@ -249,8 +249,8 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
             return;
         }
 
-        int startCount = this.entries.size();
-        this.entries.addAll(data);
+        int startCount = entries.size();
+        entries.addAll(data);
 
         resolveEmptyViewVisibility();
         callView(view -> view.notifyDataAdded(startCount, data.size()));
@@ -405,7 +405,7 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     private void makePhotoInternal() {
         try {
             File file = FileUtil.createImageFile();
-            this.currentPhotoCameraUri = FileUtil.getExportedUriForFile(getApplicationContext(), file);
+            currentPhotoCameraUri = FileUtil.getExportedUriForFile(getApplicationContext(), file);
             getView().startCamera(currentPhotoCameraUri);
         } catch (IOException e) {
             safeShowError(getView(), e.getMessage());
@@ -440,8 +440,8 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     }
 
     public void firePhotoMaked() {
-        final Uri uri = this.currentPhotoCameraUri;
-        this.currentPhotoCameraUri = null;
+        Uri uri = currentPhotoCameraUri;
+        currentPhotoCameraUri = null;
 
         Intent scanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri);
         getApplicationContext().sendBroadcast(scanIntent);

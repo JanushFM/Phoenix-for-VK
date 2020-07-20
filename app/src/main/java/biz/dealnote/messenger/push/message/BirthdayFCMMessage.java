@@ -98,7 +98,7 @@ public class BirthdayFCMMessage {
     private void onUsersDataReceived(Context context, int accountId, Owner owner, Bitmap bitmap) {
         int ownerId = owner.getOwnerId();
 
-        final NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Objects.isNull(manager)) {
             return;
         }

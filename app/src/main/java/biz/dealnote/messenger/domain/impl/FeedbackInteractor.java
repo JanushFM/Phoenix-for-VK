@@ -122,7 +122,7 @@ public class FeedbackInteractor implements IFeedbackInteractor {
 
     @Override
     public Single<List<Feedback>> getCachedFeedbacks(int accountId) {
-        final NotificationsCriteria criteria = new NotificationsCriteria(accountId);
+        NotificationsCriteria criteria = new NotificationsCriteria(accountId);
         return getCachedFeedbacksByCriteria(criteria);
     }
 
@@ -140,10 +140,10 @@ public class FeedbackInteractor implements IFeedbackInteractor {
                 .notifications()
                 .get(count, startFrom, null, null, null)
                 .flatMap(response -> {
-                    final List<VkApiBaseFeedback> dtos = Utils.listEmptyIfNull(response.notifications);
-                    final List<FeedbackEntity> dbos = new ArrayList<>(dtos.size());
+                    List<VkApiBaseFeedback> dtos = Utils.listEmptyIfNull(response.notifications);
+                    List<FeedbackEntity> dbos = new ArrayList<>(dtos.size());
 
-                    final VKOwnIds ownIds = new VKOwnIds();
+                    VKOwnIds ownIds = new VKOwnIds();
 
                     for (VkApiBaseFeedback dto : dtos) {
                         FeedbackEntity dbo = Dto2Entity.buildFeedbackDbo(dto);
@@ -151,15 +151,15 @@ public class FeedbackInteractor implements IFeedbackInteractor {
                         dbos.add(dbo);
                     }
 
-                    final OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
-                    final List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
+                    OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                    List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
 
                     return cache.notifications()
                             .insert(accountId, dbos, ownerEntities, isEmpty(startFrom))
                             .flatMap(ints -> ownersRepository
                                     .findBaseOwnersDataAsBundle(accountId, ownIds.getAll(), IOwnersRepository.MODE_ANY, owners)
                                     .map(ownersBundle -> {
-                                        final List<Feedback> feedbacks = new ArrayList<>(dbos.size());
+                                        List<Feedback> feedbacks = new ArrayList<>(dbos.size());
 
                                         for (FeedbackEntity dbo : dbos) {
                                             feedbacks.add(FeedbackEntity2Model.buildFeedback(dbo, ownersBundle));

@@ -1,12 +1,11 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.List;
 
 
-public class Poll extends AbsModel implements Parcelable {
+public class Poll extends AbsModel {
 
     public static final Creator<Poll> CREATOR = new Creator<Poll>() {
         @Override
@@ -245,7 +244,7 @@ public class Poll extends AbsModel implements Parcelable {
         return 0;
     }
 
-    public static class Answer extends AbsModel implements Parcelable {
+    public static class Answer extends AbsModel {
 
         public static final Creator<Answer> CREATOR = new Creator<Answer>() {
             @Override

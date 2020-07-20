@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.squareup.picasso.Transformation;
 
 import java.util.HashMap;
@@ -67,14 +67,14 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
     public AudioRecyclerAdapter(Context context, List<Audio> data, boolean not_show_my, boolean iSSelectMode, int iCatalogBlock) {
         super(data);
-        this.mAudioInteractor = InteractorFactory.createAudioInteractor();
-        this.mContext = context;
+        mAudioInteractor = InteractorFactory.createAudioInteractor();
+        mContext = context;
         this.not_show_my = not_show_my;
         this.iSSelectMode = iSSelectMode;
         this.iCatalogBlock = iCatalogBlock;
     }
 
-    private void deleteTrack(final int accountId, Audio audio) {
+    private void deleteTrack(int accountId, Audio audio) {
         audioListDisposable.add(mAudioInteractor.delete(accountId, audio.getId(), audio.getOwnerId()).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
         }, ignore -> {
         }));
@@ -119,7 +119,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
     }
 
-    private void updateAudioStatus(AudioHolder holder, final Audio audio) {
+    private void updateAudioStatus(AudioHolder holder, Audio audio) {
         switch (MusicUtils.AudioStatus(audio)) {
             case 1:
                 holder.visual.setVisibility(View.VISIBLE);
@@ -148,7 +148,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
     @Override
     protected void onBindItemViewHolder(AudioHolder holder, int position, int type) {
-        final Audio audio = getItem(position);
+        Audio audio = getItem(position);
 
         holder.cancelSelectionAnimation();
         if (audio.isAnimationNow()) {
@@ -183,11 +183,12 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
             holder.my.setVisibility(audio.getOwnerId() == Settings.get().accounts().getCurrent() ? View.VISIBLE : View.GONE);
 
         int Status = DownloadUtil.TrackIsDownloaded(audio);
-        holder.saved.setVisibility(Status != 0 ? View.VISIBLE : View.GONE);
-        if (Status == 1)
-            holder.saved.setImageResource(R.drawable.save);
-        else if (Status == 2)
+        if (Status == 2) {
             holder.saved.setImageResource(R.drawable.remote_cloud);
+        } else {
+            holder.saved.setImageResource(R.drawable.save);
+        }
+        holder.saved.setVisibility(Status != 0 ? View.VISIBLE : View.GONE);
 
         updateAudioStatus(holder, audio);
 
@@ -233,7 +234,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                 if (ret == 0)
                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
                 else if (ret == 1) {
-                    Utils.ThemedSnack(v, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                    Utils.ThemedSnack(v, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
                             v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
                 } else {
                     holder.saved.setVisibility(View.GONE);
@@ -324,7 +325,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                             if (ret == 0)
                                 PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
                             else if (ret == 1) {
-                                Utils.ThemedSnack(view, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                                Utils.ThemedSnack(view, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
                                         v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
                             } else {
                                 holder.saved.setVisibility(View.GONE);
@@ -372,7 +373,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
     }
 
     public void setClickListener(ClickListener clickListener) {
-        this.mClickListener = clickListener;
+        mClickListener = clickListener;
     }
 
     public interface ClickListener {

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 import biz.dealnote.messenger.adapter.DocLink;
 import biz.dealnote.messenger.adapter.PostImage;
-import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.cloneListAsArrayList;
@@ -393,7 +392,7 @@ public class Attachments implements Parcelable, Cloneable {
     }
 
     public int size() {
-        return Utils.safeCountOfMultiple(
+        return safeCountOfMultiple(
                 audios,
                 stickers,
                 photos,
@@ -415,7 +414,7 @@ public class Attachments implements Parcelable, Cloneable {
     }
 
     public int size_no_stickers() {
-        return Utils.safeCountOfMultiple(
+        return safeCountOfMultiple(
                 audios,
                 photos,
                 docs,
@@ -581,22 +580,22 @@ public class Attachments implements Parcelable, Cloneable {
     @Override
     public Attachments clone() throws CloneNotSupportedException {
         Attachments clone = (Attachments) super.clone();
-        clone.audios = cloneListAsArrayList(this.audios);
-        clone.stickers = cloneListAsArrayList(this.stickers);
-        clone.photos = cloneListAsArrayList(this.photos);
-        clone.docs = cloneListAsArrayList(this.docs);
-        clone.videos = cloneListAsArrayList(this.videos);
-        clone.posts = cloneListAsArrayList(this.posts);
-        clone.links = cloneListAsArrayList(this.links);
-        clone.articles = cloneListAsArrayList(this.articles);
-        clone.stories = cloneListAsArrayList(this.stories);
-        clone.photo_albums = cloneListAsArrayList(this.photo_albums);
-        clone.calls = cloneListAsArrayList(this.calls);
-        clone.audio_playlists = cloneListAsArrayList(this.audio_playlists);
-        clone.graffity = cloneListAsArrayList(this.graffity);
-        clone.polls = cloneListAsArrayList(this.polls);
-        clone.pages = cloneListAsArrayList(this.pages);
-        clone.voiceMessages = cloneListAsArrayList(this.voiceMessages);
+        clone.audios = cloneListAsArrayList(audios);
+        clone.stickers = cloneListAsArrayList(stickers);
+        clone.photos = cloneListAsArrayList(photos);
+        clone.docs = cloneListAsArrayList(docs);
+        clone.videos = cloneListAsArrayList(videos);
+        clone.posts = cloneListAsArrayList(posts);
+        clone.links = cloneListAsArrayList(links);
+        clone.articles = cloneListAsArrayList(articles);
+        clone.stories = cloneListAsArrayList(stories);
+        clone.photo_albums = cloneListAsArrayList(photo_albums);
+        clone.calls = cloneListAsArrayList(calls);
+        clone.audio_playlists = cloneListAsArrayList(audio_playlists);
+        clone.graffity = cloneListAsArrayList(graffity);
+        clone.polls = cloneListAsArrayList(polls);
+        clone.pages = cloneListAsArrayList(pages);
+        clone.voiceMessages = cloneListAsArrayList(voiceMessages);
         return clone;
     }
 

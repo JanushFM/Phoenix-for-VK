@@ -79,7 +79,7 @@ class DeferredRequestCreator implements OnPreDrawListener, OnAttachStateChangeLi
         vto.removeOnPreDrawListener(this);
         this.target.clear();
 
-        this.creator.unfit().resize(width, height).into(target, callback);
+        creator.unfit().resize(width, height).into(target, callback);
         return true;
     }
 

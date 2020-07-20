@@ -3,6 +3,7 @@ package biz.dealnote.messenger.db.impl;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -72,7 +73,7 @@ class KeysPersistStorage extends AbsStorage implements IKeysStorage {
     public Single<List<AesKeyPair>> getAll(int accountId) {
         return Single.create(e -> {
             Uri uri = MessengerContentProvider.getKeysContentUriFor(accountId);
-            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, KeyColumns._ID);
+            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, BaseColumns._ID);
 
             List<AesKeyPair> pairs = new ArrayList<>(Utils.safeCountOf(cursor));
             if (nonNull(cursor)) {
@@ -96,7 +97,7 @@ class KeysPersistStorage extends AbsStorage implements IKeysStorage {
         return Single.create(e -> {
             Uri uri = MessengerContentProvider.getKeysContentUriFor(accountId);
             Cursor cursor = getContext().getContentResolver()
-                    .query(uri, null, KeyColumns.PEER_ID + " = ?", new String[]{String.valueOf(peerId)}, KeyColumns._ID);
+                    .query(uri, null, KeyColumns.PEER_ID + " = ?", new String[]{String.valueOf(peerId)}, BaseColumns._ID);
 
             List<AesKeyPair> pairs = new ArrayList<>(Utils.safeCountOf(cursor));
             if (nonNull(cursor)) {
@@ -120,7 +121,7 @@ class KeysPersistStorage extends AbsStorage implements IKeysStorage {
             Uri uri = MessengerContentProvider.getKeysContentUriFor(accountId);
             Cursor cursor = getContext().getContentResolver()
                     .query(uri, null, KeyColumns.PEER_ID + " = ?",
-                            new String[]{String.valueOf(peerId)}, KeyColumns._ID + " DESC LIMIT 1");
+                            new String[]{String.valueOf(peerId)}, BaseColumns._ID + " DESC LIMIT 1");
 
             AesKeyPair pair = null;
             if (nonNull(cursor)) {

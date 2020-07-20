@@ -97,14 +97,14 @@ public class LogsAdapter extends RecyclerBindableAdapter<LogEventWrapper, LogsAd
 
         Holder(View itemView) {
             super(itemView);
-            this.tag = itemView.findViewById(R.id.log_tag);
-            this.datetime = itemView.findViewById(R.id.log_datetime);
-            this.body = itemView.findViewById(R.id.log_body);
+            tag = itemView.findViewById(R.id.log_tag);
+            datetime = itemView.findViewById(R.id.log_datetime);
+            body = itemView.findViewById(R.id.log_body);
 
-            this.buttonShare = itemView.findViewById(R.id.log_button_share);
+            buttonShare = itemView.findViewById(R.id.log_button_share);
 
-            this.bodyRoot = itemView.findViewById(R.id.log_body_root);
-            this.buttonExpand = itemView.findViewById(R.id.log_button_expand);
+            bodyRoot = itemView.findViewById(R.id.log_body_root);
+            buttonExpand = itemView.findViewById(R.id.log_button_expand);
         }
     }
 

@@ -5,6 +5,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -92,7 +93,7 @@ class FeedStorage extends AbsStorage implements IFeedStorage {
     }
 
     private static FeedListEntity mapList(Cursor cursor) {
-        int id = cursor.getInt(cursor.getColumnIndex(FeedListsColumns._ID));
+        int id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         String title = cursor.getString(cursor.getColumnIndex(FeedListsColumns.TITLE));
 
         FeedListEntity entity = new FeedListEntity(id).setTitle(title);
@@ -118,15 +119,15 @@ class FeedStorage extends AbsStorage implements IFeedStorage {
     @Override
     public Single<List<NewsEntity>> findByCriteria(@NonNull FeedCriteria criteria) {
         return Single.create(e -> {
-            final Uri uri = MessengerContentProvider.getNewsContentUriFor(criteria.getAccountId());
-            final List<NewsEntity> data = new ArrayList<>();
+            Uri uri = MessengerContentProvider.getNewsContentUriFor(criteria.getAccountId());
+            List<NewsEntity> data = new ArrayList<>();
 
             synchronized (storeLock) {
                 Cursor cursor;
                 if (criteria.getRange() != null) {
                     DatabaseIdRange range = criteria.getRange();
                     cursor = getContext().getContentResolver().query(uri, null,
-                            NewsColumns._ID + " >= ? AND " + NewsColumns._ID + " <= ?",
+                            BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?",
                             new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())}, null);
                 } else {
                     cursor = getContext().getContentResolver().query(uri, null, null, null, null);
@@ -188,7 +189,7 @@ class FeedStorage extends AbsStorage implements IFeedStorage {
                 results = getContext().getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
             }
 
-            final int[] ids = new int[dbos.size()];
+            int[] ids = new int[dbos.size()];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];

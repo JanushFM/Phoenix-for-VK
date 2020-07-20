@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -104,7 +105,7 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
     public Completable removePeerWithId(int accountId, int peerId) {
         return Completable.create(emitter -> {
             Uri uri = MessengerContentProvider.getDialogsContentUriFor(accountId);
-            getContentResolver().delete(uri, DialogsColumns._ID + " = ?", new String[]{String.valueOf(peerId)});
+            getContentResolver().delete(uri, BaseColumns._ID + " = ?", new String[]{String.valueOf(peerId)});
             emitter.onComplete();
         });
     }
@@ -112,9 +113,9 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
     @Override
     public Completable insertDialogs(int accountId, List<DialogEntity> entities, boolean clearBefore) {
         return Completable.create(emitter -> {
-            final long start = System.currentTimeMillis();
-            final Uri uri = MessengerContentProvider.getDialogsContentUriFor(accountId);
-            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+            long start = System.currentTimeMillis();
+            Uri uri = MessengerContentProvider.getDialogsContentUriFor(accountId);
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
             if (clearBefore) {
                 operations.add(ContentProviderOperation.newDelete(uri).build());
@@ -144,7 +145,7 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
         ContentValues cv = new ContentValues();
         MessageEntity messageDbo = entity.getMessage();
 
-        cv.put(DialogsColumns._ID, messageDbo.getPeerId());
+        cv.put(BaseColumns._ID, messageDbo.getPeerId());
         cv.put(DialogsColumns.UNREAD, entity.getUnreadCount());
         cv.put(DialogsColumns.TITLE, entity.getTitle());
         cv.put(DialogsColumns.IN_READ, entity.getInRead());
@@ -160,7 +161,7 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
 
     private ContentValues createPeerCv(SimpleDialogEntity entity) {
         ContentValues cv = new ContentValues();
-        cv.put(PeersColumns._ID, entity.getPeerId());
+        cv.put(BaseColumns._ID, entity.getPeerId());
         cv.put(PeersColumns.UNREAD, entity.getUnreadCount());
         cv.put(PeersColumns.TITLE, entity.getTitle());
         cv.put(PeersColumns.IN_READ, entity.getInRead());
@@ -177,8 +178,8 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
     @Override
     public Completable saveSimple(int accountId, @NonNull SimpleDialogEntity entity) {
         return Completable.create(emitter -> {
-            final Uri uri = MessengerContentProvider.getPeersContentUriFor(accountId);
-            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+            Uri uri = MessengerContentProvider.getPeersContentUriFor(accountId);
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
             operations.add(ContentProviderOperation.newInsert(uri).withValues(createPeerCv(entity)).build());
             getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
             emitter.onComplete();
@@ -193,7 +194,7 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
 
         return Single.create(emitter -> {
             String[] projection = {
-                    PeersColumns._ID,
+                    BaseColumns._ID,
                     PeersColumns.UNREAD,
                     PeersColumns.IN_READ,
                     PeersColumns.OUT_READ,
@@ -202,13 +203,13 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
 
             Uri uri = MessengerContentProvider.getPeersContentUriFor(accountId);
 
-            String where = PeersColumns._ID + " IN (" + join(",", ids) + ")";
+            String where = BaseColumns._ID + " IN (" + join(",", ids) + ")";
             Cursor cursor = getContentResolver().query(uri, projection, where, null, null);
 
             List<PeerStateEntity> entities = new ArrayList<>(safeCountOf(cursor));
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    PeerStateEntity entity = new PeerStateEntity(cursor.getInt(cursor.getColumnIndex(PeersColumns._ID)))
+                    PeerStateEntity entity = new PeerStateEntity(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)))
                             .setInRead(cursor.getInt(cursor.getColumnIndex(PeersColumns.IN_READ)))
                             .setOutRead(cursor.getInt(cursor.getColumnIndex(PeersColumns.OUT_READ)))
                             .setLastMessageId(cursor.getInt(cursor.getColumnIndex(PeersColumns.LAST_MESSAGE_ID)))
@@ -287,13 +288,13 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
             }
 
             Set<Integer> peerIds = new HashSet<>(ids);
-            String[] projection = {DialogsColumns._ID};
+            String[] projection = {BaseColumns._ID};
             Uri uri = MessengerContentProvider.getDialogsContentUriFor(accountId);
             Cursor cursor = getContentResolver().query(uri, projection,
                     DialogsColumns.FULL_ID + " IN (" + TextUtils.join(",", peerIds) + ")", null, null);
             if (cursor != null) {
                 while (cursor.moveToNext()) {
-                    int peerId = cursor.getInt(cursor.getColumnIndex(DialogsColumns._ID));
+                    int peerId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
                     peerIds.remove(peerId);
                 }
 
@@ -365,14 +366,14 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
 
                 if (dialogscv.size() > 0) {
                     operations.add(ContentProviderOperation.newUpdate(dialogsUri)
-                            .withSelection(DialogsColumns._ID + " = ?", args)
+                            .withSelection(BaseColumns._ID + " = ?", args)
                             .withValues(dialogscv)
                             .build());
                 }
 
                 if (peerscv.size() > 0) {
                     operations.add(ContentProviderOperation.newUpdate(peersUri)
-                            .withSelection(PeersColumns._ID + " = ?", args)
+                            .withSelection(BaseColumns._ID + " = ?", args)
                             .withValues(peerscv)
                             .build());
                 }
@@ -424,7 +425,7 @@ class DialogsStorage extends AbsStorage implements IDialogsStorage {
         boolean encrypted = cursor.getInt(cursor.getColumnIndex(DialogsColumns.FOREIGN_MESSAGE_ENCRYPTED)) == 1;
 
         int messageId = cursor.getInt(cursor.getColumnIndex(DialogsColumns.LAST_MESSAGE_ID));
-        int peerId = cursor.getInt(cursor.getColumnIndex(DialogsColumns._ID));
+        int peerId = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         int fromId = cursor.getInt(cursor.getColumnIndex(DialogsColumns.FOREIGN_MESSAGE_FROM_ID));
 
         MessageEntity message = new MessageEntity(messageId, peerId, fromId)

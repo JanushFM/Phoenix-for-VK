@@ -33,7 +33,6 @@ import biz.dealnote.messenger.activity.AudioSelectActivity;
 import biz.dealnote.messenger.activity.PhotoAlbumsActivity;
 import biz.dealnote.messenger.activity.PhotosActivity;
 import biz.dealnote.messenger.adapter.AttchmentsEditorAdapter;
-import biz.dealnote.messenger.fragment.VKPhotosFragment;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.listener.BackPressCallback;
 import biz.dealnote.messenger.listener.TextWatcherAdapter;
@@ -47,6 +46,7 @@ import biz.dealnote.messenger.model.Types;
 import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.mvp.presenter.AbsAttachmentsEditPresenter;
 import biz.dealnote.messenger.mvp.view.IBaseAttachmentsEditView;
+import biz.dealnote.messenger.mvp.view.IVkPhotosView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.util.Action;
@@ -219,7 +219,7 @@ public abstract class AbsAttachmentsEditFragment<P extends AbsAttachmentsEditPre
         Intent intent = new Intent(requireActivity(), PhotoAlbumsActivity.class);
         intent.putExtra(Extra.OWNER_ID, accountId);
         intent.putExtra(Extra.ACCOUNT_ID, ownerId);
-        intent.putExtra(Extra.ACTION, VKPhotosFragment.ACTION_SELECT_PHOTOS);
+        intent.putExtra(Extra.ACTION, IVkPhotosView.ACTION_SELECT_PHOTOS);
         startActivityForResult(intent, REQUEST_PHOTO_FROM_VK);
     }
 
@@ -429,7 +429,7 @@ public abstract class AbsAttachmentsEditFragment<P extends AbsAttachmentsEditPre
 
     private void postResolveEmptyTextVisibility() {
         if (nonNull(mEmptyText)) {
-            final Action<AbsAttachmentsEditFragment> action = AbsAttachmentsEditFragment::resolveEmptyTextVisibility;
+            Action<AbsAttachmentsEditFragment> action = AbsAttachmentsEditFragment::resolveEmptyTextVisibility;
             mEmptyText.postDelayed(new WeakRunnable<>(this, action), 1000);
         }
     }

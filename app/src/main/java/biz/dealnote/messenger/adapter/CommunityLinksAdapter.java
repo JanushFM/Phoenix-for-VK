@@ -85,7 +85,7 @@ public class CommunityLinksAdapter extends RecyclerView.Adapter<CommunityLinksAd
     }
 
     public void setData(List<VKApiCommunity.Link> data) {
-        this.links = data;
+        links = data;
         notifyDataSetChanged();
     }
 
@@ -103,9 +103,9 @@ public class CommunityLinksAdapter extends RecyclerView.Adapter<CommunityLinksAd
 
         Holder(View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.title);
-            this.subtitle = itemView.findViewById(R.id.subtitle);
-            this.icon = itemView.findViewById(R.id.icon);
+            title = itemView.findViewById(R.id.title);
+            subtitle = itemView.findViewById(R.id.subtitle);
+            icon = itemView.findViewById(R.id.icon);
         }
     }
 }

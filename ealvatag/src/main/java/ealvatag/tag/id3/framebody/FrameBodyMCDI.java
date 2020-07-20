@@ -56,7 +56,7 @@ public class FrameBodyMCDI extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyMCDI datatype.
      */
     public FrameBodyMCDI() {
-        this.setObjectValue(DataTypes.OBJ_DATA, new byte[0]);
+        setObjectValue(DataTypes.OBJ_DATA, new byte[0]);
     }
 
     public FrameBodyMCDI(FrameBodyMCDI body) {
@@ -69,7 +69,7 @@ public class FrameBodyMCDI extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param cdTOC
      */
     public FrameBodyMCDI(byte[] cdTOC) {
-        this.setObjectValue(DataTypes.OBJ_DATA, cdTOC);
+        setObjectValue(DataTypes.OBJ_DATA, cdTOC);
     }
 
     /**

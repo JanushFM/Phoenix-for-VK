@@ -30,11 +30,11 @@ public class Commented implements Parcelable {
     }
 
     public Commented(Parcel in) {
-        this.sourceId = in.readInt();
-        this.sourceOwnerId = in.readInt();
+        sourceId = in.readInt();
+        sourceOwnerId = in.readInt();
         //noinspection ResourceType
-        this.sourceType = in.readInt();
-        this.accessKey = in.readString();
+        sourceType = in.readInt();
+        accessKey = in.readString();
     }
 
     public static Commented from(@NonNull AbsModel model) {

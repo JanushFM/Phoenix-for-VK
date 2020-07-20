@@ -63,18 +63,18 @@ public class VbriFrame {
      */
     private static final byte[] VBRI_VBR_ID = {'V', 'B', 'R', 'I'};
 
-    private boolean vbr = false;
+    private boolean vbr;
     private int frameCount = -1;
     private int audioSize = -1;
 
-    private VbriFrame(final Buffer header) throws EOFException {
+    private VbriFrame(Buffer header) throws EOFException {
         vbr = true;
         header.skip(10);
         setAudioSize(header);
         setFrameCount(header);
     }
 
-    static VbriFrame parseVBRIFrame(final Buffer header) throws EOFException {
+    static VbriFrame parseVBRIFrame(Buffer header) throws EOFException {
         return new VbriFrame(header);
     }
 

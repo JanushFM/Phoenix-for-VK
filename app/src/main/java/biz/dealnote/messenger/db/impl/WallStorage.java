@@ -5,6 +5,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +54,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
 
     private static void appendDboAttachmentsAndCopies(PostEntity dbo, List<ContentProviderOperation> operations,
                                                       int accountId, int mainPostHeaderIndex) {
-        final List<Entity> entities = dbo.getAttachments();
+        List<Entity> entities = dbo.getAttachments();
 
         for (Entity attachmentEntity : entities) {
             appendAttachOperationWithBackReference(operations, accountId, AttachToType.POST, mainPostHeaderIndex, attachmentEntity);
@@ -123,7 +124,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
     public Single<int[]> storeWallEntities(int accountId, @NonNull List<PostEntity> dbos,
                                            @Nullable OwnerEntities owners, @Nullable IClearWallTask clearWall) {
         return Single.create(emitter -> {
-            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
             if (nonNull(clearWall)) {
                 operations.add(operationForClearWall(accountId, clearWall.getOwnerId()));
@@ -153,7 +154,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
 
             ContentProviderResult[] results = getContext().getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
 
-            final int[] ids = new int[dbos.size()];
+            int[] ids = new int[dbos.size()];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];
@@ -175,12 +176,12 @@ class WallStorage extends AbsStorage implements IWallStorage {
             ContentValues cv = createCv(dbo);
 
             if (dbo.getDbid() > 0) {
-                cv.put(PostsColumns._ID, dbo.getDbid());
+                cv.put(BaseColumns._ID, dbo.getDbid());
 
                 // если пост был сохранен ранее - удаляем старые данные
                 // и сохраняем заново с тем же _ID
                 operations.add(ContentProviderOperation.newDelete(uri)
-                        .withSelection(PostsColumns._ID + " = ?", new String[]{String.valueOf(dbo.getDbid())})
+                        .withSelection(BaseColumns._ID + " = ?", new String[]{String.valueOf(dbo.getDbid())})
                         .build());
             }
 
@@ -201,7 +202,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
 
     private Single<Integer> insertNew(int accountId, int vkId, int ownerId, int authorId) {
         return Single.fromCallable(() -> {
-            Uri uri = MessengerContentProvider.getPostsContentUriFor(accountId);
+            Uri uri = getPostsContentUriFor(accountId);
 
             ContentValues cv = new ContentValues();
 
@@ -234,7 +235,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
     public Completable deletePost(int accountId, int dbid) {
         return Completable.create(e -> {
             getContentResolver().delete(getPostsContentUriFor(accountId),
-                    PostsColumns._ID + " = ?", new String[]{String.valueOf(dbid)});
+                    BaseColumns._ID + " = ?", new String[]{String.valueOf(dbid)});
             e.onComplete();
         });
     }
@@ -242,11 +243,11 @@ class WallStorage extends AbsStorage implements IWallStorage {
     @Override
     public Single<Optional<PostEntity>> findPostById(int accountId, int dbid) {
         return Single.create(e -> {
-            final Cancelable cancelable = e::isDisposed;
+            Cancelable cancelable = e::isDisposed;
 
-            final Uri uri = getPostsContentUriFor(accountId);
-            final String where = PostsColumns._ID + " = ?";
-            final String[] args = new String[]{String.valueOf(dbid)};
+            Uri uri = getPostsContentUriFor(accountId);
+            final String where = BaseColumns._ID + " = ?";
+            String[] args = {String.valueOf(dbid)};
             Cursor cursor = getContentResolver().query(uri, null, where, args, null);
 
             PostEntity dbo = null;
@@ -289,7 +290,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
     @Override
     public Single<List<PostEntity>> findDbosByCriteria(@NonNull WallCriteria criteria) {
         return Single.create(emitter -> {
-            final int accountId = criteria.getAccountId();
+            int accountId = criteria.getAccountId();
 
             Cursor cursor = buildCursor(criteria);
             Cancelable cancelable = emitter::isDisposed;
@@ -359,8 +360,8 @@ class WallStorage extends AbsStorage implements IWallStorage {
 
         if (criteria.getRange() != null) {
             where = where +
-                    " AND " + PostsColumns._ID + " <= " + criteria.getRange().getLast() +
-                    " AND " + PostsColumns._ID + " >= " + criteria.getRange().getFirst();
+                    " AND " + BaseColumns._ID + " <= " + criteria.getRange().getLast() +
+                    " AND " + BaseColumns._ID + " >= " + criteria.getRange().getFirst();
         }
 
         switch (criteria.getMode()) {
@@ -388,7 +389,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
     }
 
     private PostEntity mapDbo(int accountId, Cursor cursor, boolean includeAttachments, boolean forceAttachments, @NonNull Cancelable cancelable) {
-        int dbid = cursor.getInt(cursor.getColumnIndex(PostsColumns._ID));
+        int dbid = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
         int attachmentsMask = cursor.getInt(cursor.getColumnIndex(PostsColumns.ATTACHMENTS_MASK));
         int postId = cursor.getInt(cursor.getColumnIndex(PostsColumns.POST_ID));
         int ownerId = cursor.getInt(cursor.getColumnIndex(PostsColumns.OWNER_ID));
@@ -423,7 +424,7 @@ class WallStorage extends AbsStorage implements IWallStorage {
             dbo.setSource(GSON.fromJson(postSourceText, PostEntity.SourceDbo.class));
         }
 
-        final List<PostEntity> copiesDbos = new ArrayList<>(0);
+        List<PostEntity> copiesDbos = new ArrayList<>(0);
 
         if (includeAttachments && (attachmentsMask > 0 || forceAttachments)) {
             List<Entity> attachments = getStores()

@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.view.emoji.section;
 
 public class Electronics {
-    public static final Emojicon[] DATA = new Emojicon[]{
+    public static final Emojicon[] DATA = {
             Emojicon.fromChar((char) 0x231a),
             Emojicon.fromCodePoint(0x1f4f1),
             Emojicon.fromCodePoint(0x1f4f2),

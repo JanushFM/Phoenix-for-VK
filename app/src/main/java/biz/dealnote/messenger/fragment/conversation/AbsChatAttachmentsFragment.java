@@ -61,7 +61,7 @@ public abstract class AbsChatAttachmentsFragment<T, P extends BaseChatAttachment
 
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout, true);
 
-        this.mAdapter = createAdapter();
+        mAdapter = createAdapter();
         mRecyclerView.setAdapter(mAdapter);
         return root;
     }

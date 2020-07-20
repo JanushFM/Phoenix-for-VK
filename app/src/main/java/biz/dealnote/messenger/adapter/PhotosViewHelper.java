@@ -41,12 +41,12 @@ public class PhotosViewHelper {
     PhotosViewHelper(Context context, @NonNull AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         this.context = context;
         this.attachmentsActionCallback = attachmentsActionCallback;
-        this.mIconColorActive = CurrentTheme.getColorPrimary(context);
-        this.mPhotoPreviewSize = Settings.get().main().getPrefPreviewImageSize();
+        mIconColorActive = CurrentTheme.getColorPrimary(context);
+        mPhotoPreviewSize = Settings.get().main().getPrefPreviewImageSize();
     }
 
     @SuppressLint("SetTextI18n")
-    public void displayVideos(final List<PostImage> videos, final ViewGroup container) {
+    public void displayVideos(List<PostImage> videos, ViewGroup container) {
         container.setVisibility(videos.isEmpty() ? View.GONE : View.VISIBLE);
         if (videos.isEmpty()) {
             return;
@@ -66,7 +66,7 @@ public class PhotosViewHelper {
             VideoHolder holder = (VideoHolder) tmpV.getTag();
 
             if (g < videos.size()) {
-                final PostImage image = videos.get(g);
+                PostImage image = videos.get(g);
 
                 holder.vgPhoto.setOnClickListener(v -> {
                     if (image.getType() == PostImage.TYPE_VIDEO) {
@@ -75,7 +75,7 @@ public class PhotosViewHelper {
                     }
                 });
 
-                final String url = image.getPreviewUrl(mPhotoPreviewSize);
+                String url = image.getPreviewUrl(mPhotoPreviewSize);
 
                 if (image.getType() == PostImage.TYPE_VIDEO) {
                     Video video = (Video) image.getAttachment();
@@ -101,7 +101,7 @@ public class PhotosViewHelper {
         }
     }
 
-    public void displayPhotos(final List<PostImage> photos, final ViewGroup container) {
+    public void displayPhotos(List<PostImage> photos, ViewGroup container) {
         container.setVisibility(photos.isEmpty() ? View.GONE : View.VISIBLE);
 
         if (photos.isEmpty()) {
@@ -153,12 +153,12 @@ public class PhotosViewHelper {
             Holder holder = (Holder) tmpV.getTag();
 
             if (g < photos.size()) {
-                final PostImage image = photos.get(g);
+                PostImage image = photos.get(g);
 
                 holder.ivPlay.setVisibility(image.getType() == PostImage.TYPE_IMAGE ? View.GONE : View.VISIBLE);
                 holder.tvTitle.setVisibility(image.getType() == PostImage.TYPE_IMAGE ? View.GONE : View.VISIBLE);
 
-                final int position = g;
+                int position = g;
 
                 holder.vgPhoto.setOnClickListener(v -> {
                     switch (image.getType()) {
@@ -176,7 +176,7 @@ public class PhotosViewHelper {
                     }
                 });
 
-                final String url = image.getPreviewUrl(mPhotoPreviewSize);
+                String url = image.getPreviewUrl(mPhotoPreviewSize);
 
                 switch (image.getType()) {
                     case PostImage.TYPE_VIDEO:

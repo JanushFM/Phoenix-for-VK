@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class GiftItem extends AbsModel implements Parcelable {
+public class GiftItem extends AbsModel {
     public static final Creator<GiftItem> CREATOR = new Creator<GiftItem>() {
         @Override
         public GiftItem createFromParcel(Parcel in) {

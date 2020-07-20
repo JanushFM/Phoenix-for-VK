@@ -37,7 +37,7 @@ public class VkPhotoAlbumsAdapter extends RecyclerView.Adapter<VkPhotoAlbumsAdap
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        final PhotoAlbum photoAlbum = data.get(position);
+        PhotoAlbum photoAlbum = data.get(position);
 
         if (photoAlbum.getSizes() != null && !photoAlbum.getSizes().isEmpty()) {
             String thumb = photoAlbum.getSizes().getUrlForSize(PhotoSize.Y, false);

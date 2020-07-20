@@ -1,11 +1,10 @@
 package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import biz.dealnote.messenger.util.ParcelUtils;
 
-public final class MessageSeachCriteria extends BaseSearchCriteria implements Parcelable {
+public final class MessageSeachCriteria extends BaseSearchCriteria {
 
     public static final Creator<MessageSeachCriteria> CREATOR = new Creator<MessageSeachCriteria>() {
         @Override
@@ -29,7 +28,7 @@ public final class MessageSeachCriteria extends BaseSearchCriteria implements Pa
 
     private MessageSeachCriteria(Parcel in) {
         super(in);
-        this.peerId = ParcelUtils.readObjectInteger(in);
+        peerId = ParcelUtils.readObjectInteger(in);
     }
 
     public Integer getPeerId() {

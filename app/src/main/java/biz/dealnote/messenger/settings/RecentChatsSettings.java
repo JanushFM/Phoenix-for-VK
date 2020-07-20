@@ -24,7 +24,7 @@ class RecentChatsSettings implements ISettings.IRecentChats {
 
     RecentChatsSettings(Context app) {
         this.app = app.getApplicationContext();
-        this.gson = new Gson();
+        gson = new Gson();
     }
 
     private static String recentChatKeyFor(int aid) {

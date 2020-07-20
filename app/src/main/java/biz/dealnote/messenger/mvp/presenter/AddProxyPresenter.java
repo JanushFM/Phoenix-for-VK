@@ -48,7 +48,7 @@ public class AddProxyPresenter extends RxSupportPresenter<IAddProxyView> {
             return;
         }
 
-        this.authEnabled = isChecked;
+        authEnabled = isChecked;
         getView().setAuthFieldsEnabled(isChecked);
     }
 
@@ -95,8 +95,8 @@ public class AddProxyPresenter extends RxSupportPresenter<IAddProxyView> {
             return;
         }
 
-        final String finalAddress = address.trim();
-        final int finalPort = Integer.parseInt(port.trim());
+        String finalAddress = address.trim();
+        int finalPort = Integer.parseInt(port.trim());
 
         if (authEnabled) {
             settings.put(finalAddress, finalPort, userName, pass);

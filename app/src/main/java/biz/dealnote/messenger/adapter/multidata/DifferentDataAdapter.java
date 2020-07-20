@@ -12,7 +12,7 @@ public abstract class DifferentDataAdapter extends RecyclerView.Adapter<Recycler
     private final List<List<?>> mData;
 
     public DifferentDataAdapter() {
-        this.mData = new ArrayList<>(2);
+        mData = new ArrayList<>(2);
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class DifferentDataAdapter extends RecyclerView.Adapter<Recycler
     }
 
     public void setData(int type, List<?> data) {
-        this.mData.add(type, data);
+        mData.add(type, data);
     }
 
     public void notifyItemChanged(int dataPosition, int dataType) {

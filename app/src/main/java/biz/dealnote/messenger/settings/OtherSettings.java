@@ -18,7 +18,7 @@ class OtherSettings implements ISettings.IOtherSettings {
     private final Context app;
 
     OtherSettings(Context context) {
-        this.app = context.getApplicationContext();
+        app = context.getApplicationContext();
     }
 
     @Override

@@ -3,6 +3,7 @@ package biz.dealnote.messenger.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 import biz.dealnote.messenger.db.column.LogColumns;
 import biz.dealnote.messenger.util.Objects;
@@ -30,12 +31,12 @@ public class LogSqliteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS [" + LogColumns.TABLENAME + "] (\n" +
-                "  [" + LogColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + LogColumns.TYPE + "] INTEGER, " +
                 "  [" + LogColumns.DATE + "] INTEGER, " +
                 "  [" + LogColumns.TAG + "] TEXT, " +
                 "  [" + LogColumns.BODY + "] TEXT, " +
-                "  CONSTRAINT [] UNIQUE ([" + LogColumns._ID + "]) ON CONFLICT REPLACE);";
+                "  CONSTRAINT [] UNIQUE ([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
@@ -46,7 +47,7 @@ public class LogSqliteHelper extends SQLiteOpenHelper {
     }
 
     public void Clear() {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
         db.execSQL("DROP TABLE IF EXISTS " + LogColumns.TABLENAME);
         onCreate(db);
     }

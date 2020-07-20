@@ -102,7 +102,7 @@ public class Picasso {
         }
     };
     @SuppressLint("StaticFieldLeak")
-    static volatile Picasso singleton = null;
+    static volatile Picasso singleton;
     final Context context;
     final Dispatcher dispatcher;
     final Cache cache;
@@ -149,13 +149,13 @@ public class Picasso {
         requestHandlers = Collections.unmodifiableList(allRequestHandlers);
 
         this.stats = stats;
-        this.targetToAction = new WeakHashMap<>();
-        this.targetToDeferredRequestCreator = new WeakHashMap<>();
+        targetToAction = new WeakHashMap<>();
+        targetToDeferredRequestCreator = new WeakHashMap<>();
         this.indicatorsEnabled = indicatorsEnabled;
         this.loggingEnabled = loggingEnabled;
-        this.referenceQueue = new ReferenceQueue<>();
-        this.cleanupThread = new CleanupThread(referenceQueue, HANDLER);
-        this.cleanupThread.start();
+        referenceQueue = new ReferenceQueue<>();
+        cleanupThread = new CleanupThread(referenceQueue, HANDLER);
+        cleanupThread.start();
     }
 
     /**
@@ -723,7 +723,7 @@ public class Picasso {
                     }
                 } catch (InterruptedException e) {
                     break;
-                } catch (final Exception e) {
+                } catch (Exception e) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -775,7 +775,7 @@ public class Picasso {
             if (bitmapConfig == null) {
                 throw new IllegalArgumentException("Bitmap config must not be null.");
             }
-            this.defaultBitmapConfig = bitmapConfig;
+            defaultBitmapConfig = bitmapConfig;
             return this;
         }
 
@@ -802,10 +802,10 @@ public class Picasso {
             if (executorService == null) {
                 throw new IllegalArgumentException("Executor service must not be null.");
             }
-            if (this.service != null) {
+            if (service != null) {
                 throw new IllegalStateException("Executor service already set.");
             }
-            this.service = executorService;
+            service = executorService;
             return this;
         }
 
@@ -816,10 +816,10 @@ public class Picasso {
             if (memoryCache == null) {
                 throw new IllegalArgumentException("Memory cache must not be null.");
             }
-            if (this.cache != null) {
+            if (cache != null) {
                 throw new IllegalStateException("Memory cache already set.");
             }
-            this.cache = memoryCache;
+            cache = memoryCache;
             return this;
         }
 
@@ -875,7 +875,7 @@ public class Picasso {
          * Toggle whether to display debug indicators on images.
          */
         public Builder indicatorsEnabled(boolean enabled) {
-            this.indicatorsEnabled = enabled;
+            indicatorsEnabled = enabled;
             return this;
         }
 
@@ -886,7 +886,7 @@ public class Picasso {
          * be used for debugging purposes. Do NOT pass {@code BuildConfig.DEBUG}.
          */
         public Builder loggingEnabled(boolean enabled) {
-            this.loggingEnabled = enabled;
+            loggingEnabled = enabled;
             return this;
         }
 

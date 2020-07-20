@@ -11,7 +11,7 @@ package ealvatag.tag.id3.reference;
  * Rating=5 → POPM=100
  */
 public class ITunesRating extends ID3Rating {
-    private static ID3Rating rating = null;
+    private static ID3Rating rating;
 
     private ITunesRating() {
     }

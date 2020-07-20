@@ -98,24 +98,24 @@ class Dispatcher {
 
     Dispatcher(Context context, ExecutorService service, Handler mainThreadHandler,
                Downloader downloader, Cache cache, Stats stats) {
-        this.dispatcherThread = new DispatcherThread();
-        this.dispatcherThread.start();
+        dispatcherThread = new DispatcherThread();
+        dispatcherThread.start();
         Utils.flushStackLocalLeaks(dispatcherThread.getLooper());
         this.context = context;
         this.service = service;
-        this.hunterMap = new LinkedHashMap<>();
-        this.failedActions = new WeakHashMap<>();
-        this.pausedActions = new WeakHashMap<>();
-        this.pausedTags = new LinkedHashSet<>();
-        this.handler = new DispatcherHandler(dispatcherThread.getLooper(), this);
+        hunterMap = new LinkedHashMap<>();
+        failedActions = new WeakHashMap<>();
+        pausedActions = new WeakHashMap<>();
+        pausedTags = new LinkedHashSet<>();
+        handler = new DispatcherHandler(dispatcherThread.getLooper(), this);
         this.downloader = downloader;
         this.mainThreadHandler = mainThreadHandler;
         this.cache = cache;
         this.stats = stats;
-        this.batch = new ArrayList<>(4);
-        this.airplaneMode = Utils.isAirplaneModeOn(this.context);
-        this.scansNetworkChanges = hasPermission(context, Manifest.permission.ACCESS_NETWORK_STATE);
-        this.receiver = new NetworkBroadcastReceiver(this);
+        batch = new ArrayList<>(4);
+        airplaneMode = Utils.isAirplaneModeOn(this.context);
+        scansNetworkChanges = hasPermission(context, Manifest.permission.ACCESS_NETWORK_STATE);
+        receiver = new NetworkBroadcastReceiver(this);
         receiver.register();
     }
 
@@ -450,7 +450,7 @@ class Dispatcher {
             StringBuilder builder = new StringBuilder();
             for (BitmapHunter bitmapHunter : copy) {
                 if (builder.length() > 0) builder.append(", ");
-                builder.append(Utils.getLogIdsForHunter(bitmapHunter));
+                builder.append(getLogIdsForHunter(bitmapHunter));
             }
             log(OWNER_DISPATCHER, VERB_DELIVERED, builder.toString());
         }
@@ -465,7 +465,7 @@ class Dispatcher {
         }
 
         @Override
-        public void handleMessage(final Message msg) {
+        public void handleMessage(Message msg) {
             switch (msg.what) {
                 case REQUEST_SUBMIT: {
                     Action action = (Action) msg.obj;
@@ -562,7 +562,7 @@ class Dispatcher {
             if (intent == null) {
                 return;
             }
-            final String action = intent.getAction();
+            String action = intent.getAction();
             if (ACTION_AIRPLANE_MODE_CHANGED.equals(action)) {
                 if (!intent.hasExtra(EXTRA_AIRPLANE_STATE)) {
                     return; // No airplane state, ignore it. Should we query Utils.isAirplaneModeOn?

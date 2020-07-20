@@ -73,35 +73,35 @@ class ID3Mapping {
     private static volatile ImmutableMap<String, String> convertv22Tov23;
     private static volatile ImmutableMap<String, String> convertv23Tov22;
 
-    public static String convertV22ToV23(final String v22) {
+    public static String convertV22ToV23(String v22) {
         return getConvertv22Tov23().get(v22);
     }
 
-    public static String convertV23ToV22(final String v23) {
+    public static String convertV23ToV22(String v23) {
         return getConvertv23Tov22().get(v23);
     }
 
-    public static String forceV22ToV23(final String v22) {
+    public static String forceV22ToV23(String v22) {
         return getForcev22Tov23().get(v22);
     }
 
-    public static String forceV23ToV22(final String v23) {
+    public static String forceV23ToV22(String v23) {
         return getForcev23Tov22().get(v23);
     }
 
-    public static String convertV23ToV24(final String v23) {
+    public static String convertV23ToV24(String v23) {
         return getConvertv23Tov24().get(v23);
     }
 
-    public static String convertV24ToV23(final String v24) {
+    public static String convertV24ToV23(String v24) {
         return getConvertv24Tov23().get(v24);
     }
 
-    public static String forceV23ToV24(final String v23) {
+    public static String forceV23ToV24(String v23) {
         return getForcev23Tov24().get(v23);
     }
 
-    public static String forceV24ToV23(final String v24) {
+    public static String forceV24ToV23(String v24) {
         return getForcev24Tov23().get(v24);
     }
 
@@ -212,7 +212,7 @@ class ID3Mapping {
 
     private static ImmutableMap<String, String> makeConvertV23ToV22() {
         ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();
-        final ImmutableMap<String, String> convertv22Tov23 = getConvertv22Tov23();
+        ImmutableMap<String, String> convertv22Tov23 = getConvertv22Tov23();
         for (Map.Entry<String, String> entry : convertv22Tov23.entrySet()) {
             builder.put(entry.getValue(), entry.getKey());
         }

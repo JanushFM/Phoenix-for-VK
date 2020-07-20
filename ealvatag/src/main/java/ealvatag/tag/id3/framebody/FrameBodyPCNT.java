@@ -54,7 +54,7 @@ public class FrameBodyPCNT extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyPCNT datatype.
      */
     public FrameBodyPCNT() {
-        this.setObjectValue(DataTypes.OBJ_NUMBER, 0L);
+        setObjectValue(DataTypes.OBJ_NUMBER, 0L);
     }
 
     public FrameBodyPCNT(FrameBodyPCNT body) {
@@ -67,7 +67,7 @@ public class FrameBodyPCNT extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param counter
      */
     public FrameBodyPCNT(long counter) {
-        this.setObjectValue(DataTypes.OBJ_NUMBER, counter);
+        setObjectValue(DataTypes.OBJ_NUMBER, counter);
     }
 
     /**

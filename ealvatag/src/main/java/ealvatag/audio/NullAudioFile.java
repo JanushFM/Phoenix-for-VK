@@ -48,7 +48,7 @@ public final class NullAudioFile implements AudioFile {
     }
 
     @Override
-    public void saveAs(final String fullPathWithoutExtension) throws IllegalArgumentException, CannotWriteException {
+    public void saveAs(String fullPathWithoutExtension) throws IllegalArgumentException, CannotWriteException {
     }
 
     @Override

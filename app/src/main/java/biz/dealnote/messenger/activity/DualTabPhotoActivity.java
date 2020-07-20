@@ -16,6 +16,7 @@ import biz.dealnote.messenger.fragment.LocalPhotosFragment;
 import biz.dealnote.messenger.fragment.VKPhotosFragment;
 import biz.dealnote.messenger.model.LocalImageAlbum;
 import biz.dealnote.messenger.model.selection.Sources;
+import biz.dealnote.messenger.mvp.view.IVkPhotosView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceProvider;
 
@@ -37,13 +38,13 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
         super.onCreate(savedInstanceState);
 
         if (isNull(savedInstanceState)) {
-            this.mMaxSelectionCount = getIntent().getIntExtra(Extra.MAX_COUNT, 10);
-            this.mSources = getIntent().getParcelableExtra(Extra.SOURCES);
+            mMaxSelectionCount = getIntent().getIntExtra(Extra.MAX_COUNT, 10);
+            mSources = getIntent().getParcelableExtra(Extra.SOURCES);
 
             attachStartFragment();
         } else {
-            this.mMaxSelectionCount = savedInstanceState.getInt("mMaxSelectionCount");
-            this.mSources = savedInstanceState.getParcelable("mSources");
+            mMaxSelectionCount = savedInstanceState.getInt("mMaxSelectionCount");
+            mSources = savedInstanceState.getParcelable("mSources");
         }
     }
 
@@ -71,7 +72,7 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
                 int accountId = place.getArgs().getInt(Extra.ACCOUNT_ID);
                 int ownerId = place.getArgs().getInt(Extra.OWNER_ID);
 
-                VKPhotosFragment fragment = VKPhotosFragment.newInstance(accountId, ownerId, albumId, VKPhotosFragment.ACTION_SELECT_PHOTOS);
+                VKPhotosFragment fragment = VKPhotosFragment.newInstance(accountId, ownerId, albumId, IVkPhotosView.ACTION_SELECT_PHOTOS);
 
                 getSupportFragmentManager()
                         .beginTransaction()

@@ -55,13 +55,13 @@ public class NumberVariableLength extends AbstractDataType {
         super(identifier, frameBody);
 
         //Set minimum length, which can be zero if optional
-        this.minLength = minimumSize;
+        minLength = minimumSize;
 
     }
 
     public NumberVariableLength(NumberVariableLength copy) {
         super(copy);
-        this.minLength = copy.minLength;
+        minLength = copy.minLength;
     }
 
     /**
@@ -87,7 +87,7 @@ public class NumberVariableLength extends AbstractDataType {
      */
     public void setMinimumSize(int minimumSize) {
         if (minimumSize > 0) {
-            this.minLength = minimumSize;
+            minLength = minimumSize;
         }
     }
 
@@ -127,7 +127,7 @@ public class NumberVariableLength extends AbstractDataType {
 
         NumberVariableLength object = (NumberVariableLength) obj;
 
-        return this.minLength == object.minLength && super.equals(obj);
+        return minLength == object.minLength && super.equals(obj);
 
     }
 
@@ -171,7 +171,7 @@ public class NumberVariableLength extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         if (buffer.size() == 0) {
             if (minLength == 0) {
                 value = (long) 0;

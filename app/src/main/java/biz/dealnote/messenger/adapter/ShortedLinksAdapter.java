@@ -36,8 +36,8 @@ public class ShortedLinksAdapter extends RecyclerView.Adapter<ShortedLinksAdapte
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        final ShortLink link = data.get(position);
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
+        ShortLink link = data.get(position);
         holder.time.setText(AppTextUtils.getDateFromUnixTime(context, link.getTimestamp()));
         holder.views.setText(String.valueOf(link.getViews()));
         holder.short_link.setText(link.getShort_url());

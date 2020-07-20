@@ -30,12 +30,12 @@ import io.reactivex.disposables.Disposable;
 
 public class PlaceUtil {
 
-    public static void goToPostEditor(@NonNull Activity activity, final int accountId, final Post post) {
+    public static void goToPostEditor(@NonNull Activity activity, int accountId, Post post) {
         AlertDialog dialog = createProgressDialog(activity);
         WeakReference<Dialog> dialogWeakReference = new WeakReference<>(dialog);
         WeakReference<Activity> reference = new WeakReference<>(activity);
 
-        final int ownerId = post.getOwnerId();
+        int ownerId = post.getOwnerId();
 
         Set<Integer> ids = new HashSet<>();
         ids.add(accountId);

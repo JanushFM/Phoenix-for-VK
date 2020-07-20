@@ -34,9 +34,9 @@ public class VkApiWallUploadServer implements Parcelable, UploadServer {
     }
 
     protected VkApiWallUploadServer(Parcel in) {
-        this.upload_url = in.readString();
-        this.album_id = in.readInt();
-        this.user_id = in.readInt();
+        upload_url = in.readString();
+        album_id = in.readInt();
+        user_id = in.readInt();
     }
 
     @Override

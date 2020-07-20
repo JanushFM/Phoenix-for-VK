@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public final class DocumentSearchCriteria extends BaseSearchCriteria implements Parcelable, Cloneable {
+public final class DocumentSearchCriteria extends BaseSearchCriteria {
 
     public static final Creator<DocumentSearchCriteria> CREATOR = new Creator<DocumentSearchCriteria>() {
         @Override

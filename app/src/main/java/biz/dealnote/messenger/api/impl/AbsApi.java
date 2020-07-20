@@ -21,7 +21,7 @@ class AbsApi {
     private final int accountId;
 
     AbsApi(int accountId, IServiceProvider provider) {
-        this.retrofitProvider = provider;
+        retrofitProvider = provider;
         this.accountId = accountId;
     }
 

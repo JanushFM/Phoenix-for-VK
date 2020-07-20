@@ -55,11 +55,11 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
     public WallAdapter(Context context, List<Post> items, @NonNull AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback,
                        @NonNull ClickListener adapterListener) {
         super(items);
-        this.mContext = context;
-        this.attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
-        this.clickListener = adapterListener;
-        this.mLinkActionAdapter = new LinkActionAdapter() {
+        mContext = context;
+        attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
+        clickListener = adapterListener;
+        mLinkActionAdapter = new LinkActionAdapter() {
             @Override
             public void onOwnerClick(int ownerId) {
                 clickListener.onAvatarClick(ownerId);
@@ -106,10 +106,10 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
     }
 
     public void setNonPublishedPostActionListener(NonPublishedPostActionListener listener) {
-        this.nonPublishedPostActionListener = listener;
+        nonPublishedPostActionListener = listener;
     }
 
-    private void bindScheludedButtonsBlock(ScheludedHolder holder, final Post post) {
+    private void bindScheludedButtonsBlock(ScheludedHolder holder, Post post) {
         holder.deleteButton.setOnClickListener(v -> {
             if (nonPublishedPostActionListener != null) {
                 nonPublishedPostActionListener.onButtonRemoveClick(post);
@@ -117,11 +117,11 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
         });
     }
 
-    private void bindDeleted(final DeletedHolder holder, final Post item) {
+    private void bindDeleted(DeletedHolder holder, Post item) {
         holder.bRestore.setOnClickListener(v -> clickListener.onRestoreClick(item));
     }
 
-    private void configNormalPost(final AbsPostHolder holder, final Post post) {
+    private void configNormalPost(AbsPostHolder holder, Post post) {
         attachmentsViewBinder.displayAttachments(post.getAttachments(), holder.attachmentContainers, false, null);
         attachmentsViewBinder.displayCopyHistory(post.getCopyHierarchy(), holder.attachmentContainers.getVgPosts(), true, R.layout.item_copy_history_post);
 
@@ -163,7 +163,7 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
         }
     }
 
-    private void fillNormalPostButtonsBlock(NormalHolder holder, final Post post) {
+    private void fillNormalPostButtonsBlock(NormalHolder holder, Post post) {
         holder.pinRoot.setVisibility(post.isPinned() ? View.VISIBLE : View.GONE);
 
         String formattedDate = AppTextUtils.getDateFromUnixTime(mContext, post.getDate());
@@ -242,7 +242,7 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
     }
 
     public void setOnHashTagClickListener(EmojiconTextView.OnHashTagClickListener onHashTagClickListener) {
-        this.mOnHashTagClickListener = onHashTagClickListener;
+        mOnHashTagClickListener = onHashTagClickListener;
     }
 
     @Override
@@ -326,10 +326,10 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
             ivSignerIcon = itemView.findViewById(R.id.item_post_signer_icon);
             tvSignerName = itemView.findViewById(R.id.item_post_signer_name);
             ivPlatform = itemView.findViewById(R.id.platform_icon);
-            this.attachmentContainers = AttachmentsHolder.forPost((ViewGroup) itemView);
+            attachmentContainers = AttachmentsHolder.forPost((ViewGroup) itemView);
 
-            this.viewCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
-            this.viewCounter = itemView.findViewById(R.id.post_views_counter);
+            viewCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
+            viewCounter = itemView.findViewById(R.id.post_views_counter);
         }
     }
 

@@ -189,7 +189,7 @@ public class TreeModelEvent extends EventObject {
     public TreeModelEvent(Object source, TreePath path) {
         super(source);
         this.path = path;
-        this.childIndices = new int[0];
+        childIndices = new int[0];
     }
 
     /**

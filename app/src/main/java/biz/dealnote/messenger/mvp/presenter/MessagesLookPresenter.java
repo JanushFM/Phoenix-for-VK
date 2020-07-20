@@ -34,7 +34,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
 
     public MessagesLookPresenter(int accountId, int peerId, Integer focusTo, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.messagesInteractor = Repository.INSTANCE.getMessages();
+        messagesInteractor = Repository.INSTANCE.getMessages();
         mPeerId = peerId;
 
         if (savedInstanceState == null) {
@@ -53,10 +53,10 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
     private void initRequest() {
         if (isLoadingNow()) return;
 
-        this.loadingState = Side.INIT;
+        loadingState = Side.INIT;
         resolveHeaders();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(messagesInteractor.getPeerMessages(accountId, mPeerId, COUNT, -COUNT / 2, mFocusMessageId, false, false)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -64,7 +64,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
     }
 
     private void onDataGetError(Throwable t) {
-        this.loadingState = Side.NO_LOADING;
+        loadingState = Side.NO_LOADING;
         resolveHeaders();
 
         showError(getView(), getCauseIfRuntime(t));
@@ -97,7 +97,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
                 break;
         }
 
-        this.loadingState = Side.NO_LOADING;
+        loadingState = Side.NO_LOADING;
         resolveHeaders();
     }
 
@@ -121,10 +121,10 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
             return;
         }
 
-        this.loadingState = Side.DOWN;
+        loadingState = Side.DOWN;
         resolveHeaders();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         int targetMessageId = firstMessageId + 1; //чтобы не зацепить уже загруженное сообщение
 
@@ -136,7 +136,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
     @Override
     protected void onActionModeDeleteClick() {
         super.onActionModeDeleteClick();
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         List<Integer> ids = Observable.fromIterable(getData())
                 .filter(Message::isSelected)
@@ -159,11 +159,11 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
             return;
         }
 
-        this.loadingState = Side.UP;
+        loadingState = Side.UP;
         resolveHeaders();
 
-        final int targetLastMessageId = lastMessageId - 1; //чтобы не зацепить уже загруженное сообщение
-        final int accountId = super.getAccountId();
+        int targetLastMessageId = lastMessageId - 1; //чтобы не зацепить уже загруженное сообщение
+        int accountId = getAccountId();
 
         appendDisposable(messagesInteractor.getPeerMessages(accountId, mPeerId, COUNT, 0, targetLastMessageId, false, false)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -190,8 +190,8 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
 
     @SuppressWarnings("unused")
     public void fireMessageRestoreClick(@NonNull Message message, int position) {
-        final int accountId = super.getAccountId();
-        final int id = message.getId();
+        int accountId = getAccountId();
+        int id = message.getId();
 
         appendDisposable(messagesInteractor.restoreMessage(accountId, mPeerId, id)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -254,8 +254,8 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
     }
 
     private void onInitDataLoaded(List<Message> messages) {
-        super.getData().clear();
-        super.getData().addAll(messages);
+        getData().clear();
+        getData().addAll(messages);
 
         if (isGuiReady()) {
             getView().notifyDataChanged();
@@ -277,7 +277,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
     private void onUpDataLoaded(List<Message> messages) {
         int size = getData().size();
 
-        super.getData().addAll(messages);
+        getData().addAll(messages);
 
         if (isGuiReady()) {
             getView().notifyMessagesUpAdded(size, messages.size());
@@ -285,7 +285,7 @@ public class MessagesLookPresenter extends AbsMessageListPresenter<IMessagesLook
     }
 
     private void onDownDataLoaded(List<Message> messages) {
-        super.getData().addAll(0, messages);
+        getData().addAll(0, messages);
 
         if (isGuiReady()) {
             getView().notifyMessagesDownAdded(messages.size());

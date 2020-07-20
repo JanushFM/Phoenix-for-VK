@@ -26,8 +26,8 @@ public class AbsMenuItem implements Parcelable {
     }
 
     public AbsMenuItem(Parcel in) {
-        this.type = in.readInt();
-        this.selected = in.readInt() == 1;
+        type = in.readInt();
+        selected = in.readInt() == 1;
     }
 
     public boolean isSelected() {

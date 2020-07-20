@@ -73,10 +73,10 @@ public class NotificationPreferencesFragment extends PreferenceFragmentCompat {
     }
 
     private void showAlertDialog() {
-        final Map<String, String> ringrones = getNotifications();
+        Map<String, String> ringrones = getNotifications();
 
-        final Set<String> keys = ringrones.keySet();
-        final String[] array = keys.toArray(new String[keys.size()]);
+        Set<String> keys = ringrones.keySet();
+        String[] array = keys.toArray(new String[keys.size()]);
 
         String selectionKey = getKeyByValue(ringrones, Settings.get()
                 .notifications()

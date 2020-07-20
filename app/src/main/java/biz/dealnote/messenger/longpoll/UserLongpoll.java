@@ -49,9 +49,9 @@ class UserLongpoll implements ILongpoll {
     }
 
     private void resetServerAttrs() {
-        this.server = null;
-        this.key = null;
-        this.ts = null;
+        server = null;
+        key = null;
+        ts = null;
     }
 
     @Override
@@ -85,9 +85,9 @@ class UserLongpoll implements ILongpoll {
     private void onServerInfoReceived(VkApiLongpollServer info) {
         Logger.d(TAG, "onResponse, info: " + info);
 
-        this.ts = info.ts;
-        this.key = info.key;
-        this.server = info.server;
+        ts = info.ts;
+        key = info.key;
+        server = info.server;
 
         get();
     }

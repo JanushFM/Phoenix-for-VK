@@ -35,9 +35,9 @@ public class LogsPresenter extends RxSupportPresenter<ILogsView> {
     public LogsPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
 
-        this.store = Injection.provideLogsStore();
-        this.types = createTypes();
-        this.events = new ArrayList<>();
+        store = Injection.provideLogsStore();
+        types = createTypes();
+        events = new ArrayList<>();
 
         loadAll();
     }
@@ -56,7 +56,7 @@ public class LogsPresenter extends RxSupportPresenter<ILogsView> {
     }
 
     private void setLoading(boolean loading) {
-        this.loadingNow = loading;
+        loadingNow = loading;
         resolveRefreshingView();
     }
 
@@ -85,7 +85,7 @@ public class LogsPresenter extends RxSupportPresenter<ILogsView> {
     }
 
     private void loadAll() {
-        final int type = getSelectedType();
+        int type = getSelectedType();
 
         setLoading(true);
         disposableHolder.append(store.getAll(type)

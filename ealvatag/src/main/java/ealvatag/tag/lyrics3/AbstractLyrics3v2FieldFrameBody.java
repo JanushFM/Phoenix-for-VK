@@ -111,7 +111,7 @@ public abstract class AbstractLyrics3v2FieldFrameBody extends AbstractTagFrameBo
 
         //Go through the ObjectList of the Frame reading the data into the
         //correct datatype.
-        final List<AbstractDataType> dataTypeList = getDataTypeList();
+        List<AbstractDataType> dataTypeList = getDataTypeList();
         for (int i = 0, size = dataTypeList.size(); i < size; i++) {
             //The read has extended further than the defined frame size
             if (offset > (frameBodySize - 1)) {
@@ -136,7 +136,7 @@ public abstract class AbstractLyrics3v2FieldFrameBody extends AbstractTagFrameBo
     public void write(RandomAccessFile file) throws IOException {
         //Write the various fields to file in order
         byte[] buffer;
-        final List<AbstractDataType> dataTypeList = getDataTypeList();
+        List<AbstractDataType> dataTypeList = getDataTypeList();
         for (int i = 0, size = dataTypeList.size(); i < size; i++) {
             buffer = dataTypeList.get(i).writeByteArray();
             file.write(buffer);

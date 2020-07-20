@@ -32,9 +32,9 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
 
     public AudioCatalogPresenter(int accountId, String artist_id, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.pages = new ArrayList<>();
+        pages = new ArrayList<>();
         this.artist_id = artist_id;
-        this.fInteractor = InteractorFactory.createAudioInteractor();
+        fInteractor = InteractorFactory.createAudioInteractor();
     }
 
     public void LoadAudiosTool() {
@@ -44,15 +44,15 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
     @Override
     public void onGuiCreated(@NonNull IAudioCatalogView view) {
         super.onGuiCreated(view);
-        view.displayData(this.pages);
+        view.displayData(pages);
     }
 
     private void loadActualData() {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getCatalog(accountId, artist_id)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(data), this::onActualDataGetError));
@@ -60,7 +60,7 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -68,10 +68,10 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
 
     private void onActualDataReceived(List<AudioCatalog> data) {
 
-        this.actualDataLoading = false;
+        actualDataLoading = false;
 
-        this.pages.clear();
-        this.pages.addAll(data);
+        pages.clear();
+        pages.addAll(data);
         callView(IAudioCatalogView::notifyDataSetChanged);
 
         resolveRefreshingView();
@@ -90,7 +90,7 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
     }
 
     public void onAdd(AudioPlaylist album) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.followPlaylist(accountId, album.getId(), album.getOwnerId(), album.getAccess_key())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> getView().getPhoenixToast().showToast(R.string.success), throwable ->
@@ -105,8 +105,8 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData();
     }

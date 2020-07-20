@@ -38,7 +38,7 @@ class MessagesApi extends AbsApi implements IMessagesApi {
     }
 
     private Single<IMessageService> serviceRx(int... tokenTypes) {
-        return super.provideService(IMessageService.class, tokenTypes);
+        return provideService(IMessageService.class, tokenTypes);
     }
 
     @Override
@@ -207,7 +207,7 @@ class MessagesApi extends AbsApi implements IMessagesApi {
 
     @Override
     public Single<ItemsProfilesGroupsResponse<VkApiConversation>> getConversations(List<Integer> peers, Boolean extended, String fields) {
-        final String ids = join(peers, ",", Object::toString);
+        String ids = join(peers, ",", Object::toString);
         return serviceRx(TokenType.USER, TokenType.COMMUNITY)
                 .flatMap(service -> service
                         .getConversationsById(ids, integerFromBoolean(extended), fields)

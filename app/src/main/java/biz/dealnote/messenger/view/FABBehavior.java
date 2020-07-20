@@ -13,7 +13,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 public class FABBehavior extends FloatingActionButton.Behavior {
 
     public FABBehavior(Context context, AttributeSet attrs) {
-        super();
     }
 
     @Override

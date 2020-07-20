@@ -87,7 +87,7 @@ public class ProgressButton extends FrameLayout {
     }
 
     public void changeState(boolean progress) {
-        this.mProgressNow = progress;
+        mProgressNow = progress;
         resolveViews();
     }
 }

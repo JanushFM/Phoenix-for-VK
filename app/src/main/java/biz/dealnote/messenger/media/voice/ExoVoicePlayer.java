@@ -28,7 +28,6 @@ import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.model.VoiceMessage;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.util.Logger;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Utils;
 
@@ -58,14 +57,14 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
     private boolean isHeadset;
 
     public ExoVoicePlayer(Context context, ProxyConfig config) {
-        this.app = context.getApplicationContext();
-        this.proxyConfig = config;
-        this.status = STATUS_NO_PLAYBACK;
-        this.headset = new MusicIntentReceiver();
+        app = context.getApplicationContext();
+        proxyConfig = config;
+        status = STATUS_NO_PLAYBACK;
+        headset = new MusicIntentReceiver();
 
-        sensorManager = (SensorManager) this.app.getSystemService(Context.SENSOR_SERVICE);
+        sensorManager = (SensorManager) app.getSystemService(Context.SENSOR_SERVICE);
         proxym = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-        proximityWakelock = ((PowerManager) this.app.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "phoenix:voip=proxim");
+        proximityWakelock = ((PowerManager) app.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, "phoenix:voip=proxim");
         Registered = false;
         ProximitRegistered = false;
         HasPlaying = false;
@@ -100,7 +99,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
             isProximityNear = false;
             isHeadset = false;
             exoPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), true);
-            sensorManager.registerListener(ExoVoicePlayer.this, proxym, SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(this, proxym, SensorManager.SENSOR_DELAY_NORMAL);
             IntentFilter filter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
             app.registerReceiver(headset, filter);
         } catch (Exception ignored) {
@@ -112,7 +111,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
             return;
         try {
             Registered = false;
-            sensorManager.unregisterListener(ExoVoicePlayer.this);
+            sensorManager.unregisterListener(this);
             app.unregisterReceiver(headset);
             if (HasPlaying) {
                 MusicUtils.playOrPause();
@@ -224,7 +223,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
 
     @Override
     public float getProgress() {
-        if (Objects.isNull(exoPlayer)) {
+        if (isNull(exoPlayer)) {
             return 0f;
         }
 
@@ -240,7 +239,7 @@ public class ExoVoicePlayer implements IVoicePlayer, SensorEventListener {
 
     @Override
     public void setCallback(@Nullable IPlayerStatusListener listener) {
-        this.statusListener = listener;
+        statusListener = listener;
     }
 
     @Override

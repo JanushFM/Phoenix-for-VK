@@ -64,7 +64,7 @@ public class LightnessSlider extends AbsCustomSlider {
 
     public void setColor(int color) {
         this.color = color;
-        this.value = Utils.lightnessOfColor(color);
+        value = Utils.lightnessOfColor(color);
         if (bar != null) {
             updateBar();
             invalidate();

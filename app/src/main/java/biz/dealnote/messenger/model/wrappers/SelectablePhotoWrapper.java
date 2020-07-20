@@ -98,6 +98,6 @@ public class SelectablePhotoWrapper implements Parcelable, Comparable<Selectable
 
     @Override
     public int compareTo(@NonNull SelectablePhotoWrapper another) {
-        return this.index - another.index;
+        return index - another.index;
     }
 }

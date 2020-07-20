@@ -75,7 +75,7 @@ public class VideosInteractor implements IVideosInteractor {
                 .video()
                 .get(ownerId, null, albumId, count, offset, true)
                 .flatMap(items -> {
-                    List<VKApiVideo> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<VKApiVideo> dtos = listEmptyIfNull(items.getItems());
                     List<VideoEntity> dbos = new ArrayList<>(dtos.size());
                     List<Video> videos = new ArrayList<>(dbos.size());
 
@@ -96,7 +96,7 @@ public class VideosInteractor implements IVideosInteractor {
                 .video()
                 .get(ownerId, null, albumId, count, offset, true)
                 .flatMap(items -> {
-                    List<VKApiVideo> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<VKApiVideo> dtos = listEmptyIfNull(items.getItems());
                     List<Video> videos = new ArrayList<>(dtos.size());
 
                     for (VKApiVideo dto : dtos) {
@@ -105,7 +105,7 @@ public class VideosInteractor implements IVideosInteractor {
                             videos.add(Dto2Model.transform(dto));
                         }
                     }
-                    final int ld = loaded + videos.size();
+                    int ld = loaded + videos.size();
 
                     if (ld >= count || Utils.isEmpty(dtos)) {
                         return Single.just(new Pair<>(new FindAt(q, offset + count, Utils.isEmpty(dtos)), videos));
@@ -235,7 +235,7 @@ public class VideosInteractor implements IVideosInteractor {
                 .video()
                 .search(criteria.getQuery(), sort, hd, adult, filters, searchOwn, offset, longer, shoter, count, false)
                 .map(response -> {
-                    List<VKApiVideo> dtos = Utils.listEmptyIfNull(response.items);
+                    List<VKApiVideo> dtos = listEmptyIfNull(response.items);
 
                     List<Video> videos = new ArrayList<>(dtos.size());
                     for (VKApiVideo dto : dtos) {

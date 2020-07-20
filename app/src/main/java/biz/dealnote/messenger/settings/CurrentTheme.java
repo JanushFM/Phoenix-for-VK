@@ -36,7 +36,7 @@ public class CurrentTheme {
             return new GradientDrawable(GradientDrawable.Orientation.TL_BR,
                     new int[]{Settings.get().other().getColorChat(), Settings.get().other().getSecondColorChat()});
         }
-        int color = CurrentTheme.getColorFromAttrs(activity, R.attr.messages_background_color, Color.WHITE);
+        int color = getColorFromAttrs(activity, R.attr.messages_background_color, Color.WHITE);
         return new ColorDrawable(color);
     }
 
@@ -48,13 +48,13 @@ public class CurrentTheme {
         Drawable ret;
         switch (page) {
             case "1":
-                ret = CurrentTheme.getDrawableFromAttribute(activity, R.attr.chat_background_cookies);
+                ret = getDrawableFromAttribute(activity, R.attr.chat_background_cookies);
                 break;
             case "2":
-                ret = CurrentTheme.getDrawableFromAttribute(activity, R.attr.chat_background_lines);
+                ret = getDrawableFromAttribute(activity, R.attr.chat_background_lines);
                 break;
             case "3":
-                ret = CurrentTheme.getDrawableFromAttribute(activity, R.attr.chat_background_runes);
+                ret = getDrawableFromAttribute(activity, R.attr.chat_background_runes);
                 break;
             case "4":
                 File bitmap = getDrawerBackgroundFile(activity, !dark);
@@ -91,7 +91,7 @@ public class CurrentTheme {
     }
 
     public static int getColorPrimary(Context context) {
-        return getColorFromAttrs(R.attr.colorPrimary, context, "#000000");
+        return getColorFromAttrs(androidx.appcompat.R.attr.colorPrimary, context, "#000000");
     }
 
     public static int getColorToast(Context context) {
@@ -99,15 +99,15 @@ public class CurrentTheme {
     }
 
     public static int getColorOnPrimary(Context context) {
-        return getColorFromAttrs(R.attr.colorOnPrimary, context, "#000000");
+        return getColorFromAttrs(com.google.android.material.R.attr.colorOnPrimary, context, "#000000");
     }
 
     public static int getColorSurface(Context context) {
-        return getColorFromAttrs(R.attr.colorSurface, context, "#000000");
+        return getColorFromAttrs(com.google.android.material.R.attr.colorSurface, context, "#000000");
     }
 
     public static int getColorOnSurface(Context context) {
-        return getColorFromAttrs(R.attr.colorOnSurface, context, "#000000");
+        return getColorFromAttrs(com.google.android.material.R.attr.colorOnSurface, context, "#000000");
     }
 
     public static int getColorBackground(Context context) {
@@ -115,7 +115,7 @@ public class CurrentTheme {
     }
 
     public static int getColorOnBackground(Context context) {
-        return getColorFromAttrs(R.attr.colorOnBackground, context, "#000000");
+        return getColorFromAttrs(com.google.android.material.R.attr.colorOnBackground, context, "#000000");
     }
 
     public static int getStatusBarColor(Context context) {
@@ -127,7 +127,7 @@ public class CurrentTheme {
     }
 
     public static int getColorSecondary(Context context) {
-        return getColorFromAttrs(R.attr.colorSecondary, context, "#000000");
+        return getColorFromAttrs(com.google.android.material.R.attr.colorSecondary, context, "#000000");
     }
 
     public static int getStatusBarNonColored(Context context) {
@@ -187,17 +187,17 @@ public class CurrentTheme {
         return result;
     }
 
-    public static int getResIdFromAttribute(final Activity activity, final int attr) {
+    public static int getResIdFromAttribute(Activity activity, int attr) {
         if (attr == 0) {
             return 0;
         }
 
-        final TypedValue typedvalueattr = new TypedValue();
+        TypedValue typedvalueattr = new TypedValue();
         activity.getTheme().resolveAttribute(attr, typedvalueattr, true);
         return typedvalueattr.resourceId;
     }
 
-    public static Drawable getDrawableFromAttribute(final Activity activity, final int attr) {
+    public static Drawable getDrawableFromAttribute(Activity activity, int attr) {
         int resId = getResIdFromAttribute(activity, attr);
         return ContextCompat.getDrawable(activity, resId);
     }

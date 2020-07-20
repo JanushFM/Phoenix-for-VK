@@ -79,11 +79,11 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
     /**
      * This holds the Status flags (not supported in v2.20
      */
-    StatusFlags statusFlags = null;
+    StatusFlags statusFlags;
     /**
      * This holds the Encoding flags (not supported in v2.20)
      */
-    EncodingFlags encodingFlags = null;
+    EncodingFlags encodingFlags;
 
     /**
      * Create an empty frame
@@ -102,8 +102,8 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
      * Create a frame based on a body
      */
     public AbstractID3v2Frame(AbstractID3v2FrameBody body) {
-        this.frameBody = body;
-        this.frameBody.setHeader(this);
+        frameBody = body;
+        frameBody.setHeader(this);
     }
 
     /**
@@ -137,17 +137,17 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
 
     }
 
-    static Buffer decompressPartOfBuffer(Buffer source, int frameSize, final int decompressedFrameSize)
+    static Buffer decompressPartOfBuffer(Buffer source, int frameSize, int decompressedFrameSize)
             throws IOException, InvalidFrameException {
-        final Buffer sink = new Buffer();
+        Buffer sink = new Buffer();
         source.readFully(sink, frameSize);
         Buffer result = new Buffer();
-        final BufferedSource inflaterSource = Okio.buffer(new InflaterSource(sink, new Inflater()));
+        BufferedSource inflaterSource = Okio.buffer(new InflaterSource(sink, new Inflater()));
         inflaterSource.readFully(result, decompressedFrameSize);
         return result;
     }
 
-    static boolean isArtworkFrameId(final String identifier) {
+    static boolean isArtworkFrameId(String identifier) {
         switch (Strings.nullToEmpty(identifier)) {
             case FRAME_ID_ATTACHED_PICTURE:
             case FRAME_ID_V2_ATTACHED_PICTURE:
@@ -350,7 +350,7 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
     }
 
     String readIdentifier(Buffer buffer) throws InvalidFrameException, EOFException {
-        final int frameIdSize = getFrameIdSize();
+        int frameIdSize = getFrameIdSize();
         if (frameIdSize > buffer.size()) {
             return "";
         }
@@ -436,7 +436,7 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
     }
 
     public boolean isEmpty() {
-        AbstractTagFrameBody body = this.getBody();
+        AbstractTagFrameBody body = getBody();
         return body == null;
         //TODO depends on the body
     }
@@ -497,7 +497,7 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
      * @return Charset encoding.
      */
     public Charset getEncoding() {
-        final byte textEncoding = this.getBody().getTextEncoding();
+        byte textEncoding = getBody().getTextEncoding();
         return TextEncoding.getInstanceOf().getCharsetForId(textEncoding);
     }
 
@@ -544,8 +544,8 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
 
 
             return
-                    EqualsUtil.areEqual(this.getOriginalFlags(), that.getOriginalFlags()) &&
-                            EqualsUtil.areEqual(this.getWriteFlags(), that.getWriteFlags());
+                    EqualsUtil.areEqual(getOriginalFlags(), that.getOriginalFlags()) &&
+                            EqualsUtil.areEqual(getWriteFlags(), that.getWriteFlags());
 
         }
     }
@@ -589,7 +589,7 @@ public abstract class AbstractID3v2Frame extends AbstractTagFrame implements Tag
             EncodingFlags that = (EncodingFlags) obj;
 
 
-            return EqualsUtil.areEqual(this.getFlags(), that.getFlags());
+            return EqualsUtil.areEqual(getFlags(), that.getFlags());
 
         }
     }

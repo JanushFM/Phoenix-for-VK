@@ -43,7 +43,6 @@ public class FrameBodyTPOS extends AbstractFrameBodyNumberTotal implements ID3v2
      * Creates a new FrameBodyTRCK datatype.
      */
     public FrameBodyTPOS() {
-        super();
     }
 
     public FrameBodyTPOS(FrameBodyTPOS body) {

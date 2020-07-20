@@ -158,7 +158,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.settings);
 
-        final ListPreference nightPreference = findPreference(KEY_NIGHT_SWITCH);
+        ListPreference nightPreference = findPreference(KEY_NIGHT_SWITCH);
 
         nightPreference.setOnPreferenceChangeListener((preference, newValue) -> {
             switch (Integer.parseInt(newValue.toString())) {
@@ -292,7 +292,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         ListPreference chat_background = findPreference("chat_background");
         if (chat_background != null) {
             chat_background.setOnPreferenceChangeListener((preference, newValue) -> {
-                final String val = newValue.toString();
+                String val = newValue.toString();
                 int index = Integer.parseInt(val);
                 EnableChatPhotoBackground(index);
                 return true;
@@ -573,7 +573,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
             return null;
         }
 
-        final List<VkPushRegistration> available = Settings.get().pushSettings().getRegistrations();
+        List<VkPushRegistration> available = Settings.get().pushSettings().getRegistrations();
         boolean can = available.size() == 1 && available.get(0).getUserId() == accountId;
         return can ? available.get(0).getGmcToken() : null;
     }
@@ -615,8 +615,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         View view = View.inflate(requireActivity(), R.layout.dialog_avatar_style, null);
         ImageView ivCircle = view.findViewById(R.id.circle_avatar);
         ImageView ivOval = view.findViewById(R.id.oval_avatar);
-        final ImageView ivCircleSelected = view.findViewById(R.id.circle_avatar_selected);
-        final ImageView ivOvalSelected = view.findViewById(R.id.oval_avatar_selected);
+        ImageView ivCircleSelected = view.findViewById(R.id.circle_avatar_selected);
+        ImageView ivOvalSelected = view.findViewById(R.id.oval_avatar_selected);
 
         ivCircle.setOnClickListener(v -> resolveAvatarStyleViews(AvatarStyle.CIRCLE, ivCircleSelected, ivOvalSelected));
         ivOval.setOnClickListener(v -> resolveAvatarStyleViews(AvatarStyle.OVAL, ivCircleSelected, ivOvalSelected));

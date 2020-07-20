@@ -1,12 +1,11 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.List;
 
 
-public class CatalogBlock extends AbsModel implements Parcelable {
+public class CatalogBlock extends AbsModel {
     public static final Creator<CatalogBlock> CREATOR = new Creator<CatalogBlock>() {
         @Override
         public CatalogBlock createFromParcel(Parcel in) {

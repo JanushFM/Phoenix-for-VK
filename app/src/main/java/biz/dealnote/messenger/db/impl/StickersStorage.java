@@ -35,15 +35,15 @@ import static biz.dealnote.messenger.util.Utils.safeCountOf;
 class StickersStorage extends AbsStorage implements IStickersStorage {
 
     private static final String[] COLUMNS = {
-            StikerSetColumns._ID,
-            StikerSetColumns.TITLE,
-            StikerSetColumns.PHOTO_35,
-            StikerSetColumns.PHOTO_70,
-            StikerSetColumns.PHOTO_140,
-            StikerSetColumns.PURCHASED,
-            StikerSetColumns.PROMOTED,
-            StikerSetColumns.ACTIVE,
-            StikerSetColumns.STICKERS
+            _ID,
+            TITLE,
+            PHOTO_35,
+            PHOTO_70,
+            PHOTO_140,
+            PURCHASED,
+            PROMOTED,
+            ACTIVE,
+            STICKERS
     };
     private static final Type TYPE = new TypeToken<List<StickerEntity>>() {
     }.getType();
@@ -69,16 +69,16 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
     }
 
     private static StickerSetEntity map(Cursor cursor) {
-        String stickersJson = cursor.getString(cursor.getColumnIndex(StikerSetColumns.STICKERS));
-        return new StickerSetEntity(cursor.getInt(cursor.getColumnIndex(StikerSetColumns._ID)))
+        String stickersJson = cursor.getString(cursor.getColumnIndex(STICKERS));
+        return new StickerSetEntity(cursor.getInt(cursor.getColumnIndex(_ID)))
                 .setStickers(GSON.fromJson(stickersJson, TYPE))
-                .setActive(cursor.getInt(cursor.getColumnIndex(StikerSetColumns.ACTIVE)) == 1)
-                .setPurchased(cursor.getInt(cursor.getColumnIndex(StikerSetColumns.PURCHASED)) == 1)
-                .setPromoted(cursor.getInt(cursor.getColumnIndex(StikerSetColumns.PROMOTED)) == 1)
-                .setPhoto35(cursor.getString(cursor.getColumnIndex(StikerSetColumns.PHOTO_35)))
-                .setPhoto70(cursor.getString(cursor.getColumnIndex(StikerSetColumns.PHOTO_70)))
-                .setPhoto140(cursor.getString(cursor.getColumnIndex(StikerSetColumns.PHOTO_140)))
-                .setTitle(cursor.getString(cursor.getColumnIndex(StikerSetColumns.TITLE)));
+                .setActive(cursor.getInt(cursor.getColumnIndex(ACTIVE)) == 1)
+                .setPurchased(cursor.getInt(cursor.getColumnIndex(PURCHASED)) == 1)
+                .setPromoted(cursor.getInt(cursor.getColumnIndex(PROMOTED)) == 1)
+                .setPhoto35(cursor.getString(cursor.getColumnIndex(PHOTO_35)))
+                .setPhoto70(cursor.getString(cursor.getColumnIndex(PHOTO_70)))
+                .setPhoto140(cursor.getString(cursor.getColumnIndex(PHOTO_140)))
+                .setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
     }
 
     @Override
@@ -111,8 +111,8 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
     public Single<List<StickerSetEntity>> getPurchasedAndActive(int accountId) {
         return Single.create(e -> {
             long start = System.currentTimeMillis();
-            String where = StikerSetColumns.PURCHASED + " = ? AND " + StikerSetColumns.ACTIVE + " = ?";
-            String[] args = new String[]{"1", "1"};
+            String where = PURCHASED + " = ? AND " + ACTIVE + " = ?";
+            String[] args = {"1", "1"};
             Cursor cursor = helper(accountId).getReadableDatabase().query(StikerSetColumns.TABLENAME, COLUMNS, where, args, null, null, null);
 
             List<StickerSetEntity> stickers = new ArrayList<>(cursor.getCount());

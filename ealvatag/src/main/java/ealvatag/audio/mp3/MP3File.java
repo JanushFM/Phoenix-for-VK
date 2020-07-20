@@ -89,15 +89,15 @@ public class MP3File extends AudioFileImpl {
     /**
      * the ID3v2 tag that this file contains.
      */
-    private AbstractID3v2Tag id3v2tag = null;
+    private AbstractID3v2Tag id3v2tag;
     /**
      * Representation of the idv2 tag as a idv24 tag
      */
-    private ID3v24Tag id3v2Asv24tag = null;
+    private ID3v24Tag id3v2Asv24tag;
     /**
      * The ID3v1 tag that this file contains.
      */
-    private ID3v1Tag id3v1tag = null;
+    private ID3v1Tag id3v1tag;
 
     @VisibleForTesting
     public MP3File(File file) throws IOException,
@@ -121,7 +121,7 @@ public class MP3File extends AudioFileImpl {
      * @throws InvalidAudioFrameException error reading frame
      */
     public MP3File(File file,
-                   final String extension,
+                   String extension,
                    int loadOptions,
                    boolean ignoreArtwork) throws IOException, TagException, InvalidAudioFrameException {
         super(file, extension);
@@ -148,7 +148,7 @@ public class MP3File extends AudioFileImpl {
             }
 
             if (v2HeaderOptional.isPresent()) {
-                final Id3v2Header header = v2HeaderOptional.get();
+                Id3v2Header header = v2HeaderOptional.get();
                 Buffer buffer = new Buffer();
                 // TODO: 1/26/17 Remove the "- v2TaqHeaderSize" from the number of bytes read to see about some tag data reading too far
                 fileOperator.read(v2TagHeaderSize, buffer, audioStart - v2TagHeaderSize);
@@ -172,8 +172,8 @@ public class MP3File extends AudioFileImpl {
             //otherwise use nothing
             //TODO:if have both should we merge
             //rather than just returning specific ID3v22 tag, would it be better to return v24 version ?
-            if (this.getID3v2Tag() != null) {
-                tag = this.getID3v2Tag();
+            if (getID3v2Tag() != null) {
+                tag = getID3v2Tag();
             } else if (id3v1tag != null) {
                 tag = id3v1tag;
             }
@@ -196,7 +196,7 @@ public class MP3File extends AudioFileImpl {
         tagFormatter = new XMLTagDisplayFormatter();
     }
 
-    private Optional<Id3v2Header> getV2Header(final FileOperator fileOperator) throws IOException {
+    private Optional<Id3v2Header> getV2Header(FileOperator fileOperator) throws IOException {
         Buffer buffer = new Buffer();
         fileOperator.read(0, buffer, AbstractID3v2Tag.TAG_HEADER_LENGTH);
         return AbstractID3v2Tag.getHeader(buffer);
@@ -224,10 +224,10 @@ public class MP3File extends AudioFileImpl {
      * Regets the audio header starting from start of file, and write appropriate logging to indicate
      * potential problem to user.
      */
-    private MP3AudioHeader checkAudioStart(final FileOperator fileOperator,
+    private MP3AudioHeader checkAudioStart(FileOperator fileOperator,
                                            long startByte,
                                            MP3AudioHeader firstHeaderAfterTag,
-                                           final String filePath) throws IOException, InvalidAudioFrameException {
+                                           String filePath) throws IOException, InvalidAudioFrameException {
         MP3AudioHeader headerOne;
         MP3AudioHeader headerTwo;
 
@@ -592,7 +592,7 @@ public class MP3File extends AudioFileImpl {
     //TODO temp its rather messy
     public void setID3v2TagOnly(AbstractID3v2Tag id3v2tag) {
         this.id3v2tag = id3v2tag;
-        this.id3v2Asv24tag = null;
+        id3v2Asv24tag = null;
     }
 
     /**
@@ -604,7 +604,7 @@ public class MP3File extends AudioFileImpl {
     public ID3v24Tag getID3v2TagAsv24() {
         if (id3v2Asv24tag == null) {
             if (id3v2tag instanceof ID3v24Tag) {
-                id3v2Asv24tag = (ID3v24Tag) this.id3v2tag;
+                id3v2Asv24tag = (ID3v24Tag) id3v2tag;
             } else {
                 id3v2Asv24tag = new ID3v24Tag(id3v2tag);
             }
@@ -616,7 +616,7 @@ public class MP3File extends AudioFileImpl {
      * Remove tag from file
      */
     public void delete(BaseID3Tag mp3tag) throws IOException {
-        RandomAccessFile raf = new RandomAccessFile(this.file, "rw");
+        RandomAccessFile raf = new RandomAccessFile(file, "rw");
         mp3tag.delete(raf);
         raf.close();
         if (mp3tag instanceof ID3v1Tag) {
@@ -644,7 +644,7 @@ public class MP3File extends AudioFileImpl {
      * @throws IOException on any I/O error
      */
     public void saveMp3() throws IOException {
-        saveMp3(this.file);
+        saveMp3(file);
     }
 
     /**
@@ -673,9 +673,9 @@ public class MP3File extends AudioFileImpl {
                     (new ID3v22Tag()).delete(rfile);
                     rfile.close();
                 } else {
-                    final MP3AudioHeader mp3AudioHeader = (MP3AudioHeader) this.getAudioHeader();
-                    final long mp3StartByte = mp3AudioHeader.getMp3StartByte();
-                    final long newMp3StartByte = id3v2tag.write(file, mp3StartByte);
+                    MP3AudioHeader mp3AudioHeader = (MP3AudioHeader) getAudioHeader();
+                    long mp3StartByte = mp3AudioHeader.getMp3StartByte();
+                    long newMp3StartByte = id3v2tag.write(file, mp3StartByte);
                     if (mp3StartByte != newMp3StartByte) {
                         mp3AudioHeader.setMp3StartByte(newMp3StartByte);
                     }
@@ -775,12 +775,12 @@ public class MP3File extends AudioFileImpl {
      */
     public String displayStructureAsXML() {
         createXMLStructureFormatter();
-        tagFormatter.openHeadingElement("file", this.getFile().getAbsolutePath());
-        if (this.getID3v1Tag() != null) {
-            this.getID3v1Tag().createStructure();
+        tagFormatter.openHeadingElement("file", getFile().getAbsolutePath());
+        if (getID3v1Tag() != null) {
+            getID3v1Tag().createStructure();
         }
-        if (this.getID3v2Tag() != null) {
-            this.getID3v2Tag().createStructure();
+        if (getID3v2Tag() != null) {
+            getID3v2Tag().createStructure();
         }
         tagFormatter.closeHeadingElement("file");
         return tagFormatter.toString();
@@ -791,12 +791,12 @@ public class MP3File extends AudioFileImpl {
      */
     public String displayStructureAsPlainText() {
         createPlainTextStructureFormatter();
-        tagFormatter.openHeadingElement("file", this.getFile().getAbsolutePath());
-        if (this.getID3v1Tag() != null) {
-            this.getID3v1Tag().createStructure();
+        tagFormatter.openHeadingElement("file", getFile().getAbsolutePath());
+        if (getID3v1Tag() != null) {
+            getID3v1Tag().createStructure();
         }
-        if (this.getID3v2Tag() != null) {
-            this.getID3v2Tag().createStructure();
+        if (getID3v2Tag() != null) {
+            getID3v2Tag().createStructure();
         }
         tagFormatter.closeHeadingElement("file");
         return tagFormatter.toString();

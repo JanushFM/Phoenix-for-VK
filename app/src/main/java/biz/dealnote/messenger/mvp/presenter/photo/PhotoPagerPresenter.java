@@ -51,8 +51,8 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
 
     PhotoPagerPresenter(@NonNull ArrayList<Photo> initialData, int accountId, boolean Story, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.photosInteractor = InteractorFactory.createPhotosInteractor();
-        this.isStory = Story;
+        photosInteractor = InteractorFactory.createPhotosInteractor();
+        isStory = Story;
         this.context = context;
 
         if (Objects.nonNull(savedInstanceState)) {
@@ -238,12 +238,12 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     private void addOrRemoveLike() {
-        final Photo photo = getCurrent();
+        Photo photo = getCurrent();
 
-        final int ownerId = photo.getOwnerId();
-        final int photoId = photo.getId();
-        final int accountId = super.getAccountId();
-        final boolean add = !photo.isUserLikes();
+        int ownerId = photo.getOwnerId();
+        int photoId = photo.getId();
+        int accountId = getAccountId();
+        boolean add = !photo.isUserLikes();
 
         appendDisposable(photosInteractor.like(accountId, ownerId, photoId, add, photo.getAccessKey())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -251,7 +251,7 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     private void onDeleteOrRestoreResult(int photoId, int ownerId, boolean deleted) {
-        int index = findIndexById(this.mPhotos, photoId, ownerId);
+        int index = findIndexById(mPhotos, photoId, ownerId);
 
         if (index != -1) {
             Photo photo = mPhotos.get(index);
@@ -334,8 +334,8 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     public void fireSaveYourselfClick() {
-        final Photo photo = getCurrent();
-        final int accountId = super.getAccountId();
+        Photo photo = getCurrent();
+        int accountId = getAccountId();
 
         appendDisposable(photosInteractor.copy(accountId, photo.getOwnerId(), photo.getId(), photo.getAccessKey())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -371,10 +371,10 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     private void deleteOrRestore(boolean detele) {
-        final Photo photo = getCurrent();
-        final int photoId = photo.getId();
-        final int ownerId = photo.getOwnerId();
-        final int accountId = super.getAccountId();
+        Photo photo = getCurrent();
+        int photoId = photo.getId();
+        int ownerId = photo.getOwnerId();
+        int accountId = getAccountId();
 
         Completable completable;
         if (detele) {
@@ -426,7 +426,7 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     void setCurrentIndex(int currentIndex) {
-        this.mCurrentIndex = currentIndex;
+        mCurrentIndex = currentIndex;
     }
 
     public void fireLikeLongClick() {
@@ -442,7 +442,7 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
 
         InternalDownloader(PhotoPagerPresenter presenter, Context context, String url, String file, Photo photo) {
             super(context, url, file, photo.getId() + "_" + photo.getOwnerId(), true);
-            this.ref = new WeakReference<>(presenter);
+            ref = new WeakReference<>(presenter);
         }
 
         @Override

@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.domain.impl;
 
+import android.provider.BaseColumns;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +11,6 @@ import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.model.VKApiPhoto;
 import biz.dealnote.messenger.api.model.VKApiPhotoAlbum;
 import biz.dealnote.messenger.api.model.VKApiPhotoTags;
-import biz.dealnote.messenger.db.column.PhotosColumns;
 import biz.dealnote.messenger.db.interfaces.IStorages;
 import biz.dealnote.messenger.db.model.PhotoPatch;
 import biz.dealnote.messenger.db.model.entity.PhotoAlbumEntity;
@@ -104,7 +105,7 @@ public class PhotosInteractor implements IPhotosInteractor {
         PhotoCriteria criteria = new PhotoCriteria(accountId).setAlbumId(albumId).setOwnerId(ownerId);
 
         if (albumId == -15) {
-            criteria.setOrderBy(PhotosColumns._ID);
+            criteria.setOrderBy(BaseColumns._ID);
         }
 
         return cache.photos()
@@ -212,7 +213,7 @@ public class PhotosInteractor implements IPhotosInteractor {
         }
 
         return single.flatMap(count -> {
-            final PhotoPatch patch = new PhotoPatch().setLike(new PhotoPatch.Like(count, add));
+            PhotoPatch patch = new PhotoPatch().setLike(new PhotoPatch.Like(count, add));
             return cache.photos()
                     .applyPatch(accountId, ownerId, photoId, patch)
                     .andThen(Single.just(count));

@@ -58,12 +58,12 @@ public class ReceivedAsTypes implements SimpleIntStringMap {
     }
 
     @Override
-    public boolean containsKey(final int key) {
+    public boolean containsKey(int key) {
         return key >= 0 && key <= MAX_RECEIVED_AS_ID;
     }
 
     @Override
-    public String getValue(final int key) {
+    public String getValue(int key) {
         if (!containsKey(key)) {
             return "";
         }

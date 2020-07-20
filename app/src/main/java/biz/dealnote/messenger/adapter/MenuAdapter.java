@@ -134,15 +134,15 @@ public class MenuAdapter extends ArrayAdapter<Item> {
         final View divider;
 
         Holder(View itemView) {
-            this.headerRoot = itemView.findViewById(R.id.header_root);
-            this.headerIcon = itemView.findViewById(R.id.header_icon);
-            this.headerText = itemView.findViewById(R.id.header_text);
+            headerRoot = itemView.findViewById(R.id.header_root);
+            headerIcon = itemView.findViewById(R.id.header_icon);
+            headerText = itemView.findViewById(R.id.header_text);
 
-            this.itemOffsetView = itemView.findViewById(R.id.item_offset);
-            this.itemIcon = itemView.findViewById(R.id.item_icon);
-            this.itemText = itemView.findViewById(R.id.item_text);
+            itemOffsetView = itemView.findViewById(R.id.item_offset);
+            itemIcon = itemView.findViewById(R.id.item_icon);
+            itemText = itemView.findViewById(R.id.item_text);
 
-            this.divider = itemView.findViewById(R.id.divider);
+            divider = itemView.findViewById(R.id.divider);
         }
     }
 }

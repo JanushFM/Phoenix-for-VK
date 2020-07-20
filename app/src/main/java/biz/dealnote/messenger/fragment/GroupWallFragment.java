@@ -82,7 +82,7 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
             displayCommunityCover(community.getMaxSquareAvatar());
         }
 
-        final String statusText;
+        String statusText;
         if (nonNull(details.getStatusAudio())) {
             statusText = details.getStatusAudio().getArtistAndTitle();
         } else {
@@ -309,7 +309,7 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
 
         @Override
         public void setControlVisible(boolean visible) {
-            this.controlVisible = visible;
+            controlVisible = visible;
         }
     }
 

@@ -48,7 +48,6 @@ public class FrameBodyTRCK extends AbstractFrameBodyNumberTotal implements ID3v2
      * Creates a new FrameBodyTRCK datatype.
      */
     public FrameBodyTRCK() {
-        super();
     }
 
     public FrameBodyTRCK(FrameBodyTRCK body) {

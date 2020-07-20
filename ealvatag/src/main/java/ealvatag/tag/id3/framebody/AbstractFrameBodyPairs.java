@@ -122,7 +122,7 @@ public abstract class AbstractFrameBodyPairs extends AbstractID3v2FrameBody impl
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         if (!((PairedTextEncodedStringNullTerminated) getObject(DataTypes.OBJ_TEXT)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         super.write(tagBuffer);
     }

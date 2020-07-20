@@ -28,7 +28,7 @@ package ealvatag.tag.id3.reference;
  * TODO Media Monkey includes half stars so essentially a 10 star scale but not used by anything else much
  */
 public class MediaMonkeyPlayerRating extends ID3Rating {
-    private static ID3Rating rating = null;
+    private static ID3Rating rating;
 
     private MediaMonkeyPlayerRating() {
     }

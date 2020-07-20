@@ -18,15 +18,15 @@ public class SettingsImpl implements ISettings {
     private final IOtherSettings otherSettings;
 
     private SettingsImpl(Context app) {
-        this.notificationSettings = new NotificationsPrefs(app);
-        this.recentChats = new RecentChatsSettings(app);
-        this.drawerSettings = new DrawerSettings(app);
-        this.pushSettings = new PushSettings(app);
-        this.securitySettings = new SecuritySettings(app);
-        this.iuiSettings = new UISettings(app);
-        this.mainSettings = new MainSettings(app);
-        this.accountsSettings = new AccountsSettings(app);
-        this.otherSettings = new OtherSettings(app);
+        notificationSettings = new NotificationsPrefs(app);
+        recentChats = new RecentChatsSettings(app);
+        drawerSettings = new DrawerSettings(app);
+        pushSettings = new PushSettings(app);
+        securitySettings = new SecuritySettings(app);
+        iuiSettings = new UISettings(app);
+        mainSettings = new MainSettings(app);
+        accountsSettings = new AccountsSettings(app);
+        otherSettings = new OtherSettings(app);
     }
 
     public static SettingsImpl getInstance(Context context) {

@@ -66,36 +66,36 @@ class VideoStorage extends AbsStorage implements IVideoStorage {
      * Поэтому необходимо отдельно сохранять идентикатор owner-а, у кого в видеозаписях мы нашли видео */
     public static ContentValues getCV(VideoEntity dbo, int ownerId) {
         ContentValues cv = new ContentValues();
-        cv.put(VideoColumns.VIDEO_ID, dbo.getId());
-        cv.put(VideoColumns.OWNER_ID, ownerId);
-        cv.put(VideoColumns.ORIGINAL_OWNER_ID, dbo.getOwnerId());
-        cv.put(VideoColumns.ALBUM_ID, dbo.getAlbumId());
-        cv.put(VideoColumns.TITLE, dbo.getTitle());
-        cv.put(VideoColumns.DESCRIPTION, dbo.getDescription());
-        cv.put(VideoColumns.DURATION, dbo.getDuration());
-        cv.put(VideoColumns.LINK, dbo.getLink());
-        cv.put(VideoColumns.DATE, dbo.getDate());
-        cv.put(VideoColumns.ADDING_DATE, dbo.getAddingDate());
-        cv.put(VideoColumns.VIEWS, dbo.getViews());
-        cv.put(VideoColumns.PLAYER, dbo.getPlayer());
-        cv.put(VideoColumns.IMAGE, dbo.getImage());
-        cv.put(VideoColumns.ACCESS_KEY, dbo.getAccessKey());
-        cv.put(VideoColumns.COMMENTS, dbo.getCommentsCount());
-        cv.put(VideoColumns.CAN_COMENT, dbo.isCanComment());
-        cv.put(VideoColumns.CAN_REPOST, dbo.isCanRepost());
-        cv.put(VideoColumns.USER_LIKES, dbo.isUserLikes());
-        cv.put(VideoColumns.REPEAT, dbo.isRepeat());
-        cv.put(VideoColumns.LIKES, dbo.getLikesCount());
-        cv.put(VideoColumns.PRIVACY_VIEW, nonNull(dbo.getPrivacyView()) ? GSON.toJson(dbo.getPrivacyView()) : null);
-        cv.put(VideoColumns.PRIVACY_COMMENT, nonNull(dbo.getPrivacyComment()) ? GSON.toJson(dbo.getPrivacyComment()) : null);
-        cv.put(VideoColumns.MP4_240, dbo.getMp4link240());
-        cv.put(VideoColumns.MP4_360, dbo.getMp4link360());
-        cv.put(VideoColumns.MP4_480, dbo.getMp4link480());
-        cv.put(VideoColumns.MP4_720, dbo.getMp4link720());
-        cv.put(VideoColumns.MP4_1080, dbo.getMp4link1080());
-        cv.put(VideoColumns.EXTERNAL, dbo.getExternalLink());
-        cv.put(VideoColumns.HLS, dbo.getHls());
-        cv.put(VideoColumns.LIVE, dbo.getLive());
+        cv.put(VIDEO_ID, dbo.getId());
+        cv.put(OWNER_ID, ownerId);
+        cv.put(ORIGINAL_OWNER_ID, dbo.getOwnerId());
+        cv.put(ALBUM_ID, dbo.getAlbumId());
+        cv.put(TITLE, dbo.getTitle());
+        cv.put(DESCRIPTION, dbo.getDescription());
+        cv.put(DURATION, dbo.getDuration());
+        cv.put(LINK, dbo.getLink());
+        cv.put(DATE, dbo.getDate());
+        cv.put(ADDING_DATE, dbo.getAddingDate());
+        cv.put(VIEWS, dbo.getViews());
+        cv.put(PLAYER, dbo.getPlayer());
+        cv.put(IMAGE, dbo.getImage());
+        cv.put(ACCESS_KEY, dbo.getAccessKey());
+        cv.put(COMMENTS, dbo.getCommentsCount());
+        cv.put(CAN_COMENT, dbo.isCanComment());
+        cv.put(CAN_REPOST, dbo.isCanRepost());
+        cv.put(USER_LIKES, dbo.isUserLikes());
+        cv.put(REPEAT, dbo.isRepeat());
+        cv.put(LIKES, dbo.getLikesCount());
+        cv.put(PRIVACY_VIEW, nonNull(dbo.getPrivacyView()) ? GSON.toJson(dbo.getPrivacyView()) : null);
+        cv.put(PRIVACY_COMMENT, nonNull(dbo.getPrivacyComment()) ? GSON.toJson(dbo.getPrivacyComment()) : null);
+        cv.put(MP4_240, dbo.getMp4link240());
+        cv.put(MP4_360, dbo.getMp4link360());
+        cv.put(MP4_480, dbo.getMp4link480());
+        cv.put(MP4_720, dbo.getMp4link720());
+        cv.put(MP4_1080, dbo.getMp4link1080());
+        cv.put(EXTERNAL, dbo.getExternalLink());
+        cv.put(HLS, dbo.getHls());
+        cv.put(LIVE, dbo.getLive());
         cv.put(VideoColumns.PLATFORM, dbo.getPlatform());
         cv.put(VideoColumns.CAN_EDIT, dbo.isCanEdit());
         cv.put(VideoColumns.CAN_ADD, dbo.isCanAdd());
@@ -142,8 +142,8 @@ class VideoStorage extends AbsStorage implements IVideoStorage {
     }
 
     private VideoEntity mapVideo(Cursor cursor) {
-        final int id = cursor.getInt(cursor.getColumnIndex(VIDEO_ID));
-        final int ownerId = cursor.getInt(cursor.getColumnIndex(ORIGINAL_OWNER_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(VIDEO_ID));
+        int ownerId = cursor.getInt(cursor.getColumnIndex(ORIGINAL_OWNER_ID));
 
         VideoEntity video = new VideoEntity(id, ownerId)
                 .setAlbumId(cursor.getInt(cursor.getColumnIndex(ALBUM_ID)))
@@ -198,12 +198,12 @@ class VideoStorage extends AbsStorage implements IVideoStorage {
                 if (albumId == 0) {
                     operations.add(ContentProviderOperation
                             .newDelete(uri)
-                            .withSelection(VideoColumns.OWNER_ID + " = ?", new String[]{String.valueOf(ownerId)})
+                            .withSelection(OWNER_ID + " = ?", new String[]{String.valueOf(ownerId)})
                             .build());
                 } else {
                     operations.add(ContentProviderOperation
                             .newDelete(uri)
-                            .withSelection(VideoColumns.OWNER_ID + " = ? AND " + VideoColumns.ALBUM_ID + " = ?",
+                            .withSelection(OWNER_ID + " = ? AND " + ALBUM_ID + " = ?",
                                     new String[]{String.valueOf(ownerId), String.valueOf(albumId)})
                             .build());
                 }
@@ -211,7 +211,7 @@ class VideoStorage extends AbsStorage implements IVideoStorage {
 
             for (VideoEntity dbo : videos) {
                 ContentValues cv = getCV(dbo, ownerId);
-                cv.put(VideoColumns.ALBUM_ID, albumId);
+                cv.put(ALBUM_ID, albumId);
 
                 operations.add(ContentProviderOperation
                         .newInsert(uri)

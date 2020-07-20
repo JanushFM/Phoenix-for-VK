@@ -12,7 +12,7 @@ import biz.dealnote.messenger.mvp.presenter.MutualFriendsPresenter;
 import biz.dealnote.messenger.mvp.view.ISimpleOwnersView;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
-public class MutualFriendsFragment extends AbsOwnersListFragment<MutualFriendsPresenter, ISimpleOwnersView> implements ISimpleOwnersView {
+public class MutualFriendsFragment extends AbsOwnersListFragment<MutualFriendsPresenter, ISimpleOwnersView> {
 
     private static final String EXTRA_TARGET_ID = "targetId";
 

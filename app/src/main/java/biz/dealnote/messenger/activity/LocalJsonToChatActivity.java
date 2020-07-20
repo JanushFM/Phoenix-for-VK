@@ -79,7 +79,7 @@ public class LocalJsonToChatActivity extends NoMainActivity implements PlaceProv
 
     @Override
     public void openPlace(Place place) {
-        final Bundle args = place.getArgs();
+        Bundle args = place.getArgs();
         switch (place.type) {
             case Place.VK_PHOTO_ALBUM_GALLERY:
 
@@ -104,7 +104,7 @@ public class LocalJsonToChatActivity extends NoMainActivity implements PlaceProv
                 break;
             default:
                 Intent intent = new Intent(this, SwipebleActivity.class);
-                intent.setAction(SwipebleActivity.ACTION_OPEN_PLACE);
+                intent.setAction(MainActivity.ACTION_OPEN_PLACE);
                 intent.putExtra(Extra.PLACE, place);
                 SwipebleActivity.start(this, intent);
                 break;

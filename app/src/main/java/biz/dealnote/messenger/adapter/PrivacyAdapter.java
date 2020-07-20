@@ -39,8 +39,8 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private ActionListener mActionListener;
 
     public PrivacyAdapter(Context context, Privacy privacy) {
-        this.mContext = context;
-        this.mPrivacy = privacy;
+        mContext = context;
+        mPrivacy = privacy;
     }
 
     @NotNull
@@ -101,7 +101,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.itemView.setLayoutParams(layoutParams);
         }
 
-        final int position = holder.getAdapterPosition();
+        int position = holder.getAdapterPosition();
         if (position == 0) {
             String title = mContext.getString(getTypeTitle());
             String fullText = mContext.getString(R.string.who_can_have_access) + " " + title;
@@ -147,7 +147,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private void bindListEntry(EntryViewHolder holder, final FriendList friendList, final boolean allow) {
+    private void bindListEntry(EntryViewHolder holder, FriendList friendList, boolean allow) {
         holder.avatar.setColorFilter(CurrentTheme.getColorSecondary(mContext));
 
         PicassoInstance.with()
@@ -166,7 +166,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         });
     }
 
-    private void bindUserEntry(EntryViewHolder holder, final User user, final boolean allow) {
+    private void bindUserEntry(EntryViewHolder holder, User user, boolean allow) {
         holder.avatar.setColorFilter(null);
 
         PicassoInstance.with()
@@ -187,13 +187,13 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onAttachedToRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        this.mLayoutManager = recyclerView.getLayoutManager();
+        mLayoutManager = recyclerView.getLayoutManager();
     }
 
     @Override
     public void onDetachedFromRecyclerView(@NotNull RecyclerView recyclerView) {
         super.onDetachedFromRecyclerView(recyclerView);
-        this.mLayoutManager = null;
+        mLayoutManager = null;
     }
 
     @Override
@@ -219,7 +219,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public void setActionListener(ActionListener actionListener) {
-        this.mActionListener = actionListener;
+        mActionListener = actionListener;
     }
 
     public interface ActionListener extends EventListener {
@@ -245,9 +245,9 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         TitleViewHolder(View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.title);
-            this.title.setMovementMethod(LinkMovementMethod.getInstance());
-            this.buttonAdd = itemView.findViewById(R.id.button_add);
+            title = itemView.findViewById(R.id.title);
+            title.setMovementMethod(LinkMovementMethod.getInstance());
+            buttonAdd = itemView.findViewById(R.id.button_add);
         }
     }
 
@@ -259,9 +259,9 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         EntryViewHolder(View itemView) {
             super(itemView);
-            this.avatar = itemView.findViewById(R.id.avatar);
-            this.buttonRemove = itemView.findViewById(R.id.button_remove);
-            this.title = itemView.findViewById(R.id.name);
+            avatar = itemView.findViewById(R.id.avatar);
+            buttonRemove = itemView.findViewById(R.id.button_remove);
+            title = itemView.findViewById(R.id.name);
         }
     }
 }

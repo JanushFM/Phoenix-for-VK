@@ -27,7 +27,7 @@ public class LinkSpan extends ClickableSpan {
     public LinkSpan(Context context, String str, boolean is_underline) {
         this.is_underline = is_underline;
         this.context = context;
-        this.link = str;
+        link = str;
     }
 
     @Override

@@ -173,7 +173,7 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
     @SuppressWarnings("unchecked")
     @Override
     public void displayData(List<Document> documents, boolean asImages) {
-        this.mImagesOnly = asImages;
+        mImagesOnly = asImages;
 
         if (isNull(mRecyclerView)) {
             return;
@@ -346,7 +346,7 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
 
     @Override
     public void setAdapterType(boolean imagesOnly) {
-        this.mImagesOnly = imagesOnly;
+        mImagesOnly = imagesOnly;
     }
 
     @NotNull

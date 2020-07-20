@@ -12,7 +12,7 @@ import biz.dealnote.messenger.mvp.presenter.OnlineFriendsPresenter;
 import biz.dealnote.messenger.mvp.view.ISimpleOwnersView;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
-public class OnlineFriendsFragment extends AbsOwnersListFragment<OnlineFriendsPresenter, ISimpleOwnersView> implements ISimpleOwnersView {
+public class OnlineFriendsFragment extends AbsOwnersListFragment<OnlineFriendsPresenter, ISimpleOwnersView> {
 
     public static OnlineFriendsFragment newInstance(int accoutnId, int userId) {
         Bundle bundle = new Bundle();

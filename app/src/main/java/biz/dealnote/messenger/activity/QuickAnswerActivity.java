@@ -77,7 +77,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
         setTheme(Settings.get().main().isAmoledTheme() ? R.style.QuickReply_Amoled : R.style.QuickReply);
         super.onCreate(savedInstanceState);
 
-        this.messagesRepository = Repository.INSTANCE.getMessages();
+        messagesRepository = Repository.INSTANCE.getMessages();
 
         boolean focusToField = getIntent().getBooleanExtra(EXTRA_FOCUS_TO_FIELD, true);
 
@@ -108,7 +108,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
         ImageButton btnSend = findViewById(R.id.activity_quick_answer_send);
 
         String messageTime = AppTextUtils.getDateFromUnixTime(this, msg.getDate());
-        final String title = getIntent().getStringExtra(Extra.TITLE);
+        String title = getIntent().getStringExtra(Extra.TITLE);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
@@ -118,7 +118,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
         tvTime.setText(messageTime);
 
         Transformation transformation = CurrentTheme.createTransformationForAvatar(this);
-        final String imgUrl = getIntent().getStringExtra(Extra.IMAGE);
+        String imgUrl = getIntent().getStringExtra(Extra.IMAGE);
         if (ivAvatar != null) {
             ViewUtils.displayAvatar(ivAvatar, transformation, imgUrl, null);
         }
@@ -141,7 +141,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
 
         btnSend.setOnClickListener(view -> send());
         btnToDialog.setOnClickListener(v -> {
-            Intent intent = new Intent(QuickAnswerActivity.this, MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setAction(MainActivity.ACTION_OPEN_PLACE);
 
             Place chatPlace = PlaceFactory.getChatPlace(accountId, accountId, new Peer(msg.getPeerId()).setAvaUrl(imgUrl).setTitle(title), 0);
@@ -185,7 +185,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
     private void send() {
         String trimmedtext = etText.getText().toString().trim();
         if (isEmpty(trimmedtext)) {
-            Toast.makeText(QuickAnswerActivity.this, getString(R.string.text_hint), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.text_hint), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -202,7 +202,7 @@ public class QuickAnswerActivity extends AppCompatActivity {
                     .getEncryptionLocationPolicy(accountId, msg.getPeerId());
         }
 
-        final SaveMessageBuilder builder = new SaveMessageBuilder(accountId, msg.getPeerId())
+        SaveMessageBuilder builder = new SaveMessageBuilder(accountId, msg.getPeerId())
                 .setBody(trimmedtext)
                 .setForwardMessages(new ArrayList<>(Collections.singleton(msg)))
                 .setRequireEncryption(requireEncryption)

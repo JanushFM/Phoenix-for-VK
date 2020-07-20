@@ -62,7 +62,7 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
             ProxyUtil.applyProxyConfig(builder, proxySettings.getActiveProxy());
             Gson gson = new GsonBuilder().create();
 
-            final Retrofit retrofit = new Retrofit.Builder()
+            Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://oauth.vk.com/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -87,7 +87,7 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
             ProxyUtil.applyProxyConfig(builder, proxySettings.getActiveProxy());
             Gson gson = new GsonBuilder().create();
 
-            final Retrofit retrofit = new Retrofit.Builder()
+            Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("https://api.vk.com/method/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

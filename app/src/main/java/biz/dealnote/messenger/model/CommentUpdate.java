@@ -27,7 +27,7 @@ public class CommentUpdate {
     }
 
     public CommentUpdate withDeletion(boolean deleted) {
-        this.deleteUpdate = new DeleteUpdate(deleted);
+        deleteUpdate = new DeleteUpdate(deleted);
         return this;
     }
 
@@ -56,7 +56,7 @@ public class CommentUpdate {
     }
 
     public CommentUpdate withLikes(boolean userLikes, int count) {
-        this.likeUpdate = new LikeUpdate(userLikes, count);
+        likeUpdate = new LikeUpdate(userLikes, count);
         return this;
     }
 

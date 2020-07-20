@@ -54,14 +54,14 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
     private UploadActionListener mUploadActionListener;
 
     public BigVkPhotosAdapter(Context context, @NonNull List<Upload> uploads, @NonNull List<SelectablePhotoWrapper> photoWrappers, String picassoTag) {
-        this.mContext = context;
-        this.mPhotoHolders = new HashSet<>();
-        this.mUploadViewHolders = new SharedHolders<>(false);
-        this.mPicassoTag = picassoTag;
-        this.mColorPrimaryWithAlpha = Utils.adjustAlpha(CurrentTheme.getColorPrimary(mContext), 0.75F);
+        mContext = context;
+        mPhotoHolders = new HashSet<>();
+        mUploadViewHolders = new SharedHolders<>(false);
+        mPicassoTag = picassoTag;
+        mColorPrimaryWithAlpha = Utils.adjustAlpha(CurrentTheme.getColorPrimary(mContext), 0.75F);
 
-        super.setData(DATA_TYPE_UPLOAD, uploads);
-        super.setData(DATA_TYPE_PHOTO, photoWrappers);
+        setData(DATA_TYPE_UPLOAD, uploads);
+        setData(DATA_TYPE_PHOTO, photoWrappers);
     }
 
     private static int generateNextHolderId() {
@@ -103,7 +103,7 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
         }
     }
 
-    private void bindUploadViewHolder(UploadViewHolder holder, final Upload upload) {
+    private void bindUploadViewHolder(UploadViewHolder holder, Upload upload) {
         mUploadViewHolders.put(upload.getId(), holder);
 
         holder.setupProgress(upload.getStatus(), upload.getProgress(), false);
@@ -122,7 +122,7 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
         });
     }
 
-    private void bindPhotoViewHolder(final PhotoViewHolder holder, final SelectablePhotoWrapper photoWrapper) {
+    private void bindPhotoViewHolder(PhotoViewHolder holder, SelectablePhotoWrapper photoWrapper) {
         removePhotoViewHolderByTag(photoWrapper);
         holder.itemView.setTag(photoWrapper);
         mPhotoHolders.add(holder);
@@ -180,11 +180,11 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
     }
 
     public void setPhotosActionListener(PhotosActionListener photosActionListener) {
-        this.mPhotosActionListener = photosActionListener;
+        mPhotosActionListener = photosActionListener;
     }
 
     public void setUploadActionListener(UploadActionListener uploadActionListener) {
-        this.mUploadActionListener = uploadActionListener;
+        mUploadActionListener = uploadActionListener;
     }
 
     public void updatePhotoHoldersSelectionAndIndexes() {
@@ -235,11 +235,11 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
             super(itemView);
             super.itemView.setTag(generateNextHolderId());
 
-            this.image = itemView.findViewById(R.id.image);
-            this.tint = itemView.findViewById(R.id.tint);
-            this.progressRoot = itemView.findViewById(R.id.progress_root);
-            this.progress = itemView.findViewById(R.id.progress);
-            this.title = itemView.findViewById(R.id.title);
+            image = itemView.findViewById(R.id.image);
+            tint = itemView.findViewById(R.id.tint);
+            progressRoot = itemView.findViewById(R.id.progress_root);
+            progress = itemView.findViewById(R.id.progress);
+            title = itemView.findViewById(R.id.title);
         }
 
         void setupProgress(int status, int progressValue, boolean smoothly) {

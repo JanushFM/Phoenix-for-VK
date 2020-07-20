@@ -74,7 +74,7 @@ public class FcmListenerService extends FirebaseMessagingService {
             return;
         }
 
-        final IPushRegistrationResolver registrationResolver = Injection.providePushRegistrationResolver();
+        IPushRegistrationResolver registrationResolver = Injection.providePushRegistrationResolver();
 
         if (!registrationResolver.canReceivePushNotification()) {
             Logger.d(TAG, "Invalid push registration on VK");

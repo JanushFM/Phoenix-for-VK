@@ -73,14 +73,12 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
      * @param byteBuffer from where to read the frame body from
      */
     protected AbstractID3v2FrameBody(ByteBuffer byteBuffer, int frameSize) throws InvalidTagException {
-        super();
         setSize(frameSize);
-        this.read(byteBuffer);
+        read(byteBuffer);
 
     }
 
     protected AbstractID3v2FrameBody(Buffer buffer, int frameSize) throws InvalidTagException {
-        super();
         setSize(frameSize);
         read(buffer);
     }
@@ -116,7 +114,7 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
      */
     private void setSize() {
         size = 0;
-        final List<AbstractDataType> dataTypeList = getDataTypeList();
+        List<AbstractDataType> dataTypeList = getDataTypeList();
         for (int i = 0, listLength = dataTypeList.size(); i < listLength; i++) {
             size += dataTypeList.get(i).getSize();
         }
@@ -155,9 +153,9 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
         int offset = 0;
 
         //Go through the ObjectList of the Frame reading the data into the
-        final List<AbstractDataType> dataTypeList = getDataTypeList();
+        List<AbstractDataType> dataTypeList = getDataTypeList();
         for (int i = 0, size = dataTypeList.size(); i < size; i++) {
-            final AbstractDataType object = getDataTypeList().get(i);
+            AbstractDataType object = getDataTypeList().get(i);
             //correct dataType.
 
             //The read has extended further than the defined frame size (ok to extend upto
@@ -179,12 +177,12 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
     }
 
     public void read(Buffer buffer) throws InvalidTagException {
-        final String identifier = getIdentifier();
+        String identifier = getIdentifier();
         AbstractDataType dataType = null;
         try {
             int frameBodySize = getSize();
 
-            final List<AbstractDataType> dataTypeList = getDataTypeList();
+            List<AbstractDataType> dataTypeList = getDataTypeList();
             for (int i = 0, size = dataTypeList.size(); i < size; i++) {
                 dataType = dataTypeList.get(i);
                 dataType.read(buffer, frameBodySize);
@@ -200,7 +198,7 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
             }
         } catch (EOFException | ArrayIndexOutOfBoundsException e) {
             // dataType.read() barfed
-            Object[] args = new Object[]{dataType != null ? dataType.getClass() : "Unknown", identifier, e.getMessage()};
+            Object[] args = {dataType != null ? dataType.getClass() : "Unknown", identifier, e.getMessage()};
             throw new InvalidTagException(String.format(Locale.getDefault(), INVALID_DATATYPE, args),
                     e);
         }
@@ -212,7 +210,7 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         //Write the various fields to file in order
-        final List<AbstractDataType> dataTypeList = getDataTypeList();
+        List<AbstractDataType> dataTypeList = getDataTypeList();
         for (int i = 0, size = dataTypeList.size(); i < size; i++) {
             byte[] objectData = dataTypeList.get(i).writeByteArray();
             if (objectData != null) {
@@ -232,7 +230,7 @@ public abstract class AbstractID3v2FrameBody extends AbstractTagFrameBody {
      */
     public void createStructure() {
         MP3File.getStructureFormatter().openHeadingElement(TYPE_BODY, "");
-        final List<AbstractDataType> dataTypeList = getDataTypeList();
+        List<AbstractDataType> dataTypeList = getDataTypeList();
         for (int i = 0, size = dataTypeList.size(); i < size; i++) {
             dataTypeList.get(i).createStructure();
         }

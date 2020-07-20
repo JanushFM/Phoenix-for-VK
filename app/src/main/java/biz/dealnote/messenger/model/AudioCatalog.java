@@ -1,12 +1,11 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.List;
 
 
-public class AudioCatalog extends AbsModel implements Parcelable {
+public class AudioCatalog extends AbsModel {
     public static final Creator<AudioCatalog> CREATOR = new Creator<AudioCatalog>() {
         @Override
         public AudioCatalog createFromParcel(Parcel in) {
@@ -190,7 +189,7 @@ public class AudioCatalog extends AbsModel implements Parcelable {
         return id.equals(playlist.getId());
     }
 
-    public static class ArtistBlock extends AbsModel implements Parcelable {
+    public static class ArtistBlock extends AbsModel {
         public static final Creator<ArtistBlock> CREATOR = new Creator<ArtistBlock>() {
             @Override
             public ArtistBlock createFromParcel(Parcel in) {

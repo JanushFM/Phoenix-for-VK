@@ -131,7 +131,7 @@ public class AttachmentsHolder {
     }
 
     public AttachmentsHolder setVoiceMessageRoot(ViewGroup voiceMessageRoot) {
-        this.mVoiceMessageRoot = voiceMessageRoot;
+        mVoiceMessageRoot = voiceMessageRoot;
         return this;
     }
 

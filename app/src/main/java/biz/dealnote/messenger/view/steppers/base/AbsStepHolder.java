@@ -30,18 +30,18 @@ public abstract class AbsStepHolder<T extends AbsStepsHost> extends RecyclerView
     public AbsStepHolder(ViewGroup parent, int internalLayoutRes, int stepIndex) {
         super(createVerticalMainHolderView(parent));
 
-        this.index = stepIndex;
-        this.counterRoot = itemView.findViewById(R.id.counter_root);
-        this.counterText = itemView.findViewById(R.id.counter);
-        this.titleText = itemView.findViewById(R.id.title);
-        this.line = itemView.findViewById(R.id.step_line);
-        this.buttonNext = itemView.findViewById(R.id.buttonNext);
-        this.buttonCancel = itemView.findViewById(R.id.buttonCancel);
-        this.content = itemView.findViewById(R.id.content);
-        this.contentRoot = itemView.findViewById(R.id.content_root);
+        index = stepIndex;
+        counterRoot = itemView.findViewById(R.id.counter_root);
+        counterText = itemView.findViewById(R.id.counter);
+        titleText = itemView.findViewById(R.id.title);
+        line = itemView.findViewById(R.id.step_line);
+        buttonNext = itemView.findViewById(R.id.buttonNext);
+        buttonCancel = itemView.findViewById(R.id.buttonCancel);
+        content = itemView.findViewById(R.id.content);
+        contentRoot = itemView.findViewById(R.id.content_root);
 
-        this.mContentView = LayoutInflater.from(itemView.getContext()).inflate(internalLayoutRes, parent, false);
-        this.content.addView(mContentView);
+        mContentView = LayoutInflater.from(itemView.getContext()).inflate(internalLayoutRes, parent, false);
+        content.addView(mContentView);
 
         initInternalView(mContentView);
     }

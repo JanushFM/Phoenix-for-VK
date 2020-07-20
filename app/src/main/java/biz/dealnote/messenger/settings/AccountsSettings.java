@@ -39,10 +39,10 @@ class AccountsSettings implements ISettings.IAccountsSettings {
 
     @SuppressLint("UseSparseArrays")
     AccountsSettings(Context context) {
-        this.app = context.getApplicationContext();
-        this.tokens = Collections.synchronizedMap(new HashMap<>(1));
-        this.types = Collections.synchronizedMap(new HashMap<>(1));
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        app = context.getApplicationContext();
+        tokens = Collections.synchronizedMap(new HashMap<>(1));
+        types = Collections.synchronizedMap(new HashMap<>(1));
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         Collection<Integer> aids = getRegistered();
         for (Integer aid : aids) {
@@ -97,7 +97,7 @@ class AccountsSettings implements ISettings.IAccountsSettings {
     }
 
     private void fireAccountChange() {
-        final IPushRegistrationResolver registrationResolver = Injection.providePushRegistrationResolver();
+        IPushRegistrationResolver registrationResolver = Injection.providePushRegistrationResolver();
         registrationResolver.resolvePushRegistration()
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(RxUtils.dummy(), RxUtils.ignore());

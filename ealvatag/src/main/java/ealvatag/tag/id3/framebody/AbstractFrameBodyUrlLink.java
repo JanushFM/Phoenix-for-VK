@@ -41,7 +41,6 @@ public abstract class AbstractFrameBodyUrlLink extends AbstractID3v2FrameBody {
      * Creates a new FrameBodyUrlLink datatype.
      */
     protected AbstractFrameBodyUrlLink() {
-        super();
     }
 
     /**
@@ -125,8 +124,8 @@ public abstract class AbstractFrameBodyUrlLink extends AbstractID3v2FrameBody {
      */
     private String encodeURL(String url) {
         try {
-            final String[] splitURL = url.split("(?<!/)/(?!/)", -1);
-            final StringBuilder sb = new StringBuilder(splitURL[0]);
+            String[] splitURL = url.split("(?<!/)/(?!/)", -1);
+            StringBuilder sb = new StringBuilder(splitURL[0]);
             for (int i = 1; i < splitURL.length; i++) {
                 sb.append("/").append(URLEncoder.encode(splitURL[i], "utf-8"));
             }

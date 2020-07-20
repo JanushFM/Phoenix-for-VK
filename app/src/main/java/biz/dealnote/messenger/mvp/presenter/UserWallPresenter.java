@@ -132,7 +132,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     private void refreshUserDetails() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(ownersRepository.getFullUserInfo(accountId, ownerId, IOwnersRepository.MODE_CACHE)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(pair -> {
@@ -142,7 +142,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     private void requestActualFullInfo() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(ownersRepository.getFullUserInfo(accountId, ownerId, IOwnersRepository.MODE_NET)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(pair -> onFullInfoReceived(pair.getFirst(), pair.getSecond()), this::onDetailsGetError));
@@ -277,7 +277,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
 
         @StringRes
         Integer title = null;
-        if (super.getAccountId() == ownerId) {
+        if (getAccountId() == ownerId) {
             title = R.string.edit_status;
         } else {
             switch (user.getFriendStatus()) {
@@ -341,7 +341,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
                 ut++;
             }
         }
-        final int curr = sel;
+        int curr = sel;
         callView(view -> view.openPhotoAlbum(getAccountId(), ownerId, -6, new ArrayList<Photo>(photos), curr));
     }
 
@@ -378,21 +378,21 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     public void fireDeleteFromFriends() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(relationshipInteractor.deleteFriends(accountId, ownerId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onFriendsDeleteResult, t -> showError(getView(), getCauseIfRuntime(t))));
     }
 
-    public void fireNewStatusEntered(final String newValue) {
-        final int accountId = super.getAccountId();
+    public void fireNewStatusEntered(String newValue) {
+        int accountId = getAccountId();
         appendDisposable(accountInteractor.changeStatus(accountId, newValue)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(() -> onStatusChanged(newValue), t -> showError(getView(), getCauseIfRuntime(t))));
     }
 
     private void onStatusChanged(String status) {
-        this.user.setStatus(status);
+        user.setStatus(status);
 
         callView(view -> view.showSnackbar(R.string.status_was_changed, true));
         resolveStatusView();
@@ -401,14 +401,14 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     @OnGuiCreated
     private void resolveStatusView() {
         if (isGuiReady()) {
-            final String statusText;
-            if (nonNull(this.details.getStatusAudio())) {
-                statusText = this.details.getStatusAudio().getArtistAndTitle();
+            String statusText;
+            if (nonNull(details.getStatusAudio())) {
+                statusText = details.getStatusAudio().getArtistAndTitle();
             } else {
-                statusText = this.user.getStatus();
+                statusText = user.getStatus();
             }
 
-            getView().displayUserStatus(statusText, nonNull(this.details.getStatusAudio()));
+            getView().displayUserStatus(statusText, nonNull(details.getStatusAudio()));
         }
     }
 
@@ -424,7 +424,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     public void fireAddToBookmarks() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(faveInteractor.addPage(accountId, ownerId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(this::onUserAddedToBookmarks, t -> showError(getView(), getCauseIfRuntime(t))));
@@ -435,7 +435,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     private void executeAddToFriendsRequest(String text, boolean follow) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(relationshipInteractor.addFriend(accountId, ownerId, text, follow)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -482,7 +482,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     private void prepareUserAvatarsAndShow() {
         setLoadingAvatarPhotosNow(true);
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(photosInteractor.get(accountId, ownerId, -6, 50, 0, true)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -529,7 +529,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     public void fireAddToBlacklistClick() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(InteractorFactory.createAccountInteractor()
                 .banUsers(accountId, Collections.singletonList(user))
@@ -562,7 +562,7 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     public void fireRemoveBlacklistClick() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(InteractorFactory.createAccountInteractor()
                 .unbanUser(accountId, user.getId())
@@ -580,8 +580,8 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     public void fireChatClick() {
-        final int accountId = super.getAccountId();
-        final Peer peer = new Peer(Peer.fromUserId(user.getId()))
+        int accountId = getAccountId();
+        Peer peer = new Peer(Peer.fromUserId(user.getId()))
                 .setAvaUrl(user.getMaxSquareAvatar())
                 .setTitle(user.getFullName());
 

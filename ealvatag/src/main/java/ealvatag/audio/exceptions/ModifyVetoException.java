@@ -37,7 +37,6 @@ public class ModifyVetoException extends Exception {
      * (overridden)
      */
     public ModifyVetoException() {
-        super();
     }
 
     /**

@@ -27,7 +27,7 @@ public class ProxyUtil {
 
     public static void applyProxyConfig(OkHttpClient.Builder builder, @Nullable ProxyConfig config) {
         if (nonNull(config)) {
-            final Proxy proxy = new Proxy(Proxy.Type.HTTP, obtainAddress(config));
+            Proxy proxy = new Proxy(Proxy.Type.HTTP, obtainAddress(config));
 
             builder.proxy(proxy);
 

@@ -31,7 +31,7 @@ public class WallSearchPresenter extends AbsSearchPresenter<IWallSearchView, Wal
 
     public WallSearchPresenter(int accountId, @Nullable WallSearchCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.walls = Repository.INSTANCE.getWalls();
+        walls = Repository.INSTANCE.getWalls();
 
         appendDisposable(walls.observeMinorChanges()
                 .observeOn(Injection.provideMainThreadScheduler())
@@ -39,8 +39,8 @@ public class WallSearchPresenter extends AbsSearchPresenter<IWallSearchView, Wal
     }
 
     private void onPostMinorUpdates(PostUpdate update) {
-        for (int i = 0; i < super.data.size(); i++) {
-            final Post post = super.data.get(i);
+        for (int i = 0; i < data.size(); i++) {
+            Post post = data.get(i);
 
             if (post.getVkid() == update.getPostId() && post.getOwnerId() == update.getOwnerId()) {
                 if (nonNull(update.getLikeUpdate())) {
@@ -57,7 +57,7 @@ public class WallSearchPresenter extends AbsSearchPresenter<IWallSearchView, Wal
                 if (nonNull(update.getPinUpdate())) {
                     pinStateChanged = true;
 
-                    for (Post p : super.data) {
+                    for (Post p : data) {
                         p.setPinned(false);
                     }
 
@@ -88,8 +88,8 @@ public class WallSearchPresenter extends AbsSearchPresenter<IWallSearchView, Wal
 
     @Override
     Single<Pair<List<Post>, IntNextFrom>> doSearch(int accountId, WallSearchCriteria criteria, IntNextFrom startFrom) {
-        final int offset = isNull(startFrom) ? 0 : startFrom.getOffset();
-        final IntNextFrom nextFrom = new IntNextFrom(offset + COUNT);
+        int offset = isNull(startFrom) ? 0 : startFrom.getOffset();
+        IntNextFrom nextFrom = new IntNextFrom(offset + COUNT);
 
         return walls.search(accountId, criteria.getOwnerId(), criteria.getQuery(), true, COUNT, offset)
                 .map(pair -> Pair.Companion.create(pair.getFirst(), nextFrom));
@@ -115,7 +115,7 @@ public class WallSearchPresenter extends AbsSearchPresenter<IWallSearchView, Wal
     }
 
     public void fireLikeClick(Post post) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(walls.like(accountId, post.getOwnerId(), post.getVkid(), !post.isUserLikes())
                 .compose(RxUtils.applySingleIOToMainSchedulers())

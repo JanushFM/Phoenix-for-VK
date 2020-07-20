@@ -79,7 +79,7 @@ public class WallPostFCMMessage {
         return message;
     }
 
-    public void nofify(final Context context, int accountId) {
+    public void nofify(Context context, int accountId) {
         if (accountId == owner_id) {
             notifyWallPost(context, accountId);
         } else {
@@ -87,7 +87,7 @@ public class WallPostFCMMessage {
         }
     }
 
-    private void notifyWallPost(final Context context, int accountId) {
+    private void notifyWallPost(Context context, int accountId) {
         if (!Settings.get()
                 .notifications()
                 .isNewPostOnOwnWallNotifEnabled()) {
@@ -100,18 +100,18 @@ public class WallPostFCMMessage {
                 .subscribe(ownerInfo -> notifyImpl(app, ownerInfo.getOwner(), ownerInfo.getAvatar()), RxUtils.ignore());
     }
 
-    private void notifyNewPost(final Context context, int accountId) {
+    private void notifyNewPost(Context context, int accountId) {
         if (!Settings.get()
                 .notifications()
                 .isNewPostsNotificationEnabled()) {
             return;
         }
 
-        final Context app = context.getApplicationContext();
+        Context app = context.getApplicationContext();
         OwnerInfo.getRx(app, accountId, owner_id)
                 .subscribeOn(NotificationScheduler.INSTANCE)
                 .subscribe(info -> {
-                    final NotificationManager manager = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
+                    NotificationManager manager = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
                     if (Utils.hasOreo()) {
                         manager.createNotificationChannel(AppNotificationChannels.getNewPostChannel(app));
                     }
@@ -143,7 +143,7 @@ public class WallPostFCMMessage {
     }
 
     private void notifyImpl(Context context, @NonNull Owner owner, Bitmap avatar) {
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getNewPostChannel(context));
         }

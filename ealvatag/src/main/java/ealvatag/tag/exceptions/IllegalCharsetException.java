@@ -25,7 +25,7 @@ package ealvatag.tag.exceptions;
 public class IllegalCharsetException extends RuntimeException {
     private static final long serialVersionUID = 3588767037304196412L;
 
-    public IllegalCharsetException(final String message, final Throwable cause) {
+    public IllegalCharsetException(String message, Throwable cause) {
         super(message, cause);
     }
 }

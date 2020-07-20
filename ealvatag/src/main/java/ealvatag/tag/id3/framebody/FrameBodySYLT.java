@@ -211,7 +211,7 @@ public class FrameBodySYLT extends AbstractID3v2FrameBody implements ID3v24Frame
      * @return lyrics
      */
     public byte[] getLyrics() {
-        return (byte[]) this.getObjectValue(DataTypes.OBJ_DATA);
+        return (byte[]) getObjectValue(DataTypes.OBJ_DATA);
     }
 
     /**
@@ -222,7 +222,7 @@ public class FrameBodySYLT extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param data
      */
     public void setLyrics(byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_DATA, data);
+        setObjectValue(DataTypes.OBJ_DATA, data);
     }
 
     /**

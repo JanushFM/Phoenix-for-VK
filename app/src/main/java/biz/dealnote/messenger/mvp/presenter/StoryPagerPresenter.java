@@ -41,7 +41,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
 
     public StoryPagerPresenter(int accountId, @NonNull ArrayList<Story> stories, int index, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.mStories = stories;
+        mStories = stories;
 
         if (savedInstanceState == null) {
             mCurrentIndex = index;
@@ -108,7 +108,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
             return;
         }
 
-        final String url = Utils.firstNonEmptyString(story.getVideo().getMp4link1080(), story.getVideo().getMp4link720(), story.getVideo().getMp4link480(),
+        String url = Utils.firstNonEmptyString(story.getVideo().getMp4link1080(), story.getVideo().getMp4link720(), story.getVideo().getMp4link480(),
                 story.getVideo().getMp4link360(), story.getVideo().getMp4link240());
         if (url == null) {
             safeShowError(getView(), R.string.unable_to_play_file);
@@ -241,7 +241,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
         if (story.getPhoto() != null)
             doSaveOnDrive(story);
         if (story.getVideo() != null) {
-            final String url = Utils.firstNonEmptyString(story.getVideo().getMp4link1080(), story.getVideo().getMp4link720(), story.getVideo().getMp4link480(),
+            String url = Utils.firstNonEmptyString(story.getVideo().getMp4link1080(), story.getVideo().getMp4link720(), story.getVideo().getMp4link480(),
                     story.getVideo().getMp4link360(), story.getVideo().getMp4link240());
             story.getVideo().setTitle(story.getOwner().getFullName());
             DownloadUtil.downloadVideo(App.getInstance(), story.getVideo(), url, "Story");
@@ -315,7 +315,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
 
         InternalDownloader(StoryPagerPresenter presenter, Context context, String url, String file, Photo photo) {
             super(context, url, file, photo.getId() + "_" + photo.getOwnerId(), true);
-            this.ref = new WeakReference<>(presenter);
+            ref = new WeakReference<>(presenter);
         }
 
         @Override

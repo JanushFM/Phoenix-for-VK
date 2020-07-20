@@ -313,7 +313,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         resolveEmptyText();
     }
 
-    private void processNewAccount(final int uid, final String token, final String type, final String Login, final String Password, final String TwoFA, boolean IsSend, boolean isCurrent) {
+    private void processNewAccount(int uid, String token, String type, String Login, String Password, String TwoFA, boolean IsSend, boolean isCurrent) {
         //Accounts account = new Accounts(token, uid);
 
         // важно!! Если мы получили новый токен, то необходимо удалить запись
@@ -491,7 +491,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onClick(final Account account) {
+    public void onClick(Account account) {
         boolean idCurrent = account.getId() == Settings.get()
                 .accounts()
                 .getCurrent();
@@ -529,7 +529,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         return null;
     }
 
-    private void AddUserInfo(final JsonObject temp, List<VKApiUser> Users, int user_id) {
+    private void AddUserInfo(JsonObject temp, List<VKApiUser> Users, int user_id) {
         if (Users == null) {
             temp.addProperty("user_name", "error");
             temp.addProperty("avatar", "error");
@@ -551,7 +551,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             JsonObject root = new JsonObject();
             JsonArray arr = new JsonArray();
             for (int i : Settings.get().accounts().getRegistered()) {
-                final JsonObject temp = new JsonObject();
+                JsonObject temp = new JsonObject();
 
                 AddUserInfo(temp, Users, i);
                 temp.addProperty("user_id", i);
@@ -617,7 +617,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             dialog.setDialogSelectionListener(files -> {
                 try {
                     StringBuilder jbld = new StringBuilder();
-                    final File file = new File(files[0]);
+                    File file = new File(files[0]);
                     if (file.exists()) {
                         FileInputStream dataFromServerStream = new FileInputStream(file);
                         BufferedReader d = new BufferedReader(new InputStreamReader(dataFromServerStream));
@@ -663,14 +663,14 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         menu.findItem(R.id.export_accounts).setVisible(mData.size() > 0);
     }
 
-    private void createShortcut(final Account account) {
+    private void createShortcut(Account account) {
         if (account.getId() < 0) {
             return; // this is comminity
         }
 
         User user = (User) account.getOwner();
 
-        final Context app = requireContext().getApplicationContext();
+        Context app = requireContext().getApplicationContext();
         new AsyncTask<Void, Void, String>() {
             @Override
             protected String doInBackground(Void... params) {

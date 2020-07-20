@@ -41,7 +41,7 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_SWIPE_TO_DISMISS);
-        this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         super.onCreate(savedInstanceState);
         if (Objects.isNull(savedInstanceState)) {
             handleIntent(getIntent());
@@ -73,10 +73,10 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
 
     @Override
     public void openPlace(Place place) {
-        final Bundle args = place.getArgs();
+        Bundle args = place.getArgs();
         switch (place.type) {
             case Place.CHAT:
-                final Peer peer = args.getParcelable(Extra.PEER);
+                Peer peer = args.getParcelable(Extra.PEER);
                 AssertUtils.requireNonNull(peer);
                 ChatFragment chatFragment = ChatFragment.Companion.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), peer);
                 attachToFront(chatFragment);
@@ -104,7 +104,7 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
                 break;
             default:
                 Intent intent = new Intent(this, SwipebleActivity.class);
-                intent.setAction(SwipebleActivity.ACTION_OPEN_PLACE);
+                intent.setAction(MainActivity.ACTION_OPEN_PLACE);
                 intent.putExtra(Extra.PLACE, place);
                 SwipebleActivity.start(this, intent);
                 break;

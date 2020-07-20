@@ -155,15 +155,15 @@ public class VKApiPost implements VKApiAttachment, Commentable, Likeable, Copyab
 
             switch (type) {
                 case "post":
-                    return Type.POST;
+                    return POST;
                 case "copy":
-                    return Type.COPY;
+                    return COPY;
                 case "reply":
-                    return Type.REPLY;
+                    return REPLY;
                 case "postpone":
-                    return Type.POSTPONE;
+                    return POSTPONE;
                 case "suggest":
-                    return Type.SUGGEST;
+                    return SUGGEST;
                 default:
                     return 0;
             }

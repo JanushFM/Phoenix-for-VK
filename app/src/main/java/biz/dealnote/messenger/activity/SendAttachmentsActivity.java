@@ -42,7 +42,7 @@ public class SendAttachmentsActivity extends MainActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // потому, что в onBackPressed к этому числу будут прибавлять 2000 !!!! и выход за границы
-        super.mLastBackPressedTime = Long.MAX_VALUE - DOUBLE_BACK_PRESSED_TIMEOUT;
+        mLastBackPressedTime = Long.MAX_VALUE - DOUBLE_BACK_PRESSED_TIMEOUT;
     }
 
     @Override

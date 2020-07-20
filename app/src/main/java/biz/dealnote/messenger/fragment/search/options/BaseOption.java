@@ -35,7 +35,7 @@ public class BaseOption implements Parcelable, Cloneable {
         this.key = key;
         this.title = title;
         this.active = active;
-        this.parentDependencyKey = NO_DEPENDENCY;
+        parentDependencyKey = NO_DEPENDENCY;
     }
 
     protected BaseOption(Parcel in) {
@@ -48,11 +48,11 @@ public class BaseOption implements Parcelable, Cloneable {
     }
 
     public void setChildDependencies(int... childs) {
-        this.childDependencies = childs;
+        childDependencies = childs;
     }
 
     public void setDependencyOf(int key) {
-        this.parentDependencyKey = key;
+        parentDependencyKey = key;
     }
 
     public void reset() {
@@ -97,7 +97,7 @@ public class BaseOption implements Parcelable, Cloneable {
     @Override
     public BaseOption clone() throws CloneNotSupportedException {
         BaseOption option = (BaseOption) super.clone();
-        option.childDependencies = this.childDependencies == null ? null : this.childDependencies.clone();
+        option.childDependencies = childDependencies == null ? null : childDependencies.clone();
         return option;
     }
 }

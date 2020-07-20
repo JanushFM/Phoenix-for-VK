@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model.drawer;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class NoIconMenuItem extends SectionMenuItem implements Parcelable {
+public class NoIconMenuItem extends SectionMenuItem {
 
     public static Creator<NoIconMenuItem> CREATOR = new Creator<NoIconMenuItem>() {
         public NoIconMenuItem createFromParcel(Parcel source) {

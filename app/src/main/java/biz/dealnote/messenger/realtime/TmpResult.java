@@ -20,7 +20,7 @@ public class TmpResult {
     private final int id;
 
     public TmpResult(int id, int accountId, int capacity) {
-        this.data = new ArrayList<>(capacity);
+        data = new ArrayList<>(capacity);
         this.id = id;
         this.accountId = accountId;
     }
@@ -107,7 +107,7 @@ public class TmpResult {
 
     @Override
     public String toString() {
-        return "[" + id + "] -> " + data.toString();
+        return "[" + id + "] -> " + data;
     }
 
     public static class Msg implements Identificable {

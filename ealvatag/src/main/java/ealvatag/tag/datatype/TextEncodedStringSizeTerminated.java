@@ -127,9 +127,9 @@ public class TextEncodedStringSizeTerminated extends AbstractString {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         try {
-            final long bufferStartSize = buffer.size();
+            long bufferStartSize = buffer.size();
             Charset decoder = peekCorrectDecoder(buffer);
             String outBuffer = buffer.readString(size, decoder);
 
@@ -176,8 +176,8 @@ public class TextEncodedStringSizeTerminated extends AbstractString {
      * @throws CharacterCodingException on encoding error
      */
     @SuppressWarnings("WeakerAccess")
-    protected ByteBuffer writeStringUTF16LEBOM(final String next, final int i, final int noOfValues) throws CharacterCodingException {
-        final CharsetEncoder encoder = StandardCharsets.UTF_16LE.newEncoder();
+    protected ByteBuffer writeStringUTF16LEBOM(String next, int i, int noOfValues) throws CharacterCodingException {
+        CharsetEncoder encoder = StandardCharsets.UTF_16LE.newEncoder();
         encoder.onMalformedInput(CodingErrorAction.IGNORE);
         encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 
@@ -200,9 +200,9 @@ public class TextEncodedStringSizeTerminated extends AbstractString {
      * @throws CharacterCodingException on encoding error
      */
     @SuppressWarnings("WeakerAccess")
-    protected ByteBuffer writeStringUTF16BEBOM(final String next, final int i, final int noOfValues)
+    protected ByteBuffer writeStringUTF16BEBOM(String next, int i, int noOfValues)
             throws CharacterCodingException {
-        final CharsetEncoder encoder = StandardCharsets.UTF_16BE.newEncoder();
+        CharsetEncoder encoder = StandardCharsets.UTF_16BE.newEncoder();
         encoder.onMalformedInput(CodingErrorAction.IGNORE);
         encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 
@@ -261,7 +261,7 @@ public class TextEncodedStringSizeTerminated extends AbstractString {
     public byte[] writeByteArray() {
         byte[] data;
         //Try and write to buffer using the CharSet defined by getTextEncodingCharSet()
-        final Charset charset = getTextEncodingCharSet();
+        Charset charset = getTextEncodingCharSet();
         try {
 
             stripTrailingNull();
@@ -293,7 +293,7 @@ public class TextEncodedStringSizeTerminated extends AbstractString {
                 } else if (StandardCharsets.UTF_16BE.equals(actualCharSet)) {
                     outputBuffer.put(writeStringUTF16BEBOM(next, i, values.size()));
                 } else {
-                    final CharsetEncoder charsetEncoder = charset.newEncoder();
+                    CharsetEncoder charsetEncoder = charset.newEncoder();
                     charsetEncoder.onMalformedInput(CodingErrorAction.IGNORE);
                     charsetEncoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
                     outputBuffer.put(writeString(charsetEncoder, next, i, values.size()));

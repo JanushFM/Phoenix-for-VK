@@ -16,13 +16,13 @@ import io.reactivex.Single;
 public interface IUtilsInteractor {
     Single<Map<Integer, Privacy>> createFullPrivacies(int accountId, @NonNull Map<Integer, SimplePrivacy> orig);
 
-    Single<Optional<Owner>> resolveDomain(final int accountId, String domain);
+    Single<Optional<Owner>> resolveDomain(int accountId, String domain);
 
-    Single<ShortLink> getShortLink(final int accountId, String url, Integer t_private);
+    Single<ShortLink> getShortLink(int accountId, String url, Integer t_private);
 
-    Single<List<ShortLink>> getLastShortenedLinks(final int accountId, Integer count, Integer offset);
+    Single<List<ShortLink>> getLastShortenedLinks(int accountId, Integer count, Integer offset);
 
-    Single<Integer> deleteFromLastShortened(final int accountId, String key);
+    Single<Integer> deleteFromLastShortened(int accountId, String key);
 
-    Single<VKApiCheckedLink> checkLink(final int accountId, String url);
+    Single<VKApiCheckedLink> checkLink(int accountId, String url);
 }

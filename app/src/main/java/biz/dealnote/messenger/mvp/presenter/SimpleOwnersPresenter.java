@@ -19,7 +19,7 @@ public abstract class SimpleOwnersPresenter<V extends ISimpleOwnersView> extends
 
     public SimpleOwnersPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
     }
 
     @Override
@@ -29,7 +29,7 @@ public abstract class SimpleOwnersPresenter<V extends ISimpleOwnersView> extends
     }
 
     public final void fireRefresh() {
-        this.onUserRefreshed();
+        onUserRefreshed();
     }
 
     void onUserRefreshed() {
@@ -37,7 +37,7 @@ public abstract class SimpleOwnersPresenter<V extends ISimpleOwnersView> extends
     }
 
     public final void fireScrollToEnd() {
-        this.onUserScrolledToEnd();
+        onUserScrolledToEnd();
     }
 
     void onUserScrolledToEnd() {
@@ -49,6 +49,6 @@ public abstract class SimpleOwnersPresenter<V extends ISimpleOwnersView> extends
     }
 
     public final void fireOwnerClick(Owner owner) {
-        this.onUserOwnerClicked(owner);
+        onUserOwnerClicked(owner);
     }
 }

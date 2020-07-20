@@ -18,12 +18,12 @@ public class ImageSizeAlertDialog {
     private final OnCancelCallback mOnCancelCallback;
 
     private ImageSizeAlertDialog(ImageSizeAlertDialog.Builder builder) {
-        this.mActivity = builder.mActivity;
-        this.mOnCancelCallback = builder.mOnCancelCallback;
-        this.mOnSelectedCallback = builder.mOnSelectedCallback;
+        mActivity = builder.mActivity;
+        mOnCancelCallback = builder.mOnCancelCallback;
+        mOnSelectedCallback = builder.mOnSelectedCallback;
     }
 
-    public static void showUploadPhotoSizeIfNeed(Activity activity, final Callback callback) {
+    public static void showUploadPhotoSizeIfNeed(Activity activity, Callback callback) {
         Integer size = Settings.get()
                 .main()
                 .getUploadImageSize();
@@ -103,16 +103,16 @@ public class ImageSizeAlertDialog {
         private OnCancelCallback mOnCancelCallback;
 
         public Builder(Activity activity) {
-            this.mActivity = activity;
+            mActivity = activity;
         }
 
         public Builder setOnSelectedCallback(OnSelectedCallback onSelectedCallback) {
-            this.mOnSelectedCallback = onSelectedCallback;
+            mOnSelectedCallback = onSelectedCallback;
             return this;
         }
 
         public Builder setOnCancelCallback(OnCancelCallback onCancelCallback) {
-            this.mOnCancelCallback = onCancelCallback;
+            mOnCancelCallback = onCancelCallback;
             return this;
         }
 

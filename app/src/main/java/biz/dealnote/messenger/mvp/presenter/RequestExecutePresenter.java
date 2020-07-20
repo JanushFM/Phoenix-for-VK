@@ -54,7 +54,7 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
 
     public RequestExecutePresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.networker = Apis.get();
+        networker = Apis.get();
     }
 
     /**
@@ -67,15 +67,15 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
     }
 
     private void executeRequest() {
-        final String trimmedMethod = nonEmpty(method) ? method.trim() : null;
-        final String trimmedBody = nonEmpty(body) ? body.trim() : null;
+        String trimmedMethod = nonEmpty(method) ? method.trim() : null;
+        String trimmedBody = nonEmpty(body) ? body.trim() : null;
 
         if (isEmpty(trimmedMethod)) {
             showError(getView(), new Exception("Method can't be empty"));
             return;
         }
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         Map<String, String> params = new HashMap<>();
 
@@ -119,9 +119,9 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
         FileOutputStream out = null;
 
         try {
-            final String filename = DownloadUtil.makeLegalFilename(this.method, ".json");
+            String filename = DownloadUtil.makeLegalFilename(method, ".json");
 
-            final File file = new File(Environment.getExternalStorageDirectory(), filename);
+            File file = new File(Environment.getExternalStorageDirectory(), filename);
             file.delete();
 
             byte[] bytes = fullResponseBody.getBytes(StandardCharsets.UTF_8);
@@ -149,8 +149,8 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
     private void onRequestResponse(Pair<String, String> body) {
         setLoadinNow(false);
 
-        this.fullResponseBody = body.getFirst();
-        this.trimmedReposenBody = body.getSecond();
+        fullResponseBody = body.getFirst();
+        trimmedReposenBody = body.getSecond();
 
         callView(view -> view.displayBody(trimmedReposenBody));
     }
@@ -176,7 +176,7 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
         }
     }
 
-    private Single<Pair<String, String>> executeSingle(final int accountId, final String method, final Map<String, String> params) {
+    private Single<Pair<String, String>> executeSingle(int accountId, String method, Map<String, String> params) {
         return networker.vkDefault(accountId)
                 .other()
                 .rawRequest(method, params)

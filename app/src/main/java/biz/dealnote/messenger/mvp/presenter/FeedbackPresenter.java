@@ -44,8 +44,8 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     public FeedbackPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.feedbackInteractor = InteractorFactory.createFeedbackInteractor();
-        this.mData = new ArrayList<>();
+        feedbackInteractor = InteractorFactory.createFeedbackInteractor();
+        mData = new ArrayList<>();
 
         loadAllFromDb();
         requestActualData(null);
@@ -55,12 +55,12 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     private void resolveLoadMoreFooter() {
         if (!isGuiReady()) return;
 
-        if (isEmpty(this.mData)) {
+        if (isEmpty(mData)) {
             getView().configLoadMore(LoadMoreState.INVISIBLE);
             return;
         }
 
-        if (nonEmpty(this.mData) && netLoadingNow && nonEmpty(netLoadingStartFrom)) {
+        if (nonEmpty(mData) && netLoadingNow && nonEmpty(netLoadingStartFrom)) {
             getView().configLoadMore(LoadMoreState.LOADING);
             return;
         }
@@ -74,12 +74,12 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     }
 
     private void requestActualData(String startFrom) {
-        this.netDisposable.clear();
+        netDisposable.clear();
 
-        this.netLoadingNow = true;
-        this.netLoadingStartFrom = startFrom;
+        netLoadingNow = true;
+        netLoadingStartFrom = startFrom;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         resolveLoadMoreFooter();
         resolveSwiperefreshLoadingView();
@@ -92,8 +92,8 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     private void onActualDataGetError(Throwable t) {
         t.printStackTrace();
 
-        this.netLoadingNow = false;
-        this.netLoadingStartFrom = null;
+        netLoadingNow = false;
+        netLoadingStartFrom = null;
 
         showError(getView(), getCauseIfRuntime(t));
 
@@ -102,7 +102,7 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     }
 
     private void safelyMarkAsViewed() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         if (Settings.get().accounts().getType(accountId).equals("hacked"))
             return;
 
@@ -116,21 +116,21 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
             safelyMarkAsViewed();
         }
 
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
-        this.netLoadingNow = false;
-        this.netLoadingStartFrom = null;
-        this.mNextFrom = nextFrom;
-        this.mEndOfContent = isEmpty(nextFrom);
-        this.actualDataReceived = true;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
+        netLoadingNow = false;
+        netLoadingStartFrom = null;
+        mNextFrom = nextFrom;
+        mEndOfContent = isEmpty(nextFrom);
+        actualDataReceived = true;
 
         if (isEmpty(startFrom)) {
-            this.mData.clear();
-            this.mData.addAll(feedbacks);
+            mData.clear();
+            mData.addAll(feedbacks);
             callView(IFeedbackView::notifyDataSetChanged);
         } else {
-            int sizeBefore = this.mData.size();
-            this.mData.addAll(feedbacks);
+            int sizeBefore = mData.size();
+            mData.addAll(feedbacks);
             callView(view -> view.notifyDataAdding(sizeBefore, feedbacks.size()));
         }
 
@@ -156,8 +156,8 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     }
 
     private void loadAllFromDb() {
-        this.cacheLoadingNow = true;
-        final int accountId = super.getAccountId();
+        cacheLoadingNow = true;
+        int accountId = getAccountId();
 
         cacheDisposable.add(feedbackInteractor.getCachedFeedbacks(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -165,9 +165,9 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
     }
 
     private void onCachedDataReceived(List<Feedback> feedbacks) {
-        this.cacheLoadingNow = false;
-        this.mData.clear();
-        this.mData.addAll(feedbacks);
+        cacheLoadingNow = false;
+        mData.clear();
+        mData.addAll(feedbacks);
 
         callView(IFeedbackView::notifyDataSetChanged);
     }
@@ -185,7 +185,7 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
 
     public void fireLoadMoreClick() {
         if (canLoadMore()) {
-            requestActualData(this.mNextFrom);
+            requestActualData(mNextFrom);
         }
     }
 
@@ -202,7 +202,7 @@ public class FeedbackPresenter extends PlaceSupportPresenter<IFeedbackView> {
 
     public void fireScrollToLast() {
         if (canLoadMore()) {
-            requestActualData(this.mNextFrom);
+            requestActualData(mNextFrom);
         }
     }
 }

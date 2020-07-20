@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -52,6 +53,8 @@ import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Story;
 import biz.dealnote.messenger.mvp.presenter.AbsWallPresenter;
+import biz.dealnote.messenger.mvp.view.IVideosListView;
+import biz.dealnote.messenger.mvp.view.IVkPhotosView;
 import biz.dealnote.messenger.mvp.view.IWallView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.place.PlaceUtil;
@@ -172,7 +175,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
     @Override
     public void showSnackbar(int res, boolean isLong) {
         if (nonNull(getView())) {
-            Snackbar.make(getView(), res, isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), res, isLong ? BaseTransientBottomBar.LENGTH_LONG : BaseTransientBottomBar.LENGTH_SHORT).show();
         }
     }
 
@@ -190,7 +193,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
 
     @Override
     public void goToConversationAttachments(int accountId, int ownerId) {
-        String[] types = new String[]{FindAttachmentType.TYPE_PHOTO, FindAttachmentType.TYPE_VIDEO, FindAttachmentType.TYPE_DOC, FindAttachmentType.TYPE_AUDIO,
+        String[] types = {FindAttachmentType.TYPE_PHOTO, FindAttachmentType.TYPE_VIDEO, FindAttachmentType.TYPE_DOC, FindAttachmentType.TYPE_AUDIO,
                 FindAttachmentType.TYPE_LINK, FindAttachmentType.TYPE_ALBUM, FindAttachmentType.TYPE_POST_WITH_COMMENT, FindAttachmentType.TYPE_POST_WITH_QUERY};
 
         ModalBottomSheetDialogFragment.Builder menus = new ModalBottomSheetDialogFragment.Builder();
@@ -237,7 +240,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
                 });
                 return true;
             case R.id.action_open_url:
-                final ClipboardManager clipBoard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clipBoard = (ClipboardManager) requireActivity().getSystemService(Context.CLIPBOARD_SERVICE);
                 if (clipBoard != null && clipBoard.getPrimaryClip() != null && clipBoard.getPrimaryClip().getItemCount() > 0) {
                     String temp = clipBoard.getPrimaryClip().getItemAt(0).getText().toString();
                     LinkHelper.openUrl(getActivity(), getPresenter().getAccountId(), temp);
@@ -327,7 +330,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
 
     @Override
     public void onOwnerClick(int ownerId) {
-        super.onOpenOwner(ownerId);
+        onOpenOwner(ownerId);
     }
 
     @Override
@@ -379,13 +382,13 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
 
     @Override
     public void openPhotoAlbums(int accountId, int ownerId, @Nullable Owner owner) {
-        PlaceFactory.getVKPhotoAlbumsPlace(accountId, ownerId, VKPhotosFragment.ACTION_SHOW_PHOTOS, ParcelableOwnerWrapper.wrap(owner))
+        PlaceFactory.getVKPhotoAlbumsPlace(accountId, ownerId, IVkPhotosView.ACTION_SHOW_PHOTOS, ParcelableOwnerWrapper.wrap(owner))
                 .tryOpenWith(requireActivity());
     }
 
     @Override
     public void openVideosLibrary(int accountId, int ownerId, @Nullable Owner owner) {
-        PlaceFactory.getVideosPlace(accountId, ownerId, VideosFragment.ACTION_SHOW)
+        PlaceFactory.getVideosPlace(accountId, ownerId, IVideosListView.ACTION_SHOW)
                 .withParcelableExtra(Extra.OWNER, owner)
                 .tryOpenWith(requireActivity());
     }

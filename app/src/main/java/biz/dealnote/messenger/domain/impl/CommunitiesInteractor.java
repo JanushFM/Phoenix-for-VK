@@ -12,7 +12,6 @@ import biz.dealnote.messenger.domain.mappers.Dto2Entity;
 import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.domain.mappers.Entity2Model;
 import biz.dealnote.messenger.model.Community;
-import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -26,7 +25,7 @@ public class CommunitiesInteractor implements ICommunitiesInteractor {
 
     public CommunitiesInteractor(INetworker networker, IStorages repositories) {
         this.networker = networker;
-        this.stores = repositories;
+        stores = repositories;
     }
 
     @Override
@@ -57,7 +56,7 @@ public class CommunitiesInteractor implements ICommunitiesInteractor {
                 .groups()
                 .search(q, type, countryId, cityId, futureOnly, null, sort, offset, count)
                 .map(items -> {
-                    List<VKApiCommunity> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<VKApiCommunity> dtos = listEmptyIfNull(items.getItems());
                     return Dto2Model.transformCommunities(dtos);
                 });
     }

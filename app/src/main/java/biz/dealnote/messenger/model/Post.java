@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
@@ -14,7 +13,7 @@ import biz.dealnote.messenger.util.Objects;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 import static biz.dealnote.messenger.util.Utils.safeIsEmpty;
 
-public class Post extends AbsModel implements Parcelable, Cloneable {
+public class Post extends AbsModel implements Cloneable {
 
     public static final int NO_STORED = -1;
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -86,7 +85,7 @@ public class Post extends AbsModel implements Parcelable, Cloneable {
         creator = in.readParcelable(User.class.getClassLoader());
         canPin = in.readByte() != 0;
         pinned = in.readByte() != 0;
-        copyHierarchy = in.createTypedArrayList(Post.CREATOR);
+        copyHierarchy = in.createTypedArrayList(CREATOR);
         deleted = in.readByte() != 0;
         source = in.readParcelable(PostSource.class.getClassLoader());
         viewCount = in.readInt();
@@ -446,11 +445,11 @@ public class Post extends AbsModel implements Parcelable, Cloneable {
     @Override
     public Post clone() throws CloneNotSupportedException {
         Post clone = (Post) super.clone();
-        clone.attachments = this.attachments == null ? null : this.attachments.clone();
-        clone.copyHierarchy = this.copyHierarchy == null ? null : new ArrayList<>(this.copyHierarchy.size());
+        clone.attachments = attachments == null ? null : attachments.clone();
+        clone.copyHierarchy = copyHierarchy == null ? null : new ArrayList<>(copyHierarchy.size());
 
-        if (this.copyHierarchy != null) {
-            clone.copyHierarchy.addAll(this.copyHierarchy);
+        if (copyHierarchy != null) {
+            clone.copyHierarchy.addAll(copyHierarchy);
         }
 
         return clone;

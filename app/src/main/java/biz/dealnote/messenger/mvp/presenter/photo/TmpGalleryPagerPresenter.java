@@ -31,7 +31,7 @@ public class TmpGalleryPagerPresenter extends PhotoPagerPresenter {
 
     @Override
     void initPhotosData(@NonNull ArrayList<Photo> initialData, @Nullable Bundle savedInstanceState) {
-        super.mPhotos = initialData;
+        mPhotos = initialData;
     }
 
     @Override

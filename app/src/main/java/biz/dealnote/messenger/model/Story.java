@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class Story extends AbsModel implements Parcelable {
+public class Story extends AbsModel {
     public static final Creator<Story> CREATOR = new Creator<Story>() {
         @Override
         public Story createFromParcel(Parcel in) {
@@ -88,7 +87,7 @@ public class Story extends AbsModel implements Parcelable {
     }
 
     public Story setOwnerId(int ownerId) {
-        this.owner_id = ownerId;
+        owner_id = ownerId;
         return this;
     }
 

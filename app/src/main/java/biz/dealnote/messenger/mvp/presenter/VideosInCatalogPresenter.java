@@ -30,8 +30,8 @@ public class VideosInCatalogPresenter extends AccountDependencyPresenter<IVideos
 
     public VideosInCatalogPresenter(int accountId, String block_id, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
-        this.videos = new ArrayList<>();
+        audioInteractor = InteractorFactory.createAudioInteractor();
+        videos = new ArrayList<>();
         this.block_id = block_id;
     }
 

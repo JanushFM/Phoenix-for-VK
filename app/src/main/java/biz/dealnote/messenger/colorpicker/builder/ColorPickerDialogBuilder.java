@@ -28,12 +28,12 @@ public class ColorPickerDialogBuilder {
     private final AlertDialog.Builder builder;
     private final LinearLayout pickerContainer;
     private final ColorPickerView colorPickerView;
-    private final Integer[] initialColor = new Integer[]{null, null, null, null, null};
+    private final Integer[] initialColor = {null, null, null, null, null};
     private boolean isLightnessSliderEnabled = true;
     private boolean isAlphaSliderEnabled = true;
     private boolean isBorderEnabled = true;
-    private boolean isColorEditEnabled = false;
-    private boolean isPreviewEnabled = false;
+    private boolean isColorEditEnabled;
+    private boolean isPreviewEnabled;
     private int pickerCount = 1;
 
     private ColorPickerDialogBuilder(Context context) {
@@ -114,12 +114,12 @@ public class ColorPickerDialogBuilder {
         return this;
     }
 
-    public ColorPickerDialogBuilder setPositiveButton(CharSequence text, final ColorPickerClickListener onClickListener) {
+    public ColorPickerDialogBuilder setPositiveButton(CharSequence text, ColorPickerClickListener onClickListener) {
         builder.setPositiveButton(text, (dialog, which) -> positiveButtonOnClick(dialog, onClickListener));
         return this;
     }
 
-    public ColorPickerDialogBuilder setPositiveButton(int textId, final ColorPickerClickListener onClickListener) {
+    public ColorPickerDialogBuilder setPositiveButton(int textId, ColorPickerClickListener onClickListener) {
         builder.setPositiveButton(textId, (dialog, which) -> positiveButtonOnClick(dialog, onClickListener));
         return this;
     }
@@ -184,7 +184,7 @@ public class ColorPickerDialogBuilder {
             throw new IndexOutOfBoundsException("Picker Can Only Support 1-5 Colors");
         this.pickerCount = pickerCount;
         if (this.pickerCount > 1)
-            this.isPreviewEnabled = true;
+            isPreviewEnabled = true;
         return this;
     }
 
@@ -236,7 +236,7 @@ public class ColorPickerDialogBuilder {
                 ImageView colorImage = (ImageView) View.inflate(context, R.layout.color_selector, null);
                 colorImage.setImageDrawable(new ColorDrawable(Color.WHITE));
             } else {
-                for (int i = 0; i < initialColor.length && i < this.pickerCount; i++) {
+                for (int i = 0; i < initialColor.length && i < pickerCount; i++) {
                     if (initialColor[i] == null)
                         break;
                     LinearLayout colorLayout = (LinearLayout) View.inflate(context, R.layout.color_selector, null);

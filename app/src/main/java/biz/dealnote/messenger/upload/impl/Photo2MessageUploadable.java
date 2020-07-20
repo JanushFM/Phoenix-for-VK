@@ -53,8 +53,8 @@ public class Photo2MessageUploadable implements IUploadable<Photo> {
     public Single<UploadResult<Photo>> doUpload(@NonNull Upload upload,
                                                 @Nullable UploadServer initialServer,
                                                 @Nullable PercentagePublisher listener) {
-        final int accountId = upload.getAccountId();
-        final int messageId = upload.getDestination().getId();
+        int accountId = upload.getAccountId();
+        int messageId = upload.getDestination().getId();
 
         Single<UploadServer> serverSingle;
         if (nonNull(initialServer)) {
@@ -66,7 +66,7 @@ public class Photo2MessageUploadable implements IUploadable<Photo> {
         }
 
         return serverSingle.flatMap(server -> {
-            final InputStream[] is = new InputStream[1];
+            InputStream[] is = new InputStream[1];
 
             try {
                 is[0] = UploadUtils.openStream(context, upload.getFileUri(), upload.getSize());

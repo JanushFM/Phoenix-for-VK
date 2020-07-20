@@ -31,8 +31,8 @@ public class PlaylistsInCatalogPresenter extends AccountDependencyPresenter<IPla
 
     public PlaylistsInCatalogPresenter(int accountId, String block_id, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
-        this.audios = new ArrayList<>();
+        audioInteractor = InteractorFactory.createAudioInteractor();
+        audios = new ArrayList<>();
         this.block_id = block_id;
     }
 
@@ -108,7 +108,7 @@ public class PlaylistsInCatalogPresenter extends AccountDependencyPresenter<IPla
     }
 
     public void onAdd(AudioPlaylist album) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         audioListDisposable.add(audioInteractor.followPlaylist(accountId, album.getId(), album.getOwnerId(), album.getAccess_key())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> getView().getPhoenixToast().showToast(R.string.success), throwable ->

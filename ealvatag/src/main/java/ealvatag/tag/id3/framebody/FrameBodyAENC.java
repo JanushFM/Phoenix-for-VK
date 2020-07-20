@@ -70,10 +70,10 @@ public class FrameBodyAENC extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyAENC datatype.
      */
     public FrameBodyAENC() {
-        this.setObjectValue(DataTypes.OBJ_OWNER, "");
-        this.setObjectValue(DataTypes.OBJ_PREVIEW_START, (short) 0);
-        this.setObjectValue(DataTypes.OBJ_PREVIEW_LENGTH, (short) 0);
-        this.setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, new byte[0]);
+        setObjectValue(DataTypes.OBJ_OWNER, "");
+        setObjectValue(DataTypes.OBJ_PREVIEW_START, (short) 0);
+        setObjectValue(DataTypes.OBJ_PREVIEW_LENGTH, (short) 0);
+        setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, new byte[0]);
     }
 
     public FrameBodyAENC(FrameBodyAENC body) {
@@ -89,10 +89,10 @@ public class FrameBodyAENC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param data
      */
     public FrameBodyAENC(String owner, short previewStart, short previewLength, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_OWNER, owner);
-        this.setObjectValue(DataTypes.OBJ_PREVIEW_START, previewStart);
-        this.setObjectValue(DataTypes.OBJ_PREVIEW_LENGTH, previewLength);
-        this.setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, data);
+        setObjectValue(DataTypes.OBJ_OWNER, owner);
+        setObjectValue(DataTypes.OBJ_PREVIEW_START, previewStart);
+        setObjectValue(DataTypes.OBJ_PREVIEW_LENGTH, previewLength);
+        setObjectValue(DataTypes.OBJ_ENCRYPTION_INFO, data);
     }
 
     /**

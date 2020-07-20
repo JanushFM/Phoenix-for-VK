@@ -56,7 +56,7 @@ public class TextEncodedStringNullTerminated extends AbstractString {
      * @return the index of the null character (if multi-byte, the index of the second null byte)
      */
     @VisibleForTesting
-    static int getNullIndex(final Buffer buffer, final boolean nullIsOneByte) {
+    static int getNullIndex(Buffer buffer, boolean nullIsOneByte) {
         try {
             if (nullIsOneByte) {
                 return (int) buffer.indexOf(NULL_BYTE);
@@ -77,7 +77,7 @@ public class TextEncodedStringNullTerminated extends AbstractString {
         }
     }
 
-    private static long getNullEvenIndex(final Buffer buffer, final long fromIndex) {
+    private static long getNullEvenIndex(Buffer buffer, long fromIndex) {
         long index = buffer.indexOf(NULL_BYTE, fromIndex);
         while (-1 != index && !isEven(index)) {
             index = buffer.indexOf(NULL_BYTE, index + 1);
@@ -85,7 +85,7 @@ public class TextEncodedStringNullTerminated extends AbstractString {
         return index;
     }
 
-    private static boolean isEven(final long num) {
+    private static boolean isEven(long num) {
         return ((num % 2) == 0);
     }
 
@@ -116,7 +116,7 @@ public class TextEncodedStringNullTerminated extends AbstractString {
         int size;
 
         //Get the Specified Decoder
-        final Charset charset = getTextEncodingCharSet();
+        Charset charset = getTextEncodingCharSet();
 
 
         //We only want to load up to null terminator, data after this is part of different
@@ -127,7 +127,7 @@ public class TextEncodedStringNullTerminated extends AbstractString {
 
         //Latin-1 and UTF-8 strings are terminated by a single-byte null,
         //while UTF-16 and its variants need two bytes for the null terminator.
-        final boolean nullIsOneByte = StandardCharsets.ISO_8859_1 == charset || StandardCharsets.UTF_8 == charset;
+        boolean nullIsOneByte = StandardCharsets.ISO_8859_1 == charset || StandardCharsets.UTF_8 == charset;
 
         boolean isNullTerminatorFound = false;
         while (buffer.hasRemaining()) {
@@ -194,7 +194,7 @@ public class TextEncodedStringNullTerminated extends AbstractString {
             ByteBuffer inBuffer = ByteBuffer.wrap(arr, offset, bufferSize).slice();
             CharBuffer outBuffer = CharBuffer.allocate(bufferSize);
 
-            final CharsetDecoder decoder = getCorrectDecoder(inBuffer);
+            CharsetDecoder decoder = getCorrectDecoder(inBuffer);
             CoderResult coderResult = decoder.decode(inBuffer, outBuffer, true);
             coderResult.isError();
             decoder.flush(outBuffer);
@@ -205,11 +205,11 @@ public class TextEncodedStringNullTerminated extends AbstractString {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         try {
-            final Charset charset = getTextEncodingCharSet();
-            final boolean nullIsOneByte = StandardCharsets.ISO_8859_1 == charset || StandardCharsets.UTF_8 == charset;
-            final int indexOfNull = getNullIndex(buffer, nullIsOneByte);
+            Charset charset = getTextEncodingCharSet();
+            boolean nullIsOneByte = StandardCharsets.ISO_8859_1 == charset || StandardCharsets.UTF_8 == charset;
+            int indexOfNull = getNullIndex(buffer, nullIsOneByte);
 
             if (indexOfNull < 0) {
                 throw new InvalidDataTypeException("Can't find null string terminator");
@@ -235,34 +235,34 @@ public class TextEncodedStringNullTerminated extends AbstractString {
         byte[] data;
         //Write to buffer using the CharSet defined by getTextEncodingCharSet()
         //Add a null terminator which will be encoded based on encoding.
-        final Charset charset = getTextEncodingCharSet();
+        Charset charset = getTextEncodingCharSet();
         try {
             if (StandardCharsets.UTF_16.equals(charset)) {
                 if (TagOptionSingleton.getInstance().isEncodeUTF16BomAsLittleEndian()) {
-                    final CharsetEncoder encoder = StandardCharsets.UTF_16LE.newEncoder();
+                    CharsetEncoder encoder = StandardCharsets.UTF_16LE.newEncoder();
                     encoder.onMalformedInput(CodingErrorAction.IGNORE);
                     encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 
                     //Note remember LE BOM is ff fe but this is handled by encoder Unicode char is fe ff
-                    final ByteBuffer bb = encoder.encode(CharBuffer.wrap('\ufeff' + appendZero((String) value)));
+                    ByteBuffer bb = encoder.encode(CharBuffer.wrap('\ufeff' + appendZero((String) value)));
                     data = new byte[bb.limit()];
                     bb.get(data, 0, bb.limit());
                 } else {
-                    final CharsetEncoder encoder = StandardCharsets.UTF_16BE.newEncoder();
+                    CharsetEncoder encoder = StandardCharsets.UTF_16BE.newEncoder();
                     encoder.onMalformedInput(CodingErrorAction.IGNORE);
                     encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 
                     //Note  BE BOM will leave as fe ff
-                    final ByteBuffer bb = encoder.encode(CharBuffer.wrap('\ufeff' + appendZero((String) value)));
+                    ByteBuffer bb = encoder.encode(CharBuffer.wrap('\ufeff' + appendZero((String) value)));
                     data = new byte[bb.limit()];
                     bb.get(data, 0, bb.limit());
                 }
             } else {
-                final CharsetEncoder encoder = charset.newEncoder();
+                CharsetEncoder encoder = charset.newEncoder();
                 encoder.onMalformedInput(CodingErrorAction.IGNORE);
                 encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 
-                final ByteBuffer bb = encoder.encode(CharBuffer.wrap(appendZero((String) value)));
+                ByteBuffer bb = encoder.encode(CharBuffer.wrap(appendZero((String) value)));
                 data = new byte[bb.limit()];
                 bb.get(data, 0, bb.limit());
             }

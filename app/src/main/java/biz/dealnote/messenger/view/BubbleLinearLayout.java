@@ -106,24 +106,24 @@ public class BubbleLinearLayout extends LinearLayout {
     }
 
     public void setNonGradientColor(int ARGBColor) {
-        this.bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
-        this.apply_gradient_bubbleColor = this.bubbleColor;
+        bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
+        apply_gradient_bubbleColor = bubbleColor;
         setUp();
     }
 
     public void setGradientColor(int first, int second) {
-        this.bubbleColor = Color.argb(Color.alpha(first), Color.red(first), Color.green(first), Color.blue(first));
-        this.apply_gradient_bubbleColor = Color.argb(Color.alpha(second), Color.red(second), Color.green(second), Color.blue(second));
+        bubbleColor = Color.argb(Color.alpha(first), Color.red(first), Color.green(first), Color.blue(first));
+        apply_gradient_bubbleColor = Color.argb(Color.alpha(second), Color.red(second), Color.green(second), Color.blue(second));
         setUp();
     }
 
     public void setBubbleColor(int ARGBColor) {
-        this.bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
+        bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
         setUp();
     }
 
     public void setSecondaryBubbleColor(int ARGBColor) {
-        this.apply_gradient_bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
+        apply_gradient_bubbleColor = Color.argb(Color.alpha(ARGBColor), Color.red(ARGBColor), Color.green(ARGBColor), Color.blue(ARGBColor));
         setUp();
     }
 }

@@ -31,6 +31,6 @@ public class Hex {
      * Display as integral and hex value in brackets
      */
     public static String asDecAndHex(long value) {
-        return value + " (" + Hex.asHex(value) + ")";
+        return value + " (" + asHex(value) + ")";
     }
 }

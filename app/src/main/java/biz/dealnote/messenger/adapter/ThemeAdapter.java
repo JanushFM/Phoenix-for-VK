@@ -34,7 +34,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ThemeValue category = data.get(position);
+        ThemeValue category = data.get(position);
 
         holder.title.setText(category.name);
         holder.primary.setBackgroundColor(category.color_primary);

@@ -45,7 +45,7 @@ public class ColorCircle {
         this.hsv[0] = hsv[0];
         this.hsv[1] = hsv[1];
         this.hsv[2] = hsv[2];
-        this.color = Color.HSVToColor(this.hsv);
+        color = Color.HSVToColor(this.hsv);
     }
 
     public int getColor() {

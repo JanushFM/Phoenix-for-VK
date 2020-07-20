@@ -21,7 +21,6 @@ import biz.dealnote.messenger.model.Link;
 import biz.dealnote.messenger.model.PhotoSizes;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 
@@ -35,11 +34,11 @@ public class CatalogLinksAdapter extends RecyclerBindableAdapter<Link, CatalogLi
 
     public CatalogLinksAdapter(List<Link> data, Context context) {
         super(data);
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     public void setActionListener(ActionListener listener) {
-        this.mActionListner = listener;
+        mActionListner = listener;
     }
 
     public String getImageUrl(Link link) {
@@ -47,7 +46,7 @@ public class CatalogLinksAdapter extends RecyclerBindableAdapter<Link, CatalogLi
         if (link.getPhoto() == null && link.getPreviewPhoto() != null)
             return link.getPreviewPhoto();
 
-        if (Objects.nonNull(link.getPhoto()) && Objects.nonNull(link.getPhoto().getSizes())) {
+        if (nonNull(link.getPhoto()) && nonNull(link.getPhoto().getSizes())) {
             PhotoSizes sizes = link.getPhoto().getSizes();
             return sizes.getUrlForSize(Settings.get().main().getPrefPreviewImageSize(), true);
         }

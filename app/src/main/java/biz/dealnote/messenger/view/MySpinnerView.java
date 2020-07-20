@@ -35,7 +35,7 @@ public class MySpinnerView extends RelativeLayout {
     private void init(Context context, AttributeSet attrs) {
         inflate(context, R.layout.view_my_spinner, this);
 
-        this.mTextView = findViewById(R.id.text);
+        mTextView = findViewById(R.id.text);
 
         setBackgroundResource(R.drawable.backgroud_rectangle_border);
 
@@ -44,9 +44,9 @@ public class MySpinnerView extends RelativeLayout {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.MySpinnerView);
 
         try {
-            this.mHintText = a.getString(R.styleable.MySpinnerView_spinner_hint);
-            this.mHintColor = a.getColor(R.styleable.MySpinnerView_spinner_hint_color, Color.GRAY);
-            this.mTextColor = a.getColor(R.styleable.MySpinnerView_spinner_text_color, Color.BLACK);
+            mHintText = a.getString(R.styleable.MySpinnerView_spinner_hint);
+            mHintColor = a.getColor(R.styleable.MySpinnerView_spinner_hint_color, Color.GRAY);
+            mTextColor = a.getColor(R.styleable.MySpinnerView_spinner_text_color, Color.BLACK);
 
             int iconColor = a.getColor(R.styleable.MySpinnerView_spinner_icon_color, Color.BLUE);
             Utils.setColorFilter(icon, iconColor);

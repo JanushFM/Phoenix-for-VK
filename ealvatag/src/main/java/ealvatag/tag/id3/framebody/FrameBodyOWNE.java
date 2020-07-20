@@ -86,10 +86,10 @@ public class FrameBodyOWNE extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param seller
      */
     public FrameBodyOWNE(byte textEncoding, String pricePaid, String dateOfPurchase, String seller) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setObjectValue(DataTypes.OBJ_PRICE_PAID, pricePaid);
-        this.setObjectValue(DataTypes.OBJ_PURCHASE_DATE, dateOfPurchase);
-        this.setObjectValue(DataTypes.OBJ_SELLER_NAME, seller);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setObjectValue(DataTypes.OBJ_PRICE_PAID, pricePaid);
+        setObjectValue(DataTypes.OBJ_PURCHASE_DATE, dateOfPurchase);
+        setObjectValue(DataTypes.OBJ_SELLER_NAME, seller);
     }
 
     /**
@@ -125,7 +125,7 @@ public class FrameBodyOWNE extends AbstractID3v2FrameBody implements ID3v24Frame
 
         //Ensure valid for data
         if (!((AbstractString) getObject(DataTypes.OBJ_SELLER_NAME)).canBeEncoded()) {
-            this.setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
+            setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
         }
         super.write(tagBuffer);
     }

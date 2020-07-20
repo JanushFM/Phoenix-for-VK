@@ -32,7 +32,7 @@ public class PersistentLogger {
                 });
     }
 
-    private static Single<String> getStackTrace(final Throwable throwable) {
+    private static Single<String> getStackTrace(Throwable throwable) {
         return Single.fromCallable(() -> {
             try (StringWriter sw = new StringWriter();
                  PrintWriter pw = new PrintWriter(sw)) {

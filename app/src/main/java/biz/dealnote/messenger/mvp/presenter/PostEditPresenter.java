@@ -66,28 +66,28 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
 
     public PostEditPresenter(int accountId, @NonNull Post post, @NonNull WallEditorAttrs attrs, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.wallInteractor = Repository.INSTANCE.getWalls();
+        wallInteractor = Repository.INSTANCE.getWalls();
         this.attrs = attrs;
 
         if (isNull(savedInstanceState)) {
             this.post = safelyClone(post);
 
-            super.setTextBody(post.getText());
+            setTextBody(post.getText());
 
             if (post.getPostType() == VKApiPost.Type.POSTPONE) {
-                super.setTimerValue(post.getDate());
+                setTimerValue(post.getDate());
             }
 
             if (nonNull(post.getAttachments())) {
                 List<AbsModel> list = post.getAttachments().toList();
 
                 for (AbsModel model : list) {
-                    super.getData().add(new AttachmenEntry(true, model));
+                    getData().add(new AttachmenEntry(true, model));
                 }
             }
 
             if (post.hasCopyHierarchy()) {
-                super.getData().add(0, new AttachmenEntry(false, post.getCopyHierarchy().get(0)));
+                getData().add(0, new AttachmenEntry(false, post.getCopyHierarchy().get(0)));
             }
         } else {
             this.post = savedInstanceState.getParcelable(SAVE_POST);
@@ -95,16 +95,16 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
 
         Owner owner = getOwner();
 
-        super.setFriendsOnlyOptionAvailable(owner.getOwnerId() > 0 && owner.getOwnerId() == accountId);
+        setFriendsOnlyOptionAvailable(owner.getOwnerId() > 0 && owner.getOwnerId() == accountId);
         checkFriendsOnly(post.isFriendsOnly());
 
-        super.setAddSignatureOptionAvailable(canAddSignature());
+        setAddSignatureOptionAvailable(canAddSignature());
 
-        super.addSignature.setValue(post.getSignerId() > 0);
-        super.setFromGroupOptionAvailable(false); // only for publishing
+        addSignature.setValue(post.getSignerId() > 0);
+        setFromGroupOptionAvailable(false); // only for publishing
 
-        this.uploadDestination = UploadDestination.forPost(post.getVkid(), post.getOwnerId());
-        this.uploadPredicate = object -> object.getAccountId() == getAccountId()
+        uploadDestination = UploadDestination.forPost(post.getVkid(), post.getOwnerId());
+        uploadPredicate = object -> object.getAccountId() == getAccountId()
                 && object.getDestination().compareTo(uploadDestination);
 
         appendDisposable(uploadManager.observeAdding()
@@ -237,7 +237,7 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
             Photo photo = (Photo) result.getResult();
             getData().set(index, new AttachmenEntry(true, photo));
         } else {
-            super.getData().remove(index);
+            getData().remove(index);
         }
 
         callView(IBaseAttachmentsEditView::notifyDataSetChanged);
@@ -324,8 +324,8 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
         Long publishDate = getTimerValue();
 
         setEditingNow(true);
-        final Boolean signed = canAddSignature() ? super.addSignature.get() : null;
-        final Boolean friendsOnly = isFriendsOnlyOptionAvailable() ? super.friendsOnly.get() : null;
+        Boolean signed = canAddSignature() ? addSignature.get() : null;
+        Boolean friendsOnly = isFriendsOnlyOptionAvailable() ? super.friendsOnly.get() : null;
 
         appendDisposable(wallInteractor
                 .editPost(getAccountId(), post.getOwnerId(), post.getVkid(), friendsOnly,
@@ -336,13 +336,13 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
     }
 
     private void postImpl() {
-        final int accountId = getAccountId();
-        final Long publishDate = getTimerValue();
-        final String body = getTextBody();
-        final Boolean signed = isAddSignatureOptionAvailable() ? addSignature.get() : null;
+        int accountId = getAccountId();
+        Long publishDate = getTimerValue();
+        String body = getTextBody();
+        Boolean signed = isAddSignatureOptionAvailable() ? addSignature.get() : null;
 
         // Эта опция не может быть доступна (так как публикация - исключительно для PAGE)
-        final Boolean fromGroup = null;
+        Boolean fromGroup = null;
 
         setEditingNow(true);
         appendDisposable(wallInteractor
@@ -361,7 +361,7 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
 
     private void onEditResponse() {
         setEditingNow(false);
-        this.canExit = true;
+        canExit = true;
 
         if (isGuiReady()) {
             getView().closeAsSuccess();
@@ -371,7 +371,7 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
     private List<AbsModel> getAttachmentTokens() {
         List<AbsModel> result = new ArrayList<>();
 
-        for (AttachmenEntry entry : super.getData()) {
+        for (AttachmenEntry entry : getData()) {
             if (entry.getAttachment() instanceof Post) {
                 continue;
             }
@@ -384,7 +384,7 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
 
     @Override
     void onAttachmentRemoveClick(int index, @NonNull AttachmenEntry attachment) {
-        super.manuallyRemoveElement(index);
+        manuallyRemoveElement(index);
 
         if (attachment.getAttachment() instanceof Poll) {
             // because only 1 poll is supported
@@ -470,7 +470,7 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
             return;
         }
 
-        super.setTimerValue(unixtime);
+        setTimerValue(unixtime);
     }
 
     @Override
@@ -483,7 +483,7 @@ public class PostEditPresenter extends AbsPostEditPresenter<IPostEditView> {
     }
 
     public void fireExitWithoutSavingClick() {
-        this.canExit = true;
+        canExit = true;
         uploadManager.cancelAll(getAccountId(), uploadDestination);
         getView().closeAsSuccess();
     }

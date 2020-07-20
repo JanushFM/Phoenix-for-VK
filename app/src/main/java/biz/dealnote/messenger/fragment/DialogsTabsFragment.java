@@ -108,7 +108,7 @@ public class DialogsTabsFragment extends BaseFragment implements BackPressCallba
 
         public Adapter(@NonNull Fragment fm) {
             super(fm);
-            this.fragments = new LongSparseArray<>();
+            fragments = new LongSparseArray<>();
         }
 
         public void removeFragment(int position) {

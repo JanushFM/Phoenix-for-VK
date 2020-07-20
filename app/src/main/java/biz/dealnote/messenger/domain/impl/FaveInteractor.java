@@ -36,7 +36,6 @@ import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.criteria.FavePhotosCriteria;
 import biz.dealnote.messenger.model.criteria.FavePostsCriteria;
 import biz.dealnote.messenger.model.criteria.FaveVideosCriteria;
-import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.VKOwnIds;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -91,9 +90,9 @@ public class FaveInteractor implements IFaveInteractor {
                             ids.append((VKApiPost) dto.attachment);
                     }
 
-                    final OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                    OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
 
-                    final List<PostEntity> dbos = new ArrayList<>(safeCountOf(response.posts));
+                    List<PostEntity> dbos = new ArrayList<>(safeCountOf(response.posts));
                     if (nonNull(response.posts)) {
                         for (VkApiAttachments.Entry dto : response.posts) {
                             if (dto.attachment instanceof VKApiPost)
@@ -275,7 +274,7 @@ public class FaveInteractor implements IFaveInteractor {
                 .getLinks(offset, count)
                 .flatMap(items -> {
                     boolean hasNext = offset + count < items.count;
-                    List<FaveLinkDto> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<FaveLinkDto> dtos = listEmptyIfNull(items.getItems());
                     List<FaveLink> links = new ArrayList<>(dtos.size());
                     List<FaveLinkEntity> entities = new ArrayList<>(dtos.size());
 

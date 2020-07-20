@@ -50,9 +50,9 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     public PhotoAlbumsPresenter(int accountId, int ownerId, @Nullable AdditionalParams params, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.ownersRepository = Repository.INSTANCE.getOwners();
-        this.photosInteractor = InteractorFactory.createPhotosInteractor();
-        this.utilsInteractor = InteractorFactory.createUtilsInteractor();
+        ownersRepository = Repository.INSTANCE.getOwners();
+        photosInteractor = InteractorFactory.createPhotosInteractor();
+        utilsInteractor = InteractorFactory.createUtilsInteractor();
 
         mOwnerId = ownerId;
 
@@ -100,7 +100,7 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
             return;
         }
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(ownersRepository.getBaseOwnerInfo(accountId, mOwnerId, IOwnersRepository.MODE_ANY)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onOwnerInfoReceived, this::onOwnerGetError));
@@ -111,23 +111,23 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     }
 
     private void onOwnerInfoReceived(Owner owner) {
-        this.mOwner = owner;
+        mOwner = owner;
         resolveSubtitleView();
         resolveCreateAlbumButtonVisibility();
     }
 
     private void refreshFromNet(int offset) {
-        this.netLoadingNow = true;
+        netLoadingNow = true;
         resolveProgressView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         netDisposable.add(photosInteractor.getActualAlbums(accountId, mOwnerId, 50, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(albums -> onActualAlbumsReceived(offset, albums), this::onActualAlbumsGetError));
     }
 
     private void onActualAlbumsGetError(Throwable t) {
-        this.netLoadingNow = false;
+        netLoadingNow = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveProgressView();
@@ -135,18 +135,18 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
 
     private void onActualAlbumsReceived(int offset, List<PhotoAlbum> albums) {
         // reset cache loading
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.netLoadingNow = false;
+        netLoadingNow = false;
 
         if (offset == 0) {
-            this.mData.clear();
-            this.mData.addAll(albums);
+            mData.clear();
+            mData.addAll(albums);
             callView(IPhotoAlbumsView::notifyDataSetChanged);
         } else {
-            int startSize = this.mData.size();
-            this.mData.addAll(albums);
+            int startSize = mData.size();
+            mData.addAll(albums);
             callView(view -> view.notifyDataAdded(startSize, albums.size()));
         }
 
@@ -154,19 +154,19 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     }
 
     private void loadAllFromDb() {
-        this.cacheLoadingNow = true;
+        cacheLoadingNow = true;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         cacheDisposable.add(photosInteractor.getCachedAlbums(accountId, mOwnerId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, t -> {/*ignored*/}));
     }
 
     private void onCachedDataReceived(List<PhotoAlbum> albums) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
-        this.mData.clear();
-        this.mData.addAll(albums);
+        mData.clear();
+        mData.addAll(albums);
 
         safeNotifyDatasetChanged();
     }
@@ -200,9 +200,9 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     }
 
     private void doAlbumRemove(@NonNull PhotoAlbum album) {
-        final int accountId = super.getAccountId();
-        final int albumId = album.getId();
-        final int ownerId = album.getOwnerId();
+        int accountId = getAccountId();
+        int albumId = album.getId();
+        int ownerId = album.getOwnerId();
 
         appendDisposable(photosInteractor.removedAlbum(accountId, album.getOwnerId(), album.getId())
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -210,7 +210,7 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     }
 
     private void onAlbumRemoved(int albumId, int ownerId) {
-        int index = findIndexById(this.mData, albumId, ownerId);
+        int index = findIndexById(mData, albumId, ownerId);
         if (index != -1) {
             callView(view -> view.notifyItemRemoved(index));
         }
@@ -254,11 +254,11 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
     }
 
     public void fireRefresh() {
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.netDisposable.clear();
-        this.netLoadingNow = false;
+        netDisposable.clear();
+        netLoadingNow = false;
 
         refreshFromNet(0);
     }
@@ -278,7 +278,7 @@ public class PhotoAlbumsPresenter extends AccountDependencyPresenter<IPhotoAlbum
         privacies.put(0, album.getPrivacyView());
         privacies.put(1, album.getPrivacyComment());
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(utilsInteractor
                 .createFullPrivacies(accountId, privacies)

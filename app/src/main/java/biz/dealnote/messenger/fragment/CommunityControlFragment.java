@@ -45,8 +45,8 @@ public class CommunityControlFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.mSettings = getArguments().getParcelable(Extra.SETTINGS);
-        this.mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.mCommunity = getArguments().getParcelable(Extra.OWNER);
+        mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        mCommunity = getArguments().getParcelable(Extra.OWNER);
     }
 
     @Nullable

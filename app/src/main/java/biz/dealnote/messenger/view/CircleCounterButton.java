@@ -54,7 +54,7 @@ public class CircleCounterButton extends LinearLayout {
         icon = findViewById(R.id.icon);
         counter = findViewById(R.id.counter);
 
-        final TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.CircleCounterButton);
+        TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.CircleCounterButton);
 
         try {
             initAttributes(attrArray, counter.getCurrentTextColor());
@@ -105,16 +105,16 @@ public class CircleCounterButton extends LinearLayout {
     }
 
     public boolean isActive() {
-        return this.mActive;
+        return mActive;
     }
 
     public void setActive(boolean active) {
-        this.mActive = active;
+        mActive = active;
         resolveActiveViews();
     }
 
     public void setCount(int count, boolean animate) {
-        this.mCount = count;
+        mCount = count;
 
         counter.setVisibility(mAlwaysCounter || mCount > 0 ? VISIBLE : GONE);
 
@@ -122,21 +122,21 @@ public class CircleCounterButton extends LinearLayout {
             animator.cancel();
         }
 
-        this.animator = ViewUtils.setCountText(counter, count, animate);
+        animator = ViewUtils.setCountText(counter, count, animate);
     }
 
     public void setIcon(Drawable drawable) {
-        this.mIcon = drawable;
+        mIcon = drawable;
         icon.setImageDrawable(mIcon);
     }
 
     public void setIcon(int res) {
-        this.mIcon = ContextCompat.getDrawable(getContext(), res);
+        mIcon = ContextCompat.getDrawable(getContext(), res);
         icon.setImageDrawable(mIcon);
     }
 
     public int getCount() {
-        return this.mCount;
+        return mCount;
     }
 
     public void setCount(int count) {

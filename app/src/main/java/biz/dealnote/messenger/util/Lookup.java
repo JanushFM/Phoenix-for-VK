@@ -45,7 +45,7 @@ public class Lookup {
     }
 
     public void setCallback(Callback callback) {
-        this.mCallback = callback;
+        mCallback = callback;
     }
 
     public interface Callback {

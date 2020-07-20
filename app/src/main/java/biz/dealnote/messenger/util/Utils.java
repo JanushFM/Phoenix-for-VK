@@ -76,7 +76,7 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 
 public class Utils {
 
-    private static String device_id = null;
+    private static String device_id;
 
     private static boolean reload_news = true;
 
@@ -175,7 +175,7 @@ public class Utils {
     public static Throwable getCauseIfRuntime(Throwable throwable) {
         Throwable target = throwable;
         while (target instanceof RuntimeException) {
-            if (Objects.isNull(target.getCause())) {
+            if (isNull(target.getCause())) {
                 break;
             }
 
@@ -224,8 +224,8 @@ public class Utils {
         }
     }
 
-    public static <T> ArrayList<T> copyToArrayListWithPredicate(final List<T> orig, Predicate<T> predicate) {
-        final ArrayList<T> data = new ArrayList<>(orig.size());
+    public static <T> ArrayList<T> copyToArrayListWithPredicate(List<T> orig, Predicate<T> predicate) {
+        ArrayList<T> data = new ArrayList<>(orig.size());
         for (T t : orig) {
             if (predicate.test(t)) {
                 data.add(t);
@@ -235,8 +235,8 @@ public class Utils {
         return data;
     }
 
-    public static <T> List<T> copyListWithPredicate(final List<T> orig, Predicate<T> predicate) {
-        final List<T> data = new ArrayList<>(orig.size());
+    public static <T> List<T> copyListWithPredicate(List<T> orig, Predicate<T> predicate) {
+        List<T> data = new ArrayList<>(orig.size());
         for (T t : orig) {
             if (predicate.test(t)) {
                 data.add(t);
@@ -359,7 +359,7 @@ public class Utils {
     }
 
     public static int safeLenghtOf(CharSequence text) {
-        return Objects.isNull(text) ? 0 : text.length();
+        return isNull(text) ? 0 : text.length();
     }
 
     public static <T> int indexOf(@NonNull List<T> data, Predicate<T> predicate) {
@@ -594,7 +594,7 @@ public class Utils {
      *
      * @param o the object to be added
      */
-    public static <T> int addElementToList(final T o, List<T> data, Comparator<T> comparator) {
+    public static <T> int addElementToList(T o, List<T> data, Comparator<T> comparator) {
         int i = 0;
         boolean found = false;
         while (!found && (i < data.size())) {
@@ -643,7 +643,7 @@ public class Utils {
     }
 
     public static boolean safeIsEmpty(CharSequence text) {
-        return Objects.isNull(text) || text.length() == 0;
+        return isNull(text) || text.length() == 0;
     }
 
     public static boolean safeTrimmedIsEmpty(String value) {
@@ -1131,7 +1131,7 @@ public class Utils {
     @NonNull
     public static Snackbar ThemedSnack(@NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration) {
         int color = CurrentTheme.getColorPrimary(view.getContext());
-        int text_color = Utils.isColorDark(color)
+        int text_color = isColorDark(color)
                 ? Color.parseColor("#ffffff") : Color.parseColor("#000000");
 
         return Snackbar.make(view, text, duration).setBackgroundTint(color).setActionTextColor(text_color).setTextColor(text_color);
@@ -1144,7 +1144,7 @@ public class Utils {
 
     @NonNull
     public static Snackbar ColoredSnack(@NonNull View view, @NonNull CharSequence text, @BaseTransientBottomBar.Duration int duration, @ColorInt int color) {
-        int text_color = Utils.isColorDark(color)
+        int text_color = isColorDark(color)
                 ? Color.parseColor("#ffffff") : Color.parseColor("#000000");
 
         return Snackbar.make(view, text, duration).setBackgroundTint(color).setActionTextColor(text_color).setTextColor(text_color);

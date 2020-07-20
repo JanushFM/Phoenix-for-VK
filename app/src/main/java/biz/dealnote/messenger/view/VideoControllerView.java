@@ -463,7 +463,7 @@ public class VideoControllerView extends FrameLayout {
         }
 
         int keyCode = event.getKeyCode();
-        final boolean uniqueDown = event.getRepeatCount() == 0
+        boolean uniqueDown = event.getRepeatCount() == 0
                 && event.getAction() == KeyEvent.ACTION_DOWN;
         if (keyCode == KeyEvent.KEYCODE_HEADSETHOOK
                 || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE

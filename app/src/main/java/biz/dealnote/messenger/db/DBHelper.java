@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -73,7 +74,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static void removeDatabaseFor(Context context, int aid) {
         dbHelperMap.remove(aid);
-        context.deleteDatabase(DBHelper.getDatabaseFileName(aid));
+        context.deleteDatabase(getDatabaseFileName(aid));
     }
 
     private static String getDatabaseFileName(int aid) {
@@ -204,7 +205,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createKeysTableIfNotExist(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS [" + KeyColumns.TABLENAME + "] (\n" +
-                "  [" + KeyColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + KeyColumns.VERSION + "] INTEGER, " +
                 "  [" + KeyColumns.PEER_ID + "] INTEGER, " +
                 "  [" + KeyColumns.SESSION_ID + "] INTEGER, " +
@@ -293,7 +294,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createStickerSetTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + StikerSetColumns.TABLENAME + "] (\n" +
-                " [" + StikerSetColumns._ID + "] INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE, " +
                 " [" + StikerSetColumns.TITLE + "] TEXT, " +
                 " [" + StikerSetColumns.PHOTO_35 + "] TEXT, " +
                 " [" + StikerSetColumns.PHOTO_70 + "] TEXT, " +
@@ -302,21 +303,21 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + StikerSetColumns.PROMOTED + "] BOOLEAN, " +
                 " [" + StikerSetColumns.ACTIVE + "] BOOLEAN, " +
                 " [" + StikerSetColumns.STICKERS + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + StikerSetColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
     private void createCountriesTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + CountriesColumns.TABLENAME + "] (\n" +
-                " [" + CountriesColumns._ID + "] INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE, " +
                 " [" + CountriesColumns.NAME + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + CountriesColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
     private void createPhotoTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + PhotosColumns.TABLENAME + "] (\n" +
-                "  [" + PhotosColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + PhotosColumns.PHOTO_ID + "] INTEGER, " +
                 "  [" + PhotosColumns.ALBUM_ID + "] INTEGER, " +
                 "  [" + PhotosColumns.OWNER_ID + "] INTEGER, " +
@@ -338,7 +339,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createAttachmentsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + AttachmentsColumns.TABLENAME + "] (\n" +
-                " [" + AttachmentsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + AttachmentsColumns.MESSAGE_ID + "] INTEGER, " +
                 " [" + AttachmentsColumns.TYPE + "] INTEGER, " +
                 " [" + AttachmentsColumns.DATA + "] TEXT, " +
@@ -357,7 +358,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createCommentsTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + CommentsColumns.TABLENAME + "] (\n" +
-                " [" + CommentsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + CommentsColumns.COMMENT_ID + "] INTEGER, " +
                 " [" + CommentsColumns.FROM_ID + "] INTEGER, " +
                 " [" + CommentsColumns.DATE + "] TEXT, " +
@@ -389,7 +390,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createFavePhotosTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + FavePhotosColumns.TABLENAME + "] (" +
-                " [" + FavePhotosColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + FavePhotosColumns.PHOTO_ID + "] INTEGER, " +
                 " [" + FavePhotosColumns.OWNER_ID + "] INTEGER, " +
                 " [" + FavePhotosColumns.POST_ID + "] INTEGER, " +
@@ -406,7 +407,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createFaveVideosTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + FaveVideosColumns.TABLENAME + "] (" +
-                " [" + FaveVideosColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + FaveVideosColumns.VIDEO + "] BLOB);";
         db.execSQL(create);
     }
@@ -418,7 +419,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createFavePostsTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + FavePostsColumns.TABLENAME + "] (" +
-                " [" + FavePostsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + FavePostsColumns.POST + "] BLOB);";
         db.execSQL(create);
     }
@@ -430,21 +431,21 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createFavePageTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + FavePageColumns.TABLENAME + "] (" +
-                " [" + FavePageColumns._ID + "] BIGINT NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] BIGINT NOT NULL UNIQUE, " +
                 " [" + FavePageColumns.DESCRIPTION + "] TEXT, " +
                 " [" + FavePageColumns.UPDATED_TIME + "] BIGINT, " +
                 " [" + FavePageColumns.FAVE_TYPE + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + FavePageColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(create);
     }
 
     private void createFaveGroupsTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + FavePageColumns.GROUPSTABLENAME + "] (" +
-                " [" + FavePageColumns._ID + "] BIGINT NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] BIGINT NOT NULL UNIQUE, " +
                 " [" + FavePageColumns.DESCRIPTION + "] TEXT, " +
                 " [" + FavePageColumns.UPDATED_TIME + "] BIGINT, " +
                 " [" + FavePageColumns.FAVE_TYPE + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + FavePageColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(create);
     }
 
@@ -455,7 +456,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createFaveLinksTable(SQLiteDatabase db) {
         String create = "CREATE TABLE [" + FaveLinksColumns.TABLENAME + "] (" +
-                " [" + FaveLinksColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + FaveLinksColumns.LINK_ID + "] TEXT, " +
                 " [" + FaveLinksColumns.URL + "] TEXT, " +
                 " [" + FaveLinksColumns.TITLE + "] TEXT, " +
@@ -473,7 +474,7 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createCommentsAttachmentsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + CommentsAttachmentsColumns.TABLENAME + "] (\n" +
-                " [" + CommentsAttachmentsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + CommentsAttachmentsColumns.C_ID + "] INTEGER, " +
                 " [" + CommentsAttachmentsColumns.TYPE + "] INTEGER, " +
                 " [" + CommentsAttachmentsColumns.DATA + "] TEXT, " +
@@ -481,7 +482,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 //" [" + CommentsAttachmentsColumns.ATTACHMENT_OWNER_ID + "] INTEGER, " +
                 //" CONSTRAINT [] UNIQUE ([" + CommentsAttachmentsColumns.C_ID + "], [" + CommentsAttachmentsColumns.ATTACHMENT_ID + "], [" + CommentsAttachmentsColumns.ATTACHMENT_OWNER_ID + "], [" + CommentsAttachmentsColumns.TYPE + "]) ON CONFLICT REPLACE," +
                 " FOREIGN KEY([" + CommentsAttachmentsColumns.C_ID + "]) " +
-                " REFERENCES " + CommentsColumns.TABLENAME + "([" + CommentsColumns._ID + "]) ON DELETE CASCADE ON UPDATE CASCADE);";
+                " REFERENCES " + CommentsColumns.TABLENAME + "([" + BaseColumns._ID + "]) ON DELETE CASCADE ON UPDATE CASCADE);";
         db.execSQL(sql);
     }
 
@@ -492,12 +493,12 @@ public class DBHelper extends SQLiteOpenHelper {
      */
     private void createPostAttachmentsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + PostAttachmentsColumns.TABLENAME + "] (\n" +
-                " [" + PostsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " [" + PostAttachmentsColumns.P_ID + "] INTEGER, " +
                 " [" + PostAttachmentsColumns.TYPE + "] INTEGER, " +
                 " [" + PostAttachmentsColumns.DATA + "] TEXT, " +
                 " FOREIGN KEY([" + PostAttachmentsColumns.P_ID + "]) " +
-                " REFERENCES " + PostsColumns.TABLENAME + "([" + PostsColumns._ID + "]) ON DELETE CASCADE ON UPDATE CASCADE);";
+                " REFERENCES " + PostsColumns.TABLENAME + "([" + BaseColumns._ID + "]) ON DELETE CASCADE ON UPDATE CASCADE);";
         db.execSQL(sql);
     }
 
@@ -542,7 +543,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createFriendListsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + FriendListsColumns.TABLENAME + "] (\n" +
-                "  [" + FriendListsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + FriendListsColumns.USER_ID + "] INTEGER, " +
                 "  [" + FriendListsColumns.LIST_ID + "] INTEGER, " +
                 "  [" + FriendListsColumns.NAME + "] TEXT, " +
@@ -552,7 +553,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createVideosTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + VideoColumns.TABLENAME + "] (\n" +
-                "  [" + VideoColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + VideoColumns.VIDEO_ID + "] INTEGER, " +
                 "  [" + VideoColumns.OWNER_ID + "] INTEGER, " +
                 "  [" + VideoColumns.ORIGINAL_OWNER_ID + "] INTEGER, " +
@@ -592,7 +593,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createDocsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + DocColumns.TABLENAME + "] (\n" +
-                "  [" + DocColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + DocColumns.DOC_ID + "] INTEGER, " +
                 "  [" + DocColumns.OWNER_ID + "] BIGINT, " +
                 "  [" + DocColumns.TITLE + "] TEXT, " +
@@ -611,7 +612,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createDialogTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + DialogsColumns.TABLENAME + "] (\n" +
-                "  [" + DialogsColumns._ID + "] INTEGER PRIMARY KEY ON CONFLICT REPLACE AUTOINCREMENT NOT NULL UNIQUE, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY ON CONFLICT REPLACE AUTOINCREMENT NOT NULL UNIQUE, " +
                 "  [" + DialogsColumns.UNREAD + "] INTEGER, " +
                 "  [" + DialogsColumns.TITLE + "] TEXT, " +
                 "  [" + DialogsColumns.IN_READ + "] INTEGER, " +
@@ -627,7 +628,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createPeersTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + PeersColumns.TABLENAME + "] (\n" +
-                "  [" + PeersColumns._ID + "] INTEGER PRIMARY KEY ON CONFLICT REPLACE NOT NULL UNIQUE, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY ON CONFLICT REPLACE NOT NULL UNIQUE, " +
                 "  [" + PeersColumns.UNREAD + "] INTEGER, " +
                 "  [" + PeersColumns.TITLE + "] TEXT, " +
                 "  [" + PeersColumns.IN_READ + "] INTEGER, " +
@@ -644,7 +645,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createRelativeshipTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + RelationshipColumns.TABLENAME + "] (" +
-                "  [" + RelationshipColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + RelationshipColumns.OBJECT_ID + "] BIGINT NOT NULL, " +
                 "  [" + RelationshipColumns.SUBJECT_ID + "] BIGINT NOT NULL, " +
                 "  [" + RelationshipColumns.TYPE + "] INTEGER, " +
@@ -654,7 +655,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createUsersTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + UserColumns.TABLENAME + "](" +
-                " [" + UserColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
                 " [" + UserColumns.FIRST_NAME + "] TEXT, " +
                 " [" + UserColumns.LAST_NAME + "] TEXT, " +
                 " [" + UserColumns.ONLINE + "] BOOLEAN, " +
@@ -676,7 +677,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + UserColumns.IS_BLACK_LISTED + "] BOOLEAN, " +
                 " [" + UserColumns.IS_CAN_ACCESS_CLOSED + "] BOOLEAN, " +
                 " [" + UserColumns.IS_VERIFIED + "] BOOLEAN, " +
-                " CONSTRAINT [] PRIMARY KEY([" + UserColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
@@ -705,7 +706,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createNewsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + NewsColumns.TABLENAME + "] (\n" +
-                "  [" + NewsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + NewsColumns.TYPE + "] TEXT, " +
                 "  [" + NewsColumns.SOURCE_ID + "] INTEGER, " +
                 "  [" + NewsColumns.DATE + "] INTEGER, " +
@@ -736,7 +737,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createUserCareerTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + UserCareerColumns.TABLENAME + "] (\n" +
-                "  [" + UserCareerColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + UserCareerColumns.USER_ID + "] INTEGER, " +
                 "  [" + UserCareerColumns.GROUP_ID + "] INTEGER, " +
                 "  [" + UserCareerColumns.COMPANY + "] VARCHAR(2048), " +
@@ -751,7 +752,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createPostsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + PostsColumns.TABLENAME + "] (\n" +
-                "  [" + PostsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + PostsColumns.POST_ID + "] INTEGER, " +
                 "  [" + PostsColumns.OWNER_ID + "] INTEGER, " +
                 "  [" + PostsColumns.FROM_ID + "] INTEGER, " +
@@ -784,7 +785,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createGroupsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + GroupColumns.TABLENAME + "](" +
-                " [" + GroupColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
                 " [" + GroupColumns.NAME + "] TEXT, " +
                 " [" + GroupColumns.SCREEN_NAME + "] TEXT, " +
                 " [" + GroupColumns.IS_CLOSED + "] INTEGER, " +
@@ -798,29 +799,29 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + GroupColumns.PHOTO_200 + "] TEXT, " +
                 " [" + GroupColumns.CAN_ADD_TOPICS + "] BOOLEAN, " +
                 " [" + GroupColumns.TOPICS_ORDER + "] BOOLEAN, " +
-                " CONSTRAINT [] PRIMARY KEY([" + GroupColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
     private void createGroupsDetTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + GroupsDetColumns.TABLENAME + "] (\n" +
-                " [" + GroupsDetColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
                 " [" + GroupsDetColumns.DATA + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + GroupsDetColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
     private void createUserDetTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + UsersDetColumns.TABLENAME + "] (\n" +
-                " [" + UsersDetColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
                 " [" + UsersDetColumns.DATA + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + UsersDetColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 
     private void createPhotoAlbumsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + PhotoAlbumsColumns.TABLENAME + "] (\n" +
-                "  [" + PhotoAlbumsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + PhotoAlbumsColumns.ALBUM_ID + "] INTEGER, " +
                 "  [" + PhotoAlbumsColumns.OWNER_ID + "] INTEGER, " +
                 "  [" + PhotoAlbumsColumns.TITLE + "] TEXT, " +
@@ -840,7 +841,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createVideoAlbumsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + VideoAlbumsColumns.TABLENAME + "] (\n" +
-                "  [" + VideoAlbumsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + VideoAlbumsColumns.ALBUM_ID + "] INTEGER, " +
                 "  [" + VideoAlbumsColumns.OWNER_ID + "] INTEGER, " +
                 "  [" + VideoAlbumsColumns.TITLE + "] VARCHAR(2048), " +
@@ -854,7 +855,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createTopicsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + TopicsColumns.TABLENAME + "] (\n" +
-                "  [" + TopicsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + TopicsColumns.TOPIC_ID + "] INTEGER, " +
                 "  [" + TopicsColumns.OWNER_ID + "] INTEGER, " +
                 "  [" + TopicsColumns.TITLE + "] VARCHAR(2048), " +
@@ -874,7 +875,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createNotoficationsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + NotificationColumns.TABLENAME + "] (\n" +
-                "  [" + AttachmentsColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + NotificationColumns.TYPE + "] TEXT, " +
                 "  [" + NotificationColumns.DATE + "] INTEGER, " +
                 "  [" + NotificationColumns.DATA + "] TEXT);";
@@ -883,11 +884,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private void createFeedListsTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + FeedListsColumns.TABLENAME + "] (\n" +
-                " [" + FeedListsColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE, " +
                 " [" + FeedListsColumns.TITLE + "] TEXT, " +
                 " [" + FeedListsColumns.NO_REPOSTS + "] BOOLEAN, " +
                 " [" + FeedListsColumns.SOURCE_IDS + "] TEXT, " +
-                " CONSTRAINT [] PRIMARY KEY([" + UserColumns._ID + "]) ON CONFLICT REPLACE);";
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 }

@@ -46,17 +46,17 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
         super(accountId, savedInstanceState);
 
         User user = manager.getUser();
-        this.users = Collections.singletonList(user);
+        users = Collections.singletonList(user);
         this.groupId = groupId;
-        this.creator = "creator".equalsIgnoreCase(manager.getRole());
+        creator = "creator".equalsIgnoreCase(manager.getRole());
 
         if (!creator) {
-            this.adminLevel = convertRoleToAdminLevel(manager.getRole());
+            adminLevel = convertRoleToAdminLevel(manager.getRole());
         }
 
-        this.showAsContact = manager.isDisplayAsContact();
-        this.interactor = InteractorFactory.createGroupSettingsInteractor();
-        this.adding = false;
+        showAsContact = manager.isDisplayAsContact();
+        interactor = InteractorFactory.createGroupSettingsInteractor();
+        adding = false;
 
         if (nonNull(savedInstanceState)) {
             restoreState(savedInstanceState);
@@ -74,13 +74,13 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
     public CommunityManagerEditPresenter(int accountId, int groupId, List<User> users, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.creator = false;
+        creator = false;
         this.users = users;
         this.groupId = groupId;
-        this.adminLevel = VKApiCommunity.AdminLevel.MODERATOR;
-        this.showAsContact = false;
-        this.interactor = InteractorFactory.createGroupSettingsInteractor();
-        this.adding = true;
+        adminLevel = VKApiCommunity.AdminLevel.MODERATOR;
+        showAsContact = false;
+        interactor = InteractorFactory.createGroupSettingsInteractor();
+        adding = true;
 
         if (nonNull(savedInstanceState)) {
             restoreState(savedInstanceState);
@@ -196,9 +196,9 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
     }
 
     public void fireButtonSaveClick() {
-        final int accountId = super.getAccountId();
-        final String role = getSelectedRole();
-        final User user = getCurrentUser();
+        int accountId = getAccountId();
+        String role = getSelectedRole();
+        User user = getCurrentUser();
 
         setSavingNow(true);
         appendDisposable(interactor.editManager(accountId, groupId, user, role, showAsContact, position, email, phone)
@@ -211,8 +211,8 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
             return;
         }
 
-        final int accountId = super.getAccountId();
-        final User user = getCurrentUser();
+        int accountId = getAccountId();
+        User user = getCurrentUser();
 
         setSavingNow(true);
         appendDisposable(interactor.editManager(accountId, groupId, user, null, false, null, null, null)
@@ -272,33 +272,33 @@ public class CommunityManagerEditPresenter extends AccountDependencyPresenter<IC
     }
 
     public void fireModeratorChecked() {
-        this.adminLevel = VKApiCommunity.AdminLevel.MODERATOR;
+        adminLevel = VKApiCommunity.AdminLevel.MODERATOR;
     }
 
     public void fireEditorChecked() {
-        this.adminLevel = VKApiCommunity.AdminLevel.EDITOR;
+        adminLevel = VKApiCommunity.AdminLevel.EDITOR;
     }
 
     public void fireAdminChecked() {
-        this.adminLevel = VKApiCommunity.AdminLevel.ADMIN;
+        adminLevel = VKApiCommunity.AdminLevel.ADMIN;
     }
 
     public void fireShowAsContactChecked(boolean checked) {
         if (checked != showAsContact) {
-            this.showAsContact = checked;
+            showAsContact = checked;
             getView().setContactInfoVisible(checked);
         }
     }
 
     public void firePositionEdit(CharSequence s) {
-        this.position = s.toString();
+        position = s.toString();
     }
 
     public void fireEmailEdit(CharSequence s) {
-        this.email = s.toString();
+        email = s.toString();
     }
 
     public void firePhoneEdit(CharSequence s) {
-        this.phone = s.toString();
+        phone = s.toString();
     }
 }

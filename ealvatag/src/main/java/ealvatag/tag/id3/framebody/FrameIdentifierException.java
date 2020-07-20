@@ -25,7 +25,7 @@ package ealvatag.tag.id3.framebody;
 public class FrameIdentifierException extends Exception {
     private static final long serialVersionUID = 5156168167374910389L;
 
-    public FrameIdentifierException(final String message) {
+    public FrameIdentifierException(String message) {
         super(message);
     }
 }

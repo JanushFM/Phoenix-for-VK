@@ -33,8 +33,8 @@ public class ResolveDomailResponse implements Parcelable {
     }
 
     public ResolveDomailResponse parse(JSONObject jsonObject) {
-        this.type = jsonObject.optString("type");
-        this.object_id = jsonObject.optString("object_id");
+        type = jsonObject.optString("type");
+        object_id = jsonObject.optString("object_id");
         return this;
     }
 

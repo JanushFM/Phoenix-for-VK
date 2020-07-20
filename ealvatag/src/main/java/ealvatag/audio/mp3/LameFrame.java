@@ -62,7 +62,7 @@ public class LameFrame {
         encoder = Utils.getString(lameHeader, 0, ENCODER_SIZE, StandardCharsets.ISO_8859_1);
     }
 
-    private LameFrame(final String encoder) {
+    private LameFrame(String encoder) {
         this.encoder = encoder;
     }
 
@@ -82,7 +82,7 @@ public class LameFrame {
         return null;
     }
 
-    static LameFrame parseLameFrame(final Buffer header, final byte[] tempBuf) {
+    static LameFrame parseLameFrame(Buffer header, byte[] tempBuf) {
         String encoder = Utils.getString(header,
                 0,
                 ENCODER_SIZE,

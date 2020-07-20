@@ -36,18 +36,18 @@ public class BubbleDrawable extends Drawable {
     private float mArrowPosition;
 
     private BubbleDrawable(Builder builder) {
-        this.mRect = builder.mRect;
-        this.mAngle = builder.mAngle;
-        this.mArrowHeight = builder.mArrowHeight;
-        this.mArrowWidth = builder.mArrowWidth;
-        this.mArrowPosition = builder.mArrowPosition;
-        this.mRadius = builder.mRadius;
-        this.bubbleColor = builder.bubbleColor;
-        this.secondary_bubbleColor = builder.secondary_bubbleColor;
-        this.bubbleBitmap = builder.bubbleBitmap;
-        this.mArrowLocation = builder.mArrowLocation;
-        this.bubbleType = builder.bubbleType;
-        this.mArrowCenter = builder.arrowCenter;
+        mRect = builder.mRect;
+        mAngle = builder.mAngle;
+        mArrowHeight = builder.mArrowHeight;
+        mArrowWidth = builder.mArrowWidth;
+        mArrowPosition = builder.mArrowPosition;
+        mRadius = builder.mRadius;
+        bubbleColor = builder.bubbleColor;
+        secondary_bubbleColor = builder.secondary_bubbleColor;
+        bubbleBitmap = builder.bubbleBitmap;
+        mArrowLocation = builder.mArrowLocation;
+        bubbleType = builder.bubbleType;
+        mArrowCenter = builder.arrowCenter;
     }
 
     @Override
@@ -257,11 +257,11 @@ public class BubbleDrawable extends Drawable {
         private final int mValue;
 
         ArrowLocation(int value) {
-            this.mValue = value;
+            mValue = value;
         }
 
         public static ArrowLocation mapIntToValue(int stateInt) {
-            for (ArrowLocation value : ArrowLocation.values()) {
+            for (ArrowLocation value : values()) {
                 if (stateInt == value.getIntValue()) {
                     return value;
                 }
@@ -304,7 +304,7 @@ public class BubbleDrawable extends Drawable {
         private boolean arrowCenter;
 
         public Builder rect(RectF rect) {
-            this.mRect = rect;
+            mRect = rect;
             return this;
         }
 
@@ -340,8 +340,8 @@ public class BubbleDrawable extends Drawable {
         }
 
         public Builder bubbleColorGradient(int first_bubbleColor, int second_bubbleColor) {
-            this.bubbleColor = first_bubbleColor;
-            this.secondary_bubbleColor = second_bubbleColor;
+            bubbleColor = first_bubbleColor;
+            secondary_bubbleColor = second_bubbleColor;
             bubbleType(BubbleType.COLOR);
             return this;
         }
@@ -353,7 +353,7 @@ public class BubbleDrawable extends Drawable {
         }
 
         public Builder arrowLocation(ArrowLocation arrowLocation) {
-            this.mArrowLocation = arrowLocation;
+            mArrowLocation = arrowLocation;
             return this;
         }
 

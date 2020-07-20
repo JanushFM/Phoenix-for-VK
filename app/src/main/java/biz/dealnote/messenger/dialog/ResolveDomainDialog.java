@@ -48,10 +48,10 @@ public class ResolveDomainDialog extends AccountDependencyDialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.mUtilsInteractor = InteractorFactory.createUtilsInteractor();
-        this.url = getArguments().getString(Extra.URL);
-        this.domain = getArguments().getString(Extra.DOMAIN);
+        mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        mUtilsInteractor = InteractorFactory.createUtilsInteractor();
+        url = getArguments().getString(Extra.URL);
+        domain = getArguments().getString(Extra.DOMAIN);
     }
 
     @NonNull

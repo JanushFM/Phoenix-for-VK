@@ -1,6 +1,7 @@
 package biz.dealnote.messenger.link.internal;
 
 import android.text.Spannable;
+import android.text.Spanned;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
@@ -29,7 +30,7 @@ public class OwnerLinkSpanFactory {
         linkPattern = Pattern.compile("\\[(https:[^]]+)\\|([^]]+)]");
     }
 
-    public static Spannable withSpans(String input, boolean owners, boolean topics, final ActionListener listener) {
+    public static Spannable withSpans(String input, boolean owners, boolean topics, ActionListener listener) {
         if (isEmpty(input)) {
             return null;
         }
@@ -58,7 +59,7 @@ public class OwnerLinkSpanFactory {
             Collections.sort(all, LINK_COMPARATOR);
 
             Spannable result = Spannable.Factory.getInstance().newSpannable(replace(input, all));
-            for (final AbsInternalLink link : all) {
+            for (AbsInternalLink link : all) {
                 //TODO Нужно ли удалять spannable перед установкой новых
                 ClickableSpan clickableSpan = new ClickableSpan() {
                     @Override
@@ -79,7 +80,7 @@ public class OwnerLinkSpanFactory {
                     }
                 };
 
-                result.setSpan(clickableSpan, link.start, link.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                result.setSpan(clickableSpan, link.start, link.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
             return result;

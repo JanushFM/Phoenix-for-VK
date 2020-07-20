@@ -35,20 +35,20 @@ public class SynchronisedTempoCode extends AbstractDataType implements Cloneable
     private final TempoCode tempo = new TempoCode(DataTypes.OBJ_SYNCHRONISED_TEMPO_DATA, null, 1);
     private final NumberFixedLength timestamp = new NumberFixedLength(DataTypes.OBJ_DATETIME, null, 4);
 
-    private SynchronisedTempoCode(final SynchronisedTempoCode copy) {
+    private SynchronisedTempoCode(SynchronisedTempoCode copy) {
         super(copy);
-        this.tempo.setValue(copy.tempo.getValue());
-        this.timestamp.setValue(copy.timestamp.getValue());
+        tempo.setValue(copy.tempo.getValue());
+        timestamp.setValue(copy.timestamp.getValue());
     }
 
-    SynchronisedTempoCode(final String identifier, final AbstractTagFrameBody frameBody) {
+    SynchronisedTempoCode(String identifier, AbstractTagFrameBody frameBody) {
         this(identifier, frameBody, 0x00, 0L);
     }
 
-    public SynchronisedTempoCode(final String identifier,
-                                 final AbstractTagFrameBody frameBody,
-                                 final int tempo,
-                                 final long timestamp) {
+    public SynchronisedTempoCode(String identifier,
+                                 AbstractTagFrameBody frameBody,
+                                 int tempo,
+                                 long timestamp) {
         super(identifier, frameBody);
         setBody(frameBody);
         this.tempo.setValue(tempo);
@@ -56,17 +56,17 @@ public class SynchronisedTempoCode extends AbstractDataType implements Cloneable
     }
 
     @Override
-    public void setBody(final AbstractTagFrameBody frameBody) {
+    public void setBody(AbstractTagFrameBody frameBody) {
         super.setBody(frameBody);
-        this.tempo.setBody(frameBody);
-        this.timestamp.setBody(frameBody);
+        tempo.setBody(frameBody);
+        timestamp.setBody(frameBody);
     }
 
     public long getTimestamp() {
         return ((Number) timestamp.getValue()).longValue();
     }
 
-    public void setTimestamp(final long timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp.setValue(timestamp);
     }
 
@@ -74,7 +74,7 @@ public class SynchronisedTempoCode extends AbstractDataType implements Cloneable
         return ((Number) tempo.getValue()).intValue();
     }
 
-    public void setTempo(final int tempo) {
+    public void setTempo(int tempo) {
         if (tempo < 0 || tempo > 510) {
             throw new IllegalArgumentException("Tempo must be a positive value less than 511: " + tempo);
         }
@@ -83,11 +83,11 @@ public class SynchronisedTempoCode extends AbstractDataType implements Cloneable
 
     @Override
     public int getSize() {
-        return this.tempo.getSize() + this.timestamp.getSize();
+        return tempo.getSize() + timestamp.getSize();
     }
 
     @Override
-    public void readByteArray(final byte[] buffer, final int originalOffset) throws InvalidDataTypeException {
+    public void readByteArray(byte[] buffer, int originalOffset) throws InvalidDataTypeException {
         int localOffset = originalOffset;
         int size = getSize();
 
@@ -103,27 +103,27 @@ public class SynchronisedTempoCode extends AbstractDataType implements Cloneable
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         tempo.read(buffer, size);
         timestamp.read(buffer, size);
     }
 
     @Override
     public byte[] writeByteArray() {
-        final byte[] typeData = this.tempo.writeByteArray();
-        final byte[] timeData = this.timestamp.writeByteArray();
+        byte[] typeData = tempo.writeByteArray();
+        byte[] timeData = timestamp.writeByteArray();
         if (typeData == null || timeData == null) {
             return null;
         }
 
-        final byte[] objectData = new byte[typeData.length + timeData.length];
+        byte[] objectData = new byte[typeData.length + timeData.length];
         System.arraycopy(typeData, 0, objectData, 0, typeData.length);
         System.arraycopy(timeData, 0, objectData, typeData.length, timeData.length);
         return objectData;
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -134,8 +134,8 @@ public class SynchronisedTempoCode extends AbstractDataType implements Cloneable
             return false;
         }
 
-        final SynchronisedTempoCode that = (SynchronisedTempoCode) o;
-        return !(this.getTempo() != that.getTempo() || this.getTimestamp() != that.getTimestamp());
+        SynchronisedTempoCode that = (SynchronisedTempoCode) o;
+        return !(getTempo() != that.getTempo() || getTimestamp() != that.getTimestamp());
     }
 
     @Override

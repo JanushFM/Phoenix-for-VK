@@ -117,7 +117,7 @@ public class OkHttpDataSource extends BaseDataSource implements HttpDataSource {
         this.userAgent = userAgent;
         this.cacheControl = cacheControl;
         this.defaultRequestProperties = defaultRequestProperties;
-        this.requestProperties = new RequestProperties();
+        requestProperties = new RequestProperties();
     }
 
     /**
@@ -169,7 +169,7 @@ public class OkHttpDataSource extends BaseDataSource implements HttpDataSource {
         this.contentTypePredicate = contentTypePredicate;
         this.cacheControl = cacheControl;
         this.defaultRequestProperties = defaultRequestProperties;
-        this.requestProperties = new RequestProperties();
+        requestProperties = new RequestProperties();
     }
 
     /**
@@ -220,8 +220,8 @@ public class OkHttpDataSource extends BaseDataSource implements HttpDataSource {
     @Override
     public long open(DataSpec dataSpec) throws HttpDataSourceException {
         this.dataSpec = dataSpec;
-        this.bytesRead = 0;
-        this.bytesSkipped = 0;
+        bytesRead = 0;
+        bytesSkipped = 0;
         transferInitializing(dataSpec);
 
         Request request = makeRequest(dataSpec);

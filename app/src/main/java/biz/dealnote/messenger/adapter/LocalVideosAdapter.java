@@ -34,7 +34,7 @@ public class LocalVideosAdapter extends RecyclerView.Adapter<LocalVideosAdapter.
     public LocalVideosAdapter(Context context, List<LocalVideo> data) {
         this.context = context;
         this.data = data;
-        this.holders = new HashSet<>();
+        holders = new HashSet<>();
     }
 
     @NotNull
@@ -47,8 +47,8 @@ public class LocalVideosAdapter extends RecyclerView.Adapter<LocalVideosAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final LocalVideo video = data.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        LocalVideo video = data.get(position);
         holder.attachPhoto(video);
 
         PicassoInstance.with()
@@ -116,13 +116,13 @@ public class LocalVideosAdapter extends RecyclerView.Adapter<LocalVideosAdapter.
         TextView tvTitle;
         TextView tvDuration;
 
-        public ViewHolder(final View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            this.photoImageView = itemView.findViewById(R.id.item_video_album_image);
-            this.selectedRoot = itemView.findViewById(R.id.selected);
-            this.tvIndex = itemView.findViewById(R.id.item_video_index);
-            this.tvTitle = itemView.findViewById(R.id.item_video_album_title);
-            this.tvDuration = itemView.findViewById(R.id.item_video_album_count);
+            photoImageView = itemView.findViewById(R.id.item_video_album_image);
+            selectedRoot = itemView.findViewById(R.id.selected);
+            tvIndex = itemView.findViewById(R.id.item_video_index);
+            tvTitle = itemView.findViewById(R.id.item_video_album_title);
+            tvDuration = itemView.findViewById(R.id.item_video_album_count);
         }
 
         private void attachPhoto(LocalVideo video) {

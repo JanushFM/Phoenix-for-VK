@@ -43,7 +43,7 @@ public class FrameBodySEEK extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param minOffsetToNextTag
      */
     public FrameBodySEEK(int minOffsetToNextTag) {
-        this.setObjectValue(DataTypes.OBJ_OFFSET, minOffsetToNextTag);
+        setObjectValue(DataTypes.OBJ_OFFSET, minOffsetToNextTag);
     }
 
     public FrameBodySEEK(FrameBodySEEK body) {

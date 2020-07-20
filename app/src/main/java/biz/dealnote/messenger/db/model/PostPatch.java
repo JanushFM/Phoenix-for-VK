@@ -10,17 +10,17 @@ public class PostPatch {
     private PinPatch pinPatch;
 
     public PostPatch withDeletion(boolean deleted) {
-        this.deletePatch = new DeletePatch(deleted);
+        deletePatch = new DeletePatch(deleted);
         return this;
     }
 
     public PostPatch withPin(boolean pinned) {
-        this.pinPatch = new PinPatch(pinned);
+        pinPatch = new PinPatch(pinned);
         return this;
     }
 
     public PostPatch withLikes(int count, boolean usesLikes) {
-        this.likePatch = new LikePatch(usesLikes, count);
+        likePatch = new LikePatch(usesLikes, count);
         return this;
     }
 

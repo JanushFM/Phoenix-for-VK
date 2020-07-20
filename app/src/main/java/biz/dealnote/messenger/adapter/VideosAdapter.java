@@ -40,7 +40,7 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
-        final Video video = data.get(position);
+        Video video = data.get(position);
 
         holder.viewsCount.setText(context.getString(R.string.view_count, video.getViews()));
         holder.title.setText(video.getTitle());

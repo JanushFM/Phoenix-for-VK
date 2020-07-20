@@ -161,7 +161,7 @@ public class Entity2Model {
     }
 
     public static CommunityDetails buildCommunityDetailsFromDbo(CommunityDetailsEntity dbo) {
-        final CommunityDetails details = new CommunityDetails()
+        CommunityDetails details = new CommunityDetails()
                 .setCanMessage(dbo.isCanMessage())
                 .setStatus(dbo.getStatus())
                 .setStatusAudio(nonNull(dbo.getStatusAudio()) ? buildAudioFromDbo(dbo.getStatusAudio()) : null)

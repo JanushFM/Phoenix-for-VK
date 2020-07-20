@@ -27,12 +27,12 @@ public enum MusicalKey {
 
     static {
         EnumSet<MusicalKey> groundKey = EnumSet.of(NOTE_A, NOTE_B, NOTE_C, NOTE_D, NOTE_E, NOTE_F, NOTE_G);
-        groundKeyMap = new HashMap<>(MusicalKey.values().length);
+        groundKeyMap = new HashMap<>(values().length);
         for (MusicalKey curr : groundKey) {
             groundKeyMap.put(curr.getValue(), curr);
         }
         EnumSet<MusicalKey> halfKey = EnumSet.of(FLAT, SHARP, MINOR);
-        halfKeyMap = new HashMap<>(MusicalKey.values().length);
+        halfKeyMap = new HashMap<>(values().length);
         for (MusicalKey curr : halfKey) {
             halfKeyMap.put(curr.getValue(), curr);
         }

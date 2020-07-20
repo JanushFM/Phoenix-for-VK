@@ -49,7 +49,7 @@ public class ExoGifPlayer implements IGifPlayer {
     public ExoGifPlayer(String url, ProxyConfig proxyConfig) {
         this.url = url;
         this.proxyConfig = proxyConfig;
-        this.status = IStatus.INIT;
+        status = IStatus.INIT;
     }
 
     private static void pausePlayer(SimpleExoPlayer internalPlayer) {
@@ -75,8 +75,8 @@ public class ExoGifPlayer implements IGifPlayer {
 
         switch (status) {
             case IStatus.PREPARED:
-                AssertUtils.requireNonNull(this.internalPlayer);
-                startPlayer(this.internalPlayer);
+                AssertUtils.requireNonNull(internalPlayer);
+                startPlayer(internalPlayer);
                 break;
             case IStatus.INIT:
                 preparePlayer();
@@ -88,7 +88,7 @@ public class ExoGifPlayer implements IGifPlayer {
     }
 
     private void preparePlayer() {
-        this.setStatus(IStatus.PREPARING);
+        setStatus(IStatus.PREPARING);
         internalPlayer = new SimpleExoPlayer.Builder(App.getInstance()).build();
 
 
@@ -122,7 +122,7 @@ public class ExoGifPlayer implements IGifPlayer {
 
     private void onVideoSizeChanged() {
         for (IVideoSizeChangeListener listener : videoSizeChangeListeners) {
-            listener.onVideoSizeChanged(this, this.size);
+            listener.onVideoSizeChanged(this, size);
         }
     }
 
@@ -134,7 +134,7 @@ public class ExoGifPlayer implements IGifPlayer {
 
         if (nonNull(internalPlayer)) {
             try {
-                pausePlayer(this.internalPlayer);
+                pausePlayer(internalPlayer);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -160,13 +160,13 @@ public class ExoGifPlayer implements IGifPlayer {
     }
 
     private void setStatus(int newStatus) {
-        final int oldStatus = this.status;
+        int oldStatus = status;
 
-        if (this.status == newStatus) {
+        if (status == newStatus) {
             return;
         }
 
-        this.status = newStatus;
+        status = newStatus;
         for (IStatusChangeListener listener : statusChangeListeners) {
             listener.onPlayerStatusChange(this, oldStatus, newStatus);
         }
@@ -174,22 +174,22 @@ public class ExoGifPlayer implements IGifPlayer {
 
     @Override
     public void addVideoSizeChangeListener(IVideoSizeChangeListener listener) {
-        this.videoSizeChangeListeners.add(listener);
+        videoSizeChangeListeners.add(listener);
     }
 
     @Override
     public void addStatusChangeListener(IStatusChangeListener listener) {
-        this.statusChangeListeners.add(listener);
+        statusChangeListeners.add(listener);
     }
 
     @Override
     public void removeVideoSizeChangeListener(IVideoSizeChangeListener listener) {
-        this.videoSizeChangeListeners.remove(listener);
+        videoSizeChangeListeners.remove(listener);
     }
 
     @Override
     public void removeStatusChangeListener(IStatusChangeListener listener) {
-        this.statusChangeListeners.remove(listener);
+        statusChangeListeners.remove(listener);
     }
 
     @Override

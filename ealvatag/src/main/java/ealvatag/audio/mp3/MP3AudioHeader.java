@@ -83,7 +83,7 @@ public class MP3AudioHeader implements AudioHeader {
     private int bitrate;
     private String encoder = "";
 
-    MP3AudioHeader(final FileOperator fileOperator, final long startByte, final String fileName) throws IOException,
+    MP3AudioHeader(FileOperator fileOperator, long startByte, String fileName) throws IOException,
             InvalidAudioFrameException {
         if (!seek(fileOperator, startByte, fileName)) {
             throw new InvalidAudioFrameException(ErrorMessage.NO_AUDIO_HEADER_FOUND, fileName);
@@ -100,7 +100,7 @@ public class MP3AudioHeader implements AudioHeader {
      * @return true if the first MP3 frame can be found
      * @throws IOException on any I/O error
      */
-    public boolean seek(final FileOperator fileOperator, final long startByte, final String fileName)
+    public boolean seek(FileOperator fileOperator, long startByte, String fileName)
             throws IOException {
         //This is substantially faster than updating the filechannels position
         long fileSize = fileOperator.getFileChannel().size();
@@ -134,14 +134,14 @@ public class MP3AudioHeader implements AudioHeader {
 
                         //if(2==1) use this line when you want to test getting the next frame without using xing
 
-                        final Buffer xingFrameBuffer = XingFrame.isXingFrame(buffer.clone(), mp3FrameHeader);
+                        Buffer xingFrameBuffer = XingFrame.isXingFrame(buffer.clone(), mp3FrameHeader);
                         if (xingFrameBuffer != null) {
                             mp3XingFrame = XingFrame.parseXingFrame(xingFrameBuffer);
                             xingFrameBuffer.skip(xingFrameBuffer.size());
                             break;
                         }
 
-                        final Buffer vbriFrameBuffer = VbriFrame.isVbriFrame(buffer.clone());
+                        Buffer vbriFrameBuffer = VbriFrame.isVbriFrame(buffer.clone());
                         if (vbriFrameBuffer != null) {
                             mp3VbriFrame = VbriFrame.parseVBRIFrame(vbriFrameBuffer);
                             vbriFrameBuffer.skip(vbriFrameBuffer.size());
@@ -187,11 +187,11 @@ public class MP3AudioHeader implements AudioHeader {
         return syncFound;
     }
 
-    private boolean isNextFrameValid(long filePointerCount, Buffer bb, FileOperator fileOperator, final String seekFileName)
+    private boolean isNextFrameValid(long filePointerCount, Buffer bb, FileOperator fileOperator, String seekFileName)
             throws IOException {
         boolean result = false;
 
-        final long fileSize = fileOperator.getFileChannel().size();
+        long fileSize = fileOperator.getFileChannel().size();
 
         //Our buffer is not large enough to fit in the whole of this frame, something must
         //have gone wrong because frames are not this large, so just return false
@@ -203,7 +203,7 @@ public class MP3AudioHeader implements AudioHeader {
         //Check for end of buffer if not enough room get some more
         if (bb.size() <= MIN_BUFFER_REMAINING_REQUIRED + mp3FrameHeader.getFrameLength()) {
             bb.clear();
-            final long byteCount = Math.max(Math.min(FILE_BUFFER_SIZE, fileSize - filePointerCount), 0);
+            long byteCount = Math.max(Math.min(FILE_BUFFER_SIZE, fileSize - filePointerCount), 0);
             fileOperator.read(filePointerCount, bb, byteCount);
             //Not enough left
             if (bb.size() <= MIN_BUFFER_REMAINING_REQUIRED) {
@@ -238,7 +238,7 @@ public class MP3AudioHeader implements AudioHeader {
     /**
      * Set the location of where the Audio file begins in the file
      */
-    void setMp3StartByte(final long startByte) {
+    void setMp3StartByte(long startByte) {
         this.startByte = startByte;
     }
 
@@ -328,7 +328,7 @@ public class MP3AudioHeader implements AudioHeader {
     }
 
     @Override
-    public long getDuration(final TimeUnit timeUnit, final boolean round) {
+    public long getDuration(TimeUnit timeUnit, boolean round) {
         return TimeUnits.convert(Math.round(trackLength * NANOSECONDS_IN_A_SECOND), NANOSECONDS, timeUnit, round);
     }
 

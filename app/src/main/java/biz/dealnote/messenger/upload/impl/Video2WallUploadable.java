@@ -50,11 +50,11 @@ public class Video2WallUploadable implements IUploadable<Video> {
             if (scheme.equals("file")) {
                 fileName = uri.getLastPathSegment();
             } else if (scheme.equals("content")) {
-                String[] proj = {MediaStore.Images.Media.TITLE};
+                String[] proj = {MediaStore.MediaColumns.TITLE};
 
                 Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);
                 if (cursor != null && cursor.getCount() != 0) {
-                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
+                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.TITLE);
                     cursor.moveToFirst();
                     fileName = cursor.getString(columnIndex);
                 }
@@ -74,9 +74,9 @@ public class Video2WallUploadable implements IUploadable<Video> {
     @Override
     public Single<UploadResult<Video>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
         int subjectOwnerId = upload.getDestination().getOwnerId();
-        final Integer userId = subjectOwnerId > 0 ? subjectOwnerId : null;
-        final Integer groupId = subjectOwnerId < 0 ? Math.abs(subjectOwnerId) : null;
-        final int accountId = upload.getAccountId();
+        Integer userId = subjectOwnerId > 0 ? subjectOwnerId : null;
+        Integer groupId = subjectOwnerId < 0 ? Math.abs(subjectOwnerId) : null;
+        int accountId = upload.getAccountId();
 
         Single<UploadServer> serverSingle = networker.vkDefault(accountId)
                 .docs()
@@ -84,7 +84,7 @@ public class Video2WallUploadable implements IUploadable<Video> {
                 .map(s -> s);
 
         return serverSingle.flatMap(server -> {
-            final InputStream[] is = new InputStream[1];
+            InputStream[] is = new InputStream[1];
 
             try {
                 Uri uri = upload.getFileUri();
@@ -100,7 +100,7 @@ public class Video2WallUploadable implements IUploadable<Video> {
                     return Single.error(new NotFoundException("Unable to open InputStream, URI: " + uri));
                 }
 
-                final String filename = findFileName(context, uri);
+                String filename = findFileName(context, uri);
                 return networker.uploads()
                         .uploadVideoRx(server.getUrl(), filename, is[0], listener)
                         .doFinally(safelyCloseAction(is[0]))

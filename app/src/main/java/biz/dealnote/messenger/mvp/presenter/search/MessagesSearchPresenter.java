@@ -25,7 +25,7 @@ public class MessagesSearchPresenter extends AbsSearchPresenter<IMessagesSearchV
 
     public MessagesSearchPresenter(int accountId, @Nullable MessageSeachCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.messagesInteractor = Repository.INSTANCE.getMessages();
+        messagesInteractor = Repository.INSTANCE.getMessages();
 
         if (canSearch(getCriteria())) {
             doSearch();
@@ -44,7 +44,7 @@ public class MessagesSearchPresenter extends AbsSearchPresenter<IMessagesSearchV
 
     @Override
     Single<Pair<List<Message>, IntNextFrom>> doSearch(int accountId, MessageSeachCriteria criteria, IntNextFrom nextFrom) {
-        final int offset = Objects.isNull(nextFrom) ? 0 : nextFrom.getOffset();
+        int offset = Objects.isNull(nextFrom) ? 0 : nextFrom.getOffset();
         return messagesInteractor
                 .searchMessages(accountId, criteria.getPeerId(), COUNT, offset, criteria.getQuery())
                 .map(messages -> Pair.Companion.create(messages, new IntNextFrom(offset + COUNT)));

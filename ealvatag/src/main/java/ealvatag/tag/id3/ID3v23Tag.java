@@ -111,23 +111,23 @@ public class ID3v23Tag extends AbstractID3v2Tag {
     /**
      * Contains extended header
      */
-    protected boolean extended = false;
+    protected boolean extended;
     /**
      * The tag is compressed
      */
-    protected boolean compression = false;
+    protected boolean compression;
     /**
      * All frames in the tag uses unsynchronisation
      */
-    boolean unsynchronization = false;
+    boolean unsynchronization;
     /**
      * CRC Checksum calculated
      */
-    private boolean crcDataFlag = false;
+    private boolean crcDataFlag;
     /**
      * Experiemntal tag
      */
-    private boolean experimental = false;
+    private boolean experimental;
     /**
      * Crcdata Checksum in extended header
      */
@@ -135,7 +135,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
     /**
      * Tag padding
      */
-    private int paddingSize = 0;
+    private int paddingSize;
 
 
     /**
@@ -173,7 +173,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
             else {
                 convertedTag = new ID3v24Tag(mp3tag);
             }
-            this.setLoggingFilename(convertedTag.loggingFilename);
+            setLoggingFilename(convertedTag.loggingFilename);
             //Copy Primitives
             copyPrimitives(convertedTag);
             //Copy Frames
@@ -183,10 +183,10 @@ public class ID3v23Tag extends AbstractID3v2Tag {
 
     public ID3v23Tag(ByteBuffer buffer, String loggingFilename) throws TagException {
         setLoggingFilename(loggingFilename);
-        this.read(buffer);
+        read(buffer);
     }
 
-    public ID3v23Tag(Buffer buffer, Id3v2Header header, String loggingFilename, final boolean ignoreArtwork) throws TagException {
+    public ID3v23Tag(Buffer buffer, Id3v2Header header, String loggingFilename, boolean ignoreArtwork) throws TagException {
         setLoggingFilename(loggingFilename);
         read(buffer, header, ignoreArtwork);
     }
@@ -203,11 +203,11 @@ public class ID3v23Tag extends AbstractID3v2Tag {
 
         if (copyObj instanceof ID3v23Tag) {
             ID3v23Tag copyObject = (ID3v23Tag) copyObj;
-            this.crcDataFlag = copyObject.crcDataFlag;
-            this.experimental = copyObject.experimental;
-            this.extended = copyObject.extended;
-            this.crc32 = copyObject.crc32;
-            this.paddingSize = copyObject.paddingSize;
+            crcDataFlag = copyObject.crcDataFlag;
+            experimental = copyObject.experimental;
+            extended = copyObject.extended;
+            crc32 = copyObject.crc32;
+            paddingSize = copyObject.paddingSize;
         }
     }
 
@@ -278,7 +278,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
     }
 
     @Override
-    public int getFieldCount(final Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public int getFieldCount(Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         return getFields(genericKey.name()).size();
     }
 
@@ -339,7 +339,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
     }
 
     @Override
-    public Optional<String> getValue(final FieldKey genericKey, final int index) throws IllegalArgumentException {
+    public Optional<String> getValue(FieldKey genericKey, int index) throws IllegalArgumentException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
         if (genericKey == FieldKey.YEAR) {
             AggregatedFrame af = (AggregatedFrame) getFrame(TyerTdatAggregatedFrame.ID_TYER_TDAT);
@@ -501,11 +501,11 @@ public class ID3v23Tag extends AbstractID3v2Tag {
             return false;
         }
         ID3v23Tag object = (ID3v23Tag) obj;
-        return this.crc32 == object.crc32 &&
-                this.crcDataFlag == object.crcDataFlag &&
-                this.experimental == object.experimental &&
-                this.extended == object.extended &&
-                this.paddingSize == object.paddingSize &&
+        return crc32 == object.crc32 &&
+                crcDataFlag == object.crcDataFlag &&
+                experimental == object.experimental &&
+                extended == object.extended &&
+                paddingSize == object.paddingSize &&
                 super.equals(obj);
     }
 
@@ -551,11 +551,11 @@ public class ID3v23Tag extends AbstractID3v2Tag {
         }
         if (map.containsKey(frameId) || map.containsKey(TyerTdatAggregatedFrame.ID_TYER_TDAT)) {
             //If we have multiple duplicate frames in a tag separate them with semicolons
-            if (this.duplicateFrameId.length() > 0) {
-                this.duplicateFrameId += ";";
+            if (duplicateFrameId.length() > 0) {
+                duplicateFrameId += ";";
             }
-            this.duplicateFrameId += frameId;
-            this.duplicateBytes += frame.getSize();
+            duplicateFrameId += frameId;
+            duplicateBytes += frame.getSize();
         } else if (frameId.equals(ID3v23Frames.FRAME_ID_V3_TYER)) {
             if (map.containsKey(ID3v23Frames.FRAME_ID_V3_TDAT)) {
                 TyerTdatAggregatedFrame ag = new TyerTdatAggregatedFrame();
@@ -614,18 +614,18 @@ public class ID3v23Tag extends AbstractID3v2Tag {
 
         MP3File.getStructureFormatter().openHeadingElement(TYPE_TAG, getIdentifier());
 
-        super.createStructureHeader();
+        createStructureHeader();
 
         //Header
         MP3File.getStructureFormatter().openHeadingElement(TYPE_HEADER, "");
-        MP3File.getStructureFormatter().addElement(TYPE_UNSYNCHRONISATION, this.isUnsynchronized());
-        MP3File.getStructureFormatter().addElement(TYPE_EXTENDED, this.extended);
-        MP3File.getStructureFormatter().addElement(TYPE_EXPERIMENTAL, this.experimental);
-        MP3File.getStructureFormatter().addElement(TYPE_CRCDATA, this.crc32);
-        MP3File.getStructureFormatter().addElement(TYPE_PADDINGSIZE, this.paddingSize);
+        MP3File.getStructureFormatter().addElement(TYPE_UNSYNCHRONISATION, isUnsynchronized());
+        MP3File.getStructureFormatter().addElement(TYPE_EXTENDED, extended);
+        MP3File.getStructureFormatter().addElement(TYPE_EXPERIMENTAL, experimental);
+        MP3File.getStructureFormatter().addElement(TYPE_CRCDATA, crc32);
+        MP3File.getStructureFormatter().addElement(TYPE_PADDINGSIZE, paddingSize);
         MP3File.getStructureFormatter().closeHeadingElement(TYPE_HEADER);
         //Body
-        super.createStructureBody();
+        createStructureBody();
         MP3File.getStructureFormatter().closeHeadingElement(TYPE_TAG);
     }
 
@@ -776,7 +776,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
         readFrames(bufferWithoutHeader, size);
     }
 
-    private void read(Buffer buffer, Id3v2Header header, final boolean ignoreArtwork) throws TagException {
+    private void read(Buffer buffer, Id3v2Header header, boolean ignoreArtwork) throws TagException {
         try {
             readHeaderFlags(header.getFlags());
 
@@ -810,7 +810,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
 
 
         //Read the size from the Tag Header
-        this.fileReadSize = size;
+        fileReadSize = size;
 
         // Read the frames until got to up to the size as specified in header or until
         // we hit an invalid frame identifier or padding
@@ -829,24 +829,24 @@ public class ID3v23Tag extends AbstractID3v2Tag {
             }
             //Found Empty Frame, log it - empty frames should not exist
             catch (EmptyFrameException ex) {
-                this.emptyFrameBytes += ID3v23Frame.FRAME_HEADER_SIZE;
+                emptyFrameBytes += ID3v23Frame.FRAME_HEADER_SIZE;
             }
             //Problem trying to find frame, often just occurs because frameHeader includes padding
             //and we have reached padding
             catch (InvalidFrameException ifie) {
-                this.invalidFrames++;
+                invalidFrames++;
                 //Don't try and find any more frames
                 break;
             }
             //Failed reading frame but may just have invalid data but correct length so lets carry on
             //in case we can read the next frame
             catch (InvalidDataTypeException idete) {
-                this.invalidFrames++;
+                invalidFrames++;
             }
         }
     }
 
-    private void readFrames(Buffer buffer, int size, final boolean ignoreArtwork) {
+    private void readFrames(Buffer buffer, int size, boolean ignoreArtwork) {
         ensureFrameMapsAndClear();
         fileReadSize = size;
 
@@ -865,9 +865,9 @@ public class ID3v23Tag extends AbstractID3v2Tag {
                 break;
             } catch (EmptyFrameException ex) {
                 //Found Empty Frame, log it - empty frames should not exist
-                this.emptyFrameBytes += ID3v23Frame.FRAME_HEADER_SIZE;
+                emptyFrameBytes += ID3v23Frame.FRAME_HEADER_SIZE;
             } catch (InvalidFrameException ifie) {
-                this.invalidFrames++;
+                invalidFrames++;
                 //Don't try and find any more frames
                 break;
             }//Problem trying to find frame, often just occurs because frameHeader includes padding
@@ -875,7 +875,7 @@ public class ID3v23Tag extends AbstractID3v2Tag {
             catch (IOException | InvalidTagException idete) {
                 //Failed reading frame but may just have invalid data but correct length so lets carry on
                 //in case we can read the next frame
-                this.invalidFrames++;
+                invalidFrames++;
             }// TODO: 1/25/17 get exceptions straightened out
 
         }
@@ -985,25 +985,25 @@ public class ID3v23Tag extends AbstractID3v2Tag {
     public TagField createField(ID3v23FieldKey id3Key, String value) throws IllegalArgumentException, FieldDataInvalidException {
         checkArgNotNull(id3Key);
         checkArgNotNullOrEmpty(value);
-        return super.doCreateTagField(new FrameAndSubId(null, id3Key.getFrameId(), id3Key.getSubId()), value);
+        return doCreateTagField(new FrameAndSubId(null, id3Key.getFrameId(), id3Key.getSubId()), value);
     }
 
     public String getFirst(ID3v23FieldKey id3v23FieldKey) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNull(id3v23FieldKey);
         FieldKey genericKey = ID3v23Frames.getInstanceOf().getGenericKeyFromId3(id3v23FieldKey);
         return genericKey != null
-                ? super.getFirst(genericKey)
-                : super.doGetValueAtIndex(new FrameAndSubId(null, id3v23FieldKey.getFrameId(), id3v23FieldKey.getSubId()), 0);
+                ? getFirst(genericKey)
+                : doGetValueAtIndex(new FrameAndSubId(null, id3v23FieldKey.getFrameId(), id3v23FieldKey.getSubId()), 0);
     }
 
     public void deleteField(ID3v23FieldKey id3v23FieldKey) throws IllegalArgumentException {
         checkArgNotNull(id3v23FieldKey);
-        super.doDeleteTagField(new FrameAndSubId(null, id3v23FieldKey.getFrameId(), id3v23FieldKey.getSubId()));
+        doDeleteTagField(new FrameAndSubId(null, id3v23FieldKey.getFrameId(), id3v23FieldKey.getSubId()));
     }
 
-    public Tag deleteField(final String id) throws IllegalArgumentException, UnsupportedFieldException {
+    public Tag deleteField(String id) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNullOrEmpty(id, CANNOT_BE_NULL_OR_EMPTY, "id");
-        super.doDeleteTagField(new FrameAndSubId(null, id, null));
+        doDeleteTagField(new FrameAndSubId(null, id, null));
         return this;
     }
 

@@ -62,8 +62,8 @@ public class Injection {
         if (isNull(resolver)) {
             synchronized (Injection.class) {
                 if (isNull(resolver)) {
-                    final Context context = provideApplicationContext();
-                    final IDevideIdProvider devideIdProvider = () -> Utils.getDiviceId(context);
+                    Context context = provideApplicationContext();
+                    IDevideIdProvider devideIdProvider = () -> Utils.getDiviceId(context);
                     resolver = new PushRegistrationResolver(devideIdProvider, provideSettings(), provideNetworkInterfaces());
                 }
             }

@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model.selection;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class LocalVideosSelectableSource extends AbsSelectableSource implements Parcelable {
+public class LocalVideosSelectableSource extends AbsSelectableSource {
 
     public static final Creator<LocalVideosSelectableSource> CREATOR = new Creator<LocalVideosSelectableSource>() {
         @Override

@@ -17,7 +17,7 @@ public class WallCriteria extends Criteria {
     public WallCriteria(int accountId, int ownerId) {
         this.accountId = accountId;
         this.ownerId = ownerId;
-        this.mode = MODE_ALL;
+        mode = MODE_ALL;
     }
 
     public int getAccountId() {

@@ -31,7 +31,7 @@ public class GifPagerPresenter extends BaseDocumentPresenter<IGifPagerView> impl
 
     public GifPagerPresenter(int accountId, @NonNull ArrayList<Document> documents, int index, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.mDocuments = documents;
+        mDocuments = documents;
 
         if (savedInstanceState == null) {
             mCurrentIndex = index;
@@ -94,7 +94,7 @@ public class GifPagerPresenter extends BaseDocumentPresenter<IGifPagerView> impl
         Document document = mDocuments.get(mCurrentIndex);
         AssertUtils.requireNonNull(document);
 
-        final String url = document.getVideoPreview().getSrc();
+        String url = document.getVideoPreview().getSrc();
 
         mGifPlayer = Injection.provideGifPlayerFactory().createGifPlayer(url);
         mGifPlayer.addStatusChangeListener(this);

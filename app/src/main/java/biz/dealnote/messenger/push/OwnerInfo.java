@@ -25,7 +25,7 @@ public class OwnerInfo {
     }
 
     public static Single<OwnerInfo> getRx(@NonNull Context context, int accountId, int ownerId) {
-        final Context app = context.getApplicationContext();
+        Context app = context.getApplicationContext();
         IOwnersRepository interactor = Repository.INSTANCE.getOwners();
 
         return interactor.getBaseOwnerInfo(accountId, ownerId, IOwnersRepository.MODE_ANY)

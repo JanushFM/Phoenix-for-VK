@@ -37,7 +37,7 @@ public class LikesFragment extends AbsOwnersListFragment<LikesListPresenter, ISi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        super.mHasToolbar = true;
+        mHasToolbar = true;
     }
 
     @Override

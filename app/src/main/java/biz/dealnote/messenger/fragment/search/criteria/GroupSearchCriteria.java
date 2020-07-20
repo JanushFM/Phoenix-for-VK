@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 
@@ -10,7 +9,7 @@ import biz.dealnote.messenger.fragment.search.options.DatabaseOption;
 import biz.dealnote.messenger.fragment.search.options.SimpleBooleanOption;
 import biz.dealnote.messenger.fragment.search.options.SpinnerOption;
 
-public class GroupSearchCriteria extends BaseSearchCriteria implements Parcelable, Cloneable {
+public class GroupSearchCriteria extends BaseSearchCriteria {
 
     public static final int KEY_TYPE = 1;
     public static final int KEY_COUNTRY = 2;

@@ -34,7 +34,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Hold
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Country country = mData.get(position);
+        Country country = mData.get(position);
         holder.name.setText(country.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
@@ -50,12 +50,12 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.Hold
     }
 
     public void setData(List<Country> data) {
-        this.mData = data;
+        mData = data;
         notifyDataSetChanged();
     }
 
     public void setListener(Listener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 
     public interface Listener {

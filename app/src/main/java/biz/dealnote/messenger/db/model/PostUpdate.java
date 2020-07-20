@@ -37,17 +37,17 @@ public class PostUpdate {
     }
 
     public PostUpdate withDeletion(boolean deleted) {
-        this.deleteUpdate = new DeleteUpdate(deleted);
+        deleteUpdate = new DeleteUpdate(deleted);
         return this;
     }
 
     public PostUpdate withPin(boolean pinned) {
-        this.pinUpdate = new PinUpdate(pinned);
+        pinUpdate = new PinUpdate(pinned);
         return this;
     }
 
     public PostUpdate withLikes(int count, boolean usesLikes) {
-        this.likeUpdate = new LikeUpdate(usesLikes, count);
+        likeUpdate = new LikeUpdate(usesLikes, count);
         return this;
     }
 

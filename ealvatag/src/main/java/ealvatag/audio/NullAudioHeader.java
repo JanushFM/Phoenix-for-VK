@@ -81,7 +81,7 @@ public final class NullAudioHeader implements AudioHeader {
     }
 
     @Override
-    public long getDuration(final TimeUnit timeUnit, final boolean round) {
+    public long getDuration(TimeUnit timeUnit, boolean round) {
         return 0;
     }
 

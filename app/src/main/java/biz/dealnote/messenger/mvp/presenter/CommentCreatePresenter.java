@@ -41,9 +41,9 @@ public class CommentCreatePresenter extends AbsAttachmentsEditPresenter<ICreateC
 
     public CommentCreatePresenter(int accountId, int commentDbid, int sourceOwnerId, String body, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.attachmentsRepository = Injection.provideAttachmentsRepository();
-        this.commentId = commentDbid;
-        this.destination = UploadDestination.forComment(commentId, sourceOwnerId);
+        attachmentsRepository = Injection.provideAttachmentsRepository();
+        commentId = commentDbid;
+        destination = UploadDestination.forComment(commentId, sourceOwnerId);
 
         if (isNull(savedInstanceState)) {
             setTextBody(body);

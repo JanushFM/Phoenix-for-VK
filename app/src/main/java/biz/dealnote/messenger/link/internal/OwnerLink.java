@@ -8,6 +8,6 @@ public class OwnerLink extends AbsInternalLink {
         this.start = start;
         this.end = end;
         this.ownerId = ownerId;
-        this.targetLine = name;
+        targetLine = name;
     }
 }

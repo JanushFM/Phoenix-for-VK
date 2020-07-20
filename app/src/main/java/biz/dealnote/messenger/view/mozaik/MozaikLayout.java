@@ -28,9 +28,9 @@ public class MozaikLayout extends RelativeLayout {
     public MozaikLayout(Context context) {
         super(context);
         //this.maxSingleImageHeight = (int) context.getResources().getDimension(R.dimen.max_single_image_height);
-        this.maxSingleImageHeight = getDisplayHeight(context);
-        this.prefImageSize = (int) context.getResources().getDimension(R.dimen.pref_image_size);
-        this.spacing = (int) dpToPx(1F);
+        maxSingleImageHeight = getDisplayHeight(context);
+        prefImageSize = (int) context.getResources().getDimension(R.dimen.pref_image_size);
+        spacing = (int) dpToPx(1F);
     }
 
     public MozaikLayout(Context context, AttributeSet attrs) {
@@ -192,7 +192,7 @@ public class MozaikLayout extends RelativeLayout {
 
     public void setPhotos(List<PostImage> photos) {
         this.photos = photos;
-        this.layoutParamsCalculator = null;
+        layoutParamsCalculator = null;
     }
 
     private float dpToPx(float dp) {

@@ -42,7 +42,7 @@ import static ealvatag.utils.Check.checkVarArg0NotNull;
  * @author Raphaël Slinckx
  */
 public abstract class GenericTag extends AbstractTag {
-    private static final byte[] EMPTY_BYTE_ARRAY = new byte[]{};
+    private static final byte[] EMPTY_BYTE_ARRAY = {};
     final private static ImmutableSet<FieldKey> supportedKeys = ImmutableSet.of(FieldKey.ALBUM,
             FieldKey.ARTIST,
             FieldKey.TITLE,
@@ -61,12 +61,12 @@ public abstract class GenericTag extends AbstractTag {
     }
 
     @Override
-    protected boolean isAllowedEncoding(final Charset enc) {
+    protected boolean isAllowedEncoding(Charset enc) {
         return true;
     }
 
     @Override
-    public TagField createField(final FieldKey genericKey, final String... values) throws IllegalArgumentException,
+    public TagField createField(FieldKey genericKey, String... values) throws IllegalArgumentException,
             UnsupportedFieldException,
             FieldDataInvalidException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
@@ -78,32 +78,32 @@ public abstract class GenericTag extends AbstractTag {
     }
 
     @Override
-    public String getFirst(final FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public String getFirst(FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         return getValue(genericKey, 0).or("");
     }
 
     @Override
-    public Optional<String> getValue(final FieldKey genericKey, final int index) throws IllegalArgumentException {
+    public Optional<String> getValue(FieldKey genericKey, int index) throws IllegalArgumentException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
         return getValue(genericKey.name(), index);
     }
 
     @Override
-    public String getFieldAt(final FieldKey genericKey, final int index) throws IllegalArgumentException, UnsupportedFieldException {
+    public String getFieldAt(FieldKey genericKey, int index) throws IllegalArgumentException, UnsupportedFieldException {
         return getValue(genericKey, index).or("");
     }
 
     @Override
-    public List<String> getAll(final FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public List<String> getAll(FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
         if (!getSupportedFields().contains(genericKey)) {
             throw new UnsupportedFieldException(genericKey.name());
         }
-        return super.getAll(genericKey.name());
+        return getAll(genericKey.name());
     }
 
     @Override
-    public Tag deleteField(final FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public Tag deleteField(FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
         if (getSupportedFields().contains(genericKey)) {
             deleteField(genericKey.name());
@@ -114,7 +114,7 @@ public abstract class GenericTag extends AbstractTag {
     }
 
     @Override
-    public Optional<TagField> getFirstField(final FieldKey genericKey)
+    public Optional<TagField> getFirstField(FieldKey genericKey)
             throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, genericKey);
         if (getSupportedFields().contains(genericKey)) {
@@ -130,7 +130,7 @@ public abstract class GenericTag extends AbstractTag {
     }
 
     @Override
-    public TagField createArtwork(final Artwork artwork) throws UnsupportedFieldException, FieldDataInvalidException {
+    public TagField createArtwork(Artwork artwork) throws UnsupportedFieldException, FieldDataInvalidException {
         throw new UnsupportedFieldException(FieldKey.COVER_ART.name());
     }
 
@@ -162,26 +162,26 @@ public abstract class GenericTag extends AbstractTag {
          * @param fieldId        The identifier.
          * @param initialContent The string.
          */
-        public GenericTagTextField(final String fieldId, final String initialContent) {
-            this.id = fieldId;
-            this.content = initialContent;
+        public GenericTagTextField(String fieldId, String initialContent) {
+            id = fieldId;
+            content = initialContent;
         }
 
         @Override
-        public void copyContent(final TagField field) {
+        public void copyContent(TagField field) {
             if (field instanceof TagTextField) {
-                this.content = ((TagTextField) field).getContent();
+                content = ((TagTextField) field).getContent();
             }
         }
 
         @Override
         public String getContent() {
-            return this.content;
+            return content;
         }
 
         @Override
-        public void setContent(final String s) {
-            this.content = s;
+        public void setContent(String s) {
+            content = s;
         }
 
         @Override
@@ -190,7 +190,7 @@ public abstract class GenericTag extends AbstractTag {
         }
 
         @Override
-        public void setEncoding(final Charset s) {
+        public void setEncoding(Charset s) {
             /* Not allowed */
         }
 
@@ -201,7 +201,7 @@ public abstract class GenericTag extends AbstractTag {
 
         @Override
         public byte[] getRawContent() {
-            return this.content == null ? EMPTY_BYTE_ARRAY : this.content.getBytes(getEncoding());
+            return content == null ? EMPTY_BYTE_ARRAY : content.getBytes(getEncoding());
         }
 
         @Override
@@ -221,7 +221,7 @@ public abstract class GenericTag extends AbstractTag {
 
         @Override
         public boolean isEmpty() {
-            return "".equals(this.content);
+            return "".equals(content);
         }
 
         @Override

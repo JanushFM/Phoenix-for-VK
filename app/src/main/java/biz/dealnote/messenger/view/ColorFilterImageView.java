@@ -29,7 +29,7 @@ public class ColorFilterImageView extends AppCompatImageView {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        final TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.ColorFilterImageView);
+        TypedArray attrArray = context.obtainStyledAttributes(attrs, R.styleable.ColorFilterImageView);
 
         try {
             color = attrArray.getColor(R.styleable.ColorFilterImageView_filter_color, Color.BLACK);
@@ -49,7 +49,7 @@ public class ColorFilterImageView extends AppCompatImageView {
     }
 
     public void setColorFilterEnabled(boolean enabled) {
-        this.disabledColorFilter = !enabled;
+        disabledColorFilter = !enabled;
         resolveColorFilter();
     }
 }

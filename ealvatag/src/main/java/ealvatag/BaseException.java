@@ -26,11 +26,11 @@ import java.util.Locale;
  */
 @SuppressWarnings("unused")
 public class BaseException extends RuntimeException {
-    public BaseException(final String msg, final Object... formatArgs) {
+    public BaseException(String msg, Object... formatArgs) {
         super(String.format(Locale.getDefault(), msg, formatArgs));
     }
 
-    public BaseException(final Throwable cause, final String msg, final Object... formatArgs) {
+    public BaseException(Throwable cause, String msg, Object... formatArgs) {
         super(String.format(Locale.getDefault(), msg, formatArgs), cause);
     }
 }

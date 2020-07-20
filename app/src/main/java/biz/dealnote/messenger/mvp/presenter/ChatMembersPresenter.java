@@ -32,8 +32,8 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
     public ChatMembersPresenter(int accountId, int chatId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.chatId = chatId;
-        this.users = new ArrayList<>();
-        this.messagesInteractor = Repository.INSTANCE.getMessages();
+        users = new ArrayList<>();
+        messagesInteractor = Repository.INSTANCE.getMessages();
 
         requestData();
     }
@@ -41,7 +41,7 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
     @Override
     public void onGuiCreated(@NonNull IChatMembersView view) {
         super.onGuiCreated(view);
-        view.displayData(this.users);
+        view.displayData(users);
     }
 
     private void resolveRefreshing() {
@@ -62,7 +62,7 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
     }
 
     private void requestData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setRefreshing(true);
         appendDisposable(messagesInteractor.getChatUsers(accountId, chatId)
@@ -95,8 +95,8 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
     }
 
     public void fireUserDeteleConfirmed(AppChatUser user) {
-        final int accountId = super.getAccountId();
-        final int userId = user.getMember().getOwnerId();
+        int accountId = getAccountId();
+        int userId = user.getMember().getOwnerId();
 
         appendDisposable(messagesInteractor.removeChatMember(accountId, chatId, userId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -107,13 +107,13 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
         int index = Utils.findIndexById(users, id);
 
         if (index != -1) {
-            this.users.remove(index);
+            users.remove(index);
             callView(view -> view.notifyItemRemoved(index));
         }
     }
 
     public void fireUserSelected(ArrayList<User> users) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(messagesInteractor.addChatUsers(accountId, chatId, users)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -126,8 +126,8 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
     }
 
     private void onChatUsersAdded(List<AppChatUser> added) {
-        int startSize = this.users.size();
-        this.users.addAll(added);
+        int startSize = users.size();
+        users.addAll(added);
 
         callView(view -> view.notifyDataAdded(startSize, added.size()));
     }

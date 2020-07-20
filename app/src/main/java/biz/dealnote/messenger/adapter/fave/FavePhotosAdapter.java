@@ -30,7 +30,7 @@ public class FavePhotosAdapter extends RecyclerView.Adapter<FavePhotosAdapter.Vi
 
     public FavePhotosAdapter(Context context, List<Photo> data) {
         this.data = data;
-        this.colorPrimary = CurrentTheme.getColorPrimary(context);
+        colorPrimary = CurrentTheme.getColorPrimary(context);
     }
 
     @NotNull
@@ -41,8 +41,8 @@ public class FavePhotosAdapter extends RecyclerView.Adapter<FavePhotosAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(final FavePhotosAdapter.ViewHolder viewHolder, int position) {
-        final Photo photo = data.get(position);
+    public void onBindViewHolder(FavePhotosAdapter.ViewHolder viewHolder, int position) {
+        Photo photo = data.get(position);
 
         viewHolder.tvLike.setText(AppTextUtils.getCounterWithK(photo.getLikesCount()));
 

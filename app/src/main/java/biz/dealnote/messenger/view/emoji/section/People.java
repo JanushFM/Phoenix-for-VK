@@ -20,7 +20,7 @@ package biz.dealnote.messenger.view.emoji.section;
  * @author Hieu Rocker (rockerhieu@gmail.com)
  */
 public class People {
-    public static final Emojicon[] DATA = new Emojicon[]{
+    public static final Emojicon[] DATA = {
             Emojicon.fromCodePoint(0x1f600),
             Emojicon.fromCodePoint(0x1f62c),
             Emojicon.fromCodePoint(0x1f601),

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import biz.dealnote.messenger.R;
-import biz.dealnote.messenger.fragment.VKPhotosFragment;
 import biz.dealnote.messenger.fragment.fave.FaveTabsFragment;
 import biz.dealnote.messenger.fragment.search.SearchContentType;
 import biz.dealnote.messenger.fragment.search.criteria.NewsFeedCriteria;
@@ -41,6 +40,7 @@ import biz.dealnote.messenger.model.Commented;
 import biz.dealnote.messenger.model.CommentedType;
 import biz.dealnote.messenger.model.Peer;
 import biz.dealnote.messenger.model.Photo;
+import biz.dealnote.messenger.mvp.view.IVkPhotosView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.PhoenixToast;
@@ -122,7 +122,7 @@ public class LinkHelper {
 
             case AbsLink.ALBUMS:
                 PhotoAlbumsLink photoAlbumsLink = (PhotoAlbumsLink) link;
-                PlaceFactory.getVKPhotoAlbumsPlace(accountId, photoAlbumsLink.ownerId, VKPhotosFragment.ACTION_SHOW_PHOTOS, null).tryOpenWith(activity);
+                PlaceFactory.getVKPhotoAlbumsPlace(accountId, photoAlbumsLink.ownerId, IVkPhotosView.ACTION_SHOW_PHOTOS, null).tryOpenWith(activity);
                 break;
 
             case AbsLink.DIALOG:

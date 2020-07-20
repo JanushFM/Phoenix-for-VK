@@ -32,7 +32,7 @@ public class InvalidFrameException extends InvalidTagException {
         super(msg);
     }
 
-    public InvalidFrameException(final String message, final Throwable cause) {
+    public InvalidFrameException(String message, Throwable cause) {
         super(message, cause);
     }
 }

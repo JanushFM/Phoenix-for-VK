@@ -28,10 +28,10 @@ public class DrawerCategory implements Parcelable {
     }
 
     public DrawerCategory(Parcel in) {
-        this.title = in.readInt();
+        title = in.readInt();
         //noinspection ResourceType
-        this.key = in.readInt();
-        this.checked = in.readInt() == 1;
+        key = in.readInt();
+        checked = in.readInt() == 1;
     }
 
     @StringRes

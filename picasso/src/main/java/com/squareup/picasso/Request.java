@@ -154,7 +154,7 @@ public final class Request {
 
     @Override
     public String toString() {
-        final StringBuilder builder = new StringBuilder("Request{");
+        StringBuilder builder = new StringBuilder("Request{");
         if (resourceId > 0) {
             builder.append(resourceId);
         } else {
@@ -273,7 +273,7 @@ public final class Request {
         Builder(Uri uri, int resourceId, Bitmap.Config bitmapConfig) {
             this.uri = uri;
             this.resourceId = resourceId;
-            this.config = bitmapConfig;
+            config = bitmapConfig;
         }
 
         private Builder(Request request) {
@@ -320,7 +320,7 @@ public final class Request {
                 throw new IllegalArgumentException("Image URI may not be null.");
             }
             this.uri = uri;
-            this.resourceId = 0;
+            resourceId = 0;
             return this;
         }
 
@@ -334,7 +334,7 @@ public final class Request {
                 throw new IllegalArgumentException("Image resource ID may not be 0.");
             }
             this.resourceId = resourceId;
-            this.uri = null;
+            uri = null;
             return this;
         }
 

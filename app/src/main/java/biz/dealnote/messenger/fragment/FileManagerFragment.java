@@ -62,7 +62,7 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
     private ArrayList<String> pathDirsList;
     private ArrayList<FileItem> fileList;
     private boolean showHiddenFilesAndDirs = true;
-    private boolean directoryShownIsEmpty = false;
+    private boolean directoryShownIsEmpty;
     private String filterFileExtension;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
@@ -87,23 +87,23 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
         // One binary gigabyte equals 1,073,741,824 bytes.
         if (bytes > 1073741824) {// Add GB
             long gbs = bytes / 1073741824;
-            retStr += (Long.valueOf(gbs)).toString() + "GB ";
+            retStr += (Long.valueOf(gbs)) + "GB ";
             bytes = bytes - (gbs * 1073741824);
         }
 
         // One MB - 1048576 bytes
         if (bytes > 1048576) {// Add GB
             long mbs = bytes / 1048576;
-            retStr += (Long.valueOf(mbs)).toString() + "MB ";
+            retStr += (Long.valueOf(mbs)) + "MB ";
             bytes = bytes - (mbs * 1048576);
         }
 
         if (bytes > 1024) {
             long kbs = bytes / 1024;
-            retStr += (Long.valueOf(kbs)).toString() + "KB";
+            retStr += (Long.valueOf(kbs)) + "KB";
             bytes = bytes - (kbs * 1024);
         } else {
-            retStr += (Long.valueOf(bytes)).toString() + " bytes";
+            retStr += (Long.valueOf(bytes)) + " bytes";
         }
 
         return retStr;

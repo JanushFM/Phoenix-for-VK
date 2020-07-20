@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -67,8 +68,8 @@ class PhotosStorage extends AbsStorage implements IPhotosStorage {
 
         DatabaseIdRange range = criteria.getRange();
         if (nonNull(range)) {
-            selection = selection + " AND " + PhotosColumns._ID + " >= " + range.getFirst() +
-                    " AND " + PhotosColumns._ID + " <= " + criteria.getRange().getLast();
+            selection = selection + " AND " + BaseColumns._ID + " >= " + range.getFirst() +
+                    " AND " + BaseColumns._ID + " <= " + criteria.getRange().getLast();
         }
 
         return selection;
@@ -141,9 +142,9 @@ class PhotosStorage extends AbsStorage implements IPhotosStorage {
             }
 
             if (cv.size() > 0) {
-                final Uri uri = MessengerContentProvider.getPhotosContentUriFor(accountId);
+                Uri uri = MessengerContentProvider.getPhotosContentUriFor(accountId);
                 final String where = PhotosColumns.PHOTO_ID + " = ? AND " + PhotosColumns.OWNER_ID + " = ?";
-                final String[] args = {String.valueOf(photoId), String.valueOf(ownerId)};
+                String[] args = {String.valueOf(photoId), String.valueOf(ownerId)};
 
                 getContentResolver().update(uri, cv, where, args);
             }
@@ -158,8 +159,8 @@ class PhotosStorage extends AbsStorage implements IPhotosStorage {
             sizes = GSON.fromJson(sizesJson, PhotoSizeEntity.class);
         }
 
-        final int id = cursor.getInt(cursor.getColumnIndex(PhotosColumns.PHOTO_ID));
-        final int ownerId = cursor.getInt(cursor.getColumnIndex(PhotosColumns.OWNER_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(PhotosColumns.PHOTO_ID));
+        int ownerId = cursor.getInt(cursor.getColumnIndex(PhotosColumns.OWNER_ID));
         return new PhotoEntity(id, ownerId)
                 .setSizes(sizes)
                 .setAlbumId(cursor.getInt(cursor.getColumnIndex(PhotosColumns.ALBUM_ID)))

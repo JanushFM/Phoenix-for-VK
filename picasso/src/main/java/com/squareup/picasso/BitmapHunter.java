@@ -106,19 +106,19 @@ class BitmapHunter implements Runnable {
 
     BitmapHunter(Picasso picasso, Dispatcher dispatcher, Cache cache, Stats stats, Action action,
                  RequestHandler requestHandler) {
-        this.sequence = SEQUENCE_GENERATOR.incrementAndGet();
+        sequence = SEQUENCE_GENERATOR.incrementAndGet();
         this.picasso = picasso;
         this.dispatcher = dispatcher;
         this.cache = cache;
         this.stats = stats;
         this.action = action;
-        this.key = action.getKey();
-        this.data = action.getRequest();
-        this.priority = action.getPriority();
-        this.memoryPolicy = action.getMemoryPolicy();
-        this.networkPolicy = action.getNetworkPolicy();
+        key = action.getKey();
+        data = action.getRequest();
+        priority = action.getPriority();
+        memoryPolicy = action.getMemoryPolicy();
+        networkPolicy = action.getNetworkPolicy();
         this.requestHandler = requestHandler;
-        this.retryCount = requestHandler.getRetryCount();
+        retryCount = requestHandler.getRetryCount();
     }
 
     /**
@@ -197,11 +197,11 @@ class BitmapHunter implements Runnable {
 
     static Bitmap applyCustomTransformations(List<Transformation> transformations, Bitmap result) {
         for (int i = 0, count = transformations.size(); i < count; i++) {
-            final Transformation transformation = transformations.get(i);
+            Transformation transformation = transformations.get(i);
             Bitmap newResult;
             try {
                 newResult = transformation.transform(result);
-            } catch (final RuntimeException e) {
+            } catch (RuntimeException e) {
                 Picasso.HANDLER.post(new Runnable() {
                     @Override
                     public void run() {
@@ -213,7 +213,7 @@ class BitmapHunter implements Runnable {
             }
 
             if (newResult == null) {
-                final StringBuilder builder = new StringBuilder() //
+                StringBuilder builder = new StringBuilder() //
                         .append("Transformation ")
                         .append(transformation.key())
                         .append(" returned null after ")

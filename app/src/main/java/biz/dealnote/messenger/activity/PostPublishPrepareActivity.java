@@ -103,7 +103,7 @@ public class PostPublishPrepareActivity extends AppCompatActivity implements Rec
             return;
         }
 
-        final Owner iam = owners.get(0);
+        Owner iam = owners.get(0);
 
         List<AdvancedItem> items = new ArrayList<>();
 

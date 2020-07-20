@@ -62,7 +62,7 @@ public class FriendAcceptedFCMMessage {
         return message;
     }
 
-    public void notify(final Context context, int accountId) {
+    public void notify(Context context, int accountId) {
         if (!Settings.get()
                 .notifications()
                 .isFriendRequestAcceptationNotifEnabled()) {
@@ -76,7 +76,7 @@ public class FriendAcceptedFCMMessage {
     }
 
     private void notifyImpl(Context context, @NonNull User user, Bitmap bitmap) {
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getFriendRequestsChannel(context));
         }

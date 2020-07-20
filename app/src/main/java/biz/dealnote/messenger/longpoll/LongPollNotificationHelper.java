@@ -18,7 +18,7 @@ public class LongPollNotificationHelper {
      *
      * @param message нотификация с сервера
      */
-    public static void notifyAbountNewMessage(Context context, final Message message) {
+    public static void notifyAbountNewMessage(Context context, Message message) {
         if (message.isOut()) {
             return;
         }

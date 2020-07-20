@@ -73,7 +73,7 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
 
         beforeAccountChange(oldAid, newAid);
 
-        AccountDependencyDialogFragment.this.accountId = newAid;
+        accountId = newAid;
         getArguments().putInt(Extra.ACCOUNT_ID, newAid);
 
         afterAccountChange(oldAid, newAid);
@@ -86,7 +86,7 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
     }
 
     protected void appendDisposable(Disposable disposable) {
-        this.mCompositeDisposable.add(disposable);
+        mCompositeDisposable.add(disposable);
     }
 
     protected void afterAccountChange(int oldAid, int newAid) {

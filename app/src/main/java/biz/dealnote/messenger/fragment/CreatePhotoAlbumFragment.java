@@ -30,7 +30,6 @@ import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.view.steppers.base.AbsStepHolder;
 import biz.dealnote.messenger.view.steppers.base.AbsSteppersVerticalAdapter;
-import biz.dealnote.messenger.view.steppers.base.BaseHolderListener;
 import biz.dealnote.messenger.view.steppers.impl.CreatePhotoAlbumStep1Holder;
 import biz.dealnote.messenger.view.steppers.impl.CreatePhotoAlbumStep2Holder;
 import biz.dealnote.messenger.view.steppers.impl.CreatePhotoAlbumStep3Holder;
@@ -39,7 +38,7 @@ import biz.dealnote.messenger.view.steppers.impl.CreatePhotoAlbumStepsHost;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
 public class CreatePhotoAlbumFragment extends BaseMvpFragment<EditPhotoAlbumPresenter, IEditPhotoAlbumView>
-        implements BackPressCallback, BaseHolderListener, IEditPhotoAlbumView, CreatePhotoAlbumStep4Holder.ActionListener, CreatePhotoAlbumStep3Holder.ActionListener, CreatePhotoAlbumStep2Holder.ActionListener, CreatePhotoAlbumStep1Holder.ActionListener {
+        implements BackPressCallback, IEditPhotoAlbumView, CreatePhotoAlbumStep4Holder.ActionListener, CreatePhotoAlbumStep3Holder.ActionListener, CreatePhotoAlbumStep2Holder.ActionListener, CreatePhotoAlbumStep1Holder.ActionListener {
 
     private static final String TAG = CreatePhotoAlbumFragment.class.getSimpleName();
     private static final String EXTRA_EDITOR = "editor";

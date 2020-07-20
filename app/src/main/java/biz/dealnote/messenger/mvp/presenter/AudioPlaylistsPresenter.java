@@ -39,10 +39,10 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
 
     public AudioPlaylistsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.owner_id = ownerId;
-        this.pages = new ArrayList<>();
-        this.fInteractor = InteractorFactory.createAudioInteractor();
-        this.search_at = new FindAt();
+        owner_id = ownerId;
+        pages = new ArrayList<>();
+        fInteractor = InteractorFactory.createAudioInteractor();
+        search_at = new FindAt();
     }
 
     public void LoadAudiosTool() {
@@ -56,15 +56,15 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     @Override
     public void onGuiCreated(@NonNull IAudioPlaylistsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.pages);
+        view.displayData(pages);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getPlaylists(accountId, owner_id, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -72,7 +72,7 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -80,17 +80,17 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
 
     private void onActualDataReceived(int offset, List<AudioPlaylist> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
 
         if (offset == 0) {
-            this.pages.clear();
-            this.pages.addAll(data);
+            pages.clear();
+            pages.addAll(data);
             callView(IAudioPlaylistsView::notifyDataSetChanged);
         } else {
-            int startSize = this.pages.size();
-            this.pages.addAll(data);
+            int startSize = pages.size();
+            pages.addAll(data);
             callView(view -> view.notifyDataAdded(startSize, data.size()));
         }
 
@@ -117,14 +117,14 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
 
     public boolean fireScrollToEnd() {
         if (!endOfContent && nonEmpty(pages) && actualDataReceived && !actualDataLoading) {
-            loadActualData(this.pages.size());
+            loadActualData(pages.size());
             return false;
         }
         return true;
     }
 
     private void doSearch(int accountId) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
         resolveRefreshingView();
         actualDataDisposable.add(fInteractor.search_owner_playlist(accountId, search_at.getQuery(), owner_id, SEARCH_COUNT, search_at.getOffset(), 0)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -132,9 +132,9 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     }
 
     private void onSearched(FindAt search_at, List<AudioPlaylist> playlist) {
-        this.actualDataLoading = false;
-        this.actualDataReceived = true;
-        this.endOfContent = search_at.isEnded();
+        actualDataLoading = false;
+        actualDataReceived = true;
+        endOfContent = search_at.isEnded();
 
         if (this.search_at.getOffset() == 0) {
             pages.clear();
@@ -152,8 +152,8 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     }
 
     private void search(boolean sleep_search) {
-        if (this.actualDataLoading) return;
-        int accountId = super.getAccountId();
+        if (actualDataLoading) return;
+        int accountId = getAccountId();
 
         if (!sleep_search) {
             doSearch(accountId);
@@ -169,9 +169,9 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     public void fireSearchRequestChanged(String q) {
         String query = q == null ? null : q.trim();
         if (!search_at.do_compare(query)) {
-            this.actualDataLoading = false;
+            actualDataLoading = false;
             if (Utils.isEmpty(query)) {
-                this.actualDataDisposable.clear();
+                actualDataDisposable.clear();
                 fireRefresh(false);
             } else {
                 fireRefresh(true);
@@ -180,7 +180,7 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     }
 
     public void onDelete(int index, AudioPlaylist album) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.deletePlaylist(accountId, album.getId(), album.getOwnerId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> {
@@ -192,7 +192,7 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     }
 
     public void onAdd(AudioPlaylist album) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.followPlaylist(accountId, album.getId(), album.getOwnerId(), album.getAccess_key())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> getView().getPhoenixToast().showToast(R.string.success), throwable ->
@@ -201,11 +201,11 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
 
     public void fireRefresh(boolean sleep_search) {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
-        if (this.search_at.isSearchMode()) {
-            this.search_at.reset();
+        if (search_at.isSearchMode()) {
+            search_at.reset();
             search(sleep_search);
         } else {
             loadActualData(0);

@@ -24,7 +24,7 @@ public class ProxyConfig implements Identificable {
     }
 
     public ProxyConfig setAuth(String user, String pass) {
-        this.authEnabled = true;
+        authEnabled = true;
         this.user = user;
         this.pass = pass;
         return this;

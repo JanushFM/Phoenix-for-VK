@@ -59,17 +59,17 @@ public class App extends Application {
                 .flatMap(Flowable::fromIterable)
                 .subscribe(update -> {
                     if (update.getReadIn() != null) {
-                        tryCancelNotificationForPeer(App.this, update.getAccountId(), update.getPeerId());
+                        tryCancelNotificationForPeer(this, update.getAccountId(), update.getPeerId());
                     }
                 }, ignore()));
 
         compositeDisposable.add(Repository.INSTANCE.getMessages()
                 .observeSentMessages()
-                .subscribe(sentMsg -> tryCancelNotificationForPeer(App.this, sentMsg.getAccountId(), sentMsg.getPeerId()), ignore()));
+                .subscribe(sentMsg -> tryCancelNotificationForPeer(this, sentMsg.getAccountId(), sentMsg.getPeerId()), ignore()));
 
         compositeDisposable.add(Repository.INSTANCE.getMessages()
                 .observeMessagesSendErrors()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(throwable -> PhoenixToast.CreatePhoenixToast(App.this).showToastError(ErrorLocalizer.localizeThrowable(App.this, throwable)), ignore()));
+                .subscribe(throwable -> PhoenixToast.CreatePhoenixToast(this).showToastError(ErrorLocalizer.localizeThrowable(this, throwable)), ignore()));
     }
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Transformation;
 
@@ -48,7 +49,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
 
     public LocalAudioRecyclerAdapter(Context context, List<Audio> data) {
         super(data);
-        this.mContext = context;
+        mContext = context;
     }
 
     @DrawableRes
@@ -60,7 +61,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
         return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
     }
 
-    private void updateAudioStatus(AudioHolder holder, final Audio audio) {
+    private void updateAudioStatus(AudioHolder holder, Audio audio) {
         switch (MusicUtils.AudioStatus(audio)) {
             case 1:
                 holder.visual.setVisibility(View.VISIBLE);
@@ -89,7 +90,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
 
     @Override
     protected void onBindItemViewHolder(AudioHolder holder, int position, int type) {
-        final Audio audio = getItem(position);
+        Audio audio = getItem(position);
 
         holder.cancelSelectionAnimation();
         if (audio.isAnimationNow()) {
@@ -156,7 +157,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
                     case AudioItem.add_item_audio:
                         try {
                             if (new File(Objects.requireNonNull(Uri.parse(audio.getUrl()).getPath())).delete()) {
-                                Snackbar.make(view, R.string.success, Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(view, R.string.success, BaseTransientBottomBar.LENGTH_LONG).show();
                                 notifyDataSetChanged();
                             }
                         } catch (Exception e) {
@@ -185,7 +186,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
     }
 
     public void setClickListener(ClickListener clickListener) {
-        this.mClickListener = clickListener;
+        mClickListener = clickListener;
     }
 
     public interface ClickListener {

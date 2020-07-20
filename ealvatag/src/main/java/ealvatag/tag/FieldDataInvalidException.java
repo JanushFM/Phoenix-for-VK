@@ -11,7 +11,7 @@ public class FieldDataInvalidException extends TagException {
         super(msg);
     }
 
-    public FieldDataInvalidException(final Throwable cause) {
+    public FieldDataInvalidException(Throwable cause) {
         super(cause);
     }
 }

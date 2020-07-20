@@ -86,7 +86,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     private void refreshFeedSources() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(feedInteractor.getCachedFeedLists(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -97,7 +97,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     private void requestActualFeedLists() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(feedInteractor.getActualFeedLists(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onFeedListsUpdated, ignore()));
@@ -109,21 +109,21 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
 
             int index = indexOf(update.getOwnerId(), update.getPostId());
             if (index != -1) {
-                this.mFeed.get(index).setLikeCount(like.getCount());
-                this.mFeed.get(index).setUserLike(like.isLiked());
+                mFeed.get(index).setLikeCount(like.getCount());
+                mFeed.get(index).setUserLike(like.isLiked());
                 callView(view -> view.notifyItemChanged(index));
             }
         }
     }
 
-    private void requestFeedAtLast(final String startFrom) {
-        this.loadingHolder.dispose();
+    private void requestFeedAtLast(String startFrom) {
+        loadingHolder.dispose();
 
-        final int accountId = super.getAccountId();
-        final String sourcesIds = this.mSourceIds;
+        int accountId = getAccountId();
+        String sourcesIds = mSourceIds;
 
-        this.loadingNowNextFrom = startFrom;
-        this.loadingNow = true;
+        loadingNowNextFrom = startFrom;
+        loadingNow = true;
 
         resolveLoadMoreFooterView();
         resolveRefreshingView();
@@ -136,8 +136,8 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     private void onActualFeedGetError(Throwable t) {
         t.printStackTrace();
 
-        this.loadingNow = false;
-        this.loadingNowNextFrom = null;
+        loadingNow = false;
+        loadingNowNextFrom = null;
 
         resolveLoadMoreFooterView();
         resolveRefreshingView();
@@ -146,18 +146,18 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     private void onActualFeedReceived(String startFrom, List<News> feed, String nextFrom) {
-        this.loadingNow = false;
-        this.loadingNowNextFrom = null;
+        loadingNow = false;
+        loadingNowNextFrom = null;
 
-        this.mNextFrom = nextFrom;
+        mNextFrom = nextFrom;
 
         if (isEmpty(startFrom)) {
-            this.mFeed.clear();
-            this.mFeed.addAll(feed);
+            mFeed.clear();
+            mFeed.addAll(feed);
             callView(IFeedView::notifyFeedDataChanged);
         } else {
-            int startSize = this.mFeed.size();
-            this.mFeed.addAll(feed);
+            int startSize = mFeed.size();
+            mFeed.addAll(feed);
             callView(view -> view.notifyDataAdded(startSize, feed.size()));
         }
 
@@ -188,7 +188,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     private void loadCachedFeed(@Nullable String thenScrollToState) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setCacheLoadingNow(true);
 
@@ -208,8 +208,8 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     private void onCachedFeedReceived(List<News> data, @Nullable String thenScrollToState) {
         setCacheLoadingNow(false);
 
-        this.mFeed.clear();
-        this.mFeed.addAll(data);
+        mFeed.clear();
+        mFeed.addAll(data);
 
         if (nonNull(thenScrollToState)) {
             if (isGuiReady()) {
@@ -231,6 +231,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
                 if (vr == 2) {
                     getView().askToReload();
                 } else if (vr == 1) {
+                    getView().scrollTo(0);
                     requestFeedAtLast(null);
                 }
             }
@@ -343,34 +344,34 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     public void fireRefresh() {
-        this.cacheLoadingHolder.dispose();
-        this.loadingHolder.dispose();
-        this.loadingNow = false;
-        this.cacheLoadingNow = false;
+        cacheLoadingHolder.dispose();
+        loadingHolder.dispose();
+        loadingNow = false;
+        cacheLoadingNow = false;
 
         requestFeedAtLast(null);
     }
 
     public void fireScrollToBottom() {
         if (canLoadNextNow()) {
-            requestFeedAtLast(this.mNextFrom);
+            requestFeedAtLast(mNextFrom);
         }
     }
 
     public void fireLoadMoreClick() {
         if (canLoadNextNow()) {
-            requestFeedAtLast(this.mNextFrom);
+            requestFeedAtLast(mNextFrom);
         }
     }
 
     public void fireFeedSourceClick(FeedSource entry) {
-        this.mSourceIds = entry.getValue();
-        this.mNextFrom = null;
+        mSourceIds = entry.getValue();
+        mNextFrom = null;
 
-        this.cacheLoadingHolder.dispose();
-        this.loadingHolder.dispose();
-        this.loadingNow = false;
-        this.cacheLoadingNow = false;
+        cacheLoadingHolder.dispose();
+        loadingHolder.dispose();
+        loadingNow = false;
+        cacheLoadingNow = false;
 
         refreshFeedSourcesSelection();
         getView().notifyFeedSourcesChanged();
@@ -407,8 +408,8 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
 
     public void fireLikeClick(News news) {
         if ("post".equalsIgnoreCase(news.getType())) {
-            final boolean add = !news.isUserLike();
-            int accountId = super.getAccountId();
+            boolean add = !news.isUserLike();
+            int accountId = getAccountId();
 
             appendDisposable(walls.like(accountId, news.getSourceId(), news.getPostId(), add)
                     .compose(RxUtils.applySingleIOToMainSchedulers())

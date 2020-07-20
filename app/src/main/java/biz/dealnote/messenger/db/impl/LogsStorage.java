@@ -3,6 +3,7 @@ package biz.dealnote.messenger.db.impl;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import io.reactivex.Single;
 
 public class LogsStorage implements ILogsStorage {
 
-    private static final String[] PROJECTION = {LogColumns._ID, LogColumns.TYPE, LogColumns.DATE, LogColumns.TAG, LogColumns.BODY};
+    private static final String[] PROJECTION = {BaseColumns._ID, LogColumns.TYPE, LogColumns.DATE, LogColumns.TAG, LogColumns.BODY};
     private final Context context;
 
     public LogsStorage(Context context) {
@@ -24,7 +25,7 @@ public class LogsStorage implements ILogsStorage {
     }
 
     private static LogEvent map(Cursor cursor) {
-        return new LogEvent(cursor.getInt(cursor.getColumnIndex(LogColumns._ID)))
+        return new LogEvent(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)))
                 .setType(cursor.getInt(cursor.getColumnIndex(LogColumns.TYPE)))
                 .setDate(cursor.getLong(cursor.getColumnIndex(LogColumns.DATE)))
                 .setTag(cursor.getString(cursor.getColumnIndex(LogColumns.TAG)))
@@ -64,7 +65,7 @@ public class LogsStorage implements ILogsStorage {
     public Single<List<LogEvent>> getAll(int type) {
         return Single.fromCallable(() -> {
             Cursor cursor = helper().getReadableDatabase().query(LogColumns.TABLENAME, PROJECTION, LogColumns.TYPE + " = ?",
-                    new String[]{String.valueOf(type)}, null, null, LogColumns._ID + " DESC");
+                    new String[]{String.valueOf(type)}, null, null, BaseColumns._ID + " DESC");
 
             List<LogEvent> data = new ArrayList<>(cursor.getCount());
             while (cursor.moveToNext()) {

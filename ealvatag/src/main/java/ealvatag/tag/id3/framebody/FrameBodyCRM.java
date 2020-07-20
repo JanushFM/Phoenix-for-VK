@@ -81,9 +81,9 @@ public class FrameBodyCRM extends AbstractID3v2FrameBody implements ID3v22FrameB
      * @param data
      */
     public FrameBodyCRM(String owner, String description, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_OWNER, owner);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
-        this.setObjectValue(DataTypes.OBJ_ENCRYPTED_DATABLOCK, data);
+        setObjectValue(DataTypes.OBJ_OWNER, owner);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
+        setObjectValue(DataTypes.OBJ_ENCRYPTED_DATABLOCK, data);
     }
 
     /**

@@ -27,7 +27,7 @@ public class AudiosSearchPresenter extends AbsSearchPresenter<IAudioSearchView, 
 
     public AudiosSearchPresenter(int accountId, @Nullable AudioSearchCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
+        audioInteractor = InteractorFactory.createAudioInteractor();
     }
 
     @Override
@@ -50,7 +50,7 @@ public class AudiosSearchPresenter extends AbsSearchPresenter<IAudioSearchView, 
 
     @Override
     Single<Pair<List<Audio>, IntNextFrom>> doSearch(int accountId, AudioSearchCriteria criteria, IntNextFrom startFrom) {
-        final IntNextFrom nextFrom = new IntNextFrom(startFrom.getOffset() + 50);
+        IntNextFrom nextFrom = new IntNextFrom(startFrom.getOffset() + 50);
         return audioInteractor.search(accountId, criteria, startFrom.getOffset())
                 .map(audio -> Pair.Companion.create(audio, nextFrom));
     }
@@ -83,7 +83,7 @@ public class AudiosSearchPresenter extends AbsSearchPresenter<IAudioSearchView, 
     public int getAudioPos(Audio audio) {
         if (!Utils.isEmpty(data) && audio != null) {
             int pos = 0;
-            for (final Audio i : data) {
+            for (Audio i : data) {
                 if (i.getId() == audio.getId() && i.getOwnerId() == audio.getOwnerId()) {
                     i.setAnimationNow(true);
                     callView(IAudioSearchView::notifyDataSetChanged);

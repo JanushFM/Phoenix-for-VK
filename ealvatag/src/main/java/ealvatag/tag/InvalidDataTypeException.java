@@ -22,7 +22,7 @@ import java.util.Locale;
 public class InvalidDataTypeException extends InvalidTagException {
     private static final long serialVersionUID = -7361525721486799573L;
 
-    public InvalidDataTypeException(final Throwable cause, final String message) {
+    public InvalidDataTypeException(Throwable cause, String message) {
         super(message, cause);
     }
 

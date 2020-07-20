@@ -33,10 +33,10 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
 
     public AnswerVKOfficialPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.pages = new AnswerVKOfficialList();
-        this.pages.fields = new ArrayList<>();
-        this.pages.items = new ArrayList<>();
-        this.fInteractor = InteractorFactory.createFeedbackInteractor();
+        pages = new AnswerVKOfficialList();
+        pages.fields = new ArrayList<>();
+        pages.items = new ArrayList<>();
+        fInteractor = InteractorFactory.createFeedbackInteractor();
 
         loadActualData(0);
     }
@@ -44,22 +44,22 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
     @Override
     public void onGuiCreated(@NonNull IAnswerVKOfficialView view) {
         super.onGuiCreated(view);
-        view.displayData(this.pages);
+        view.displayData(pages);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getOfficial(accountId, 100, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
     }
 
     private void safelyMarkAsViewed() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         if (Settings.get().accounts().getType(accountId).equals("hacked"))
             return;
 
@@ -69,7 +69,7 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -77,22 +77,22 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
 
     private void onActualDataReceived(int offset, AnswerVKOfficialList data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = (data.items.size() < 100);
-        this.actualDataReceived = true;
+        actualDataLoading = false;
+        endOfContent = (data.items.size() < 100);
+        actualDataReceived = true;
 
         if (offset == 0) {
             safelyMarkAsViewed();
-            this.pages.items.clear();
-            this.pages.fields.clear();
-            this.pages.items.addAll(data.items);
-            this.pages.fields.addAll(data.fields);
+            pages.items.clear();
+            pages.fields.clear();
+            pages.items.addAll(data.items);
+            pages.fields.addAll(data.fields);
             callView(IAnswerVKOfficialView::notifyDataSetChanged);
         } else {
-            int startSize = this.pages.items.size();
+            int startSize = pages.items.size();
 
-            this.pages.items.addAll(data.items);
-            this.pages.fields.addAll(data.fields);
+            pages.items.addAll(data.items);
+            pages.fields.addAll(data.fields);
             callView(view -> view.notifyDataAdded(startSize, data.items.size()));
         }
 
@@ -119,7 +119,7 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
 
     public boolean fireScrollToEnd() {
         if (!endOfContent && nonEmpty(pages.items) && actualDataReceived && !actualDataLoading) {
-            loadActualData(this.pages.items.size());
+            loadActualData(pages.items.size());
             return false;
         }
         return true;
@@ -127,8 +127,8 @@ public class AnswerVKOfficialPresenter extends AccountDependencyPresenter<IAnswe
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }

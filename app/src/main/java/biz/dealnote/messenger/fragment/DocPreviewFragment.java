@@ -16,6 +16,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Collections;
@@ -61,7 +62,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     private TextView tvTitle;
     private TextView tvSubtitle;
     private boolean mLoadingNow;
-    private boolean deleted = false;
+    private boolean deleted;
     private IDocsInteractor docsInteractor;
 
     public static Bundle buildArgs(int accountId, int docId, int docOwnerId, @Nullable Document document) {
@@ -88,18 +89,18 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        this.accountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.docsInteractor = InteractorFactory.createDocsInteractor();
+        accountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        docsInteractor = InteractorFactory.createDocsInteractor();
 
         if (savedInstanceState != null) {
             restoreFromInstanceState(savedInstanceState);
         }
 
-        this.ownerId = getArguments().getInt(Extra.OWNER_ID);
-        this.documentId = getArguments().getInt(Extra.DOC_ID);
+        ownerId = getArguments().getInt(Extra.OWNER_ID);
+        documentId = getArguments().getInt(Extra.DOC_ID);
 
         if (getArguments().containsKey(Extra.DOC)) {
-            this.document = getArguments().getParcelable(Extra.DOC);
+            document = getArguments().getParcelable(Extra.DOC);
         }
     }
 
@@ -200,19 +201,19 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     }
 
     private void requestVideoInfo() {
-        this.mLoadingNow = true;
+        mLoadingNow = true;
         appendDisposable(docsInteractor.findById(accountId, ownerId, documentId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onDocumentInfoReceived, this::onDocumentInfoGetError));
     }
 
     private void onDocumentInfoGetError(Throwable t) {
-        this.mLoadingNow = false;
+        mLoadingNow = false;
         // TODO: 06.10.2017
     }
 
     private void onDocumentInfoReceived(Document document) {
-        this.mLoadingNow = false;
+        mLoadingNow = false;
         this.document = document;
 
         getArguments().putParcelable(Extra.DOC, document);
@@ -251,7 +252,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     }
 
     private void restoreFromInstanceState(Bundle state) {
-        this.deleted = state.getBoolean(SAVE_DELETED);
+        deleted = state.getBoolean(SAVE_DELETED);
     }
 
     @Override
@@ -282,7 +283,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
 
     private void onDeleteSuccess() {
         if (nonNull(rootView)) {
-            Snackbar.make(rootView, R.string.deleted, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootView, R.string.deleted, BaseTransientBottomBar.LENGTH_LONG).show();
         }
 
         deleted = true;
@@ -299,7 +300,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     }
 
     private void share() {
-        String[] items = new String[]{
+        String[] items = {
                 getString(R.string.share_link),
                 getString(R.string.repost_send_message),
                 getString(R.string.repost_to_wall)
@@ -358,7 +359,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     private void doAddYourSelf() {
         IDocsInteractor docsInteractor = InteractorFactory.createDocsInteractor();
 
-        final String accessKey = nonNull(document) ? document.getAccessKey() : null;
+        String accessKey = nonNull(document) ? document.getAccessKey() : null;
 
         appendDisposable(docsInteractor.add(accountId, documentId, ownerId, accessKey)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -371,7 +372,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
 
     private void onDocumentAdded() {
         if (nonNull(rootView)) {
-            Snackbar.make(rootView, R.string.added, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootView, R.string.added, BaseTransientBottomBar.LENGTH_LONG).show();
         }
 
         deleted = false;

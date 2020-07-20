@@ -30,9 +30,9 @@ public class VkApiUploadServer implements Parcelable, UploadServer {
     public int user_id;
 
     protected VkApiUploadServer(Parcel in) {
-        this.upload_url = in.readString();
-        this.album_id = in.readInt();
-        this.user_id = in.readInt();
+        upload_url = in.readString();
+        album_id = in.readInt();
+        user_id = in.readInt();
     }
 
     public VkApiUploadServer() {

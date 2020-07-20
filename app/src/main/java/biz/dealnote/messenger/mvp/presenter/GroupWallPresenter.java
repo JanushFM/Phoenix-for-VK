@@ -73,7 +73,7 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     @OnGuiCreated
     private void resolveBaseCommunityViews() {
         if (isGuiReady()) {
-            getView().displayBaseCommunityData(this.community, this.details);
+            getView().displayBaseCommunityData(community, details);
         }
     }
 
@@ -87,7 +87,7 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     private void refreshInfo() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(ownersRepository.getFullCommunityInfo(accountId, Math.abs(ownerId), IOwnersRepository.MODE_CACHE)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(pair -> {
@@ -97,7 +97,7 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     private void requestActualFullInfo() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(ownersRepository.getFullCommunityInfo(accountId, Math.abs(ownerId), IOwnersRepository.MODE_NET)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(pair -> onFullInfoReceived(pair.getFirst(), pair.getSecond()), this::onDetailsGetError));
@@ -195,8 +195,8 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     private void leaveCommunity() {
-        final int accountid = super.getAccountId();
-        final int groupId = Math.abs(ownerId);
+        int accountid = getAccountId();
+        int groupId = Math.abs(ownerId);
 
         appendDisposable(communitiesInteractor.leave(accountid, groupId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -204,8 +204,8 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     private void joinCommunity() {
-        final int accountid = super.getAccountId();
-        final int groupId = Math.abs(ownerId);
+        int accountid = getAccountId();
+        int groupId = Math.abs(ownerId);
 
         appendDisposable(communitiesInteractor.join(accountid, groupId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -448,14 +448,14 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
         if (Utils.nonEmpty(settings.getAccessToken(ownerId))) {
             openCommunityMessages();
         } else {
-            final int groupId = Math.abs(ownerId);
+            int groupId = Math.abs(ownerId);
             getView().startLoginCommunityActivity(groupId);
         }
     }
 
     private void openCommunityMessages() {
-        final int groupId = Math.abs(ownerId);
-        final int accountId = super.getAccountId();
+        int groupId = Math.abs(ownerId);
+        int accountId = getAccountId();
         String subtitle = community.getFullName();
 
         callView(v -> v.openCommunityDialogs(accountId, groupId, subtitle));
@@ -473,7 +473,7 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     public void fireAddToBookmarksClick() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(faveInteractor.addPage(accountId, ownerId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -489,8 +489,8 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
     }
 
     public void fireChatClick() {
-        final Peer peer = new Peer(ownerId).setTitle(community.getFullName()).setAvaUrl(community.getMaxSquareAvatar());
-        final int accountId = super.getAccountId();
+        Peer peer = new Peer(ownerId).setTitle(community.getFullName()).setAvaUrl(community.getMaxSquareAvatar());
+        int accountId = getAccountId();
         getView().openChatWith(accountId, accountId, peer);
     }
 

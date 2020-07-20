@@ -75,18 +75,18 @@ public class CircleRoadProgress extends View {
     }
 
     private void drawRoad(Canvas canvas) {
-        CircleRoadProgress.PAINT.setDither(true);
-        CircleRoadProgress.PAINT.setColor(roadColor);
-        CircleRoadProgress.PAINT.setStyle(Paint.Style.STROKE);
-        CircleRoadProgress.PAINT.setStrokeWidth(roadStrokeWidth);
-        CircleRoadProgress.PAINT.setStrokeCap(Paint.Cap.ROUND);
-        CircleRoadProgress.PAINT.setStrokeJoin(Paint.Join.ROUND);
-        canvas.drawCircle(circleCenterPointX, circleCenterPointY, roadRadius, CircleRoadProgress.PAINT);
+        PAINT.setDither(true);
+        PAINT.setColor(roadColor);
+        PAINT.setStyle(Paint.Style.STROKE);
+        PAINT.setStrokeWidth(roadStrokeWidth);
+        PAINT.setStrokeCap(Paint.Cap.ROUND);
+        PAINT.setStrokeJoin(Paint.Join.ROUND);
+        canvas.drawCircle(circleCenterPointX, circleCenterPointY, roadRadius, PAINT);
     }
 
     private void drawArcLoading(Canvas canvas) {
-        CircleRoadProgress.PAINT.setColor(arcLoadingColor);
-        CircleRoadProgress.PAINT.setStrokeWidth(arcLoadingStrokeWidth);
+        PAINT.setColor(arcLoadingColor);
+        PAINT.setStrokeWidth(arcLoadingStrokeWidth);
 
         float delta = circleCenterPointX - roadRadius;
         float arcSize = (circleCenterPointX - (delta / 2f)) * 2f;
@@ -94,11 +94,11 @@ public class CircleRoadProgress extends View {
         RectF box = new RectF(delta, delta, arcSize, arcSize);
         //float sweep = 360 * percent * 0.01f;
         float sweep = 360 * displayedPercentage * 0.01f;
-        canvas.drawArc(box, arcLoadingStartAngle, sweep, false, CircleRoadProgress.PAINT);
+        canvas.drawArc(box, arcLoadingStartAngle, sweep, false, PAINT);
     }
 
     public void changePercentage(int percent) {
-        this.displayedPercentage = percent;
+        displayedPercentage = percent;
 
         invalidate();
     }

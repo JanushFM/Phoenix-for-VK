@@ -56,7 +56,7 @@ public class ChatAttachmentAudioPresenter extends BaseChatAttachmentsPresenter<A
 
     @SuppressWarnings("unused")
     public void fireAudioPlayClick(int position, Audio audio) {
-        super.fireAudioPlayClick(position, new ArrayList<>(data));
+        fireAudioPlayClick(position, new ArrayList<>(data));
     }
 
     @OnGuiCreated

@@ -25,7 +25,6 @@ import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.mvp.presenter.base.PlaceSupportPresenter;
 import biz.dealnote.messenger.mvp.view.IWallPostView;
 import biz.dealnote.messenger.util.AssertUtils;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
 import io.reactivex.Completable;
@@ -58,9 +57,9 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
         super(accountId, savedInstanceState);
         this.postId = postId;
         this.ownerId = ownerId;
-        this.ownersRepository = Repository.INSTANCE.getOwners();
-        this.wallInteractor = Repository.INSTANCE.getWalls();
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
+        ownersRepository = Repository.INSTANCE.getOwners();
+        wallInteractor = Repository.INSTANCE.getWalls();
+        faveInteractor = InteractorFactory.createFaveInteractor();
 
         this.context = context;
 
@@ -101,33 +100,33 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     }
 
     private void onPostUpdate(PostUpdate update) {
-        if (isNull(this.post)) {
+        if (isNull(post)) {
             return;
         }
 
         if (nonNull(update.getLikeUpdate())) {
-            this.post.setLikesCount(update.getLikeUpdate().getCount());
+            post.setLikesCount(update.getLikeUpdate().getCount());
 
             if (update.getAccountId() == getAccountId()) {
-                this.post.setUserLikes(update.getLikeUpdate().isLiked());
+                post.setUserLikes(update.getLikeUpdate().isLiked());
             }
 
             resolveLikesView();
         }
 
         if (nonNull(update.getPinUpdate())) {
-            this.post.setPinned(update.getPinUpdate().isPinned());
+            post.setPinned(update.getPinUpdate().isPinned());
         }
 
         if (nonNull(update.getDeleteUpdate())) {
-            this.post.setDeleted(update.getDeleteUpdate().isDeleted());
+            post.setDeleted(update.getDeleteUpdate().isDeleted());
             resolveContentRootView();
         }
     }
 
     private void loadOwnerInfoIfNeed() {
         if (isNull(owner)) {
-            final int accountId = super.getAccountId();
+            int accountId = getAccountId();
             appendDisposable(ownersRepository.getBaseOwnerInfo(accountId, ownerId, IOwnersRepository.MODE_NET)
                     .compose(RxUtils.applySingleIOToMainSchedulers())
                     .subscribe(this::onOwnerInfoReceived, RxUtils.ignore()));
@@ -148,7 +147,7 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
             return;
         }
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingPostNow(true);
 
@@ -224,11 +223,11 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     }
 
     private boolean canDelete() {
-        if (Objects.isNull(post) || post.isDeleted()) {
+        if (isNull(post) || post.isDeleted()) {
             return false;
         }
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         boolean canDeleteAsAdmin = owner instanceof Community && ((Community) owner).isAdmin();
         boolean canDeleteAsOwner = ownerId == accountId || post.getAuthorId() == accountId;
@@ -236,7 +235,7 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     }
 
     public void fireGoToOwnerClick() {
-        super.fireOwnerClick(ownerId);
+        fireOwnerClick(ownerId);
     }
 
     public void firePostEditClick() {
@@ -249,7 +248,7 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     }
 
     public void fireCommentClick() {
-        final Commented commented = new Commented(postId, ownerId, CommentedType.POST, null);
+        Commented commented = new Commented(postId, ownerId, CommentedType.POST, null);
         getView().openComments(getAccountId(), commented, null);
     }
 
@@ -303,7 +302,7 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     }
 
     private void deleteOrRestore(boolean delete) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         Completable completable = delete ? wallInteractor.delete(accountId, ownerId, postId)
                 : wallInteractor.restore(accountId, ownerId, postId);
@@ -326,7 +325,7 @@ public class WallPostPresenter extends PlaceSupportPresenter<IWallPostView> {
     }
 
     private void pinOrUnpin(boolean pin) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(wallInteractor.pinUnpin(accountId, ownerId, postId, pin)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())

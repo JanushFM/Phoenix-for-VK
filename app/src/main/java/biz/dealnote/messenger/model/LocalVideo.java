@@ -35,13 +35,13 @@ public class LocalVideo implements Parcelable, Comparable<LocalVideo>, ISelectab
     }
 
     public LocalVideo(Parcel in) {
-        this.id = in.readLong();
-        this.data = Uri.parse(in.readString());
-        this.selected = in.readInt() == 1;
-        this.index = in.readInt();
-        this.size = in.readLong();
-        this.duration = in.readInt();
-        this.title = in.readString();
+        id = in.readLong();
+        data = Uri.parse(in.readString());
+        selected = in.readInt() == 1;
+        index = in.readInt();
+        size = in.readLong();
+        duration = in.readInt();
+        title = in.readString();
     }
 
     public static Uri buildUriForPicasso(long id) {
@@ -110,7 +110,7 @@ public class LocalVideo implements Parcelable, Comparable<LocalVideo>, ISelectab
 
     @Override
     public int compareTo(@NonNull LocalVideo another) {
-        return this.index - another.index;
+        return index - another.index;
     }
 
     @Override

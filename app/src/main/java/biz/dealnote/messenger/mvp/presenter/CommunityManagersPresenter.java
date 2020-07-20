@@ -42,9 +42,9 @@ public class CommunityManagersPresenter extends AccountDependencyPresenter<IComm
 
     public CommunityManagersPresenter(int accountId, Community groupId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.interactor = new GroupSettingsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores().owners(), Repository.INSTANCE.getOwners());
+        interactor = new GroupSettingsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores().owners(), Repository.INSTANCE.getOwners());
         this.groupId = groupId;
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
 
         appendDisposable(Injection.provideStores()
                 .owners()
@@ -86,7 +86,7 @@ public class CommunityManagersPresenter extends AccountDependencyPresenter<IComm
     }
 
     private void onContactsReceived(List<ContactInfo> contacts) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         List<Integer> Ids = new ArrayList<>(contacts.size());
         for (ContactInfo it : contacts)
             Ids.add(it.getUserId());
@@ -108,14 +108,14 @@ public class CommunityManagersPresenter extends AccountDependencyPresenter<IComm
     }
 
     private void requestContacts() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(interactor.getContacts(accountId, groupId.getId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onContactsReceived, this::onRequestError));
     }
 
     private void requestData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingNow(true);
         if (groupId.getAdminLevel() < VKApiCommunity.AdminLevel.ADMIN) {
@@ -158,8 +158,8 @@ public class CommunityManagersPresenter extends AccountDependencyPresenter<IComm
     private void onDataReceived(List<Manager> managers) {
         setLoadingNow(false);
 
-        this.data.clear();
-        this.data.addAll(managers);
+        data.clear();
+        data.addAll(managers);
 
         callView(ICommunityManagersView::notifyDataSetChanged);
     }
@@ -173,8 +173,8 @@ public class CommunityManagersPresenter extends AccountDependencyPresenter<IComm
     }
 
     public void fireRemoveClick(Manager manager) {
-        final int accountId = super.getAccountId();
-        final User user = manager.getUser();
+        int accountId = getAccountId();
+        User user = manager.getUser();
 
         appendDisposable(interactor.editManager(accountId, groupId.getId(), user, null, false, null, null, null)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())

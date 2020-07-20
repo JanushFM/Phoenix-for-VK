@@ -37,8 +37,8 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.Holder> 
 
     public AccountAdapter(Context context, List<Account> items, Callback callback) {
         this.context = context;
-        this.data = items;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        data = items;
+        transformation = CurrentTheme.createTransformationForAvatar(context);
         this.callback = callback;
     }
 
@@ -56,7 +56,7 @@ public class AccountAdapter extends RecyclerView.Adapter<AccountAdapter.Holder> 
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NotNull Holder holder, int position) {
-        final Account account = data.get(position);
+        Account account = data.get(position);
 
         Owner owner = account.getOwner();
 

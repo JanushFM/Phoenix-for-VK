@@ -54,7 +54,7 @@ public class AttchmentsEditorAdapter extends RecyclerBindableAdapter<AttachmenEn
         super(items);
         this.context = context;
         this.callback = callback;
-        this.sharedHolders = new SharedHolders<>(false);
+        sharedHolders = new SharedHolders<>(false);
     }
 
     private static int generateNextHolderId() {
@@ -64,7 +64,7 @@ public class AttchmentsEditorAdapter extends RecyclerBindableAdapter<AttachmenEn
 
     @Override
     protected void onBindItemViewHolder(ViewHolder holder, int position, int type) {
-        final AttachmenEntry attachment = getItem(position);
+        AttachmenEntry attachment = getItem(position);
 
         sharedHolders.put(attachment.getId(), holder);
 

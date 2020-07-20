@@ -52,7 +52,7 @@ public class BooleanByte extends AbstractDataType {
 
         BooleanByte object = (BooleanByte) obj;
 
-        return this.bitPosition == object.bitPosition && super.equals(obj);
+        return bitPosition == object.bitPosition && super.equals(obj);
 
     }
 
@@ -69,15 +69,15 @@ public class BooleanByte extends AbstractDataType {
 
         newValue >>= bitPosition;
         newValue &= 0x1;
-        this.value = newValue == 1;
+        value = newValue == 1;
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         byte newValue = buffer.readByte();
         newValue >>= bitPosition;
         newValue &= 0x1;
-        this.value = newValue == 1;
+        value = newValue == 1;
     }
 
     public String toString() {

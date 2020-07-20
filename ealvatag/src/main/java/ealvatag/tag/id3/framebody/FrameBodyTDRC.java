@@ -85,14 +85,13 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
     private String year = "";
     private String time = "";
     private String date = "";
-    private boolean monthOnly = false;
-    private boolean hoursOnly = false;
+    private boolean monthOnly;
+    private boolean hoursOnly;
 
     /**
      * Creates a new FrameBodyTDRC datatype.
      */
     public FrameBodyTDRC() {
-        super();
     }
 
     public FrameBodyTDRC(FrameBodyTDRC body) {
@@ -224,7 +223,7 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
     public String getFormattedText() {
         StringBuilder sb = new StringBuilder();
         if (originalID == null) {
-            return this.getText();
+            return getText();
         } else {
             if (year != null && !(year.trim().isEmpty())) {
                 sb.append(formatAndParse(formatYearOut, formatYearIn, year));
@@ -300,7 +299,7 @@ public class FrameBodyTDRC extends AbstractFrameBodyTextInfo implements ID3v24Fr
      */
     //TODO currently if user has entered Year and Month, we only store in v23, should we store month with
     //first day
-    private void extractID3v23Formats(final Date dateRecord, final int precision) {
+    private void extractID3v23Formats(Date dateRecord, int precision) {
 
         //Precision Year
         if (precision == PRECISION_YEAR) {

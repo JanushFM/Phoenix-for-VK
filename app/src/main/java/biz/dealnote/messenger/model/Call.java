@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class Call extends AbsModel implements Parcelable {
+public class Call extends AbsModel {
 
     public static final Creator<Call> CREATOR = new Creator<Call>() {
         @Override

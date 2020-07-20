@@ -16,9 +16,9 @@ public class FirebaseSessionIdGenerator implements ISessionIdGenerator {
 
     @Override
     public Single<Long> generateNextId() {
-        final FirebaseDatabase database = FirebaseDatabase.getInstance("https://phoenix-v.firebaseio.com/");
-        final DatabaseReference ref = database.getReference();
-        final DatabaseReference databaseCounter = ref.child("key_exchange_session_counter");
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://phoenix-v.firebaseio.com/");
+        DatabaseReference ref = database.getReference();
+        DatabaseReference databaseCounter = ref.child("key_exchange_session_counter");
 
         //https://stackoverflow.com/questions/28915706/auto-increment-a-value-in-firebase
         return Single.create(emitter -> databaseCounter.runTransaction(new Transaction.Handler() {
@@ -27,7 +27,7 @@ public class FirebaseSessionIdGenerator implements ISessionIdGenerator {
 
             @NotNull
             @Override
-            public Transaction.Result doTransaction(@NotNull final MutableData currentData) {
+            public Transaction.Result doTransaction(@NotNull MutableData currentData) {
                 if (currentData.getValue() == null) {
                     nextValue = 1;
                 } else {

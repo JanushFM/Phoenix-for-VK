@@ -3,6 +3,7 @@ package biz.dealnote.messenger.db.impl;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
@@ -22,13 +23,13 @@ import static biz.dealnote.messenger.util.Utils.safeCountOf;
 
 class LocalMediaStorage extends AbsStorage implements ILocalMediaStorage {
 
-    private static final String[] PROJECTION = {MediaStore.Images.Media._ID, MediaStore.Images.Media.DATA};
+    private static final String[] PROJECTION = {BaseColumns._ID, MediaStore.MediaColumns.DATA};
     private static final String[] VIDEO_PROJECTION = {
-            MediaStore.Video.Media._ID,
-            MediaStore.Video.Media.DATA,
-            MediaStore.Video.Media.DURATION,
-            MediaStore.Video.Media.SIZE,
-            MediaStore.Video.Media.TITLE
+            BaseColumns._ID,
+            MediaStore.MediaColumns.DATA,
+            MediaStore.MediaColumns.DURATION,
+            MediaStore.MediaColumns.SIZE,
+            MediaStore.MediaColumns.TITLE
     };
 
     LocalMediaStorage(@NonNull AppStorages mRepositoryContext) {
@@ -36,18 +37,18 @@ class LocalMediaStorage extends AbsStorage implements ILocalMediaStorage {
     }
 
     private static LocalVideo mapVideo(Cursor cursor) {
-        String data = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
-        return new LocalVideo(cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media._ID)), Uri.parse(data))
-                .setDuration(cursor.getInt(cursor.getColumnIndex(MediaStore.Video.Media.DURATION)))
-                .setSize(cursor.getLong(cursor.getColumnIndex(MediaStore.Video.Media.SIZE)))
-                .setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE)));
+        String data = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+        return new LocalVideo(cursor.getLong(cursor.getColumnIndex(BaseColumns._ID)), Uri.parse(data))
+                .setDuration(cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns.DURATION)))
+                .setSize(cursor.getLong(cursor.getColumnIndex(MediaStore.MediaColumns.SIZE)))
+                .setTitle(cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.TITLE)));
     }
 
     @Override
     public Single<List<LocalVideo>> getVideos() {
         return Single.create(e -> {
             Cursor cursor = getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                    VIDEO_PROJECTION, null, null, MediaStore.Video.Media.DATE_MODIFIED + " DESC");
+                    VIDEO_PROJECTION, null, null, MediaStore.MediaColumns.DATE_MODIFIED + " DESC");
 
             ArrayList<LocalVideo> data = new ArrayList<>(safeCountOf(cursor));
             if (Objects.nonNull(cursor)) {
@@ -71,17 +72,17 @@ class LocalMediaStorage extends AbsStorage implements ILocalMediaStorage {
     public Single<List<LocalPhoto>> getPhotos(long albumId) {
         return Single.create(e -> {
             Cursor cursor = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    PROJECTION, MediaStore.Images.Media.BUCKET_ID + " = ?",
+                    PROJECTION, MediaStore.MediaColumns.BUCKET_ID + " = ?",
                     new String[]{String.valueOf(albumId)},
-                    MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC");
+                    MediaStore.MediaColumns.DATE_MODIFIED + " DESC");
 
             ArrayList<LocalPhoto> result = new ArrayList<>(safeCountOf(cursor));
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     if (e.isDisposed()) break;
 
-                    long imageId = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID));
-                    String data = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    long imageId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
+                    String data = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
 
                     result.add(new LocalPhoto()
                             .setImageId(imageId)
@@ -100,15 +101,15 @@ class LocalMediaStorage extends AbsStorage implements ILocalMediaStorage {
         return Single.create(e -> {
             Cursor cursor = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                     PROJECTION, null, null,
-                    MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC");
+                    MediaStore.MediaColumns.DATE_MODIFIED + " DESC");
 
             ArrayList<LocalPhoto> result = new ArrayList<>(safeCountOf(cursor));
             if (cursor != null) {
                 while (cursor.moveToNext()) {
                     if (e.isDisposed()) break;
 
-                    long imageId = cursor.getLong(cursor.getColumnIndex(MediaStore.Images.Media._ID));
-                    String data = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+                    long imageId = cursor.getLong(cursor.getColumnIndex(BaseColumns._ID));
+                    String data = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
 
                     result.add(new LocalPhoto()
                             .setImageId(imageId)
@@ -135,14 +136,14 @@ class LocalMediaStorage extends AbsStorage implements ILocalMediaStorage {
     @Override
     public Single<List<LocalImageAlbum>> getImageAlbums() {
         return Single.create(e -> {
-            final String album = MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME;
-            final String albumId = MediaStore.Images.ImageColumns.BUCKET_ID;
-            final String data = MediaStore.Images.ImageColumns.DATA;
-            final String coverId = MediaStore.Images.ImageColumns._ID;
-            String[] projection = new String[]{album, albumId, data, coverId};
+            final String album = MediaStore.MediaColumns.BUCKET_DISPLAY_NAME;
+            final String albumId = MediaStore.MediaColumns.BUCKET_ID;
+            final String data = MediaStore.MediaColumns.DATA;
+            final String coverId = BaseColumns._ID;
+            String[] projection = {album, albumId, data, coverId};
 
             Cursor cursor = getContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                    projection, null, null, MediaStore.Images.ImageColumns.DATE_MODIFIED + " DESC");
+                    projection, null, null, MediaStore.MediaColumns.DATE_MODIFIED + " DESC");
 
             List<LocalImageAlbum> albums = new ArrayList<>(safeCountOf(cursor));
 

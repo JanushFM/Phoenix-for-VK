@@ -43,14 +43,14 @@ public enum NetworkPolicy {
     }
 
     public static boolean shouldReadFromDiskCache(int networkPolicy) {
-        return (networkPolicy & NetworkPolicy.NO_CACHE.index) == 0;
+        return (networkPolicy & NO_CACHE.index) == 0;
     }
 
     public static boolean shouldWriteToDiskCache(int networkPolicy) {
-        return (networkPolicy & NetworkPolicy.NO_STORE.index) == 0;
+        return (networkPolicy & NO_STORE.index) == 0;
     }
 
     public static boolean isOfflineOnly(int networkPolicy) {
-        return (networkPolicy & NetworkPolicy.OFFLINE.index) != 0;
+        return (networkPolicy & OFFLINE.index) != 0;
     }
 }

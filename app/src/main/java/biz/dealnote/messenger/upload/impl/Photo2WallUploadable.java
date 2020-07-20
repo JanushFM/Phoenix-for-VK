@@ -44,9 +44,9 @@ public class Photo2WallUploadable implements IUploadable<Photo> {
     @Override
     public Single<UploadResult<Photo>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
         int subjectOwnerId = upload.getDestination().getOwnerId();
-        final Integer userId = subjectOwnerId > 0 ? subjectOwnerId : null;
-        final Integer groupId = subjectOwnerId < 0 ? Math.abs(subjectOwnerId) : null;
-        final int accountId = upload.getAccountId();
+        Integer userId = subjectOwnerId > 0 ? subjectOwnerId : null;
+        Integer groupId = subjectOwnerId < 0 ? Math.abs(subjectOwnerId) : null;
+        int accountId = upload.getAccountId();
 
         Single<UploadServer> serverSingle;
         if (Objects.nonNull(initialServer)) {
@@ -59,7 +59,7 @@ public class Photo2WallUploadable implements IUploadable<Photo> {
         }
 
         return serverSingle.flatMap(server -> {
-            final InputStream[] is = new InputStream[1];
+            InputStream[] is = new InputStream[1];
 
             try {
                 is[0] = UploadUtils.openStream(context, upload.getFileUri(), upload.getSize());

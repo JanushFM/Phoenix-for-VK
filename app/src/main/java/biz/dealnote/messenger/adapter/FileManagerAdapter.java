@@ -34,7 +34,7 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
 
     public FileManagerAdapter(Context context, List<FileItem> data) {
         this.data = data;
-        this.mContext = context;
+        mContext = context;
     }
 
     @NotNull
@@ -45,7 +45,7 @@ public class FileManagerAdapter extends RecyclerView.Adapter<FileManagerAdapter.
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final FileItem item = data.get(position);
+        FileItem item = data.get(position);
         holder.icon.setBackgroundResource(item.icon);
         if (!item.directory) {
             PicassoInstance.with()

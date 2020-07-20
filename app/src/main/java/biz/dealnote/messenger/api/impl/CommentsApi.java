@@ -16,7 +16,7 @@ class CommentsApi extends AbsApi implements ICommentsApi {
     @Override
     public Single<CustomCommentsResponse> get(String sourceType, int ownerId, int sourceId, Integer offset,
                                               Integer count, String sort, Integer startCommentId, Integer threadComment, String accessKey, String fields) {
-        final int thread_id = threadComment != null ? threadComment : 0;
+        int thread_id = threadComment != null ? threadComment : 0;
         return provideService(ICommentsService.class)
                 .flatMap(service -> service
                         .get("var comment_id = Args.comment_id;\n" +

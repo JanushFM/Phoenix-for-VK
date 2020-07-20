@@ -1,11 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-import biz.dealnote.messenger.api.model.Identificable;
-
-public class PhotoAlbum extends AbsModel implements Parcelable, Identificable, ISomeones {
+public class PhotoAlbum extends AbsModel implements ISomeones {
 
     public static final Creator<PhotoAlbum> CREATOR = new Creator<PhotoAlbum>() {
         @Override

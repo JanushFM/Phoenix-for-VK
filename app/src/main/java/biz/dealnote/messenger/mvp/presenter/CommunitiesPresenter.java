@@ -18,7 +18,6 @@ import biz.dealnote.messenger.mvp.view.ICommunitiesView;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Translit;
-import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
@@ -52,17 +51,17 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     public CommunitiesPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.userId = userId;
-        this.communitiesInteractor = InteractorFactory.createCommunitiesInteractor();
+        communitiesInteractor = InteractorFactory.createCommunitiesInteractor();
 
-        this.own = new DataWrapper<>(new ArrayList<>(), true);
-        this.filtered = new DataWrapper<>(new ArrayList<>(0), false);
-        this.search = new DataWrapper<>(new ArrayList<>(0), false);
+        own = new DataWrapper<>(new ArrayList<>(), true);
+        filtered = new DataWrapper<>(new ArrayList<>(0), false);
+        search = new DataWrapper<>(new ArrayList<>(0), false);
 
         loadCachedData();
         requestActualData(0);
     }
 
-    private static Single<List<Community>> filter(final List<Community> orig, final String filter) {
+    private static Single<List<Community>> filter(List<Community> orig, String filter) {
         return Single.create(emitter -> {
             List<Community> result = new ArrayList<>(5);
 
@@ -114,10 +113,10 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     }
 
     private void requestActualData(int offset) {
-        this.actualLoadingNow = true;
+        actualLoadingNow = true;
         //this.actualLoadingOffset = offset;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         resolveRefreshing();
         actualDisposable.add(communitiesInteractor.getActual(accountId, userId, 1000, offset)
@@ -139,7 +138,7 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     //private int netSearchOffset;
 
     private void onActualDataGetError(Throwable t) {
-        this.actualLoadingNow = false;
+        actualLoadingNow = false;
 
         resolveRefreshing();
         showError(getView(), t);
@@ -153,19 +152,19 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
 
     private void onActualDataReceived(int offset, List<Community> communities) {
         //reset cache loading
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.actualLoadingNow = false;
-        this.actualEndOfContent = communities.isEmpty();
+        actualLoadingNow = false;
+        actualEndOfContent = communities.isEmpty();
 
         if (offset == 0) {
-            this.own.get().clear();
-            this.own.get().addAll(communities);
+            own.get().clear();
+            own.get().addAll(communities);
             callView(ICommunitiesView::notifyDataSetChanged);
         } else {
-            int startOwnSize = this.own.size();
-            this.own.get().addAll(communities);
+            int startOwnSize = own.size();
+            own.get().addAll(communities);
             callView(view -> view.notifyOwnDataAdded(startOwnSize, communities.size()));
         }
 
@@ -173,9 +172,9 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     }
 
     private void loadCachedData() {
-        this.cacheLoadingNow = true;
+        cacheLoadingNow = true;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         cacheDisposable.add(communitiesInteractor.getCachedData(accountId, userId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived));
@@ -186,22 +185,22 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     }
 
     private void onCachedDataReceived(List<Community> communities) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
-        this.own.get().clear();
-        this.own.get().addAll(communities);
+        own.get().clear();
+        own.get().addAll(communities);
         callView(ICommunitiesView::notifyDataSetChanged);
     }
 
     public void fireSearchQueryChanged(String query) {
         if (!Objects.safeEquals(filter, query)) {
-            this.filter = query;
+            filter = query;
             onFilterChanged();
         }
     }
 
     private void onFilterChanged() {
-        boolean searchNow = Utils.trimmedNonEmpty(this.filter);
+        boolean searchNow = trimmedNonEmpty(filter);
 
         own.setEnabled(!searchNow);
 
@@ -230,8 +229,8 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     }
 
     private void startNetSearch(int offset, boolean withDelay) {
-        final int accountId = super.getAccountId();
-        final String filter = this.filter;
+        int accountId = getAccountId();
+        String filter = this.filter;
 
         Single<List<Community>> single;
         Single<List<Community>> searchSingle = communitiesInteractor.search(accountId, filter, null,
@@ -245,7 +244,7 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
             single = searchSingle;
         }
 
-        this.netSeacrhNow = true;
+        netSeacrhNow = true;
         //this.netSearchOffset = offset;
 
         resolveRefreshing();
@@ -255,31 +254,31 @@ public class CommunitiesPresenter extends AccountDependencyPresenter<ICommunitie
     }
 
     private void onSeacrhError(Throwable t) {
-        this.netSeacrhNow = false;
+        netSeacrhNow = false;
         resolveRefreshing();
         showError(getView(), getCauseIfRuntime(t));
     }
 
     private void onSearchDataReceived(int offset, List<Community> communities) {
-        this.netSeacrhNow = false;
-        this.netSearchEndOfContent = communities.isEmpty();
+        netSeacrhNow = false;
+        netSearchEndOfContent = communities.isEmpty();
 
         resolveRefreshing();
 
         if (offset == 0) {
-            this.search.replace(communities);
+            search.replace(communities);
             callView(ICommunitiesView::notifyDataSetChanged);
         } else {
-            int sizeBefore = this.search.size();
+            int sizeBefore = search.size();
             int count = communities.size();
 
-            this.search.addAll(communities);
+            search.addAll(communities);
             callView(view -> view.notifySeacrhDataAdded(sizeBefore, count));
         }
     }
 
     private void onFilteredDataReceived(List<Community> filteredData) {
-        this.filtered.replace(filteredData);
+        filtered.replace(filteredData);
         callView(ICommunitiesView::notifyDataSetChanged);
     }
 

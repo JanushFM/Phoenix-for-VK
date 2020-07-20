@@ -46,7 +46,7 @@ public class AbsStorage implements IStorage {
     private final AppStorages mRepositoryContext;
 
     public AbsStorage(@NonNull AppStorages base) {
-        this.mRepositoryContext = base;
+        mRepositoryContext = base;
     }
 
     @Nullable

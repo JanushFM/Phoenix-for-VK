@@ -6,7 +6,7 @@ public class OtherLink extends AbsInternalLink {
     public OtherLink(int start, int end, String link, String name) {
         this.start = start;
         this.end = end;
-        this.targetLine = name;
-        this.Link = link;
+        targetLine = name;
+        Link = link;
     }
 }

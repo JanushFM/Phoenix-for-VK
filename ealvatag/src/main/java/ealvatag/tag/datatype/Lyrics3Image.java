@@ -32,7 +32,7 @@ public class Lyrics3Image extends AbstractDataType {
     /**
      *
      */
-    private Lyrics3TimeStamp time = null;
+    private Lyrics3TimeStamp time;
 
     /**
      *
@@ -56,16 +56,16 @@ public class Lyrics3Image extends AbstractDataType {
 
     public Lyrics3Image(Lyrics3Image copy) {
         super(copy);
-        this.time = new Lyrics3TimeStamp(copy.time);
-        this.description = copy.description;
-        this.filename = copy.filename;
+        time = new Lyrics3TimeStamp(copy.time);
+        description = copy.description;
+        filename = copy.filename;
     }
 
     /**
      * @return
      */
     public String getDescription() {
-        return this.description;
+        return description;
     }
 
     /**
@@ -79,7 +79,7 @@ public class Lyrics3Image extends AbstractDataType {
      * @return
      */
     public String getFilename() {
-        return this.filename;
+        return filename;
     }
 
     /**
@@ -108,7 +108,7 @@ public class Lyrics3Image extends AbstractDataType {
      * @return
      */
     public Lyrics3TimeStamp getTimeStamp() {
-        return this.time;
+        return time;
     }
 
     /**
@@ -129,20 +129,20 @@ public class Lyrics3Image extends AbstractDataType {
 
         Lyrics3Image object = (Lyrics3Image) obj;
 
-        if (!this.description.equals(object.description)) {
+        if (!description.equals(object.description)) {
             return false;
         }
 
-        if (!this.filename.equals(object.filename)) {
+        if (!filename.equals(object.filename)) {
             return false;
         }
 
-        if (this.time == null) {
+        if (time == null) {
             if (object.time != null) {
                 return false;
             }
         } else {
-            if (!this.time.equals(object.time)) {
+            if (!time.equals(object.time)) {
                 return false;
             }
         }
@@ -197,7 +197,7 @@ public class Lyrics3Image extends AbstractDataType {
         str = "filename = " + filename + ", description = " + description;
 
         if (time != null) {
-            str += (", timestamp = " + time.toString());
+            str += (", timestamp = " + time);
         }
 
         return str + "\n";
@@ -233,7 +233,7 @@ public class Lyrics3Image extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         readString(Arrays.toString(buffer.readByteArray()), 0);
     }
 

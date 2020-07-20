@@ -32,7 +32,7 @@ package ealvatag.tag;
 public class InvalidTagException extends TagException {
     private static final long serialVersionUID = -8549493141672134395L;
 
-    public InvalidTagException(final String message, final Throwable cause) {
+    public InvalidTagException(String message, Throwable cause) {
         super(message, cause);
     }
 

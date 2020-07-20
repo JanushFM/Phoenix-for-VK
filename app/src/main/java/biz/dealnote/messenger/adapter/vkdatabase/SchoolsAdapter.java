@@ -34,7 +34,7 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.Holder> 
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final School school = mData.get(position);
+        School school = mData.get(position);
         holder.name.setText(school.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
@@ -50,7 +50,7 @@ public class SchoolsAdapter extends RecyclerView.Adapter<SchoolsAdapter.Holder> 
     }
 
     public void setListener(Listener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 
     public interface Listener {

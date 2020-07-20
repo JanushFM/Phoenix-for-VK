@@ -81,11 +81,11 @@ public class ID3v22Tag extends AbstractID3v2Tag {
     /**
      * The tag is compressed, although no compression scheme is defined in ID3v22
      */
-    protected boolean compression = false;
+    protected boolean compression;
     /**
      * If set all frames in the tag uses unsynchronisation
      */
-    private boolean unsynchronization = false;
+    private boolean unsynchronization;
 
     /**
      * Creates a new empty ID3v2_2 tag.
@@ -123,7 +123,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
             else {
                 convertedTag = new ID3v24Tag(mp3tag);
             }
-            this.setLoggingFilename(convertedTag.loggingFilename);
+            setLoggingFilename(convertedTag.loggingFilename);
             //Set the primitive types specific to v2_2.
             copyPrimitives(convertedTag);
             //Set v2.2 Frames
@@ -136,10 +136,10 @@ public class ID3v22Tag extends AbstractID3v2Tag {
      */
     public ID3v22Tag(ByteBuffer buffer, String loggingFilename) throws TagException {
         setLoggingFilename(loggingFilename);
-        this.read(buffer);
+        read(buffer);
     }
 
-    public ID3v22Tag(Buffer buffer, Id3v2Header header, String loggingFilename, final boolean ignoreArtwork) throws TagException {
+    public ID3v22Tag(Buffer buffer, Id3v2Header header, String loggingFilename, boolean ignoreArtwork) throws TagException {
         setLoggingFilename(loggingFilename);
         read(buffer, header, ignoreArtwork);
     }
@@ -153,16 +153,16 @@ public class ID3v22Tag extends AbstractID3v2Tag {
         //Set the primitive types specific to v2_2.
         if (copyObj instanceof ID3v22Tag) {
             ID3v22Tag copyObject = (ID3v22Tag) copyObj;
-            this.compression = copyObject.compression;
-            this.unsynchronization = copyObject.unsynchronization;
+            compression = copyObject.compression;
+            unsynchronization = copyObject.unsynchronization;
         } else if (copyObj instanceof ID3v23Tag) {
             ID3v23Tag copyObject = (ID3v23Tag) copyObj;
-            this.compression = copyObject.compression;
-            this.unsynchronization = copyObject.unsynchronization;
+            compression = copyObject.compression;
+            unsynchronization = copyObject.unsynchronization;
         } else if (copyObj instanceof ID3v24Tag) {
             ID3v24Tag copyObject = (ID3v24Tag) copyObj;
-            this.compression = false;
-            this.unsynchronization = copyObject.unsynchronization;
+            compression = false;
+            unsynchronization = copyObject.unsynchronization;
         }
     }
 
@@ -228,7 +228,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
     }
 
     @Override
-    public Optional<String> getValue(final FieldKey genericKey, final int index) throws IllegalArgumentException {
+    public Optional<String> getValue(FieldKey genericKey, int index) throws IllegalArgumentException {
         checkArgNotNull(genericKey, CANNOT_BE_NULL, "genericKey");
         if (genericKey == FieldKey.GENRE) {
             List<TagField> fields = getFields(genericKey);
@@ -244,7 +244,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
     }
 
     @Override
-    public int getFieldCount(final Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public int getFieldCount(Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         return getFields(genericKey.name()).size();
     }
 
@@ -325,7 +325,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
             return false;
         }
         ID3v22Tag object = (ID3v22Tag) obj;
-        return this.compression == object.compression && this.unsynchronization == object.unsynchronization && super.equals(obj);
+        return compression == object.compression && unsynchronization == object.unsynchronization && super.equals(obj);
     }
 
     protected void loadFrameIntoMap(String frameId, AbstractID3v2Frame next) {
@@ -357,15 +357,15 @@ public class ID3v22Tag extends AbstractID3v2Tag {
     public void createStructure() {
         MP3File.getStructureFormatter().openHeadingElement(TYPE_TAG, getIdentifier());
 
-        super.createStructureHeader();
+        createStructureHeader();
 
         //Header
         MP3File.getStructureFormatter().openHeadingElement(TYPE_HEADER, "");
-        MP3File.getStructureFormatter().addElement(TYPE_COMPRESSION, this.compression);
-        MP3File.getStructureFormatter().addElement(TYPE_UNSYNCHRONISATION, this.unsynchronization);
+        MP3File.getStructureFormatter().addElement(TYPE_COMPRESSION, compression);
+        MP3File.getStructureFormatter().addElement(TYPE_UNSYNCHRONISATION, unsynchronization);
         MP3File.getStructureFormatter().closeHeadingElement(TYPE_HEADER);
         //Body
-        super.createStructureBody();
+        createStructureBody();
 
         MP3File.getStructureFormatter().closeHeadingElement(TYPE_TAG);
     }
@@ -443,7 +443,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
         readFrames(bufferWithoutHeader, size);
     }
 
-    public void read(Buffer buffer, final Id3v2Header header, final boolean ignoreArtwork) throws TagException {
+    public void read(Buffer buffer, Id3v2Header header, boolean ignoreArtwork) throws TagException {
         try {
             readHeaderFlags(header.getFlags());
 
@@ -461,14 +461,14 @@ public class ID3v22Tag extends AbstractID3v2Tag {
         }
     }
 
-    private void readFrames(Buffer buffer, int size, final boolean ignoreArtwork) {
+    private void readFrames(Buffer buffer, int size, boolean ignoreArtwork) {
         ensureFrameMapsAndClear();
         fileReadSize = size;
 
         // Read the frames until got to up to the size as specified in header or until
         // we hit an invalid frame identifier or padding
         while (buffer.size() > 0) {
-            final String logName = loggingFilename;
+            String logName = loggingFilename;
             try {
                 ID3v22Frame next = new ID3v22Frame(buffer, logName, ignoreArtwork);
                 if (next.isArtworkFrame() && ignoreArtwork) {
@@ -481,9 +481,9 @@ public class ID3v22Tag extends AbstractID3v2Tag {
                 break;
             } catch (EmptyFrameException ex) {
                 //Found Empty Frame, log it - empty frames should not exist
-                this.emptyFrameBytes += ID3v23Frame.FRAME_HEADER_SIZE;
+                emptyFrameBytes += ID3v23Frame.FRAME_HEADER_SIZE;
             } catch (InvalidFrameException ifie) {
-                this.invalidFrames++;
+                invalidFrames++;
                 //Don't try and find any more frames
                 break;
             }//Problem trying to find frame, often just occurs because frameHeader includes padding
@@ -491,7 +491,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
             catch (IOException | InvalidTagException idete) {
                 //Failed reading frame but may just have invalid data but correct length so lets carry on
                 //in case we can read the next frame
-                this.invalidFrames++;
+                invalidFrames++;
             }// TODO: 1/25/17 get exceptions straightened out
 
         }
@@ -515,7 +515,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
         ensureFrameMapsAndClear();
 
         //Read the size from the Tag Header
-        this.fileReadSize = size;
+        fileReadSize = size;
         /* todo not done yet. Read the first Frame, there seems to be quite a
          ** common case of extra data being between the tag header and the first
          ** frame so should we allow for this when reading first frame, but not subsequent frames
@@ -534,18 +534,18 @@ public class ID3v22Tag extends AbstractID3v2Tag {
             }
             //Found Empty Frame
             catch (EmptyFrameException ex) {
-                this.emptyFrameBytes += ID3v22Frame.FRAME_HEADER_SIZE;
+                emptyFrameBytes += ID3v22Frame.FRAME_HEADER_SIZE;
             }
             //Problem trying to find frame
             catch (InvalidFrameException ifie) {
-                this.invalidFrames++;
+                invalidFrames++;
                 //Dont try and find any more frames
                 break;
             }
             //Failed reading frame but may just have invalid data but correct length so lets carry on
             //in case we can read the next frame
             catch (InvalidDataTypeException idete) {
-                this.invalidFrames++;
+                invalidFrames++;
             }
         }
     }
@@ -633,24 +633,24 @@ public class ID3v22Tag extends AbstractID3v2Tag {
         checkArgNotNull(id3v22FieldKey);
         FieldKey genericKey = ID3v22Frames.getInstanceOf().getGenericKeyFromId3(id3v22FieldKey);
         if (genericKey != null) {
-            return super.getFirst(genericKey);
+            return getFirst(genericKey);
         } else {
             FrameAndSubId frameAndSubId = new FrameAndSubId(null, id3v22FieldKey.getFrameId(), id3v22FieldKey.getSubId());
-            return super.doGetValueAtIndex(frameAndSubId, 0);
+            return doGetValueAtIndex(frameAndSubId, 0);
         }
     }
 
     public void deleteField(ID3v22FieldKey id3v22FieldKey) throws IllegalArgumentException {
         checkArgNotNull(id3v22FieldKey);
-        super.doDeleteTagField(new FrameAndSubId(null, id3v22FieldKey.getFrameId(), id3v22FieldKey.getSubId()));
+        doDeleteTagField(new FrameAndSubId(null, id3v22FieldKey.getFrameId(), id3v22FieldKey.getSubId()));
     }
 
     /**
      * Delete fields with this (frame) id
      */
-    public Tag deleteField(final String id) throws IllegalArgumentException, UnsupportedFieldException {
+    public Tag deleteField(String id) throws IllegalArgumentException, UnsupportedFieldException {
         checkArgNotNullOrEmpty(id, CANNOT_BE_NULL_OR_EMPTY, "id");
-        super.doDeleteTagField(new FrameAndSubId(null, id, null));
+        doDeleteTagField(new FrameAndSubId(null, id, null));
         return this;
     }
 
@@ -665,7 +665,7 @@ public class ID3v22Tag extends AbstractID3v2Tag {
     }
 
     @Override
-    protected String getArtworkMimeType(final String mimeType) {
+    protected String getArtworkMimeType(String mimeType) {
         return ImageFormats.getFormatForMimeType(mimeType);
     }
 }

@@ -84,7 +84,7 @@ public class TextEncoding implements SimpleIntStringMap {
      * @return id, e.g. {@link #ISO_8859_1}
      * @throws NoSuchElementException if {@code charset} is null or not found
      */
-    public byte getIdForCharset(final Charset charset) throws NoSuchElementException {
+    public byte getIdForCharset(Charset charset) throws NoSuchElementException {
         for (byte i = 0; i <= MAX_TEXT_ENCODING_ID; i++) {
             if (values[i].equals(charset)) {
                 return i;
@@ -103,7 +103,7 @@ public class TextEncoding implements SimpleIntStringMap {
      * @return charset for id
      * @throws NoSuchElementException no charset is found for the given id
      */
-    public Charset getCharsetForId(final int id) throws NoSuchElementException {
+    public Charset getCharsetForId(int id) throws NoSuchElementException {
         if (!containsKey(id)) {
             throw new NoSuchElementException("id=" + id);
         }
@@ -111,12 +111,12 @@ public class TextEncoding implements SimpleIntStringMap {
     }
 
     @Override
-    public boolean containsKey(final int key) {
+    public boolean containsKey(int key) {
         return key >= 0 && key <= MAX_TEXT_ENCODING_ID;
     }
 
     @Override
-    public String getValue(final int key) {
+    public String getValue(int key) {
         if (!containsKey(key)) {
             return "";
         }

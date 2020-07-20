@@ -19,7 +19,7 @@ public class PostImage {
     private PostImagePosition position;
 
     public PostImage(AbsModel model, int type) {
-        this.attachment = model;
+        attachment = model;
         this.type = type;
     }
 
@@ -58,14 +58,14 @@ public class PostImage {
 
     public String getPreviewUrl(@PhotoSize int photoPreviewSize) {
         switch (type) {
-            case PostImage.TYPE_IMAGE:
+            case TYPE_IMAGE:
                 Photo photo = (Photo) attachment;
                 PhotoSizes.Size size = photo.getSizes().getSize(photoPreviewSize, true);
                 return size == null ? null : size.getUrl();
-            case PostImage.TYPE_VIDEO:
+            case TYPE_VIDEO:
                 Video video = (Video) attachment;
                 return video.getImage();
-            case PostImage.TYPE_GIF:
+            case TYPE_GIF:
                 Document document = (Document) attachment;
                 return document.getPreviewWithSize(PhotoSize.Q, false);
         }

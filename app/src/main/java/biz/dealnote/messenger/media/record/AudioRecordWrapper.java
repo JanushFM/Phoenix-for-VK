@@ -22,8 +22,8 @@ public class AudioRecordWrapper {
     private Recorder mRecorder;
 
     private AudioRecordWrapper(@NonNull Builder builder) {
-        this.mContext = builder.mContext;
-        this.mFileExt = builder.mFileExt;
+        mContext = builder.mContext;
+        mFileExt = builder.mFileExt;
     }
 
     public void doRecord() throws AudioRecordException {
@@ -140,11 +140,11 @@ public class AudioRecordWrapper {
         private String mFileExt = "mp3";
 
         public Builder(Context context) {
-            this.mContext = context;
+            mContext = context;
         }
 
         public Builder setFileExt(String fileExt) {
-            this.mFileExt = fileExt;
+            mFileExt = fileExt;
             return this;
         }
 

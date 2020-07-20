@@ -10,7 +10,7 @@ public class WeakGoBackAnimationAdapter extends AnimatorListenerAdapter {
     private final WeakReference<GoBackCallback> mReference;
 
     public WeakGoBackAnimationAdapter(GoBackCallback holder) {
-        this.mReference = new WeakReference<>(holder);
+        mReference = new WeakReference<>(holder);
     }
 
     @Override

@@ -30,9 +30,9 @@ public class CaptchaProvider implements ICaptchaProvider {
     public CaptchaProvider(Context app, Scheduler uiScheduler) {
         this.app = app;
         this.uiScheduler = uiScheduler;
-        this.entryMap = Collections.synchronizedMap(new HashMap<>());
-        this.waitingNotifier = PublishSubject.create();
-        this.cancelingNotifier = PublishSubject.create();
+        entryMap = Collections.synchronizedMap(new HashMap<>());
+        waitingNotifier = PublishSubject.create();
+        cancelingNotifier = PublishSubject.create();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class CaptchaProvider implements ICaptchaProvider {
     }
 
     @SuppressLint("CheckResult")
-    private void startCapthaActivity(final Context context, String sid, Captcha captcha) {
+    private void startCapthaActivity(Context context, String sid, Captcha captcha) {
         Completable.complete()
                 .observeOn(uiScheduler)
                 .subscribe(() -> {
@@ -124,7 +124,7 @@ public class CaptchaProvider implements ICaptchaProvider {
         Entry(String sid, Captcha captcha) {
             this.sid = sid;
             this.captcha = captcha;
-            this.lastActivityTime = System.currentTimeMillis();
+            lastActivityTime = System.currentTimeMillis();
         }
 
         public String getCode() {

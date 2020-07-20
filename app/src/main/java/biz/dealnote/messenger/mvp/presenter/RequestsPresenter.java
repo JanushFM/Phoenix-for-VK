@@ -54,12 +54,12 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     public RequestsPresenter(int accountId, int userId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.userId = userId;
-        this.relationshipInteractor = InteractorFactory.createRelationshipInteractor();
+        relationshipInteractor = InteractorFactory.createRelationshipInteractor();
 
-        this.data = new ArrayList<>(3);
-        this.data.add(ALL, new UsersPart(R.string.all_friends, new ArrayList<>(), true));
-        this.data.add(SEACRH_CACHE, new UsersPart(R.string.results_in_the_cache, new ArrayList<>(), false));
-        this.data.add(SEARCH_WEB, new UsersPart(R.string.results_in_a_network, new ArrayList<>(), false));
+        data = new ArrayList<>(3);
+        data.add(ALL, new UsersPart(R.string.all_friends, new ArrayList<>(), true));
+        data.add(SEACRH_CACHE, new UsersPart(R.string.results_in_the_cache, new ArrayList<>(), false));
+        data.add(SEARCH_WEB, new UsersPart(R.string.results_in_a_network, new ArrayList<>(), false));
 
         if (accountId == userId) {
             loadAllCachedData();
@@ -73,13 +73,13 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     private void requestActualData(int offset) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         if (accountId != userId) {
-            this.cacheLoadingNow = false;
+            cacheLoadingNow = false;
             resolveRefreshingView();
             return;
         }
-        this.actualDataLoadingNow = true;
+        actualDataLoadingNow = true;
         resolveRefreshingView();
 
         actualDataDisposable.add(relationshipInteractor.getRequests(accountId, offset, 200)
@@ -88,7 +88,7 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoadingNow = false;
+        actualDataLoadingNow = false;
         resolveRefreshingView();
         showError(getView(), getCauseIfRuntime(t));
     }
@@ -96,7 +96,7 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     @Override
     public void onGuiCreated(@NonNull IAllFriendsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.data, isSeacrhNow());
+        view.displayData(data, isSeacrhNow());
     }
 
     private void resolveRefreshingView() {
@@ -113,12 +113,12 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
 
     private void onActualDataReceived(int offset, List<User> users) {
         // reset cache loading
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.actualDataEndOfContent = users.isEmpty();
-        this.actualDataReceived = true;
-        this.actualDataLoadingNow = false;
+        actualDataEndOfContent = users.isEmpty();
+        actualDataReceived = true;
+        actualDataLoadingNow = false;
 
         if (offset > 0) {
             int startSize = getAllData().size();
@@ -140,21 +140,21 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     private void loadAllCachedData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
-        this.cacheLoadingNow = true;
+        cacheLoadingNow = true;
         cacheDisposable.add(relationshipInteractor.getCachedRequests(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, this::onCacheGetError));
     }
 
     private void onCacheGetError(Throwable t) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
         showError(getView(), t);
     }
 
     private void onCachedDataReceived(List<User> users) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
         getAllData().clear();
         getAllData().addAll(users);
@@ -169,22 +169,22 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     private List<User> getAllData() {
-        return this.data.get(ALL).users;
+        return data.get(ALL).users;
     }
 
     public void fireRefresh() {
         if (!isSeacrhNow()) {
-            this.cacheDisposable.clear();
-            this.actualDataDisposable.clear();
-            this.cacheLoadingNow = false;
-            this.actualDataLoadingNow = false;
+            cacheDisposable.clear();
+            actualDataDisposable.clear();
+            cacheLoadingNow = false;
+            actualDataLoadingNow = false;
 
             requestActualData(0);
         }
     }
 
     private void onSearchQueryChanged(boolean seacrhStateChanged) {
-        this.seacrhDisposable.clear();
+        seacrhDisposable.clear();
 
         if (seacrhStateChanged) {
             resolveSwipeRefreshAvailability();
@@ -219,17 +219,17 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     private void runNetSeacrh(int offset, boolean withDelay) {
-        if (trimmedIsEmpty(this.q)) {
+        if (trimmedIsEmpty(q)) {
             return;
         }
 
-        this.seacrhDisposable.clear();
-        this.searchRunNow = true;
+        seacrhDisposable.clear();
+        searchRunNow = true;
 
-        final String query = this.q;
-        final int accountId = super.getAccountId();
+        String query = q;
+        int accountId = getAccountId();
 
-        final Single<Pair<List<User>, Integer>> single;
+        Single<Pair<List<User>, Integer>> single;
         Single<Pair<List<User>, Integer>> netSingle = relationshipInteractor.seacrhFriends(accountId, userId, WEB_SEARCH_COUNT_PER_LOAD, offset, query);
 
         if (withDelay) {
@@ -246,12 +246,12 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     private void onSearchError(Throwable t) {
-        this.searchRunNow = false;
+        searchRunNow = false;
         showError(getView(), getCauseIfRuntime(t));
     }
 
     private void onSearchDataReceived(int offset, List<User> users, int fullCount) {
-        this.searchRunNow = false;
+        searchRunNow = false;
 
         List<User> searchData = data.get(SEARCH_WEB).users;
 
@@ -274,7 +274,7 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
 
         List<User> db = data.get(ALL).users;
 
-        String preparedQ = this.q.toLowerCase().trim();
+        String preparedQ = q.toLowerCase().trim();
 
         int count = 0;
         for (User user : db) {
@@ -321,13 +321,13 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
 
     private void loadMore() {
         if (isSeacrhNow()) {
-            if (this.searchRunNow) {
+            if (searchRunNow) {
                 return;
             }
 
-            runNetSeacrh(this.data.get(SEARCH_WEB).users.size(), false);
+            runNetSeacrh(data.get(SEARCH_WEB).users.size(), false);
         } else {
-            if (this.actualDataLoadingNow || this.cacheLoadingNow || !actualDataReceived || actualDataEndOfContent) {
+            if (actualDataLoadingNow || cacheLoadingNow || !actualDataReceived || actualDataEndOfContent) {
                 return;
             }
 
@@ -336,7 +336,7 @@ public class RequestsPresenter extends AccountDependencyPresenter<IAllFriendsVie
     }
 
     public void fireScrollToEnd() {
-        this.loadMore();
+        loadMore();
     }
 
     public void fireUserClick(User user) {

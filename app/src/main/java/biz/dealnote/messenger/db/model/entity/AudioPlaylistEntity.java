@@ -32,7 +32,7 @@ public class AudioPlaylistEntity extends Entity {
     }
 
     public AudioPlaylistEntity setOwnerId(int ownerId) {
-        this.owner_id = ownerId;
+        owner_id = ownerId;
         return this;
     }
 

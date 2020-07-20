@@ -17,7 +17,7 @@ public class SelectionUtils {
     private static final String TAG = SelectionUtils.class.getSimpleName();
     private static final String VIEW_TAG = "SelectionUtils.SelectionView";
 
-    public static void addSelectionProfileSupport(Context context, ViewGroup root, final Object mayBeUser) {
+    public static void addSelectionProfileSupport(Context context, ViewGroup root, Object mayBeUser) {
         if (!(context instanceof ProfileSelectable) || root == null) return;
 
         SelectProfileCriteria criteria = ((ProfileSelectable) context).getAcceptableCriteria();
@@ -28,7 +28,7 @@ public class SelectionUtils {
             canSelect = ((User) mayBeUser).isFriend();
         }
 
-        final ProfileSelectable callack = (ProfileSelectable) context;
+        ProfileSelectable callack = (ProfileSelectable) context;
         ImageView selectionView = root.findViewWithTag(VIEW_TAG);
 
         if (!canSelect && selectionView == null) return;

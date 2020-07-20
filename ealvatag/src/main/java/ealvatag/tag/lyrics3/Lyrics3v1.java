@@ -47,7 +47,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
     }
 
     public Lyrics3v1(Lyrics3v1 copyObject) {
-        this.lyric = copyObject.lyric;
+        lyric = copyObject.lyric;
     }
 
     public Lyrics3v1(BaseID3Tag mp3Tag) {
@@ -64,7 +64,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
 
             FieldFrameBodyLYR lyricField;
             lyricField = (FieldFrameBodyLYR) lyricTag.getField("LYR").getBody();
-            this.lyric = lyricField.getLyric();
+            lyric = lyricField.getLyric();
         }
     }
 
@@ -77,7 +77,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
      */
     public Lyrics3v1(ByteBuffer byteBuffer) throws TagNotFoundException, java.io.IOException {
         try {
-            this.read(byteBuffer);
+            read(byteBuffer);
         } catch (TagException e) {
             e.printStackTrace();
         }
@@ -116,7 +116,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
      * @return
      */
     public boolean isSubsetOf(Object obj) {
-        return (obj instanceof Lyrics3v1) && (((Lyrics3v1) obj).lyric.contains(this.lyric));
+        return (obj instanceof Lyrics3v1) && (((Lyrics3v1) obj).lyric.contains(lyric));
 
     }
 
@@ -131,7 +131,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
 
         Lyrics3v1 object = (Lyrics3v1) obj;
 
-        return this.lyric.equals(object.lyric) && super.equals(obj);
+        return lyric.equals(object.lyric) && super.equals(obj);
 
     }
 
@@ -226,7 +226,7 @@ public class Lyrics3v1 extends AbstractLyrics3 {
      * @return
      */
     public String toString() {
-        String str = getIdentifier() + " " + this.getSize() + "\n";
+        String str = getIdentifier() + " " + getSize() + "\n";
 
         return str + lyric;
     }

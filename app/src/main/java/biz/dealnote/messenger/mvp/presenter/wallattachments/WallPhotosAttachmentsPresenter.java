@@ -41,16 +41,16 @@ public class WallPhotosAttachmentsPresenter extends PlaceSupportPresenter<IWallP
 
     public WallPhotosAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.owner_id = ownerId;
-        this.mPhotos = new ArrayList<>();
-        this.fInteractor = Repository.INSTANCE.getWalls();
+        owner_id = ownerId;
+        mPhotos = new ArrayList<>();
+        fInteractor = Repository.INSTANCE.getWalls();
         loadActualData(0);
     }
 
     @Override
     public void onGuiCreated(@NonNull IWallPhotosAttachmentsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.mPhotos);
+        view.displayData(mPhotos);
     }
 
     @SuppressWarnings("unused")
@@ -71,11 +71,11 @@ public class WallPhotosAttachmentsPresenter extends PlaceSupportPresenter<IWallP
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getWallNoCache(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -83,7 +83,7 @@ public class WallPhotosAttachmentsPresenter extends PlaceSupportPresenter<IWallP
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -100,21 +100,21 @@ public class WallPhotosAttachmentsPresenter extends PlaceSupportPresenter<IWallP
 
     private void onActualDataReceived(int offset, List<Post> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
-        if (this.endOfContent && isGuiResumed())
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
+        if (endOfContent && isGuiResumed())
             getView().onSetLoadingStatus(2);
 
         if (offset == 0) {
-            this.loaded = data.size();
-            this.mPhotos.clear();
+            loaded = data.size();
+            mPhotos.clear();
             update(data);
             resolveToolbar();
             callView(IWallPhotosAttachmentsView::notifyDataSetChanged);
         } else {
             int startSize = mPhotos.size();
-            this.loaded += data.size();
+            loaded += data.size();
             update(data);
             resolveToolbar();
             callView(view -> view.notifyDataAdded(startSize, mPhotos.size() - startSize));
@@ -161,8 +161,8 @@ public class WallPhotosAttachmentsPresenter extends PlaceSupportPresenter<IWallP
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }

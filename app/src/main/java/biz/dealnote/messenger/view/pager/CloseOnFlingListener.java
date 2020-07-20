@@ -25,7 +25,7 @@ public abstract class CloseOnFlingListener implements FlingRelativeLayout.OnSing
 
     @Override
     public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
-        final float distanceByY = motionEvent.getY() - motionEvent1.getY();
+        float distanceByY = motionEvent.getY() - motionEvent1.getY();
 
         if (Math.abs(motionEvent.getX() - motionEvent1.getX()) > maxXPx) {
             return false;

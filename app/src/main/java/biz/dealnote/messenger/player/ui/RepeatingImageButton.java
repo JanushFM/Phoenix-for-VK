@@ -35,7 +35,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
         }
     };
 
-    public RepeatingImageButton(final Context context, final AttributeSet attrs) {
+    public RepeatingImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
         setLongClickable(true);
@@ -44,7 +44,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
     }
 
     @Override
-    public void onClick(final View view) {
+    public void onClick(View view) {
         switch (view.getId()) {
             case R.id.action_button_previous:
                 MusicUtils.previous(getContext());
@@ -57,7 +57,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
         }
     }
 
-    public void setRepeatListener(final RepeatListener l) {
+    public void setRepeatListener(RepeatListener l) {
         mListener = l;
     }
 
@@ -70,7 +70,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
     }
 
     @Override
-    public boolean onTouchEvent(final MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             /* Remove the repeater, but call the hook one more time */
             removeCallbacks(mRepeater);
@@ -83,7 +83,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
     }
 
     @Override
-    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
@@ -98,7 +98,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
     }
 
     @Override
-    public boolean onKeyUp(final int keyCode, final KeyEvent event) {
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_CENTER:
             case KeyEvent.KEYCODE_ENTER:
@@ -116,8 +116,8 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
      * @param shouldRepeat If True the repeat count stops at -1, false if to add
      *                     incrementally add the repeat count
      */
-    private void doRepeat(final boolean shouldRepeat) {
-        final long now = SystemClock.elapsedRealtime();
+    private void doRepeat(boolean shouldRepeat) {
+        long now = SystemClock.elapsedRealtime();
         if (mListener != null) {
             mListener.onRepeat(this, now - mStartTime, shouldRepeat ? -1 : mRepeatCount++);
         }

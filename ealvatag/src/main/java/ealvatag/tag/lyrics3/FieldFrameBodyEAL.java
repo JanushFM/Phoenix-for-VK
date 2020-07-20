@@ -46,7 +46,7 @@ public class FieldFrameBodyEAL extends AbstractLyrics3v2FieldFrameBody {
      * @param album
      */
     public FieldFrameBodyEAL(String album) {
-        this.setObjectValue("Album", album);
+        setObjectValue("Album", album);
     }
 
     /**

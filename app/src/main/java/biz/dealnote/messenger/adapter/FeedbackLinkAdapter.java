@@ -43,10 +43,10 @@ public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapte
     private final ActionListener mActionListener;
 
     public FeedbackLinkAdapter(Context context, List<Object> objects, @NonNull ActionListener actionListener) {
-        this.mContext = context;
-        this.mActionListener = actionListener;
-        this.mData = objects;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        mContext = context;
+        mActionListener = actionListener;
+        mData = objects;
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NotNull
@@ -58,7 +58,7 @@ public class FeedbackLinkAdapter extends RecyclerView.Adapter<FeedbackLinkAdapte
 
     @Override
     public void onBindViewHolder(@NotNull ViewHolder holder, int position) {
-        final Object item = mData.get(position);
+        Object item = mData.get(position);
 
         String title = null;
         if (item instanceof User) {

@@ -618,7 +618,7 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
 
     private void playWithYoutube(Video video, boolean inFloatWindow) {
         int index = video.getExternalLink().indexOf("watch?v=");
-        final String videoId = video.getExternalLink().substring(index + 8);
+        String videoId = video.getExternalLink().substring(index + 8);
 
         try {
             Intent intent = YouTubeStandalonePlayer.createVideoIntent(requireActivity(), YoutubeDeveloperKey.DEVELOPER_KEY, videoId, 0, true, inFloatWindow);
@@ -672,7 +672,7 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
 
         @Override
         public void setCanAdd(boolean can) {
-            this.canAdd = can;
+            canAdd = can;
         }
     }
 

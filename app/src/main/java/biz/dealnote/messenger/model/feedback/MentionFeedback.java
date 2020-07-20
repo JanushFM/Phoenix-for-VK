@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.model.feedback;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import biz.dealnote.messenger.model.AbsModel;
 import biz.dealnote.messenger.model.ParcelableModelWrapper;
@@ -10,7 +9,7 @@ import biz.dealnote.messenger.model.ParcelableModelWrapper;
  * Base class for types [mention, mention_comment_photo, mention_comment_video]
  * where - в каком обьекте было упоминание
  */
-public final class MentionFeedback extends Feedback implements Parcelable {
+public final class MentionFeedback extends Feedback {
 
     public static final Creator<MentionFeedback> CREATOR = new Creator<MentionFeedback>() {
         @Override

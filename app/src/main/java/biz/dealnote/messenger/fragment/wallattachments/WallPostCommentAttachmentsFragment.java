@@ -177,7 +177,7 @@ public class WallPostCommentAttachmentsFragment extends PlaceSupportMvpFragment<
 
     @Override
     public void onAvatarClick(int ownerId) {
-        super.onOwnerClick(ownerId);
+        onOwnerClick(ownerId);
     }
 
     @Override

@@ -31,11 +31,11 @@ public class UnsupportedFieldException extends RuntimeException {
     /**
      * @param message the name of the field that caused the exception
      */
-    public UnsupportedFieldException(final String message) {
+    public UnsupportedFieldException(String message) {
         super(message);
     }
 
-    public UnsupportedFieldException(final String message, Object... formatArgs) {
+    public UnsupportedFieldException(String message, Object... formatArgs) {
         super(String.format(Locale.getDefault(), message, formatArgs));
     }
 

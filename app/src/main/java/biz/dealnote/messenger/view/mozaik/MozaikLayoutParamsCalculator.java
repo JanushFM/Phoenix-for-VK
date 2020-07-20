@@ -21,8 +21,8 @@ public class MozaikLayoutParamsCalculator {
         this.spacing = spacing;
         this.matrix = matrix;
         this.images = images;
-        this.rowHeight = new SparseIntArray(1);
-        this.photoWidth = new SparseIntArray(1);
+        rowHeight = new SparseIntArray(1);
+        photoWidth = new SparseIntArray(1);
     }
 
     private static int getRowNumberForIndex(int[][] array, int index) {

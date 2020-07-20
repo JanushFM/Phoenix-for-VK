@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public abstract class Owner extends AbsModel implements Parcelable {
+public abstract class Owner extends AbsModel {
 
     @OwnerType
     private final int ownerType;

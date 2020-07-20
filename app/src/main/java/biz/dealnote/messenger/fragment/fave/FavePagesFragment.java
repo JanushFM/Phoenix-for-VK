@@ -40,7 +40,7 @@ public class FavePagesFragment extends BaseMvpFragment<FavePagesPresenter, IFave
     private TextView mEmpty;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FavePagesAdapter mAdapter;
-    private boolean isRequestLast = false;
+    private boolean isRequestLast;
 
     public static FavePagesFragment newInstance(int accountId, boolean isUser) {
         Bundle args = new Bundle();

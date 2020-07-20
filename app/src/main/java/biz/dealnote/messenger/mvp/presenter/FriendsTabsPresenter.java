@@ -30,8 +30,8 @@ public class FriendsTabsPresenter extends AccountDependencyPresenter<IFriendsTab
     public FriendsTabsPresenter(int accountId, int userId, @Nullable FriendsCounters counters, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.userId = userId;
-        this.relationshipInteractor = InteractorFactory.createRelationshipInteractor();
-        this.ownersRepository = Repository.INSTANCE.getOwners();
+        relationshipInteractor = InteractorFactory.createRelationshipInteractor();
+        ownersRepository = Repository.INSTANCE.getOwners();
 
         if (Objects.nonNull(savedInstanceState)) {
             this.counters = savedInstanceState.getParcelable(SAVE_COUNTERS);
@@ -50,7 +50,7 @@ public class FriendsTabsPresenter extends AccountDependencyPresenter<IFriendsTab
     }
 
     private void requestOwnerInfo() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(ownersRepository.getBaseOwnerInfo(accountId, userId, IOwnersRepository.MODE_ANY)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onOwnerInfoReceived, t -> {/*ignore*/}));
@@ -62,7 +62,7 @@ public class FriendsTabsPresenter extends AccountDependencyPresenter<IFriendsTab
     }
 
     private void requestCounters() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(relationshipInteractor.getFriendsCounters(accountId, userId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCountersReceived, this::onCountersGetError));
@@ -71,7 +71,7 @@ public class FriendsTabsPresenter extends AccountDependencyPresenter<IFriendsTab
     @Override
     public void onGuiResumed() {
         super.onGuiResumed();
-        getView().setDrawerFriendsSectionSelected(this.userId == super.getAccountId());
+        getView().setDrawerFriendsSectionSelected(userId == getAccountId());
     }
 
     private void onCountersGetError(Throwable t) {
@@ -88,6 +88,6 @@ public class FriendsTabsPresenter extends AccountDependencyPresenter<IFriendsTab
     public void onGuiCreated(@NonNull IFriendsTabsView view) {
         super.onGuiCreated(view);
         view.configTabs(getAccountId(), userId, userId != getAccountId());
-        view.displayConters(this.counters);
+        view.displayConters(counters);
     }
 }

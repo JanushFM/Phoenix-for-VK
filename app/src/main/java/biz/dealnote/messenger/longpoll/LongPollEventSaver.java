@@ -16,8 +16,8 @@ public class LongPollEventSaver {
     private final IOwnersRepository ownersRepository;
 
     public LongPollEventSaver() {
-        this.messagesInteractor = Repository.INSTANCE.getMessages();
-        this.ownersRepository = Repository.INSTANCE.getOwners();
+        messagesInteractor = Repository.INSTANCE.getMessages();
+        ownersRepository = Repository.INSTANCE.getOwners();
     }
 
     public Completable save(int accountId, @NonNull VkApiLongpollUpdates updates) {

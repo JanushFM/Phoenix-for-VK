@@ -40,7 +40,7 @@ public class CommunityBannedAdapter extends RecyclerView.Adapter<CommunityBanned
 
     public CommunityBannedAdapter(Context context, List<Banned> data) {
         this.data = data;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NotNull
@@ -52,7 +52,7 @@ public class CommunityBannedAdapter extends RecyclerView.Adapter<CommunityBanned
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Context context = holder.itemView.getContext();
+        Context context = holder.itemView.getContext();
 
         Banned banned = data.get(position);
 
@@ -140,11 +140,11 @@ public class CommunityBannedAdapter extends RecyclerView.Adapter<CommunityBanned
 
         Holder(View itemView) {
             super(itemView);
-            this.avatar = itemView.findViewById(R.id.avatar);
-            this.onlineView = itemView.findViewById(R.id.online);
-            this.name = itemView.findViewById(R.id.name);
-            this.dateAndAdminInfo = itemView.findViewById(R.id.date_and_admin_info);
-            this.comment = itemView.findViewById(R.id.comment_text);
+            avatar = itemView.findViewById(R.id.avatar);
+            onlineView = itemView.findViewById(R.id.online);
+            name = itemView.findViewById(R.id.name);
+            dateAndAdminInfo = itemView.findViewById(R.id.date_and_admin_info);
+            comment = itemView.findViewById(R.id.comment_text);
         }
     }
 }

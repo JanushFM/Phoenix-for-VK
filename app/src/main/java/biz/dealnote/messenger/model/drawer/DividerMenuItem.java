@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model.drawer;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class DividerMenuItem extends AbsMenuItem implements Parcelable {
+public class DividerMenuItem extends AbsMenuItem {
 
     public static Creator<DividerMenuItem> CREATOR = new Creator<DividerMenuItem>() {
         public DividerMenuItem createFromParcel(Parcel source) {

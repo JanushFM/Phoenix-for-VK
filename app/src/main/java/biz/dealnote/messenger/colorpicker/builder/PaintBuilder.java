@@ -20,7 +20,7 @@ public class PaintBuilder {
     }
 
     private static Bitmap createAlphaBackgroundPattern(int size) {
-        Paint alphaPatternPaint = PaintBuilder.newPaint().build();
+        Paint alphaPatternPaint = newPaint().build();
         Bitmap bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bm);
         int s = Math.round(size / 2f);
@@ -37,46 +37,46 @@ public class PaintBuilder {
         private final Paint paint;
 
         private PaintHolder() {
-            this.paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         }
 
         public PaintHolder color(int color) {
-            this.paint.setColor(color);
+            paint.setColor(color);
             return this;
         }
 
         public PaintHolder antiAlias(boolean flag) {
-            this.paint.setAntiAlias(flag);
+            paint.setAntiAlias(flag);
             return this;
         }
 
         public PaintHolder style(Paint.Style style) {
-            this.paint.setStyle(style);
+            paint.setStyle(style);
             return this;
         }
 
         public PaintHolder mode(PorterDuff.Mode mode) {
-            this.paint.setXfermode(new PorterDuffXfermode(mode));
+            paint.setXfermode(new PorterDuffXfermode(mode));
             return this;
         }
 
         public PaintHolder stroke(float width) {
-            this.paint.setStrokeWidth(width);
+            paint.setStrokeWidth(width);
             return this;
         }
 
         public PaintHolder xPerMode(PorterDuff.Mode mode) {
-            this.paint.setXfermode(new PorterDuffXfermode(mode));
+            paint.setXfermode(new PorterDuffXfermode(mode));
             return this;
         }
 
         public PaintHolder shader(Shader shader) {
-            this.paint.setShader(shader);
+            paint.setShader(shader);
             return this;
         }
 
         public Paint build() {
-            return this.paint;
+            return paint;
         }
     }
 }

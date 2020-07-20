@@ -23,7 +23,7 @@ public class VideosSearchPresenter extends AbsSearchPresenter<IVideosSearchView,
 
     public VideosSearchPresenter(int accountId, @Nullable VideoSearchCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.videosInteractor = InteractorFactory.createVideosInteractor();
+        videosInteractor = InteractorFactory.createVideosInteractor();
     }
 
     @Override
@@ -38,8 +38,8 @@ public class VideosSearchPresenter extends AbsSearchPresenter<IVideosSearchView,
 
     @Override
     Single<Pair<List<Video>, IntNextFrom>> doSearch(int accountId, VideoSearchCriteria criteria, IntNextFrom startFrom) {
-        final int offset = startFrom.getOffset();
-        final IntNextFrom nextFrom = new IntNextFrom(offset + 50);
+        int offset = startFrom.getOffset();
+        IntNextFrom nextFrom = new IntNextFrom(offset + 50);
         return videosInteractor.search(accountId, criteria, 50, offset)
                 .map(videos -> Pair.Companion.create(videos, nextFrom));
     }

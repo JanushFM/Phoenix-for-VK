@@ -90,11 +90,11 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     AbsWallPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.ownerId = ownerId;
-        this.wall = new ArrayList<>();
-        this.stories = new ArrayList<>();
-        this.wallFilter = WallCriteria.MODE_ALL;
-        this.walls = Repository.INSTANCE.getWalls();
-        this.ownersRepository = Repository.INSTANCE.getOwners();
+        wall = new ArrayList<>();
+        stories = new ArrayList<>();
+        wallFilter = WallCriteria.MODE_ALL;
+        walls = Repository.INSTANCE.getWalls();
+        ownersRepository = Repository.INSTANCE.getOwners();
 
         loadWallCachedData();
         requestWall(0);
@@ -218,7 +218,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     }
 
     private void loadWallCachedData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         cacheCompositeDisposable.add(walls.getCachedWall(accountId, ownerId, wallFilter)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -226,9 +226,9 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     }
 
     private void onCachedDataReceived(List<Post> posts) {
-        this.wall.clear();
-        this.wall.addAll(posts);
-        this.actualDataReady = false;
+        wall.clear();
+        wall.addAll(posts);
+        actualDataReady = false;
 
         callView(IWallView::notifyWallDataSetChanged);
     }
@@ -265,16 +265,16 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     }
 
     private void setNowLoadingOffset(int offset) {
-        this.nowRequestOffset = offset;
+        nowRequestOffset = offset;
     }
 
     private void requestWall(int offset) {
         setNowLoadingOffset(offset);
         setRequestNow(true);
 
-        final int accountId = super.getAccountId();
-        final int nextOffset = offset + COUNT;
-        final boolean append = offset > 0;
+        int accountId = getAccountId();
+        int nextOffset = offset + COUNT;
+        boolean append = offset > 0;
 
         netCompositeDisposable.add(walls.getWall(accountId, ownerId, offset, COUNT, wallFilter)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -287,20 +287,20 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     }
 
     private void onActualDataReceived(int nextOffset, List<Post> posts, boolean append) {
-        this.cacheCompositeDisposable.clear();
+        cacheCompositeDisposable.clear();
 
-        this.actualDataReady = true;
+        actualDataReady = true;
         this.nextOffset = nextOffset;
-        this.endOfContent = posts.isEmpty();
+        endOfContent = posts.isEmpty();
 
         if (nonEmpty(posts)) {
             if (append) {
-                int sizeBefore = this.wall.size();
-                this.wall.addAll(posts);
+                int sizeBefore = wall.size();
+                wall.addAll(posts);
                 callView(view -> view.notifyWallDataAdded(sizeBefore, posts.size()));
             } else {
-                this.wall.clear();
-                this.wall.addAll(posts);
+                wall.clear();
+                wall.addAll(posts);
                 callView(IWallView::notifyWallDataSetChanged);
             }
         }
@@ -355,8 +355,8 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     }
 
     public final void fireRefresh() {
-        this.netCompositeDisposable.clear();
-        this.cacheCompositeDisposable.clear();
+        netCompositeDisposable.clear();
+        cacheCompositeDisposable.clear();
 
         requestWall(0);
         if (!Settings.get().other().isDisable_history()) {
@@ -433,7 +433,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
                 }
             });
             dlgAlert.setIcon(R.drawable.qr_code);
-            final View view = LayoutInflater.from(context).inflate(R.layout.qr, null);
+            View view = LayoutInflater.from(context).inflate(R.layout.qr, null);
             dlgAlert.setTitle(R.string.show_qr);
             ImageView imageView = view.findViewById(R.id.qr);
             imageView.setImageBitmap(qr);
@@ -454,7 +454,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
             return;
         }
 
-        super.firePostClick(post);
+        firePostClick(post);
     }
 
     public void firePostRestoreClick(Post post) {
@@ -472,7 +472,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     }
 
     public void fireLikeClick(Post post) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(walls.like(accountId, post.getOwnerId(), post.getVkid(), !post.isUserLikes())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -486,7 +486,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     boolean changeWallFilter(int mode) {
         boolean changed = mode != wallFilter;
 
-        this.wallFilter = mode;
+        wallFilter = mode;
 
         if (changed) {
             cacheCompositeDisposable.clear();

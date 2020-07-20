@@ -29,7 +29,6 @@ import biz.dealnote.messenger.model.Privacy;
 import biz.dealnote.messenger.model.ShortLink;
 import biz.dealnote.messenger.model.SimplePrivacy;
 import biz.dealnote.messenger.model.User;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Single;
@@ -55,8 +54,8 @@ public class UtilsInteractor implements IUtilsInteractor {
     public Single<Map<Integer, Privacy>> createFullPrivacies(int accountId, @NonNull Map<Integer, SimplePrivacy> orig) {
         return Single.just(orig)
                 .flatMap(map -> {
-                    final Set<Integer> uids = new HashSet<>();
-                    final Set<Integer> listsIds = new HashSet<>();
+                    Set<Integer> uids = new HashSet<>();
+                    Set<Integer> listsIds = new HashSet<>();
 
                     for (Map.Entry<?, SimplePrivacy> mapEntry : orig.entrySet()) {
                         SimplePrivacy privacy = mapEntry.getValue();
@@ -86,7 +85,7 @@ public class UtilsInteractor implements IUtilsInteractor {
                                             Integer key = entry.getKey();
                                             SimplePrivacy value = entry.getValue();
 
-                                            Privacy full = Objects.isNull(value) ? null : Dto2Model.transform(value, owners, lists);
+                                            Privacy full = isNull(value) ? null : Dto2Model.transform(value, owners, lists);
                                             privacies.put(key, full);
                                         }
 
@@ -169,7 +168,7 @@ public class UtilsInteractor implements IUtilsInteractor {
                             .flatMap(dtos -> {
                                 List<FriendListEntity> dbos = new ArrayList<>(dtos.size());
 
-                                final Map<Integer, FriendList> data = new HashMap<>(map.size());
+                                Map<Integer, FriendList> data = new HashMap<>(map.size());
 
                                 for (VkApiFriendList dto : dtos) {
                                     dbos.add(new FriendListEntity(dto.id, dto.name));
@@ -213,7 +212,7 @@ public class UtilsInteractor implements IUtilsInteractor {
     }
 
     @Override
-    public Single<ShortLink> getShortLink(final int accountId, String url, Integer t_private) {
+    public Single<ShortLink> getShortLink(int accountId, String url, Integer t_private) {
         return networker.vkDefault(accountId)
                 .utils()
                 .getShortLink(url, t_private)
@@ -221,7 +220,7 @@ public class UtilsInteractor implements IUtilsInteractor {
     }
 
     @Override
-    public Single<Integer> deleteFromLastShortened(final int accountId, String key) {
+    public Single<Integer> deleteFromLastShortened(int accountId, String key) {
         return networker.vkDefault(accountId)
                 .utils()
                 .deleteFromLastShortened(key)
@@ -229,7 +228,7 @@ public class UtilsInteractor implements IUtilsInteractor {
     }
 
     @Override
-    public Single<VKApiCheckedLink> checkLink(final int accountId, String url) {
+    public Single<VKApiCheckedLink> checkLink(int accountId, String url) {
         return networker.vkDefault(accountId)
                 .utils()
                 .checkLink(url)

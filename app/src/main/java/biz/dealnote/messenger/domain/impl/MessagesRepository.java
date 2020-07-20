@@ -113,7 +113,6 @@ import biz.dealnote.messenger.upload.IUploadManager;
 import biz.dealnote.messenger.upload.Method;
 import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.upload.UploadDestination;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.PhoenixToast;
@@ -182,7 +181,7 @@ public class MessagesRepository implements IMessagesRepository {
         this.ownersRepository = ownersRepository;
         this.networker = networker;
         this.storages = storages;
-        this.decryptor = new MessagesDecryptor(storages);
+        decryptor = new MessagesDecryptor(storages);
         this.uploadManager = uploadManager;
 
         compositeDisposable.add(uploadManager.observeResults()
@@ -286,8 +285,8 @@ public class MessagesRepository implements IMessagesRepository {
     }
 
     private void onUpdloadSuccess(Upload upload) {
-        final int accountId = upload.getAccountId();
-        final int messagesId = upload.getDestination().getId();
+        int accountId = upload.getAccountId();
+        int messagesId = upload.getDestination().getId();
 
         compositeDisposable.add(uploadManager.get(accountId, upload.getDestination())
                 .flatMap(uploads -> {
@@ -313,7 +312,7 @@ public class MessagesRepository implements IMessagesRepository {
 
     @Override
     public Completable handleFlagsUpdates(int accountId, @Nullable List<MessageFlagsSetUpdate> setUpdates, @Nullable List<MessageFlagsResetUpdate> resetUpdates) {
-        final List<MessagePatch> patches = new ArrayList<>();
+        List<MessagePatch> patches = new ArrayList<>();
 
         if (nonEmpty(setUpdates)) {
             for (MessageFlagsSetUpdate update : setUpdates) {
@@ -553,7 +552,7 @@ public class MessagesRepository implements IMessagesRepository {
 
     @Override
     public Single<List<Message>> getCachedPeerMessages(int accountId, int peerId) {
-        final MessagesCriteria criteria = new MessagesCriteria(accountId, peerId);
+        MessagesCriteria criteria = new MessagesCriteria(accountId, peerId);
         return storages.messages()
                 .getByCriteria(criteria, true, true)
                 .compose(entities2Models(accountId))
@@ -603,8 +602,8 @@ public class MessagesRepository implements IMessagesRepository {
                     return ownersRepository
                             .findBaseOwnersDataAsBundle(accountId, ownIds.getAll(), IOwnersRepository.MODE_ANY)
                             .flatMap(owners -> {
-                                final List<Message> messages = new ArrayList<>(0);
-                                final List<Dialog> dialogs = new ArrayList<>(dbos.size());
+                                List<Message> messages = new ArrayList<>(0);
+                                List<Dialog> dialogs = new ArrayList<>(dbos.size());
 
                                 for (DialogEntity dbo : dbos) {
                                     Dialog dialog = Entity2Model.buildDialogFromDbo(accountId, dbo, owners);
@@ -646,10 +645,10 @@ public class MessagesRepository implements IMessagesRepository {
                     VKOwnIds ownIds = new VKOwnIds();
                     Entity2Model.fillOwnerIds(ownIds, dbos);
 
-                    return this.ownersRepository
+                    return ownersRepository
                             .findBaseOwnersDataAsBundle(accountId, ownIds.getAll(), IOwnersRepository.MODE_ANY)
                             .map(owners -> {
-                                final List<Message> messages = new ArrayList<>(dbos.size());
+                                List<Message> messages = new ArrayList<>(dbos.size());
 
                                 for (MessageEntity dbo : dbos) {
                                     messages.add(Entity2Model.message(accountId, dbo, owners));
@@ -749,7 +748,7 @@ public class MessagesRepository implements IMessagesRepository {
                 .messages()
                 .getImportantMessages(offset, count, startMessageId, true, Constants.MAIN_OWNER_FIELDS)
                 .flatMap(response -> {
-                    final List<VKApiMessage> dtos = response.messages == null ? Collections.emptyList() : listEmptyIfNull(response.messages.items);
+                    List<VKApiMessage> dtos = response.messages == null ? Collections.emptyList() : listEmptyIfNull(response.messages.items);
                     if (nonNull(startMessageId) && nonEmpty(dtos) && startMessageId == dtos.get(0).id) {
                         dtos.remove(0);
                     }
@@ -764,7 +763,7 @@ public class MessagesRepository implements IMessagesRepository {
                             .andThen(ownersRepository
                                     .findBaseOwnersDataAsBundle(accountId, ownerIds.getAll(), IOwnersRepository.MODE_ANY, existsOwners)
                                     .flatMap(owners -> {
-                                        final Completable insertCompletable = ownersRepository.insertOwners(accountId, ownerEntities);
+                                        Completable insertCompletable = ownersRepository.insertOwners(accountId, ownerEntities);
                                         List<Message> messages = new ArrayList<>(dtos.size());
                                         for (VKApiMessage dto : dtos) {
                                             messages.add(Dto2Model.transform(accountId, dto, owners));
@@ -782,10 +781,10 @@ public class MessagesRepository implements IMessagesRepository {
                 .messages()
                 .getJsonHistory(offset, count, peerId)
                 .flatMap(response -> {
-                    final List<VkApiJsonString> dtos = listEmptyIfNull(response.items);
+                    List<VkApiJsonString> dtos = listEmptyIfNull(response.items);
                     List<String> messages = new ArrayList<>(dtos.size());
                     for (VkApiJsonString i : dtos) {
-                        if (!Utils.isEmpty(i.json_data)) {
+                        if (!isEmpty(i.json_data)) {
                             messages.add(i.json_data);
                         }
                     }
@@ -802,7 +801,7 @@ public class MessagesRepository implements IMessagesRepository {
                 .messages()
                 .getHistory(offset, count, peerId, startMessageId, rev, true, Constants.MAIN_OWNER_FIELDS)
                 .flatMap(response -> {
-                    final List<VKApiMessage> dtos = listEmptyIfNull(response.messages);
+                    List<VKApiMessage> dtos = listEmptyIfNull(response.messages);
 
                     PeerPatch patch = null;
                     if (isNull(startMessageId) && cacheData && nonEmpty(response.conversations)) {
@@ -820,7 +819,7 @@ public class MessagesRepository implements IMessagesRepository {
 
                     Completable completable;
                     if (cacheData) {
-                        completable = insertPeerMessages(accountId, peerId, dtos, Objects.isNull(startMessageId));
+                        completable = insertPeerMessages(accountId, peerId, dtos, isNull(startMessageId));
                         if (patch != null) {
                             completable = completable.andThen(applyPeerUpdatesAndPublish(accountId, Collections.singletonList(patch)));
                         }
@@ -838,13 +837,13 @@ public class MessagesRepository implements IMessagesRepository {
                             .andThen(ownersRepository
                                     .findBaseOwnersDataAsBundle(accountId, ownerIds.getAll(), IOwnersRepository.MODE_ANY, existsOwners)
                                     .flatMap(owners -> {
-                                        final Completable insertCompletable = ownersRepository.insertOwners(accountId, ownerEntities);
+                                        Completable insertCompletable = ownersRepository.insertOwners(accountId, ownerEntities);
                                         if (isNull(startMessageId) && cacheData) {
                                             // Это важно !!!
                                             // Если мы получаем сообщения сначала и кэшируем их в базу,
                                             // то нельзя отдать этот список в ответ (как сделано чуть ниже)
                                             // Так как мы теряем сообщения со статусами, отличными от SENT
-                                            return insertCompletable.andThen(this.getCachedPeerMessages(accountId, peerId));
+                                            return insertCompletable.andThen(getCachedPeerMessages(accountId, peerId));
                                         }
 
                                         List<Message> messages = new ArrayList<>(dtos.size());
@@ -860,8 +859,8 @@ public class MessagesRepository implements IMessagesRepository {
 
     @Override
     public Single<List<Dialog>> getDialogs(int accountId, int count, Integer startMessageId) {
-        final boolean clear = isNull(startMessageId);
-        final IDialogsStorage dialogsStore = this.storages.dialogs();
+        boolean clear = isNull(startMessageId);
+        IDialogsStorage dialogsStore = storages.dialogs();
 
         return networker.vkDefault(accountId)
                 .messages()
@@ -876,7 +875,7 @@ public class MessagesRepository implements IMessagesRepository {
                 .flatMap(response -> {
                     List<VkApiDialog> apiDialogs = listEmptyIfNull(response.dialogs);
 
-                    final Collection<Integer> ownerIds;
+                    Collection<Integer> ownerIds;
 
                     if (nonEmpty(apiDialogs)) {
                         VKOwnIds vkOwnIds = new VKOwnIds();
@@ -897,9 +896,9 @@ public class MessagesRepository implements IMessagesRepository {
                     return ownersRepository
                             .findBaseOwnersDataAsBundle(accountId, ownerIds, IOwnersRepository.MODE_ANY, existsOwners)
                             .flatMap(owners -> {
-                                final List<DialogEntity> entities = new ArrayList<>(apiDialogs.size());
-                                final List<Dialog> dialogs = new ArrayList<>(apiDialogs.size());
-                                final List<Message> encryptedMessages = new ArrayList<>(0);
+                                List<DialogEntity> entities = new ArrayList<>(apiDialogs.size());
+                                List<Dialog> dialogs = new ArrayList<>(apiDialogs.size());
+                                List<Message> encryptedMessages = new ArrayList<>(0);
 
                                 for (VkApiDialog dto : apiDialogs) {
                                     DialogEntity entity = Dto2Entity.mapDialog(dto);
@@ -913,7 +912,7 @@ public class MessagesRepository implements IMessagesRepository {
                                     }
                                 }
 
-                                final Completable insertCompletable = dialogsStore
+                                Completable insertCompletable = dialogsStore
                                         .insertDialogs(accountId, entities, clear)
                                         .andThen(ownersRepository.insertOwners(accountId, ownerEntities))
                                         .doOnComplete(() -> dialogsStore.setUnreadDialogsCount(accountId, response.unreadCount));
@@ -940,13 +939,13 @@ public class MessagesRepository implements IMessagesRepository {
     @SuppressLint("UseSparseArrays")
     @Override
     public Single<Message> put(SaveMessageBuilder builder) {
-        final int accountId = builder.getAccountId();
-        final Integer draftMessageId = builder.getDraftMessageId();
-        final int peerId = builder.getPeerId();
+        int accountId = builder.getAccountId();
+        Integer draftMessageId = builder.getDraftMessageId();
+        int peerId = builder.getPeerId();
 
-        return this.getTargetMessageStatus(builder)
+        return getTargetMessageStatus(builder)
                 .flatMap(status -> {
-                    final MessageEditEntity patch = new MessageEditEntity(status, accountId);
+                    MessageEditEntity patch = new MessageEditEntity(status, accountId);
 
                     patch.setEncrypted(builder.isRequireEncryption());
                     patch.setPayload(builder.getPayload());
@@ -968,7 +967,7 @@ public class MessagesRepository implements IMessagesRepository {
                         patch.setAttachments(Model2Entity.buildDboAttachments(builder.getAttachments()));
                     }
 
-                    final List<Message> fwds = builder.getForwardMessages();
+                    List<Message> fwds = builder.getForwardMessages();
                     if (nonEmpty(fwds)) {
                         List<MessageEntity> fwddbos = new ArrayList<>(fwds.size());
 
@@ -1038,7 +1037,7 @@ public class MessagesRepository implements IMessagesRepository {
 
     @Override
     public Single<SentMsg> sendUnsentMessage(Collection<Integer> accountIds) {
-        final IMessagesStorage store = this.storages.messages();
+        IMessagesStorage store = storages.messages();
 
         return store
                 .findFirstUnsentMessage(accountIds, true, false)
@@ -1047,15 +1046,15 @@ public class MessagesRepository implements IMessagesRepository {
                         return Single.error(new NotFoundException());
                     }
 
-                    final MessageEntity entity = optional.get().getSecond();
-                    final int accountId = optional.get().getFirst();
-                    final int dbid = entity.getId();
-                    final int peerId = entity.getPeerId();
+                    MessageEntity entity = optional.get().getSecond();
+                    int accountId = optional.get().getFirst();
+                    int dbid = entity.getId();
+                    int peerId = entity.getPeerId();
 
                     return changeMessageStatus(accountId, dbid, MessageStatus.SENDING, null)
                             .andThen(internalSend(accountId, entity)
                                     .flatMap(vkid -> {
-                                        final PeerPatch patch = new PeerPatch(entity.getPeerId())
+                                        PeerPatch patch = new PeerPatch(entity.getPeerId())
                                                 .withLastMessage(vkid)
                                                 .withUnreadCount(0);
 
@@ -1077,13 +1076,13 @@ public class MessagesRepository implements IMessagesRepository {
 
                     for (SearchDialogsResponse.AbsChattable chattable : chattables) {
                         if (chattable instanceof SearchDialogsResponse.Chat) {
-                            final VKApiChat chat = ((SearchDialogsResponse.Chat) chattable).getChat();
+                            VKApiChat chat = ((SearchDialogsResponse.Chat) chattable).getChat();
                             models.add(Dto2Model.transform(chat));
                         } else if (chattable instanceof SearchDialogsResponse.User) {
-                            final VKApiUser user = ((SearchDialogsResponse.User) chattable).getUser();
+                            VKApiUser user = ((SearchDialogsResponse.User) chattable).getUser();
                             models.add(Dto2Model.transformUser(user));
                         } else if (chattable instanceof SearchDialogsResponse.Community) {
-                            final VKApiCommunity community = ((SearchDialogsResponse.Community) chattable).getCommunity();
+                            VKApiCommunity community = ((SearchDialogsResponse.Community) chattable).getCommunity();
                             models.add(Dto2Model.transformCommunity(community));
                         }
                     }
@@ -1140,7 +1139,7 @@ public class MessagesRepository implements IMessagesRepository {
                         owners.add(Dto2Model.transformOwner(dto.user));
                     }
 
-                    final boolean isAdmin = accountId == chatDto.admin_id;
+                    boolean isAdmin = accountId == chatDto.admin_id;
 
                     return ownersRepository.findBaseOwnersDataAsBundle(accountId, ids.getAll(), IOwnersRepository.MODE_ANY, owners)
                             .map(ownersBundle -> {
@@ -1351,7 +1350,7 @@ public class MessagesRepository implements IMessagesRepository {
                     .pin(peerId, message.getId());
         }
 
-        final PeerPatch patch = new PeerPatch(peerId)
+        PeerPatch patch = new PeerPatch(peerId)
                 .withPin(message == null ? null : Model2Entity.buildMessageEntity(message));
 
         return apiCompletable
@@ -1366,13 +1365,13 @@ public class MessagesRepository implements IMessagesRepository {
                     .send(dbo.getId(), dbo.getPeerId(), null, dbo.getBody(), null, null, null, null, null, dbo.getPayload());
         }
 
-        final Collection<IAttachmentToken> attachments = new LinkedList<>();
+        Collection<IAttachmentToken> attachments = new LinkedList<>();
 
         try {
             if (nonEmpty(dbo.getAttachments())) {
                 for (Entity a : dbo.getAttachments()) {
                     if (a instanceof StickerEntity) {
-                        final int stickerId = ((StickerEntity) a).getId();
+                        int stickerId = ((StickerEntity) a).getId();
 
                         return networker.vkDefault(accountId)
                                 .messages()
@@ -1413,13 +1412,13 @@ public class MessagesRepository implements IMessagesRepository {
         Map<Integer, String> extras = dbo.getExtras();
 
         if (nonNull(extras) && extras.containsKey(Message.Extra.VOICE_RECORD)) {
-            final String filePath = extras.get(Message.Extra.VOICE_RECORD);
-            final IDocsApi docsApi = networker.vkDefault(accountId).docs();
+            String filePath = extras.get(Message.Extra.VOICE_RECORD);
+            IDocsApi docsApi = networker.vkDefault(accountId).docs();
 
             return docsApi.getUploadServer(null, "audio_message")
                     .flatMap(server -> {
-                        final File file = new File(filePath);
-                        final InputStream[] is = new InputStream[1];
+                        File file = new File(filePath);
+                        InputStream[] is = new InputStream[1];
 
                         try {
                             is[0] = new FileInputStream(file);
@@ -1462,7 +1461,7 @@ public class MessagesRepository implements IMessagesRepository {
                         throw new KeyPairDoesNotExistException();
                     }
 
-                    final AesKeyPair pair = key.get();
+                    AesKeyPair pair = key.get();
 
                     String encrypted = CryptHelper.encryptWithAes(builder.getBody(),
                             pair.getMyAesKey(),
@@ -1476,7 +1475,7 @@ public class MessagesRepository implements IMessagesRepository {
     }
 
     private Single<Integer> getTargetMessageStatus(SaveMessageBuilder builder) {
-        final int accountId = builder.getAccountId();
+        int accountId = builder.getAccountId();
 
         if (isNull(builder.getDraftMessageId())) {
             return Single.just(MessageStatus.QUEUE);

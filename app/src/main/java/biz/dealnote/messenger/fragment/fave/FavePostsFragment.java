@@ -42,7 +42,7 @@ public class FavePostsFragment extends PlaceSupportMvpFragment<FavePostsPresente
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private WallAdapter mAdapter;
     private TextView mEmpty;
-    private boolean isRequestLast = false;
+    private boolean isRequestLast;
 
     public static FavePostsFragment newInstance(int accountId) {
         Bundle args = new Bundle();
@@ -98,7 +98,7 @@ public class FavePostsFragment extends PlaceSupportMvpFragment<FavePostsPresente
 
     @Override
     public void onAvatarClick(int ownerId) {
-        this.onOpenOwner(ownerId);
+        onOpenOwner(ownerId);
     }
 
     @Override

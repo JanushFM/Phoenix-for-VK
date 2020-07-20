@@ -35,7 +35,7 @@ public class ChatUsersDomainFragment extends BaseMvpBottomSheetDialogFragment<Ch
         implements IChatUsersDomainView, ChatMembersListDomainAdapter.ActionListener {
 
     private ChatMembersListDomainAdapter mAdapter;
-    private Listener listener = null;
+    private Listener listener;
 
     private static Bundle buildArgs(int accountId, int chatId) {
         Bundle args = new Bundle();

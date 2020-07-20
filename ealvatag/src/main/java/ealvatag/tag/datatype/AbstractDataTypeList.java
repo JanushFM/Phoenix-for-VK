@@ -34,7 +34,7 @@ import okio.Buffer;
  */
 public abstract class AbstractDataTypeList<T extends AbstractDataType> extends AbstractDataType {
 
-    public AbstractDataTypeList(final String identifier, final AbstractTagFrameBody frameBody) {
+    public AbstractDataTypeList(String identifier, AbstractTagFrameBody frameBody) {
         super(identifier, frameBody);
         setValue(new ArrayList<T>());
     }
@@ -47,7 +47,7 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
      *
      * @param copy instance
      */
-    protected AbstractDataTypeList(final AbstractDataTypeList<T> copy) {
+    protected AbstractDataTypeList(AbstractDataTypeList<T> copy) {
         super(copy);
     }
 
@@ -55,7 +55,7 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
         return (List<T>) super.getValue();
     }
 
-    public void setValue(final List<T> list) {
+    public void setValue(List<T> list) {
         super.setValue(list == null ? new ArrayList<T>() : new ArrayList<T>(list));
     }
 
@@ -66,7 +66,7 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
      */
     public int getSize() {
         int size = 0;
-        for (final T t : getValue()) {
+        for (T t : getValue()) {
             size += t.getSize();
         }
         return size;
@@ -78,7 +78,7 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
      * @param buffer buffer
      * @param offset initial offset into the buffer
      */
-    public void readByteArray(final byte[] buffer, final int offset) throws InvalidDataTypeException {
+    public void readByteArray(byte[] buffer, int offset) throws InvalidDataTypeException {
         if (buffer == null) {
             throw new NullPointerException("Byte array is null");
         }
@@ -94,7 +94,7 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
             return;
         }
         for (int currentOffset = offset; currentOffset < buffer.length; ) {
-            final T data = createListElement();
+            T data = createListElement();
             data.readByteArray(buffer, currentOffset);
             data.setBody(frameBody);
             getValue().add(data);
@@ -103,14 +103,14 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
-        final int bufferSize = (int) buffer.size();
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
+        int bufferSize = (int) buffer.size();
         if (bufferSize == 0) {
             getValue().clear();
             return;
         }
         for (int i = 0, readSize = Math.min(size, bufferSize); i < readSize; i++) {
-            final T data = createListElement();
+            T data = createListElement();
             data.read(buffer, size);
             data.setBody(frameBody);
             getValue().add(data);
@@ -132,10 +132,10 @@ public abstract class AbstractDataTypeList<T extends AbstractDataType> extends A
      * @return a byte array that that contains the data that should be persisted to file
      */
     public byte[] writeByteArray() {
-        final byte[] buffer = new byte[getSize()];
+        byte[] buffer = new byte[getSize()];
         int offset = 0;
-        for (final AbstractDataType data : getValue()) {
-            final byte[] bytes = data.writeByteArray();
+        for (AbstractDataType data : getValue()) {
+            byte[] bytes = data.writeByteArray();
             System.arraycopy(bytes, 0, buffer, offset, bytes.length);
             offset += bytes.length;
         }

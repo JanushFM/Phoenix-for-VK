@@ -45,7 +45,7 @@ public class FieldFrameBodyINF extends AbstractLyrics3v2FieldFrameBody {
      * @param additionalInformation
      */
     public FieldFrameBodyINF(String additionalInformation) {
-        this.setObjectValue("Additional Information", additionalInformation);
+        setObjectValue("Additional Information", additionalInformation);
     }
 
     /**
@@ -55,7 +55,7 @@ public class FieldFrameBodyINF extends AbstractLyrics3v2FieldFrameBody {
      * @throws ealvatag.tag.InvalidTagException
      */
     public FieldFrameBodyINF(ByteBuffer byteBuffer) throws InvalidTagException {
-        this.read(byteBuffer);
+        read(byteBuffer);
 
     }
 

@@ -1,14 +1,13 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import biz.dealnote.messenger.api.model.Identificable;
 import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
-public class User extends Owner implements Parcelable, Identificable {
+public class User extends Owner implements Identificable {
 
     public static final Creator<User> CREATOR = new Creator<User>() {
         @Override
@@ -305,7 +304,7 @@ public class User extends Owner implements Parcelable, Identificable {
 
     @Override
     public int getOwnerId() {
-        return Math.abs(this.id);
+        return Math.abs(id);
     }
 
     @Override

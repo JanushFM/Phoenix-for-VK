@@ -25,7 +25,7 @@ public class DrawerEditPresenter extends AbsPresenter<IDrawerEditView> {
 
     public DrawerEditPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
-        this.data = createInitialData();
+        data = createInitialData();
     }
 
     @StringRes

@@ -44,7 +44,6 @@ import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Analytics;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.DisposableHolder;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
@@ -92,17 +91,17 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
 
     public CommentsPresenter(int accountId, Commented commented, Integer focusToComment, Context context, Integer CommentThread, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.authorId = accountId;
-        this.ownersRepository = Repository.INSTANCE.getOwners();
-        this.interactor = new CommentsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores(), Repository.INSTANCE.getOwners());
+        authorId = accountId;
+        ownersRepository = Repository.INSTANCE.getOwners();
+        interactor = new CommentsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores(), Repository.INSTANCE.getOwners());
         this.commented = commented;
         this.focusToComment = focusToComment;
         this.context = context;
-        this.directionDesc = Settings.get().other().isCommentsDesc();
+        directionDesc = Settings.get().other().isCommentsDesc();
         this.CommentThread = CommentThread;
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
 
-        if (Objects.isNull(focusToComment) && Objects.isNull(CommentThread)) {
+        if (isNull(focusToComment) && isNull(CommentThread)) {
             // если надо сфокусироваться на каком-то комментарии - не грузим из кэша
             loadCachedData();
         }
@@ -139,7 +138,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private void loadAuthorData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(ownersRepository.getBaseOwnerInfo(accountId, authorId, IOwnersRepository.MODE_ANY)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -159,7 +158,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private void onAuthorDataReceived(Owner owner) {
-        this.author = owner;
+        author = owner;
         resolveAuthorAvatarView();
     }
 
@@ -216,14 +215,14 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
                 .blockingGet();
 
         if (nonNull(draft)) {
-            this.draftCommentBody = draft.getBody();
-            this.draftCommentAttachmentsCount = draft.getAttachmentsCount();
-            this.draftCommentId = draft.getId();
+            draftCommentBody = draft.getBody();
+            draftCommentAttachmentsCount = draft.getAttachmentsCount();
+            draftCommentId = draft.getId();
         }
     }
 
     private void requestInitialData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         Single<CommentsBundle> single;
         if (nonNull(focusToComment)) {
@@ -251,7 +250,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         Comment first = getFirstCommentInList();
         if (isNull(first)) return;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingState(LoadingState.UP);
         actualLoadingDisposable.add(interactor.getCommentsPortion(accountId, commented, 1, COUNT, first.getId(), CommentThread, false, "desc")
@@ -266,7 +265,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         Comment last = getLastCommentInList();
         if (isNull(last)) return;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingState(LoadingState.DOWN);
         actualLoadingDisposable.add(interactor.getCommentsPortion(accountId, commented, 0, COUNT, last.getId(), CommentThread, false, "asc")
@@ -310,12 +309,12 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private void updateAdminLevel(int newValue) {
-        this.adminLevel = newValue;
+        adminLevel = newValue;
         resolveCanSendAsAdminView();
     }
 
     private boolean canDelete(Comment comment) {
-        int currentSessionUserId = super.getAccountId();
+        int currentSessionUserId = getAccountId();
 
         Owner author = comment.getAuthor();
 
@@ -464,9 +463,9 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private Single<Integer> saveSingle() {
-        final int accountId = super.getAccountId();
-        final int replyToComment = nonNull(replyTo) ? replyTo.getId() : 0;
-        final int replyToUser = nonNull(replyTo) ? replyTo.getFromId() : 0;
+        int accountId = getAccountId();
+        int replyToComment = nonNull(replyTo) ? replyTo.getId() : 0;
+        int replyToUser = nonNull(replyTo) ? replyTo.getFromId() : 0;
         return interactor.safeDraftComment(accountId, commented, draftCommentBody, replyToComment, replyToUser);
     }
 
@@ -484,7 +483,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     public void fireInputTextChanged(String s) {
         boolean canSend = canSendComment();
 
-        this.draftCommentBody = s;
+        draftCommentBody = s;
 
         if (canSend != canSendComment()) {
             resolveSendButtonAvailability();
@@ -517,7 +516,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         Comment older = getFirstCommentInList();
         AssertUtils.requireNonNull(older);
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         getView().displayDeepLookingCommentProgress();
 
@@ -549,7 +548,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     private void onDeepCommentLoadingResponse(int commentId, List<Comment> comments) {
         getView().dismissDeepLookingCommentProgress();
 
-        this.data.addAll(comments);
+        data.addAll(comments);
 
         int index = 0;
         for (int i = 0; i < data.size(); i++) {
@@ -577,12 +576,12 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
             draftCommentId = saveDraftSync();
         }
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         getView().openAttachmentsManager(accountId, draftCommentId, commented.getSourceOwnerId(), draftCommentBody);
     }
 
     public void fireEditBodyResult(String newBody) {
-        this.draftCommentBody = newBody;
+        draftCommentBody = newBody;
         resolveSendButtonAvailability();
         resolveBodyView();
     }
@@ -593,7 +592,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
             String replyText = buildReplyTextFor(comment);
             getView().replaceBodySelectionTextTo(replyText);
         } else {
-            this.replyTo = comment;
+            replyTo = comment;
             resolveReplyViews();
         }
     }
@@ -642,8 +641,8 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     private void sendNormalComment() {
         setSendingNow(true);
 
-        final int accountId = super.getAccountId();
-        final CommentIntent intent = createCommentIntent();
+        int accountId = getAccountId();
+        CommentIntent intent = createCommentIntent();
         if (intent.getReplyToComment() == null && CommentThread != null)
             intent.setReplyToComment(CommentThread);
 
@@ -658,7 +657,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         if (intent.getReplyToComment() == null && CommentThread != null)
             intent.setReplyToComment(CommentThread);
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(interactor.send(accountId, commented, CommentThread, intent)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onQuickSendResponse, this::onSendError));
@@ -674,7 +673,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
 
         handleCommentAdded(comment);
 
-        this.replyTo = null;
+        replyTo = null;
 
         resolveReplyViews();
         resolveEmptyTextVisibility();
@@ -713,10 +712,10 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
 
         handleCommentAdded(comment);
 
-        this.draftCommentAttachmentsCount = 0;
-        this.draftCommentBody = null;
-        this.draftCommentId = null;
-        this.replyTo = null;
+        draftCommentAttachmentsCount = 0;
+        draftCommentBody = null;
+        draftCommentId = null;
+        replyTo = null;
 
         resolveAttachmentsCounter();
         resolveBodyView();
@@ -726,8 +725,8 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private CommentIntent createCommentIntent() {
-        final Integer replyToComment = isNull(replyTo) ? null : replyTo.getId();
-        final String body = this.draftCommentBody;
+        Integer replyToComment = isNull(replyTo) ? null : replyTo.getId();
+        String body = draftCommentBody;
 
         return new CommentIntent(authorId)
                 .setMessage(body)
@@ -770,14 +769,14 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private void deleteRestoreInternal(int commentId, boolean delete) {
-        int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(interactor.deleteRestore(accountId, commented, commentId, delete)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(dummy(), t -> showError(getView(), t)));
     }
 
     public void fireCommentEditClick(Comment comment) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         getView().goToCommentEdit(accountId, comment, CommentThread);
     }
 
@@ -786,7 +785,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private void likeInternal(boolean add, Comment comment) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(interactor.like(accountId, comment.getCommented(), comment.getId(), add)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -813,7 +812,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
                         .setId(commented.getSourceId())
                         .setAccessKey(commented.getAccessKey());
 
-                super.firePhotoClick(Utils.singletonArrayList(photo), 0);
+                firePhotoClick(Utils.singletonArrayList(photo), 0);
                 break;
 
             case CommentedType.POST:
@@ -831,7 +830,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     public void fireTopicPollClick() {
-        super.firePollClick(topicPoll);
+        firePollClick(topicPoll);
     }
 
     public void fireRefreshClick() {
@@ -876,7 +875,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     public void fireCommentEditResult(Comment comment) {
-        if (this.commented.equals(comment.getCommented())) {
+        if (commented.equals(comment.getCommented())) {
             for (int i = 0; i < data.size(); i++) {
                 if (data.get(i).getId() == comment.getId()) {
                     data.set(i, comment);
@@ -892,8 +891,8 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     public void fireBanClick(Comment comment) {
-        final User user = (User) comment.getAuthor();
-        final int groupId = Math.abs(commented.getSourceOwnerId());
+        User user = (User) comment.getAuthor();
+        int groupId = Math.abs(commented.getSourceOwnerId());
 
         getView().banUser(getAccountId(), groupId, user);
     }
@@ -906,7 +905,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     public void fireSendLongClick() {
         setLoadingAvailableAuthorsNow(true);
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         boolean canSendFromAnyGroup = commented.getSourceType() == CommentedType.POST;
 
@@ -936,16 +935,16 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     public void fireAuthorSelected(Owner owner) {
-        this.author = owner;
-        this.authorId = owner.getOwnerId();
+        author = owner;
+        authorId = owner.getOwnerId();
         resolveAuthorAvatarView();
     }
 
     public void fireDirectionChanged() {
-        this.data.clear();
+        data.clear();
         getView().notifyDataSetChanged();
 
-        this.directionDesc = Settings.get().other().isCommentsDesc();
+        directionDesc = Settings.get().other().isCommentsDesc();
         requestInitialData();
     }
 
@@ -994,7 +993,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     private void loadCachedData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         cacheLoadingDisposable.add(interactor.getAllCachedData(accountId, commented)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, ignore()));
@@ -1066,7 +1065,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     }
 
     public void fireReplyCancelClick() {
-        this.replyTo = null;
+        replyTo = null;
         resolveReplyViews();
     }
 

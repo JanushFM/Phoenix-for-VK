@@ -156,7 +156,7 @@ public class ID3v24Frame extends AbstractID3v2Frame {
             ID3v23Frame v23Frame = new ID3v23Frame(frame);
             createV24FrameFromV23Frame(v23Frame);
         }
-        this.frameBody.setHeader(this);
+        frameBody.setHeader(this);
     }
 
     /**
@@ -189,37 +189,37 @@ public class ID3v24Frame extends AbstractID3v2Frame {
 //                    }
                 }
                 if (hasTimeStamp) {
-                    this.frameBody = sync;
-                    this.frameBody.setHeader(this);
+                    frameBody = sync;
+                    frameBody.setHeader(this);
                 } else {
-                    this.frameBody = unsync;
-                    this.frameBody.setHeader(this);
+                    frameBody = unsync;
+                    frameBody.setHeader(this);
                 }
                 break;
             case "INF":
                 value = ((FieldFrameBodyINF) field.getBody()).getAdditionalInformation();
-                this.frameBody = new FrameBodyCOMM((byte) 0, "ENG", "", value);
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyCOMM((byte) 0, "ENG", "", value);
+                frameBody.setHeader(this);
                 break;
             case "AUT":
                 value = ((FieldFrameBodyAUT) field.getBody()).getAuthor();
-                this.frameBody = new FrameBodyTCOM((byte) 0, value);
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyTCOM((byte) 0, value);
+                frameBody.setHeader(this);
                 break;
             case "EAL":
                 value = ((FieldFrameBodyEAL) field.getBody()).getAlbum();
-                this.frameBody = new FrameBodyTALB((byte) 0, value);
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyTALB((byte) 0, value);
+                frameBody.setHeader(this);
                 break;
             case "EAR":
                 value = ((FieldFrameBodyEAR) field.getBody()).getArtist();
-                this.frameBody = new FrameBodyTPE1((byte) 0, value);
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyTPE1((byte) 0, value);
+                frameBody.setHeader(this);
                 break;
             case "ETT":
                 value = ((FieldFrameBodyETT) field.getBody()).getTitle();
-                this.frameBody = new FrameBodyTIT2((byte) 0, value);
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyTIT2((byte) 0, value);
+                frameBody.setHeader(this);
                 break;
             case "IMG":
                 throw new InvalidTagException("Cannot create ID3v2.40 frame from Lyrics3 image field.");
@@ -228,7 +228,7 @@ public class ID3v24Frame extends AbstractID3v2Frame {
         }
     }
 
-    public ID3v24Frame(Buffer buffer, String loggingFilename, final boolean ignoreArtwork) throws InvalidTagException, IOException {
+    public ID3v24Frame(Buffer buffer, String loggingFilename, boolean ignoreArtwork) throws InvalidTagException, IOException {
         setLoggingFilename(loggingFilename);
         read(buffer, ignoreArtwork);
     }
@@ -247,48 +247,48 @@ public class ID3v24Frame extends AbstractID3v2Frame {
 
         //We cant convert unsupported bodies properly
         if (frame.getBody() instanceof FrameBodyUnsupported) {
-            this.frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
-            this.frameBody.setHeader(this);
+            frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
+            frameBody.setHeader(this);
             identifier = frame.getIdentifier();
         }//Simple Copy
         else if (identifier != null) {
             //Special Case
             if ((frame.getIdentifier().equals(ID3v23Frames.FRAME_ID_V3_USER_DEFINED_INFO)) &&
                     (((FrameBodyTXXX) frame.getBody()).getDescription().equals(FrameBodyTXXX.MOOD))) {
-                this.frameBody = new FrameBodyTMOO((FrameBodyTXXX) frame.getBody());
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyTMOO((FrameBodyTXXX) frame.getBody());
+                frameBody.setHeader(this);
                 identifier = frameBody.getIdentifier();
             } else {
-                this.frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(frame.getBody());
-                this.frameBody.setHeader(this);
+                frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(frame.getBody());
+                frameBody.setHeader(this);
             }
         }
         // Is it a known v3 frame which needs forcing to v4 frame e.g. TYER - TDRC
         else if (ID3Tags.isID3v23FrameIdentifier(frame.getIdentifier())) {
             identifier = ID3Tags.forceFrameID23To24(frame.getIdentifier());
             if (identifier != null) {
-                this.frameBody = this.readBody(identifier, (AbstractID3v2FrameBody) frame.getBody());
-                this.frameBody.setHeader(this);
+                frameBody = readBody(identifier, (AbstractID3v2FrameBody) frame.getBody());
+                frameBody.setHeader(this);
             }
             // No mechanism exists to convert it to a v24 frame, e.g deprecated frame e.g TSIZ, so hold
             // as a deprecated frame consisting of an array of bytes*/
             else {
-                this.frameBody = new FrameBodyDeprecated((AbstractID3v2FrameBody) frame.getBody());
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyDeprecated((AbstractID3v2FrameBody) frame.getBody());
+                frameBody.setHeader(this);
                 identifier = frame.getIdentifier();
             }
         }
         // Unknown Frame e.g NCON or TDRL (because TDRL unknown to V23)
         else {
-            this.frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
-            this.frameBody.setHeader(this);
+            frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
+            frameBody.setHeader(this);
             identifier = frame.getIdentifier();
         }
     }
 
-    public void read(Buffer buffer, final boolean ignoreArtwork) throws InvalidTagException, IOException {
+    public void read(Buffer buffer, boolean ignoreArtwork) throws InvalidTagException, IOException {
         long sizeBeforeRead = buffer.size();
-        final String fileName = loggingFilename;
+        String fileName = loggingFilename;
         try {
             String identifier = readIdentifier(buffer);
 
@@ -309,13 +309,13 @@ public class ID3v24Frame extends AbstractID3v2Frame {
             int extraHeaderBytesCount = 0;
             int dataLengthSize = -1;
             if (((EncodingFlags) encodingFlags).isGrouping()) {
-                extraHeaderBytesCount = ID3v24Frame.FRAME_GROUPING_INDICATOR_SIZE;
+                extraHeaderBytesCount = FRAME_GROUPING_INDICATOR_SIZE;
                 groupIdentifier = buffer.readByte();
             }
 
             if (((EncodingFlags) encodingFlags).isEncryption()) {
                 //Read the Encryption byte, but do nothing with it
-                extraHeaderBytesCount += ID3v24Frame.FRAME_ENCRYPTION_INDICATOR_SIZE;
+                extraHeaderBytesCount += FRAME_ENCRYPTION_INDICATOR_SIZE;
                 encryptionMethod = buffer.readByte();
             }
 
@@ -617,8 +617,8 @@ public class ID3v24Frame extends AbstractID3v2Frame {
         ID3v24Frame that = (ID3v24Frame) obj;
 
 
-        return EqualsUtil.areEqual(this.statusFlags, that.statusFlags) &&
-                EqualsUtil.areEqual(this.encodingFlags, that.encodingFlags) && super.equals(that);
+        return EqualsUtil.areEqual(statusFlags, that.statusFlags) &&
+                EqualsUtil.areEqual(encodingFlags, that.encodingFlags) && super.equals(that);
     }
 
     private int getFrameFlagsSize() {
@@ -655,7 +655,7 @@ public class ID3v24Frame extends AbstractID3v2Frame {
      * @return int frame size
      */
     public int getSize() {
-        return frameBody.getSize() + ID3v24Frame.FRAME_HEADER_SIZE;
+        return frameBody.getSize() + FRAME_HEADER_SIZE;
     }
 
     public void read(ByteBuffer byteBuffer) throws InvalidFrameException, InvalidDataTypeException {
@@ -683,13 +683,13 @@ public class ID3v24Frame extends AbstractID3v2Frame {
         int extraHeaderBytesCount = 0;
         int dataLengthSize = -1;
         if (((EncodingFlags) encodingFlags).isGrouping()) {
-            extraHeaderBytesCount = ID3v24Frame.FRAME_GROUPING_INDICATOR_SIZE;
+            extraHeaderBytesCount = FRAME_GROUPING_INDICATOR_SIZE;
             groupIdentifier = byteBuffer.get();
         }
 
         if (((EncodingFlags) encodingFlags).isEncryption()) {
             //Read the Encryption byte, but do nothing with it
-            extraHeaderBytesCount += ID3v24Frame.FRAME_ENCRYPTION_INDICATOR_SIZE;
+            extraHeaderBytesCount += FRAME_ENCRYPTION_INDICATOR_SIZE;
             encryptionMethod = byteBuffer.get();
         }
 
@@ -905,11 +905,11 @@ public class ID3v24Frame extends AbstractID3v2Frame {
      *
      * @param encoding charset.
      */
-    public void setEncoding(final Charset encoding) {
+    public void setEncoding(Charset encoding) {
         try {
             byte encodingId = TextEncoding.getInstanceOf().getIdForCharset(encoding);
             if (encodingId < 4) {
-                this.getBody().setTextEncoding(encodingId);
+                getBody().setTextEncoding(encodingId);
             }
         } catch (NoSuchElementException ignored) {
         }
@@ -944,7 +944,6 @@ public class ID3v24Frame extends AbstractID3v2Frame {
          * Use this when creating a frame from scratch
          */
         StatusFlags() {
-            super();
         }
 
         /**
@@ -1045,7 +1044,6 @@ public class ID3v24Frame extends AbstractID3v2Frame {
          * Use this when creating a frame from scratch
          */
         EncodingFlags() {
-            super();
         }
 
         /**

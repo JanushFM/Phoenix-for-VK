@@ -110,7 +110,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         if (savedInstanceState != null) {
             mFullscreen = savedInstanceState.getBoolean("mFullscreen");
         }
-        this.transformation = CurrentTheme.createTransformationForAvatar(requireActivity());
+        transformation = CurrentTheme.createTransformationForAvatar(requireActivity());
     }
 
     @Override
@@ -508,7 +508,6 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         int mPageCount;
 
         Adapter(int count) {
-            super();
             mPageCount = count;
             mHolderSparseArray.clear();
         }

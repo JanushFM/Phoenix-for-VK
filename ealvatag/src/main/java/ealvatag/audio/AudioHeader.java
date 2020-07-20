@@ -83,7 +83,7 @@ public interface AudioHeader {
      *                 {@link TimeUnit#convert(long, TimeUnit)} result
      * @return duration in {@code timeUnit}
      */
-    long getDuration(TimeUnit timeUnit, final boolean round);
+    long getDuration(TimeUnit timeUnit, boolean round);
 
     /**
      * Return the track duration in seconds. The {@link #getDuration(TimeUnit, boolean)} method should be preferred as it supports

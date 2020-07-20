@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class WikiPage extends AbsModel implements Parcelable {
+public class WikiPage extends AbsModel {
 
     public static final Creator<WikiPage> CREATOR = new Creator<WikiPage>() {
         @Override

@@ -23,7 +23,7 @@ package ealvatag.audio;
  * Created by Eric A. Snell on 1/19/17.
  */
 public abstract class CachingAudioFileReaderFactory implements AudioFileReaderFactory {
-    private volatile AudioFileReader reader = null;
+    private volatile AudioFileReader reader;
 
     @Override
     public final AudioFileReader make() {

@@ -40,7 +40,7 @@ public class FavePhotosFragment extends BaseMvpFragment<FavePhotosPresenter, IFa
     private TextView mEmpty;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private FavePhotosAdapter mAdapter;
-    private boolean isRequestLast = false;
+    private boolean isRequestLast;
 
     public static FavePhotosFragment newInstance(int accountId) {
         Bundle args = new Bundle();

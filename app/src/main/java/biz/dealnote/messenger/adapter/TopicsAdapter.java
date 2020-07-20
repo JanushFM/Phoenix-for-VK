@@ -32,12 +32,12 @@ public class TopicsAdapter extends RecyclerBindableAdapter<Topic, TopicsAdapter.
 
     private final Transformation transformation;
     private final ActionListener mActionListener;
-    private int firstLastPadding = 0;
+    private int firstLastPadding;
 
     public TopicsAdapter(Context context, List<Topic> topics, @NonNull ActionListener actionListener) {
         super(topics);
-        this.mActionListener = actionListener;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        mActionListener = actionListener;
+        transformation = CurrentTheme.createTransformationForAvatar(context);
 
         if (Utils.is600dp(context)) {
             firstLastPadding = (int) Utils.dpToPx(16, context);
@@ -46,7 +46,7 @@ public class TopicsAdapter extends RecyclerBindableAdapter<Topic, TopicsAdapter.
 
     @Override
     protected void onBindItemViewHolder(ViewHolder holder, int position, int type) {
-        final Topic item = getItem(position - getHeadersCount());
+        Topic item = getItem(position - getHeadersCount());
         Context context = holder.itemView.getContext();
 
         holder.title.setText(item.getTitle());

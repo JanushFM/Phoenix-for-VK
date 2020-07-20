@@ -1,13 +1,11 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-import biz.dealnote.messenger.api.model.Identificable;
 import biz.dealnote.messenger.util.Objects;
 
 
-public class Photo extends AbsModel implements Parcelable, Identificable, ISomeones {
+public class Photo extends AbsModel implements ISomeones {
 
     public static final Creator<Photo> CREATOR = new Creator<Photo>() {
         @Override

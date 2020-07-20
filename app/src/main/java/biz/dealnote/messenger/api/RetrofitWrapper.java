@@ -16,7 +16,7 @@ public class RetrofitWrapper {
     private RetrofitWrapper(Retrofit retrofit, boolean withCaching) {
         this.retrofit = retrofit;
         this.withCaching = withCaching;
-        this.servicesCache = withCaching ? Collections.synchronizedMap(new HashMap<>(4)) : Collections.emptyMap();
+        servicesCache = withCaching ? Collections.synchronizedMap(new HashMap<>(4)) : Collections.emptyMap();
     }
 
     public static RetrofitWrapper wrap(Retrofit retrofit) {

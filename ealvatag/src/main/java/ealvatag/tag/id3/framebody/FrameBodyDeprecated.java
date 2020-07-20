@@ -19,7 +19,7 @@ public class FrameBodyDeprecated extends AbstractID3v2FrameBody implements ID3v2
      * @param frameBody
      */
     public FrameBodyDeprecated(AbstractID3v2FrameBody frameBody) {
-        this.originalFrameBody = frameBody;
+        originalFrameBody = frameBody;
     }
 
     /**
@@ -61,7 +61,7 @@ public class FrameBodyDeprecated extends AbstractID3v2FrameBody implements ID3v2
         }
 
         FrameBodyDeprecated object = (FrameBodyDeprecated) obj;
-        return this.getIdentifier().equals(object.getIdentifier()) && super.equals(obj);
+        return getIdentifier().equals(object.getIdentifier()) && super.equals(obj);
     }
 
     /**

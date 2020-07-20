@@ -33,17 +33,17 @@ public class LikesListPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
         this.itemId = itemId;
         this.filter = filter;
 
-        this.likesInteractor = InteractorFactory.createLikesInteractor();
+        likesInteractor = InteractorFactory.createLikesInteractor();
 
         requestData(0);
     }
     //private int loadingOffset;
 
     private void requestData(int offset) {
-        this.loadingNow = true;
+        loadingNow = true;
         //this.loadingOffset = offset;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         resolveRefreshingView();
         netDisposable.add(likesInteractor.getLikes(accountId, type, ownerId, itemId, filter, 50, offset)
@@ -57,16 +57,16 @@ public class LikesListPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
     }
 
     private void onDataReceived(int offset, List<Owner> owners) {
-        this.loadingNow = false;
-        this.endOfContent = owners.isEmpty();
+        loadingNow = false;
+        endOfContent = owners.isEmpty();
 
         if (offset == 0) {
-            super.data.clear();
-            super.data.addAll(owners);
+            data.clear();
+            data.addAll(owners);
             callView(ISimpleOwnersView::notifyDataSetChanged);
         } else {
-            int sizeBefore = super.data.size();
-            super.data.addAll(owners);
+            int sizeBefore = data.size();
+            data.addAll(owners);
             callView(view -> view.notifyDataAdded(sizeBefore, owners.size()));
         }
 
@@ -99,8 +99,8 @@ public class LikesListPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
 
     @Override
     void onUserScrolledToEnd() {
-        if (!loadingNow && !endOfContent && Utils.nonEmpty(super.data)) {
-            requestData(super.data.size());
+        if (!loadingNow && !endOfContent && Utils.nonEmpty(data)) {
+            requestData(data.size());
         }
     }
 }

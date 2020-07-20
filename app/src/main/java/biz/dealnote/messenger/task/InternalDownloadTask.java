@@ -51,16 +51,16 @@ public class InternalDownloadTask extends AsyncTask<String, Integer, String> {
     private String filename;
 
     public InternalDownloadTask(Context context, String url, String file, String ID, boolean UseMediaScanner) {
-        this.mContext = context.getApplicationContext();
+        mContext = context.getApplicationContext();
         this.file = file;
-        this.photourl = url;
+        photourl = url;
         this.ID = ID;
         this.UseMediaScanner = UseMediaScanner;
-        this.mNotifyManager = NotificationManagerCompat.from(this.mContext);
+        mNotifyManager = NotificationManagerCompat.from(mContext);
         if (Utils.hasOreo()) {
-            this.mNotifyManager.createNotificationChannel(AppNotificationChannels.getDownloadChannel(this.mContext));
+            mNotifyManager.createNotificationChannel(AppNotificationChannels.getDownloadChannel(mContext));
         }
-        this.mBuilder = new NotificationCompat.Builder(this.mContext, AppNotificationChannels.DOWNLOAD_CHANNEL_ID);
+        mBuilder = new NotificationCompat.Builder(mContext, AppNotificationChannels.DOWNLOAD_CHANNEL_ID);
         if (new File(file).exists()) {
             int lastExt = this.file.lastIndexOf('.');
             if (lastExt != -1) {
@@ -72,14 +72,14 @@ public class InternalDownloadTask extends AsyncTask<String, Integer, String> {
                 this.file += ("." + DOWNLOAD_DATE_FORMAT.format(new Date()));
         }
 
-        this.filename = this.file;
-        int lastPath = this.filename.lastIndexOf(File.separator);
+        filename = this.file;
+        int lastPath = filename.lastIndexOf(File.separator);
         if (lastPath != -1) {
-            this.filename = this.filename.substring(lastPath + 1);
+            filename = filename.substring(lastPath + 1);
         }
 
-        this.mBuilder.setContentTitle(this.mContext.getString(R.string.downloading))
-                .setContentText(this.mContext.getString(R.string.downloading) + " " + this.filename)
+        mBuilder.setContentTitle(mContext.getString(R.string.downloading))
+                .setContentText(mContext.getString(R.string.downloading) + " " + filename)
                 .setSmallIcon(R.drawable.save)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(false)
@@ -121,7 +121,7 @@ public class InternalDownloadTask extends AsyncTask<String, Integer, String> {
                         return chain.proceed(request);
                     });
             ProxyUtil.applyProxyConfig(builder, Injection.provideProxySettings().getActiveProxy());
-            final Request request = new Request.Builder()
+            Request request = new Request.Builder()
                     .url(photourl)
                     .build();
 
@@ -163,7 +163,7 @@ public class InternalDownloadTask extends AsyncTask<String, Integer, String> {
                 mBuilder.setContentIntent(ReadPendingIntent);
             }
 
-            mBuilder.setContentText(mContext.getString(R.string.success) + " " + this.filename)
+            mBuilder.setContentText(mContext.getString(R.string.success) + " " + filename)
                     .setProgress(0, 0, false)
                     .setAutoCancel(true)
                     .setOngoing(false);
@@ -171,7 +171,7 @@ public class InternalDownloadTask extends AsyncTask<String, Integer, String> {
             mNotifyManager.notify(ID, NotificationHelper.NOTIFICATION_DOWNLOAD, mBuilder.build());
         } catch (Exception e) {
             e.printStackTrace();
-            mBuilder.setContentText(mContext.getString(R.string.error) + " " + e.getLocalizedMessage() + ". " + this.filename)
+            mBuilder.setContentText(mContext.getString(R.string.error) + " " + e.getLocalizedMessage() + ". " + filename)
                     .setSmallIcon(R.drawable.ic_error_toast_vector)
                     .setAutoCancel(true)
                     .setOngoing(false)

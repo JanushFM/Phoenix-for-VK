@@ -64,7 +64,7 @@ public class BooleanString extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         value = '0' != buffer.readByte();
     }
 

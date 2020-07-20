@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model.selection;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class VkPhotosSelectableSource extends AbsSelectableSource implements Parcelable {
+public class VkPhotosSelectableSource extends AbsSelectableSource {
 
     public static final Creator<VkPhotosSelectableSource> CREATOR = new Creator<VkPhotosSelectableSource>() {
         @Override

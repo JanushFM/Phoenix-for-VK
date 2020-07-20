@@ -28,7 +28,7 @@ public class AudioSelectActivity extends NoMainActivity implements PlaceProvider
         super.onCreate(savedInstanceState);
 
         if (Objects.isNull(savedInstanceState)) {
-            int accountId = super.getIntent().getExtras().getInt(Extra.ACCOUNT_ID);
+            int accountId = getIntent().getExtras().getInt(Extra.ACCOUNT_ID);
             attachInitialFragment(accountId);
         }
     }

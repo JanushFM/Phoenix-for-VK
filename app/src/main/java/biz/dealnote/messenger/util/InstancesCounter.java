@@ -10,7 +10,7 @@ public class InstancesCounter {
     private final Map<Class<?>, AtomicInteger> map;
 
     public InstancesCounter() {
-        this.map = new HashMap<>();
+        map = new HashMap<>();
     }
 
     public int incrementAndGet(Class<?> c) {

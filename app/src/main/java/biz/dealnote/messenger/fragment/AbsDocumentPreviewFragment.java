@@ -38,7 +38,7 @@ public abstract class AbsDocumentPreviewFragment<P extends BaseDocumentPresenter
 
     @Override
     public void shareDocument(int accountId, @NonNull Document document) {
-        String[] items = new String[]{
+        String[] items = {
                 getString(R.string.share_link),
                 getString(R.string.repost_send_message),
                 getString(R.string.repost_to_wall)

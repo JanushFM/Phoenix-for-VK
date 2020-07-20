@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model.drawer;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class IconMenuItem extends SectionMenuItem implements Parcelable {
+public class IconMenuItem extends SectionMenuItem {
 
     public static Creator<IconMenuItem> CREATOR = new Creator<IconMenuItem>() {
         public IconMenuItem createFromParcel(Parcel source) {
@@ -23,7 +22,7 @@ public class IconMenuItem extends SectionMenuItem implements Parcelable {
 
     public IconMenuItem(Parcel in) {
         super(in);
-        this.icon = in.readInt();
+        icon = in.readInt();
     }
 
     public int getIcon() {

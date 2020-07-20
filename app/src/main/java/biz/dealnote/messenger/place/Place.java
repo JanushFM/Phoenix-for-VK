@@ -126,7 +126,7 @@ public class Place implements Parcelable {
     }
 
     public Place targetTo(Fragment fragment, int requestCode) {
-        this.target = fragment;
+        target = fragment;
         this.requestCode = requestCode;
         return this;
     }
@@ -147,7 +147,7 @@ public class Place implements Parcelable {
     }
 
     public Place setArguments(Bundle arguments) {
-        this.args = arguments;
+        args = arguments;
         return this;
     }
 

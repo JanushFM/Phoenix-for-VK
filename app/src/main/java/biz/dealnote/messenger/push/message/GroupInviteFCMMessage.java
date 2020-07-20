@@ -50,7 +50,7 @@ public class GroupInviteFCMMessage {
         return message;
     }
 
-    public void notify(final Context context, final int accountId) {
+    public void notify(Context context, int accountId) {
         if (!Settings.get()
                 .notifications()
                 .isGroupInvitedNotifEnabled()) {
@@ -72,7 +72,7 @@ public class GroupInviteFCMMessage {
 
     private void notifyImpl(Context context, @NonNull User user, Bitmap groupBitmap, @NonNull Community community) {
         String contentText = context.getString(R.string.invites_you_to_join_community, user.getFullName());
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getGroupInvitesChannel(context));
         }

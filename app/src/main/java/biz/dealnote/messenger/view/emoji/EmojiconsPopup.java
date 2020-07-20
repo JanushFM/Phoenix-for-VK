@@ -111,7 +111,7 @@ public class EmojiconsPopup {
     private ViewPager2 emojisPager;
 
     public EmojiconsPopup(View rootView, Activity context) {
-        this.mContext = context;
+        mContext = context;
         this.rootView = rootView;
         listenKeyboardSize();
     }
@@ -149,7 +149,7 @@ public class EmojiconsPopup {
     }
 
     public void setOnEmojiconClickedListener(OnEmojiconClickedListener listener) {
-        this.onEmojiconClickedListener = listener;
+        onEmojiconClickedListener = listener;
     }
 
     public OnStickerClickedListener getOnStickerClickedListener() {
@@ -165,7 +165,7 @@ public class EmojiconsPopup {
     }
 
     public void setOnEmojiconBackspaceClickedListener(OnEmojiconBackspaceClickedListener listener) {
-        this.onEmojiconBackspaceClickedListener = listener;
+        onEmojiconBackspaceClickedListener = listener;
     }
 
     public OnSoftKeyboardOpenCloseListener getOnSoftKeyboardOpenCloseListener() {
@@ -173,7 +173,7 @@ public class EmojiconsPopup {
     }
 
     public void setOnSoftKeyboardOpenCloseListener(OnSoftKeyboardOpenCloseListener listener) {
-        this.onSoftKeyboardOpenCloseListener = listener;
+        onSoftKeyboardOpenCloseListener = listener;
     }
 
     public boolean isKeyBoardOpen() {
@@ -188,7 +188,7 @@ public class EmojiconsPopup {
         if (Objects.isNull(emojiContainer)) {
             emojiContainer = createCustomView(emojiParentView);
 
-            final int finalKeyboardHeight = Settings.get().ui().isEmojis_full_screen() ? ViewGroup.LayoutParams.MATCH_PARENT : (this.keyBoardHeight > 0 ? keyBoardHeight : (int) mContext.getResources().getDimension(R.dimen.keyboard_height));
+            int finalKeyboardHeight = Settings.get().ui().isEmojis_full_screen() ? ViewGroup.LayoutParams.MATCH_PARENT : (keyBoardHeight > 0 ? keyBoardHeight : (int) mContext.getResources().getDimension(R.dimen.keyboard_height));
             ViewGroup.LayoutParams layoutParams = emojiContainer.getLayoutParams();
             layoutParams.height = finalKeyboardHeight;
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -220,7 +220,7 @@ public class EmojiconsPopup {
                 Symbols.DATA
         );
 
-        final List<AbsSection> sections = new ArrayList<>();
+        List<AbsSection> sections = new ArrayList<>();
         sections.add(new EmojiSection(EmojiSection.TYPE_PEOPLE, getTintedDrawable(R.drawable.ic_emoji_people_vector)));
         sections.add(new EmojiSection(EmojiSection.TYPE_NATURE, getTintedDrawable(R.drawable.pine_tree)));
         sections.add(new EmojiSection(EmojiSection.TYPE_FOOD, getTintedDrawable(R.drawable.pizza)));
@@ -256,7 +256,7 @@ public class EmojiconsPopup {
 
         sections.get(emojisPager.getCurrentItem()).active = true;
 
-        final SectionsAdapter topSectionAdapter = new SectionsAdapter(sections, mContext);
+        SectionsAdapter topSectionAdapter = new SectionsAdapter(sections, mContext);
         recyclerView.setAdapter(topSectionAdapter);
 
         view.findViewById(R.id.backspase).setOnTouchListener(new RepeatListener(700, 50, v -> {
@@ -338,7 +338,6 @@ public class EmojiconsPopup {
         private final EmojiconsPopup mEmojiconPopup;
 
         EmojisPagerAdapter(List<Emojicon[]> views, List<StickerSet> stickersGridViews, EmojiconsPopup mEmojiconPopup) {
-            super();
             this.views = views;
             this.stickersGridViews = stickersGridViews;
             this.mEmojiconPopup = mEmojiconPopup;

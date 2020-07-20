@@ -40,8 +40,8 @@ public class ModificationHandler implements AudioFileModificationListener {
      * @param l Listener to add.
      */
     public void addAudioFileModificationListener(AudioFileModificationListener l) {
-        if (!this.listeners.contains(l)) {
-            this.listeners.add(l);
+        if (!listeners.contains(l)) {
+            listeners.add(l);
         }
     }
 
@@ -52,7 +52,7 @@ public class ModificationHandler implements AudioFileModificationListener {
      * File)
      */
     public void fileModified(AudioFile original, File temporary) throws ModifyVetoException {
-        for (AudioFileModificationListener listener : this.listeners) {
+        for (AudioFileModificationListener listener : listeners) {
             AudioFileModificationListener current = listener;
             try {
                 current.fileModified(original, temporary);
@@ -69,7 +69,7 @@ public class ModificationHandler implements AudioFileModificationListener {
      * @see AudioFileModificationListener#fileOperationFinished(File)
      */
     public void fileOperationFinished(File result) {
-        for (AudioFileModificationListener listener : this.listeners) {
+        for (AudioFileModificationListener listener : listeners) {
             AudioFileModificationListener current = listener;
             current.fileOperationFinished(result);
         }
@@ -82,7 +82,7 @@ public class ModificationHandler implements AudioFileModificationListener {
      * boolean)
      */
     public void fileWillBeModified(AudioFile file, boolean delete) throws ModifyVetoException {
-        for (AudioFileModificationListener listener : this.listeners) {
+        for (AudioFileModificationListener listener : listeners) {
             AudioFileModificationListener current = listener;
             try {
                 current.fileWillBeModified(file, delete);
@@ -99,7 +99,7 @@ public class ModificationHandler implements AudioFileModificationListener {
      * @param l Listener to remove.
      */
     public void removeAudioFileModificationListener(AudioFileModificationListener l) {
-        this.listeners.remove(l);
+        listeners.remove(l);
     }
 
     /**
@@ -110,7 +110,7 @@ public class ModificationHandler implements AudioFileModificationListener {
      * ealvatag.audio.exceptions.ModifyVetoException)
      */
     public void vetoThrown(AudioFileModificationListener cause, AudioFile original, ModifyVetoException veto) {
-        for (AudioFileModificationListener listener : this.listeners) {
+        for (AudioFileModificationListener listener : listeners) {
             AudioFileModificationListener current = listener;
             current.vetoThrown(cause, original, veto);
         }

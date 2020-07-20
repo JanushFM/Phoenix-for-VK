@@ -32,9 +32,9 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     private ActionListener mActionListener;
 
     public SelectedProfilesAdapter(Context context, List<User> data) {
-        this.mContext = context;
-        this.mData = data;
-        this.mTransformation = CurrentTheme.createTransformationForAvatar(context);
+        mContext = context;
+        mData = data;
+        mTransformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NotNull
@@ -81,8 +81,8 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
         });
     }
 
-    private void bindProfileViewHolder(final ProfileViewHolder holder, int adapterPosition) {
-        final User user = mData.get(toDataPosition(adapterPosition));
+    private void bindProfileViewHolder(ProfileViewHolder holder, int adapterPosition) {
+        User user = mData.get(toDataPosition(adapterPosition));
         holder.name.setText(user.getFirstName());
 
         PicassoInstance.with()
@@ -103,7 +103,7 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void setActionListener(ActionListener actionListener) {
-        this.mActionListener = actionListener;
+        mActionListener = actionListener;
     }
 
     public int toAdapterPosition(int dataPosition) {
@@ -131,8 +131,8 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         CheckViewHolder(View itemView) {
             super(itemView);
-            this.counter = itemView.findViewById(R.id.counter);
-            this.root = itemView.findViewById(R.id.root);
+            counter = itemView.findViewById(R.id.counter);
+            root = itemView.findViewById(R.id.root);
         }
     }
 
@@ -144,10 +144,10 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         ProfileViewHolder(View itemView) {
             super(itemView);
-            this.avatar = itemView.findViewById(R.id.avatar);
-            this.name = itemView.findViewById(R.id.name);
-            this.buttonRemove = itemView.findViewById(R.id.button_remove);
-            this.buttonRemove.getDrawable().setTint(CurrentTheme.getColorOnSurface(mContext));
+            avatar = itemView.findViewById(R.id.avatar);
+            name = itemView.findViewById(R.id.name);
+            buttonRemove = itemView.findViewById(R.id.button_remove);
+            buttonRemove.getDrawable().setTint(CurrentTheme.getColorOnSurface(mContext));
 
             View root = itemView.findViewById(R.id.root);
             root.getBackground().setTint(CurrentTheme.getMessageBackgroundSquare(mContext));

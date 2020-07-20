@@ -12,6 +12,7 @@ import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.fragment.VideosFragment;
 import biz.dealnote.messenger.fragment.VideosTabsFragment;
 import biz.dealnote.messenger.fragment.search.SingleTabSearchFragment;
+import biz.dealnote.messenger.mvp.view.IVideosListView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceProvider;
 import biz.dealnote.messenger.util.Objects;
@@ -33,14 +34,14 @@ public class VideoSelectActivity extends NoMainActivity implements PlaceProvider
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Objects.isNull(savedInstanceState)) {
-            int accountId = super.getIntent().getExtras().getInt(Extra.ACCOUNT_ID);
-            int ownerId = super.getIntent().getExtras().getInt(Extra.OWNER_ID);
+            int accountId = getIntent().getExtras().getInt(Extra.ACCOUNT_ID);
+            int ownerId = getIntent().getExtras().getInt(Extra.OWNER_ID);
             attachInitialFragment(accountId, ownerId);
         }
     }
 
     private void attachInitialFragment(int accountId, int ownerId) {
-        VideosTabsFragment fragment = VideosTabsFragment.newInstance(accountId, ownerId, VideosFragment.ACTION_SELECT);
+        VideosTabsFragment fragment = VideosTabsFragment.newInstance(accountId, ownerId, IVideosListView.ACTION_SELECT);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(getMainContainerViewId(), fragment)

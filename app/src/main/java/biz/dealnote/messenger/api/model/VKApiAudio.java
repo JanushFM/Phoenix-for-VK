@@ -120,41 +120,41 @@ public class VKApiAudio implements VKApiAttachment {
 
         public static String getTitleByGenre(@NonNull Context context, int genre) {
             switch (genre) {
-                case VKApiAudio.Genre.ACOUSTIC_AND_VOCAL:
+                case ACOUSTIC_AND_VOCAL:
                     return "#" + context.getString(R.string.acoustic);
-                case VKApiAudio.Genre.ALTERNATIVE:
+                case ALTERNATIVE:
                     return "#" + context.getString(R.string.alternative);
-                case VKApiAudio.Genre.CHANSON:
+                case CHANSON:
                     return "#" + context.getString(R.string.chanson);
-                case VKApiAudio.Genre.CLASSICAL:
+                case CLASSICAL:
                     return "#" + context.getString(R.string.classical);
-                case VKApiAudio.Genre.DANCE_AND_HOUSE:
+                case DANCE_AND_HOUSE:
                     return "#" + context.getString(R.string.dance);
-                case VKApiAudio.Genre.DRUM_AND_BASS:
+                case DRUM_AND_BASS:
                     return "#" + context.getString(R.string.drum_and_bass);
-                case VKApiAudio.Genre.EASY_LISTENING:
+                case EASY_LISTENING:
                     return "#" + context.getString(R.string.easy_listening);
-                case VKApiAudio.Genre.ELECTROPOP_AND_DISCO:
+                case ELECTROPOP_AND_DISCO:
                     return "#" + context.getString(R.string.disco);
-                case VKApiAudio.Genre.ETHNIC:
+                case ETHNIC:
                     return "#" + context.getString(R.string.ethnic);
-                case VKApiAudio.Genre.INDIE_POP:
+                case INDIE_POP:
                     return "#" + context.getString(R.string.indie_pop);
-                case VKApiAudio.Genre.INSTRUMENTAL:
+                case INSTRUMENTAL:
                     return "#" + context.getString(R.string.instrumental);
-                case VKApiAudio.Genre.METAL:
+                case METAL:
                     return "#" + context.getString(R.string.metal);
-                case VKApiAudio.Genre.OTHER:
+                case OTHER:
                     return "#" + context.getString(R.string.other);
-                case VKApiAudio.Genre.POP:
+                case POP:
                     return "#" + context.getString(R.string.pop);
-                case VKApiAudio.Genre.REGGAE:
+                case REGGAE:
                     return "#" + context.getString(R.string.reggae);
-                case VKApiAudio.Genre.ROCK:
+                case ROCK:
                     return "#" + context.getString(R.string.rock);
-                case VKApiAudio.Genre.SPEECH:
+                case SPEECH:
                     return "#" + context.getString(R.string.speech);
-                case VKApiAudio.Genre.TRANCE:
+                case TRANCE:
                     return "#" + context.getString(R.string.trance);
 
             }

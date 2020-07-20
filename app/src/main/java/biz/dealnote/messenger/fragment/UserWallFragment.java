@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -111,7 +111,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
             mHeaderHolder.ivOnline.setIcon(onlineIcon);
         }
         if (user.getBlacklisted()) {
-            Utils.ColoredSnack(requireView(), R.string.blacklisted, Snackbar.LENGTH_LONG, Color.parseColor("#ccaa0000")).show();
+            Utils.ColoredSnack(requireView(), R.string.blacklisted, BaseTransientBottomBar.LENGTH_LONG, Color.parseColor("#ccaa0000")).show();
         }
         mHeaderHolder.ivVerified.setVisibility(user.isVerified() ? View.VISIBLE : View.GONE);
     }

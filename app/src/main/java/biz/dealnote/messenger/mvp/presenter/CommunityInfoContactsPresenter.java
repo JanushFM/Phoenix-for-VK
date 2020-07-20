@@ -41,9 +41,9 @@ public class CommunityInfoContactsPresenter extends AccountDependencyPresenter<I
 
     public CommunityInfoContactsPresenter(int accountId, Community groupId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.interactor = new GroupSettingsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores().owners(), Repository.INSTANCE.getOwners());
+        interactor = new GroupSettingsInteractor(Injection.provideNetworkInterfaces(), Injection.provideStores().owners(), Repository.INSTANCE.getOwners());
         this.groupId = groupId;
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
 
         appendDisposable(Injection.provideStores()
                 .owners()
@@ -85,7 +85,7 @@ public class CommunityInfoContactsPresenter extends AccountDependencyPresenter<I
     }
 
     private void onContactsReceived(List<ContactInfo> contacts) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         List<Integer> Ids = new ArrayList<>(contacts.size());
         for (ContactInfo it : contacts)
             Ids.add(it.getUserId());
@@ -108,14 +108,14 @@ public class CommunityInfoContactsPresenter extends AccountDependencyPresenter<I
     }
 
     private void requestContacts() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(interactor.getContacts(accountId, groupId.getId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onContactsReceived, this::onRequestError));
     }
 
     private void requestData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingNow(true);
         if (groupId.getAdminLevel() < VKApiCommunity.AdminLevel.ADMIN) {
@@ -158,8 +158,8 @@ public class CommunityInfoContactsPresenter extends AccountDependencyPresenter<I
     private void onDataReceived(List<Manager> managers) {
         setLoadingNow(false);
 
-        this.data.clear();
-        this.data.addAll(managers);
+        data.clear();
+        data.addAll(managers);
 
         callView(ICommunityInfoContactsView::notifyDataSetChanged);
     }

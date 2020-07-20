@@ -31,8 +31,8 @@ public class AttachmentsRepository implements IAttachmentsRepository {
     public AttachmentsRepository(IAttachmentsStorage store, IOwnersRepository ownersRepository) {
         this.store = store;
         this.ownersRepository = ownersRepository;
-        this.addPublishSubject = PublishSubject.create();
-        this.removePublishSubject = PublishSubject.create();
+        addPublishSubject = PublishSubject.create();
+        removePublishSubject = PublishSubject.create();
     }
 
     @Override
@@ -45,16 +45,16 @@ public class AttachmentsRepository implements IAttachmentsRepository {
     }
 
     @Override
-    public Completable attach(int accountId, int attachToType, int attachToDbid, final @NonNull List<? extends AbsModel> models) {
-        final List<Entity> entities = Model2Entity.buildDboAttachments(models);
+    public Completable attach(int accountId, int attachToType, int attachToDbid, @NonNull List<? extends AbsModel> models) {
+        List<Entity> entities = Model2Entity.buildDboAttachments(models);
 
         return store.attachDbos(accountId, attachToType, attachToDbid, entities)
                 .doAfterSuccess(ids -> {
                     List<Pair<Integer, AbsModel>> events = new ArrayList<>(models.size());
 
                     for (int i = 0; i < models.size(); i++) {
-                        final AbsModel model = models.get(i);
-                        final int generatedId = ids[i];
+                        AbsModel model = models.get(i);
+                        int generatedId = ids[i];
                         events.add(Pair.Companion.create(generatedId, model));
                     }
 
@@ -68,7 +68,7 @@ public class AttachmentsRepository implements IAttachmentsRepository {
     public Single<List<Pair<Integer, AbsModel>>> getAttachmentsWithIds(int accountId, int attachToType, int attachToDbid) {
         return store.getAttachmentsDbosWithIds(accountId, attachToType, attachToDbid)
                 .flatMap(pairs -> {
-                    final VKOwnIds ids = new VKOwnIds();
+                    VKOwnIds ids = new VKOwnIds();
 
                     for (Pair<Integer, Entity> pair : pairs) {
                         Entity2Model.fillOwnerIds(ids, pair.getSecond());

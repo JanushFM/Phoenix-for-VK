@@ -67,7 +67,7 @@ public abstract class AudioFileWriter {
      * @throws CannotWriteException if anything went wrong
      */
     public void delete(AudioFile af) throws CannotWriteException {
-        final File file = af.getFile();
+        File file = af.getFile();
         if (TagOptionSingleton.getInstance().isCheckIsWritable() && file.canWrite()) {
             throw new CannotWriteException(ErrorMessage.GENERAL_DELETE_FAILED, file);
         }
@@ -174,7 +174,7 @@ public abstract class AudioFileWriter {
      * @param listener The listener. <code>null</code> allowed to deregister.
      */
     AudioFileWriter setAudioFileModificationListener(AudioFileModificationListener listener) {
-        this.modificationListener = NullAudioFileModificationListener.nullToNullIntance(listener);
+        modificationListener = NullAudioFileModificationListener.nullToNullIntance(listener);
         return this;
     }
 
@@ -366,9 +366,9 @@ public abstract class AudioFileWriter {
      * @param reuseExistingOriginalFile {@code true} or {@code false}
      * @throws CannotWriteException If the file cannot be written
      */
-    private void transferNewFileToOriginalFile(final File newFile,
-                                               final File originalFile,
-                                               final boolean reuseExistingOriginalFile) throws CannotWriteException {
+    private void transferNewFileToOriginalFile(File newFile,
+                                               File originalFile,
+                                               boolean reuseExistingOriginalFile) throws CannotWriteException {
         if (reuseExistingOriginalFile) {
             transferNewFileContentToOriginalFile(newFile, originalFile);
         } else {
@@ -400,12 +400,12 @@ public abstract class AudioFileWriter {
      *                     the modified content and new inode/fileIndex.
      * @throws CannotWriteException if the file cannot be written
      */
-    private void transferNewFileContentToOriginalFile(final File newFile, final File originalFile)
+    private void transferNewFileContentToOriginalFile(File newFile, File originalFile)
             throws CannotWriteException {
         // try to obtain exclusive lock on the file
-        try (final RandomAccessFile raf = new RandomAccessFile(originalFile, "rw")) {
-            final FileChannel outChannel = raf.getChannel();
-            try (final FileLock lock = outChannel.tryLock()) {
+        try (RandomAccessFile raf = new RandomAccessFile(originalFile, "rw")) {
+            FileChannel outChannel = raf.getChannel();
+            try (FileLock lock = outChannel.tryLock()) {
                 if (lock != null) {
                     transferNewFileContentToOriginalFile(newFile, originalFile, raf, outChannel);
                 } else {
@@ -434,14 +434,14 @@ public abstract class AudioFileWriter {
         }
     }
 
-    private void transferNewFileContentToOriginalFile(final File newFile,
-                                                      final File originalFile,
-                                                      final RandomAccessFile raf,
-                                                      final FileChannel outChannel) throws CannotWriteException {
-        try (final FileChannel inChannel = new FileInputStream(newFile).getChannel()) {
+    private void transferNewFileContentToOriginalFile(File newFile,
+                                                      File originalFile,
+                                                      RandomAccessFile raf,
+                                                      FileChannel outChannel) throws CannotWriteException {
+        try (FileChannel inChannel = new FileInputStream(newFile).getChannel()) {
             // copy contents of newFile to originalFile,
             // overwriting the old content in that file
-            final long size = inChannel.size();
+            long size = inChannel.size();
             long position = 0;
             while (position < size) {
                 position += inChannel.transferTo(position, 1024L * 1024L, outChannel);
@@ -483,7 +483,7 @@ public abstract class AudioFileWriter {
      *                     the modified content and new inode/fileIndex.
      * @throws CannotWriteException if the file cannot be written
      */
-    private void transferNewFileToNewOriginalFile(final File newFile, final File originalFile)
+    private void transferNewFileToNewOriginalFile(File newFile, File originalFile)
             throws CannotWriteException {
         // ==Android==
         // get original creation date

@@ -21,11 +21,11 @@ public class MP3FileReader extends AudioFileReader {
         throw new RuntimeException("MP3FileReader.getEncodingInfo should be called");
     }
 
-    protected TagFieldContainer getTag(RandomAccessFile raf, final boolean ignoreArtwork) {
+    protected TagFieldContainer getTag(RandomAccessFile raf, boolean ignoreArtwork) {
         throw new RuntimeException("MP3FileReader.getEncodingInfo should be called");
     }
 
-    public AudioFile read(File f, final String extension, final boolean ignoreArtwork) throws IOException,
+    public AudioFile read(File f, String extension, boolean ignoreArtwork) throws IOException,
             TagException,
             CannotReadException,
             InvalidAudioFrameException {

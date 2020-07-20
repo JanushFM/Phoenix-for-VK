@@ -43,8 +43,8 @@ public class SimplePhotoPresenter extends PhotoPagerPresenter {
     private void refreshData() {
         if (isHistory)
             return;
-        final ArrayList<AccessIdPair> ids = new ArrayList<>(getData().size());
-        final int accountId = super.getAccountId();
+        ArrayList<AccessIdPair> ids = new ArrayList<>(getData().size());
+        int accountId = getAccountId();
 
         for (Photo photo : getData()) {
             ids.add(new AccessIdPair(photo.getId(), photo.getOwnerId(), photo.getAccessKey()));
@@ -61,7 +61,7 @@ public class SimplePhotoPresenter extends PhotoPagerPresenter {
     }
 
     private void onPhotoListRefresh(@NonNull List<Photo> photos) {
-        List<Photo> originalData = super.getData();
+        List<Photo> originalData = getData();
 
         for (Photo photo : photos) {
             //замена старых обьектов новыми
@@ -80,7 +80,7 @@ public class SimplePhotoPresenter extends PhotoPagerPresenter {
             }
         }
 
-        super.refreshInfoViews();
+        refreshInfoViews();
     }
 
     @Override

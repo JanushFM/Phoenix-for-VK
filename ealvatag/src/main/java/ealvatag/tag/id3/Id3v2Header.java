@@ -51,7 +51,7 @@ public class Id3v2Header {
     private final byte flags;
     private final int tagSize;
 
-    public Id3v2Header(final byte majorVersion, final byte revision, final byte flags, final int tagSize) {
+    public Id3v2Header(byte majorVersion, byte revision, byte flags, int tagSize) {
         this.majorVersion = majorVersion;
         this.revision = revision;
         this.flags = flags;

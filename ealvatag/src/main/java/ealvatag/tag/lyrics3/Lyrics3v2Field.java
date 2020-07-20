@@ -55,7 +55,7 @@ public class Lyrics3v2Field extends AbstractTagFrame {
      * @param body
      */
     public Lyrics3v2Field(AbstractLyrics3v2FieldFrameBody body) {
-        this.frameBody = body;
+        frameBody = body;
     }
 
     /**
@@ -110,7 +110,7 @@ public class Lyrics3v2Field extends AbstractTagFrame {
      * @throws InvalidTagException
      */
     public Lyrics3v2Field(ByteBuffer byteBuffer) throws InvalidTagException {
-        this.read(byteBuffer);
+        read(byteBuffer);
     }
 
     /**

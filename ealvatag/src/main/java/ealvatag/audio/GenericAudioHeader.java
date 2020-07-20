@@ -45,9 +45,9 @@ public class GenericAudioHeader implements AudioHeader {
     private int samplingRate = -1;
     private int bitsPerSample = -1;
     private String encodingType = "";
-    private boolean isVbr = false;
-    private boolean isLossless = false;
-    private double trackLength = 0.0;
+    private boolean isVbr;
+    private boolean isLossless;
+    private double trackLength;
     private long noOfSamples = -1;
     private int byteRate = -1;
 
@@ -103,7 +103,7 @@ public class GenericAudioHeader implements AudioHeader {
     }
 
     @Override
-    public long getDuration(final TimeUnit timeUnit, final boolean round) {
+    public long getDuration(TimeUnit timeUnit, boolean round) {
         return TimeUnits.convert(Math.round(trackLength * 1000000000), NANOSECONDS, timeUnit, round);
     }
 
@@ -172,7 +172,7 @@ public class GenericAudioHeader implements AudioHeader {
      * @param channelMode number of channels (2 for stereo, 1 for mono).
      */
     public void setChannelNumber(int channelMode) {
-        this.noOfChannels = channelMode;
+        noOfChannels = channelMode;
     }
 
     /**
@@ -181,7 +181,7 @@ public class GenericAudioHeader implements AudioHeader {
      * @param length The duration of the audio in seconds (single-precision).
      */
     public void setPreciseLength(double length) {
-        this.trackLength = length;
+        trackLength = length;
     }
 
     /**

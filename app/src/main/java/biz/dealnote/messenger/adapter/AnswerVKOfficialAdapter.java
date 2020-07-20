@@ -47,8 +47,8 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
     public AnswerVKOfficialAdapter(AnswerVKOfficialList data, Context context) {
         this.data = data;
         this.context = context;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
-        this.mStartOfToday = Utils.startOfTodayMillis();
+        transformation = CurrentTheme.createTransformationForAvatar(context);
+        mStartOfToday = Utils.startOfTodayMillis();
     }
 
     @NonNull
@@ -57,7 +57,7 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
         return new Holder(LayoutInflater.from(context).inflate(R.layout.item_answer_official, parent, false));
     }
 
-    private void LoadIcon(@NonNull final Holder holder, final AnswerVKOfficial Page, boolean isSmall) {
+    private void LoadIcon(@NonNull Holder holder, AnswerVKOfficial Page, boolean isSmall) {
         if (!isSmall)
             holder.avatar.setOnClickListener(v -> {
             });
@@ -122,8 +122,8 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        final AnswerVKOfficial Page = data.items.get(position);
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
+        AnswerVKOfficial Page = data.items.get(position);
         AnswerVKOfficial previous = position == 0 ? null : data.items.get(position - 1);
 
         long lastMessageJavaTime = Page.time * 1000;

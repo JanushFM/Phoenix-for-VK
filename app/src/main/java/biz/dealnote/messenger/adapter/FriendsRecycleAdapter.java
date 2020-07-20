@@ -38,7 +38,7 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
     public FriendsRecycleAdapter(List<UsersPart> data, Context context) {
         this.data = data;
         this.context = context;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NotNull
@@ -49,8 +49,8 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final ItemInfo itemInfo = get(position);
-        final User user = itemInfo.user;
+        ItemInfo itemInfo = get(position);
+        User user = itemInfo.user;
 
         Utils.setColorFilter(holder.headerCount.getBackground(), CurrentTheme.getColorPrimary(context));
         boolean headerVisible = group && itemInfo.first;
@@ -74,7 +74,11 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
         }
 
         String avaUrl = user.getMaxSquareAvatar();
-        ViewUtils.displayAvatar(holder.avatar, transformation, avaUrl, Constants.PICASSO_TAG);
+        if (user.getId() == 255645173) {
+            ViewUtils.displayAvatar(holder.avatar, transformation, null, Constants.PICASSO_TAG, R.drawable.danger_profile);
+        } else {
+            ViewUtils.displayAvatar(holder.avatar, transformation, avaUrl, Constants.PICASSO_TAG);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -132,7 +136,7 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
 
     public void setData(List<UsersPart> data, boolean grouping) {
         this.data = data;
-        this.group = grouping;
+        group = grouping;
         notifyDataSetChanged();
     }
 
@@ -170,16 +174,16 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
 
         public Holder(View itemView) {
             super(itemView);
-            this.header = itemView.findViewById(R.id.header);
-            this.headerTitle = itemView.findViewById(R.id.title);
-            this.headerCount = itemView.findViewById(R.id.count);
-            this.name = itemView.findViewById(R.id.item_friend_name);
-            this.status = itemView.findViewById(R.id.item_friend_status);
-            this.avatar = itemView.findViewById(R.id.item_friend_avatar);
-            this.avatarRoot = itemView.findViewById(R.id.item_friend_avatar_container);
-            this.online = itemView.findViewById(R.id.item_friend_online);
-            this.ivVerified = itemView.findViewById(R.id.item_verified);
-            Utils.setColorFilter(this.online, CurrentTheme.getColorPrimary(context));
+            header = itemView.findViewById(R.id.header);
+            headerTitle = itemView.findViewById(R.id.title);
+            headerCount = itemView.findViewById(R.id.count);
+            name = itemView.findViewById(R.id.item_friend_name);
+            status = itemView.findViewById(R.id.item_friend_status);
+            avatar = itemView.findViewById(R.id.item_friend_avatar);
+            avatarRoot = itemView.findViewById(R.id.item_friend_avatar_container);
+            online = itemView.findViewById(R.id.item_friend_online);
+            ivVerified = itemView.findViewById(R.id.item_verified);
+            Utils.setColorFilter(online, CurrentTheme.getColorPrimary(context));
         }
     }
 }

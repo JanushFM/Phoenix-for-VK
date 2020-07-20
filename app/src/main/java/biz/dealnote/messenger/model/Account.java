@@ -30,7 +30,7 @@ public final class Account implements Parcelable, Identificable {
         id = in.readInt();
 
         ParcelableOwnerWrapper wrapper = in.readParcelable(ParcelableOwnerWrapper.class.getClassLoader());
-        this.owner = wrapper.get();
+        owner = wrapper.get();
     }
 
     @Override

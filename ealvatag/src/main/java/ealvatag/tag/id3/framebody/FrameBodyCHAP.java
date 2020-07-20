@@ -105,11 +105,11 @@ public class FrameBodyCHAP extends AbstractID3v2FrameBody implements ID3v2Chapte
      * @param endOffset
      */
     public FrameBodyCHAP(String elementId, int startTime, int endTime, int startOffset, int endOffset) {
-        this.setObjectValue(DataTypes.OBJ_ELEMENT_ID, elementId);
-        this.setObjectValue(DataTypes.OBJ_START_TIME, startTime);
-        this.setObjectValue(DataTypes.OBJ_END_TIME, endTime);
-        this.setObjectValue(DataTypes.OBJ_START_OFFSET, startOffset);
-        this.setObjectValue(DataTypes.OBJ_END_OFFSET, endOffset);
+        setObjectValue(DataTypes.OBJ_ELEMENT_ID, elementId);
+        setObjectValue(DataTypes.OBJ_START_TIME, startTime);
+        setObjectValue(DataTypes.OBJ_END_TIME, endTime);
+        setObjectValue(DataTypes.OBJ_START_OFFSET, startOffset);
+        setObjectValue(DataTypes.OBJ_END_OFFSET, endOffset);
     }
 
     /**

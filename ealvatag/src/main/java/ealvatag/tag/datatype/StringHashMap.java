@@ -38,7 +38,7 @@ import static ealvatag.utils.StandardCharsets.ISO_8859_1;
 public class StringHashMap extends StringFixedLength {
 
     private final SimpleStringStringMap simpleStringStringMap;
-    private boolean hasEmptyValue = false;
+    private boolean hasEmptyValue;
 
     public StringHashMap(String identifier, AbstractTagFrameBody frameBody, int size) {
         super(identifier, frameBody, size);
@@ -53,8 +53,8 @@ public class StringHashMap extends StringFixedLength {
     @SuppressWarnings("unused")   // TODO: 1/18/17 Do we need this copy ctor?
     public StringHashMap(StringHashMap copyObject) {
         super(copyObject);
-        this.hasEmptyValue = copyObject.hasEmptyValue;
-        this.simpleStringStringMap = copyObject.simpleStringStringMap;
+        hasEmptyValue = copyObject.hasEmptyValue;
+        simpleStringStringMap = copyObject.simpleStringStringMap;
     }
 
     public void setValue(Object value) {
@@ -77,8 +77,8 @@ public class StringHashMap extends StringFixedLength {
 
         StringHashMap that = (StringHashMap) obj;
 
-        return this.hasEmptyValue == that.hasEmptyValue &&
-                com.google.common.base.Objects.equal(this.simpleStringStringMap, that.simpleStringStringMap) &&
+        return hasEmptyValue == that.hasEmptyValue &&
+                com.google.common.base.Objects.equal(simpleStringStringMap, that.simpleStringStringMap) &&
                 super.equals(obj);
     }
 

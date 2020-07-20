@@ -37,7 +37,7 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
 
     public static Intent createIntent(Context context, @NonNull Place initialPlace, @NonNull SelectProfileCriteria criteria) {
         return new Intent(context, SelectProfilesActivity.class)
-                .setAction(SelectProfilesActivity.ACTION_OPEN_PLACE)
+                .setAction(MainActivity.ACTION_OPEN_PLACE)
                 .putExtra(Extra.PLACE, initialPlace)
                 .putExtra(Extra.CRITERIA, criteria);
     }
@@ -52,7 +52,7 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
         SelectProfileCriteria criteria = new SelectProfileCriteria().setFriendsOnly(true);
 
         Intent intent = new Intent(fragment.requireActivity(), SelectProfilesActivity.class);
-        intent.setAction(SelectProfilesActivity.ACTION_OPEN_PLACE);
+        intent.setAction(MainActivity.ACTION_OPEN_PLACE);
         intent.putExtra(Extra.PLACE, place);
         intent.putExtra(Extra.CRITERIA, criteria);
         fragment.startActivityForResult(intent, requestCode);
@@ -77,11 +77,11 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        this.mLayoutRes = R.layout.activity_main_with_profiles_selection;
+        mLayoutRes = R.layout.activity_main_with_profiles_selection;
         super.onCreate(savedInstanceState);
-        super.mLastBackPressedTime = Long.MAX_VALUE - DOUBLE_BACK_PRESSED_TIMEOUT;
+        mLastBackPressedTime = Long.MAX_VALUE - DOUBLE_BACK_PRESSED_TIMEOUT;
 
-        this.mSelectableCriteria = getIntent().getParcelableExtra(Extra.CRITERIA);
+        mSelectableCriteria = getIntent().getParcelableExtra(Extra.CRITERIA);
 
         if (savedInstanceState != null) {
             mSelectedUsers = savedInstanceState.getParcelableArrayList(SAVE_SELECTED_USERS);

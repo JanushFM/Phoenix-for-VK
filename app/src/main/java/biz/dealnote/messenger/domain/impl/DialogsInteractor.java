@@ -31,7 +31,7 @@ public class DialogsInteractor implements IDialogsInteractor {
                         return Single.just(optional.get());
                     }
 
-                    final int chatId = Peer.toChatId(peerId);
+                    int chatId = Peer.toChatId(peerId);
                     return networker.vkDefault(accountId)
                             .messages()
                             .getChat(chatId, null, null, null)

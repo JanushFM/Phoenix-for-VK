@@ -40,7 +40,6 @@ import biz.dealnote.messenger.model.VoiceMessage;
 import biz.dealnote.messenger.mvp.presenter.ImportantMessagesPresenter;
 import biz.dealnote.messenger.mvp.view.IImportantMessagesView;
 import biz.dealnote.messenger.place.PlaceFactory;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
@@ -123,12 +122,12 @@ public class ImportantMessagesFragment extends PlaceSupportMvpFragment<Important
 
     @Override
     public void onAvatarClick(@NonNull Message message, int userId) {
-        super.onOpenOwner(userId);
+        onOpenOwner(userId);
     }
 
     @Override
     public void onLongAvatarClick(@NonNull Message message, int userId) {
-        super.onOpenOwner(userId);
+        onOpenOwner(userId);
     }
 
     @Override
@@ -158,7 +157,7 @@ public class ImportantMessagesFragment extends PlaceSupportMvpFragment<Important
 
     @Override
     public void displayMessages(@NonNull List<Message> messages, @NonNull LastReadId lastReadId) {
-        if (Objects.nonNull(mAdapter)) {
+        if (nonNull(mAdapter)) {
             mAdapter.setItems(messages, lastReadId);
         }
     }
@@ -182,7 +181,7 @@ public class ImportantMessagesFragment extends PlaceSupportMvpFragment<Important
 
     @Override
     public void notifyDataChanged() {
-        if (Objects.nonNull(mAdapter)) {
+        if (nonNull(mAdapter)) {
             mAdapter.notifyDataSetChanged();
         }
     }

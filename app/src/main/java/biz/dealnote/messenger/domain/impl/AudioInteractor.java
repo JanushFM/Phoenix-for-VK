@@ -277,7 +277,7 @@ public class AudioInteractor implements IAudioInteractor {
                 .audio()
                 .getPlaylists(ownerId, offset, count)
                 .flatMap(items -> {
-                    List<VKApiAudioPlaylist> dtos = Utils.listEmptyIfNull(items.getItems());
+                    List<VKApiAudioPlaylist> dtos = listEmptyIfNull(items.getItems());
                     List<AudioPlaylist> playlists = new ArrayList<>(dtos.size());
 
                     for (VKApiAudioPlaylist dto : dtos) {
@@ -287,7 +287,7 @@ public class AudioInteractor implements IAudioInteractor {
                             playlists.add(Dto2Model.transform(dto));
                         }
                     }
-                    final int ld = loaded + playlists.size();
+                    int ld = loaded + playlists.size();
 
                     if (ld >= count || Utils.isEmpty(dtos)) {
                         return Single.just(new Pair<>(new FindAt(q, offset + count, Utils.isEmpty(dtos)), playlists));

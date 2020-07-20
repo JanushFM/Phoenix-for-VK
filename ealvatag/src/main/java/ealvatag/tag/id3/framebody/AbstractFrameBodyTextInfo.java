@@ -62,7 +62,6 @@ public abstract class AbstractFrameBodyTextInfo extends AbstractID3v2FrameBody {
      * Constructor sets up the Object list for the frame.
      */
     protected AbstractFrameBodyTextInfo() {
-        super();
         setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
         setObjectValue(DataTypes.OBJ_TEXT, "");
     }
@@ -84,7 +83,6 @@ public abstract class AbstractFrameBodyTextInfo extends AbstractID3v2FrameBody {
      * @param text         Specifies the text String.
      */
     protected AbstractFrameBodyTextInfo(byte textEncoding, String text) {
-        super();
         setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
         setObjectValue(DataTypes.OBJ_TEXT, text);
     }
@@ -206,7 +204,7 @@ public abstract class AbstractFrameBodyTextInfo extends AbstractID3v2FrameBody {
 
         //Ensure valid for data
         if (!((TextEncodedStringSizeTerminated) getObject(DataTypes.OBJ_TEXT)).canBeEncoded()) {
-            this.setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
+            setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
         }
         super.write(tagBuffer);
     }

@@ -19,20 +19,20 @@ public class DateTimePicker {
     private final Callback callback;
 
     private DateTimePicker(Builder builder) {
-        this.time = builder.time;
-        this.context = builder.context;
-        this.callback = builder.callback;
+        time = builder.time;
+        context = builder.context;
+        callback = builder.callback;
     }
 
     private void show() {
-        final Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
 
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        final int hours = calendar.get(Calendar.HOUR_OF_DAY);
-        final int minutes = calendar.get(Calendar.MINUTE);
+        int hours = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutes = calendar.get(Calendar.MINUTE);
 
         Logger.d(TAG, "onTimerClick, init time: " + new Date(time));
 
@@ -40,7 +40,7 @@ public class DateTimePicker {
                 showTime(newYear, newMonth, newDay, hours, minutes), year, month, day).show();
     }
 
-    private void showTime(final int year, final int month, final int day, final int hour, final int minutes) {
+    private void showTime(int year, int month, int day, int hour, int minutes) {
         new TimePickerDialog(context, (view, newHourOfDay, newMinutes) ->
                 callback.onDateTimeSelected(Unixtime.of(year, month, day, newHourOfDay, newMinutes)), hour, minutes, true).show();
     }
@@ -57,11 +57,11 @@ public class DateTimePicker {
 
         public Builder(Context context) {
             this.context = context;
-            this.time = System.currentTimeMillis();
+            time = System.currentTimeMillis();
         }
 
         public Builder setTime(long unixtime) {
-            this.time = unixtime * 1000;
+            time = unixtime * 1000;
             return this;
         }
 

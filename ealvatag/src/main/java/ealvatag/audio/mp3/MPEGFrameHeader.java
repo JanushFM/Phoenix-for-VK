@@ -450,7 +450,7 @@ public class MPEGFrameHeader {
         return frameHeader;
     }
 
-    static MPEGFrameHeader parseMPEGHeader(final Buffer buffer) throws InvalidAudioFrameException {
+    static MPEGFrameHeader parseMPEGHeader(Buffer buffer) throws InvalidAudioFrameException {
         byte[] headerBytes = new byte[HEADER_SIZE];
         for (int i = 0, size = Math.min(headerBytes.length, HEADER_SIZE); i < size; i++) {
             headerBytes[i] = buffer.getByte(i);
@@ -471,7 +471,7 @@ public class MPEGFrameHeader {
                 && ((bb.get(position + 2) & SYNC_BIT_ANDSAMPING_BYTE3) != SYNC_BIT_ANDSAMPING_BYTE3));
     }
 
-    static boolean isMPEGFrame(final Buffer bb) {
+    static boolean isMPEGFrame(Buffer bb) {
         int position = 0;
         return (((bb.getByte(position) & SYNC_BYTE1) == SYNC_BYTE1)
                 && ((bb.getByte(position + 1) & SYNC_BYTE2) == SYNC_BYTE2)
@@ -714,7 +714,7 @@ public class MPEGFrameHeader {
                                 getPaddingLength() * LAYER_II_SLOT_SIZE;
 
                     case LAYER_III:
-                        if (this.getChannelMode() == MODE_MONO) {
+                        if (getChannelMode() == MODE_MONO) {
                             return (LAYER_III_FRAME_SIZE_COEFFICIENT / 2) * (getBitRate() * SCALE_BY_THOUSAND) / getSamplingRate() +
                                     getPaddingLength() * LAYER_III_SLOT_SIZE;
                         } else {
@@ -830,7 +830,7 @@ public class MPEGFrameHeader {
                 " isOriginal:" +
                 isCopyrighted +
                 " isVariableBitRate" +
-                this.isVariableBitRate() +
+                isVariableBitRate() +
                 " header as binary:" +
                 AbstractTagDisplayFormatter.displayAsBinary(mpegBytes[BYTE_1]) +
                 " " +

@@ -191,7 +191,7 @@ public class ID3v23Frames extends ID3Frames {
     }
 
     private ImmutableBiMap<FieldKey, ID3v23FieldKey> makeTagFieldToId3() {
-        final ImmutableBiMap.Builder<FieldKey, ID3v23FieldKey> builder = ImmutableBiMap.builder();
+        ImmutableBiMap.Builder<FieldKey, ID3v23FieldKey> builder = ImmutableBiMap.builder();
         builder.put(FieldKey.ACOUSTID_FINGERPRINT, ID3v23FieldKey.ACOUSTID_FINGERPRINT)
                 .put(FieldKey.ACOUSTID_ID, ID3v23FieldKey.ACOUSTID_ID)
                 .put(FieldKey.ALBUM, ID3v23FieldKey.ALBUM)

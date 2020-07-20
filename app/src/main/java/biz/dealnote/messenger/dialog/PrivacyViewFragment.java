@@ -50,11 +50,11 @@ public class PrivacyViewFragment extends AccountDependencyDialogFragment impleme
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState != null) {
-            this.mPrivacy = savedInstanceState.getParcelable(SAVE_PRIVACY);
+            mPrivacy = savedInstanceState.getParcelable(SAVE_PRIVACY);
         }
 
-        if (this.mPrivacy == null) {
-            this.mPrivacy = clonePrivacyFromArgs();
+        if (mPrivacy == null) {
+            mPrivacy = clonePrivacyFromArgs();
         }
     }
 
@@ -167,13 +167,13 @@ public class PrivacyViewFragment extends AccountDependencyDialogFragment impleme
         switch (requestCode) {
             case REQUEST_CODE_ADD_TO_ALLOWED:
                 for (User user : users) {
-                    this.mPrivacy.allowFor(user);
+                    mPrivacy.allowFor(user);
                 }
 
                 break;
             case REQUEST_CODE_ADD_TO_DISALLOWED:
                 for (User user : users) {
-                    this.mPrivacy.disallowFor(user);
+                    mPrivacy.disallowFor(user);
                 }
 
                 break;

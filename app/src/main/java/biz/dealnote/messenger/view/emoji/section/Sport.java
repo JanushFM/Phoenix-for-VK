@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.view.emoji.section;
 
 public class Sport {
-    public static final Emojicon[] DATA = new Emojicon[]{
+    public static final Emojicon[] DATA = {
 
             Emojicon.fromChar((char) 0x26bd),
             Emojicon.fromCodePoint(0x1f3c0),

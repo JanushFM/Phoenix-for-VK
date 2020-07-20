@@ -34,7 +34,7 @@ public class ChairsAdapter extends RecyclerView.Adapter<ChairsAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Chair chair = mData.get(position);
+        Chair chair = mData.get(position);
 
         holder.name.setText(chair.getTitle());
 
@@ -51,7 +51,7 @@ public class ChairsAdapter extends RecyclerView.Adapter<ChairsAdapter.Holder> {
     }
 
     public void setListener(Listener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 
     public interface Listener {

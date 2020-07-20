@@ -14,8 +14,8 @@ public class ProgressRequestBody extends RequestBody {
     private final UploadCallbacks listener;
     private final MediaType mediaType;
 
-    public ProgressRequestBody(final InputStream file, final UploadCallbacks listener, MediaType mediaType) {
-        this.stream = file;
+    public ProgressRequestBody(InputStream file, UploadCallbacks listener, MediaType mediaType) {
+        stream = file;
         this.listener = listener;
         this.mediaType = mediaType;
     }

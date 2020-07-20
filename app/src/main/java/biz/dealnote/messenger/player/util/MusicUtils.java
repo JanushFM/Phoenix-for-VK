@@ -34,12 +34,12 @@ public final class MusicUtils {
     private static final WeakHashMap<Context, ServiceBinder> mConnectionMap;
     private static final PublishSubject<Optional<IAudioPlayerService>> SERVICE_BIND_PUBLISHER = PublishSubject.create();
     private static final String TAG = MusicUtils.class.getSimpleName();
-    public static IAudioPlayerService mService = null;
+    public static IAudioPlayerService mService;
     public static HashMap<Integer, ArrayList<Audio>> Audios = new HashMap<>();
-    public static boolean SuperCloseMiniPlayer = false;
+    public static boolean SuperCloseMiniPlayer;
     public static Set<String> CachedAudios = new ArraySet<>();
     public static Set<String> RemoteAudios = new ArraySet<>();
-    private static int sForegroundActivities = 0;
+    private static int sForegroundActivities;
 
     static {
         mConnectionMap = new WeakHashMap<>();
@@ -49,9 +49,9 @@ public final class MusicUtils {
     private MusicUtils() {
     }
 
-    public static ServiceToken bindToServiceWithoutStart(final Activity realActivity, final ServiceConnection callback) {
-        final ContextWrapper contextWrapper = new ContextWrapper(realActivity);
-        final ServiceBinder binder = new ServiceBinder(callback);
+    public static ServiceToken bindToServiceWithoutStart(Activity realActivity, ServiceConnection callback) {
+        ContextWrapper contextWrapper = new ContextWrapper(realActivity);
+        ServiceBinder binder = new ServiceBinder(callback);
 
         if (contextWrapper.bindService(new Intent().setClass(contextWrapper, MusicPlaybackService.class), binder, 0)) {
             mConnectionMap.put(contextWrapper, binder);
@@ -64,13 +64,13 @@ public final class MusicUtils {
     /**
      * @param token The {@link ServiceToken} to unbind from
      */
-    public static void unbindFromService(final ServiceToken token) {
+    public static void unbindFromService(ServiceToken token) {
         if (token == null) {
             return;
         }
 
-        final ContextWrapper mContextWrapper = token.mWrappedContext;
-        final ServiceBinder mBinder = mConnectionMap.remove(mContextWrapper);
+        ContextWrapper mContextWrapper = token.mWrappedContext;
+        ServiceBinder mBinder = mConnectionMap.remove(mContextWrapper);
         if (mBinder == null) {
             return;
         }
@@ -86,7 +86,7 @@ public final class MusicUtils {
         return SERVICE_BIND_PUBLISHER;
     }
 
-    public static String makeTimeString(final Context context, long secs) {
+    public static String makeTimeString(Context context, long secs) {
         long hours, mins;
 
         hours = secs / 3600;
@@ -94,7 +94,7 @@ public final class MusicUtils {
         mins = secs / 60;
         secs -= mins * 60;
 
-        final String durationFormat = context.getResources().getString(
+        String durationFormat = context.getResources().getString(
                 hours == 0 ? R.string.durationformatshort : R.string.durationformatlong);
         return String.format(durationFormat, hours, mins, secs);
     }
@@ -107,7 +107,7 @@ public final class MusicUtils {
             if (mService != null) {
                 mService.next();
             }
-        } catch (final RemoteException ignored) {
+        } catch (RemoteException ignored) {
         }
     }
 
@@ -136,8 +136,8 @@ public final class MusicUtils {
     /**
      * Changes to the previous track.
      */
-    public static void previous(final Context context) {
-        final Intent previous = new Intent(context, MusicPlaybackService.class);
+    public static void previous(Context context) {
+        Intent previous = new Intent(context, MusicPlaybackService.class);
         previous.setAction(MusicPlaybackService.PREVIOUS_ACTION);
         context.startService(previous);
     }
@@ -154,7 +154,7 @@ public final class MusicUtils {
                     mService.play();
                 }
             }
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -163,7 +163,7 @@ public final class MusicUtils {
             if (mService != null) {
                 mService.stop();
             }
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -172,7 +172,7 @@ public final class MusicUtils {
             if (mService != null) {
                 mService.closeMiniPlayer();
             }
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -183,7 +183,7 @@ public final class MusicUtils {
             if (mService != null) {
                 return mService.getMiniplayerVisibility();
             }
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
         return false;
     }
@@ -194,7 +194,7 @@ public final class MusicUtils {
             if (mService != null) {
                 mService.setMiniPlayerVisibility(visiable);
             }
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
     }
 
@@ -219,7 +219,7 @@ public final class MusicUtils {
                         break;
                 }
             }
-        } catch (final RemoteException ignored) {
+        } catch (RemoteException ignored) {
         }
     }
 
@@ -243,7 +243,7 @@ public final class MusicUtils {
                         break;
                 }
             }
-        } catch (final RemoteException ignored) {
+        } catch (RemoteException ignored) {
         }
     }
 
@@ -254,7 +254,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.isPlaying();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return false;
@@ -264,7 +264,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.isPaused();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return false;
@@ -277,7 +277,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getShuffleMode();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
 
@@ -291,7 +291,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getRepeatMode();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
 
@@ -302,7 +302,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getCurrentAudio();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
 
@@ -316,7 +316,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getTrackName();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
 
@@ -330,7 +330,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getArtistName();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return null;
@@ -340,7 +340,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getAlbumCover();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return null;
@@ -353,7 +353,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getAudioSessionId();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return 0;
@@ -367,7 +367,7 @@ public final class MusicUtils {
             if (mService != null) {
                 return mService.getQueue();
             }
-        } catch (final RemoteException ignored) {
+        } catch (RemoteException ignored) {
         }
 
         return Collections.emptyList();
@@ -381,7 +381,7 @@ public final class MusicUtils {
             if (mService != null) {
                 mService.refresh();
             }
-        } catch (final RemoteException ignored) {
+        } catch (RemoteException ignored) {
         }
     }
 
@@ -390,11 +390,11 @@ public final class MusicUtils {
      *
      * @param position The position to seek to
      */
-    public static void seek(final long position) {
+    public static void seek(long position) {
         if (mService != null) {
             try {
                 mService.seek(position);
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
     }
@@ -406,7 +406,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.position();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
 
@@ -420,7 +420,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.duration();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return 0;
@@ -433,7 +433,7 @@ public final class MusicUtils {
         if (mService != null) {
             try {
                 return mService.getBufferPercent();
-            } catch (final RemoteException ignored) {
+            } catch (RemoteException ignored) {
             }
         }
         return 0;
@@ -467,7 +467,7 @@ public final class MusicUtils {
      *
      * @param context The {@link Context} to use.
      */
-    public static void notifyForegroundStateChanged(final Context context, boolean inForeground) {
+    public static void notifyForegroundStateChanged(Context context, boolean inForeground) {
         int old = sForegroundActivities;
         if (inForeground) {
             sForegroundActivities++;
@@ -481,7 +481,7 @@ public final class MusicUtils {
             boolean nowInForeground = sForegroundActivities != 0;
             Logger.d(TAG, "notifyForegroundStateChanged, nowInForeground: " + nowInForeground);
 
-            final Intent intent = new Intent(context, MusicPlaybackService.class);
+            Intent intent = new Intent(context, MusicPlaybackService.class);
             intent.setAction(MusicPlaybackService.FOREGROUND_STATE_CHANGED);
             intent.putExtra(MusicPlaybackService.NOW_IN_FOREGROUND, nowInForeground);
             context.startService(intent);
@@ -493,12 +493,12 @@ public final class MusicUtils {
         private final ServiceConnection mCallback;
 
 
-        public ServiceBinder(final ServiceConnection callback) {
+        public ServiceBinder(ServiceConnection callback) {
             mCallback = callback;
         }
 
         @Override
-        public void onServiceConnected(final ComponentName className, final IBinder service) {
+        public void onServiceConnected(ComponentName className, IBinder service) {
             mService = IAudioPlayerService.Stub.asInterface(service);
 
             SERVICE_BIND_PUBLISHER.onNext(Optional.wrap(mService));
@@ -509,7 +509,7 @@ public final class MusicUtils {
         }
 
         @Override
-        public void onServiceDisconnected(final ComponentName className) {
+        public void onServiceDisconnected(ComponentName className) {
             if (mCallback != null) {
                 mCallback.onServiceDisconnected(className);
             }
@@ -524,7 +524,7 @@ public final class MusicUtils {
 
         public ContextWrapper mWrappedContext;
 
-        public ServiceToken(final ContextWrapper context) {
+        public ServiceToken(ContextWrapper context) {
             mWrappedContext = context;
         }
     }

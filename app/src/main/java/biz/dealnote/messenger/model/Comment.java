@@ -1,13 +1,12 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import biz.dealnote.messenger.api.model.Identificable;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 
-public class Comment extends AbsModel implements Parcelable, Identificable {
+public class Comment extends AbsModel implements Identificable {
 
     public static final Creator<Comment> CREATOR = new Creator<Comment>() {
         @Override

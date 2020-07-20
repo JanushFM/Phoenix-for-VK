@@ -76,7 +76,7 @@ public class EnterPinPresenter extends RxSupportPresenter<IEnterPinView> {
     }
 
     private void onOwnerInfoReceived(Owner owner) {
-        this.mOwner = owner;
+        mOwner = owner;
         resolveAvatarView();
     }
 

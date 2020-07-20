@@ -21,12 +21,12 @@ class EmojiAdapter extends ArrayAdapter<Emojicon> {
     }
 
     public void setEmojiClickListener(@NonNull EmojiconsPopup.OnEmojiconClickedListener listener) {
-        this.emojiClickListener = listener;
+        emojiClickListener = listener;
     }
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         View v = convertView;
         if (v == null) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.emojicon_item, parent, false);

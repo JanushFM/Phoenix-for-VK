@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.view.steppers.impl;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -63,7 +62,7 @@ public class CreatePhotoAlbumStepsHost extends AbsStepsHost<CreatePhotoAlbumStep
     }
 
     public CreatePhotoAlbumStepsHost setPrivacySettingsEnable(boolean privacySettingsEnable) {
-        this.mPrivacySettingsEnable = privacySettingsEnable;
+        mPrivacySettingsEnable = privacySettingsEnable;
         return this;
     }
 
@@ -72,7 +71,7 @@ public class CreatePhotoAlbumStepsHost extends AbsStepsHost<CreatePhotoAlbumStep
     }
 
     public void setAdditionalOptionsEnable(boolean additionalOptionsEnable) {
-        this.mAdditionalOptionsEnable = additionalOptionsEnable;
+        mAdditionalOptionsEnable = additionalOptionsEnable;
     }
 
     @Override
@@ -85,7 +84,7 @@ public class CreatePhotoAlbumStepsHost extends AbsStepsHost<CreatePhotoAlbumStep
         return index == 0 ? R.string.button_cancel : R.string.button_back;
     }
 
-    public static class PhotoAlbumState extends AbsStepsHost.AbsState implements Parcelable {
+    public static class PhotoAlbumState extends AbsStepsHost.AbsState {
 
         public static final Creator<PhotoAlbumState> CREATOR = new Creator<PhotoAlbumState>() {
             @Override
@@ -107,17 +106,17 @@ public class CreatePhotoAlbumStepsHost extends AbsStepsHost<CreatePhotoAlbumStep
 
         protected PhotoAlbumState(Parcel in) {
             super(in);
-            this.title = in.readString();
-            this.description = in.readString();
-            this.privacyView = in.readParcelable(Privacy.class.getClassLoader());
-            this.privacyComment = in.readParcelable(Privacy.class.getClassLoader());
-            this.uploadByAdminsOnly = in.readByte() != 0;
-            this.commentsDisabled = in.readByte() != 0;
+            title = in.readString();
+            description = in.readString();
+            privacyView = in.readParcelable(Privacy.class.getClassLoader());
+            privacyComment = in.readParcelable(Privacy.class.getClassLoader());
+            uploadByAdminsOnly = in.readByte() != 0;
+            commentsDisabled = in.readByte() != 0;
         }
 
         public PhotoAlbumState() {
-            this.privacyView = new Privacy();
-            this.privacyComment = new Privacy();
+            privacyView = new Privacy();
+            privacyComment = new Privacy();
         }
 
         @Override

@@ -30,8 +30,8 @@ public class LinksInCatalogPresenter extends AccountDependencyPresenter<ILinksIn
 
     public LinksInCatalogPresenter(int accountId, String block_id, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
-        this.links = new ArrayList<>();
+        audioInteractor = InteractorFactory.createAudioInteractor();
+        links = new ArrayList<>();
         this.block_id = block_id;
     }
 

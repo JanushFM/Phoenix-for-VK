@@ -47,7 +47,7 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //    }
 
     public void setStickerClickedListener(EmojiconsPopup.OnStickerClickedListener listener) {
-        this.stickerClickedListener = listener;
+        stickerClickedListener = listener;
     }
 
     @NonNull
@@ -121,7 +121,7 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         final String link;
 
         private LoadOnErrorCallback(ImageView view, String link) {
-            this.ref = new WeakReference<>(view);
+            ref = new WeakReference<>(view);
             this.link = link;
         }
 
@@ -151,8 +151,8 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         StickerHolder(@NonNull View itemView) {
             super(itemView);
-            this.root = itemView.getRootView();
-            this.image = itemView.findViewById(R.id.sticker);
+            root = itemView.getRootView();
+            image = itemView.findViewById(R.id.sticker);
         }
     }
 
@@ -162,8 +162,8 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         StickerAnimatedHolder(@NonNull View itemView) {
             super(itemView);
-            this.root = itemView.getRootView();
-            this.animation = itemView.findViewById(R.id.sticker_animated);
+            root = itemView.getRootView();
+            animation = itemView.findViewById(R.id.sticker_animated);
         }
     }
 }

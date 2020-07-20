@@ -73,12 +73,12 @@ public class AdvancedItem {
     }
 
     public AdvancedItem setIcon(@DrawableRes int iconRes) {
-        this.icon = Icon.fromResources(iconRes);
+        icon = Icon.fromResources(iconRes);
         return this;
     }
 
     public AdvancedItem setIcon(String remoteUrl) {
-        this.icon = Icon.fromUrl(remoteUrl);
+        icon = Icon.fromUrl(remoteUrl);
         return this;
     }
 

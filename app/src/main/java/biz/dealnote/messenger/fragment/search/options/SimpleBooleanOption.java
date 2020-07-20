@@ -1,11 +1,10 @@
 package biz.dealnote.messenger.fragment.search.options;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import org.jetbrains.annotations.NotNull;
 
-public class SimpleBooleanOption extends BaseOption implements Parcelable {
+public class SimpleBooleanOption extends BaseOption {
 
     public static final Creator<SimpleBooleanOption> CREATOR = new Creator<SimpleBooleanOption>() {
         @Override

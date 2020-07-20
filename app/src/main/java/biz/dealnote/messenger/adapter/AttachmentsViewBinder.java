@@ -29,7 +29,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.squareup.picasso.Transformation;
 
 import java.lang.ref.WeakReference;
@@ -82,7 +82,6 @@ import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AppTextUtils;
 import biz.dealnote.messenger.util.DownloadUtil;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.RoundTransformation;
@@ -120,14 +119,14 @@ public class AttachmentsViewBinder {
     private EmojiconTextView.OnHashTagClickListener mOnHashTagClickListener;
 
     public AttachmentsViewBinder(Context context, @NonNull OnAttachmentsActionCallback attachmentsActionCallback) {
-        this.mContext = context;
-        this.mVoiceSharedHolders = new SharedHolders<>(true);
-        this.mAvatarTransformation = CurrentTheme.createTransformationForAvatar(context);
-        this.photosViewHelper = new PhotosViewHelper(context, attachmentsActionCallback);
-        this.mAttachmentsActionCallback = attachmentsActionCallback;
-        this.mActiveWaveFormColor = CurrentTheme.getColorPrimary(context);
-        this.mNoactiveWaveFormColor = Utils.adjustAlpha(mActiveWaveFormColor, 0.5f);
-        this.mAudioInteractor = InteractorFactory.createAudioInteractor();
+        mContext = context;
+        mVoiceSharedHolders = new SharedHolders<>(true);
+        mAvatarTransformation = CurrentTheme.createTransformationForAvatar(context);
+        photosViewHelper = new PhotosViewHelper(context, attachmentsActionCallback);
+        mAttachmentsActionCallback = attachmentsActionCallback;
+        mActiveWaveFormColor = CurrentTheme.getColorPrimary(context);
+        mNoactiveWaveFormColor = Utils.adjustAlpha(mActiveWaveFormColor, 0.5f);
+        mAudioInteractor = InteractorFactory.createAudioInteractor();
     }
 
     private static void safeSetVisibitity(@Nullable View view, int visibility) {
@@ -140,7 +139,7 @@ public class AttachmentsViewBinder {
     }
 
     public void setOnHashTagClickListener(EmojiconTextView.OnHashTagClickListener onHashTagClickListener) {
-        this.mOnHashTagClickListener = onHashTagClickListener;
+        mOnHashTagClickListener = onHashTagClickListener;
     }
 
     public void displayAttachments(Attachments attachments, AttachmentsHolder containers, boolean postsAsLinks, Integer messageId) {
@@ -169,8 +168,8 @@ public class AttachmentsViewBinder {
         }
     }
 
-    private void displayVoiceMessages(final ArrayList<VoiceMessage> voices, ViewGroup container, Integer messageId) {
-        if (Objects.isNull(container)) return;
+    private void displayVoiceMessages(ArrayList<VoiceMessage> voices, ViewGroup container, Integer messageId) {
+        if (isNull(container)) return;
 
         boolean empty = safeIsEmpty(voices);
         container.setVisibility(empty ? View.GONE : View.VISIBLE);
@@ -193,7 +192,7 @@ public class AttachmentsViewBinder {
                     root.setTag(holder);
                 }
 
-                final VoiceMessage voice = voices.get(g);
+                VoiceMessage voice = voices.get(g);
                 bindVoiceHolder(holder, voice, messageId);
 
                 root.setVisibility(View.VISIBLE);
@@ -236,7 +235,7 @@ public class AttachmentsViewBinder {
     }
 
     public void setVoiceActionListener(VoiceActionListener voiceActionListener) {
-        this.mVoiceActionListener = voiceActionListener;
+        mVoiceActionListener = voiceActionListener;
     }
 
     public void disableVoiceMessagePlaying() {
@@ -322,8 +321,8 @@ public class AttachmentsViewBinder {
         boolean horisontal = image.getHeight() < image.getWidth();
         double proporsion = (double) image.getWidth() / (double) image.getHeight();
 
-        final float finalWidth;
-        final float finalHeihgt;
+        float finalWidth;
+        float finalHeihgt;
 
         if (horisontal) {
             finalWidth = prefferedStickerSize;
@@ -380,8 +379,8 @@ public class AttachmentsViewBinder {
             ViewGroup postViewGroup = (ViewGroup) container.getChildAt(g);
 
             if (g < posts.size()) {
-                final CopyHolder holder = (CopyHolder) postViewGroup.getTag();
-                final Post copy = posts.get(g);
+                CopyHolder holder = (CopyHolder) postViewGroup.getTag();
+                Post copy = posts.get(g);
 
                 if (isNull(copy)) {
                     postViewGroup.setVisibility(View.GONE);
@@ -415,22 +414,22 @@ public class AttachmentsViewBinder {
         }
     }
 
-    public void displayForwards(List<Message> fwds, final ViewGroup fwdContainer, final Context context, boolean postsAsLinks) {
+    public void displayForwards(List<Message> fwds, ViewGroup fwdContainer, Context context, boolean postsAsLinks) {
         fwdContainer.setVisibility(safeIsEmpty(fwds) ? View.GONE : View.VISIBLE);
         if (safeIsEmpty(fwds)) {
             return;
         }
 
-        final int i = fwds.size() - fwdContainer.getChildCount();
+        int i = fwds.size() - fwdContainer.getChildCount();
         for (int j = 0; j < i; j++) {
             View localView = LayoutInflater.from(context).inflate(R.layout.item_forward_message, fwdContainer, false);
             fwdContainer.addView(localView);
         }
 
         for (int g = 0; g < fwdContainer.getChildCount(); g++) {
-            final ViewGroup itemView = (ViewGroup) fwdContainer.getChildAt(g);
+            ViewGroup itemView = (ViewGroup) fwdContainer.getChildAt(g);
             if (g < fwds.size()) {
-                final Message message = fwds.get(g);
+                Message message = fwds.get(g);
                 itemView.setVisibility(View.VISIBLE);
                 itemView.setTag(message);
 
@@ -450,7 +449,7 @@ public class AttachmentsViewBinder {
 
                 tvFwds.setOnClickListener(v -> mAttachmentsActionCallback.onForwardMessagesOpen(message.getFwd()));
 
-                final ImageView ivAvatar = itemView.findViewById(R.id.item_fwd_message_avatar);
+                ImageView ivAvatar = itemView.findViewById(R.id.item_fwd_message_avatar);
 
                 String senderPhotoUrl = message.getSender() == null ? null : message.getSender().getMaxSquareAvatar();
                 ViewUtils.displayAvatar(ivAvatar, mAvatarTransformation, senderPhotoUrl, Constants.PICASSO_TAG);
@@ -489,7 +488,7 @@ public class AttachmentsViewBinder {
         for (int g = 0; g < root.getChildCount(); g++) {
             ViewGroup itemView = (ViewGroup) root.getChildAt(g);
             if (g < docs.size()) {
-                final DocLink doc = docs.get(g);
+                DocLink doc = docs.get(g);
                 itemView.setVisibility(View.VISIBLE);
                 itemView.setTag(doc);
 
@@ -510,7 +509,7 @@ public class AttachmentsViewBinder {
 
                 String subtitle = firstNonEmptyString(ext, " ") + firstNonEmptyString(details, " ");
 
-                if (Utils.isEmpty(title)) {
+                if (isEmpty(title)) {
                     tvTitle.setVisibility(View.GONE);
                 } else {
                     tvTitle.setText(title);
@@ -529,7 +528,7 @@ public class AttachmentsViewBinder {
                     tvDetails.setVisibility(View.VISIBLE);
                     tvPostText.setVisibility(View.GONE);
 
-                    if (Utils.isEmpty(subtitle)) {
+                    if (isEmpty(subtitle)) {
                         tvDetails.setVisibility(View.GONE);
                     } else {
                         tvDetails.setText(subtitle);
@@ -683,7 +682,7 @@ public class AttachmentsViewBinder {
         for (int g = 0; g < root.getChildCount(); g++) {
             ViewGroup itemView = (ViewGroup) root.getChildAt(g);
             if (g < articles.size()) {
-                final Article article = articles.get(g);
+                Article article = articles.get(g);
                 itemView.setVisibility(View.VISIBLE);
                 itemView.setTag(article);
 
@@ -774,7 +773,7 @@ public class AttachmentsViewBinder {
         }
     }
 
-    private void deleteTrack(final int accoutnId, Audio audio) {
+    private void deleteTrack(int accoutnId, Audio audio) {
         audioListDisposable.add(mAudioInteractor.delete(accoutnId, audio.getId(), audio.getOwnerId()).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
         }, ignore -> {
         }));
@@ -819,7 +818,7 @@ public class AttachmentsViewBinder {
         return Settings.get().main().isAudio_round_icon() ? new RoundTransformation() : new PolyTransformation();
     }
 
-    private void updateAudioStatus(AudioHolder holder, final Audio audio) {
+    private void updateAudioStatus(AudioHolder holder, Audio audio) {
         switch (MusicUtils.AudioStatus(audio)) {
             case 1:
                 holder.visual.setVisibility(View.VISIBLE);
@@ -839,7 +838,7 @@ public class AttachmentsViewBinder {
                 }
                 holder.visual.setVisibility(View.GONE);
                 holder.play_icon.setVisibility(View.VISIBLE);
-                holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+                holder.play_icon.setImageResource(isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
                 holder.play_cover.clearColorFilter();
                 break;
 
@@ -853,7 +852,7 @@ public class AttachmentsViewBinder {
      * @param container контейнер для аудиозаписей
      */
 
-    private void displayAudios(final ArrayList<Audio> audios, ViewGroup container) {
+    private void displayAudios(ArrayList<Audio> audios, ViewGroup container) {
         container.setVisibility(safeIsEmpty(audios) ? View.GONE : View.VISIBLE);
         if (safeIsEmpty(audios)) {
             return;
@@ -867,7 +866,7 @@ public class AttachmentsViewBinder {
         for (int g = 0; g < container.getChildCount(); g++) {
             ViewGroup root = (ViewGroup) container.getChildAt(g);
             if (g < audios.size()) {
-                final Audio audio = audios.get(g);
+                Audio audio = audios.get(g);
 
                 AudioHolder holder = new AudioHolder(root);
 
@@ -896,7 +895,7 @@ public class AttachmentsViewBinder {
                 });
 
                 if (Settings.get().other().isShow_audio_cover()) {
-                    if (!Utils.isEmpty(audio.getThumb_image_little())) {
+                    if (!isEmpty(audio.getThumb_image_little())) {
                         PicassoInstance.with()
                                 .load(audio.getThumb_image_little())
                                 .placeholder(java.util.Objects.requireNonNull(ResourcesCompat.getDrawable(mContext.getResources(), getAudioCoverSimple(), mContext.getTheme())))
@@ -934,11 +933,13 @@ public class AttachmentsViewBinder {
                 }
 
                 int Status = DownloadUtil.TrackIsDownloaded(audio);
-                holder.saved.setVisibility(Status != 0 ? View.VISIBLE : View.GONE);
-                if (Status == 1)
-                    holder.saved.setImageResource(R.drawable.save);
-                else if (Status == 2)
+                if (Status == 2) {
                     holder.saved.setImageResource(R.drawable.remote_cloud);
+                } else {
+                    holder.saved.setImageResource(R.drawable.save);
+                }
+                holder.saved.setVisibility(Status != 0 ? View.VISIBLE : View.GONE);
+
                 holder.lyric.setVisibility(audio.getLyricsId() != 0 ? View.VISIBLE : View.GONE);
                 holder.my.setVisibility(audio.getOwnerId() == Settings.get().accounts().getCurrent() ? View.VISIBLE : View.GONE);
 
@@ -952,7 +953,7 @@ public class AttachmentsViewBinder {
                     if (ret == 0)
                         PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
                     else if (ret == 1) {
-                        Utils.ThemedSnack(v, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                        Utils.ThemedSnack(v, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
                                 v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
 
                     } else {
@@ -980,7 +981,7 @@ public class AttachmentsViewBinder {
                         menus.add(new OptionRequest(AudioItem.open_album, mContext.getString(R.string.open_album), R.drawable.audio_album));
                     menus.add(new OptionRequest(AudioItem.get_recommendation_by_audio, mContext.getString(R.string.get_recommendation_by_audio), R.drawable.music_mic));
 
-                    if (!Utils.isEmpty(audio.getMain_artists()))
+                    if (!isEmpty(audio.getMain_artists()))
                         menus.add(new OptionRequest(AudioItem.goto_artist, mContext.getString(R.string.audio_goto_artist), R.drawable.account_circle));
 
                     if (audio.getLyricsId() != 0)
@@ -990,7 +991,7 @@ public class AttachmentsViewBinder {
                     menus.add(new OptionRequest(AudioItem.copy_url, mContext.getString(R.string.copy_url), R.drawable.content_copy));
 
 
-                    menus.header(Utils.firstNonEmptyString(audio.getArtist(), " ") + " - " + audio.getTitle(), R.drawable.song, audio.getThumb_image_little());
+                    menus.header(firstNonEmptyString(audio.getArtist(), " ") + " - " + audio.getTitle(), R.drawable.song, audio.getThumb_image_little());
                     menus.columns(2);
                     menus.show(((FragmentActivity) mContext).getSupportFragmentManager(), "audio_options", option -> {
                         switch (option.getId()) {
@@ -1042,7 +1043,7 @@ public class AttachmentsViewBinder {
                                 if (ret == 0)
                                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
                                 else if (ret == 1) {
-                                    Utils.ThemedSnack(view, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                                    Utils.ThemedSnack(view, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
                                             v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
                                 } else {
                                     holder.saved.setVisibility(View.GONE);
@@ -1131,15 +1132,15 @@ public class AttachmentsViewBinder {
 
         CopyHolder(ViewGroup itemView, OnAttachmentsActionCallback callback) {
             this.itemView = itemView;
-            this.bodyView = itemView.findViewById(R.id.item_post_copy_text);
-            this.ivAvatar = itemView.findViewById(R.id.item_copy_history_post_avatar);
-            this.tvShowMore = itemView.findViewById(R.id.item_post_copy_show_more);
-            this.ownerName = itemView.findViewById(R.id.item_post_copy_owner_name);
-            this.buttonDots = itemView.findViewById(R.id.item_copy_history_post_dots);
-            this.attachmentsHolder = AttachmentsHolder.forCopyPost(itemView);
+            bodyView = itemView.findViewById(R.id.item_post_copy_text);
+            ivAvatar = itemView.findViewById(R.id.item_copy_history_post_avatar);
+            tvShowMore = itemView.findViewById(R.id.item_post_copy_show_more);
+            ownerName = itemView.findViewById(R.id.item_post_copy_owner_name);
+            buttonDots = itemView.findViewById(R.id.item_copy_history_post_dots);
+            attachmentsHolder = AttachmentsHolder.forCopyPost(itemView);
             this.callback = callback;
 
-            this.buttonDots.setOnClickListener(v -> showDotsMenu());
+            buttonDots.setOnClickListener(v -> showDotsMenu());
         }
 
         void showDotsMenu() {

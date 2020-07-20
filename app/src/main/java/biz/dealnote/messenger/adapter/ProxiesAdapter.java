@@ -57,8 +57,8 @@ public class ProxiesAdapter extends RecyclerBindableAdapter<ProxyConfig, Proxies
     }
 
     public void setData(List<ProxyConfig> data, ProxyConfig config) {
-        super.setItems(data, false);
-        this.active = config;
+        setItems(data, false);
+        active = config;
         notifyDataSetChanged();
     }
 

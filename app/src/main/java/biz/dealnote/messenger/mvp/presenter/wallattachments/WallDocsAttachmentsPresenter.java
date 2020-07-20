@@ -37,24 +37,24 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
 
     public WallDocsAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.owner_id = ownerId;
-        this.mDocs = new ArrayList<>();
-        this.fInteractor = Repository.INSTANCE.getWalls();
+        owner_id = ownerId;
+        mDocs = new ArrayList<>();
+        fInteractor = Repository.INSTANCE.getWalls();
         loadActualData(0);
     }
 
     @Override
     public void onGuiCreated(@NonNull IWallDocsAttachmentsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.mDocs);
+        view.displayData(mDocs);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getWallNoCache(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -62,7 +62,7 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -79,21 +79,21 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
 
     private void onActualDataReceived(int offset, List<Post> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
-        if (this.endOfContent && isGuiResumed())
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
+        if (endOfContent && isGuiResumed())
             getView().onSetLoadingStatus(2);
 
         if (offset == 0) {
-            this.loaded = data.size();
-            this.mDocs.clear();
+            loaded = data.size();
+            mDocs.clear();
             update(data);
             resolveToolbar();
             callView(IWallDocsAttachmentsView::notifyDataSetChanged);
         } else {
             int startSize = mDocs.size();
-            this.loaded += data.size();
+            loaded += data.size();
             update(data);
             resolveToolbar();
             callView(view -> view.notifyDataAdded(startSize, mDocs.size() - startSize));
@@ -140,8 +140,8 @@ public class WallDocsAttachmentsPresenter extends PlaceSupportPresenter<IWallDoc
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }

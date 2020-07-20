@@ -33,7 +33,7 @@ class ResourceRequestHandler extends RequestHandler {
     }
 
     private static Bitmap decodeResource(Resources resources, int id, Request data) {
-        final BitmapFactory.Options options = createBitmapOptions(data);
+        BitmapFactory.Options options = createBitmapOptions(data);
         if (requiresInSampleSize(options)) {
             BitmapFactory.decodeResource(resources, id, options);
             calculateInSampleSize(data.targetWidth, data.targetHeight, options, data);

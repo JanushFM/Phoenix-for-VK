@@ -3,6 +3,7 @@ package biz.dealnote.messenger.adapter.feedback;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
@@ -60,11 +61,11 @@ public class FeedbackViewBinder {
 
     public FeedbackViewBinder(Activity context, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         this.context = context;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
-        this.linkColor = new TextView(context).getLinkTextColors().getDefaultColor();
-        this.attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
+        linkColor = new TextView(context).getLinkTextColors().getDefaultColor();
+        attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
         this.attachmentsActionCallback = attachmentsActionCallback;
-        this.mLinkActionAdapter = new LinkActionAdapter() {
+        mLinkActionAdapter = new LinkActionAdapter() {
             @Override
             public void onOwnerClick(int ownerId) {
                 openOwner(ownerId);
@@ -78,7 +79,7 @@ public class FeedbackViewBinder {
      * @param notification уведомление
      * @param holder       контейнер в елементами интерфейса
      */
-    public void configMentionCommentsVideoFeedback(MentionCommentFeedback notification, final FeedbackAdapter.CommentHolder holder) {
+    public void configMentionCommentsVideoFeedback(MentionCommentFeedback notification, FeedbackAdapter.CommentHolder holder) {
         Comment feedback = notification.getWhere();
 
         Spannable spannable = OwnerLinkSpanFactory.withSpans(feedback.getText(), true, false, mLinkActionAdapter);
@@ -143,7 +144,7 @@ public class FeedbackViewBinder {
      * @param notification уведомление
      * @param holder       контейнер в елементами интерфейса
      */
-    public void configMentionCommentsPhotoFeedback(MentionCommentFeedback notification, final FeedbackAdapter.CommentHolder holder) {
+    public void configMentionCommentsPhotoFeedback(MentionCommentFeedback notification, FeedbackAdapter.CommentHolder holder) {
         Comment feedback = notification.getWhere();
 
         Spannable spannable = OwnerLinkSpanFactory.withSpans(feedback.getText(), true, false, mLinkActionAdapter);
@@ -184,7 +185,7 @@ public class FeedbackViewBinder {
      * @param notification уведомление
      * @param holder       контейнер в елементами интерфейса
      */
-    public void configMentionCommentsFeedback(MentionCommentFeedback notification, final FeedbackAdapter.CommentHolder holder) {
+    public void configMentionCommentsFeedback(MentionCommentFeedback notification, FeedbackAdapter.CommentHolder holder) {
         Post post = (Post) notification.getCommentOf();
         Comment feedback = notification.getWhere();
 
@@ -233,7 +234,7 @@ public class FeedbackViewBinder {
      * @param notification уведомление
      * @param holder       контейнер в елементами интерфейса
      */
-    public void configMentionFeedback(MentionFeedback notification, final FeedbackAdapter.CommentHolder holder) {
+    public void configMentionFeedback(MentionFeedback notification, FeedbackAdapter.CommentHolder holder) {
         Post feedback = (Post) notification.getWhere();
 
         Spannable spannable = OwnerLinkSpanFactory.withSpans(feedback.getText(), true, false, mLinkActionAdapter);
@@ -267,7 +268,7 @@ public class FeedbackViewBinder {
      * @param notification уведомление
      * @param holder       контейнер в елементами интерфейса
      */
-    public void configWallPublishFeedback(PostPublishFeedback notification, final FeedbackAdapter.CommentHolder holder) {
+    public void configWallPublishFeedback(PostPublishFeedback notification, FeedbackAdapter.CommentHolder holder) {
         Post feedback = notification.getPost();
 
         Spannable feedBackText = OwnerLinkSpanFactory.withSpans(feedback.getText(), true, false, mLinkActionAdapter);
@@ -298,7 +299,7 @@ public class FeedbackViewBinder {
         configReply(notification.getReply(), holder);
     }
 
-    private void solveOwnerOpenByAvatar(final ImageView ivSource, final int ownerId) {
+    private void solveOwnerOpenByAvatar(ImageView ivSource, int ownerId) {
         ivSource.setOnClickListener(v -> openOwner(ownerId));
     }
 
@@ -673,7 +674,7 @@ public class FeedbackViewBinder {
         solveOwnerOpenByAvatar(holder.uAvatar, user.getId());
     }
 
-    private void configReply(final Comment reply, final FeedbackAdapter.CommentHolder holder) {
+    private void configReply(Comment reply, FeedbackAdapter.CommentHolder holder) {
         holder.cReplyContainer.setVisibility(reply == null ? View.GONE : View.VISIBLE);
 
         if (reply != null) {
@@ -903,7 +904,7 @@ public class FeedbackViewBinder {
      * @param notification уведомление
      * @param holder       контейнер в елементами интерфейса
      */
-    public void configLikePhotoFeedback(LikeFeedback notification, final FeedbackAdapter.UsersHolder holder) {
+    public void configLikePhotoFeedback(LikeFeedback notification, FeedbackAdapter.UsersHolder holder) {
         List<Owner> owners = notification.getOwners();
         User firstUser = (User) owners.get(0);
 
@@ -1096,8 +1097,8 @@ public class FeedbackViewBinder {
     }
 
     private void showAsLink(Spannable spannable, Link link) {
-        spannable.setSpan(new ForegroundColorSpan(linkColor), link.start, link.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new StyleSpan(Typeface.ITALIC), link.start, link.end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(linkColor), link.start, link.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new StyleSpan(Typeface.ITALIC), link.start, link.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     /**

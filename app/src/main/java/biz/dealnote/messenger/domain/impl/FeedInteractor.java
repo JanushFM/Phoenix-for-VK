@@ -57,12 +57,12 @@ public class FeedInteractor implements IFeedInteractor {
 
     @Override
     public Single<Pair<List<News>, String>> getActualFeed(int accountId, int count, String startFrom, String filters, Integer maxPhotos, String sourceIds) {
-        if (sourceIds == null || !sourceIds.equals("recommendation")) {
+        if (!"recommendation".equals(sourceIds)) {
             return networker.vkDefault(accountId)
                     .newsfeed()
                     .get(filters, null, null, null, maxPhotos, sourceIds, startFrom, count, Constants.MAIN_OWNER_FIELDS)
                     .flatMap(response -> {
-                        final String nextFrom = response.nextFrom;
+                        String nextFrom = response.nextFrom;
                         List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
                         List<VKApiNews> feed = listEmptyIfNull(response.items);
                         List<NewsEntity> dbos = new ArrayList<>(feed.size());
@@ -72,7 +72,7 @@ public class FeedInteractor implements IFeedInteractor {
                             dbos.add(Dto2Entity.mapNews(news));
                             ownIds.appendNews(news);
                         }
-                        final OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                        OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
                         return stores.feed()
                                 .store(accountId, dbos, ownerEntities, Utils.isEmpty(startFrom))
                                 .flatMap(ints -> {
@@ -94,7 +94,7 @@ public class FeedInteractor implements IFeedInteractor {
                     .newsfeed()
                     .getRecommended(null, null, maxPhotos, startFrom, count, Constants.MAIN_OWNER_FIELDS)
                     .flatMap(response -> {
-                        final String nextFrom = response.nextFrom;
+                        String nextFrom = response.nextFrom;
                         List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
                         List<VKApiNews> feed = listEmptyIfNull(response.items);
                         List<NewsEntity> dbos = new ArrayList<>(feed.size());
@@ -104,7 +104,7 @@ public class FeedInteractor implements IFeedInteractor {
                             dbos.add(Dto2Entity.mapNews(news));
                             ownIds.appendNews(news);
                         }
-                        final OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                        OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
                         return stores.feed()
                                 .store(accountId, dbos, ownerEntities, Utils.isEmpty(startFrom))
                                 .flatMap(ints -> {
@@ -165,7 +165,7 @@ public class FeedInteractor implements IFeedInteractor {
         return networker.vkDefault(accountId)
                 .newsfeed()
                 .getLists(null)
-                .map(items -> Utils.listEmptyIfNull(items.getItems()))
+                .map(items -> listEmptyIfNull(items.getItems()))
                 .flatMap(dtos -> {
                     List<FeedListEntity> entities = new ArrayList<>(dtos.size());
                     List<FeedList> lists = new ArrayList<>();

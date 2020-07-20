@@ -27,12 +27,12 @@ public class CrashConfig implements Serializable {
     private boolean showErrorDetails = true;
     private boolean showRestartButton = true;
     private boolean logErrorOnRestart = true;
-    private boolean trackActivities = false;
+    private boolean trackActivities;
     private int minTimeBetweenCrashesMs = 3000;
-    private Integer errorDrawable = null;
-    private Class<? extends Activity> errorActivityClass = null;
-    private Class<? extends Activity> restartActivityClass = null;
-    private CrashActivity.EventListener eventListener = null;
+    private Integer errorDrawable;
+    private Class<? extends Activity> errorActivityClass;
+    private Class<? extends Activity> restartActivityClass;
+    private CrashActivity.EventListener eventListener;
 
     @BackgroundMode
     public int getBackgroundMode() {

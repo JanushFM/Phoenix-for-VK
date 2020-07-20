@@ -34,8 +34,8 @@ public class AudiosInCatalogPresenter extends AccountDependencyPresenter<IAudios
 
     public AudiosInCatalogPresenter(int accountId, String block_id, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
-        this.audios = new ArrayList<>();
+        audioInteractor = InteractorFactory.createAudioInteractor();
+        audios = new ArrayList<>();
         this.block_id = block_id;
     }
 
@@ -107,7 +107,7 @@ public class AudiosInCatalogPresenter extends AccountDependencyPresenter<IAudios
     public int getAudioPos(Audio audio) {
         if (!Utils.isEmpty(audios) && audio != null) {
             int pos = 0;
-            for (final Audio i : audios) {
+            for (Audio i : audios) {
                 if (i.getId() == audio.getId() && i.getOwnerId() == audio.getOwnerId()) {
                     i.setAnimationNow(true);
                     callView(IAudiosInCatalogView::notifyListChanged);

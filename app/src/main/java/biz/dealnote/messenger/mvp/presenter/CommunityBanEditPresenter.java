@@ -49,27 +49,27 @@ public class CommunityBanEditPresenter extends AccountDependencyPresenter<ICommu
         super(accountId, savedInstanceState);
         this.groupId = groupId;
         this.banned = banned;
-        this.users = Utils.singletonArrayList(banned.getBanned());
+        users = Utils.singletonArrayList(banned.getBanned());
 
         Banned.Info info = banned.getInfo();
 
-        this.blockFor = new BlockFor(info.getEndDate());
-        this.reason = info.getReason();
-        this.comment = info.getComment();
-        this.showCommentToUser = info.isCommentVisible();
-        this.index = 0;
-        this.interactor = InteractorFactory.createGroupSettingsInteractor();
+        blockFor = new BlockFor(info.getEndDate());
+        reason = info.getReason();
+        comment = info.getComment();
+        showCommentToUser = info.isCommentVisible();
+        index = 0;
+        interactor = InteractorFactory.createGroupSettingsInteractor();
     }
 
     public CommunityBanEditPresenter(int accountId, int groupId, ArrayList<Owner> users, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.groupId = groupId;
-        this.banned = null;
+        banned = null;
         this.users = users;
-        this.index = 0;
-        this.blockFor = new BlockFor(BlockFor.FOREVER); // by default
-        this.reason = BlockReason.OTHER;
-        this.interactor = InteractorFactory.createGroupSettingsInteractor();
+        index = 0;
+        blockFor = new BlockFor(BlockFor.FOREVER); // by default
+        reason = BlockReason.OTHER;
+        interactor = InteractorFactory.createGroupSettingsInteractor();
     }
 
     private Owner currentBanned() {
@@ -184,11 +184,11 @@ public class CommunityBanEditPresenter extends AccountDependencyPresenter<ICommu
     public void fireButtonSaveClick() {
         setRequestNow(true);
 
-        final int accountId = super.getAccountId();
-        final int ownerId = currentBanned().getOwnerId();
-        final Date endDate = blockFor.getUnblockingDate();
+        int accountId = getAccountId();
+        int ownerId = currentBanned().getOwnerId();
+        Date endDate = blockFor.getUnblockingDate();
 
-        final Long endDateUnixtime = nonNull(endDate) ? endDate.getTime() / 1000 : null;
+        Long endDateUnixtime = nonNull(endDate) ? endDate.getTime() / 1000 : null;
 
         appendDisposable(interactor.ban(accountId, groupId, ownerId, endDateUnixtime, reason, comment, showCommentToUser)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -220,7 +220,7 @@ public class CommunityBanEditPresenter extends AccountDependencyPresenter<ICommu
     }
 
     public void fireCommentEdit(CharSequence s) {
-        this.comment = s.toString();
+        comment = s.toString();
     }
 
     public void fireBlockForClick() {
@@ -249,7 +249,7 @@ public class CommunityBanEditPresenter extends AccountDependencyPresenter<ICommu
                 break;
 
             case REQUEST_CODE_REASON:
-                this.reason = idOption.getId();
+                reason = idOption.getId();
                 resolveResonView();
                 break;
         }
@@ -297,12 +297,12 @@ public class CommunityBanEditPresenter extends AccountDependencyPresenter<ICommu
 
         BlockFor(int type) {
             this.type = type;
-            this.customDate = 0;
+            customDate = 0;
         }
 
         BlockFor(long customDate) {
             this.customDate = customDate;
-            this.type = customDate > 0 ? CUSTOM : FOREVER;
+            type = customDate > 0 ? CUSTOM : FOREVER;
         }
 
         Date getUnblockingDate() {

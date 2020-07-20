@@ -54,7 +54,7 @@ public abstract class RxSupportPresenter<V extends IMvpView> extends AbsPresente
     }
 
     protected void fireTempDataUsage() {
-        this.tempDataUsage = true;
+        tempDataUsage = true;
     }
 
     @Override

@@ -34,9 +34,9 @@ public class ExoVideoPlayer implements IVideoPlayer {
     private boolean prepareCalled;
 
     public ExoVideoPlayer(Context context, String url, ProxyConfig config, @InternalVideoSize int size) {
-        this.player = createPlayer(context);
-        this.player.addVideoListener(onVideoSizeChangedListener);
-        this.source = createMediaSource(url, config, size == InternalVideoSize.SIZE_HLS || size == InternalVideoSize.SIZE_LIVE);
+        player = createPlayer(context);
+        player.addVideoListener(onVideoSizeChangedListener);
+        source = createMediaSource(url, config, size == InternalVideoSize.SIZE_HLS || size == InternalVideoSize.SIZE_LIVE);
     }
 
     private static MediaSource createMediaSource(String url, ProxyConfig proxyConfig, boolean isHLS) {
@@ -123,12 +123,12 @@ public class ExoVideoPlayer implements IVideoPlayer {
 
     @Override
     public void addVideoSizeChangeListener(IVideoSizeChangeListener listener) {
-        this.videoSizeChangeListeners.add(listener);
+        videoSizeChangeListeners.add(listener);
     }
 
     @Override
     public void removeVideoSizeChangeListener(IVideoSizeChangeListener listener) {
-        this.videoSizeChangeListeners.remove(listener);
+        videoSizeChangeListeners.remove(listener);
     }
 
     private static final class OnVideoSizeChangedListener implements SimpleExoPlayer.VideoListener {
@@ -136,7 +136,7 @@ public class ExoVideoPlayer implements IVideoPlayer {
         final WeakReference<ExoVideoPlayer> ref;
 
         private OnVideoSizeChangedListener(ExoVideoPlayer player) {
-            this.ref = new WeakReference<>(player);
+            ref = new WeakReference<>(player);
         }
 
         @Override

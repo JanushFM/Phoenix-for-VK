@@ -46,13 +46,13 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
 
     public FeedbackAdapter(Activity context, List<Feedback> items, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         super(items);
-        this.mContext = context;
-        this.mFeedbackViewBinder = new FeedbackViewBinder(context, attachmentsActionCallback);
+        mContext = context;
+        mFeedbackViewBinder = new FeedbackViewBinder(context, attachmentsActionCallback);
     }
 
     @Override
     protected void onBindItemViewHolder(FeedbackHolder viewHolder, int position, int type) {
-        final Feedback item = getItem(position);
+        Feedback item = getItem(position);
         Feedback previous = position > 0 ? getItem(position - 1) : null;
 
         int headerStatus = getHeaderStatus(previous, item.getDate());
@@ -95,7 +95,7 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
     }
 
     public void setClickListener(ClickListener clickListener) {
-        this.mClickListener = clickListener;
+        mClickListener = clickListener;
     }
 
     private void configCommentHolder(Feedback notification, CommentHolder holder) {
@@ -292,9 +292,9 @@ public class FeedbackAdapter extends RecyclerBindableAdapter<Feedback, FeedbackA
 
         FeedbackHolder(View itemView) {
             super(itemView);
-            this.headerRoot = itemView.findViewById(R.id.header_root);
-            this.contentRoot = itemView.findViewById(R.id.content_root);
-            this.headerText = itemView.findViewById(R.id.item_feedback_header_title);
+            headerRoot = itemView.findViewById(R.id.header_root);
+            contentRoot = itemView.findViewById(R.id.content_root);
+            headerText = itemView.findViewById(R.id.item_feedback_header_title);
         }
     }
 

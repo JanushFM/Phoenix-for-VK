@@ -29,20 +29,20 @@ public class SynchronisedLyricsContentType implements SimpleIntStringMap {
         if (instance == null) {
             synchronized (SynchronisedLyricsContentType.class) {
                 if (instance == null) {
-                    SynchronisedLyricsContentType.instance = new SynchronisedLyricsContentType();
+                    instance = new SynchronisedLyricsContentType();
                 }
             }
         }
-        return SynchronisedLyricsContentType.instance;
+        return instance;
     }
 
     @Override
-    public boolean containsKey(final int key) {
+    public boolean containsKey(int key) {
         return key >= 0 && key <= MAX_SYNCHRONIZED_LYRICS_ID;
     }
 
     @Override
-    public String getValue(final int key) {
+    public String getValue(int key) {
         if (!containsKey(key)) {
             return "";
         }

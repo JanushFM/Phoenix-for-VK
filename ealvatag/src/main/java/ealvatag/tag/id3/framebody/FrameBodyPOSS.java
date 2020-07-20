@@ -77,8 +77,8 @@ public class FrameBodyPOSS extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param position
      */
     public FrameBodyPOSS(byte timeStampFormat, long position) {
-        this.setObjectValue(DataTypes.OBJ_TIME_STAMP_FORMAT, timeStampFormat);
-        this.setObjectValue(DataTypes.OBJ_POSITION, position);
+        setObjectValue(DataTypes.OBJ_TIME_STAMP_FORMAT, timeStampFormat);
+        setObjectValue(DataTypes.OBJ_POSITION, position);
     }
 
     /**

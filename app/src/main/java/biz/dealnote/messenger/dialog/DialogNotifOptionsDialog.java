@@ -44,10 +44,10 @@ public class DialogNotifOptionsDialog extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.accountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.peerId = getArguments().getInt(Extra.PEER_ID);
+        accountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        peerId = getArguments().getInt(Extra.PEER_ID);
 
-        this.mask = Settings.get()
+        mask = Settings.get()
                 .notifications()
                 .getNotifPref(accountId, peerId);
     }

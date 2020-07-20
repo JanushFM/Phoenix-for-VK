@@ -39,21 +39,21 @@ public class ID3v1TagField implements TagTextField {
      * @param raw Raw byte data of the tagfield.
      * @throws UnsupportedEncodingException If the data doesn't conform "UTF-8" specification.
      */
-    public ID3v1TagField(final byte[] raw) throws UnsupportedEncodingException {
+    public ID3v1TagField(byte[] raw) throws UnsupportedEncodingException {
         String field = new String(raw, StandardCharsets.ISO_8859_1);
 
         int i = field.indexOf('=');
         if (i == -1) {
             //Beware that ogg ID, must be capitalized and contain no space..
-            this.id = "ERRONEOUS";
-            this.content = field;
+            id = "ERRONEOUS";
+            content = field;
         } else {
-            this.id = field.substring(0, i).toUpperCase();
+            id = field.substring(0, i).toUpperCase();
             if (field.length() > i) {
-                this.content = field.substring(i + 1);
+                content = field.substring(i + 1);
             } else {
                 //We have "XXXXXX=" with nothing after the "="
-                this.content = "";
+                content = "";
             }
         }
         checkCommon();
@@ -65,9 +65,9 @@ public class ID3v1TagField implements TagTextField {
      * @param fieldId      ID (name) of the field.
      * @param fieldContent Content of the field.
      */
-    public ID3v1TagField(final String fieldId, final String fieldContent) {
-        this.id = fieldId.toUpperCase();
-        this.content = fieldContent;
+    public ID3v1TagField(String fieldId, String fieldContent) {
+        id = fieldId.toUpperCase();
+        content = fieldContent;
         checkCommon();
     }
 
@@ -77,7 +77,7 @@ public class ID3v1TagField implements TagTextField {
      * <br>
      */
     private void checkCommon() {
-        this.common = id.equals(ID3v1FieldKey.TITLE.name()) || id.equals(ID3v1FieldKey.ALBUM.name()) || id.equals(ID3v1FieldKey.ARTIST.name()) || id.equals(ID3v1FieldKey.GENRE.name()) || id.equals(ID3v1FieldKey.YEAR.name()) || id.equals(ID3v1FieldKey.COMMENT.name()) || id.equals(ID3v1FieldKey.TRACK.name());
+        common = id.equals(ID3v1FieldKey.TITLE.name()) || id.equals(ID3v1FieldKey.ALBUM.name()) || id.equals(ID3v1FieldKey.ARTIST.name()) || id.equals(ID3v1FieldKey.GENRE.name()) || id.equals(ID3v1FieldKey.YEAR.name()) || id.equals(ID3v1FieldKey.COMMENT.name()) || id.equals(ID3v1FieldKey.TRACK.name());
     }
 
     /**
@@ -102,7 +102,7 @@ public class ID3v1TagField implements TagTextField {
     @Override
     public void copyContent(TagField field) {
         if (field instanceof TagTextField) {
-            this.content = ((TagTextField) field).getContent();
+            content = ((TagTextField) field).getContent();
         }
     }
 
@@ -113,7 +113,7 @@ public class ID3v1TagField implements TagTextField {
 
     @Override
     public void setContent(String s) {
-        this.content = s;
+        content = s;
     }
 
     @Override
@@ -128,14 +128,14 @@ public class ID3v1TagField implements TagTextField {
 
     @Override
     public String getId() {
-        return this.id;
+        return id;
     }
 
     @Override
     public byte[] getRawContent() throws UnsupportedEncodingException {
         byte[] size = new byte[4];
-        byte[] idBytes = this.id.getBytes(StandardCharsets.ISO_8859_1);
-        byte[] contentBytes = this.content.getBytes(StandardCharsets.ISO_8859_1);
+        byte[] idBytes = id.getBytes(StandardCharsets.ISO_8859_1);
+        byte[] contentBytes = content.getBytes(StandardCharsets.ISO_8859_1);
         byte[] b = new byte[4 + idBytes.length + 1 + contentBytes.length];
 
         int length = idBytes.length + 1 + contentBytes.length;
@@ -173,7 +173,7 @@ public class ID3v1TagField implements TagTextField {
 
     @Override
     public boolean isEmpty() {
-        return "".equals(this.content);
+        return "".equals(content);
     }
 
     @Override

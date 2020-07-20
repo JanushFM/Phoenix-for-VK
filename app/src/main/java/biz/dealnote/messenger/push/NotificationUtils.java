@@ -26,7 +26,7 @@ import static biz.dealnote.messenger.util.Utils.safeIsEmpty;
 public class NotificationUtils {
 
     public static Single<Bitmap> loadRoundedImageRx(Context context, String url, @DrawableRes int ifErrorOrEmpty) {
-        final Context app = context.getApplicationContext();
+        Context app = context.getApplicationContext();
         return Single.fromCallable(() -> loadRoundedImage(app, url, ifErrorOrEmpty));
     }
 
@@ -49,7 +49,7 @@ public class NotificationUtils {
     }
 
     public static Bitmap loadRoundedImage(Context context, String url, @DrawableRes int ifErrorOrEmpty) {
-        final Context app = context.getApplicationContext();
+        Context app = context.getApplicationContext();
         Transformation transformation = CurrentTheme.createTransformationForAvatar(app);
 
         int size = (int) Utils.dpToPx(64, app);

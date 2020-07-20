@@ -5,6 +5,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -102,8 +103,8 @@ class FeedbackStorage extends AbsStorage implements IFeedbackStorage {
     @Override
     public Single<int[]> insert(int accountId, List<FeedbackEntity> dbos, OwnerEntities owners, boolean clearBefore) {
         return Single.create(emitter -> {
-            final Uri uri = MessengerContentProvider.getNotificationsContentUriFor(accountId);
-            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+            Uri uri = MessengerContentProvider.getNotificationsContentUriFor(accountId);
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
             if (clearBefore) {
                 operations.add(ContentProviderOperation
@@ -133,7 +134,7 @@ class FeedbackStorage extends AbsStorage implements IFeedbackStorage {
 
             ContentProviderResult[] results = getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
 
-            final int[] ids = new int[dbos.size()];
+            int[] ids = new int[dbos.size()];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];
@@ -153,8 +154,8 @@ class FeedbackStorage extends AbsStorage implements IFeedbackStorage {
 
             Cursor cursor;
             if (range != null) {
-                String where = NotificationColumns._ID + " >= ? AND " + NotificationColumns._ID + " <= ?";
-                String[] args = new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())};
+                String where = BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?";
+                String[] args = {String.valueOf(range.getFirst()), String.valueOf(range.getLast())};
                 cursor = getContext().getContentResolver().query(uri, null, where, args, NotificationColumns.DATE + " DESC");
             } else {
                 cursor = getContext().getContentResolver().query(uri, null, null, null, NotificationColumns.DATE + " DESC");

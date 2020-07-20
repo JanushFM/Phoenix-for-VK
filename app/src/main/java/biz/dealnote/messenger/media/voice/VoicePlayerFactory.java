@@ -14,7 +14,7 @@ public class VoicePlayerFactory implements IVoicePlayerFactory {
     private final IProxySettings proxySettings;
 
     public VoicePlayerFactory(Context context, IProxySettings proxySettings, ISettings.IOtherSettings otherSettings) {
-        this.app = context.getApplicationContext();
+        app = context.getApplicationContext();
         this.proxySettings = proxySettings;
     }
 

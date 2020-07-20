@@ -150,9 +150,9 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
     private volatile RetrofitWrapper serviceRetrofit;
 
     public VkRetrofitProvider(IProxySettings proxySettings, IVkMethodHttpClientFactory clientFactory) {
-        this.proxyManager = proxySettings;
+        proxyManager = proxySettings;
         this.clientFactory = clientFactory;
-        this.proxyManager.observeActive()
+        proxyManager.observeActive()
                 .subscribe(optional -> onProxySettingsChanged());
     }
 

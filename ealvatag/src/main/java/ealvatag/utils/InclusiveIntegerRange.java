@@ -36,23 +36,23 @@ public class InclusiveIntegerRange {
      * @param lowerBounds lower end of range
      * @param upperBounds upper end of range
      */
-    public InclusiveIntegerRange(final int lowerBounds,
-                                 final int upperBounds) {
+    public InclusiveIntegerRange(int lowerBounds,
+                                 int upperBounds) {
         Preconditions.checkArgument(lowerBounds <= upperBounds);
         this.lowerBounds = lowerBounds;
         this.upperBounds = upperBounds;
     }
 
-    public boolean overlaps(final InclusiveIntegerRange otherRange) {
+    public boolean overlaps(InclusiveIntegerRange otherRange) {
         return otherRange.contains(lowerBounds) || otherRange.contains(upperBounds) || contains(otherRange.lowerBounds) ||
                 contains(otherRange.upperBounds);
     }
 
-    public boolean contains(final int value) {
+    public boolean contains(int value) {
         return lowerBounds <= value && value <= upperBounds;
     }
 
-    public int clampToRange(final int value) {
+    public int clampToRange(int value) {
         if (value < lowerBounds) {
             return lowerBounds;
         }
@@ -62,20 +62,20 @@ public class InclusiveIntegerRange {
         return value;
     }
 
-    public int clampToRange(final float value) {
+    public int clampToRange(float value) {
         return clampToRange(Math.round(value));
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final InclusiveIntegerRange that = (InclusiveIntegerRange) o;
-        return this.lowerBounds == that.lowerBounds && this.upperBounds == that.upperBounds;
+        InclusiveIntegerRange that = (InclusiveIntegerRange) o;
+        return lowerBounds == that.lowerBounds && upperBounds == that.upperBounds;
     }
 
     @Override

@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class VoiceMessage extends AbsModel implements Parcelable {
+public class VoiceMessage extends AbsModel {
 
     public static final Creator<VoiceMessage> CREATOR = new Creator<VoiceMessage>() {
         @Override

@@ -63,14 +63,14 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
     private long lastEnryProcessTime;
 
     RealtimeMessagesProcessor() {
-        this.app = Injection.provideApplicationContext();
-        this.repositories = Injection.provideStores();
-        this.networker = Injection.provideNetworkInterfaces();
-        this.publishSubject = PublishSubject.create();
-        this.queue = new LinkedList<>();
-        this.notificationsInterceptors = new SparseArray<>(3);
-        this.ownersRepository = Repository.INSTANCE.getOwners();
-        this.messagesInteractor = Repository.INSTANCE.getMessages();
+        app = Injection.provideApplicationContext();
+        repositories = Injection.provideStores();
+        networker = Injection.provideNetworkInterfaces();
+        publishSubject = PublishSubject.create();
+        queue = new LinkedList<>();
+        notificationsInterceptors = new SparseArray<>(3);
+        ownersRepository = Repository.INSTANCE.getOwners();
+        messagesInteractor = Repository.INSTANCE.getMessages();
     }
 
     private static Set<Integer> getChatIds(TmpResult result) {
@@ -145,7 +145,7 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
 
     private boolean hasInQueueOrCurrent(int id) {
         synchronized (stateLock) {
-            final Entry c = this.current;
+            Entry c = current;
 
             if (nonNull(c) && c.has(id)) {
                 return true;
@@ -214,7 +214,7 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
                 return false;
             }
 
-            this.current = queue.remove(0);
+            current = queue.remove(0);
             return true;
         }
     }
@@ -239,7 +239,7 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
 
     private void resetCurrent() {
         synchronized (stateLock) {
-            this.current = null;
+            current = null;
         }
     }
 
@@ -248,13 +248,13 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
             return;
         }
 
-        final Entry entry;
+        Entry entry;
         synchronized (stateLock) {
-            entry = this.current;
+            entry = current;
         }
 
-        final long start = System.currentTimeMillis();
-        final boolean ignoreIfExists = entry.isIgnoreIfExists();
+        long start = System.currentTimeMillis();
+        boolean ignoreIfExists = entry.isIgnoreIfExists();
 
         init(Single.just(entry))
                 // ищем недостающие сообщения в локальной базе
@@ -317,7 +317,7 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
     private SingleTransformer<TmpResult, TmpResult> storeToCacheAndReturn() {
         return single -> single
                 // собственно, вставка
-                .flatMap(result -> this.messagesInteractor
+                .flatMap(result -> messagesInteractor
                         .insertMessages(result.getAccountId(), result.collectDtos())
                         //.andThen(refreshChangedDialogs(result))
                         .andThen(Single.just(result)))
@@ -325,14 +325,14 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
                     // собственно, получение из локальной базы
                     List<Integer> ids = collectIds(result.getData(), msg -> true);
 
-                    return this.messagesInteractor
+                    return messagesInteractor
                             .findCachedMessages(result.getAccountId(), ids)
                             .map(result::appendModel);
                 });
     }
 
     private void onResultReceived(long startTime, TmpResult result) {
-        this.lastEnryProcessTime = System.currentTimeMillis() - startTime;
+        lastEnryProcessTime = System.currentTimeMillis() - startTime;
 
         Logger.d(TAG, "SUCCESS, data: " + result + ", time: " + lastEnryProcessTime);
 
@@ -370,9 +370,9 @@ class RealtimeMessagesProcessor implements IRealtimeMessagesProcessor {
     }
 
     private Completable identifyMissingObjectsGetAndStore(TmpResult result) {
-        final VKOwnIds ownIds = getOwnIds(result);
-        final Collection<Integer> chatIds = getChatIds(result);
-        final int accountId = result.getAccountId();
+        VKOwnIds ownIds = getOwnIds(result);
+        Collection<Integer> chatIds = getChatIds(result);
+        int accountId = result.getAccountId();
 
         Completable completable = Completable.complete();
         if (ownIds.nonEmpty()) {

@@ -88,8 +88,8 @@ public class UploadManagerImpl implements IUploadManager {
         this.storages = storages;
         this.attachmentsRepository = attachmentsRepository;
         this.walls = walls;
-        this.scheduler = Schedulers.from(Executors.newSingleThreadExecutor());
-        this.timer = Flowable.interval(PROGRESS_LOOKUP_DELAY, PROGRESS_LOOKUP_DELAY, TimeUnit.MILLISECONDS).onBackpressureBuffer();
+        scheduler = Schedulers.from(Executors.newSingleThreadExecutor());
+        timer = Flowable.interval(PROGRESS_LOOKUP_DELAY, PROGRESS_LOOKUP_DELAY, TimeUnit.MILLISECONDS).onBackpressureBuffer();
     }
 
     private static Upload intent2Upload(UploadIntent intent) {
@@ -147,7 +147,7 @@ public class UploadManagerImpl implements IUploadManager {
     }
 
     private List<Upload> getByDestination(int accountId, @NonNull UploadDestination destination) {
-        synchronized (UploadManagerImpl.this) {
+        synchronized (this) {
             List<Upload> data = new ArrayList<>();
             for (Upload upload : queue) {
                 if (accountId == upload.getAccountId() && destination.compareTo(upload.getDestination())) {
@@ -170,12 +170,12 @@ public class UploadManagerImpl implements IUploadManager {
         if (nonEmpty(updates)) {
             int progress = updates.get(0).getProgress();
 
-            final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             if (isNull(notificationManager)) {
                 return;
             }
 
-            final NotificationCompat.Builder builder;
+            NotificationCompat.Builder builder;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 if (needCreateChannel) {
                     NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, context.getString(R.string.channel_upload_files), NotificationManager.IMPORTANCE_LOW);
@@ -200,7 +200,7 @@ public class UploadManagerImpl implements IUploadManager {
 
     private void stopNotification() {
         notificationUpdateDisposable.clear();
-        final NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (nonNull(notificationManager)) {
             notificationManager.cancel(NotificationHelper.NOTIFICATION_UPLOAD);
         }
@@ -241,7 +241,7 @@ public class UploadManagerImpl implements IUploadManager {
 
     private void startIfNotStartedInternal() {
         synchronized (this) {
-            final Upload first = findFirstQueue();
+            Upload first = findFirstQueue();
             if (current != null) return;
 
             if (first == null) {
@@ -251,13 +251,13 @@ public class UploadManagerImpl implements IUploadManager {
 
             startWithNotification();
 
-            this.current = first;
+            current = first;
 
             first.setStatus(Upload.STATUS_UPLOADING).setErrorText(null);
             statusProcessor.onNext(first);
 
-            final IUploadable<?> uploadable = createUploadable(first);
-            final UploadServer server = serverMap.get(createServerKey(first));
+            IUploadable<?> uploadable = createUploadable(first);
+            UploadServer server = serverMap.get(createServerKey(first));
 
             compositeDisposable.add(uploadable.doUpload(first, server, new WeakProgressPublisgher(first))
                     .subscribeOn(scheduler)
@@ -280,7 +280,7 @@ public class UploadManagerImpl implements IUploadManager {
             //    sendMessageIfWaitForUpload(accountId, destination.getId());
             //}
 
-            final UploadDestination destination = upload.getDestination();
+            UploadDestination destination = upload.getDestination();
             if (destination.getMessageMethod() != MessageMethod.VIDEO && destination.getMethod() != Method.VIDEO)
                 serverMap.put(createServerKey(upload), result.getServer());
 
@@ -295,7 +295,7 @@ public class UploadManagerImpl implements IUploadManager {
                 current = null;
 
                 Throwable cause = getCauseIfRuntime(t);
-                final String message = firstNonEmptyString(cause.getMessage(), cause.toString());
+                String message = firstNonEmptyString(cause.getMessage(), cause.toString());
                 compositeDisposable.add(Completable.complete()
                         .observeOn(Injection.provideMainThreadScheduler())
                         .subscribe(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show()));
@@ -395,7 +395,7 @@ public class UploadManagerImpl implements IUploadManager {
     @Override
     public Flowable<List<IProgressUpdate>> observeProgress() {
         return timer.map(ignored -> {
-            synchronized (UploadManagerImpl.this) {
+            synchronized (this) {
                 if (current == null) {
                     return Collections.emptyList();
                 }
@@ -407,7 +407,7 @@ public class UploadManagerImpl implements IUploadManager {
     }
 
     private IUploadable<?> createUploadable(Upload upload) {
-        final UploadDestination destination = upload.getDestination();
+        UploadDestination destination = upload.getDestination();
 
         switch (destination.getMethod()) {
             case Method.VIDEO:
@@ -443,7 +443,7 @@ public class UploadManagerImpl implements IUploadManager {
         final WeakReference<Upload> reference;
 
         WeakProgressPublisgher(Upload upload) {
-            this.reference = new WeakReference<>(upload);
+            reference = new WeakReference<>(upload);
         }
 
         @Override

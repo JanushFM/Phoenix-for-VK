@@ -93,7 +93,7 @@ public class ShortcutUtils {
                 manager.requestPinShortcut(shortcutInfo, null);
             }
         } else {
-            final Context app = context.getApplicationContext();
+            Context app = context.getApplicationContext();
 
             Intent intent = new Intent();
             intent.setAction(SHURTCUT_ACTION);
@@ -147,7 +147,7 @@ public class ShortcutUtils {
 
     @TargetApi(Build.VERSION_CODES.N_MR1)
     public static Completable addDynamicShortcut(Context context, int accountId, Peer peer) {
-        final Context app = context.getApplicationContext();
+        Context app = context.getApplicationContext();
 
         return loadRoundAvatar(app, peer.getAvaUrl())
                 .flatMapCompletable(bitmap -> Completable.fromAction(() -> {
@@ -172,10 +172,10 @@ public class ShortcutUtils {
                         mustBeRemoved.add(infoWhichMustBeRemoved.getId());
                     }
 
-                    final String title = peer.getTitle();
-                    final String id = "chat" + peer.getId();
-                    final String avaurl = peer.getAvaUrl();
-                    final Intent intent = chatOpenIntent(app, avaurl, accountId, peer.getId(), title);
+                    String title = peer.getTitle();
+                    String id = "chat" + peer.getId();
+                    String avaurl = peer.getAvaUrl();
+                    Intent intent = chatOpenIntent(app, avaurl, accountId, peer.getId(), title);
 
                     int rank = 0;
 

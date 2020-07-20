@@ -23,9 +23,9 @@ public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends
     private final BaseHolderListener mActionListener;
 
     public AbsSteppersVerticalAdapter(@NonNull H host, @NonNull BaseHolderListener actionListener) {
-        this.mHost = host;
-        this.mSharedHolders = new SharedHolders<>(false);
-        this.mActionListener = actionListener;
+        mHost = host;
+        mSharedHolders = new SharedHolders<>(false);
+        mActionListener = actionListener;
     }
 
     @NotNull
@@ -42,7 +42,7 @@ public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends
     public abstract AbsStepHolder<H> createHolderForStep(ViewGroup parent, H host, int step);
 
     @Override
-    public void onBindViewHolder(@NotNull final AbsStepHolder<H> holder, final int position) {
+    public void onBindViewHolder(@NotNull AbsStepHolder<H> holder, int position) {
         mSharedHolders.put(position, holder);
 
         holder.counterText.setText(String.valueOf(position + 1));

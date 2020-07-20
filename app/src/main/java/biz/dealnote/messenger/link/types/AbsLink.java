@@ -28,7 +28,7 @@ public abstract class AbsLink {
     public int type;
 
     public AbsLink(int vkLinkType) {
-        this.type = vkLinkType;
+        type = vkLinkType;
     }
 
     public boolean isValid() {

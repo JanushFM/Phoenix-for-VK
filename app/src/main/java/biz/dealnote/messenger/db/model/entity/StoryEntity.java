@@ -42,7 +42,7 @@ public class StoryEntity extends Entity {
     }
 
     public StoryEntity setOwnerId(int ownerId) {
-        this.owner_id = ownerId;
+        owner_id = ownerId;
         return this;
     }
 

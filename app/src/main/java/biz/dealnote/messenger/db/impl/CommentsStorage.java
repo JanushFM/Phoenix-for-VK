@@ -5,6 +5,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -45,7 +46,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
 
     CommentsStorage(@NonNull AppStorages base) {
         super(base);
-        this.minorUpdatesPublisher = PublishSubject.create();
+        minorUpdatesPublisher = PublishSubject.create();
     }
 
     public static ContentValues getCV(int sourceId, int sourceOwnerId, int sourceType, CommentEntity dbo) {
@@ -71,7 +72,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
     @Override
     public Single<int[]> insert(int accountId, int sourceId, int sourceOwnerId, int sourceType, List<CommentEntity> dbos, OwnerEntities owners, boolean clearBefore) {
         return Single.create(emitter -> {
-            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
             if (clearBefore) {
                 ContentProviderOperation delete = ContentProviderOperation
@@ -113,7 +114,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
                 results = getContext().getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
             }
 
-            final int[] ids = new int[dbos.size()];
+            int[] ids = new int[dbos.size()];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];
@@ -144,7 +145,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
                     CommentsColumns.COMMENT_ID + " DESC");
         } else {
             return getContentResolver().query(uri,
-                    null, CommentsColumns._ID + " >= ? AND " + CommentsColumns._ID + " <= ?",
+                    null, BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?",
                     new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())},
                     CommentsColumns.COMMENT_ID + " DESC");
         }
@@ -192,7 +193,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
             DraftComment comment = null;
             if (nonNull(cursor)) {
                 if (cursor.moveToNext()) {
-                    int dbid = cursor.getInt(cursor.getColumnIndex(CommentsColumns._ID));
+                    int dbid = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
                     String body = cursor.getString(cursor.getColumnIndex(CommentsColumns.TEXT));
 
                     comment = new DraftComment(dbid).setBody(body);
@@ -246,7 +247,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
                 id = Integer.parseInt(uri.getPathSegments().get(1));
             } else {
                 getContentResolver().update(commentsWithAccountUri, contentValues,
-                        CommentsColumns._ID + " = ?", new String[]{String.valueOf(id)});
+                        BaseColumns._ID + " = ?", new String[]{String.valueOf(id)});
             }
 
             e.onSuccess(id);
@@ -288,14 +289,14 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
     public Completable deleteByDbid(int accountId, Integer dbid) {
         return Completable.fromAction(() -> {
             Uri uri = MessengerContentProvider.getCommentsContentUriFor(accountId);
-            String where = CommentsColumns._ID + " = ?";
+            String where = BaseColumns._ID + " = ?";
             String[] args = {String.valueOf(dbid)};
             getContentResolver().delete(uri, where, args);
         });
     }
 
     private Integer findEditingCommentId(int aid, Commented commented) {
-        String[] projection = {CommentsColumns._ID};
+        String[] projection = {BaseColumns._ID};
         Cursor cursor = getContentResolver().query(
                 MessengerContentProvider.getCommentsContentUriFor(aid), projection,
                 CommentsColumns.COMMENT_ID + " = ? AND " +
@@ -322,7 +323,7 @@ class CommentsStorage extends AbsStorage implements ICommentsStorage {
 
     private CommentEntity mapDbo(int accountId, Cursor cursor, boolean includeAttachments, boolean forceAttachments, Cancelable cancelable) {
         int attachmentsCount = cursor.getInt(cursor.getColumnIndex(CommentsColumns.ATTACHMENTS_COUNT));
-        int dbid = cursor.getInt(cursor.getColumnIndex(CommentsColumns._ID));
+        int dbid = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
 
         int sourceId = cursor.getInt(cursor.getColumnIndex(CommentsColumns.SOURCE_ID));
         int sourceOwnerId = cursor.getInt(cursor.getColumnIndex(CommentsColumns.SOURCE_OWNER_ID));

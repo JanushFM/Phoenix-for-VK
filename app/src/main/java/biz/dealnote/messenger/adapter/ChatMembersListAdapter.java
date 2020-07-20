@@ -39,9 +39,9 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
     private ActionListener actionListener;
 
     public ChatMembersListAdapter(Context context, List<AppChatUser> users) {
-        this.data = users;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
-        this.paddingForFirstLast = Utils.is600dp(context) ? (int) Utils.dpToPx(16, context) : 0;
+        data = users;
+        transformation = CurrentTheme.createTransformationForAvatar(context);
+        paddingForFirstLast = Utils.is600dp(context) ? (int) Utils.dpToPx(16, context) : 0;
     }
 
     @NotNull
@@ -53,10 +53,10 @@ public class ChatMembersListAdapter extends RecyclerView.Adapter<ChatMembersList
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Context context = holder.itemView.getContext();
+        Context context = holder.itemView.getContext();
 
-        final AppChatUser item = data.get(position);
-        final Owner user = item.getMember();
+        AppChatUser item = data.get(position);
+        Owner user = item.getMember();
 
         boolean online = false;
         boolean onlineMobile = false;

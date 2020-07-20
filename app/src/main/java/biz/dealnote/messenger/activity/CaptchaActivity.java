@@ -99,7 +99,7 @@ public class CaptchaActivity extends AppCompatActivity {
             return;
         }
 
-        this.captchaProvider.enterCode(requestSid, text.toString());
+        captchaProvider.enterCode(requestSid, text.toString());
 
         finish();
     }

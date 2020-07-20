@@ -33,7 +33,7 @@ public abstract class BaseChatAttachmentsPresenter<T, V extends IBaseChatAttachm
     BaseChatAttachmentsPresenter(int peerId, int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
         this.peerId = peerId;
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
 
         initLoading();
     }
@@ -86,8 +86,8 @@ public abstract class BaseChatAttachmentsPresenter<T, V extends IBaseChatAttachm
         loadingHolder.dispose();
         resolveLoadingView();
 
-        this.nextFrom = result.getFirst();
-        this.endOfContent = Utils.isEmpty(nextFrom);
+        nextFrom = result.getFirst();
+        endOfContent = Utils.isEmpty(nextFrom);
 
         List<T> newData = result.getSecond();
 
@@ -135,7 +135,7 @@ public abstract class BaseChatAttachmentsPresenter<T, V extends IBaseChatAttachm
 
     public void fireRefresh() {
         loadingHolder.dispose();
-        this.nextFrom = null;
+        nextFrom = null;
 
         initLoading();
     }

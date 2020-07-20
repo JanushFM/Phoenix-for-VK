@@ -34,9 +34,9 @@ public class AudiosLocalPresenter extends AccountDependencyPresenter<IAudiosLoca
 
     public AudiosLocalPresenter(int accountId, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
-        this.audios = new ArrayList<>();
-        this.origin_audios = new ArrayList<>();
+        audioInteractor = InteractorFactory.createAudioInteractor();
+        audios = new ArrayList<>();
+        origin_audios = new ArrayList<>();
         this.context = context;
     }
 
@@ -69,9 +69,9 @@ public class AudiosLocalPresenter extends AccountDependencyPresenter<IAudiosLoca
 
     public void fireQuery(String q) {
         if (Utils.isEmpty(q))
-            this.query = null;
+            query = null;
         else {
-            this.query = q;
+            query = q;
         }
         updateCriteria();
     }
@@ -130,7 +130,7 @@ public class AudiosLocalPresenter extends AccountDependencyPresenter<IAudiosLoca
     public int getAudioPos(Audio audio) {
         if (!Utils.isEmpty(audios) && audio != null) {
             int pos = 0;
-            for (final Audio i : audios) {
+            for (Audio i : audios) {
                 if (i.getId() == audio.getId() && i.getOwnerId() == audio.getOwnerId()) {
                     i.setAnimationNow(true);
                     callView(IAudiosLocalView::notifyListChanged);

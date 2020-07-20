@@ -43,7 +43,7 @@ public abstract class AbsPostEditPresenter<V extends IBasePostEditView> extends 
     }
 
     void checkFriendsOnly(boolean checked) {
-        if (this.friendsOnly.setValue(checked)) {
+        if (friendsOnly.setValue(checked)) {
             callView(view -> view.setFriendsOnlyCheched(checked));
         }
     }

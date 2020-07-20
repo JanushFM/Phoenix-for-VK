@@ -8,6 +8,6 @@ public class StickerSection extends AbsSection {
 
     public StickerSection(StickerSet set) {
         super(TYPE_STICKER);
-        this.stickerSet = set;
+        stickerSet = set;
     }
 }

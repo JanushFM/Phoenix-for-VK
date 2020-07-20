@@ -412,7 +412,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
 
     @Override
     public void sharePhoto(int accountId, @NonNull Photo photo) {
-        String[] items = new String[]{
+        String[] items = {
                 getString(R.string.share_link),
                 getString(R.string.repost_send_message),
                 getString(R.string.repost_to_wall)

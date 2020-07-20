@@ -9,7 +9,6 @@ public class CannotReadVideoException extends CannotReadException {
      * Creates an instance.
      */
     public CannotReadVideoException() {
-        super();
     }
 
     public CannotReadVideoException(Throwable ex) {

@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class AudioPlaylist extends AbsModel implements Parcelable {
+public class AudioPlaylist extends AbsModel {
     public static final Creator<AudioPlaylist> CREATOR = new Creator<AudioPlaylist>() {
         @Override
         public AudioPlaylist createFromParcel(Parcel in) {
@@ -87,7 +86,7 @@ public class AudioPlaylist extends AbsModel implements Parcelable {
     }
 
     public AudioPlaylist setOwnerId(int ownerId) {
-        this.owner_id = ownerId;
+        owner_id = ownerId;
         return this;
     }
 

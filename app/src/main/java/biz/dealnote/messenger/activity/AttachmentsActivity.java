@@ -13,6 +13,7 @@ import biz.dealnote.messenger.fragment.VideosFragment;
 import biz.dealnote.messenger.fragment.VideosTabsFragment;
 import biz.dealnote.messenger.model.Types;
 import biz.dealnote.messenger.mvp.presenter.DocsListPresenter;
+import biz.dealnote.messenger.mvp.view.IVideosListView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceProvider;
 
@@ -39,7 +40,7 @@ public class AttachmentsActivity extends NoMainActivity implements PlaceProvider
                     break;
 
                 case Types.VIDEO:
-                    fragment = VideosTabsFragment.newInstance(accountId, accountId, VideosFragment.ACTION_SELECT);
+                    fragment = VideosTabsFragment.newInstance(accountId, accountId, IVideosListView.ACTION_SELECT);
                     break;
             }
 

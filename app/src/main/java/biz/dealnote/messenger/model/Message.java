@@ -2,7 +2,6 @@ package biz.dealnote.messenger.model;
 
 import android.content.Context;
 import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 import static biz.dealnote.messenger.util.Utils.safeCountOf;
 
-public class Message extends AbsModel implements Parcelable, Identificable, ISelectable {
+public class Message extends AbsModel implements Identificable, ISelectable {
 
     public static Creator<Message> CREATOR = new Creator<Message>() {
         public Message createFromParcel(Parcel source) {
@@ -104,52 +103,52 @@ public class Message extends AbsModel implements Parcelable, Identificable, ISel
 
     public Message(Parcel in) {
         super(in);
-        this.accountId = in.readInt();
-        this.id = in.readInt();
-        this.body = in.readString();
-        this.decryptedBody = in.readString();
+        accountId = in.readInt();
+        id = in.readInt();
+        body = in.readString();
+        decryptedBody = in.readString();
         //this.title = in.readString();
-        this.peerId = in.readInt();
-        this.senderId = in.readInt();
-        this.out = in.readInt() == 1;
-        this.important = in.readInt() == 1;
+        peerId = in.readInt();
+        senderId = in.readInt();
+        out = in.readInt() == 1;
+        important = in.readInt() == 1;
 
         @MessageStatus
         int tStatus = in.readInt();
-        this.status = tStatus;
+        status = tStatus;
 
         @CryptStatus
         int cs = in.readInt();
-        this.cryptStatus = cs;
+        cryptStatus = cs;
 
-        this.date = in.readLong();
-        this.selected = in.readInt() == 1;
-        this.deleted = in.readInt() == 1;
-        this.deletedForAll = in.readInt() == 1;
-        this.attachments = in.readParcelable(Attachments.class.getClassLoader());
-        this.fwd = in.createTypedArrayList(Message.CREATOR);
-        this.originalId = in.readInt();
+        date = in.readLong();
+        selected = in.readInt() == 1;
+        deleted = in.readInt() == 1;
+        deletedForAll = in.readInt() == 1;
+        attachments = in.readParcelable(Attachments.class.getClassLoader());
+        fwd = in.createTypedArrayList(CREATOR);
+        originalId = in.readInt();
 
         @ChatAction
         int tmpChatAction = in.readInt();
-        this.action = tmpChatAction;
+        action = tmpChatAction;
 
-        this.actionMid = in.readInt();
-        this.actionEmail = in.readString();
-        this.actionText = in.readString();
-        this.photo50 = in.readString();
-        this.photo100 = in.readString();
-        this.photo200 = in.readString();
-        this.actionUser = in.<ParcelableOwnerWrapper>readParcelable(ParcelableOwnerWrapper.class.getClassLoader()).get();
-        this.sender = in.readParcelable(senderId > 0 ?
+        actionMid = in.readInt();
+        actionEmail = in.readString();
+        actionText = in.readString();
+        photo50 = in.readString();
+        photo100 = in.readString();
+        photo200 = in.readString();
+        actionUser = in.<ParcelableOwnerWrapper>readParcelable(ParcelableOwnerWrapper.class.getClassLoader()).get();
+        sender = in.readParcelable(senderId > 0 ?
                 User.class.getClassLoader() : Community.class.getClassLoader());
-        this.randomId = in.readInt();
-        this.extras = ParcelUtils.readIntStringMap(in);
+        randomId = in.readInt();
+        extras = ParcelUtils.readIntStringMap(in);
 
-        this.forwardMessagesCount = in.readInt();
-        this.hasAttachments = in.readInt() == 1;
-        this.updateTime = in.readLong();
-        this.payload = in.readString();
+        forwardMessagesCount = in.readInt();
+        hasAttachments = in.readInt() == 1;
+        updateTime = in.readLong();
+        payload = in.readString();
     }
 
     @ChatAction

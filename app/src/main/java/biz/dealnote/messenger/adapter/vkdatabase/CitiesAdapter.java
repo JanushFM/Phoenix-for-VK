@@ -36,7 +36,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final City city = mData.get(position);
+        City city = mData.get(position);
         holder.title.setText(city.getTitle());
         holder.title.setTypeface(null, city.isImportant() ? Typeface.BOLD : Typeface.NORMAL);
 
@@ -59,7 +59,7 @@ public class CitiesAdapter extends RecyclerView.Adapter<CitiesAdapter.Holder> {
     }
 
     public void setListener(Listener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 
     public interface Listener {

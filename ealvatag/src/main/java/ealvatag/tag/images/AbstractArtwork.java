@@ -33,7 +33,7 @@ public abstract class AbstractArtwork implements Artwork {
     private byte[] binaryData;
     private String mimeType = "";
     private String description = "";
-    private boolean isLinked = false;
+    private boolean isLinked;
     private String imageUrl = "";
     private int pictureType = -1;
     private int width;

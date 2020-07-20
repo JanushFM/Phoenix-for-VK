@@ -33,7 +33,7 @@ import okio.Buffer;
  * @author : Paul Taylor
  */
 public class FrameBodyEncrypted extends AbstractID3v2FrameBody implements ID3v24FrameBody, ID3v23FrameBody {
-    private String identifier = null;
+    private String identifier;
 
     /**
      * Creates a new FrameBodyEncrypted dataType.

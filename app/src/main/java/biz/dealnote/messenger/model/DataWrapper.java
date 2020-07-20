@@ -33,11 +33,11 @@ public class DataWrapper<T> {
     }
 
     public void clear() {
-        this.data.clear();
+        data.clear();
     }
 
     public void addAll(List<T> append) {
-        this.data.addAll(append);
+        data.addAll(append);
     }
 
     public void replace(List<T> data) {

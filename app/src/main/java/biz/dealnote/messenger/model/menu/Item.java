@@ -46,12 +46,12 @@ public class Item {
     }
 
     public Item setIcon(@DrawableRes int res) {
-        this.icon = Icon.fromResources(res);
+        icon = Icon.fromResources(res);
         return this;
     }
 
     public Item setIcon(String remoteUrl) {
-        this.icon = Icon.fromUrl(remoteUrl);
+        icon = Icon.fromUrl(remoteUrl);
         return this;
     }
 

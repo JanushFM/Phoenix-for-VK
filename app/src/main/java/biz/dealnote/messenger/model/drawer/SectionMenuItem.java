@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model.drawer;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class SectionMenuItem extends AbsMenuItem implements Parcelable {
+public class SectionMenuItem extends AbsMenuItem {
 
     public static Creator<SectionMenuItem> CREATOR = new Creator<SectionMenuItem>() {
         public SectionMenuItem createFromParcel(Parcel source) {
@@ -26,9 +25,9 @@ public class SectionMenuItem extends AbsMenuItem implements Parcelable {
 
     public SectionMenuItem(Parcel in) {
         super(in);
-        this.section = in.readInt();
-        this.title = in.readInt();
-        this.count = in.readInt();
+        section = in.readInt();
+        title = in.readInt();
+        count = in.readInt();
     }
 
     public int getSection() {

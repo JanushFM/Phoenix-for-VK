@@ -14,7 +14,7 @@ import io.reactivex.Single;
 public class ChatEntryFetcher {
 
     public static Single<DialogInfo> getRx(Context context, int accountId, int peerId) {
-        final Context app = context.getApplicationContext();
+        Context app = context.getApplicationContext();
 
         switch (Peer.getType(peerId)) {
             case Peer.USER:

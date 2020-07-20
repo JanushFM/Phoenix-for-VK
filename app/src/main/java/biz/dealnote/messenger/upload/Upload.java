@@ -2,7 +2,6 @@ package biz.dealnote.messenger.upload;
 
 import android.net.Uri;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,7 +11,7 @@ import biz.dealnote.messenger.model.AbsModel;
 import biz.dealnote.messenger.model.LocalPhoto;
 import biz.dealnote.messenger.util.ParcelUtils;
 
-public class Upload extends AbsModel implements Parcelable, Identificable {
+public class Upload extends AbsModel implements Identificable {
 
     public static final int IMAGE_SIZE_800 = 800;
     public static final int IMAGE_SIZE_1200 = 1200;
@@ -58,20 +57,20 @@ public class Upload extends AbsModel implements Parcelable, Identificable {
 
     public Upload(int accountId) {
         this.accountId = accountId;
-        this.id = getIncrementedUploadId();
+        id = getIncrementedUploadId();
     }
 
     protected Upload(Parcel in) {
         super(in);
-        this.accountId = in.readInt();
-        this.id = in.readInt();
-        this.fileUri = in.readParcelable(Uri.class.getClassLoader());
-        this.destination = in.readParcelable(UploadDestination.class.getClassLoader());
-        this.size = in.readInt();
-        this.status = in.readInt();
-        this.progress = in.readInt();
-        this.errorText = in.readString();
-        this.fileId = ParcelUtils.readObjectLong(in);
+        accountId = in.readInt();
+        id = in.readInt();
+        fileUri = in.readParcelable(Uri.class.getClassLoader());
+        destination = in.readParcelable(UploadDestination.class.getClassLoader());
+        size = in.readInt();
+        status = in.readInt();
+        progress = in.readInt();
+        errorText = in.readString();
+        fileId = ParcelUtils.readObjectLong(in);
     }
 
     public boolean isAutoCommit() {

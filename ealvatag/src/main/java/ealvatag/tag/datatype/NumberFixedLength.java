@@ -58,7 +58,7 @@ public class NumberFixedLength extends AbstractDataType {
 
     public NumberFixedLength(NumberFixedLength copy) {
         super(copy);
-        this.size = copy.size;
+        size = copy.size;
     }
 
     /**
@@ -93,7 +93,7 @@ public class NumberFixedLength extends AbstractDataType {
             return false;
         }
         NumberFixedLength object = (NumberFixedLength) obj;
-        return this.size == object.size && super.equals(obj);
+        return size == object.size && super.equals(obj);
     }
 
     public void readByteArray(byte[] array, int offset) throws InvalidDataTypeException {
@@ -121,7 +121,7 @@ public class NumberFixedLength extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         long lvalue = 0;
         for (int i = 0; i < this.size; i++) {
             lvalue <<= 8;

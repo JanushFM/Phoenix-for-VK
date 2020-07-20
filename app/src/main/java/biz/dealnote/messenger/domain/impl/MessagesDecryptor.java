@@ -31,8 +31,8 @@ public class MessagesDecryptor implements IMessagesDecryptor {
     public SingleTransformer<List<Message>, List<Message>> withMessagesDecryption(int accountId) {
         return single -> single
                 .flatMap(messages -> {
-                    final List<Pair<Integer, Long>> sessions = new ArrayList<>(0);
-                    final List<Pair<Message, EncryptedMessage>> needDecryption = new ArrayList<>(0);
+                    List<Pair<Integer, Long>> sessions = new ArrayList<>(0);
+                    List<Pair<Message, EncryptedMessage>> needDecryption = new ArrayList<>(0);
 
                     for (Message message : messages) {
                         if (message.getCryptStatus() != CryptStatus.ENCRYPTED) {
@@ -86,7 +86,7 @@ public class MessagesDecryptor implements IMessagesDecryptor {
                 });
     }
 
-    private Single<LongSparseArray<AesKeyPair>> getKeyPairs(final int accountId, final List<Pair<Integer, Long>> tokens) {
+    private Single<LongSparseArray<AesKeyPair>> getKeyPairs(int accountId, List<Pair<Integer, Long>> tokens) {
         return Single.create(emitter -> {
             LongSparseArray<AesKeyPair> keys = new LongSparseArray<>(tokens.size());
 
@@ -95,8 +95,8 @@ public class MessagesDecryptor implements IMessagesDecryptor {
                     break;
                 }
 
-                final long sessionId = token.getSecond();
-                final int keyPolicy = token.getFirst();
+                long sessionId = token.getSecond();
+                int keyPolicy = token.getFirst();
 
                 AesKeyPair keyPair = store.keys(keyPolicy).findKeyPairFor(accountId, sessionId).blockingGet();
 

@@ -8,7 +8,7 @@ import java.util.List;
 import biz.dealnote.messenger.api.model.VKApiStickerSet;
 
 
-public class Sticker extends AbsModel implements Parcelable {
+public class Sticker extends AbsModel {
 
     public static final Creator<Sticker> CREATOR = new Creator<Sticker>() {
         @Override

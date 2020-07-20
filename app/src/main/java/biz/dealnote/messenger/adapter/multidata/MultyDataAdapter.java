@@ -13,12 +13,12 @@ public abstract class MultyDataAdapter<T, VH extends RecyclerView.ViewHolder> ex
     private int[] titles;
 
     public MultyDataAdapter(List<DataWrapper<T>> dataWrappers, int[] titles) {
-        this.fullData = dataWrappers;
+        fullData = dataWrappers;
         this.titles = titles;
     }
 
     public void setData(List<DataWrapper<T>> wrappers, int[] titles) {
-        this.fullData = wrappers;
+        fullData = wrappers;
         this.titles = titles;
         notifyDataSetChanged();
     }
@@ -54,7 +54,7 @@ public abstract class MultyDataAdapter<T, VH extends RecyclerView.ViewHolder> ex
 
                 info.item = wrapper.get().get(internalPosition);
                 info.internalPosition = internalPosition;
-                info.sectionTitleRes = this.titles[i];
+                info.sectionTitleRes = titles[i];
                 return;
             }
 
@@ -65,15 +65,15 @@ public abstract class MultyDataAdapter<T, VH extends RecyclerView.ViewHolder> ex
     }
 
     public void notifyItemRangeInserted(int dataIndex, int internalPosition, int count) {
-        super.notifyItemRangeInserted(getAdapterPosition(dataIndex, internalPosition), count);
+        notifyItemRangeInserted(getAdapterPosition(dataIndex, internalPosition), count);
     }
 
     public void notifyItemRemoved(int dataIndex, int internalPosition) {
-        super.notifyItemRemoved(getAdapterPosition(dataIndex, internalPosition));
+        notifyItemRemoved(getAdapterPosition(dataIndex, internalPosition));
     }
 
     public void notifyItemChanged(int dataIndex, int internalPosition) {
-        super.notifyItemChanged(getAdapterPosition(dataIndex, internalPosition));
+        notifyItemChanged(getAdapterPosition(dataIndex, internalPosition));
     }
 
     public int getAdapterPosition(int dataIndex, int internalPosition) {
@@ -93,7 +93,7 @@ public abstract class MultyDataAdapter<T, VH extends RecyclerView.ViewHolder> ex
     @Deprecated
     protected ItemInfo<T> get(int adapterPosition) {
         ItemInfo<T> info = new ItemInfo<>();
-        this.get(adapterPosition, info);
+        get(adapterPosition, info);
         return info;
     }
 

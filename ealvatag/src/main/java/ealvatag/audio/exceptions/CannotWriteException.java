@@ -27,7 +27,6 @@ import java.util.Locale;
  */
 public class CannotWriteException extends Exception {
     public CannotWriteException() {
-        super();
     }
 
     public CannotWriteException(String message) {

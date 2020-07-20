@@ -146,7 +146,7 @@ public class ID3v22Frame extends AbstractID3v2Frame {
         else if (frame instanceof ID3v23Frame) {
             createV22FrameFromV23Frame((ID3v23Frame) frame);
         }
-        this.frameBody.setHeader(this);
+        frameBody.setHeader(this);
     }
 
     /**
@@ -160,7 +160,7 @@ public class ID3v22Frame extends AbstractID3v2Frame {
         read(byteBuffer);
     }
 
-    public ID3v22Frame(Buffer buffer, String loggingFilename, final boolean ignoreArtwork) throws InvalidTagException, EOFException {
+    public ID3v22Frame(Buffer buffer, String loggingFilename, boolean ignoreArtwork) throws InvalidTagException, EOFException {
         setLoggingFilename(loggingFilename);
         read(buffer, ignoreArtwork);
     }
@@ -207,8 +207,8 @@ public class ID3v22Frame extends AbstractID3v2Frame {
         ID3v22Frame that = (ID3v22Frame) obj;
 
 
-        return Objects.equal(this.statusFlags, that.statusFlags) &&
-                Objects.equal(this.encodingFlags, that.encodingFlags) &&
+        return Objects.equal(statusFlags, that.statusFlags) &&
+                Objects.equal(encodingFlags, that.encodingFlags) &&
                 super.equals(that);
 
     }
@@ -245,7 +245,7 @@ public class ID3v22Frame extends AbstractID3v2Frame {
         }
         // Unknown Frame e.g NCON
         else {
-            this.frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
+            frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
             identifier = frame.getIdentifier();
         }
     }
@@ -318,8 +318,8 @@ public class ID3v22Frame extends AbstractID3v2Frame {
         }
     }
 
-    public void read(Buffer buffer, final boolean ignoreArtwork) throws InvalidTagException, EOFException {
-        final String fileName = loggingFilename;
+    public void read(Buffer buffer, boolean ignoreArtwork) throws InvalidTagException, EOFException {
+        String fileName = loggingFilename;
         try {
             String identifier = readIdentifier(buffer);
             if (!isValidID3v2FrameIdentifier(identifier)) {
@@ -380,7 +380,7 @@ public class ID3v22Frame extends AbstractID3v2Frame {
     }
 
     private int decodeSize(Buffer buffer) throws EOFException {
-        final int size = getFrameSizeSize();
+        int size = getFrameSizeSize();
         byte[] encodedSize = new byte[size];
         buffer.require(size);
         for (int i = 0; i < encodedSize.length; i++) {
@@ -477,11 +477,11 @@ public class ID3v22Frame extends AbstractID3v2Frame {
      *
      * @param encoding charset.
      */
-    public void setEncoding(final Charset encoding) {
+    public void setEncoding(Charset encoding) {
         try {
             byte encodingId = TextEncoding.getInstanceOf().getIdForCharset(encoding);
             if (encodingId < 2) {
-                this.getBody().setTextEncoding(encodingId);
+                getBody().setTextEncoding(encodingId);
             }
         } catch (NoSuchElementException ignored) {
         }

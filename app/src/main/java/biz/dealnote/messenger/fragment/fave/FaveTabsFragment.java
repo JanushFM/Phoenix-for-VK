@@ -80,7 +80,7 @@ public class FaveTabsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
     }
 
     public int getAccountId() {

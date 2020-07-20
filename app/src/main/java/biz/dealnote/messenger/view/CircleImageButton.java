@@ -22,7 +22,7 @@ public class CircleImageButton extends AppCompatImageView {
     }
 
     public void init(Context context, AttributeSet attrs) {
-        final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageButton);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageButton);
 
         setBackgroundResource(R.drawable.circle_back_white);
 

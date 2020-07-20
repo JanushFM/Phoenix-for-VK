@@ -68,20 +68,20 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     public VideosListPresenter(int accountId, int ownerId, int albumId, String action,
                                @Nullable String albumTitle, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.interactor = InteractorFactory.createVideosInteractor();
-        this.uploadManager = Injection.provideUploadManager();
-        this.destination = UploadDestination.forVideo(IVideosListView.ACTION_SELECT.equalsIgnoreCase(action) ? 0 : 1);
-        this.uploadsData = new ArrayList<>(0);
+        interactor = InteractorFactory.createVideosInteractor();
+        uploadManager = Injection.provideUploadManager();
+        destination = UploadDestination.forVideo(IVideosListView.ACTION_SELECT.equalsIgnoreCase(action) ? 0 : 1);
+        uploadsData = new ArrayList<>(0);
 
         this.ownerId = ownerId;
         this.albumId = albumId;
         this.action = action;
         this.albumTitle = albumTitle;
 
-        this.intNextFrom = new IntNextFrom(0);
-        this.search_at = new FindAt();
+        intNextFrom = new IntNextFrom(0);
+        search_at = new FindAt();
 
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
 
         appendDisposable(uploadManager.get(getAccountId(), destination)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -110,7 +110,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
 
 
         loadAllFromCache();
-        if (this.search_at.isSearchMode()) {
+        if (search_at.isSearchMode()) {
             search(false);
         } else {
             request(false);
@@ -128,11 +128,11 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     public void fireSearchRequestChanged(String q) {
         String query = q == null ? null : q.trim();
         if (!search_at.do_compare(query)) {
-            this.setRequestNow(false);
+            setRequestNow(false);
             if (Utils.isEmpty(query)) {
-                this.cacheDisposable.clear();
-                this.cacheNowLoading = false;
-                this.netDisposable.clear();
+                cacheDisposable.clear();
+                cacheNowLoading = false;
+                netDisposable.clear();
                 loadAllFromCache();
             } else {
                 fireRefresh(true);
@@ -257,9 +257,9 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
 
         setRequestNow(true);
 
-        int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
-        final IntNextFrom startFrom = more ? this.intNextFrom : new IntNextFrom(0);
+        IntNextFrom startFrom = more ? intNextFrom : new IntNextFrom(0);
 
         netDisposable.add(interactor.get(accountId, ownerId, albumId, COUNT, startFrom.getOffset())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -278,7 +278,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
 
     private void search(boolean sleep_search) {
         if (requestNow) return;
-        int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         if (!sleep_search) {
             doSearch(accountId);
@@ -297,11 +297,11 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     }
 
     private void onSearched(FindAt search_at, List<Video> videos) {
-        this.cacheDisposable.clear();
-        this.cacheNowLoading = false;
+        cacheDisposable.clear();
+        cacheNowLoading = false;
 
-        this.hasActualNetData = true;
-        this.endOfContent = search_at.isEnded();
+        hasActualNetData = true;
+        endOfContent = search_at.isEnded();
 
         if (this.search_at.getOffset() == 0) {
             data.clear();
@@ -321,12 +321,12 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     }
 
     private void onRequestResposnse(List<Video> videos, IntNextFrom startFrom, IntNextFrom nextFrom) {
-        this.cacheDisposable.clear();
-        this.cacheNowLoading = false;
+        cacheDisposable.clear();
+        cacheNowLoading = false;
 
-        this.hasActualNetData = true;
-        this.intNextFrom = nextFrom;
-        this.endOfContent = videos.isEmpty();
+        hasActualNetData = true;
+        intNextFrom = nextFrom;
+        endOfContent = videos.isEmpty();
 
         if (startFrom.getOffset() == 0) {
             data.clear();
@@ -361,8 +361,8 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     }
 
     private void loadAllFromCache() {
-        this.cacheNowLoading = true;
-        final int accountId = super.getAccountId();
+        cacheNowLoading = true;
+        int accountId = getAccountId();
 
         cacheDisposable.add(interactor.getCachedVideos(accountId, ownerId, albumId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -370,8 +370,8 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     }
 
     private void onCachedDataReceived(List<Video> videos) {
-        this.data.clear();
-        this.data.addAll(videos);
+        data.clear();
+        data.addAll(videos);
 
         callView(IVideosListView::notifyDataSetChanged);
     }
@@ -384,12 +384,12 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
     }
 
     public void fireRefresh(boolean sleep_search) {
-        this.cacheDisposable.clear();
-        this.cacheNowLoading = false;
-        this.netDisposable.clear();
+        cacheDisposable.clear();
+        cacheNowLoading = false;
+        netDisposable.clear();
 
-        if (this.search_at.isSearchMode()) {
-            this.search_at.reset();
+        if (search_at.isSearchMode()) {
+            search_at.reset();
             search(sleep_search);
         } else {
             request(false);
@@ -402,7 +402,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
 
     public void fireScrollToEnd() {
         if (canLoadMore()) {
-            if (this.search_at.isSearchMode()) {
+            if (search_at.isSearchMode()) {
                 search(false);
             } else {
                 request(true);

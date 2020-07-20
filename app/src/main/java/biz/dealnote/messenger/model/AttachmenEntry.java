@@ -28,7 +28,7 @@ public class AttachmenEntry implements Parcelable {
     public AttachmenEntry(boolean canDelete, AbsModel attachment) {
         this.canDelete = canDelete;
         this.attachment = attachment;
-        this.id = ID_GEN.incrementAndGet();
+        id = ID_GEN.incrementAndGet();
     }
 
     protected AttachmenEntry(Parcel in) {

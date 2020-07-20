@@ -25,7 +25,7 @@ public class FavePhotoPagerPresenter extends PhotoPagerPresenter {
 
     public FavePhotoPagerPresenter(@NonNull ArrayList<Photo> photos, int index, int accountId, Context context, @Nullable Bundle savedInstanceState) {
         super(photos, accountId, false, context, savedInstanceState);
-        this.refreshing = new boolean[photos.size()];
+        refreshing = new boolean[photos.size()];
 
         if (savedInstanceState == null) {
             mUpdated = new boolean[photos.size()];
@@ -41,10 +41,10 @@ public class FavePhotoPagerPresenter extends PhotoPagerPresenter {
             return;
         }
 
-        this.refreshing[index] = true;
+        refreshing[index] = true;
 
-        final Photo photo = getData().get(index);
-        final int accountId = super.getAccountId();
+        Photo photo = getData().get(index);
+        int accountId = getAccountId();
 
         List<AccessIdPair> forUpdate = Collections.singletonList(new AccessIdPair(photo.getId(), photo.getOwnerId(), photo.getAccessKey()));
         appendDisposable(photosInteractor.getPhotosByIds(accountId, forUpdate)
@@ -53,15 +53,15 @@ public class FavePhotoPagerPresenter extends PhotoPagerPresenter {
     }
 
     private void onRefreshFailed(int index, Throwable t) {
-        this.refreshing[index] = false;
+        refreshing[index] = false;
         showError(getView(), getCauseIfRuntime(t));
     }
 
     private void onPhotoUpdateReceived(List<Photo> result, int index) {
-        this.refreshing[index] = false;
+        refreshing[index] = false;
 
         if (result.size() == 1) {
-            final Photo p = result.get(0);
+            Photo p = result.get(0);
 
             getData().set(index, p);
 

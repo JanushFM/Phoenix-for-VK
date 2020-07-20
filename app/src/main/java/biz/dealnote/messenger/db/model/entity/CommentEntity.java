@@ -50,7 +50,7 @@ public class CommentEntity {
         this.sourceType = sourceType;
         this.id = id;
         this.sourceAccessKey = sourceAccessKey;
-        this.attachments = new AttachmentsEntity(Collections.emptyList());
+        attachments = new AttachmentsEntity(Collections.emptyList());
     }
 
     public int getId() {
@@ -172,7 +172,7 @@ public class CommentEntity {
     public CommentEntity setAttachments(List<Entity> entities) {
         AssertUtils.requireNonNull(entities, "Entities can't bee null");
 
-        this.attachments = new AttachmentsEntity(entities);
+        attachments = new AttachmentsEntity(entities);
         return this;
     }
 

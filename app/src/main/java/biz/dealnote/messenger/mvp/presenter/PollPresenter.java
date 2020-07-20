@@ -27,9 +27,9 @@ public class PollPresenter extends AccountDependencyPresenter<IPollView> {
 
     public PollPresenter(int accountId, @NonNull Poll poll, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.mPoll = poll;
-        this.mTempCheckedId = arrayToSet(poll.getMyAnswerIds());
-        this.pollInteractor = InteractorFactory.createPollInteractor();
+        mPoll = poll;
+        mTempCheckedId = arrayToSet(poll.getMyAnswerIds());
+        pollInteractor = InteractorFactory.createPollInteractor();
 
         refreshPollData();
     }
@@ -50,7 +50,7 @@ public class PollPresenter extends AccountDependencyPresenter<IPollView> {
     private void refreshPollData() {
         if (loadingNow) return;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadingNow(true);
         appendDisposable(pollInteractor.getPollById(accountId, mPoll.getOwnerId(), mPoll.getId(), mPoll.isBoard())
@@ -133,8 +133,8 @@ public class PollPresenter extends AccountDependencyPresenter<IPollView> {
     private void vote() {
         if (loadingNow) return;
 
-        final int accountId = super.getAccountId();
-        final Set<Integer> voteIds = new HashSet<>(mTempCheckedId);
+        int accountId = getAccountId();
+        Set<Integer> voteIds = new HashSet<>(mTempCheckedId);
 
         setLoadingNow(true);
         appendDisposable(pollInteractor.addVote(accountId, mPoll, voteIds)
@@ -161,8 +161,8 @@ public class PollPresenter extends AccountDependencyPresenter<IPollView> {
     }
 
     private void removeVote() {
-        final int accountId = super.getAccountId();
-        final int answerId = mPoll.getMyAnswerIds()[0];
+        int accountId = getAccountId();
+        int answerId = mPoll.getMyAnswerIds()[0];
 
         setLoadingNow(true);
         appendDisposable(pollInteractor.removeVote(accountId, mPoll, answerId)

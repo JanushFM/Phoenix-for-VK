@@ -43,7 +43,6 @@ public class FrameBodyTLAN extends AbstractFrameBodyTextInfo implements ID3v24Fr
      * Creates a new FrameBodyTLAN datatype.
      */
     public FrameBodyTLAN() {
-        super();
     }
 
     public FrameBodyTLAN(FrameBodyTLAN body) {

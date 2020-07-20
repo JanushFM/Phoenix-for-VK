@@ -11,7 +11,7 @@ public class VkApiPrivacy {
 
     public VkApiPrivacy(String category) {
         this.category = category;
-        this.entries = new ArrayList<>();
+        entries = new ArrayList<>();
     }
 
     private void putIfNotExist(Entry entry) {

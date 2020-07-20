@@ -9,7 +9,7 @@ public class WeakPicassoLoadCallback implements Callback {
     private final WeakReference<Callback> mReference;
 
     public WeakPicassoLoadCallback(Callback baseCallback) {
-        this.mReference = new WeakReference<>(baseCallback);
+        mReference = new WeakReference<>(baseCallback);
     }
 
     @Override

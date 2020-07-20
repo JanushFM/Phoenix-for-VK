@@ -105,7 +105,7 @@ public class OwnersRepository implements IOwnersRepository {
 
     public OwnersRepository(INetworker networker, IOwnersStorage ownersRepository) {
         this.networker = networker;
-        this.cache = ownersRepository;
+        cache = ownersRepository;
     }
 
     private Single<Optional<UserDetails>> getCachedDetails(int accountId, int userId) {
@@ -345,7 +345,7 @@ public class OwnersRepository implements IOwnersRepository {
     @Override
     public Completable handleStatusChange(int accountId, int userId, String status) {
         UserPatch patch = new UserPatch(userId).setStatus(new UserPatch.Status(status));
-        return applyPatchesThenPublish(accountId, Collections.singletonList(patch));
+        return applyPatchesThenPublish(accountId, singletonList(patch));
     }
 
     @Override
@@ -475,7 +475,7 @@ public class OwnersRepository implements IOwnersRepository {
             return Single.just(Collections.emptyList());
         }
 
-        final DividedIds dividedIds = new DividedIds(ids);
+        DividedIds dividedIds = new DividedIds(ids);
 
         return getUsers(accountId, dividedIds.uids, mode)
                 .zipWith(getCommunities(accountId, dividedIds.gids, mode), (users, communities) -> {
@@ -492,7 +492,7 @@ public class OwnersRepository implements IOwnersRepository {
             return Single.just(new SparseArrayOwnersBundle(0));
         }
 
-        final DividedIds dividedIds = new DividedIds(ids);
+        DividedIds dividedIds = new DividedIds(ids);
 
         return getUsers(accountId, dividedIds.uids, mode)
                 .zipWith(getCommunities(accountId, dividedIds.gids, mode), TO_BUNDLE_FUNCTION);
@@ -504,14 +504,14 @@ public class OwnersRepository implements IOwnersRepository {
             return Single.just(new SparseArrayOwnersBundle(0));
         }
 
-        final IOwnersBundle b = new SparseArrayOwnersBundle(ids.size());
+        IOwnersBundle b = new SparseArrayOwnersBundle(ids.size());
         if (nonNull(alreadyExists)) {
             b.putAll(alreadyExists);
         }
 
         return Single.just(b)
                 .flatMap(bundle -> {
-                    final Collection<Integer> missing = bundle.getMissing(ids);
+                    Collection<Integer> missing = bundle.getMissing(ids);
                     if (missing.isEmpty()) {
                         return Single.just(bundle);
                     }
@@ -625,8 +625,8 @@ public class OwnersRepository implements IOwnersRepository {
         final List<Integer> gids;
 
         DividedIds(Collection<Integer> ids) {
-            this.uids = new LinkedList<>();
-            this.gids = new LinkedList<>();
+            uids = new LinkedList<>();
+            gids = new LinkedList<>();
 
             for (int id : ids) {
                 if (id > 0) {

@@ -153,15 +153,15 @@ public class MySearchView extends LinearLayout {
     }
 
     public void setOnQueryTextListener(OnQueryTextListener onQueryChangeListener) {
-        this.mOnQueryChangeListener = onQueryChangeListener;
+        mOnQueryChangeListener = onQueryChangeListener;
     }
 
     public void setOnBackButtonClickListener(OnBackButtonClickListener onBackButtonClickListener) {
-        this.mOnBackButtonClickListener = onBackButtonClickListener;
+        mOnBackButtonClickListener = onBackButtonClickListener;
     }
 
     public void setOnAdditionalButtonClickListener(OnAdditionalButtonClickListener onAdditionalButtonClickListener) {
-        this.mOnAdditionalButtonClickListener = onAdditionalButtonClickListener;
+        mOnAdditionalButtonClickListener = onAdditionalButtonClickListener;
     }
 
     public void setQuery(String query, boolean quetly) {

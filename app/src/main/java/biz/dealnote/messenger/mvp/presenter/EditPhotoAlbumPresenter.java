@@ -11,11 +11,11 @@ import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.interfaces.IPhotosApi;
 import biz.dealnote.messenger.api.model.VKApiPhotoAlbum;
-import biz.dealnote.messenger.fragment.VKPhotosFragment;
 import biz.dealnote.messenger.model.PhotoAlbum;
 import biz.dealnote.messenger.model.PhotoAlbumEditor;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IEditPhotoAlbumView;
+import biz.dealnote.messenger.mvp.view.IVkPhotosView;
 import biz.dealnote.messenger.mvp.view.base.ISteppersView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.util.RxUtils;
@@ -35,10 +35,10 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
 
     public EditPhotoAlbumPresenter(int accountId, int ownerId, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.networker = Injection.provideNetworkInterfaces();
+        networker = Injection.provideNetworkInterfaces();
         this.ownerId = ownerId;
-        this.editor = PhotoAlbumEditor.create();
-        this.editing = false;
+        editor = PhotoAlbumEditor.create();
+        editing = false;
         this.context = context;
 
         init(savedInstanceState);
@@ -46,11 +46,11 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
 
     public EditPhotoAlbumPresenter(int accountId, @NonNull PhotoAlbum album, @NonNull PhotoAlbumEditor editor, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.networker = Injection.provideNetworkInterfaces();
+        networker = Injection.provideNetworkInterfaces();
         this.album = album;
-        this.ownerId = album.getOwnerId();
+        ownerId = album.getOwnerId();
         this.editor = editor;
-        this.editing = true;
+        editing = true;
         this.context = context;
 
         init(savedInstanceState);
@@ -112,15 +112,15 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
     }
 
     private void onFinalButtonClick() {
-        int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         IPhotosApi api = networker.vkDefault(accountId).photos();
 
-        final String title = state().getTitle();
-        final String description = state().getDescription();
+        String title = state().getTitle();
+        String description = state().getDescription();
 
-        final boolean uploadsByAdminsOnly = state().isUploadByAdminsOnly();
-        final boolean commentsDisabled = state().isCommentsDisabled();
+        boolean uploadsByAdminsOnly = state().isUploadByAdminsOnly();
+        boolean commentsDisabled = state().isCommentsDisabled();
 
         if (editing) {
             appendDisposable(api.editAlbum(album.getId(), title, description, ownerId, null,
@@ -128,7 +128,7 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
                     .compose(RxUtils.applySingleIOToMainSchedulers())
                     .subscribe(t -> goToEditedAlbum(album, t), v -> showError(getView(), getCauseIfRuntime(v))));
         } else {
-            final Integer groupId = ownerId < 0 ? Math.abs(ownerId) : null;
+            Integer groupId = ownerId < 0 ? Math.abs(ownerId) : null;
             appendDisposable(api.createAlbum(title, groupId, description, null, null, uploadsByAdminsOnly, commentsDisabled)
                     .compose(RxUtils.applySingleIOToMainSchedulers())
                     .subscribe(this::goToAlbum, t -> showError(getView(), getCauseIfRuntime(t))));
@@ -137,7 +137,7 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
 
     private void goToAlbum(VKApiPhotoAlbum album) {
         PlaceFactory.getVKPhotosAlbumPlace(getAccountId(), album.owner_id, album.id,
-                VKPhotosFragment.ACTION_SHOW_PHOTOS)
+                IVkPhotosView.ACTION_SHOW_PHOTOS)
                 .withParcelableExtra(Extra.ALBUM, new PhotoAlbum(album.id, album.owner_id))
                 .tryOpenWith(context);
     }
@@ -146,7 +146,7 @@ public class EditPhotoAlbumPresenter extends AccountDependencyPresenter<IEditPho
         if (ret == null || !ret)
             return;
         PlaceFactory.getVKPhotosAlbumPlace(getAccountId(), album.getOwnerId(), album.getId(),
-                VKPhotosFragment.ACTION_SHOW_PHOTOS)
+                IVkPhotosView.ACTION_SHOW_PHOTOS)
                 .withParcelableExtra(Extra.ALBUM, album)
                 .tryOpenWith(context);
     }

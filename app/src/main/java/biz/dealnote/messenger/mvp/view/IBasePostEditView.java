@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.mvp.view;
 
 
-public interface IBasePostEditView extends IBaseAttachmentsEditView, IProgressView, IErrorView {
+public interface IBasePostEditView extends IBaseAttachmentsEditView, IProgressView {
     void displaySignerInfo(String fullName, String photo);
 
     void setShowAuthorChecked(boolean checked);

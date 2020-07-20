@@ -29,7 +29,7 @@ public class OtherApi implements IOtherApi {
 
     @Override
     public Single<Optional<String>> rawRequest(String method, Map<String, String> postParams) {
-        final FormBody.Builder bodyBuilder = new FormBody.Builder();
+        FormBody.Builder bodyBuilder = new FormBody.Builder();
 
         for (Map.Entry<String, String> entry : postParams.entrySet()) {
             bodyBuilder.add(entry.getKey(), entry.getValue());

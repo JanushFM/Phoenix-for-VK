@@ -1,13 +1,12 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.List;
 
 import biz.dealnote.messenger.util.Objects;
 
-public class News extends AbsModel implements Parcelable {
+public class News extends AbsModel {
 
     public static final Creator<News> CREATOR = new Creator<News>() {
         @Override

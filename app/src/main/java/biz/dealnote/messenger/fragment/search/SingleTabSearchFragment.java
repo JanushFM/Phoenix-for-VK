@@ -75,14 +75,14 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mContentType = getArguments().getInt(Extra.TYPE);
-        this.mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.mInitialCriteria = getArguments().getParcelable(Extra.CRITERIA);
+        mContentType = getArguments().getInt(Extra.TYPE);
+        mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        mInitialCriteria = getArguments().getParcelable(Extra.CRITERIA);
 
         getChildFragmentManager().registerFragmentLifecycleCallbacks(mFragmentLifecycleCallbacks, false);
 
         if (Objects.nonNull(savedInstanceState)) {
-            this.attachedChild = savedInstanceState.getBoolean("attachedChild");
+            attachedChild = savedInstanceState.getBoolean("attachedChild");
         }
     }
 
@@ -117,7 +117,7 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
 
         if (!attachedChild) {
             attachChildFragment();
-            this.attachedChild = true;
+            attachedChild = true;
         }
         return root;
     }

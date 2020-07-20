@@ -67,11 +67,11 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
     private ClickListener mClickListener;
 
     public DialogsAdapter(Context context, @NonNull List<Dialog> dialogs) {
-        this.mContext = context;
-        this.mDialogs = dialogs;
-        this.mTransformation = CurrentTheme.createTransformationForAvatar(context);
-        this.mForegroundColorSpan = new ForegroundColorSpan(CurrentTheme.getPrimaryTextColorCode(context));
-        this.mDataObserver = new RecyclerView.AdapterDataObserver() {
+        mContext = context;
+        mDialogs = dialogs;
+        mTransformation = CurrentTheme.createTransformationForAvatar(context);
+        mForegroundColorSpan = new ForegroundColorSpan(CurrentTheme.getPrimaryTextColorCode(context));
+        mDataObserver = new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 initStartOfTodayDate();
@@ -85,7 +85,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
 
     private void initStartOfTodayDate() {
         // А - Аптемезация
-        this.mStartOfToday = Utils.startOfTodayMillis();
+        mStartOfToday = Utils.startOfTodayMillis();
     }
 
     public void cleanup() {
@@ -106,7 +106,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
 
     @Override
     public void onBindViewHolder(@NotNull DialogViewHolder holder, int position) {
-        final Dialog dialog = mDialogs.get(position);
+        Dialog dialog = mDialogs.get(position);
 
         boolean isHide = hidden.contains(dialog.getId()) && !Settings.get().security().getShowHiddenDialogs();
 
@@ -167,7 +167,7 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
 
         if (dialog.isChat()) {
             SpannableStringBuilder spannable = SpannableStringBuilder.valueOf(dialog.isLastMessageOut() ? mContext.getString(R.string.dialog_me) : dialog.getSenderShortName(mContext));
-            spannable.setSpan(mForegroundColorSpan, 0, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(mForegroundColorSpan, 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             lastMessage = spannable.append(": ").append(lastMessage);
         }
@@ -326,12 +326,12 @@ public class DialogsAdapter extends RecyclerView.Adapter<DialogsAdapter.DialogVi
     }
 
     public DialogsAdapter setClickListener(ClickListener clickListener) {
-        this.mClickListener = clickListener;
+        mClickListener = clickListener;
         return this;
     }
 
     public void setData(List<Dialog> data) {
-        this.mDialogs = data;
+        mDialogs = data;
         notifyDataSetChanged();
     }
 

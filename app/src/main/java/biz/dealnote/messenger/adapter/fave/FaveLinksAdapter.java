@@ -40,7 +40,7 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final FaveLink link = data.get(position);
+        FaveLink link = data.get(position);
         holder.title.setText(link.getTitle());
         holder.description.setText(link.getDescription());
 
@@ -104,8 +104,8 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            final int position = recyclerView.getChildAdapterPosition(v);
-            final FaveLink faveLink = data.get(position);
+            int position = recyclerView.getChildAdapterPosition(v);
+            FaveLink faveLink = data.get(position);
             menu.setHeaderTitle(faveLink.getTitle());
 
             menu.add(0, v.getId(), 0, R.string.delete).setOnMenuItemClickListener(item -> {

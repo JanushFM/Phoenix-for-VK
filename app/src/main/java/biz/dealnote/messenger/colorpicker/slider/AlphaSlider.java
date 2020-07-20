@@ -89,7 +89,7 @@ public class AlphaSlider extends AbsCustomSlider {
 
     public void setColor(int color) {
         this.color = color;
-        this.value = Utils.getAlphaPercent(color);
+        value = Utils.getAlphaPercent(color);
         if (bar != null) {
             updateBar();
             invalidate();

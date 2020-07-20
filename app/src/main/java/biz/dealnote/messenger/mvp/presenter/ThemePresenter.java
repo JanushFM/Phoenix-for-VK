@@ -19,7 +19,7 @@ public class ThemePresenter extends AbsPresenter<IThemeView> {
 
     public ThemePresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
-        this.data = createInitialData();
+        data = createInitialData();
     }
 
     private ArrayList<ThemeValue> createInitialData() {

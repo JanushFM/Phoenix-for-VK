@@ -91,7 +91,7 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
     private static final int MAX_RECENT_COUNT = 5;
     private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private NavigationDrawerCallbacks mCallbacks;
-    private BottomSheetBehavior mBottomSheetBehavior;
+    private BottomSheetBehavior<View> mBottomSheetBehavior;
     private ImageView ivHeaderAvatar;
     private TextView tvUserName;
     private TextView tvDomain;
@@ -170,7 +170,7 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
     }
 
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
 
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);

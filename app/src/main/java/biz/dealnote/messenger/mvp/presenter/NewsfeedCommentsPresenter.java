@@ -33,8 +33,8 @@ public class NewsfeedCommentsPresenter extends PlaceSupportPresenter<INewsfeedCo
 
     public NewsfeedCommentsPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.data = new ArrayList<>();
-        this.interactor = InteractorFactory.createNewsfeedInteractor();
+        data = new ArrayList<>();
+        interactor = InteractorFactory.createNewsfeedInteractor();
 
         loadAtLast();
     }
@@ -62,7 +62,7 @@ public class NewsfeedCommentsPresenter extends PlaceSupportPresenter<INewsfeedCo
         load(null);
     }
 
-    private void load(final String startFrom) {
+    private void load(String startFrom) {
         appendDisposable(interactor.getNewsfeedComments(getAccountId(), 10, startFrom, "post,photo,video,topic")
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(pair -> onDataReceived(startFrom, pair.getSecond(), pair.getFirst()), this::onRequestError));
@@ -71,7 +71,7 @@ public class NewsfeedCommentsPresenter extends PlaceSupportPresenter<INewsfeedCo
     private void loadNext() {
         setLoadingNow(true);
 
-        final String startFrom = this.nextFrom;
+        String startFrom = nextFrom;
         load(startFrom);
     }
 

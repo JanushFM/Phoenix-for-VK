@@ -2,6 +2,7 @@ package biz.dealnote.messenger.db;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.provider.BaseColumns;
 
 import biz.dealnote.messenger.db.column.GroupColumns;
 import biz.dealnote.messenger.db.column.UserColumns;
@@ -14,7 +15,7 @@ public class OwnerHelper {
         String result = null;
         if (ownerId > 0) {
             Cursor uCursor = context.getContentResolver().query(MessengerContentProvider.getUserContentUriFor(aid),
-                    null, UserColumns._ID + " = ?", new String[]{String.valueOf(ownerId)}, null);
+                    null, BaseColumns._ID + " = ?", new String[]{String.valueOf(ownerId)}, null);
             if (uCursor != null) {
                 if (uCursor.moveToNext()) {
                     result = uCursor.getString(uCursor.getColumnIndex(UserColumns.FIRST_NAME)) +
@@ -25,7 +26,7 @@ public class OwnerHelper {
             }
         } else {
             Cursor gCursor = context.getContentResolver().query(MessengerContentProvider.getGroupsContentUriFor(aid),
-                    null, GroupColumns._ID + " = ?", new String[]{String.valueOf(-ownerId)}, null);
+                    null, BaseColumns._ID + " = ?", new String[]{String.valueOf(-ownerId)}, null);
 
             if (gCursor != null) {
                 if (gCursor.moveToNext()) {

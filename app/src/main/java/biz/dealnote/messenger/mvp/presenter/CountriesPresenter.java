@@ -34,9 +34,9 @@ public class CountriesPresenter extends RxSupportPresenter<ICountriesView> {
     public CountriesPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
         this.accountId = accountId;
-        this.countries = new ArrayList<>();
-        this.filtered = new ArrayList<>();
-        this.databaseInteractor = InteractorFactory.createDatabaseInteractor();
+        countries = new ArrayList<>();
+        filtered = new ArrayList<>();
+        databaseInteractor = InteractorFactory.createDatabaseInteractor();
 
         requestData();
     }
@@ -44,7 +44,7 @@ public class CountriesPresenter extends RxSupportPresenter<ICountriesView> {
     @Override
     public void onGuiCreated(@NonNull ICountriesView viewHost) {
         super.onGuiCreated(viewHost);
-        viewHost.displayData(this.filtered);
+        viewHost.displayData(filtered);
     }
 
     private void setLoadingNow(boolean loadingNow) {
@@ -69,11 +69,11 @@ public class CountriesPresenter extends RxSupportPresenter<ICountriesView> {
     }
 
     public void fireFilterEdit(CharSequence text) {
-        if (Objects.safeEquals(text.toString(), this.filter)) {
+        if (Objects.safeEquals(text.toString(), filter)) {
             return;
         }
 
-        this.filter = text.toString();
+        filter = text.toString();
 
         reFillFilteredData();
         callView(ICountriesView::notifyDataSetChanged);

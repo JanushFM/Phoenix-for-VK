@@ -35,7 +35,6 @@ import biz.dealnote.messenger.model.VideoWithOwner;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.AppTextUtils;
 import biz.dealnote.messenger.util.Utils;
-import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.AspectRatioImageView;
 import biz.dealnote.messenger.view.VideoServiceIcons;
 import biz.dealnote.messenger.view.emoji.EmojiconTextView;
@@ -66,13 +65,13 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
                                    AttachmentsViewBinder.OnAttachmentsActionCallback callback) {
         this.context = context;
         this.data = data;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
-        this.attachmentsViewBinder = new AttachmentsViewBinder(context, callback);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
+        attachmentsViewBinder = new AttachmentsViewBinder(context, callback);
 
-        this.colorTextSecondary = CurrentTheme.getSecondaryTextColorCode(context);
-        this.iconColorActive = CurrentTheme.getColorPrimary(context);
+        colorTextSecondary = CurrentTheme.getSecondaryTextColorCode(context);
+        iconColorActive = CurrentTheme.getColorPrimary(context);
 
-        this.linkActionAdapter = new LinkActionAdapter() {
+        linkActionAdapter = new LinkActionAdapter() {
             // do nothing
         };
     }
@@ -125,17 +124,17 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         Topic topic = wrapper.getTopic();
         Owner owner = wrapper.getOwner();
 
-        ViewUtils.displayAvatar(holder.ownerAvatar, transformation, owner.getMaxSquareAvatar(), Constants.PICASSO_TAG);
+        displayAvatar(holder.ownerAvatar, transformation, owner.getMaxSquareAvatar(), Constants.PICASSO_TAG);
 
         if (nonNull(topic.getCreator())) {
             holder.creatorAvatar.setVisibility(View.VISIBLE);
-            ViewUtils.displayAvatar(holder.creatorAvatar, transformation, topic.getCreator().get100photoOrSmaller(), Constants.PICASSO_TAG);
+            displayAvatar(holder.creatorAvatar, transformation, topic.getCreator().get100photoOrSmaller(), Constants.PICASSO_TAG);
         } else {
             holder.creatorAvatar.setVisibility(View.GONE);
             PicassoInstance.with().cancelRequest(holder.creatorAvatar);
         }
 
-        super.addOwnerAvatarClickHandling(holder.ownerAvatar, topic.getOwnerId());
+        addOwnerAvatarClickHandling(holder.ownerAvatar, topic.getOwnerId());
 
         holder.ownerName.setText(owner.getFullName());
         holder.commentsCounter.setText(String.valueOf(topic.getCommentsCount()));
@@ -147,11 +146,11 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         Photo photo = wrapper.getPhoto();
         Owner owner = wrapper.getOwner();
 
-        ViewUtils.displayAvatar(holder.ownerAvatar, transformation, owner.getMaxSquareAvatar(), Constants.PICASSO_TAG);
-        super.addOwnerAvatarClickHandling(holder.ownerAvatar, photo.getOwnerId());
+        displayAvatar(holder.ownerAvatar, transformation, owner.getMaxSquareAvatar(), Constants.PICASSO_TAG);
+        addOwnerAvatarClickHandling(holder.ownerAvatar, photo.getOwnerId());
 
         holder.ownerName.setText(owner.getFullName());
-        holder.dateTime.setText(AppTextUtils.getDateFromUnixTime(context, photo.getDate()));
+        holder.dateTime.setText(getDateFromUnixTime(context, photo.getDate()));
 
         holder.title.setVisibility(nonEmpty(photo.getText()) ? View.VISIBLE : View.GONE);
         holder.title.setText(photo.getText());
@@ -202,8 +201,8 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         holder.duration.setText(AppTextUtils.getDurationString(video.getDuration()));
         holder.ownerName.setText(owner.getFullName());
 
-        ViewUtils.displayAvatar(holder.avatar, transformation, owner.getMaxSquareAvatar(), Constants.PICASSO_TAG);
-        super.addOwnerAvatarClickHandling(holder.avatar, video.getOwnerId());
+        displayAvatar(holder.avatar, transformation, owner.getMaxSquareAvatar(), Constants.PICASSO_TAG);
+        addOwnerAvatarClickHandling(holder.avatar, video.getOwnerId());
     }
 
     private void bindBase(AbsHolder holder, int position) {
@@ -238,7 +237,7 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         holder.commentLikeCounter.setText(String.valueOf(comment.getLikesCount()));
         Utils.setColorFilter(holder.commentLikeIcon, comment.isUserLikes() ? iconColorActive : colorTextSecondary);
 
-        super.addOwnerAvatarClickHandling(holder.commentAvatar, comment.getFromId());
+        addOwnerAvatarClickHandling(holder.commentAvatar, comment.getFromId());
     }
 
     private void bindPost(PostHolder holder, int position) {
@@ -252,7 +251,7 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         holder.postDatetime.setText(getDateFromUnixTime(context, post.getDate()));
 
         displayAvatar(holder.ownerAvatar, transformation, post.getAuthorPhoto(), Constants.PICASSO_TAG);
-        super.addOwnerAvatarClickHandling(holder.ownerAvatar, post.getOwnerId());
+        addOwnerAvatarClickHandling(holder.ownerAvatar, post.getOwnerId());
 
         String reduced = AppTextUtils.reduceStringForPost(post.getText());
         holder.postText.setText(OwnerLinkSpanFactory.withSpans(reduced, true, false, linkActionAdapter));
@@ -260,7 +259,7 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         holder.postTextRoot.setVisibility(post.hasText() ? View.VISIBLE : View.GONE);
 
         holder.signerRoot.setVisibility(isNull(post.getCreator()) ? View.GONE : View.VISIBLE);
-        super.addOwnerAvatarClickHandling(holder.signerRoot, post.getSignerId());
+        addOwnerAvatarClickHandling(holder.signerRoot, post.getSignerId());
 
         if (nonNull(post.getCreator())) {
             holder.signerName.setText(post.getCreator().getFullName());
@@ -358,18 +357,18 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         AbsHolder(View itemView) {
             super(itemView);
 
-            this.commentRoot = itemView.findViewById(R.id.comment_root);
-            this.commentAvatar = itemView.findViewById(R.id.item_comment_owner_avatar);
-            this.commentAuthorName = itemView.findViewById(R.id.item_comment_owner_name);
-            this.commentText = itemView.findViewById(R.id.item_comment_text);
-            this.commentDatetime = itemView.findViewById(R.id.item_comment_time);
+            commentRoot = itemView.findViewById(R.id.comment_root);
+            commentAvatar = itemView.findViewById(R.id.item_comment_owner_avatar);
+            commentAuthorName = itemView.findViewById(R.id.item_comment_owner_name);
+            commentText = itemView.findViewById(R.id.item_comment_text);
+            commentDatetime = itemView.findViewById(R.id.item_comment_time);
 
-            this.commentLikeRoot = itemView.findViewById(R.id.item_comment_like_root);
-            this.commentLikeCounter = itemView.findViewById(R.id.item_comment_like_counter);
-            this.commentLikeIcon = itemView.findViewById(R.id.item_comment_like);
+            commentLikeRoot = itemView.findViewById(R.id.item_comment_like_root);
+            commentLikeCounter = itemView.findViewById(R.id.item_comment_like_counter);
+            commentLikeIcon = itemView.findViewById(R.id.item_comment_like);
 
-            this.commentAttachmentRoot = commentRoot.findViewById(R.id.item_comment_attachments_root);
-            this.commentAttachmentHolder = AttachmentsHolder.forComment(commentAttachmentRoot);
+            commentAttachmentRoot = commentRoot.findViewById(R.id.item_comment_attachments_root);
+            commentAttachmentHolder = AttachmentsHolder.forComment(commentAttachmentRoot);
         }
     }
 
@@ -383,11 +382,11 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
 
         PhotoHolder(View itemView) {
             super(itemView);
-            this.ownerAvatar = itemView.findViewById(R.id.photo_owner_avatar);
-            this.ownerName = itemView.findViewById(R.id.photo_owner_name);
-            this.dateTime = itemView.findViewById(R.id.photo_datetime);
-            this.image = itemView.findViewById(R.id.photo_image);
-            this.title = itemView.findViewById(R.id.photo_title);
+            ownerAvatar = itemView.findViewById(R.id.photo_owner_avatar);
+            ownerName = itemView.findViewById(R.id.photo_owner_name);
+            dateTime = itemView.findViewById(R.id.photo_datetime);
+            image = itemView.findViewById(R.id.photo_image);
+            title = itemView.findViewById(R.id.photo_title);
         }
     }
 
@@ -406,16 +405,16 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
 
         VideoHolder(View itemView) {
             super(itemView);
-            this.avatar = itemView.findViewById(R.id.video_owner_avatar);
-            this.ownerName = itemView.findViewById(R.id.video_owner_name);
+            avatar = itemView.findViewById(R.id.video_owner_avatar);
+            ownerName = itemView.findViewById(R.id.video_owner_name);
 
-            this.title = itemView.findViewById(R.id.video_title);
-            this.datitime = itemView.findViewById(R.id.video_datetime);
-            this.viewsCounter = itemView.findViewById(R.id.video_views_counter);
+            title = itemView.findViewById(R.id.video_title);
+            datitime = itemView.findViewById(R.id.video_datetime);
+            viewsCounter = itemView.findViewById(R.id.video_views_counter);
 
-            this.service = itemView.findViewById(R.id.video_service);
-            this.image = itemView.findViewById(R.id.video_image);
-            this.duration = itemView.findViewById(R.id.video_lenght);
+            service = itemView.findViewById(R.id.video_service);
+            image = itemView.findViewById(R.id.video_image);
+            duration = itemView.findViewById(R.id.video_lenght);
         }
     }
 
@@ -447,29 +446,29 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         PostHolder(View itemView) {
             super(itemView);
 
-            this.topDivider = itemView.findViewById(R.id.top_divider);
+            topDivider = itemView.findViewById(R.id.top_divider);
 
-            this.ownerAvatar = itemView.findViewById(R.id.item_post_avatar);
-            this.ownerName = itemView.findViewById(R.id.item_post_owner_name);
-            this.postDatetime = itemView.findViewById(R.id.item_post_time);
+            ownerAvatar = itemView.findViewById(R.id.item_post_avatar);
+            ownerName = itemView.findViewById(R.id.item_post_owner_name);
+            postDatetime = itemView.findViewById(R.id.item_post_time);
 
-            this.postTextRoot = itemView.findViewById(R.id.item_text_container);
-            this.postText = itemView.findViewById(R.id.item_post_text);
-            this.buttonShowMore = itemView.findViewById(R.id.item_post_show_more);
+            postTextRoot = itemView.findViewById(R.id.item_text_container);
+            postText = itemView.findViewById(R.id.item_post_text);
+            buttonShowMore = itemView.findViewById(R.id.item_post_show_more);
 
             ViewGroup postAttachmentRoot = itemView.findViewById(R.id.item_post_attachments);
-            this.postAttachmentsHolder = AttachmentsHolder.forPost(postAttachmentRoot);
+            postAttachmentsHolder = AttachmentsHolder.forPost(postAttachmentRoot);
 
-            this.signerRoot = itemView.findViewById(R.id.item_post_signer_root);
-            this.signerAvatar = itemView.findViewById(R.id.item_post_signer_icon);
-            this.signerName = itemView.findViewById(R.id.item_post_signer_name);
+            signerRoot = itemView.findViewById(R.id.item_post_signer_root);
+            signerAvatar = itemView.findViewById(R.id.item_post_signer_icon);
+            signerName = itemView.findViewById(R.id.item_post_signer_name);
 
-            this.viewsCounter = itemView.findViewById(R.id.post_views_counter);
-            this.viewsCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
+            viewsCounter = itemView.findViewById(R.id.post_views_counter);
+            viewsCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
 
-            this.friendsOnlyIcon = itemView.findViewById(R.id.item_post_friedns_only);
+            friendsOnlyIcon = itemView.findViewById(R.id.item_post_friedns_only);
 
-            this.postRoot = itemView.findViewById(R.id.post_root);
+            postRoot = itemView.findViewById(R.id.post_root);
         }
     }
 }

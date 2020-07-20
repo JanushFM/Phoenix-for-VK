@@ -39,15 +39,15 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
         super(accountId, savedInstanceState);
 
         this.ownerId = ownerId;
-        this.topics = new ArrayList<>();
-        this.boardInteractor = InteractorFactory.createBoardInteractor();
+        topics = new ArrayList<>();
+        boardInteractor = InteractorFactory.createBoardInteractor();
 
         loadCachedData();
         requestActualData(0);
     }
 
     private void loadCachedData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         cacheDisposable.add(boardInteractor.getCachedTopics(accountId, ownerId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -55,7 +55,7 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
     }
 
     private void onCachedDataReceived(List<Topic> topics) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
         this.topics.clear();
         this.topics.addAll(topics);
@@ -63,11 +63,11 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
         callView(ITopicsView::notifyDataSetChanged);
     }
 
-    private void requestActualData(final int offset) {
-        final int accountId = super.getAccountId();
+    private void requestActualData(int offset) {
+        int accountId = getAccountId();
 
-        this.netLoadingNow = true;
-        this.netLoadingNowOffset = offset;
+        netLoadingNow = true;
+        netLoadingNowOffset = offset;
 
         resolveRefreshingView();
         resolveLoadMoreFooter();
@@ -78,7 +78,7 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.netLoadingNow = false;
+        netLoadingNow = false;
         resolveRefreshingView();
         resolveLoadMoreFooter();
 
@@ -86,15 +86,15 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
     }
 
     private void onActualDataReceived(int offset, List<Topic> topics) {
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.netLoadingNow = false;
+        netLoadingNow = false;
         resolveRefreshingView();
         resolveLoadMoreFooter();
 
-        this.actualDataReceived = true;
-        this.endOfContent = topics.isEmpty();
+        actualDataReceived = true;
+        endOfContent = topics.isEmpty();
 
         if (offset == 0) {
             this.topics.clear();
@@ -115,8 +115,8 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
 
     @Override
     public void onDestroyed() {
-        this.cacheDisposable.dispose();
-        this.netDisposable.dispose();
+        cacheDisposable.dispose();
+        netDisposable.dispose();
         super.onDestroyed();
     }
 
@@ -145,7 +145,7 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
 
     public void fireLoadMoreClick() {
         if (canLoadMore()) {
-            requestActualData(this.topics.size());
+            requestActualData(topics.size());
         }
     }
 
@@ -158,11 +158,11 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
     }
 
     public void fireRefresh() {
-        this.netDisposable.clear();
-        this.netLoadingNow = false;
+        netDisposable.clear();
+        netLoadingNow = false;
 
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
         requestActualData(0);
     }
@@ -173,7 +173,7 @@ public class TopicsPresenter extends AccountDependencyPresenter<ITopicsView> {
 
     public void fireScrollToEnd() {
         if (canLoadMore()) {
-            requestActualData(this.topics.size());
+            requestActualData(topics.size());
         }
     }
 }

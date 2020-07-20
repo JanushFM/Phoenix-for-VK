@@ -102,7 +102,7 @@ public class Lyrics3v2 extends AbstractLyrics3 {
      */
     public Lyrics3v2(ByteBuffer byteBuffer) throws TagNotFoundException, IOException {
         try {
-            this.read(byteBuffer);
+            read(byteBuffer);
         } catch (TagException e) {
             e.printStackTrace();
         }
@@ -168,7 +168,7 @@ public class Lyrics3v2 extends AbstractLyrics3 {
 
         Lyrics3v2 object = (Lyrics3v2) obj;
 
-        return this.fieldMap.equals(object.fieldMap) && super.equals(obj);
+        return fieldMap.equals(object.fieldMap) && super.equals(obj);
 
     }
 
@@ -290,11 +290,11 @@ public class Lyrics3v2 extends AbstractLyrics3 {
     public String toString() {
         Iterator<Lyrics3v2Field> iterator = fieldMap.values().iterator();
         Lyrics3v2Field field;
-        String str = getIdentifier() + " " + this.getSize() + "\n";
+        String str = getIdentifier() + " " + getSize() + "\n";
 
         while (iterator.hasNext()) {
             field = iterator.next();
-            str += (field.toString() + "\n");
+            str += (field + "\n");
         }
 
         return str;
@@ -374,7 +374,7 @@ public class Lyrics3v2 extends AbstractLyrics3 {
 
         size = file.getFilePointer() - filePointer;
 
-        if (this.getSize() != size) {
+        if (getSize() != size) {
             //logger.config("Lyrics3v2 size didn't match up while writing.");
             //logger.config("this.getsize()     = " + this.getSize());
             //logger.config("size (filePointer) = " + size);

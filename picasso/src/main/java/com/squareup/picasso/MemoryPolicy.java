@@ -38,10 +38,10 @@ public enum MemoryPolicy {
     }
 
     static boolean shouldReadFromMemoryCache(int memoryPolicy) {
-        return (memoryPolicy & MemoryPolicy.NO_CACHE.index) == 0;
+        return (memoryPolicy & NO_CACHE.index) == 0;
     }
 
     static boolean shouldWriteToMemoryCache(int memoryPolicy) {
-        return (memoryPolicy & MemoryPolicy.NO_STORE.index) == 0;
+        return (memoryPolicy & NO_STORE.index) == 0;
     }
 }

@@ -1,11 +1,10 @@
 package biz.dealnote.messenger.fragment.search.options;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import biz.dealnote.messenger.util.ParcelUtils;
 
-public class SimpleNumberOption extends BaseOption implements Parcelable {
+public class SimpleNumberOption extends BaseOption {
 
     public static final Creator<SimpleNumberOption> CREATOR = new Creator<SimpleNumberOption>() {
         @Override
@@ -55,7 +54,7 @@ public class SimpleNumberOption extends BaseOption implements Parcelable {
     @Override
     public SimpleNumberOption clone() throws CloneNotSupportedException {
         SimpleNumberOption clone = (SimpleNumberOption) super.clone();
-        clone.value = this.value;
+        clone.value = value;
         return clone;
     }
 

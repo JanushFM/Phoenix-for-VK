@@ -56,7 +56,7 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody {
 
         for (int i = 0; i < copyObject.lines.size(); i++) {
             old = copyObject.lines.get(i);
-            this.lines.add(new Lyrics3Line(old));
+            lines.add(new Lyrics3Line(old));
         }
     }
 
@@ -95,7 +95,7 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody {
      */
     public FieldFrameBodyLYR(ByteBuffer byteBuffer) throws InvalidTagException {
 
-        this.read(byteBuffer);
+        read(byteBuffer);
 
     }
 
@@ -210,7 +210,7 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody {
 
         FieldFrameBodyLYR object = (FieldFrameBodyLYR) obj;
 
-        return this.lines.equals(object.lines) && super.equals(obj);
+        return lines.equals(object.lines) && super.equals(obj);
 
     }
 

@@ -33,7 +33,7 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
     public LocalPhotosAdapter(Context context, List<LocalPhoto> data) {
         this.context = context;
         this.data = data;
-        this.holders = new HashSet<>();
+        holders = new HashSet<>();
     }
 
     @NotNull
@@ -46,8 +46,8 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        final LocalPhoto photo = data.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        LocalPhoto photo = data.get(position);
         holder.attachPhoto(photo);
 
         PicassoInstance.with()
@@ -111,11 +111,11 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
         View selectedRoot;
         TextView tvIndex;
 
-        public ViewHolder(final View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
-            this.photoImageView = itemView.findViewById(R.id.imageView);
-            this.selectedRoot = itemView.findViewById(R.id.selected);
-            this.tvIndex = itemView.findViewById(R.id.item_photo_index);
+            photoImageView = itemView.findViewById(R.id.imageView);
+            selectedRoot = itemView.findViewById(R.id.selected);
+            tvIndex = itemView.findViewById(R.id.item_photo_index);
         }
 
         private void attachPhoto(LocalPhoto photo) {

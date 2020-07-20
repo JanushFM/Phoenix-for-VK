@@ -16,7 +16,7 @@ public final class Entry {
         this.id = id;
         this.accountId = accountId;
         this.ignoreIfExists = ignoreIfExists;
-        this.updates = new FullAndNonFullUpdates();
+        updates = new FullAndNonFullUpdates();
     }
 
     public boolean has(int id) {

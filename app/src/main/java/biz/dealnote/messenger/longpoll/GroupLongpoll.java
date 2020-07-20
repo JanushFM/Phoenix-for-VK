@@ -41,9 +41,9 @@ class GroupLongpoll implements ILongpoll {
     }
 
     private void resetServerAttrs() {
-        this.server = null;
-        this.key = null;
-        this.ts = null;
+        server = null;
+        key = null;
+        ts = null;
     }
 
     @Override
@@ -63,9 +63,9 @@ class GroupLongpoll implements ILongpoll {
     }
 
     private void onServerInfoReceived(GroupLongpollServer info) {
-        this.ts = info.ts;
-        this.key = info.key;
-        this.server = info.server;
+        ts = info.ts;
+        key = info.key;
+        server = info.server;
 
         get();
     }

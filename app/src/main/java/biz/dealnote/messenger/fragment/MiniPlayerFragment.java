@@ -57,12 +57,12 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
     private ImageView play_cover;
     private TextView Title;
     private SeekBar mProgress;
-    private boolean mFromTouch = false;
+    private boolean mFromTouch;
     private long mPosOverride = -1;
     private View lnt;
 
     private TimeHandler mTimeHandler;
-    private boolean mIsPaused = false;
+    private boolean mIsPaused;
     private long mLastSeekEventTime;
 
     @Override
@@ -74,22 +74,22 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         mAccountId = Settings.get()
                 .accounts()
                 .getCurrent();
-        this.mPlaybackStatus = new PlaybackStatus(this);
+        mPlaybackStatus = new PlaybackStatus(this);
 
-        final IntentFilter filter = new IntentFilter();
+        IntentFilter filter = new IntentFilter();
         filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
         filter.addAction(MusicPlaybackService.META_CHANGED);
         filter.addAction(MusicPlaybackService.PREPARED);
         filter.addAction(MusicPlaybackService.REFRESH);
         filter.addAction(MusicPlaybackService.MINIPLAYER_SUPER_VIS_CHANGED);
         requireActivity().registerReceiver(mPlaybackStatus, filter);
-        final long next = refreshCurrentTime();
+        long next = refreshCurrentTime();
         queueNextRefresh(next);
     }
 
-    private void queueNextRefresh(final long delay) {
+    private void queueNextRefresh(long delay) {
         if (!mIsPaused) {
-            final Message message = mTimeHandler.obtainMessage(REFRESH_TIME);
+            Message message = mTimeHandler.obtainMessage(REFRESH_TIME);
 
             mTimeHandler.removeMessages(REFRESH_TIME);
             mTimeHandler.sendMessageDelayed(message, delay);
@@ -106,7 +106,7 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
     }
 
     @Override
-    public View onCreateView(@NonNull final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.mini_player, container, false);
         View play = root.findViewById(R.id.item_audio_play);
         play_cover = root.findViewById(R.id.item_audio_play_cover);
@@ -205,11 +205,11 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         }
 
         try {
-            final long pos = mPosOverride < 0 ? MusicUtils.position() : mPosOverride;
-            final long duration = MusicUtils.duration();
+            long pos = mPosOverride < 0 ? MusicUtils.position() : mPosOverride;
+            long duration = MusicUtils.duration();
 
             if (pos >= 0 && duration > 0) {
-                final int progress = (int) (1000 * pos / MusicUtils.duration());
+                int progress = (int) (1000 * pos / MusicUtils.duration());
 
                 mProgress.setProgress(progress);
 
@@ -229,7 +229,7 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
             // calculate the number of milliseconds until the next full second,
             // so
             // the counter can be updated at just the right time
-            final long remaining = duration - pos % duration;
+            long remaining = duration - pos % duration;
 
             // approximate how often we would need to refresh the slider to
             // move it smoothly
@@ -238,7 +238,7 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
                 width = 320;
             }
 
-            final long smoothrefreshtime = duration / width;
+            long smoothrefreshtime = duration / width;
             if (smoothrefreshtime > remaining) {
                 return remaining;
             }
@@ -248,19 +248,19 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
             }
 
             return smoothrefreshtime;
-        } catch (final Exception ignored) {
+        } catch (Exception ignored) {
         }
 
         return 500;
     }
 
     @Override
-    public void onProgressChanged(final SeekBar bar, final int progress, final boolean fromuser) {
+    public void onProgressChanged(SeekBar bar, int progress, boolean fromuser) {
         if (!fromuser || mService == null) {
             return;
         }
 
-        final long now = SystemClock.elapsedRealtime();
+        long now = SystemClock.elapsedRealtime();
         if (now - mLastSeekEventTime > 250) {
             mLastSeekEventTime = now;
 
@@ -299,7 +299,7 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         // Unregister the receiver
         try {
             requireActivity().unregisterReceiver(mPlaybackStatus);
-        } catch (final Throwable ignored) {
+        } catch (Throwable ignored) {
             //$FALL-THROUGH$
         }
     }
@@ -311,14 +311,14 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         /**
          * Constructor of <code>TimeHandler</code>
          */
-        TimeHandler(final MiniPlayerFragment player) {
+        TimeHandler(MiniPlayerFragment player) {
             mAudioPlayer = new WeakReference<>(player);
         }
 
         @Override
-        public void handleMessage(final Message msg) {
+        public void handleMessage(Message msg) {
             if (msg.what == REFRESH_TIME) {
-                final long next = mAudioPlayer.get().refreshCurrentTime();
+                long next = mAudioPlayer.get().refreshCurrentTime();
                 mAudioPlayer.get().queueNextRefresh(next);
             }
         }
@@ -331,7 +331,7 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
         /**
          * Constructor of <code>PlaybackStatus</code>
          */
-        public PlaybackStatus(final MiniPlayerFragment activity) {
+        public PlaybackStatus(MiniPlayerFragment activity) {
             mReference = new WeakReference<>(activity);
         }
 
@@ -339,8 +339,8 @@ public class MiniPlayerFragment extends BaseFragment implements SeekBar.OnSeekBa
          * {@inheritDoc}
          */
         @Override
-        public void onReceive(final Context context, final Intent intent) {
-            final String action = intent.getAction();
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
             MiniPlayerFragment fragment = mReference.get();
             if (isNull(fragment) || isNull(action)) return;
 

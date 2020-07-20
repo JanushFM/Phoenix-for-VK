@@ -75,7 +75,7 @@ public class BoardInteractor implements IBoardInteractor {
                         dbos.add(Dto2Entity.buildTopicDbo(dto));
                     }
 
-                    final OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                    OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
 
                     VKOwnIds ownerIds = new VKOwnIds();
                     for (TopicEntity dbo : dbos) {
@@ -83,7 +83,7 @@ public class BoardInteractor implements IBoardInteractor {
                         ownerIds.append(dbo.getUpdatedBy());
                     }
 
-                    final List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
+                    List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
 
                     return stores.topics()
                             .store(accountId, ownerId, dbos, ownerEntities, response.canAddTopics == 1, response.defaultOrder, offset == 0)

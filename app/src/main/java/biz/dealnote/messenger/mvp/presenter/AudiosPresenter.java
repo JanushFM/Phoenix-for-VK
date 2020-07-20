@@ -42,8 +42,8 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
 
     public AudiosPresenter(int accountId, int ownerId, int option_menu_id, int isAlbum, boolean iSSelectMode, String accessKey, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.audioInteractor = InteractorFactory.createAudioInteractor();
-        this.audios = new ArrayList<>();
+        audioInteractor = InteractorFactory.createAudioInteractor();
+        audios = new ArrayList<>();
         this.ownerId = ownerId;
         this.option_menu_id = option_menu_id;
         this.isAlbum = isAlbum;
@@ -93,7 +93,7 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
 
     private void requestNext() {
         setLoadingNow(true);
-        final int offset = audios.size();
+        int offset = audios.size();
         if (isAlbum == 0 && option_menu_id == -1)
             requestList(offset, null);
         else if (isAlbum == 1)
@@ -195,7 +195,7 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
     public int getAudioPos(Audio audio) {
         if (!Utils.isEmpty(audios) && audio != null) {
             int pos = 0;
-            for (final Audio i : audios) {
+            for (Audio i : audios) {
                 if (i.getId() == audio.getId() && i.getOwnerId() == audio.getOwnerId()) {
                     i.setAnimationNow(true);
                     callView(IAudiosView::notifyListChanged);
@@ -226,7 +226,7 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
     }
 
     public void onDelete(AudioPlaylist album) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         audioListDisposable.add(audioInteractor.deletePlaylist(accountId, album.getId(), album.getOwnerId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> getView().getPhoenixToast().showToast(R.string.success), throwable ->
@@ -234,7 +234,7 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
     }
 
     public void onAdd(AudioPlaylist album) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         audioListDisposable.add(audioInteractor.followPlaylist(accountId, album.getId(), album.getOwnerId(), album.getAccess_key())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> getView().getPhoenixToast().showToast(R.string.success), throwable ->

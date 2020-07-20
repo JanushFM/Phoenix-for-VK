@@ -66,13 +66,13 @@ public final class CrashActivity {
     private static boolean isInBackground = true;
 
     @RestrictTo(RestrictTo.Scope.LIBRARY)
-    public static void install(@Nullable final Context context) {
+    public static void install(@Nullable Context context) {
         try {
             if (context == null) {
                 Log.e(TAG, "Install failed: context is null!");
             } else {
                 //INSTALL!
-                final Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
+                Thread.UncaughtExceptionHandler oldHandler = Thread.getDefaultUncaughtExceptionHandler();
 
                 if (oldHandler != null && oldHandler.getClass().getName().startsWith(CRASH_HANDLER_PACKAGE_NAME)) {
                     Log.e(TAG, "CrashActivity was already installed, doing nothing!");
@@ -110,7 +110,7 @@ public final class CrashActivity {
                                     }
                                 } else if (config.getBackgroundMode() == CrashConfig.BACKGROUND_MODE_SHOW_CUSTOM || !isInBackground) {
 
-                                    final Intent intent = new Intent(application, errorActivityClass);
+                                    Intent intent = new Intent(application, errorActivityClass);
                                     StringWriter sw = new StringWriter();
                                     PrintWriter pw = new PrintWriter(sw);
                                     throwable.printStackTrace(pw);
@@ -147,7 +147,7 @@ public final class CrashActivity {
                                     }
                                 }
                             }
-                            final Activity lastActivity = lastActivityCreated.get();
+                            Activity lastActivity = lastActivityCreated.get();
                             if (lastActivity != null) {
                                 lastActivity.finish();
                                 lastActivityCreated.clear();
@@ -159,7 +159,7 @@ public final class CrashActivity {
                     });
                     application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
                         final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
-                        int currentlyStartedActivities = 0;
+                        int currentlyStartedActivities;
 
                         @Override
                         public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
@@ -222,11 +222,11 @@ public final class CrashActivity {
 
     @Nullable
     public static String getStackTraceFromIntent(@NonNull Intent intent) {
-        return intent.getStringExtra(CrashActivity.EXTRA_STACK_TRACE);
+        return intent.getStringExtra(EXTRA_STACK_TRACE);
     }
 
     public static CrashConfig getConfigFromIntent(@NonNull Intent intent) {
-        CrashConfig config = (CrashConfig) intent.getSerializableExtra(CrashActivity.EXTRA_CONFIG);
+        CrashConfig config = (CrashConfig) intent.getSerializableExtra(EXTRA_CONFIG);
         if (Objects.requireNonNull(config).isLogErrorOnRestart()) {
             String stackTrace = getStackTraceFromIntent(intent);
             if (stackTrace != null) {
@@ -239,7 +239,7 @@ public final class CrashActivity {
 
     @Nullable
     private static String getActivityLogFromIntent(@NonNull Intent intent) {
-        return intent.getStringExtra(CrashActivity.EXTRA_ACTIVITY_LOG);
+        return intent.getStringExtra(EXTRA_ACTIVITY_LOG);
     }
 
     @NonNull

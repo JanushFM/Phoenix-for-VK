@@ -271,7 +271,7 @@ public class VkLinkParser {
         try {
             if (matcher.find()) {
                 String groupId = matcher.group(1);
-                return new BoardLink(Integer.parseInt(groupId));
+                return new BoardLink(parseInt(groupId));
             }
         } catch (Exception ignored) {
 

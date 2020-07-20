@@ -33,7 +33,7 @@ public final class NullTagField implements TagField {
     }
 
     @Override
-    public void copyContent(final TagField field) {
+    public void copyContent(TagField field) {
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class NullTagField implements TagField {
     }
 
     @Override
-    public void isBinary(final boolean b) {
+    public void isBinary(boolean b) {
     }
 
     @Override

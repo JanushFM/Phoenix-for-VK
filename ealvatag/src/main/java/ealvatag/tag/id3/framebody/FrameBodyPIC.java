@@ -108,11 +108,11 @@ public class FrameBodyPIC extends AbstractArtworkFrameBody implements ID3v22Fram
      * @param data
      */
     public FrameBodyPIC(byte textEncoding, String imageFormat, byte pictureType, String description, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setObjectValue(DataTypes.OBJ_IMAGE_FORMAT, imageFormat);
-        this.setPictureType(pictureType);
-        this.setDescription(description);
-        this.setImageData(data);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setObjectValue(DataTypes.OBJ_IMAGE_FORMAT, imageFormat);
+        setPictureType(pictureType);
+        setDescription(description);
+        setImageData(data);
     }
 
     /**
@@ -121,12 +121,12 @@ public class FrameBodyPIC extends AbstractArtworkFrameBody implements ID3v22Fram
      * @param body
      */
     public FrameBodyPIC(FrameBodyAPIC body) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, body.getTextEncoding());
-        this.setObjectValue(DataTypes.OBJ_IMAGE_FORMAT,
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, body.getTextEncoding());
+        setObjectValue(DataTypes.OBJ_IMAGE_FORMAT,
                 ImageFormats.getFormatForMimeType((String) body.getObjectValue(DataTypes.OBJ_MIME_TYPE)));
-        this.setObjectValue(DataTypes.OBJ_PICTURE_DATA, body.getObjectValue(DataTypes.OBJ_PICTURE_DATA));
-        this.setDescription(body.getDescription());
-        this.setImageData(body.getImageData());
+        setObjectValue(DataTypes.OBJ_PICTURE_DATA, body.getObjectValue(DataTypes.OBJ_PICTURE_DATA));
+        setDescription(body.getDescription());
+        setImageData(body.getImageData());
     }
 
     /**
@@ -206,7 +206,7 @@ public class FrameBodyPIC extends AbstractArtworkFrameBody implements ID3v22Fram
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         super.write(tagBuffer);
     }

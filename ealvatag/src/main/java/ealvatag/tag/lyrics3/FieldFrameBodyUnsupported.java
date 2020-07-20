@@ -33,7 +33,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody {
     /**
      *
      */
-    private byte[] value = null;
+    private byte[] value;
 
     /**
      * Creates a new FieldBodyUnsupported datatype.
@@ -44,7 +44,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody {
 
     public FieldFrameBodyUnsupported(FieldFrameBodyUnsupported copyObject) {
         super(copyObject);
-        this.value = copyObject.value.clone();
+        value = copyObject.value.clone();
     }
 
     /**
@@ -64,7 +64,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody {
      */
     public FieldFrameBodyUnsupported(ByteBuffer byteBuffer) throws InvalidTagException {
 
-        this.read(byteBuffer);
+        read(byteBuffer);
 
     }
 
@@ -86,7 +86,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody {
 
         FieldFrameBodyUnsupported object = (FieldFrameBodyUnsupported) obj;
 
-        String subset = new String(this.value);
+        String subset = new String(value);
         String superset = new String(object.value);
 
         return superset.contains(subset) && super.isSubsetOf(obj);
@@ -104,7 +104,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody {
 
         FieldFrameBodyUnsupported object = (FieldFrameBodyUnsupported) obj;
 
-        return java.util.Arrays.equals(this.value, object.value) && super.equals(obj);
+        return java.util.Arrays.equals(value, object.value) && super.equals(obj);
 
     }
 

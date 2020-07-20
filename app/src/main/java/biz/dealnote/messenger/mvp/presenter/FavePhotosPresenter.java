@@ -35,8 +35,8 @@ public class FavePhotosPresenter extends AccountDependencyPresenter<IFavePhotosV
     public FavePhotosPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.mPhotos = new ArrayList<>();
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
+        mPhotos = new ArrayList<>();
+        faveInteractor = InteractorFactory.createFaveInteractor();
 
         loadAllCachedData();
     }
@@ -53,23 +53,23 @@ public class FavePhotosPresenter extends AccountDependencyPresenter<IFavePhotosV
     }
 
     private void loadAllCachedData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
-        this.cacheLoadingNow = true;
+        cacheLoadingNow = true;
         cacheDisposable.add(faveInteractor.getCachedPhotos(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, this::onCacheGetError));
     }
 
     private void onCacheGetError(Throwable t) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
         showError(getView(), t);
     }
 
     private void onCachedDataReceived(List<Photo> photos) {
-        this.cacheLoadingNow = false;
-        this.mPhotos.clear();
-        this.mPhotos.addAll(photos);
+        cacheLoadingNow = false;
+        mPhotos.clear();
+        mPhotos.addAll(photos);
 
         callView(IFavePhotosView::notifyDataSetChanged);
     }
@@ -89,7 +89,7 @@ public class FavePhotosPresenter extends AccountDependencyPresenter<IFavePhotosV
     private void request(int offset) {
         setRequestNow(true);
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         netDisposable.add(faveInteractor.getPhotos(accountId, COUNT_PER_REQUEST, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -102,8 +102,8 @@ public class FavePhotosPresenter extends AccountDependencyPresenter<IFavePhotosV
     }
 
     private void onActualDataReceived(int offset, List<Photo> photos) {
-        this.mEndOfContent = photos.isEmpty();
-        this.cacheDisposable.clear();
+        mEndOfContent = photos.isEmpty();
+        cacheDisposable.clear();
 
         setRequestNow(false);
 
@@ -137,10 +137,10 @@ public class FavePhotosPresenter extends AccountDependencyPresenter<IFavePhotosV
     }
 
     public void fireRefresh() {
-        this.netDisposable.clear();
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
-        this.requestNow = false;
+        netDisposable.clear();
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
+        requestNow = false;
 
         requestAtLast();
     }

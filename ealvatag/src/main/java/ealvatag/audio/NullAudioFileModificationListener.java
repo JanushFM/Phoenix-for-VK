@@ -37,20 +37,20 @@ public final class NullAudioFileModificationListener implements AudioFileModific
     }
 
     @Override
-    public void fileModified(final AudioFile original, final File temporary) throws ModifyVetoException {
+    public void fileModified(AudioFile original, File temporary) throws ModifyVetoException {
     }
 
     @Override
-    public void fileOperationFinished(final File result) {
+    public void fileOperationFinished(File result) {
     }
 
     @Override
-    public void fileWillBeModified(final AudioFile file, final boolean delete) throws ModifyVetoException {
+    public void fileWillBeModified(AudioFile file, boolean delete) throws ModifyVetoException {
     }
 
     @Override
-    public void vetoThrown(final AudioFileModificationListener cause,
-                           final AudioFile original,
-                           final ModifyVetoException veto) {
+    public void vetoThrown(AudioFileModificationListener cause,
+                           AudioFile original,
+                           ModifyVetoException veto) {
     }
 }

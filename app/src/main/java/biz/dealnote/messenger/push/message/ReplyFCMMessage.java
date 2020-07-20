@@ -70,7 +70,7 @@ public class ReplyFCMMessage {
         return message;
     }
 
-    public void notify(final Context context, int accountId) {
+    public void notify(Context context, int accountId) {
         if (!Settings.get()
                 .notifications()
                 .isReplyNotifEnabled()) {
@@ -95,7 +95,7 @@ public class ReplyFCMMessage {
         Spannable snannedText = OwnerLinkSpanFactory.withSpans(text, true, false, null);
         String targetText = snannedText == null ? null : snannedText.toString();
 
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         if (Utils.hasOreo()) {
             nManager.createNotificationChannel(AppNotificationChannels.getCommentsChannel(context));
         }

@@ -48,12 +48,12 @@ public class EventTimingTimestampTypes implements SimpleIntStringMap {
     }
 
     @Override
-    public boolean containsKey(final int key) {
+    public boolean containsKey(int key) {
         return EVENT_TIMING_ID_RANGE.contains(key);
     }
 
     @Override
-    public String getValue(final int key) {
+    public String getValue(int key) {
         if (!EVENT_TIMING_ID_RANGE.contains(key)) {
             return "";
         }

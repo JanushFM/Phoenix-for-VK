@@ -33,11 +33,11 @@ public class MenuListAdapter extends RecyclerBindableAdapter<AbsMenuItem, Recycl
 
     public MenuListAdapter(@NonNull Context context, @NonNull List<AbsMenuItem> pageItems, @NonNull ActionListener actionListener) {
         super(pageItems);
-        this.colorPrimary = CurrentTheme.getColorPrimary(context);
-        this.colorSurface = CurrentTheme.getColorSurface(context);
-        this.colorOnPrimary = CurrentTheme.getColorOnPrimary(context);
-        this.colorOnSurface = CurrentTheme.getColorOnSurface(context);
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        colorPrimary = CurrentTheme.getColorPrimary(context);
+        colorSurface = CurrentTheme.getColorSurface(context);
+        colorOnPrimary = CurrentTheme.getColorOnPrimary(context);
+        colorOnSurface = CurrentTheme.getColorOnSurface(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
         this.actionListener = actionListener;
     }
 

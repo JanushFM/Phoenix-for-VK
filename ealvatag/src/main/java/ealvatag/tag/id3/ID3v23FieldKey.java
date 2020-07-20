@@ -198,7 +198,7 @@ public enum ID3v23FieldKey {
     ID3v23FieldKey(String frameId, Id3FieldType fieldType) {
         this.frameId = frameId;
         this.fieldType = fieldType;
-        this.fieldName = frameId;
+        fieldName = frameId;
     }
 
     /**
@@ -209,7 +209,7 @@ public enum ID3v23FieldKey {
         this.frameId = frameId;
         this.subId = subId;
         this.fieldType = fieldType;
-        this.fieldName = BuilderHolder.makeFieldName(frameId, subId);
+        fieldName = BuilderHolder.makeFieldName(frameId, subId);
     }
 
     /**
@@ -247,7 +247,7 @@ public enum ID3v23FieldKey {
         private static final StringBuilder builder = new StringBuilder(MAX_LENGTH);
 
         @SuppressWarnings("Duplicates")
-        private static String makeFieldName(@NotNull final String frameId, @NotNull final String subId) {
+        private static String makeFieldName(@NotNull String frameId, @NotNull String subId) {
             builder.setLength(0);
             builder.append(frameId)
                     .append(':')

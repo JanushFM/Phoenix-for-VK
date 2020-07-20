@@ -96,8 +96,8 @@ public class GroupSettingsInteractor implements IGroupSettingsInteractor {
     }
 
     @Override
-    public Completable editManager(int accountId, int groupId, final User user, String role, boolean asContact, String position, String email, String phone) {
-        final String targetRole = "creator".equalsIgnoreCase(role) ? "administrator" : role;
+    public Completable editManager(int accountId, int groupId, User user, String role, boolean asContact, String position, String email, String phone) {
+        String targetRole = "creator".equalsIgnoreCase(role) ? "administrator" : role;
 
         return networker.vkDefault(accountId)
                 .groups()
@@ -126,7 +126,7 @@ public class GroupSettingsInteractor implements IGroupSettingsInteractor {
 
     @Override
     public Single<Pair<List<Banned>, IntNextFrom>> getBanned(int accountId, int groupId, IntNextFrom startFrom, int count) {
-        final IntNextFrom nextFrom = new IntNextFrom(startFrom.getOffset() + count);
+        IntNextFrom nextFrom = new IntNextFrom(startFrom.getOffset() + count);
 
         return networker.vkDefault(accountId)
                 .groups()

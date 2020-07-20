@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class ShortLink extends AbsModel implements Parcelable {
+public class ShortLink extends AbsModel {
 
     public static final Creator<ShortLink> CREATOR = new Creator<ShortLink>() {
         @Override

@@ -126,7 +126,7 @@ public class WallsRepository implements IWallsRepository {
     public Single<Post> post(int accountId, int ownerId, Boolean friendsOnly, Boolean fromGroup, String message,
                              List<AbsModel> attachments, String services, Boolean signed,
                              Long publishDate, Double latitude, Double longitude, Integer placeId,
-                             final Integer postId, Integer guid, Boolean markAsAds, Boolean adsPromotedStealth) {
+                             Integer postId, Integer guid, Boolean markAsAds, Boolean adsPromotedStealth) {
 
         List<IAttachmentToken> tokens = null;
 
@@ -179,7 +179,7 @@ public class WallsRepository implements IWallsRepository {
 
         return single.flatMap(count -> {
             // TODO: 05.09.2017 Сохранение лайков в таблице новостей надо ?
-            final PostUpdate update = new PostUpdate(accountId, postId, ownerId).withLikes(count, add);
+            PostUpdate update = new PostUpdate(accountId, postId, ownerId).withLikes(count, add);
             return applyPatch(update).andThen(Single.just(count));
         });
     }
@@ -222,7 +222,7 @@ public class WallsRepository implements IWallsRepository {
                         ids.append(dto);
                     }
 
-                    final OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                    OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
                     return ownersRepository
                             .findBaseOwnersDataAsBundle(accountId, ids.getAll(), IOwnersRepository.MODE_ANY, owners)
                             .flatMap(bundle -> {
@@ -243,7 +243,7 @@ public class WallsRepository implements IWallsRepository {
     private SingleTransformer<List<PostEntity>, List<Post>> entities2models(int accountId) {
         return single -> single
                 .flatMap(dbos -> {
-                    final VKOwnIds ids = new VKOwnIds();
+                    VKOwnIds ids = new VKOwnIds();
                     Entity2Model.fillOwnerIds(ids, dbos);
 
                     return ownersRepository
@@ -261,7 +261,7 @@ public class WallsRepository implements IWallsRepository {
     private SingleTransformer<PostEntity, Post> entity2model(int accountId) {
         return single -> single
                 .flatMap(dbo -> {
-                    final VKOwnIds ids = new VKOwnIds();
+                    VKOwnIds ids = new VKOwnIds();
                     Entity2Model.fillPostOwnerIds(ids, dbo);
 
                     return ownersRepository
@@ -278,8 +278,8 @@ public class WallsRepository implements IWallsRepository {
                 .compose(entities2models(accountId));
     }
 
-    private Completable applyPatch(final PostUpdate update) {
-        final PostPatch patch = update2patch(update);
+    private Completable applyPatch(PostUpdate update) {
+        PostPatch patch = update2patch(update);
 
         return storages.wall()
                 .update(update.getAccountId(), update.getOwnerId(), update.getPostId(), patch)
@@ -288,7 +288,7 @@ public class WallsRepository implements IWallsRepository {
 
     @Override
     public Completable delete(int accountId, int ownerId, int postId) {
-        final PostUpdate update = new PostUpdate(accountId, postId, ownerId).withDeletion(true);
+        PostUpdate update = new PostUpdate(accountId, postId, ownerId).withDeletion(true);
         return networker.vkDefault(accountId)
                 .wall()
                 .delete(ownerId, postId)
@@ -297,7 +297,7 @@ public class WallsRepository implements IWallsRepository {
 
     @Override
     public Completable restore(int accountId, int ownerId, int postId) {
-        final PostUpdate update = new PostUpdate(accountId, postId, ownerId).withDeletion(false);
+        PostUpdate update = new PostUpdate(accountId, postId, ownerId).withDeletion(false);
         return networker.vkDefault(accountId)
                 .wall()
                 .restore(ownerId, postId)
@@ -313,7 +313,7 @@ public class WallsRepository implements IWallsRepository {
 
     @Override
     public Single<Post> getById(int accountId, int ownerId, int postId) {
-        final IdPair id = new IdPair(postId, ownerId);
+        IdPair id = new IdPair(postId, ownerId);
 
         return networker.vkDefault(accountId)
                 .wall()
@@ -376,11 +376,11 @@ public class WallsRepository implements IWallsRepository {
 
     @Override
     public Single<Post> post(int accountId, Post post, boolean fromGroup, boolean showSigner) {
-        final Long publishDate = post.isPostponed() ? post.getDate() : null;
+        Long publishDate = post.isPostponed() ? post.getDate() : null;
 
-        final List<AbsModel> attachments = post.hasAttachments() ? post.getAttachments().toList() : null;
+        List<AbsModel> attachments = post.hasAttachments() ? post.getAttachments().toList() : null;
 
-        final Integer postponedPostId = post.isPostponed() ? (post.getVkid() > 0 ? post.getVkid() : null) : null;
+        Integer postponedPostId = post.isPostponed() ? (post.getVkid() > 0 ? post.getVkid() : null) : null;
 
         return post(accountId, post.getOwnerId(), post.isFriendsOnly(), fromGroup, post.getText(),
                 attachments, null, showSigner, publishDate, null, null, null,
@@ -389,7 +389,7 @@ public class WallsRepository implements IWallsRepository {
 
     @Override
     public Single<Post> repost(int accountId, int postId, int ownerId, Integer groupId, String message) {
-        final int resultOwnerId = nonNull(groupId) ? -Math.abs(groupId) : accountId;
+        int resultOwnerId = nonNull(groupId) ? -Math.abs(groupId) : accountId;
         return networker.vkDefault(accountId)
                 .wall()
                 .repost(ownerId, postId, message, groupId, null)
@@ -398,7 +398,7 @@ public class WallsRepository implements IWallsRepository {
 
     @Override
     public Single<Integer> cachePostWithIdSaving(int accountId, Post post) {
-        final PostEntity entity = Model2Entity.buildPostDbo(post);
+        PostEntity entity = Model2Entity.buildPostDbo(post);
 
         return storages.wall()
                 .replacePost(accountId, entity);

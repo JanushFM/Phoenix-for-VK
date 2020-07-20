@@ -57,8 +57,8 @@ public class FrameBodyPRIV extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyPRIV datatype.
      */
     public FrameBodyPRIV() {
-        this.setObjectValue(DataTypes.OBJ_OWNER, "");
-        this.setObjectValue(DataTypes.OBJ_DATA, new byte[0]);
+        setObjectValue(DataTypes.OBJ_OWNER, "");
+        setObjectValue(DataTypes.OBJ_DATA, new byte[0]);
     }
 
     public FrameBodyPRIV(FrameBodyPRIV body) {
@@ -72,8 +72,8 @@ public class FrameBodyPRIV extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param data
      */
     public FrameBodyPRIV(String owner, byte[] data) {
-        this.setObjectValue(DataTypes.OBJ_OWNER, owner);
-        this.setObjectValue(DataTypes.OBJ_DATA, data);
+        setObjectValue(DataTypes.OBJ_OWNER, owner);
+        setObjectValue(DataTypes.OBJ_DATA, data);
     }
 
     /**

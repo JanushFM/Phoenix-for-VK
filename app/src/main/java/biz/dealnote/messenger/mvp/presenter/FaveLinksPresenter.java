@@ -33,8 +33,8 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
 
     public FaveLinksPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.links = new ArrayList<>();
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
+        links = new ArrayList<>();
+        faveInteractor = InteractorFactory.createFaveInteractor();
 
         loadCachedData();
     }
@@ -44,16 +44,16 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
     }
 
     private void loadCachedData() {
-        this.cacheLoading = true;
-        final int accountId = super.getAccountId();
+        cacheLoading = true;
+        int accountId = getAccountId();
         cacheDisposable.add(faveInteractor.getCachedLinks(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(this::onCachedDataReceived, RxUtils.ignore()));
     }
 
     private void loadActual(int offset) {
-        this.actualLoading = true;
-        final int accountId = super.getAccountId();
+        actualLoading = true;
+        int accountId = getAccountId();
 
         resolveRefreshingView();
         actualDisposable.add(faveInteractor.getLinks(accountId, 50, offset)
@@ -68,20 +68,20 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
     }
 
     private void onActualDataReceived(List<FaveLink> data, int offset, boolean hasNext) {
-        this.cacheDisposable.clear();
-        this.cacheLoading = false;
+        cacheDisposable.clear();
+        cacheLoading = false;
 
-        this.actualLoading = false;
-        this.endOfContent = !hasNext;
-        this.actualDataReceived = true;
+        actualLoading = false;
+        endOfContent = !hasNext;
+        actualDataReceived = true;
 
         if (offset == 0) {
-            this.links.clear();
-            this.links.addAll(data);
+            links.clear();
+            links.addAll(data);
             callView(IFaveLinksView::notifyDataSetChanged);
         } else {
-            int sizeBefore = this.links.size();
-            this.links.addAll(data);
+            int sizeBefore = links.size();
+            links.addAll(data);
             callView(view -> view.notifyDataAdded(sizeBefore, data.size()));
         }
 
@@ -110,7 +110,7 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
 
     public void fireScrollToEnd() {
         if (actualDataReceived && !endOfContent && !cacheLoading && !actualLoading && nonEmpty(links)) {
-            loadActual(this.links.size());
+            loadActual(links.size());
         }
     }
 
@@ -122,7 +122,7 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
     }
 
     private void onCachedDataReceived(List<FaveLink> links) {
-        this.cacheLoading = false;
+        cacheLoading = false;
 
         this.links.clear();
         this.links.addAll(links);
@@ -136,8 +136,8 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
     }
 
     public void fireDeleteClick(FaveLink link) {
-        final int accountId = super.getAccountId();
-        final String id = link.getId();
+        int accountId = getAccountId();
+        String id = link.getId();
         appendDisposable(faveInteractor.removeLink(accountId, id)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(() -> onLinkRemoved(accountId, id), t -> showError(getView(), getCauseIfRuntime(t))));
@@ -150,7 +150,7 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
 
         for (int i = 0; i < links.size(); i++) {
             if (links.get(i).getId().equals(id)) {
-                this.links.remove(i);
+                links.remove(i);
 
                 int finalI = i;
                 callView(view -> view.notifyItemRemoved(finalI));

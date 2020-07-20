@@ -162,7 +162,7 @@ public enum FieldKey {
     @NotNull
     private final String title;
 
-    FieldKey(final @NotNull String title) {
+    FieldKey(@NotNull String title) {
         this.title = title;
     }
 

@@ -231,8 +231,8 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
             doAudioLoadTabs = true;
             getPresenter().LoadAudiosTool();
         }
-        this.mPlaybackStatus = new PlaybackStatus();
-        final IntentFilter filter = new IntentFilter();
+        mPlaybackStatus = new PlaybackStatus();
+        IntentFilter filter = new IntentFilter();
         filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
         filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED);
         filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED);
@@ -281,7 +281,7 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
     public void onPause() {
         try {
             requireActivity().unregisterReceiver(mPlaybackStatus);
-        } catch (final Throwable ignored) {
+        } catch (Throwable ignored) {
         }
         super.onPause();
     }
@@ -296,8 +296,8 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
 
     private final class PlaybackStatus extends BroadcastReceiver {
         @Override
-        public void onReceive(final Context context, final Intent intent) {
-            final String action = intent.getAction();
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
             if (isNull(action)) return;
 
             if (MusicPlaybackService.PLAYSTATE_CHANGED.equals(action)) {

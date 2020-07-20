@@ -48,8 +48,8 @@ public class FrameBodySIGN extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param signature
      */
     public FrameBodySIGN(byte groupSymbol, byte[] signature) {
-        this.setObjectValue(DataTypes.OBJ_GROUP_SYMBOL, groupSymbol);
-        this.setObjectValue(DataTypes.OBJ_SIGNATURE, signature);
+        setObjectValue(DataTypes.OBJ_GROUP_SYMBOL, groupSymbol);
+        setObjectValue(DataTypes.OBJ_SIGNATURE, signature);
     }
 
     /**

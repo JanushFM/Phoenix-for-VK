@@ -15,7 +15,7 @@ public class LoadMoreFooterHelper {
     public Holder holder;
     public int state = LoadMoreState.INVISIBLE;
 
-    public static LoadMoreFooterHelper createFrom(View view, final Callback callback) {
+    public static LoadMoreFooterHelper createFrom(View view, Callback callback) {
         LoadMoreFooterHelper helper = new LoadMoreFooterHelper();
         helper.holder = new Holder(view);
         helper.callback = callback;

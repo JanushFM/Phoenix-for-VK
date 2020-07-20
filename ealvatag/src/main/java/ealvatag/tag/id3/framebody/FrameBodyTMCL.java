@@ -32,12 +32,11 @@ import okio.Buffer;
  * The 'Musician credits list' is intended as a mapping between instruments and the musician that played it. Every odd field is an
  * instrument and every even is an artist or a comma delimited list of artists.
  */
-public class FrameBodyTMCL extends AbstractFrameBodyPairs implements ID3v24FrameBody {
+public class FrameBodyTMCL extends AbstractFrameBodyPairs {
     /**
      * Creates a new FrameBodyTMCL datatype.
      */
     public FrameBodyTMCL() {
-        super();
     }
 
     /**

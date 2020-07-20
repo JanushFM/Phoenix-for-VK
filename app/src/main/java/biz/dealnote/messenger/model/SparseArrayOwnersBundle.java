@@ -14,7 +14,7 @@ public class SparseArrayOwnersBundle implements IOwnersBundle {
     private final SparseArray<Owner> data;
 
     public SparseArrayOwnersBundle(int capacity) {
-        this.data = new SparseArray<>(capacity);
+        data = new SparseArray<>(capacity);
     }
 
     @Nullable
@@ -57,10 +57,10 @@ public class SparseArrayOwnersBundle implements IOwnersBundle {
     public void put(@NonNull Owner owner) {
         switch (owner.getOwnerType()) {
             case OwnerType.USER:
-                this.data.put(((User) owner).getId(), owner);
+                data.put(((User) owner).getId(), owner);
                 break;
             case OwnerType.COMMUNITY:
-                this.data.put(-((Community) owner).getId(), owner);
+                data.put(-((Community) owner).getId(), owner);
                 break;
         }
     }

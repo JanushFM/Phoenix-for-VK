@@ -56,7 +56,7 @@ public abstract class AbsAttachmentsEditPresenter<V extends IBaseAttachmentsEdit
 
     AbsAttachmentsEditPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.uploadManager = Injection.provideUploadManager();
+        uploadManager = Injection.provideUploadManager();
 
         if (nonNull(savedInstanceState)) {
             currentPhotoCameraUri = savedInstanceState.getParcelable(SAVE_CURRENT_PHOTO_CAMERA_URI);
@@ -122,7 +122,7 @@ public abstract class AbsAttachmentsEditPresenter<V extends IBaseAttachmentsEdit
     }
 
     void setTextBody(String body) {
-        this.textBody = body;
+        textBody = body;
         resolveTextView();
     }
 

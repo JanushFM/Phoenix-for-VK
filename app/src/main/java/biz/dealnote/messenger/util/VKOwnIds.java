@@ -32,8 +32,8 @@ public class VKOwnIds {
     private final Set<Integer> gids;
 
     public VKOwnIds() {
-        this.uids = new HashSet<>();
-        this.gids = new HashSet<>();
+        uids = new HashSet<>();
+        gids = new HashSet<>();
     }
 
     public static VKOwnIds fromPosts(@NonNull Collection<VKApiPost> posts) {

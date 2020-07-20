@@ -47,7 +47,7 @@ public class TagOptionSingleton {
     private static final ConcurrentMap<String, TagOptionSingleton> tagOptionTable = new ConcurrentHashMap<>();
     private static final String DEFAULT = "default";
     private static String defaultOptions = DEFAULT;
-    private boolean isWriteWavForTwonky = false;
+    private boolean isWriteWavForTwonky;
     private HashMap<Class<? extends ID3v24FrameBody>, LinkedList<String>> keywordMap = new HashMap<>();
 
     /**
@@ -71,7 +71,7 @@ public class TagOptionSingleton {
     /**
      *
      */
-    private boolean filenameTagSave = false;
+    private boolean filenameTagSave;
     /**
      * if we should save any fields of the ID3v1 tag or not. Defaults to true.
      */
@@ -120,7 +120,7 @@ public class TagOptionSingleton {
      * When adjusting the ID3v2 padding, if we should shorten the length of the
      * ID3v2 tag padding. Defaults to false.
      */
-    private boolean id3v2PaddingWillShorten = false;
+    private boolean id3v2PaddingWillShorten;
     /**
      * if we should save any fields of the ID3v2 tag or not. Defaults to true.
      */
@@ -129,7 +129,7 @@ public class TagOptionSingleton {
      * if we should keep an empty Lyrics3 field while we're reading. This is
      * different from a string of white space. Defaults to false.
      */
-    private boolean lyrics3KeepEmptyFieldIfRead = false;
+    private boolean lyrics3KeepEmptyFieldIfRead;
     /**
      * if we should save any fields of the Lyrics3 tag or not. Defaults to
      * true.
@@ -140,7 +140,7 @@ public class TagOptionSingleton {
      * <p>
      * todo I don't think this is implemented yet.
      */
-    private boolean lyrics3SaveEmptyField = false;
+    private boolean lyrics3SaveEmptyField;
     /**
      *
      */
@@ -159,7 +159,7 @@ public class TagOptionSingleton {
      * Unsynchronize tags/frames this is rarely required these days and can cause more
      * problems than it solves
      */
-    private boolean unsyncTags = false;
+    private boolean unsyncTags;
     /**
      * iTunes needlessly writes null terminators at the end for TextEncodedStringSizeTerminated values,
      * if this option is enabled these characters are removed
@@ -185,19 +185,19 @@ public class TagOptionSingleton {
      * using the defaults disregarding the text encoding originally used to create
      * the frame.
      */
-    private boolean resetTextEncodingForExistingFrames = false;
+    private boolean resetTextEncodingForExistingFrames;
     /**
      * Some formats impose maxmimum lengths for fields , if the text provided is longer
      * than the formats allows it will truncate and write a warning, if this is not set
      * it will throw an exception
      */
-    private boolean truncateTextWithoutErrors = false;
+    private boolean truncateTextWithoutErrors;
     /**
      * Frames such as TRCK and TPOS sometimes pad single digit numbers to aid sorting
      * <p>
      * Currently only applies to ID3 files
      */
-    private boolean padNumbers = false;
+    private boolean padNumbers;
     /**
      * Number of padding zeroes digits 1- 9, numbers larger than nine will be padded accordingly based on the value.
      * Only has any effect if padNumbers is set to true
@@ -209,8 +209,8 @@ public class TagOptionSingleton {
      * There are a couple of problems with the Java implementation on Google Android, enabling this value
      * switches on Google workarounds
      */
-    private boolean isAndroid = false;
-    private boolean isAPICDescriptionITunesCompatible = false;
+    private boolean isAndroid;
+    private boolean isAPICDescriptionITunesCompatible;
     /**
      * When you specify a field should be stored as UTF16 in ID3 this means write with BOM indicating whether
      * written as Little Endian or Big Endian, its defaults to little Endian
@@ -226,14 +226,14 @@ public class TagOptionSingleton {
      * max size of data to copy when copying audiodata from one file to , default to 4mb
      */
     private long writeChunkSize = (4 * 1024 * 1024);
-    private boolean isWriteMp4GenresAsText = false;
-    private boolean isWriteMp3GenresAsText = false;
+    private boolean isWriteMp4GenresAsText;
+    private boolean isWriteMp3GenresAsText;
     private ID3V2Version id3v2Version = ID3V2Version.ID3_V23;
     /**
      * Whether Files.isWritable should be used to check if a file can be written. In some
      * cases, isWritable can return false negatives.
      */
-    private boolean checkIsWritable = false;
+    private boolean checkIsWritable;
     /**
      * Preserve file identity if possible
      */
@@ -287,7 +287,7 @@ public class TagOptionSingleton {
     }
 
     public void setInstanceKey(String instanceKey) {
-        TagOptionSingleton.defaultOptions = instanceKey;
+        defaultOptions = instanceKey;
     }
 
     public boolean isFilenameTagSave() {
@@ -416,7 +416,7 @@ public class TagOptionSingleton {
      * @param readAheadMp4 if true mp4 parsing aggressively caches file contents
      * @see #shouldReadAheadMp4()
      */
-    public void setReadAheadMp4(final boolean readAheadMp4) {
+    public void setReadAheadMp4(boolean readAheadMp4) {
         this.readAheadMp4 = readAheadMp4;
     }
 
@@ -481,7 +481,7 @@ public class TagOptionSingleton {
      * @param save true if you want to save this specific Lyrics3 field.
      */
     public void setLyrics3SaveField(String id, boolean save) {
-        this.lyrics3SaveFieldMap.put(id, save);
+        lyrics3SaveFieldMap.put(id, save);
     }
 
     /**
@@ -668,12 +668,12 @@ public class TagOptionSingleton {
 
         GenreTypes.getInstanceOf().iterateValues(new GenreTypes.ValuesIterator() {
             @Override
-            public boolean begin(final int count) {
+            public boolean begin(int count) {
                 return true;
             }
 
             @Override
-            public boolean value(final String value) {
+            public boolean value(String value) {
                 addKeyword(FrameBodyCOMM.class, value);
                 return true;
             }
@@ -990,7 +990,7 @@ public class TagOptionSingleton {
      * @see #isPreserveFileIdentity()
      */
     @SuppressWarnings("SameParameterValue")
-    public void setPreserveFileIdentity(final boolean preserveFileIdentity) {
+    public void setPreserveFileIdentity(boolean preserveFileIdentity) {
         this.preserveFileIdentity = preserveFileIdentity;
     }
 

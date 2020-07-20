@@ -32,7 +32,7 @@ public class CommunitiesAdapter extends MultyDataAdapter<Community, CommunitiesA
 
     public CommunitiesAdapter(Context context, List<DataWrapper<Community>> dataWrappers, int[] titles) {
         super(dataWrappers, titles);
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NotNull
@@ -82,12 +82,12 @@ public class CommunitiesAdapter extends MultyDataAdapter<Community, CommunitiesA
 
         Holder(View root) {
             super(root);
-            this.headerRoot = root.findViewById(R.id.header_root);
-            this.headerTitle = root.findViewById(R.id.header_title);
-            this.contentRoot = root.findViewById(R.id.content_root);
-            this.tvName = root.findViewById(R.id.name);
-            this.ivAvatar = root.findViewById(R.id.avatar);
-            this.subtitle = root.findViewById(R.id.subtitle);
+            headerRoot = root.findViewById(R.id.header_root);
+            headerTitle = root.findViewById(R.id.header_title);
+            contentRoot = root.findViewById(R.id.content_root);
+            tvName = root.findViewById(R.id.name);
+            ivAvatar = root.findViewById(R.id.avatar);
+            subtitle = root.findViewById(R.id.subtitle);
         }
     }
 }

@@ -88,7 +88,7 @@ class LocalJsonToChatPresenter(accountId: Int, private val context: Context, sav
         resolveRefreshingView(false)
     }
 
-    public override fun onGuiResumed() {
+    override fun onGuiResumed() {
         super.onGuiResumed()
         resolveRefreshingView(false)
     }

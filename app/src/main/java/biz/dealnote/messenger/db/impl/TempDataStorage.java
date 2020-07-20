@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.provider.BaseColumns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +21,11 @@ import io.reactivex.Single;
 public class TempDataStorage implements ITempDataStorage {
 
     private static final String[] PROJECTION = {
-            TempDataColumns._ID, TempDataColumns.OWNER_ID, TempDataColumns.SOURCE_ID, TempDataColumns.DATA};
+            BaseColumns._ID, TempDataColumns.OWNER_ID, TempDataColumns.SOURCE_ID, TempDataColumns.DATA};
     private final Context app;
 
     TempDataStorage(Context context) {
-        this.app = context.getApplicationContext();
+        app = context.getApplicationContext();
     }
 
     private TempDataHelper helper() {

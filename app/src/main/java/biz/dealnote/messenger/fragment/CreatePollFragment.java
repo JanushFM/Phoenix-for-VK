@@ -76,7 +76,7 @@ public class CreatePollFragment extends BaseMvpFragment<CreatePollPresenter, ICr
 
         for (int i = 0; i < mOptionsViewGroup.getChildCount(); i++) {
             TextInputEditText editText = (TextInputEditText) mOptionsViewGroup.getChildAt(i);
-            final int position = i;
+            int position = i;
 
             editText.addTextChangedListener(new TextWatcherAdapter() {
                 @Override

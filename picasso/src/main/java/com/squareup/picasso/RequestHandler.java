@@ -51,8 +51,8 @@ public abstract class RequestHandler {
      * {@link Request}, only instantiating them if needed.
      */
     static BitmapFactory.Options createBitmapOptions(Request data) {
-        final boolean justBounds = data.hasSize();
-        final boolean hasConfig = data.config != null;
+        boolean justBounds = data.hasSize();
+        boolean hasConfig = data.config != null;
         BitmapFactory.Options options = null;
         if (justBounds || hasConfig || data.purgeable) {
             options = new BitmapFactory.Options();
@@ -80,8 +80,8 @@ public abstract class RequestHandler {
                                       BitmapFactory.Options options, Request request) {
         int sampleSize = 1;
         if (height > reqHeight || width > reqWidth) {
-            final int heightRatio;
-            final int widthRatio;
+            int heightRatio;
+            int widthRatio;
             if (reqHeight == 0) {
                 sampleSize = (int) Math.floor((float) width / (float) reqWidth);
             } else if (reqWidth == 0) {

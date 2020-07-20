@@ -19,7 +19,7 @@ public class ColorPickerPreference extends Preference {
     protected boolean lightSlider;
     protected boolean border;
 
-    protected int selectedColor = 0;
+    protected int selectedColor;
 
     protected ColorPickerView.WHEEL_TYPE wheelType;
     protected int density;
@@ -56,7 +56,7 @@ public class ColorPickerPreference extends Preference {
     }
 
     private void initWith(Context context, AttributeSet attrs) {
-        final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ColorPickerView);
 
         try {
             alphaSlider = typedArray.getBoolean(R.styleable.ColorPickerView_alphaSlider, false);

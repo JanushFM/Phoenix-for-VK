@@ -3,6 +3,7 @@ package biz.dealnote.messenger.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 import biz.dealnote.messenger.db.column.TempDataColumns;
 
@@ -36,11 +37,11 @@ public class TempDataHelper extends SQLiteOpenHelper {
 
     private void createTmpDataTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE IF NOT EXISTS [" + TempDataColumns.TABLENAME + "] (\n" +
-                "  [" + TempDataColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "  [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "  [" + TempDataColumns.OWNER_ID + "] INTEGER, " +
                 "  [" + TempDataColumns.SOURCE_ID + "] INTEGER, " +
                 "  [" + TempDataColumns.DATA + "] TEXT, " +
-                "  CONSTRAINT [] UNIQUE ([" + TempDataColumns._ID + "]) ON CONFLICT REPLACE);";
+                "  CONSTRAINT [] UNIQUE ([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }
 

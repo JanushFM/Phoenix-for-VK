@@ -49,7 +49,7 @@ public interface AudioFile {
      */
     void save() throws CannotWriteException;
 
-    void saveAs(final String fullPathWithoutExtension) throws IllegalArgumentException, CannotWriteException;
+    void saveAs(String fullPathWithoutExtension) throws IllegalArgumentException, CannotWriteException;
 
     /**
      * Delete any {@link Tag} in the underlying file

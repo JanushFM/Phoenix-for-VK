@@ -41,9 +41,9 @@ public class AndroidLongpollManager implements ILongpollManager, UserLongpoll.Ca
     AndroidLongpollManager(Context context, INetworker networker, IRealtimeMessagesProcessor messagesProcessor) {
         this.networker = networker;
         this.messagesProcessor = messagesProcessor;
-        this.keepAlivePublisher = PublishProcessor.create();
-        this.actionsPublisher = PublishProcessor.create();
-        this.map = new SparseArray<>(1);
+        keepAlivePublisher = PublishProcessor.create();
+        actionsPublisher = PublishProcessor.create();
+        map = new SparseArray<>(1);
     }
 
     @Override
@@ -133,9 +133,9 @@ public class AndroidLongpollManager implements ILongpollManager, UserLongpoll.Ca
 
         LongpollEntry(ILongpoll longpoll, AndroidLongpollManager manager) {
             this.longpoll = longpoll;
-            this.accountId = longpoll.getAccountId();
-            this.managerReference = new WeakReference<>(manager);
-            this.handler = new SocketHandler(this);
+            accountId = longpoll.getAccountId();
+            managerReference = new WeakReference<>(manager);
+            handler = new SocketHandler(this);
         }
 
         void connect() {
@@ -179,7 +179,7 @@ public class AndroidLongpollManager implements ILongpollManager, UserLongpoll.Ca
 
         SocketHandler(AndroidLongpollManager.LongpollEntry holder) {
             super(Looper.getMainLooper());
-            this.reference = new WeakReference<>(holder);
+            reference = new WeakReference<>(holder);
         }
 
         void restartPreDestroy() {

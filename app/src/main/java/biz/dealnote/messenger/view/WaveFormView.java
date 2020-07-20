@@ -103,8 +103,8 @@ public class WaveFormView extends View {
             return;
         }
 
-        this.mCurrentActiveProgress = progress;
-        this.mDisplayedProgress = progress;
+        mCurrentActiveProgress = progress;
+        mDisplayedProgress = progress;
 
         releaseAnimation();
         invalidate();
@@ -124,7 +124,7 @@ public class WaveFormView extends View {
             return;
         }
 
-        this.mCurrentActiveProgress = progress;
+        mCurrentActiveProgress = progress;
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(this, PROGRESS_PROPERTY, progress);
         mAnimator = new WeakReference<>(animator);
@@ -143,7 +143,7 @@ public class WaveFormView extends View {
     }
 
     public void setSectionCount(int sectionCount) {
-        this.mSectionCount = sectionCount;
+        mSectionCount = sectionCount;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class WaveFormView extends View {
     public void setWaveForm(byte[] waveForm) {
         long start = System.currentTimeMillis();
 
-        this.mWaveForm = new byte[waveForm.length];
+        mWaveForm = new byte[waveForm.length];
 
         for (int i = 0; i < waveForm.length; i++) {
             mWaveForm[i] = (byte) (waveForm[i] + 1);
@@ -205,7 +205,7 @@ public class WaveFormView extends View {
             newValues[i] = getValueAt(mWaveForm, (float) i / (float) mSectionCount);
         }
 
-        this.mWaveForm = newValues;
+        mWaveForm = newValues;
     }
 
     private byte getValueAt(byte[] values, float coef) {
@@ -225,10 +225,10 @@ public class WaveFormView extends View {
     }
 
     public void setActiveColor(@ColorInt int activeColor) {
-        this.mActiveColor = activeColor;
+        mActiveColor = activeColor;
     }
 
     public void setNoactiveColor(@ColorInt int noactiveColor) {
-        this.mNoactiveColor = noactiveColor;
+        mNoactiveColor = noactiveColor;
     }
 }

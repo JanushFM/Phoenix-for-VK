@@ -1,12 +1,11 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
 
-public class Community extends Owner implements Parcelable {
+public class Community extends Owner {
 
     public static final Creator<Community> CREATOR = new Creator<Community>() {
         @Override
@@ -60,7 +59,7 @@ public class Community extends Owner implements Parcelable {
 
     @Override
     public int getOwnerId() {
-        return -Math.abs(this.id);
+        return -Math.abs(id);
     }
 
     @Override

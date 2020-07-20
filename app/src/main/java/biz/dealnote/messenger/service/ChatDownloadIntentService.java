@@ -518,7 +518,7 @@ public class ChatDownloadIntentService extends IntentService {
         PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, getClass().getName());
         wl.acquire(10 * 60 * 1000L /*10 minutes*/);
 
-        if (action != null && action.equals("html")) {
+        if ("html".equals(action)) {
             doDownloadAsHTML(chat_title, account_id, owner_id);
         } else {
             doJsonDownload(chat_title, account_id, owner_id);

@@ -45,7 +45,7 @@ public abstract class AudioFileWriter2 extends AudioFileWriter {
      */
     @Override
     public void delete(AudioFile af) throws CannotWriteException {
-        final File file = af.getFile();
+        File file = af.getFile();
         checkCanWriteAndSize(af, file);
         try (FileChannel channel = new RandomAccessFile(file, "rw").getChannel()) {
             deleteTag(af.getTag().orNull(), channel, file.getAbsolutePath());
@@ -54,7 +54,7 @@ public abstract class AudioFileWriter2 extends AudioFileWriter {
         }
     }
 
-    private void checkCanWriteAndSize(final AudioFile af, final File file) throws CannotWriteException {
+    private void checkCanWriteAndSize(AudioFile af, File file) throws CannotWriteException {
         if (TagOptionSingleton.getInstance().isCheckIsWritable() && !file.canWrite()) {
             throw new CannotWriteException(ErrorMessage.GENERAL_DELETE_FAILED, file);
         }
@@ -71,7 +71,7 @@ public abstract class AudioFileWriter2 extends AudioFileWriter {
      */
     @Override
     public void write(AudioFileImpl audioFile) throws CannotWriteException {
-        final File file = audioFile.getFile();
+        File file = audioFile.getFile();
         checkCanWriteAndSize(audioFile, file);
         try (FileChannel channel = new RandomAccessFile(file, "rw").getChannel()) {
             writeTag(audioFile.getTagFieldContainer(), channel, file.getAbsolutePath());
@@ -87,14 +87,14 @@ public abstract class AudioFileWriter2 extends AudioFileWriter {
         }
     }
 
-    protected abstract void deleteTag(Tag tag, FileChannel channel, final String fileName) throws CannotWriteException;
+    protected abstract void deleteTag(Tag tag, FileChannel channel, String fileName) throws CannotWriteException;
 
 
     public void deleteTag(Tag tag, RandomAccessFile raf, RandomAccessFile tempRaf) {
         throw new UnsupportedOperationException("Old method not used in version 2");
     }
 
-    protected abstract void writeTag(TagFieldContainer tag, FileChannel channel, final String fileName) throws CannotWriteException;
+    protected abstract void writeTag(TagFieldContainer tag, FileChannel channel, String fileName) throws CannotWriteException;
 
     protected void writeTag(AudioFile audioFile, TagFieldContainer tag, RandomAccessFile raf, RandomAccessFile rafTemp) {
         throw new UnsupportedOperationException("Old method not used in version 2");

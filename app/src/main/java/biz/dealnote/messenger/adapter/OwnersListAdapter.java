@@ -28,8 +28,8 @@ public class OwnersListAdapter extends ArrayAdapter<Owner> {
 
     public OwnersListAdapter(Activity context, ArrayList<Owner> owners) {
         super(context, R.layout.item_simple_owner, owners);
-        this.data = owners;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        data = owners;
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class OwnersListAdapter extends ArrayAdapter<Owner> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        final View view;
+        View view;
         if (convertView == null) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_simple_owner, parent, false);
             view.setTag(new ViewHolder(view));
@@ -53,8 +53,8 @@ public class OwnersListAdapter extends ArrayAdapter<Owner> {
             view = convertView;
         }
 
-        final ViewHolder holder = (ViewHolder) view.getTag();
-        final Owner item = data.get(position);
+        ViewHolder holder = (ViewHolder) view.getTag();
+        Owner item = data.get(position);
 
         holder.tvName.setText(item.getFullName());
         ViewUtils.displayAvatar(holder.ivAvatar, transformation, item.getMaxSquareAvatar(), Constants.PICASSO_TAG);

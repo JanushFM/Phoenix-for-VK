@@ -29,7 +29,7 @@ public class UploadApi implements IUploadApi {
         this.provider = provider;
     }
 
-    private static ProgressRequestBody.UploadCallbacks wrapPercentageListener(final PercentagePublisher listener) {
+    private static ProgressRequestBody.UploadCallbacks wrapPercentageListener(PercentagePublisher listener) {
         return percentage -> {
             if (Objects.nonNull(listener)) {
                 listener.onProgressChanged(percentage);

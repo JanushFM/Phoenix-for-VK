@@ -39,7 +39,7 @@ public class Languages implements SimpleStringStringMap {
 
     private static volatile Languages instance;
     private final ImmutableMap<String, String> idToValue;
-    private ImmutableMultimap<String, String> valueToId = null;
+    private ImmutableMultimap<String, String> valueToId;
 
     private Languages() {
         ImmutableMap.Builder<String, String> builder = ImmutableMap.builder();

@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class DialogsSearchCriteria extends BaseSearchCriteria implements Parcelable {
+public class DialogsSearchCriteria extends BaseSearchCriteria {
 
     public static final Creator<DialogsSearchCriteria> CREATOR = new Creator<DialogsSearchCriteria>() {
         @Override

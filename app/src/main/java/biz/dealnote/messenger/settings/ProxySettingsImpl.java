@@ -33,10 +33,10 @@ public class ProxySettingsImpl implements IProxySettings {
     private final PublishSubject<Optional<ProxyConfig>> activePublisher;
 
     public ProxySettingsImpl(Context context) {
-        this.preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        this.addPublisher = PublishSubject.create();
-        this.deletePublisher = PublishSubject.create();
-        this.activePublisher = PublishSubject.create();
+        preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        addPublisher = PublishSubject.create();
+        deletePublisher = PublishSubject.create();
+        activePublisher = PublishSubject.create();
     }
 
     @Override

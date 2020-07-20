@@ -60,7 +60,7 @@ public class FrameBodyTCMP extends AbstractFrameBodyTextInfo implements ID3v24Fr
     }
 
     public boolean isCompilation() {
-        return this.getText().equals(IS_COMPILATION);
+        return getText().equals(IS_COMPILATION);
     }
 
     /**

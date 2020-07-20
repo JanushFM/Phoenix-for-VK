@@ -142,9 +142,9 @@ public class FrameBodyTXXX extends AbstractFrameBodyTextInfo implements ID3v24Fr
      * Creates a new FrameBodyTXXX datatype.
      */
     public FrameBodyTXXX() {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, "");
-        this.setObjectValue(DataTypes.OBJ_TEXT, "");
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, "");
+        setObjectValue(DataTypes.OBJ_TEXT, "");
 
     }
 
@@ -155,9 +155,9 @@ public class FrameBodyTXXX extends AbstractFrameBodyTextInfo implements ID3v24Fr
      */
     public FrameBodyTXXX(FrameBodyTMOO body) {
         setObjectValue(DataTypes.OBJ_TEXT_ENCODING, body.getTextEncoding());
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, MOOD);
-        this.setObjectValue(DataTypes.OBJ_TEXT, body.getText());
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, MOOD);
+        setObjectValue(DataTypes.OBJ_TEXT, body.getText());
     }
 
     public FrameBodyTXXX(FrameBodyTXXX body) {
@@ -172,9 +172,9 @@ public class FrameBodyTXXX extends AbstractFrameBodyTextInfo implements ID3v24Fr
      * @param text
      */
     public FrameBodyTXXX(byte textEncoding, String description, String text) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
-        this.setObjectValue(DataTypes.OBJ_TEXT, text);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
+        setObjectValue(DataTypes.OBJ_TEXT, text);
     }
 
     /**
@@ -226,7 +226,7 @@ public class FrameBodyTXXX extends AbstractFrameBodyTextInfo implements ID3v24Fr
 
         //Ensure valid for description
         if (!((TextEncodedStringNullTerminated) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-            this.setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
+            setTextEncoding(ID3TextEncodingConversion.getUnicodeTextEncoding(getHeader()));
         }
         super.write(tagBuffer);
     }

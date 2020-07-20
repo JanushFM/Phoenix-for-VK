@@ -46,7 +46,7 @@ public class FieldFrameBodyEAR extends AbstractLyrics3v2FieldFrameBody {
      * @param artist
      */
     public FieldFrameBodyEAR(String artist) {
-        this.setObjectValue("Artist", artist);
+        setObjectValue("Artist", artist);
     }
 
     /**
@@ -57,7 +57,7 @@ public class FieldFrameBodyEAR extends AbstractLyrics3v2FieldFrameBody {
      */
     public FieldFrameBodyEAR(ByteBuffer byteBuffer) throws InvalidTagException {
 
-        this.read(byteBuffer);
+        read(byteBuffer);
 
     }
 

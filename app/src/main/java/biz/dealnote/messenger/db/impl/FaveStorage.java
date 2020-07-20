@@ -5,6 +5,7 @@ import android.content.ContentProviderResult;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -47,7 +48,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
 
     private static ContentValues createFaveCv(FavePageEntity dbo) {
         ContentValues cv = new ContentValues();
-        cv.put(FavePageColumns._ID, dbo.getId());
+        cv.put(BaseColumns._ID, dbo.getId());
         cv.put(FavePageColumns.DESCRIPTION, dbo.getDescription());
         cv.put(FavePageColumns.FAVE_TYPE, dbo.getFaveType());
         cv.put(FavePageColumns.UPDATED_TIME, dbo.getUpdateDate());
@@ -63,19 +64,19 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     }
 
     private static FavePageEntity mapFaveUserDbo(Cursor cursor, int accountId) {
-        return new FavePageEntity(cursor.getInt(cursor.getColumnIndex(FavePageColumns._ID)))
+        return new FavePageEntity(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)))
                 .setDescription(cursor.getString(cursor.getColumnIndex(FavePageColumns.DESCRIPTION)))
                 .setUpdateDate(cursor.getLong(cursor.getColumnIndex(FavePageColumns.UPDATED_TIME)))
                 .setFaveType(cursor.getString(cursor.getColumnIndex(FavePageColumns.FAVE_TYPE)))
-                .setUser(mapUser(accountId, cursor.getInt(cursor.getColumnIndex(FavePageColumns._ID))));
+                .setUser(mapUser(accountId, cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))));
     }
 
     private static FavePageEntity mapFaveGroupDbo(Cursor cursor, int accountId) {
-        return new FavePageEntity(cursor.getInt(cursor.getColumnIndex(FavePageColumns._ID)))
+        return new FavePageEntity(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)))
                 .setDescription(cursor.getString(cursor.getColumnIndex(FavePageColumns.DESCRIPTION)))
                 .setUpdateDate(cursor.getLong(cursor.getColumnIndex(FavePageColumns.UPDATED_TIME)))
                 .setFaveType(cursor.getString(cursor.getColumnIndex(FavePageColumns.FAVE_TYPE)))
-                .setGroup(mapGroup(accountId, cursor.getInt(cursor.getColumnIndex(FavePageColumns._ID))));
+                .setGroup(mapGroup(accountId, cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))));
     }
 
     private static PhotoEntity mapFavePhoto(Cursor cursor) {
@@ -86,10 +87,10 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     @Override
     public Single<List<PostEntity>> getFavePosts(@NonNull FavePostsCriteria criteria) {
         return Single.create(e -> {
-            final Uri uri = MessengerContentProvider.getFavePostsContentUriFor(criteria.getAccountId());
-            final Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+            Uri uri = MessengerContentProvider.getFavePostsContentUriFor(criteria.getAccountId());
+            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
 
-            final List<PostEntity> dbos = new ArrayList<>(safeCountOf(cursor));
+            List<PostEntity> dbos = new ArrayList<>(safeCountOf(cursor));
             if (nonNull(cursor)) {
                 while (cursor.moveToNext()) {
                     if (e.isDisposed()) {
@@ -109,7 +110,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     @Override
     public Completable storePosts(int accountId, List<PostEntity> posts, OwnerEntities owners, boolean clearBeforeStore) {
         return Completable.create(e -> {
-            final Uri uri = MessengerContentProvider.getFavePostsContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getFavePostsContentUriFor(accountId);
 
             ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
@@ -164,9 +165,9 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     @Override
     public Completable removeLink(int accountId, String id) {
         return Completable.fromAction(() -> {
-            final Uri uri = MessengerContentProvider.getFaveLinksContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getFaveLinksContentUriFor(accountId);
             final String where = FaveLinksColumns.LINK_ID + " LIKE ?";
-            final String[] args = {id};
+            String[] args = {id};
             getContentResolver().delete(uri, where, args);
         });
     }
@@ -206,9 +207,9 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     @Override
     public Completable removePage(int accountId, int ownerId, boolean isUser) {
         return Completable.fromAction(() -> {
-            final Uri uri = isUser ? MessengerContentProvider.getFaveUsersContentUriFor(accountId) : MessengerContentProvider.getFaveGroupsContentUriFor(accountId);
-            final String where = FavePageColumns._ID + " = ?";
-            final String[] args = {String.valueOf(ownerId)};
+            Uri uri = isUser ? MessengerContentProvider.getFaveUsersContentUriFor(accountId) : MessengerContentProvider.getFaveGroupsContentUriFor(accountId);
+            final String where = BaseColumns._ID + " = ?";
+            String[] args = {String.valueOf(ownerId)};
             getContentResolver().delete(uri, where, args);
         });
     }
@@ -296,7 +297,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
             ContentProviderResult[] results = getContentResolver()
                     .applyBatch(MessengerContentProvider.AUTHORITY, operations);
 
-            final int[] ids = new int[results.length];
+            int[] ids = new int[results.length];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];
@@ -322,7 +323,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
                 where = null;
                 args = null;
             } else {
-                where = FavePhotosColumns._ID + " >= ? AND " + FavePhotosColumns._ID + " <= ?";
+                where = BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?";
                 args = new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())};
             }
 
@@ -355,7 +356,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
 
             DatabaseIdRange range = criteria.getRange();
             if (nonNull(range)) {
-                where = FaveVideosColumns._ID + " >= ? AND " + FaveVideosColumns._ID + " <= ?";
+                where = BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?";
                 args = new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())};
             } else {
                 where = null;
@@ -414,7 +415,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
 
             ContentProviderResult[] results = getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
 
-            final int[] ids = new int[results.length];
+            int[] ids = new int[results.length];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];

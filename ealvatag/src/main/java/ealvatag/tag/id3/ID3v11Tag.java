@@ -96,7 +96,7 @@ public class ID3v11Tag extends ID3v1Tag {
 
     public ID3v11Tag(ID3v11Tag copyObject) {
         super(copyObject);
-        this.track = copyObject.track;
+        track = copyObject.track;
     }
 
     /**
@@ -113,12 +113,12 @@ public class ID3v11Tag extends ID3v1Tag {
                 }
                 // id3v1_1 objects are also id3v1 objects
                 ID3v1Tag id3old = (ID3v1Tag) mp3tag;
-                this.title = id3old.title;
-                this.artist = id3old.artist;
-                this.album = id3old.album;
-                this.comment = id3old.comment;
-                this.year = id3old.year;
-                this.genre = id3old.genre;
+                title = id3old.title;
+                artist = id3old.artist;
+                album = id3old.album;
+                comment = id3old.comment;
+                year = id3old.year;
+                genre = id3old.genre;
             } else {
                 ID3v24Tag id3tag;
                 // first change the tag to ID3v2_4 tag if not one already
@@ -132,22 +132,22 @@ public class ID3v11Tag extends ID3v1Tag {
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_TITLE)) {
                     frame = (ID3v24Frame) id3tag.getFrame(ID3v24Frames.FRAME_ID_TITLE);
                     text = new StringBuilder(((FrameBodyTIT2) frame.getBody()).getText());
-                    this.title = ID3Tags.truncate(text.toString(), FIELD_TITLE_LENGTH);
+                    title = ID3Tags.truncate(text.toString(), FIELD_TITLE_LENGTH);
                 }
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_ARTIST)) {
                     frame = (ID3v24Frame) id3tag.getFrame(ID3v24Frames.FRAME_ID_ARTIST);
                     text = new StringBuilder(((FrameBodyTPE1) frame.getBody()).getText());
-                    this.artist = ID3Tags.truncate(text.toString(), FIELD_ARTIST_LENGTH);
+                    artist = ID3Tags.truncate(text.toString(), FIELD_ARTIST_LENGTH);
                 }
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_ALBUM)) {
                     frame = (ID3v24Frame) id3tag.getFrame(ID3v24Frames.FRAME_ID_ALBUM);
                     text = new StringBuilder(((FrameBodyTALB) frame.getBody()).getText());
-                    this.album = ID3Tags.truncate(text.toString(), FIELD_ALBUM_LENGTH);
+                    album = ID3Tags.truncate(text.toString(), FIELD_ALBUM_LENGTH);
                 }
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_YEAR)) {
                     frame = (ID3v24Frame) id3tag.getFrame(ID3v24Frames.FRAME_ID_YEAR);
                     text = new StringBuilder(((FrameBodyTDRC) frame.getBody()).getText());
-                    this.year = ID3Tags.truncate(text.toString(), FIELD_YEAR_LENGTH);
+                    year = ID3Tags.truncate(text.toString(), FIELD_YEAR_LENGTH);
                 }
 
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_COMMENT)) {
@@ -157,25 +157,25 @@ public class ID3v11Tag extends ID3v1Tag {
                         frame = (ID3v24Frame) iterator.next();
                         text.append(((FrameBodyCOMM) frame.getBody()).getText()).append(" ");
                     }
-                    this.comment = ID3Tags.truncate(text.toString(), FIELD_COMMENT_LENGTH);
+                    comment = ID3Tags.truncate(text.toString(), FIELD_COMMENT_LENGTH);
                 }
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_GENRE)) {
                     frame = (ID3v24Frame) id3tag.getFrame(ID3v24Frames.FRAME_ID_GENRE);
                     text = new StringBuilder(((FrameBodyTCON) frame.getBody()).getText());
                     try {
-                        this.genre = (byte) ID3Tags.findNumber(text.toString());
+                        genre = (byte) ID3Tags.findNumber(text.toString());
                     } catch (TagException ex) {
                         Integer genreId = GenreTypes.getInstanceOf().getIdForValue(text.toString());
                         if (null != genreId) {
-                            this.genre = genreId.byteValue();
+                            genre = genreId.byteValue();
                         } else {
-                            this.genre = (byte) ID3v1Tag.GENRE_UNDEFINED;
+                            genre = (byte) ID3v1Tag.GENRE_UNDEFINED;
                         }
                     }
                 }
                 if (id3tag.hasFrame(ID3v24Frames.FRAME_ID_TRACK)) {
                     frame = (ID3v24Frame) id3tag.getFrame(ID3v24Frames.FRAME_ID_TRACK);
-                    this.track = (byte) ((FrameBodyTRCK) frame.getBody()).getTrackNo().intValue();
+                    track = (byte) ((FrameBodyTRCK) frame.getBody()).getTrackNo().intValue();
                 }
             }
         }
@@ -251,7 +251,7 @@ public class ID3v11Tag extends ID3v1Tag {
     }
 
     public ImmutableList<TagField> getTrack() {
-        final String firstTrack = getFirst(FieldKey.TRACK);
+        String firstTrack = getFirst(FieldKey.TRACK);
         if (firstTrack.length() > 0) {
             return ImmutableList.of(new ID3v1TagField(ID3v1FieldKey.TRACK.name(), firstTrack));
         } else {
@@ -275,9 +275,9 @@ public class ID3v11Tag extends ID3v1Tag {
 
         //This value cannot be held in v1_1
         if ((trackAsInt > TRACK_MAX_VALUE) || (trackAsInt < TRACK_MIN_VALUE)) {
-            this.track = (byte) TRACK_UNDEFINED;
+            track = (byte) TRACK_UNDEFINED;
         } else {
-            this.track = (byte) Integer.parseInt(trackValue);
+            track = (byte) Integer.parseInt(trackValue);
         }
     }
 
@@ -379,7 +379,7 @@ public class ID3v11Tag extends ID3v1Tag {
             return false;
         }
         ID3v11Tag object = (ID3v11Tag) obj;
-        return this.track == object.track && super.equals(obj);
+        return track == object.track && super.equals(obj);
     }
 
 
@@ -513,13 +513,13 @@ public class ID3v11Tag extends ID3v1Tag {
     public void createStructure() {
         MP3File.getStructureFormatter().openHeadingElement(TYPE_TAG, getIdentifier());
         //Header
-        MP3File.getStructureFormatter().addElement(TYPE_TITLE, this.title);
-        MP3File.getStructureFormatter().addElement(TYPE_ARTIST, this.artist);
-        MP3File.getStructureFormatter().addElement(TYPE_ALBUM, this.album);
-        MP3File.getStructureFormatter().addElement(TYPE_YEAR, this.year);
-        MP3File.getStructureFormatter().addElement(TYPE_COMMENT, this.comment);
-        MP3File.getStructureFormatter().addElement(TYPE_TRACK, this.track);
-        MP3File.getStructureFormatter().addElement(TYPE_GENRE, this.genre);
+        MP3File.getStructureFormatter().addElement(TYPE_TITLE, title);
+        MP3File.getStructureFormatter().addElement(TYPE_ARTIST, artist);
+        MP3File.getStructureFormatter().addElement(TYPE_ALBUM, album);
+        MP3File.getStructureFormatter().addElement(TYPE_YEAR, year);
+        MP3File.getStructureFormatter().addElement(TYPE_COMMENT, comment);
+        MP3File.getStructureFormatter().addElement(TYPE_TRACK, track);
+        MP3File.getStructureFormatter().addElement(TYPE_GENRE, genre);
         MP3File.getStructureFormatter().closeHeadingElement(TYPE_TAG);
 
     }

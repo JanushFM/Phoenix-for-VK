@@ -170,7 +170,7 @@ public class VKPhotosFragment extends BaseMvpFragment<VkPhotosPresenter, IVkPhot
         }
     }
 
-    private void onPhotosForUploadSelected(@NonNull final List<LocalPhoto> photos) {
+    private void onPhotosForUploadSelected(@NonNull List<LocalPhoto> photos) {
         ImageSizeAlertDialog.showUploadPhotoSizeIfNeed(requireActivity(), size -> doUploadPhotosToAlbum(photos, size));
     }
 
@@ -287,7 +287,7 @@ public class VKPhotosFragment extends BaseMvpFragment<VkPhotosPresenter, IVkPhot
 
     @Override
     public void displayDefaultToolbarTitle() {
-        super.setToolbarTitle(getString(R.string.photos));
+        setToolbarTitle(getString(R.string.photos));
     }
 
     @Override

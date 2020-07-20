@@ -36,10 +36,10 @@ public class Privacy implements Parcelable, Cloneable {
 
     public Privacy(String type) {
         this.type = type;
-        this.allowedUsers = new ArrayList<>();
-        this.disallowedUsers = new ArrayList<>();
-        this.allowedLists = new ArrayList<>();
-        this.disallowedLists = new ArrayList<>();
+        allowedUsers = new ArrayList<>();
+        disallowedUsers = new ArrayList<>();
+        allowedLists = new ArrayList<>();
+        disallowedLists = new ArrayList<>();
     }
 
     public Privacy() {
@@ -47,11 +47,11 @@ public class Privacy implements Parcelable, Cloneable {
     }
 
     protected Privacy(Parcel in) {
-        this.type = in.readString();
-        this.allowedUsers = in.createTypedArrayList(User.CREATOR);
-        this.disallowedUsers = in.createTypedArrayList(User.CREATOR);
-        this.allowedLists = in.createTypedArrayList(FriendList.CREATOR);
-        this.disallowedLists = in.createTypedArrayList(FriendList.CREATOR);
+        type = in.readString();
+        allowedUsers = in.createTypedArrayList(User.CREATOR);
+        disallowedUsers = in.createTypedArrayList(User.CREATOR);
+        allowedLists = in.createTypedArrayList(FriendList.CREATOR);
+        disallowedLists = in.createTypedArrayList(FriendList.CREATOR);
     }
 
     @Override
@@ -94,51 +94,51 @@ public class Privacy implements Parcelable, Cloneable {
     }
 
     public Privacy allowFor(User user) {
-        if (!this.allowedUsers.contains(user)) {
-            this.allowedUsers.add(user);
+        if (!allowedUsers.contains(user)) {
+            allowedUsers.add(user);
         }
 
         return this;
     }
 
     public Privacy disallowFor(User user) {
-        if (!this.disallowedUsers.contains(user)) {
-            this.disallowedUsers.add(user);
+        if (!disallowedUsers.contains(user)) {
+            disallowedUsers.add(user);
         }
 
         return this;
     }
 
     public Privacy allowFor(FriendList friendList) {
-        if (!this.allowedLists.contains(friendList)) {
-            this.allowedLists.add(friendList);
+        if (!allowedLists.contains(friendList)) {
+            allowedLists.add(friendList);
         }
 
         return this;
     }
 
     public Privacy disallowFor(FriendList friendList) {
-        if (!this.disallowedLists.contains(friendList)) {
-            this.disallowedLists.add(friendList);
+        if (!disallowedLists.contains(friendList)) {
+            disallowedLists.add(friendList);
         }
 
         return this;
     }
 
     public void removeFromAllowed(@NonNull User user) {
-        this.allowedUsers.remove(user);
+        allowedUsers.remove(user);
     }
 
     public void removeFromAllowed(@NonNull FriendList friendList) {
-        this.allowedLists.remove(friendList);
+        allowedLists.remove(friendList);
     }
 
     public void removeFromDisallowed(@NonNull User user) {
-        this.disallowedUsers.remove(user);
+        disallowedUsers.remove(user);
     }
 
     public void removeFromDisallowed(@NonNull FriendList friendList) {
-        this.disallowedLists.remove(friendList);
+        disallowedLists.remove(friendList);
     }
 
     public String createAllowedString(Context context) {
@@ -177,10 +177,10 @@ public class Privacy implements Parcelable, Cloneable {
     @Override
     public Privacy clone() throws CloneNotSupportedException {
         Privacy clone = (Privacy) super.clone();
-        clone.allowedUsers = new ArrayList<>(this.allowedUsers);
-        clone.allowedLists = new ArrayList<>(this.allowedLists);
-        clone.disallowedUsers = new ArrayList<>(this.disallowedUsers);
-        clone.disallowedLists = new ArrayList<>(this.disallowedLists);
+        clone.allowedUsers = new ArrayList<>(allowedUsers);
+        clone.allowedLists = new ArrayList<>(allowedLists);
+        clone.disallowedUsers = new ArrayList<>(disallowedUsers);
+        clone.disallowedLists = new ArrayList<>(disallowedLists);
         return clone;
     }
 

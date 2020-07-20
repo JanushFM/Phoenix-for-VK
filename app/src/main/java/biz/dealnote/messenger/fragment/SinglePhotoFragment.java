@@ -80,9 +80,9 @@ public class SinglePhotoFragment extends BaseFragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.url = requireArguments().getString(Extra.URL);
-        this.prefix = requireArguments().getString(Extra.STATUS);
-        this.photo_prefix = requireArguments().getString(Extra.KEY);
+        url = requireArguments().getString(Extra.URL);
+        prefix = requireArguments().getString(Extra.STATUS);
+        photo_prefix = requireArguments().getString(Extra.KEY);
     }
 
     @SuppressLint("ClickableViewAccessibility")

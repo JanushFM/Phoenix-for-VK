@@ -118,8 +118,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/attachment"
         app:fabSize="mini"
-        app:layout_behavior="biz.dealnote.messenger.view.FABBehavior"
-        app:maxImageSize="30dp" />
+        app:layout_behavior="biz.dealnote.messenger.view.FABBehavior" />
 
     <TextView
         android:id="@+id/empty"

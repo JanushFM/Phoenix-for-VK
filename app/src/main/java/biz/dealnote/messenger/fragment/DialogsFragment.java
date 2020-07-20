@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
@@ -77,7 +78,7 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
     private FloatingActionButton mFab;
     private final RecyclerView.OnScrollListener mFabScrollListener = new RecyclerView.OnScrollListener() {
-        int scrollMinOffset = 0;
+        int scrollMinOffset;
 
         @Override
         public void onScrolled(@NotNull RecyclerView view, int dx, int dy) {
@@ -223,19 +224,19 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
     }
 
     @Override
-    public boolean onDialogLongClick(final Dialog dialog) {
+    public boolean onDialogLongClick(Dialog dialog) {
         List<String> options = new ArrayList<>();
 
         ContextView contextView = new ContextView();
         getPresenter().fireContextViewCreated(contextView, dialog);
 
-        final String delete = getString(R.string.delete);
-        final String addToHomeScreen = getString(R.string.add_to_home_screen);
-        final String notificationSettings = getString(R.string.peer_notification_settings);
-        final String addToShortcuts = getString(R.string.add_to_launcer_shortcuts);
+        String delete = getString(R.string.delete);
+        String addToHomeScreen = getString(R.string.add_to_home_screen);
+        String notificationSettings = getString(R.string.peer_notification_settings);
+        String addToShortcuts = getString(R.string.add_to_launcer_shortcuts);
 
-        final String setHide = getString(R.string.hide_dialog);
-        final String setShow = getString(R.string.set_no_hide_dialog);
+        String setHide = getString(R.string.hide_dialog);
+        String setShow = getString(R.string.set_no_hide_dialog);
 
         if (contextView.canDelete) {
             options.add(delete);
@@ -264,9 +265,9 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
         new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(contextView.isHidden && !Settings.get().security().getShowHiddenDialogs() ? getString(R.string.dialogs) : dialog.getDisplayTitle(requireActivity()))
                 .setItems(options.toArray(new String[0]), (dialogInterface, which) -> {
-                    final String selected = options.get(which);
+                    String selected = options.get(which);
                     if (selected.equals(delete)) {
-                        Utils.ThemedSnack(requireView(), R.string.delete_chat, Snackbar.LENGTH_LONG).setAction(R.string.button_yes,
+                        Utils.ThemedSnack(requireView(), R.string.delete_chat, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
                                 v1 -> getPresenter().fireRemoveDialogClick(dialog)).show();
                     } else if (selected.equals(addToHomeScreen)) {
                         getPresenter().fireCreateShortcutClick(dialog);
@@ -424,9 +425,9 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
     @Override
     public void showSnackbar(@StringRes int res, boolean isLong) {
-        View view = super.getView();
+        View view = getView();
         if (nonNull(view)) {
-            Snackbar.make(view, res, isLong ? Snackbar.LENGTH_LONG : Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, res, isLong ? BaseTransientBottomBar.LENGTH_LONG : BaseTransientBottomBar.LENGTH_SHORT).show();
         }
     }
 
@@ -468,7 +469,7 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
         @Override
         public void setCanSearch(boolean can) {
-            this.canSearch = can;
+            canSearch = can;
         }
     }
 
@@ -482,27 +483,27 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
         @Override
         public void setCanDelete(boolean can) {
-            this.canDelete = can;
+            canDelete = can;
         }
 
         @Override
         public void setCanAddToHomescreen(boolean can) {
-            this.canAddToHomescreen = can;
+            canAddToHomescreen = can;
         }
 
         @Override
         public void setCanConfigNotifications(boolean can) {
-            this.canConfigNotifications = can;
+            canConfigNotifications = can;
         }
 
         @Override
         public void setCanAddToShortcuts(boolean can) {
-            this.canAddToShortcuts = can;
+            canAddToShortcuts = can;
         }
 
         @Override
         public void setIsHidden(boolean can) {
-            this.isHidden = can;
+            isHidden = can;
         }
     }
 }

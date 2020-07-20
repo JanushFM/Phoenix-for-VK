@@ -24,7 +24,7 @@ public class BaseDocumentPresenter<V extends IBasicDocumentView> extends Account
 
     public BaseDocumentPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.docsInteractor = InteractorFactory.createDocsInteractor();
+        docsInteractor = InteractorFactory.createDocsInteractor();
     }
 
     public final void fireWritePermissionResolved() {
@@ -36,9 +36,9 @@ public class BaseDocumentPresenter<V extends IBasicDocumentView> extends Account
     }
 
     protected void addYourself(@NonNull Document document) {
-        final int accountId = super.getAccountId();
-        final int docId = document.getId();
-        final int ownerId = document.getOwnerId();
+        int accountId = getAccountId();
+        int docId = document.getId();
+        int ownerId = document.getOwnerId();
 
         appendDisposable(docsInteractor.add(accountId, docId, ownerId, document.getAccessKey())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -46,7 +46,7 @@ public class BaseDocumentPresenter<V extends IBasicDocumentView> extends Account
     }
 
     protected void delete(int id, int ownerId) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(docsInteractor.delete(accountId, id, ownerId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(() -> onDocDeleteSuccessfully(id, ownerId), this::onDocDeleteError));

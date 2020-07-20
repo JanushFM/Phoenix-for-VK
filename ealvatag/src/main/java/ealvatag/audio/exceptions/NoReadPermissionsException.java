@@ -27,7 +27,6 @@ public class NoReadPermissionsException extends CannotReadException {
      * Creates an instance.
      */
     public NoReadPermissionsException() {
-        super();
     }
 
     public NoReadPermissionsException(Throwable ex) {

@@ -68,7 +68,7 @@ public class PostEntity extends Entity {
     public PostEntity(int id, int ownerId) {
         this.id = id;
         this.ownerId = ownerId;
-        this.attachments = new AttachmentsEntity(Collections.emptyList());
+        attachments = new AttachmentsEntity(Collections.emptyList());
     }
 
     public boolean isCanPublish() {
@@ -312,7 +312,7 @@ public class PostEntity extends Entity {
     public PostEntity setAttachments(@NonNull List<Entity> entities) {
         AssertUtils.requireNonNull(entities);
 
-        this.attachments = new AttachmentsEntity(entities);
+        attachments = new AttachmentsEntity(entities);
         return this;
     }
 

@@ -36,7 +36,7 @@ public class ID3v2LyricLine extends AbstractDataType {
     /**
      *
      */
-    long timeStamp = 0;
+    long timeStamp;
 
     public ID3v2LyricLine(String identifier, AbstractTagFrameBody frameBody) {
         super(identifier, frameBody);
@@ -44,8 +44,8 @@ public class ID3v2LyricLine extends AbstractDataType {
 
     public ID3v2LyricLine(ID3v2LyricLine copy) {
         super(copy);
-        this.text = copy.text;
-        this.timeStamp = copy.timeStamp;
+        text = copy.text;
+        timeStamp = copy.timeStamp;
     }
 
     /**
@@ -88,11 +88,11 @@ public class ID3v2LyricLine extends AbstractDataType {
 
         ID3v2LyricLine object = (ID3v2LyricLine) obj;
 
-        if (!this.text.equals(object.text)) {
+        if (!text.equals(object.text)) {
             return false;
         }
 
-        return this.timeStamp == object.timeStamp && super.equals(obj);
+        return timeStamp == object.timeStamp && super.equals(obj);
 
     }
 
@@ -124,7 +124,7 @@ public class ID3v2LyricLine extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         text = buffer.readString(buffer.size() - 4, StandardCharsets.ISO_8859_1);
         timeStamp = 0;
         for (int i = 0; i < 4; i++) {

@@ -31,9 +31,9 @@ public enum SupportedFileFormat {
     private static final Map<String, SupportedFileFormat> extensionMap;
 
     static {
-        final SupportedFileFormat[] values = values();
+        SupportedFileFormat[] values = values();
         extensionMap = new HashMap<>(values.length);
-        for (final SupportedFileFormat format : values) {
+        for (SupportedFileFormat format : values) {
             extensionMap.put(format.fileSuffix, format);
         }
     }

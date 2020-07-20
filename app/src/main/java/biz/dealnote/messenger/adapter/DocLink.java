@@ -33,7 +33,7 @@ public class DocLink {
 
     public DocLink(AbsModel attachment) {
         this.attachment = attachment;
-        this.type = typeOf(attachment);
+        type = typeOf(attachment);
     }
 
     private static int typeOf(AbsModel model) {

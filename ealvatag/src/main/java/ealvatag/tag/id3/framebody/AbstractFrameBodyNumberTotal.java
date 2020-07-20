@@ -69,7 +69,6 @@ public abstract class AbstractFrameBodyNumberTotal extends AbstractID3v2FrameBod
     }
 
     public AbstractFrameBodyNumberTotal(byte textEncoding, Integer trackNo, Integer trackTotal) {
-        super();
         setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
         setObjectValue(DataTypes.OBJ_TEXT, new PartOfSet.PartOfSetValue(trackNo, trackTotal));
     }

@@ -151,7 +151,7 @@ public class VKPhotoAlbumsFragment extends BaseMvpFragment<PhotoAlbumsPresenter,
     //}
 
     @Override
-    public void showDeleteConfirmDialog(@NonNull final PhotoAlbum album) {
+    public void showDeleteConfirmDialog(@NonNull PhotoAlbum album) {
         new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.remove_confirm)
                 .setMessage(R.string.album_remove_confirm_message)

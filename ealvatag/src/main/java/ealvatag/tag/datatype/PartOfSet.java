@@ -36,7 +36,7 @@ import okio.Buffer;
  * are provided, i.e if provided pre-padded they will be stored pre-padded, if not they will not. Values read from
  * file will be returned as they are currently stored in file.
  */
-@SuppressWarnings({"EmptyCatchBlock"})
+@SuppressWarnings("EmptyCatchBlock")
 public class PartOfSet extends AbstractString {
     /**
      * Creates a new empty  PartOfSet datatype.
@@ -103,7 +103,7 @@ public class PartOfSet extends AbstractString {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         try {
             value = new PartOfSetValue(buffer.readString(size, getTextEncodingCharSet()));
             setSize(value.toString().length());
@@ -133,9 +133,9 @@ public class PartOfSet extends AbstractString {
                 }
             }
 
-            final Charset charset = getTextEncodingCharSet();
-            final String valueWithBOM;
-            final CharsetEncoder encoder;
+            Charset charset = getTextEncodingCharSet();
+            String valueWithBOM;
+            CharsetEncoder encoder;
             if (StandardCharsets.UTF_16.equals(charset)) {
                 encoder = StandardCharsets.UTF_16LE.newEncoder();
                 //Note remember LE BOM is ff fe but this is handled by encoder Unicode char is fe ff
@@ -147,7 +147,7 @@ public class PartOfSet extends AbstractString {
             encoder.onMalformedInput(CodingErrorAction.IGNORE);
             encoder.onUnmappableCharacter(CodingErrorAction.IGNORE);
 
-            final ByteBuffer bb = encoder.encode(CharBuffer.wrap(valueWithBOM));
+            ByteBuffer bb = encoder.encode(CharBuffer.wrap(valueWithBOM));
             data = new byte[bb.limit()];
             bb.get(data, 0, bb.limit());
 
@@ -200,7 +200,7 @@ public class PartOfSet extends AbstractString {
          * When constructing from data
          */
         public PartOfSetValue(String value) {
-            this.rawText = value;
+            rawText = value;
             initFromValue(value);
         }
 
@@ -209,9 +209,9 @@ public class PartOfSet extends AbstractString {
          */
         public PartOfSetValue(Integer count, Integer total) {
             this.count = count;
-            this.rawCount = count.toString();
+            rawCount = count.toString();
             this.total = total;
-            this.rawTotal = total.toString();
+            rawTotal = total.toString();
             resetValueFromCounts();
         }
 
@@ -223,23 +223,23 @@ public class PartOfSet extends AbstractString {
             try {
                 Matcher m = trackNoPatternWithTotalCount.matcher(value);
                 if (m.matches()) {
-                    this.extra = m.group(3);
-                    this.count = Integer.parseInt(m.group(1));
-                    this.rawCount = m.group(1);
-                    this.total = Integer.parseInt(m.group(2));
-                    this.rawTotal = m.group(2);
+                    extra = m.group(3);
+                    count = Integer.parseInt(m.group(1));
+                    rawCount = m.group(1);
+                    total = Integer.parseInt(m.group(2));
+                    rawTotal = m.group(2);
                     return;
                 }
 
                 m = trackNoPattern.matcher(value);
                 if (m.matches()) {
-                    this.extra = m.group(2);
-                    this.count = Integer.parseInt(m.group(1));
-                    this.rawCount = m.group(1);
+                    extra = m.group(2);
+                    count = Integer.parseInt(m.group(1));
+                    rawCount = m.group(1);
                 }
             } catch (NumberFormatException nfe) {
                 //#JAUDIOTAGGER-366 Could occur if actually value is a long not an int
-                this.count = 0;
+                count = 0;
             }
         }
 
@@ -256,7 +256,7 @@ public class PartOfSet extends AbstractString {
             if (extra != null) {
                 sb.append(extra);
             }
-            this.rawText = sb.toString();
+            rawText = sb.toString();
         }
 
         public Integer getCount() {
@@ -265,14 +265,14 @@ public class PartOfSet extends AbstractString {
 
         public void setCount(Integer count) {
             this.count = count;
-            this.rawCount = count.toString();
+            rawCount = count.toString();
             resetValueFromCounts();
         }
 
         public void setCount(String count) {
             try {
                 this.count = Integer.parseInt(count);
-                this.rawCount = count;
+                rawCount = count;
                 resetValueFromCounts();
             } catch (NumberFormatException nfe) {
 
@@ -285,7 +285,7 @@ public class PartOfSet extends AbstractString {
 
         public void setTotal(Integer total) {
             this.total = total;
-            this.rawTotal = total.toString();
+            rawTotal = total.toString();
             resetValueFromCounts();
 
         }
@@ -293,7 +293,7 @@ public class PartOfSet extends AbstractString {
         public void setTotal(String total) {
             try {
                 this.total = Integer.parseInt(total);
-                this.rawTotal = total;
+                rawTotal = total;
                 resetValueFromCounts();
             } catch (NumberFormatException nfe) {
 
@@ -307,7 +307,7 @@ public class PartOfSet extends AbstractString {
 
         @SuppressWarnings("unused")
         public void setRawValue(String value) {
-            this.rawText = value;
+            rawText = value;
             initFromValue(value);
         }
 

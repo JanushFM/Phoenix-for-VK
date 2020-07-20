@@ -82,7 +82,7 @@ public class NotificationHelper {
      */
 
     @SuppressLint("CheckResult")
-    public static void notifNewMessage(final Context context, final int accountId, final Message message) {
+    public static void notifNewMessage(Context context, int accountId, Message message) {
         ChatEntryFetcher.getRx(context, accountId, accountId)
                 .subscribeOn(NotificationScheduler.INSTANCE)
                 .subscribe(account -> ChatEntryFetcher.getRx(context, accountId, message.getPeerId())
@@ -115,7 +115,7 @@ public class NotificationHelper {
     }
 
     private static CharSequence getMessageContent(boolean hideBody, Message message, Context context) {
-        String messageText = Utils.isEmpty(message.getDecryptedBody()) ? message.getBody() : message.getDecryptedBody();
+        String messageText = isEmpty(message.getDecryptedBody()) ? message.getBody() : message.getDecryptedBody();
         if (messageText == null)
             messageText = "";
 
@@ -183,7 +183,7 @@ public class NotificationHelper {
 
         CharSequence text = getMessageContent(hideBody, message, context);
 
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Objects.isNull(nManager)) {
             return;
@@ -334,7 +334,7 @@ public class NotificationHelper {
 
         String text = hideBody ? context.getString(R.string.message_text_is_not_available) : body;
 
-        final NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Objects.isNull(nManager)) {
             return;
@@ -387,8 +387,8 @@ public class NotificationHelper {
         //        .getNotifPref(accountId, peerId);
 
         //if (hasFlag(mask, ISettings.INotificationSettings.FLAG_SHOW_NOTIF)) {
-        getService(context).cancel(NotificationHelper.createPeerTagFor(accountId, peerId),
-                NotificationHelper.NOTIFICATION_MESSAGE);
+        getService(context).cancel(createPeerTagFor(accountId, peerId),
+                NOTIFICATION_MESSAGE);
         //}
     }
 
@@ -415,7 +415,7 @@ public class NotificationHelper {
                             return chain.proceed(request);
                         });
                 ProxyUtil.applyProxyConfig(builder, Injection.provideProxySettings().getActiveProxy());
-                final Request request = new Request.Builder()
+                Request request = new Request.Builder()
                         .url(url)
                         .build();
 

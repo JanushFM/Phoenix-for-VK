@@ -42,9 +42,9 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
 
     public FavePagesPresenter(int accountId, boolean isUser, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.pages = new ArrayList<>();
-        this.search_pages = new ArrayList<>();
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
+        pages = new ArrayList<>();
+        search_pages = new ArrayList<>();
+        faveInteractor = InteractorFactory.createFaveInteractor();
         this.isUser = isUser;
 
         loadAllCachedData();
@@ -80,15 +80,15 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
     @Override
     public void onGuiCreated(@NonNull IFaveUsersView view) {
         super.onGuiCreated(view);
-        view.displayData(this.pages);
+        view.displayData(pages);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(faveInteractor.getPages(accountId, 500, offset, isUser)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -97,27 +97,27 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
     }
 
     private void onActualDataReceived(int offset, EndlessData<FavePage> data) {
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.actualDataLoading = false;
-        this.endOfContent = !data.hasNext();
-        this.actualDataReceived = true;
+        actualDataLoading = false;
+        endOfContent = !data.hasNext();
+        actualDataReceived = true;
 
         if (offset == 0) {
-            this.pages.clear();
-            this.pages.addAll(data.get());
+            pages.clear();
+            pages.addAll(data.get());
             callView(IFaveUsersView::notifyDataSetChanged);
         } else {
-            int startSize = this.pages.size();
-            this.pages.addAll(data.get());
+            int startSize = pages.size();
+            pages.addAll(data.get());
             callView(view -> view.notifyDataAdded(startSize, data.get().size()));
         }
 
@@ -138,8 +138,8 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
     }
 
     private void loadAllCachedData() {
-        this.cacheLoadingNow = true;
-        final int accountId = super.getAccountId();
+        cacheLoadingNow = true;
+        int accountId = getAccountId();
 
         cacheDisposable.add(faveInteractor.getCachedPages(accountId, isUser)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -153,10 +153,10 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
     }
 
     private void onCachedDataReceived(List<FavePage> data) {
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
-        this.pages.clear();
-        this.pages.addAll(data);
+        pages.clear();
+        pages.addAll(data);
         callView(IFaveUsersView::notifyDataSetChanged);
     }
 
@@ -169,18 +169,18 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
 
     public boolean fireScrollToEnd() {
         if (!endOfContent && nonEmpty(pages) && actualDataReceived && !cacheLoadingNow && !actualDataLoading && !isSeacrhNow()) {
-            loadActualData(this.pages.size());
+            loadActualData(pages.size());
             return false;
         }
         return true;
     }
 
     public void fireRefresh() {
-        this.cacheDisposable.clear();
-        this.cacheLoadingNow = false;
+        cacheDisposable.clear();
+        cacheLoadingNow = false;
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }
@@ -194,16 +194,16 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
             return;
         }
 
-        int index = findIndexById(this.pages, Math.abs(ownerId));
+        int index = findIndexById(pages, Math.abs(ownerId));
 
         if (index != -1) {
-            this.pages.remove(index);
+            pages.remove(index);
             callView(view -> view.notifyItemRemoved(index));
         }
     }
 
     public void fireOwnerDelete(Owner owner) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(faveInteractor.removePage(accountId, owner.getOwnerId(), isUser)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(() -> onUserRemoved(accountId, owner.getOwnerId()), t -> showError(getView(), getCauseIfRuntime(t))));

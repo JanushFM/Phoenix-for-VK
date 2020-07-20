@@ -5,6 +5,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -54,8 +55,8 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
 
     OwnersStorage(@NonNull AppStorages context) {
         super(context);
-        this.banActionsPublisher = PublishSubject.create();
-        this.managementActionsPublisher = PublishSubject.create();
+        banActionsPublisher = PublishSubject.create();
+        managementActionsPublisher = PublishSubject.create();
     }
 
     private static void appendUserInsertOperation(@NonNull List<ContentProviderOperation> operations, @NonNull Uri uri, UserEntity dbo) {
@@ -76,14 +77,14 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     }
 
     static void appendUsersInsertOperation(@NonNull List<ContentProviderOperation> operations, int accouuntId, List<UserEntity> dbos) {
-        final Uri uri = MessengerContentProvider.getUserContentUriFor(accouuntId);
+        Uri uri = MessengerContentProvider.getUserContentUriFor(accouuntId);
         for (UserEntity dbo : dbos) {
             appendUserInsertOperation(operations, uri, dbo);
         }
     }
 
     static void appendCommunitiesInsertOperation(@NonNull List<ContentProviderOperation> operations, int accouuntId, List<CommunityEntity> dbos) {
-        final Uri uri = MessengerContentProvider.getGroupsContentUriFor(accouuntId);
+        Uri uri = MessengerContentProvider.getGroupsContentUriFor(accouuntId);
         for (CommunityEntity dbo : dbos) {
             appendCommunityInsertOperation(operations, uri, dbo);
         }
@@ -91,7 +92,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
 
     private static ContentValues createCv(CommunityEntity dbo) {
         ContentValues cv = new ContentValues();
-        cv.put(GroupColumns._ID, dbo.getId());
+        cv.put(BaseColumns._ID, dbo.getId());
         cv.put(GroupColumns.NAME, dbo.getName());
         cv.put(GroupColumns.SCREEN_NAME, dbo.getScreenName());
         cv.put(GroupColumns.IS_CLOSED, dbo.getClosed());
@@ -108,7 +109,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
 
     private static ContentValues createCv(UserEntity dbo) {
         ContentValues cv = new ContentValues();
-        cv.put(UserColumns._ID, dbo.getId());
+        cv.put(BaseColumns._ID, dbo.getId());
         cv.put(UserColumns.FIRST_NAME, dbo.getFirstName());
         cv.put(UserColumns.LAST_NAME, dbo.getLastName());
         cv.put(UserColumns.ONLINE, dbo.isOnline());
@@ -134,7 +135,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     }
 
     private static CommunityEntity mapCommunityDbo(Cursor cursor) {
-        return new CommunityEntity(cursor.getInt(cursor.getColumnIndex(GroupColumns._ID)))
+        return new CommunityEntity(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)))
                 .setName(cursor.getString(cursor.getColumnIndex(GroupColumns.NAME)))
                 .setScreenName(cursor.getString(cursor.getColumnIndex(GroupColumns.SCREEN_NAME)))
                 .setClosed(cursor.getInt(cursor.getColumnIndex(GroupColumns.IS_CLOSED)))
@@ -149,7 +150,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     }
 
     private static UserEntity mapUserDbo(Cursor cursor) {
-        return new UserEntity(cursor.getInt(cursor.getColumnIndex(UserColumns._ID)))
+        return new UserEntity(cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)))
                 .setFirstName(cursor.getString(cursor.getColumnIndex(UserColumns.FIRST_NAME)))
                 .setLastName(cursor.getString(cursor.getColumnIndex(UserColumns.LAST_NAME)))
                 .setOnline(cursor.getInt(cursor.getColumnIndex(UserColumns.ONLINE)) == 1)
@@ -196,9 +197,9 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Optional<UserDetailsEntity>> getUserDetails(int accountId, int userId) {
         return Single.fromCallable(() -> {
-            final Uri uri = MessengerContentProvider.getUserDetContentUriFor(accountId);
-            final String where = UsersDetColumns._ID + " = ?";
-            final String[] args = {String.valueOf(userId)};
+            Uri uri = MessengerContentProvider.getUserDetContentUriFor(accountId);
+            final String where = BaseColumns._ID + " = ?";
+            String[] args = {String.valueOf(userId)};
 
             Cursor cursor = getContentResolver().query(uri, null, where, args, null);
             UserDetailsEntity details = null;
@@ -221,9 +222,9 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Optional<CommunityDetailsEntity>> getGroupsDetails(int accountId, int groupId) {
         return Single.fromCallable(() -> {
-            final Uri uri = MessengerContentProvider.getGroupsDetContentUriFor(accountId);
-            final String where = GroupsDetColumns._ID + " = ?";
-            final String[] args = {String.valueOf(groupId)};
+            Uri uri = MessengerContentProvider.getGroupsDetContentUriFor(accountId);
+            final String where = BaseColumns._ID + " = ?";
+            String[] args = {String.valueOf(groupId)};
 
             Cursor cursor = getContentResolver().query(uri, null, where, args, null);
             CommunityDetailsEntity details = null;
@@ -247,10 +248,10 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     public Completable storeGroupsDetails(int accountId, int groupId, CommunityDetailsEntity dbo) {
         return Completable.fromAction(() -> {
             ContentValues cv = new ContentValues();
-            cv.put(GroupsDetColumns._ID, groupId);
+            cv.put(BaseColumns._ID, groupId);
             cv.put(GroupsDetColumns.DATA, GSON.toJson(dbo));
 
-            final Uri uri = MessengerContentProvider.getGroupsDetContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getGroupsDetContentUriFor(accountId);
 
             getContentResolver().insert(uri, cv);
         });
@@ -260,10 +261,10 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     public Completable storeUserDetails(int accountId, int userId, UserDetailsEntity dbo) {
         return Completable.fromAction(() -> {
             ContentValues cv = new ContentValues();
-            cv.put(UsersDetColumns._ID, userId);
+            cv.put(BaseColumns._ID, userId);
             cv.put(UsersDetColumns.DATA, GSON.toJson(dbo));
 
-            final Uri uri = MessengerContentProvider.getUserDetContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getUserDetContentUriFor(accountId);
 
             getContentResolver().insert(uri, cv);
         });
@@ -296,7 +297,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
                 if (cv.size() > 0) {
                     operations.add(ContentProviderOperation.newUpdate(uri)
                             .withValues(cv)
-                            .withSelection(UserColumns._ID + " = ?", new String[]{String.valueOf(patch.getUserId())})
+                            .withSelection(BaseColumns._ID + " = ?", new String[]{String.valueOf(patch.getUserId())})
                             .build());
                 }
             }
@@ -309,7 +310,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Map<Integer, FriendListEntity>> findFriendsListsByIds(int accountId, int userId, Collection<Integer> ids) {
         return Single.create(emitter -> {
-            final Uri uri = MessengerContentProvider.getFriendListsContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getFriendListsContentUriFor(accountId);
 
             String where = FriendListsColumns.USER_ID + " = ? " + " AND " + FriendListsColumns.LIST_ID + " IN(" + join(",", ids) + ")";
             String[] args = {String.valueOf(userId)};
@@ -341,7 +342,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
         return Maybe.create(e -> {
             String[] uProjection = {UserColumns.LAST_SEEN, UserColumns.ONLINE, UserColumns.SEX};
             Uri uri = MessengerContentProvider.getUserContentUriFor(accountId);
-            String where = UserColumns._ID + " = ?";
+            String where = BaseColumns._ID + " = ?";
             String[] args = {String.valueOf(userId)};
             Cursor cursor = getContext().getContentResolver().query(uri, uProjection, where, args, null);
 
@@ -367,9 +368,9 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Optional<UserEntity>> findUserDboById(int accountId, int ownerId) {
         return Single.create(emitter -> {
-            final String where = UserColumns._ID + " = ?";
-            final String[] args = new String[]{String.valueOf(ownerId)};
-            final Uri uri = MessengerContentProvider.getUserContentUriFor(accountId);
+            final String where = BaseColumns._ID + " = ?";
+            String[] args = {String.valueOf(ownerId)};
+            Uri uri = MessengerContentProvider.getUserContentUriFor(accountId);
 
             Cursor cursor = getContext().getContentResolver().query(uri, null, where, args, null);
 
@@ -390,9 +391,9 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Optional<CommunityEntity>> findCommunityDboById(int accountId, int ownerId) {
         return Single.create(emitter -> {
-            final String where = GroupColumns._ID + " = ?";
-            final String[] args = new String[]{String.valueOf(ownerId)};
-            final Uri uri = MessengerContentProvider.getGroupsContentUriFor(accountId);
+            final String where = BaseColumns._ID + " = ?";
+            String[] args = {String.valueOf(ownerId)};
+            Uri uri = MessengerContentProvider.getGroupsContentUriFor(accountId);
 
             Cursor cursor = getContext().getContentResolver().query(uri, null, where, args, null);
 
@@ -413,7 +414,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Optional<UserEntity>> findUserByDomain(int accoutnId, String domain) {
         return Single.create(emitter -> {
-            final Uri uri = MessengerContentProvider.getUserContentUriFor(accoutnId);
+            Uri uri = MessengerContentProvider.getUserContentUriFor(accoutnId);
             String where = UserColumns.DOMAIN + " LIKE ?";
             String[] args = {domain};
             Cursor cursor = getContentResolver().query(uri, null, where, args, null);
@@ -433,7 +434,7 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     @Override
     public Single<Optional<CommunityEntity>> findCommunityByDomain(int accountId, String domain) {
         return Single.create(emitter -> {
-            final Uri uri = MessengerContentProvider.getGroupsContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getGroupsContentUriFor(accountId);
             String where = GroupColumns.SCREEN_NAME + " LIKE ?";
             String[] args = {domain};
 
@@ -458,15 +459,15 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
         }
 
         return Single.create(emitter -> {
-            final String where;
-            final String[] args;
-            final Uri uri = MessengerContentProvider.getUserContentUriFor(accountId);
+            String where;
+            String[] args;
+            Uri uri = MessengerContentProvider.getUserContentUriFor(accountId);
 
             if (ids.size() == 1) {
-                where = UserColumns._ID + " = ?";
+                where = BaseColumns._ID + " = ?";
                 args = new String[]{String.valueOf(ids.get(0))};
             } else {
-                where = UserColumns._ID + " IN (" + join(",", ids) + ")";
+                where = BaseColumns._ID + " IN (" + join(",", ids) + ")";
                 args = null;
             }
 
@@ -496,15 +497,15 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
         }
 
         return Single.create(emitter -> {
-            final String where;
-            final String[] args;
-            final Uri uri = MessengerContentProvider.getGroupsContentUriFor(accountId);
+            String where;
+            String[] args;
+            Uri uri = MessengerContentProvider.getGroupsContentUriFor(accountId);
 
             if (ids.size() == 1) {
-                where = GroupColumns._ID + " = ?";
+                where = BaseColumns._ID + " = ?";
                 args = new String[]{String.valueOf(ids.get(0))};
             } else {
-                where = GroupColumns._ID + " IN (" + join(",", ids) + ")";
+                where = BaseColumns._ID + " IN (" + join(",", ids) + ")";
                 args = null;
             }
 
@@ -567,13 +568,13 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
             }
 
             Set<Integer> copy = new HashSet<>(ids);
-            String[] projection = {UserColumns._ID};
+            String[] projection = {BaseColumns._ID};
             Cursor cursor = getContentResolver().query(MessengerContentProvider.getUserContentUriFor(accountId),
-                    projection, UserColumns._ID + " IN ( " + join(",", copy) + ")", null, null);
+                    projection, BaseColumns._ID + " IN ( " + join(",", copy) + ")", null, null);
 
             if (nonNull(cursor)) {
                 while (cursor.moveToNext()) {
-                    int id = cursor.getInt(cursor.getColumnIndex(UserColumns._ID));
+                    int id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
                     copy.remove(id);
                 }
 
@@ -593,13 +594,13 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
             }
 
             Set<Integer> copy = new HashSet<>(ids);
-            String[] projection = {GroupColumns._ID};
+            String[] projection = {BaseColumns._ID};
             Cursor cursor = getContentResolver().query(MessengerContentProvider.getGroupsContentUriFor(accountId),
-                    projection, GroupColumns._ID + " IN ( " + join(",", copy) + ")", null, null);
+                    projection, BaseColumns._ID + " IN ( " + join(",", copy) + ")", null, null);
 
             if (nonNull(cursor)) {
                 while (cursor.moveToNext()) {
-                    int id = cursor.getInt(cursor.getColumnIndex(GroupColumns._ID));
+                    int id = cursor.getInt(cursor.getColumnIndex(BaseColumns._ID));
                     copy.remove(id);
                 }
 
@@ -611,8 +612,8 @@ class OwnersStorage extends AbsStorage implements IOwnersStorage {
     }
 
     private FriendListEntity mapFriendsList(Cursor cursor) {
-        final int id = cursor.getInt(cursor.getColumnIndex(FriendListsColumns.LIST_ID));
-        final String name = cursor.getString(cursor.getColumnIndex(FriendListsColumns.NAME));
+        int id = cursor.getInt(cursor.getColumnIndex(FriendListsColumns.LIST_ID));
+        String name = cursor.getString(cursor.getColumnIndex(FriendListsColumns.NAME));
         return new FriendListEntity(id, name);
     }
 }

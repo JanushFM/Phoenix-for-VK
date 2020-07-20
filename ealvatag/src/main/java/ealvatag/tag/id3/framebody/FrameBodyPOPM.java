@@ -62,9 +62,9 @@ public class FrameBodyPOPM extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyPOPM datatype.
      */
     public FrameBodyPOPM() {
-        this.setObjectValue(DataTypes.OBJ_EMAIL, "");
-        this.setObjectValue(DataTypes.OBJ_RATING, (long) 0);
-        this.setObjectValue(DataTypes.OBJ_COUNTER, (long) 0);
+        setObjectValue(DataTypes.OBJ_EMAIL, "");
+        setObjectValue(DataTypes.OBJ_RATING, (long) 0);
+        setObjectValue(DataTypes.OBJ_COUNTER, (long) 0);
     }
 
     public FrameBodyPOPM(FrameBodyPOPM body) {
@@ -79,9 +79,9 @@ public class FrameBodyPOPM extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param counter
      */
     public FrameBodyPOPM(String emailToUser, long rating, long counter) {
-        this.setObjectValue(DataTypes.OBJ_EMAIL, emailToUser);
-        this.setObjectValue(DataTypes.OBJ_RATING, rating);
-        this.setObjectValue(DataTypes.OBJ_COUNTER, counter);
+        setObjectValue(DataTypes.OBJ_EMAIL, emailToUser);
+        setObjectValue(DataTypes.OBJ_RATING, rating);
+        setObjectValue(DataTypes.OBJ_COUNTER, counter);
     }
 
     /**

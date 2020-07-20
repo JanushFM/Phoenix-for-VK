@@ -4,7 +4,7 @@ import androidx.annotation.StringRes;
 
 import biz.dealnote.messenger.media.gif.IGifPlayer;
 
-public interface IGifPagerView extends IBasicDocumentView, IErrorView {
+public interface IGifPagerView extends IBasicDocumentView {
 
     void displayData(int pageCount, int selectedIndex);
 

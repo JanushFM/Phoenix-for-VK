@@ -46,7 +46,7 @@ public class FieldFrameBodyETT extends AbstractLyrics3v2FieldFrameBody {
      * @param title
      */
     public FieldFrameBodyETT(String title) {
-        this.setObjectValue("Title", title);
+        setObjectValue("Title", title);
     }
 
     /**
@@ -56,7 +56,7 @@ public class FieldFrameBodyETT extends AbstractLyrics3v2FieldFrameBody {
      * @throws InvalidTagException
      */
     public FieldFrameBodyETT(ByteBuffer byteBuffer) throws InvalidTagException {
-        this.read(byteBuffer);
+        read(byteBuffer);
     }
 
     /**

@@ -38,7 +38,7 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
     public FavePagesAdapter(List<FavePage> data, Context context) {
         this.data = data;
         this.context = context;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NonNull
@@ -48,8 +48,8 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final Holder holder, int position) {
-        final FavePage favePage = data.get(position);
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
+        FavePage favePage = data.get(position);
         holder.description.setText(favePage.getDescription());
         holder.name.setText(favePage.getOwner().getFullName());
         ViewUtils.displayAvatar(holder.avatar, transformation, favePage.getOwner().getMaxSquareAvatar(), Constants.PICASSO_TAG);
@@ -136,8 +136,8 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            final int position = recyclerView.getChildAdapterPosition(v);
-            final FavePage favePage = data.get(position);
+            int position = recyclerView.getChildAdapterPosition(v);
+            FavePage favePage = data.get(position);
             menu.setHeaderTitle(favePage.getOwner().getFullName());
 
             menu.add(0, v.getId(), 0, R.string.delete).setOnMenuItemClickListener(item -> {

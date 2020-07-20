@@ -17,7 +17,6 @@ import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IVideoPreviewView;
 import biz.dealnote.messenger.util.AssertUtils;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
@@ -40,15 +39,15 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
 
     public VideoPreviewPresenter(int accountId, int videoId, int ownerId, @Nullable Video video, Integer Story, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.interactor = InteractorFactory.createVideosInteractor();
+        interactor = InteractorFactory.createVideosInteractor();
         this.videoId = videoId;
         this.ownerId = ownerId;
-        this.accessKey = nonNull(video) ? video.getAccessKey() : null;
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
+        accessKey = nonNull(video) ? video.getAccessKey() : null;
+        faveInteractor = InteractorFactory.createFaveInteractor();
 
-        this.isStory = nonNull(Story) && Story == 1;
+        isStory = nonNull(Story) && Story == 1;
 
-        if (Objects.isNull(savedInstanceState)) {
+        if (isNull(savedInstanceState)) {
             this.video = video;
         } else {
             this.video = savedInstanceState.getParcelable("video");
@@ -107,7 +106,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
         setRefreshingNow(false);
         showError(getView(), throwable);
 
-        if (Objects.isNull(video)) {
+        if (isNull(video)) {
             callView(IVideoPreviewView::displayLoadingError);
         }
     }
@@ -122,7 +121,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
     }
 
     private void refreshVideoInfo() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setRefreshingNow(true);
 
@@ -131,7 +130,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
         }
 
         if (isStory) {
-            onActualInfoReceived(this.video);
+            onActualInfoReceived(video);
             return;
         }
 
@@ -141,7 +140,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
     }
 
     private boolean isMy() {
-        return super.getAccountId() == ownerId;
+        return getAccountId() == ownerId;
     }
 
     public void fireOptionViewCreated(IVideoPreviewView.IOptionView view) {
@@ -157,7 +156,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
     }
 
     public void fireAddToMyClick() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(interactor.addToMy(accountId, accountId, ownerId, videoId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -189,8 +188,8 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
     }
 
     private void onLikesResponse(int count, boolean userLikes) {
-        this.video.setLikesCount(count);
-        this.video.setUserLikes(userLikes);
+        video.setLikesCount(count);
+        video.setUserLikes(userLikes);
 
         callView(view -> view.displayLikes(count, userLikes));
     }
@@ -202,8 +201,8 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
     public void fireLikeClick() {
         AssertUtils.requireNonNull(video);
 
-        final boolean add = !video.isUserLikes();
-        final int accountId = super.getAccountId();
+        boolean add = !video.isUserLikes();
+        int accountId = getAccountId();
 
         appendDisposable(interactor.likeOrDislike(accountId, ownerId, videoId, accessKey, add)
                 .compose(RxUtils.applySingleIOToMainSchedulers())

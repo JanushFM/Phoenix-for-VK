@@ -37,10 +37,10 @@ public class VideoAlbumsPresenter extends AccountDependencyPresenter<IVideoAlbum
     public VideoAlbumsPresenter(int accountId, int ownerId, String action, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.videosInteractor = InteractorFactory.createVideosInteractor();
+        videosInteractor = InteractorFactory.createVideosInteractor();
         this.ownerId = ownerId;
         this.action = action;
-        this.data = new ArrayList<>();
+        data = new ArrayList<>();
 
         loadAllDataFromDb();
         requestActualData(0);
@@ -54,47 +54,47 @@ public class VideoAlbumsPresenter extends AccountDependencyPresenter<IVideoAlbum
     }
 
     private void requestActualData(int offset) {
-        this.netLoadingNow = true;
-        this.netLoadingOffset = offset;
+        netLoadingNow = true;
+        netLoadingOffset = offset;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         netDisposable.add(videosInteractor.getActualAlbums(accountId, ownerId, COUNT_PER_LOAD, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(albums -> onActualDataReceived(offset, albums), this::onActualDataGetError));
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.netLoadingNow = false;
+        netLoadingNow = false;
         resolveRefreshingView();
 
         showError(getView(), t);
     }
 
     private void onActualDataReceived(int offset, List<VideoAlbum> albums) {
-        this.cacheDisposable.clear();
-        this.cacheNowLoading = false;
+        cacheDisposable.clear();
+        cacheNowLoading = false;
 
-        this.netLoadingNow = false;
-        this.actualDataReceived = true;
-        this.endOfContent = albums.isEmpty();
+        netLoadingNow = false;
+        actualDataReceived = true;
+        endOfContent = albums.isEmpty();
 
         resolveRefreshingView();
 
         if (offset == 0) {
-            this.data.clear();
-            this.data.addAll(albums);
+            data.clear();
+            data.addAll(albums);
             callView(IVideoAlbumsView::notifyDataSetChanged);
         } else {
-            int startSize = this.data.size();
-            this.data.addAll(albums);
+            int startSize = data.size();
+            data.addAll(albums);
             callView(view -> view.notifyDataAdded(startSize, albums.size()));
         }
     }
 
     private void loadAllDataFromDb() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         cacheDisposable.add(videosInteractor.getCachedAlbums(accountId, ownerId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -102,24 +102,24 @@ public class VideoAlbumsPresenter extends AccountDependencyPresenter<IVideoAlbum
     }
 
     private void onCachedDataReceived(List<VideoAlbum> albums) {
-        this.cacheNowLoading = false;
-        this.data.clear();
-        this.data.addAll(albums);
+        cacheNowLoading = false;
+        data.clear();
+        data.addAll(albums);
 
         callView(IVideoAlbumsView::notifyDataSetChanged);
     }
 
     @Override
     public void onDestroyed() {
-        this.cacheDisposable.dispose();
-        this.netDisposable.dispose();
+        cacheDisposable.dispose();
+        netDisposable.dispose();
         super.onDestroyed();
     }
 
     @Override
     public void onGuiCreated(@NonNull IVideoAlbumsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.data);
+        view.displayData(data);
     }
 
     private boolean canLoadMore() {
@@ -131,17 +131,17 @@ public class VideoAlbumsPresenter extends AccountDependencyPresenter<IVideoAlbum
     }
 
     public void fireRefresh() {
-        this.cacheDisposable.clear();
-        this.cacheNowLoading = false;
+        cacheDisposable.clear();
+        cacheNowLoading = false;
 
-        this.netDisposable.clear();
+        netDisposable.clear();
 
         requestActualData(0);
     }
 
     public void fireScrollToLast() {
         if (canLoadMore()) {
-            requestActualData(this.data.size());
+            requestActualData(data.size());
         }
     }
 }

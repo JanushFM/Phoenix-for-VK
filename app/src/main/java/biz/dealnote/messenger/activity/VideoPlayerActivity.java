@@ -53,12 +53,12 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     private Video video;
     private @InternalVideoSize
     int size;
-    private boolean doNotPause = false;
-    private boolean isLandscape = false;
+    private boolean doNotPause;
+    private boolean isLandscape;
 
     private void onOpen() {
         Intent intent = new Intent(this, SwipebleActivity.class);
-        intent.setAction(SwipebleActivity.ACTION_OPEN_WALL);
+        intent.setAction(MainActivity.ACTION_OPEN_WALL);
         intent.putExtra(Extra.OWNER_ID, video.getOwnerId());
         doNotPause = true;
         SwipebleActivity.start(this, intent, CODE);
@@ -137,7 +137,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
         IProxySettings settings = Injection.provideProxySettings();
         ProxyConfig config = settings.getActiveProxy();
 
-        final String url = getFileUrl();
+        String url = getFileUrl();
         return new ExoVideoPlayer(this, url, config, size);
     }
 
@@ -268,7 +268,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHol
     @Override
     public void commentClick() {
         Intent intent = new Intent(this, SwipebleActivity.class);
-        intent.setAction(SwipebleActivity.ACTION_OPEN_PLACE);
+        intent.setAction(MainActivity.ACTION_OPEN_PLACE);
         Commented commented = Commented.from(video);
         intent.putExtra(Extra.PLACE, PlaceFactory.getCommentsPlace(Settings.get().accounts().getCurrent(), commented, null));
         doNotPause = true;

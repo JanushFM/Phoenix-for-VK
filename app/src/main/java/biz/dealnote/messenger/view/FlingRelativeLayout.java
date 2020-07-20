@@ -52,7 +52,7 @@ public class FlingRelativeLayout extends RelativeLayout {
     }
 
     public void setOnSingleFlingListener(OnSingleFlingListener onSingleFlingListener) {
-        this.mSingleFlingListener = onSingleFlingListener;
+        mSingleFlingListener = onSingleFlingListener;
     }
 
     /**

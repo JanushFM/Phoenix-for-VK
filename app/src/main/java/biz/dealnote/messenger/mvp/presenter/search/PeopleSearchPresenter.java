@@ -36,8 +36,8 @@ public class PeopleSearchPresenter extends AbsSearchPresenter<IPeopleSearchView,
 
     @Override
     Single<Pair<List<User>, IntNextFrom>> doSearch(int accountId, PeopleSearchCriteria criteria, IntNextFrom startFrom) {
-        final int offset = startFrom.getOffset();
-        final int nextOffset = offset + 50;
+        int offset = startFrom.getOffset();
+        int nextOffset = offset + 50;
 
         return ownersRepository.searchPeoples(accountId, criteria, 50, offset)
                 .map(users -> Pair.Companion.create(users, new IntNextFrom(nextOffset)));

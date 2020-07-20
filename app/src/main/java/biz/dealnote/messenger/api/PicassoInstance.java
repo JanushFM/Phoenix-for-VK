@@ -72,9 +72,9 @@ public class PicassoInstance {
 
     private void onProxyChanged() {
         synchronized (this) {
-            if (Objects.nonNull(this.singleton)) {
-                this.singleton.shutdown();
-                this.singleton = null;
+            if (Objects.nonNull(singleton)) {
+                singleton.shutdown();
+                singleton = null;
             }
 
             Logger.d(TAG, "Picasso singleton shutdown");

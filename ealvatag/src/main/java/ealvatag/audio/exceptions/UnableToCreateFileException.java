@@ -8,15 +8,15 @@ import java.util.Locale;
  * you dont have permission to write to the folder that it is in.
  */
 public class UnableToCreateFileException extends IOException {
-    public UnableToCreateFileException(final String message) {
+    public UnableToCreateFileException(String message) {
         super(message);
     }
 
-    public UnableToCreateFileException(final String message, final Object... formatArgs) {
+    public UnableToCreateFileException(String message, Object... formatArgs) {
         super(String.format(Locale.getDefault(), message, formatArgs));
     }
 
-    public UnableToCreateFileException(final Throwable throwable, final String message, final Object... formatArgs) {
+    public UnableToCreateFileException(Throwable throwable, String message, Object... formatArgs) {
         super(String.format(Locale.getDefault(), message, formatArgs), throwable);
     }
 

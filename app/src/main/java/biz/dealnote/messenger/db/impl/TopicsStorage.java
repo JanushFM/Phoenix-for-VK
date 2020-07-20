@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -85,7 +86,7 @@ class TopicsStorage extends AbsStorage implements ITopicsStore {
 
             if (nonNull(criteria.getRange())) {
                 DatabaseIdRange range = criteria.getRange();
-                where = TopicsColumns._ID + " >= ? AND " + TopicsColumns._ID + " <= ?";
+                where = BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?";
                 args = new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())};
             } else {
                 where = TopicsColumns.OWNER_ID + " = ?";
@@ -140,7 +141,7 @@ class TopicsStorage extends AbsStorage implements ITopicsStore {
             operations.add(ContentProviderOperation
                     .newUpdate(MessengerContentProvider.getGroupsContentUriFor(accountId))
                     .withValues(cv)
-                    .withSelection(GroupColumns._ID + " = ?", new String[]{String.valueOf(Math.abs(ownerId))})
+                    .withSelection(BaseColumns._ID + " = ?", new String[]{String.valueOf(Math.abs(ownerId))})
                     .build());
 
             getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);

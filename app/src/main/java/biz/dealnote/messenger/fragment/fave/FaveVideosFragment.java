@@ -39,7 +39,7 @@ public class FaveVideosFragment extends BaseMvpFragment<FaveVideosPresenter, IFa
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private VideosAdapter mAdapter;
     private TextView mEmpty;
-    private boolean isRequestLast = false;
+    private boolean isRequestLast;
 
     public static FaveVideosFragment newInstance(int accountId) {
         Bundle args = new Bundle();

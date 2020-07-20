@@ -48,8 +48,8 @@ public class FieldFrameBodyIND extends AbstractLyrics3v2FieldFrameBody {
      * @param timeStampPresent
      */
     public FieldFrameBodyIND(boolean lyricsPresent, boolean timeStampPresent) {
-        this.setObjectValue("Lyrics Present", lyricsPresent);
-        this.setObjectValue("Timestamp Present", timeStampPresent);
+        setObjectValue("Lyrics Present", lyricsPresent);
+        setObjectValue("Timestamp Present", timeStampPresent);
     }
 
     /**
@@ -59,7 +59,7 @@ public class FieldFrameBodyIND extends AbstractLyrics3v2FieldFrameBody {
      * @throws InvalidTagException
      */
     public FieldFrameBodyIND(ByteBuffer byteBuffer) throws InvalidTagException {
-        this.read(byteBuffer);
+        read(byteBuffer);
     }
 
     /**

@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class VideoAlbum extends AbsModel implements Parcelable {
+public class VideoAlbum extends AbsModel {
 
     public static final Creator<VideoAlbum> CREATOR = new Creator<VideoAlbum>() {
         @Override

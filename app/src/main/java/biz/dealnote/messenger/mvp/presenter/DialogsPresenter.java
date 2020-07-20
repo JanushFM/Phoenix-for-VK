@@ -161,7 +161,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
                         .subscribe(e -> OnSetOffline(context, e), t -> OnSetOffline(context, false)));
                 break;
             case R.id.button_cancel:
-                final ClipboardManager clipBoard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipboardManager clipBoard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
                 if (clipBoard != null && clipBoard.getPrimaryClip() != null && clipBoard.getPrimaryClip().getItemCount() > 0 && clipBoard.getPrimaryClip().getItemAt(0).getText() != null) {
                     String temp = clipBoard.getPrimaryClip().getItemAt(0).getText().toString();
                     LinkHelper.openUrl((Activity) context, getAccountId(), temp);
@@ -252,8 +252,8 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
         onDialogDeleted(accountId, peeId);
     }
 
-    private void removeDialog(final int peeId) {
-        final int accountId = dialogsOwnerId;
+    private void removeDialog(int peeId) {
+        int accountId = dialogsOwnerId;
 
         appendDisposable(messagesInteractor.deleteDialog(accountId, peeId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -304,8 +304,8 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
             return;
         }
 
-        final int accountId = update.getAccountId();
-        final int peerId = update.getPeerId();
+        int accountId = update.getAccountId();
+        int peerId = update.getPeerId();
 
         if (update.getLastMessage() != null) {
             List<Integer> id = Collections.singletonList(update.getLastMessage().getMessageId());
@@ -429,7 +429,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
     }
 
     public void fireDialogClick(Dialog dialog, int offset) {
-        this.openChat(dialog, offset);
+        openChat(dialog, offset);
     }
 
     private void openChat(Dialog dialog, int offset) {
@@ -442,9 +442,9 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
 
     public void fireDialogAvatarClick(Dialog dialog, int offset) {
         if (Peer.isUser(dialog.getPeerId()) || Peer.isGroup(dialog.getPeerId())) {
-            getView().goToOwnerWall(super.getAccountId(), Peer.toOwnerId(dialog.getPeerId()), dialog.getInterlocutor());
+            getView().goToOwnerWall(getAccountId(), Peer.toOwnerId(dialog.getPeerId()), dialog.getInterlocutor());
         } else {
-            this.openChat(dialog, offset);
+            openChat(dialog, offset);
         }
     }
 
@@ -467,8 +467,8 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
     }
 
     public void fireNewGroupChatTitleEntered(List<User> users, String title) {
-        final String targetTitle = safeIsEmpty(title) ? getTitleIfEmpty(users) : title;
-        final int accountId = super.getAccountId();
+        String targetTitle = safeIsEmpty(title) ? getTitleIfEmpty(users) : title;
+        int accountId = getAccountId();
 
         appendDisposable(messagesInteractor.createGroupChat(accountId, Utils.idsListOf(users), targetTitle)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -496,7 +496,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
     public void fireCreateShortcutClick(Dialog dialog) {
         AssertUtils.assertPositive(dialogsOwnerId);
 
-        final Context app = getApplicationContext();
+        Context app = getApplicationContext();
 
         appendDisposable(ShortcutUtils
                 .createChatShortcutRx(app, dialog.getImageUrl(), getAccountId(),
@@ -553,7 +553,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
                 .subscribe(() -> safeShowToast(getView(), R.string.success, false), Analytics::logUnexpectedError));
     }
 
-    public void fireContextViewCreated(IDialogsView.IContextView contextView, final Dialog dialog) {
+    public void fireContextViewCreated(IDialogsView.IContextView contextView, Dialog dialog) {
         boolean isHide = Settings.get().security().ContainsValueInSet(dialog.getId(), "hidden_dialogs");
         contextView.setCanDelete(true);
         contextView.setCanAddToHomescreen(dialogsOwnerId > 0 && !isHide);

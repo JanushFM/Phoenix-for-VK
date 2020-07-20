@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.fragment.search.nextfrom;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class IntNextFrom extends AbsNextFrom implements Parcelable {
+public class IntNextFrom extends AbsNextFrom {
 
     public static final Creator<IntNextFrom> CREATOR = new Creator<IntNextFrom>() {
         @Override
@@ -19,7 +18,7 @@ public class IntNextFrom extends AbsNextFrom implements Parcelable {
     private int offset;
 
     public IntNextFrom(int initValue) {
-        this.offset = initValue;
+        offset = initValue;
     }
 
     protected IntNextFrom(Parcel in) {

@@ -1,12 +1,11 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.safeIsEmpty;
 
-public class Document extends AbsModel implements Parcelable {
+public class Document extends AbsModel {
 
     public static final Creator<Document> CREATOR = new Creator<Document>() {
         @Override
@@ -195,7 +194,7 @@ public class Document extends AbsModel implements Parcelable {
         return nonNull(videoPreview) && !safeIsEmpty(videoPreview.src);
     }
 
-    public static class Graffiti extends AbsModel implements Parcelable {
+    public static class Graffiti extends AbsModel {
 
         public static final Creator<Graffiti> CREATOR = new Creator<Graffiti>() {
             @Override
@@ -264,7 +263,7 @@ public class Document extends AbsModel implements Parcelable {
         }
     }
 
-    public static class VideoPreview extends AbsModel implements Parcelable {
+    public static class VideoPreview extends AbsModel {
 
         public static final Creator<VideoPreview> CREATOR = new Creator<VideoPreview>() {
             @Override

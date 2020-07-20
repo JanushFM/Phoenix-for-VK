@@ -1,7 +1,6 @@
 package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 
@@ -13,7 +12,7 @@ import biz.dealnote.messenger.fragment.search.options.SimpleTextOption;
 import biz.dealnote.messenger.fragment.search.options.SpinnerOption;
 import biz.dealnote.messenger.util.ParcelUtils;
 
-public final class PeopleSearchCriteria extends BaseSearchCriteria implements Parcelable, Cloneable {
+public final class PeopleSearchCriteria extends BaseSearchCriteria {
 
     public static final int KEY_SORT = 1;
     public static final int KEY_AGE_FROM = 2;

@@ -81,13 +81,13 @@ public class RequestCreator {
                     "Picasso instance already shut down. Cannot submit new requests.");
         }
         this.picasso = picasso;
-        this.data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);
+        data = new Request.Builder(uri, resourceId, picasso.defaultBitmapConfig);
     }
 
     @VisibleForTesting
     RequestCreator() {
-        this.picasso = null;
-        this.data = new Request.Builder(null, 0, null);
+        picasso = null;
+        data = new Request.Builder(null, 0, null);
     }
 
     /**
@@ -226,7 +226,7 @@ public class RequestCreator {
      * Internal use only. Used by {@link DeferredRequestCreator}.
      */
     RequestCreator clearTag() {
-        this.tag = null;
+        tag = null;
         return this;
     }
 
@@ -371,7 +371,7 @@ public class RequestCreator {
         if (policy == null) {
             throw new IllegalArgumentException("Memory policy cannot be null.");
         }
-        this.memoryPolicy |= policy.index;
+        memoryPolicy |= policy.index;
         if (additional == null) {
             throw new IllegalArgumentException("Memory policy cannot be null.");
         }
@@ -395,7 +395,7 @@ public class RequestCreator {
         if (policy == null) {
             throw new IllegalArgumentException("Network policy cannot be null.");
         }
-        this.networkPolicy |= policy.index;
+        networkPolicy |= policy.index;
         if (additional == null) {
             throw new IllegalArgumentException("Network policy cannot be null.");
         }

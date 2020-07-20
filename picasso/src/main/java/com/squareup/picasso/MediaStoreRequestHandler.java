@@ -41,8 +41,8 @@ import static com.squareup.picasso.MediaStoreRequestHandler.PicassoKind.MINI;
 import static com.squareup.picasso.Picasso.LoadedFrom.DISK;
 
 class MediaStoreRequestHandler extends ContentStreamRequestHandler {
-    private static final String[] CONTENT_ORIENTATION = new String[]{
-            Images.ImageColumns.ORIENTATION
+    private static final String[] CONTENT_ORIENTATION = {
+            MediaStore.MediaColumns.ORIENTATION
     };
 
     MediaStoreRequestHandler(Context context) {
@@ -78,7 +78,7 @@ class MediaStoreRequestHandler extends ContentStreamRequestHandler {
 
     @Override
     public boolean canHandleRequest(Request data) {
-        final Uri uri = data.uri;
+        Uri uri = data.uri;
         return (SCHEME_CONTENT.equals(uri.getScheme())
                 && MediaStore.AUTHORITY.equals(uri.getAuthority()));
     }

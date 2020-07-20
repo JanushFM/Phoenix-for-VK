@@ -79,7 +79,7 @@ public class TitleExtractor {
         do {
             String headerName = conn.getHeaderFieldKey(i);
             String headerValue = conn.getHeaderField(i);
-            if (headerName != null && headerName.equals("Content-Type"))
+            if ("Content-Type".equals(headerName))
                 return new ContentType(headerValue);
 
             i++;

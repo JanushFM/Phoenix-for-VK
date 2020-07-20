@@ -29,17 +29,17 @@ public class Lyrics3v1Iterator implements Iterator<String> {
     /**
      *
      */
-    private Lyrics3v1 tag = null;
+    private Lyrics3v1 tag;
 
     /**
      *
      */
-    private int lastIndex = 0;
+    private int lastIndex;
 
     /**
      *
      */
-    private int removeIndex = 0;
+    private int removeIndex;
 
     /**
      * Creates a new Lyrics3v1Iterator datatype.

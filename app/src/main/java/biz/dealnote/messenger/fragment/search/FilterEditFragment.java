@@ -73,8 +73,8 @@ public class FilterEditFragment extends BottomSheetDialogFragment implements Sea
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        this.mData = getArguments().getParcelableArrayList(Extra.LIST);
+        mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
+        mData = getArguments().getParcelableArrayList(Extra.LIST);
     }
 
     private void resolveEmptyTextVisibility() {
@@ -124,7 +124,7 @@ public class FilterEditFragment extends BottomSheetDialogFragment implements Sea
     }
 
     @Override
-    public void onSpinnerOptionClick(final SpinnerOption spinnerOption) {
+    public void onSpinnerOptionClick(SpinnerOption spinnerOption) {
         new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(spinnerOption.title)
                 .setItems(spinnerOption.createAvailableNames(requireActivity()), (dialog, which) -> {
@@ -277,7 +277,7 @@ public class FilterEditFragment extends BottomSheetDialogFragment implements Sea
     }
 
     @Override
-    public void onSimpleNumberOptionClick(final SimpleNumberOption option) {
+    public void onSimpleNumberOptionClick(SimpleNumberOption option) {
         new InputTextDialog.Builder(requireActivity())
                 .setTitleRes(option.title)
                 .setAllowEmpty(true)
@@ -303,7 +303,7 @@ public class FilterEditFragment extends BottomSheetDialogFragment implements Sea
     }
 
     @Override
-    public void onSimpleTextOptionClick(final SimpleTextOption option) {
+    public void onSimpleTextOptionClick(SimpleTextOption option) {
         new InputTextDialog.Builder(requireActivity())
                 .setTitleRes(option.title)
                 .setInputType(InputType.TYPE_CLASS_TEXT)

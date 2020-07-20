@@ -17,7 +17,6 @@ import biz.dealnote.messenger.db.model.entity.PhotoAlbumEntity;
 import biz.dealnote.messenger.db.model.entity.PhotoSizeEntity;
 import biz.dealnote.messenger.db.model.entity.PrivacyEntity;
 import biz.dealnote.messenger.model.criteria.PhotoAlbumsCriteria;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -45,7 +44,7 @@ class PhotoAlbumsStorage extends AbsStorage implements IPhotoAlbumsStorage {
         cv.put(PhotoAlbumsColumns.UPDATED, dbo.getUpdatedTime());
         cv.put(PhotoAlbumsColumns.CREATED, dbo.getCreatedTime());
 
-        if (Objects.nonNull(dbo.getSizes())) {
+        if (nonNull(dbo.getSizes())) {
             cv.put(PhotoAlbumsColumns.SIZES, GSON.toJson(dbo.getSizes()));
         } else {
             cv.putNull(PhotoAlbumsColumns.SIZES);
@@ -140,8 +139,8 @@ class PhotoAlbumsStorage extends AbsStorage implements IPhotoAlbumsStorage {
     }
 
     private PhotoAlbumEntity mapAlbum(Cursor cursor) {
-        final int id = cursor.getInt(cursor.getColumnIndex(PhotoAlbumsColumns.ALBUM_ID));
-        final int ownerId = cursor.getInt(cursor.getColumnIndex(PhotoAlbumsColumns.OWNER_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(PhotoAlbumsColumns.ALBUM_ID));
+        int ownerId = cursor.getInt(cursor.getColumnIndex(PhotoAlbumsColumns.OWNER_ID));
 
         PhotoAlbumEntity album = new PhotoAlbumEntity(id, ownerId)
                 .setTitle(cursor.getString(cursor.getColumnIndex(PhotoAlbumsColumns.TITLE)))

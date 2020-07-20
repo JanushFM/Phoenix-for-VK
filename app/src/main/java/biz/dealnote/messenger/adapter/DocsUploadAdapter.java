@@ -33,7 +33,7 @@ public class DocsUploadAdapter extends RecyclerView.Adapter<DocsUploadAdapter.Ho
     public DocsUploadAdapter(List<Upload> data, ActionListener actionListener) {
         this.data = data;
         this.actionListener = actionListener;
-        this.sharedHolders = new SharedHolders<>(false);
+        sharedHolders = new SharedHolders<>(false);
     }
 
     private static int generateNextHolderId() {
@@ -123,10 +123,10 @@ public class DocsUploadAdapter extends RecyclerView.Adapter<DocsUploadAdapter.Ho
 
         Holder(View itemView) {
             super(itemView);
-            this.title = itemView.findViewById(R.id.title);
-            this.status = itemView.findViewById(R.id.status);
-            this.buttonDelete = itemView.findViewById(R.id.progress_root);
-            this.progress = itemView.findViewById(R.id.progress_view);
+            title = itemView.findViewById(R.id.title);
+            status = itemView.findViewById(R.id.status);
+            buttonDelete = itemView.findViewById(R.id.progress_root);
+            progress = itemView.findViewById(R.id.progress_view);
             //this.image = (ImageView) itemView.findViewById(R.id.image);
 
             itemView.setTag(generateNextHolderId());

@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model.drawer;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class RecentChat extends AbsMenuItem implements Parcelable {
+public class RecentChat extends AbsMenuItem {
 
     public static Creator<RecentChat> CREATOR = new Creator<RecentChat>() {
         public RecentChat createFromParcel(Parcel source) {
@@ -29,10 +28,10 @@ public class RecentChat extends AbsMenuItem implements Parcelable {
 
     public RecentChat(Parcel in) {
         super(in);
-        this.aid = in.readInt();
-        this.peerId = in.readInt();
-        this.title = in.readString();
-        this.iconUrl = in.readString();
+        aid = in.readInt();
+        peerId = in.readInt();
+        title = in.readString();
+        iconUrl = in.readString();
     }
 
     public String getIconUrl() {

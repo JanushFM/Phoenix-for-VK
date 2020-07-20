@@ -42,9 +42,9 @@ public class FavePostsPresenter extends PlaceSupportPresenter<IFavePostsView> {
     public FavePostsPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
 
-        this.posts = new ArrayList<>();
-        this.faveInteractor = InteractorFactory.createFaveInteractor();
-        this.wallInteractor = Repository.INSTANCE.getWalls();
+        posts = new ArrayList<>();
+        faveInteractor = InteractorFactory.createFaveInteractor();
+        wallInteractor = Repository.INSTANCE.getWalls();
 
         appendDisposable(wallInteractor.observeMinorChanges()
                 .observeOn(Injection.provideMainThreadScheduler())
@@ -102,8 +102,8 @@ public class FavePostsPresenter extends PlaceSupportPresenter<IFavePostsView> {
 
     private void requestActual(int offset) {
         setRequestNow(true);
-        final int accountId = super.getAccountId();
-        final int newOffset = offset + COUNT;
+        int accountId = getAccountId();
+        int newOffset = offset + COUNT;
         appendDisposable(faveInteractor.getPosts(accountId, COUNT, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(posts -> onActualDataReceived(offset, newOffset, posts), this::onActualDataGetError));
@@ -117,23 +117,23 @@ public class FavePostsPresenter extends PlaceSupportPresenter<IFavePostsView> {
     private void onActualDataReceived(int offset, int newOffset, List<Post> data) {
         setRequestNow(false);
 
-        this.nextOffset = newOffset;
-        this.endOfContent = data.isEmpty();
-        this.actualInfoReceived = true;
+        nextOffset = newOffset;
+        endOfContent = data.isEmpty();
+        actualInfoReceived = true;
 
         if (offset == 0) {
-            this.posts.clear();
-            this.posts.addAll(data);
+            posts.clear();
+            posts.addAll(data);
             callView(IFavePostsView::notifyDataSetChanged);
         } else {
-            int sizeBefore = this.posts.size();
-            this.posts.addAll(data);
+            int sizeBefore = posts.size();
+            posts.addAll(data);
             callView(view -> view.notifyDataAdded(sizeBefore, data.size()));
         }
     }
 
     private void loadCachedData() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         cacheCompositeDisposable.add(faveInteractor.getCachedPosts(accountId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -165,7 +165,7 @@ public class FavePostsPresenter extends PlaceSupportPresenter<IFavePostsView> {
     }
 
     public void fireLikeClick(Post post) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         appendDisposable(wallInteractor.like(accountId, post.getOwnerId(), post.getVkid(), !post.isUserLikes())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(RxUtils.ignore(), this::onLikeError));

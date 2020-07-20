@@ -33,8 +33,8 @@ class DocsStorage extends AbsStorage implements IDocsStorage {
     }
 
     private static DocumentEntity map(Cursor cursor) {
-        final int id = cursor.getInt(cursor.getColumnIndex(DocColumns.DOC_ID));
-        final int ownerId = cursor.getInt(cursor.getColumnIndex(DocColumns.OWNER_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(DocColumns.DOC_ID));
+        int ownerId = cursor.getInt(cursor.getColumnIndex(DocColumns.OWNER_ID));
 
         DocumentEntity document = new DocumentEntity(id, ownerId)
                 .setTitle(cursor.getString(cursor.getColumnIndex(DocColumns.TITLE)))
@@ -150,9 +150,9 @@ class DocsStorage extends AbsStorage implements IDocsStorage {
     @Override
     public Completable delete(int accountId, int docId, int ownerId) {
         return Completable.fromAction(() -> {
-            final Uri uri = MessengerContentProvider.getDocsContentUriFor(accountId);
+            Uri uri = MessengerContentProvider.getDocsContentUriFor(accountId);
             final String where = DocColumns.DOC_ID + " = ? AND " + DocColumns.OWNER_ID + " = ?";
-            final String[] args = {String.valueOf(docId), String.valueOf(ownerId)};
+            String[] args = {String.valueOf(docId), String.valueOf(ownerId)};
             getContentResolver().delete(uri, where, args);
         });
     }

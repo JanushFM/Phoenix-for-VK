@@ -34,12 +34,12 @@ public class UploadDestination implements Parcelable {
     }
 
     protected UploadDestination(Parcel in) {
-        this.id = in.readInt();
-        this.ownerId = in.readInt();
+        id = in.readInt();
+        ownerId = in.readInt();
 
         @Method
         int tMethod = in.readInt();
-        this.method = tMethod;
+        method = tMethod;
     }
 
     public static UploadDestination forProfilePhoto(int ownerId) {
@@ -117,7 +117,7 @@ public class UploadDestination implements Parcelable {
     }
 
     public boolean compareTo(int id, int ownerId, int type) {
-        return this.id == id && this.ownerId == ownerId && this.method == type;
+        return this.id == id && this.ownerId == ownerId && method == type;
     }
 
     @Override

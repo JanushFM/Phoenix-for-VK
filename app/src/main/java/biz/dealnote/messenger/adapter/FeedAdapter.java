@@ -40,8 +40,8 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
     public FeedAdapter(Activity context, List<News> data, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         super(data);
         this.context = context;
-        this.attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     private static boolean needToShowTopDivider(News news) {
@@ -61,8 +61,8 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
     }
 
     @Override
-    protected void onBindItemViewHolder(final PostHolder holder, int position, int type) {
-        final News item = getItem(position);
+    protected void onBindItemViewHolder(PostHolder holder, int position, int type) {
+        News item = getItem(position);
 
         attachmentsViewBinder.displayAttachments(item.getAttachments(), holder.attachmentsHolder, false, null);
         attachmentsViewBinder.displayCopyHistory(item.getCopyHistory(), holder.attachmentsHolder.getVgPosts(), true, R.layout.item_copy_history_post);
@@ -139,7 +139,7 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
         return nextHolderId;
     }
 
-    private void fillCounters(PostHolder holder, final News news) {
+    private void fillCounters(PostHolder holder, News news) {
         int targetLikeRes = news.isUserLike() ? R.drawable.heart_filled : R.drawable.heart;
         holder.likeButton.setIcon(targetLikeRes);
 
@@ -229,8 +229,8 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
             shareButton = root.findViewById(R.id.share_button);
 
             attachmentsHolder = AttachmentsHolder.forPost((ViewGroup) root);
-            this.viewsCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
-            this.viewsCounter = itemView.findViewById(R.id.post_views_counter);
+            viewsCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
+            viewsCounter = itemView.findViewById(R.id.post_views_counter);
         }
 
         @Override

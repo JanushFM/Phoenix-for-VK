@@ -64,7 +64,7 @@ public class LinkEntity extends Entity {
     }
 
     public LinkEntity setPreviewPhoto(String photo) {
-        this.preview_photo = photo;
+        preview_photo = photo;
         return this;
     }
 }

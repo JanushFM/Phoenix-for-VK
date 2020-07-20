@@ -36,7 +36,7 @@ import okio.Buffer;
  * The 'Involved people list' is intended as a mapping between functions like producer and names. Every odd field is a
  * function and every even is an name or a comma delimited list of names.
  */
-public class FrameBodyTIPL extends AbstractFrameBodyPairs implements ID3v24FrameBody {
+public class FrameBodyTIPL extends AbstractFrameBodyPairs {
     //Standard function names, code now uses StandardIPLSKey but kept for backwards compatability
     public static final String ENGINEER = StandardIPLSKey.ENGINEER.getKey();
     public static final String MIXER = StandardIPLSKey.MIXER.getKey();
@@ -48,7 +48,6 @@ public class FrameBodyTIPL extends AbstractFrameBodyPairs implements ID3v24Frame
      * Creates a new FrameBodyTIPL datatype.
      */
     public FrameBodyTIPL() {
-        super();
     }
 
     /**

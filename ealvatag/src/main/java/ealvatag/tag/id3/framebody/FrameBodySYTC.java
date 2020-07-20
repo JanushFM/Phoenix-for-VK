@@ -93,7 +93,7 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param timestampFormat
      * @param tempo
      */
-    public FrameBodySYTC(final int timestampFormat, final byte[] tempo) {
+    public FrameBodySYTC(int timestampFormat, byte[] tempo) {
         setObjectValue(DataTypes.OBJ_TIME_STAMP_FORMAT, timestampFormat);
         setObjectValue(DataTypes.OBJ_SYNCHRONISED_TEMPO_LIST, tempo);
     }
@@ -105,11 +105,11 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param frameSize
      * @throws InvalidTagException
      */
-    public FrameBodySYTC(final ByteBuffer byteBuffer, final int frameSize) throws InvalidTagException {
+    public FrameBodySYTC(ByteBuffer byteBuffer, int frameSize) throws InvalidTagException {
         super(byteBuffer, frameSize);
     }
 
-    public FrameBodySYTC(final Buffer byteBuffer, final int frameSize) throws InvalidTagException {
+    public FrameBodySYTC(Buffer byteBuffer, int frameSize) throws InvalidTagException {
         super(byteBuffer, frameSize);
     }
 
@@ -118,7 +118,7 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      *
      * @param body
      */
-    public FrameBodySYTC(final FrameBodySYTC body) {
+    public FrameBodySYTC(FrameBodySYTC body) {
         super(body);
     }
 
@@ -141,7 +141,7 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param timestampFormat 1 for MPEG frames or 2 for milliseconds
      * @see #getTimestampFormat()
      */
-    public void setTimestampFormat(final int timestampFormat) {
+    public void setTimestampFormat(int timestampFormat) {
         if (EventTimingTimestampTypes.getInstanceOf().getValue(timestampFormat) == null) {
             throw new IllegalArgumentException("Timestamp format must be 1 or 2 (ID3v2.4, 4.7): " + timestampFormat);
         }
@@ -154,10 +154,10 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @return map of tempi
      */
     public Map<Long, Integer> getTempi() {
-        final Map<Long, Integer> map = new LinkedHashMap<Long, Integer>();
-        final List<SynchronisedTempoCode> codes =
+        Map<Long, Integer> map = new LinkedHashMap<Long, Integer>();
+        List<SynchronisedTempoCode> codes =
                 (List<SynchronisedTempoCode>) getObjectValue(DataTypes.OBJ_SYNCHRONISED_TEMPO_LIST);
-        for (final SynchronisedTempoCode code : codes) {
+        for (SynchronisedTempoCode code : codes) {
             map.put(code.getTimestamp(), code.getTempo());
         }
         return Collections.unmodifiableMap(map);
@@ -169,10 +169,10 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @return list of timestamps
      */
     public List<Long> getTimestamps() {
-        final List<Long> list = new ArrayList<Long>();
-        final List<SynchronisedTempoCode> codes =
+        List<Long> list = new ArrayList<Long>();
+        List<SynchronisedTempoCode> codes =
                 (List<SynchronisedTempoCode>) getObjectValue(DataTypes.OBJ_SYNCHRONISED_TEMPO_LIST);
-        for (final SynchronisedTempoCode code : codes) {
+        for (SynchronisedTempoCode code : codes) {
             list.add(code.getTimestamp());
         }
         return Collections.unmodifiableList(list);
@@ -184,15 +184,15 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param timestamp timestamp
      * @param tempo     tempo
      */
-    public void addTempo(final long timestamp, final int tempo) {
+    public void addTempo(long timestamp, int tempo) {
         // make sure we don't have two tempi at the same time
         removeTempo(timestamp);
-        final List<SynchronisedTempoCode> codes =
+        List<SynchronisedTempoCode> codes =
                 (List<SynchronisedTempoCode>) getObjectValue(DataTypes.OBJ_SYNCHRONISED_TEMPO_LIST);
         int insertIndex = 0;
         if (!codes.isEmpty() && codes.get(0).getTimestamp() <= timestamp) {
-            for (final SynchronisedTempoCode code : codes) {
-                final long translatedTimestamp = code.getTimestamp();
+            for (SynchronisedTempoCode code : codes) {
+                long translatedTimestamp = code.getTimestamp();
                 if (timestamp < translatedTimestamp) {
                     break;
                 }
@@ -208,12 +208,12 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param timestamp timestamp
      * @return {@code true}, if any timestamps were removed
      */
-    public boolean removeTempo(final long timestamp) {
-        final List<SynchronisedTempoCode> codes =
+    public boolean removeTempo(long timestamp) {
+        List<SynchronisedTempoCode> codes =
                 (List<SynchronisedTempoCode>) getObjectValue(DataTypes.OBJ_SYNCHRONISED_TEMPO_LIST);
         boolean removed = false;
-        for (final ListIterator<SynchronisedTempoCode> iterator = codes.listIterator(); iterator.hasNext(); ) {
-            final SynchronisedTempoCode code = iterator.next();
+        for (ListIterator<SynchronisedTempoCode> iterator = codes.listIterator(); iterator.hasNext(); ) {
+            SynchronisedTempoCode code = iterator.next();
             if (timestamp == code.getTimestamp()) {
                 iterator.remove();
                 removed = true;
@@ -238,13 +238,13 @@ public class FrameBodySYTC extends AbstractID3v2FrameBody implements ID3v24Frame
     }
 
     @Override
-    public void read(final ByteBuffer byteBuffer) throws InvalidTagException {
+    public void read(ByteBuffer byteBuffer) throws InvalidTagException {
         super.read(byteBuffer);
 
         // validate input
-        final List<SynchronisedTempoCode> codes =
+        List<SynchronisedTempoCode> codes =
                 (List<SynchronisedTempoCode>) getObjectValue(DataTypes.OBJ_SYNCHRONISED_TEMPO_LIST);
-        for (final SynchronisedTempoCode code : codes) {
+        for (SynchronisedTempoCode code : codes) {
             code.getTimestamp();// throw exception???
         }
     }

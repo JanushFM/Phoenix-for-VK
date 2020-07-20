@@ -30,10 +30,10 @@ public class LocalPhoto implements Parcelable, Comparable<LocalPhoto>, ISelectab
     }
 
     public LocalPhoto(Parcel in) {
-        this.imageId = in.readLong();
-        this.fullImageUri = Uri.parse(in.readString());
-        this.selected = in.readInt() == 1;
-        this.index = in.readInt();
+        imageId = in.readLong();
+        fullImageUri = Uri.parse(in.readString());
+        selected = in.readInt() == 1;
+        index = in.readInt();
     }
 
     public static Uri buildUriForPicasso(long id) {
@@ -82,7 +82,7 @@ public class LocalPhoto implements Parcelable, Comparable<LocalPhoto>, ISelectab
 
     @Override
     public int compareTo(@NonNull LocalPhoto another) {
-        return this.index - another.index;
+        return index - another.index;
     }
 
     @Override

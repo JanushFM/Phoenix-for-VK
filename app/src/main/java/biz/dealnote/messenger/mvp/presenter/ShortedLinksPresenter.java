@@ -33,8 +33,8 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
 
     public ShortedLinksPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.links = new ArrayList<>();
-        this.fInteractor = InteractorFactory.createUtilsInteractor();
+        links = new ArrayList<>();
+        fInteractor = InteractorFactory.createUtilsInteractor();
 
         loadActualData(0);
     }
@@ -42,15 +42,15 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
     @Override
     public void onGuiCreated(@NonNull IShortedLinksView view) {
         super.onGuiCreated(view);
-        view.displayData(this.links);
+        view.displayData(links);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getLastShortenedLinks(accountId, 10, offset)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -58,7 +58,7 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -66,17 +66,17 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
 
     private void onActualDataReceived(int offset, List<ShortLink> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
 
         if (offset == 0) {
-            this.links.clear();
-            this.links.addAll(data);
+            links.clear();
+            links.addAll(data);
             callView(IShortedLinksView::notifyDataSetChanged);
         } else {
-            int startSize = this.links.size();
-            this.links.addAll(data);
+            int startSize = links.size();
+            links.addAll(data);
             callView(view -> view.notifyDataAdded(startSize, data.size()));
         }
 
@@ -103,7 +103,7 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
 
     public boolean fireScrollToEnd() {
         if (!endOfContent && nonEmpty(links) && actualDataReceived && !actualDataLoading) {
-            loadActualData(this.links.size());
+            loadActualData(links.size());
             return false;
         }
         return true;
@@ -120,8 +120,8 @@ public class ShortedLinksPresenter extends AccountDependencyPresenter<IShortedLi
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }

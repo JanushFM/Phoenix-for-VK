@@ -33,9 +33,9 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
 
     public UserBannedPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.interactor = InteractorFactory.createAccountInteractor();
+        interactor = InteractorFactory.createAccountInteractor();
 
-        this.users = new ArrayList<>();
+        users = new ArrayList<>();
 
         loadNextPart(0);
 
@@ -81,7 +81,7 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
     private void onBannedPartReceived(int offset, BannedPart part) {
         setLoadinNow(false);
 
-        this.endOfContent = part.getUsers().isEmpty();
+        endOfContent = part.getUsers().isEmpty();
 
         if (offset == 0) {
             users.clear();
@@ -93,7 +93,7 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
             callView(view -> view.notifyItemsAdded(startSize, part.getUsers().size()));
         }
 
-        this.endOfContent = endOfContent || part.getTotalCount() == users.size();
+        endOfContent = endOfContent || part.getTotalCount() == users.size();
     }
 
     private void onBannedPartGetError(Throwable throwable) {
@@ -118,10 +118,10 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
         }
     }
 
-    private void loadNextPart(final int offset) {
+    private void loadNextPart(int offset) {
         if (loadinNow) return;
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         setLoadinNow(true);
         appendDisposable(interactor.getBanned(accountId, 50, offset)
@@ -147,7 +147,7 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
     }
 
     public void fireUsersSelected(ArrayList<User> users) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(interactor.banUsers(accountId, users)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
@@ -169,7 +169,7 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
     }
 
     public void fireRemoveClick(User user) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(interactor.unbanUser(accountId, user.getId())
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())

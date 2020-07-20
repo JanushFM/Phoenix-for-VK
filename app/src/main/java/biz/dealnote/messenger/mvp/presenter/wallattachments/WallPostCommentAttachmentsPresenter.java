@@ -39,24 +39,24 @@ public class WallPostCommentAttachmentsPresenter extends PlaceSupportPresenter<I
 
     public WallPostCommentAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.owner_id = ownerId;
-        this.mPost = new ArrayList<>();
-        this.fInteractor = Repository.INSTANCE.getWalls();
+        owner_id = ownerId;
+        mPost = new ArrayList<>();
+        fInteractor = Repository.INSTANCE.getWalls();
         loadActualData(0);
     }
 
     @Override
     public void onGuiCreated(@NonNull IWallPostCommentAttachmentsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.mPost);
+        view.displayData(mPost);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getWallNoCache(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -64,7 +64,7 @@ public class WallPostCommentAttachmentsPresenter extends PlaceSupportPresenter<I
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -81,21 +81,21 @@ public class WallPostCommentAttachmentsPresenter extends PlaceSupportPresenter<I
 
     private void onActualDataReceived(int offset, List<Post> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
-        if (this.endOfContent && isGuiResumed())
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
+        if (endOfContent && isGuiResumed())
             getView().onSetLoadingStatus(2);
 
         if (offset == 0) {
-            this.loaded = data.size();
-            this.mPost.clear();
+            loaded = data.size();
+            mPost.clear();
             update(data);
             resolveToolbar();
             callView(IWallPostCommentAttachmentsView::notifyDataSetChanged);
         } else {
             int startSize = mPost.size();
-            this.loaded += data.size();
+            loaded += data.size();
             update(data);
             resolveToolbar();
             callView(view -> view.notifyDataAdded(startSize, mPost.size() - startSize));
@@ -142,8 +142,8 @@ public class WallPostCommentAttachmentsPresenter extends PlaceSupportPresenter<I
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }
@@ -154,7 +154,7 @@ public class WallPostCommentAttachmentsPresenter extends PlaceSupportPresenter<I
             return;
         }
 
-        super.firePostClick(post);
+        firePostClick(post);
     }
 
     public void firePostRestoreClick(Post post) {
@@ -172,7 +172,7 @@ public class WallPostCommentAttachmentsPresenter extends PlaceSupportPresenter<I
     }
 
     public void fireLikeClick(Post post) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(fInteractor.like(accountId, post.getOwnerId(), post.getVkid(), !post.isUserLikes())
                 .compose(RxUtils.applySingleIOToMainSchedulers())

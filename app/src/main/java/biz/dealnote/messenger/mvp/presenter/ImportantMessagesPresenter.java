@@ -30,17 +30,17 @@ public class ImportantMessagesPresenter extends AbsMessageListPresenter<IImporta
 
     public ImportantMessagesPresenter(int accountId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.fInteractor = Repository.INSTANCE.getMessages();
+        fInteractor = Repository.INSTANCE.getMessages();
         loadActualData(0);
     }
 
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getImportantMessages(accountId, 50, offset, null)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -49,17 +49,17 @@ public class ImportantMessagesPresenter extends AbsMessageListPresenter<IImporta
 
     private void onActualDataReceived(int offset, List<Message> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
 
         if (offset == 0) {
-            this.getData().clear();
-            this.getData().addAll(data);
+            getData().clear();
+            getData().addAll(data);
             safeNotifyDataChanged();
         } else {
-            int startSize = this.getData().size();
-            this.getData().addAll(data);
+            int startSize = getData().size();
+            getData().addAll(data);
             callView(view -> view.notifyDataAdded(startSize, data.size()));
         }
 
@@ -67,7 +67,7 @@ public class ImportantMessagesPresenter extends AbsMessageListPresenter<IImporta
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
@@ -97,7 +97,7 @@ public class ImportantMessagesPresenter extends AbsMessageListPresenter<IImporta
 
     public boolean fireScrollToEnd() {
         if (!endOfContent && nonEmpty(getData()) && actualDataReceived && !actualDataLoading) {
-            loadActualData(this.getData().size());
+            loadActualData(getData().size());
             return false;
         }
         return true;
@@ -116,8 +116,8 @@ public class ImportantMessagesPresenter extends AbsMessageListPresenter<IImporta
 
     public void fireRefresh() {
 
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }

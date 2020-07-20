@@ -142,7 +142,6 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
      *                       nodes -- otherwise, it is always a leaf node
      */
     public DefaultMutableTreeNode(Object userObject, boolean allowsChildren) {
-        super();
         parent = null;
         this.allowsChildren = allowsChildren;
         this.userObject = userObject;
@@ -1296,7 +1295,6 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
         protected Stack stack;
 
         public PreorderEnumeration(TreeNode rootNode) {
-            super();
             Vector v = new Vector(1);
             v.addElement(rootNode);    // PENDING: don't really need a vector
             stack = new Stack();
@@ -1331,7 +1329,6 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
         protected Enumeration<TreeNode> subtree;
 
         public PostorderEnumeration(TreeNode rootNode) {
-            super();
             root = rootNode;
             children = root.children();
             subtree = EMPTY_ENUMERATION;
@@ -1365,7 +1362,6 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
         protected Queue queue;
 
         public BreadthFirstEnumeration(TreeNode rootNode) {
-            super();
             Vector v = new Vector(1);
             v.addElement(rootNode);    // PENDING: don't really need a vector
             queue = new Queue();
@@ -1454,7 +1450,6 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
 
         public PathBetweenNodesEnumeration(TreeNode ancestor,
                                            TreeNode descendant) {
-            super();
 
             if (ancestor == null || descendant == null) {
                 throw new IllegalArgumentException("argument is null");

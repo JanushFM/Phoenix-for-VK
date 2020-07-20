@@ -36,7 +36,7 @@ public class Id3SynchronizingSink extends ForwardingSink {
     private static final byte FF = (byte) 0xFF;
     private static final byte ZERO = (byte) 0x00;
     private final BufferedSink sink;
-    private boolean lastByteWasFF = false;
+    private boolean lastByteWasFF;
 
     /**
      * This is a {@link ForwardingSink} which transforms the stream of bytes substituting every occurrence of [0xFF, 0x00] with [0xFF]. This
@@ -44,22 +44,22 @@ public class Id3SynchronizingSink extends ForwardingSink {
      *
      * @param delegate the {@link BufferedSink} the transformed bytes written to
      */
-    public Id3SynchronizingSink(final BufferedSink delegate) {
+    public Id3SynchronizingSink(BufferedSink delegate) {
         super(delegate);
         sink = delegate;
     }
 
     public static Buffer synchronizeBuffer(Buffer buffer) throws IOException {
         Buffer syncBuffer = new Buffer();
-        final Id3SynchronizingSink sink = new Id3SynchronizingSink(syncBuffer);
+        Id3SynchronizingSink sink = new Id3SynchronizingSink(syncBuffer);
         buffer.readAll(sink);
         return syncBuffer;
     }
 
     @Override
-    public void write(final Buffer source, final long byteCount) throws IOException {
+    public void write(Buffer source, long byteCount) throws IOException {
         for (int i = 0; i < byteCount; i++) {
-            final byte current = source.readByte();
+            byte current = source.readByte();
             if (lastByteWasFF) {
                 sink.writeByte(FF);
                 lastByteWasFF = false;

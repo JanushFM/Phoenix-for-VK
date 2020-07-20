@@ -24,8 +24,8 @@ public class ColorCircleDrawable extends ColorDrawable {
         float radius = width / 2f;
         strokeWidth = radius / 8f;
 
-        this.strokePaint.setStrokeWidth(strokeWidth);
-        this.fillPaint.setColor(getColor());
+        strokePaint.setStrokeWidth(strokeWidth);
+        fillPaint.setColor(getColor());
         canvas.drawCircle(radius, radius, radius - strokeWidth, fillBackPaint);
         canvas.drawCircle(radius, radius, radius - strokeWidth, fillPaint);
         canvas.drawCircle(radius, radius, radius - strokeWidth, strokePaint);

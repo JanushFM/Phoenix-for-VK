@@ -51,9 +51,9 @@ public class FrameBodyWXXX extends AbstractFrameBodyUrlLink implements ID3v24Fra
      * Creates a new FrameBodyWXXX datatype.
      */
     public FrameBodyWXXX() {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, "");
-        this.setObjectValue(DataTypes.OBJ_URLLINK, "");
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, "");
+        setObjectValue(DataTypes.OBJ_URLLINK, "");
     }
 
     public FrameBodyWXXX(FrameBodyWXXX body) {
@@ -68,9 +68,9 @@ public class FrameBodyWXXX extends AbstractFrameBodyUrlLink implements ID3v24Fra
      * @param urlLink
      */
     public FrameBodyWXXX(byte textEncoding, String description, String urlLink) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
-        this.setObjectValue(DataTypes.OBJ_URLLINK, urlLink);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
+        setObjectValue(DataTypes.OBJ_URLLINK, urlLink);
     }
 
     /**
@@ -118,7 +118,7 @@ public class FrameBodyWXXX extends AbstractFrameBodyUrlLink implements ID3v24Fra
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         super.write(tagBuffer);
     }

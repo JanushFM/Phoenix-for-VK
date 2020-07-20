@@ -45,7 +45,7 @@ public class FieldFrameBodyAUT extends AbstractLyrics3v2FieldFrameBody {
      * @param author
      */
     public FieldFrameBodyAUT(String author) {
-        this.setObjectValue("Author", author);
+        setObjectValue("Author", author);
     }
 
     /**
@@ -55,7 +55,7 @@ public class FieldFrameBodyAUT extends AbstractLyrics3v2FieldFrameBody {
      * @throws InvalidTagException
      */
     public FieldFrameBodyAUT(ByteBuffer byteBuffer) throws InvalidTagException {
-        this.read(byteBuffer);
+        read(byteBuffer);
     }
 
     /**

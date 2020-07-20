@@ -87,7 +87,7 @@ public class SecuritySettings implements ISettings.ISecuritySettings {
     }
 
     private void setPinHash(String pinHash) {
-        this.mPinHash = pinHash;
+        mPinHash = pinHash;
         if (Objects.isNull(pinHash)) {
             mPrefs.edit().remove(KEY_PIN_HASH).apply();
         } else {
@@ -200,8 +200,8 @@ public class SecuritySettings implements ISettings.ISecuritySettings {
     }
 
     public void setKeyEncryptionPolicyAccepted(boolean accepted) {
-        this.mKeyEncryptionPolicyAccepted = accepted;
-        this.mPrefs.edit()
+        mKeyEncryptionPolicyAccepted = accepted;
+        mPrefs.edit()
                 .putBoolean(KEY_ENCRYPTION_POLICY_ACCEPTED, accepted)
                 .apply();
     }

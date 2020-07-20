@@ -20,7 +20,7 @@ public final class BooleanValue implements Parcelable {
     private boolean value;
 
     public BooleanValue(boolean initialValue) {
-        this.value = initialValue;
+        value = initialValue;
     }
 
     public BooleanValue() {

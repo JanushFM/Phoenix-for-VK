@@ -61,7 +61,7 @@ public class KeyboardView extends FrameLayout {
         digitsButtons[9] = findViewById(R.id.button9);
 
         for (int i = 0; i < digitsButtons.length; i++) {
-            final int finalI = i;
+            int finalI = i;
             digitsButtons[i].setOnClickListener(v -> onDigitButtonClick(finalI));
         }
 
@@ -85,7 +85,7 @@ public class KeyboardView extends FrameLayout {
     }
 
     public void setOnKeyboardClickListener(OnKeyboardClickListener onKeyboardClickListener) {
-        this.mOnKeyboardClickListener = onKeyboardClickListener;
+        mOnKeyboardClickListener = onKeyboardClickListener;
     }
 
     public interface OnKeyboardClickListener {

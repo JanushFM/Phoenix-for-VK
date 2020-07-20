@@ -31,8 +31,8 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
     private List<Object> mData;
 
     public DialogPreviewAdapter(Context context, List<Object> items, ActionListener actionListener) {
-        this.mData = items;
-        this.mTransformation = CurrentTheme.createTransformationForAvatar(context);
+        mData = items;
+        mTransformation = CurrentTheme.createTransformationForAvatar(context);
         this.actionListener = actionListener;
     }
 
@@ -83,7 +83,7 @@ public class DialogPreviewAdapter extends RecyclerView.Adapter<DialogPreviewAdap
     }
 
     public void setData(List<Object> data) {
-        this.mData = data;
+        mData = data;
         notifyDataSetChanged();
     }
 

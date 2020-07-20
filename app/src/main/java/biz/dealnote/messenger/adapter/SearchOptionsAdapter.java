@@ -62,7 +62,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         }
     }
 
-    private void bindDatabaseHolder(final DatabaseOption option, final NormalHolder holder) {
+    private void bindDatabaseHolder(DatabaseOption option, NormalHolder holder) {
         holder.title.setText(option.title);
         holder.value.setText(option.value == null ? null : option.value.title);
         holder.delete.setVisibility(option.value == null ? View.INVISIBLE : View.VISIBLE);
@@ -84,7 +84,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         });
     }
 
-    private void bindSimpleBooleanHolder(final SimpleBooleanOption option, SimpleBooleanHolder holder) {
+    private void bindSimpleBooleanHolder(SimpleBooleanOption option, SimpleBooleanHolder holder) {
         holder.checkableView.setText(option.title);
 
         holder.checkableView.setOnCheckedChangeListener(null);
@@ -98,7 +98,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         });
     }
 
-    private void bindSpinnerHolder(final SpinnerOption option, final NormalHolder holder) {
+    private void bindSpinnerHolder(SpinnerOption option, NormalHolder holder) {
         if (option.value == null) {
             holder.value.setText(null);
         } else {
@@ -125,7 +125,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         });
     }
 
-    private void bindSimpleNumberHolder(final SimpleNumberOption option, final NormalHolder holder) {
+    private void bindSimpleNumberHolder(SimpleNumberOption option, NormalHolder holder) {
         holder.value.setText(option.value == null ? null : String.valueOf(option.value));
         holder.title.setText(option.title);
         holder.delete.setVisibility(option.value == null ? View.INVISIBLE : View.VISIBLE);
@@ -147,7 +147,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
         });
     }
 
-    private void bindSimpleTextHolder(final SimpleTextOption option, final NormalHolder holder) {
+    private void bindSimpleTextHolder(SimpleTextOption option, NormalHolder holder) {
         holder.value.setText(option.value);
         holder.title.setText(option.title);
 
@@ -213,7 +213,7 @@ public class SearchOptionsAdapter extends RecyclerBindableAdapter<BaseOption, Re
     }
 
     public void setOptionClickListener(OptionClickListener optionClickListener) {
-        this.mOptionClickListener = optionClickListener;
+        mOptionClickListener = optionClickListener;
     }
 
     public interface OptionClickListener {

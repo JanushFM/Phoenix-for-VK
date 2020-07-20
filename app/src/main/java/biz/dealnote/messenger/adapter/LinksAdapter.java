@@ -17,7 +17,6 @@ import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.model.Link;
 import biz.dealnote.messenger.model.PhotoSizes;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 
@@ -32,7 +31,7 @@ public class LinksAdapter extends RecyclerBindableAdapter<Link, LinksAdapter.Lin
     }
 
     public void setActionListener(ActionListener listener) {
-        this.mActionListener = listener;
+        mActionListener = listener;
     }
 
     public String getImageUrl(Link link) {
@@ -40,7 +39,7 @@ public class LinksAdapter extends RecyclerBindableAdapter<Link, LinksAdapter.Lin
         if (link.getPhoto() == null && link.getPreviewPhoto() != null)
             return link.getPreviewPhoto();
 
-        if (Objects.nonNull(link.getPhoto()) && Objects.nonNull(link.getPhoto().getSizes())) {
+        if (nonNull(link.getPhoto()) && nonNull(link.getPhoto().getSizes())) {
             PhotoSizes sizes = link.getPhoto().getSizes();
             return sizes.getUrlForSize(Settings.get().main().getPrefPreviewImageSize(), true);
         }

@@ -34,7 +34,7 @@ public class UniversitiesAdapter extends RecyclerView.Adapter<UniversitiesAdapte
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final University country = mData.get(position);
+        University country = mData.get(position);
         holder.name.setText(country.getTitle());
 
         holder.itemView.setOnClickListener(v -> {
@@ -50,7 +50,7 @@ public class UniversitiesAdapter extends RecyclerView.Adapter<UniversitiesAdapte
     }
 
     public void setListener(Listener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 
     public interface Listener {

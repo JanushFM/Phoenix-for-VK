@@ -14,7 +14,7 @@ public class LocalPhotoRequestHandler extends RequestHandler {
     private final Context mContext;
 
     public LocalPhotoRequestHandler(Context context) {
-        this.mContext = context;
+        mContext = context;
     }
 
     @Override

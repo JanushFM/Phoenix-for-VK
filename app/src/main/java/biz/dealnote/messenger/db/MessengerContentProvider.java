@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -297,7 +298,7 @@ public class MessengerContentProvider extends ContentProvider {
     static {
         //Setup projection maps
         sUsersProjectionMap = new HashMap<>();
-        sUsersProjectionMap.put(UserColumns._ID, UserColumns.FULL_ID);
+        sUsersProjectionMap.put(BaseColumns._ID, UserColumns.FULL_ID);
         sUsersProjectionMap.put(UserColumns.FIRST_NAME, UserColumns.FULL_FIRST_NAME);
         sUsersProjectionMap.put(UserColumns.LAST_NAME, UserColumns.FULL_LAST_NAME);
         sUsersProjectionMap.put(UserColumns.ONLINE, UserColumns.FULL_ONLINE);
@@ -321,7 +322,7 @@ public class MessengerContentProvider extends ContentProvider {
         sUsersProjectionMap.put(UserColumns.IS_VERIFIED, UserColumns.FULL_IS_VERIFIED);
 
         sRelativeshipProjectionMap = new HashMap<>();
-        sRelativeshipProjectionMap.put(RelationshipColumns._ID, RelationshipColumns.FULL_ID);
+        sRelativeshipProjectionMap.put(BaseColumns._ID, RelationshipColumns.FULL_ID);
         sRelativeshipProjectionMap.put(RelationshipColumns.OBJECT_ID, RelationshipColumns.FULL_OBJECT_ID);
         sRelativeshipProjectionMap.put(RelationshipColumns.SUBJECT_ID, RelationshipColumns.FULL_SUBJECT_ID);
         sRelativeshipProjectionMap.put(RelationshipColumns.TYPE, RelationshipColumns.FULL_TYPE);
@@ -389,13 +390,13 @@ public class MessengerContentProvider extends ContentProvider {
         sMessagesProjectionMap.put(MessageColumns.PAYLOAD, MessageColumns.FULL_PAYLOAD);
 
         sAttachmentsProjectionMap = new HashMap<>();
-        sAttachmentsProjectionMap.put(AttachmentsColumns._ID, AttachmentsColumns.FULL_ID);
+        sAttachmentsProjectionMap.put(BaseColumns._ID, AttachmentsColumns.FULL_ID);
         sAttachmentsProjectionMap.put(AttachmentsColumns.MESSAGE_ID, AttachmentsColumns.FULL_MESSAGE_ID);
         sAttachmentsProjectionMap.put(AttachmentsColumns.TYPE, AttachmentsColumns.FULL_TYPE);
         sAttachmentsProjectionMap.put(AttachmentsColumns.DATA, AttachmentsColumns.FULL_DATA);
 
         sPhotosProjectionMap = new HashMap<>();
-        sPhotosProjectionMap.put(PhotosColumns._ID, PhotosColumns.FULL_ID);
+        sPhotosProjectionMap.put(BaseColumns._ID, PhotosColumns.FULL_ID);
         sPhotosProjectionMap.put(PhotosColumns.PHOTO_ID, PhotosColumns.FULL_PHOTO_ID);
         sPhotosProjectionMap.put(PhotosColumns.ALBUM_ID, PhotosColumns.FULL_ALBUM_ID);
         sPhotosProjectionMap.put(PhotosColumns.OWNER_ID, PhotosColumns.FULL_OWNER_ID);
@@ -413,7 +414,7 @@ public class MessengerContentProvider extends ContentProvider {
         sPhotosProjectionMap.put(PhotosColumns.DELETED, PhotosColumns.FULL_DELETED);
 
         sDialogsProjectionMap = new HashMap<>();
-        sDialogsProjectionMap.put(DialogsColumns._ID, DialogsColumns.FULL_ID);
+        sDialogsProjectionMap.put(BaseColumns._ID, DialogsColumns.FULL_ID);
         sDialogsProjectionMap.put(DialogsColumns.UNREAD, DialogsColumns.FULL_UNREAD);
         sDialogsProjectionMap.put(DialogsColumns.TITLE, DialogsColumns.FULL_TITLE);
         sDialogsProjectionMap.put(DialogsColumns.IN_READ, DialogsColumns.FULL_IN_READ);
@@ -436,7 +437,7 @@ public class MessengerContentProvider extends ContentProvider {
         sDialogsProjectionMap.put(DialogsColumns.FOREIGN_MESSAGE_ENCRYPTED, MessageColumns.FULL_ENCRYPTED + " AS " + DialogsColumns.FOREIGN_MESSAGE_ENCRYPTED);
 
         sPeersProjectionMap = new HashMap<>();
-        sPeersProjectionMap.put(PeersColumns._ID, PeersColumns.FULL_ID);
+        sPeersProjectionMap.put(BaseColumns._ID, PeersColumns.FULL_ID);
         sPeersProjectionMap.put(PeersColumns.UNREAD, PeersColumns.FULL_UNREAD);
         sPeersProjectionMap.put(PeersColumns.TITLE, PeersColumns.FULL_TITLE);
         sPeersProjectionMap.put(PeersColumns.IN_READ, PeersColumns.FULL_IN_READ);
@@ -450,7 +451,7 @@ public class MessengerContentProvider extends ContentProvider {
         sPeersProjectionMap.put(PeersColumns.IS_GROUP_CHANNEL, PeersColumns.FULL_IS_GROUP_CHANNEL);
 
         sDocsProjectionMap = new HashMap<>();
-        sDocsProjectionMap.put(DocColumns._ID, DocColumns.FULL_ID);
+        sDocsProjectionMap.put(BaseColumns._ID, DocColumns.FULL_ID);
         sDocsProjectionMap.put(DocColumns.DOC_ID, DocColumns.FULL_DOC_ID);
         sDocsProjectionMap.put(DocColumns.OWNER_ID, DocColumns.FULL_OWNER_ID);
         sDocsProjectionMap.put(DocColumns.TITLE, DocColumns.FULL_TITLE);
@@ -467,7 +468,7 @@ public class MessengerContentProvider extends ContentProvider {
         sDocsProjectionMap.put(DocColumns.ACCESS_KEY, DocColumns.FULL_ACCESS_KEY);
 
         sVideosProjectionMap = new HashMap<>();
-        sVideosProjectionMap.put(VideoColumns._ID, VideoColumns.FULL_ID);
+        sVideosProjectionMap.put(BaseColumns._ID, VideoColumns.FULL_ID);
         sVideosProjectionMap.put(VideoColumns.VIDEO_ID, VideoColumns.FULL_VIDEO_ID);
         sVideosProjectionMap.put(VideoColumns.OWNER_ID, VideoColumns.FULL_OWNER_ID);
         sVideosProjectionMap.put(VideoColumns.ORIGINAL_OWNER_ID, VideoColumns.FULL_ORIGINAL_OWNER_ID);
@@ -503,7 +504,7 @@ public class MessengerContentProvider extends ContentProvider {
         sVideosProjectionMap.put(VideoColumns.CAN_ADD, VideoColumns.FULL_CAN_ADD);
 
         sPostsProjectionMap = new HashMap<>();
-        sPostsProjectionMap.put(PostsColumns._ID, PostsColumns.FULL_ID);
+        sPostsProjectionMap.put(BaseColumns._ID, PostsColumns.FULL_ID);
         sPostsProjectionMap.put(PostsColumns.POST_ID, PostsColumns.FULL_POST_ID);
         sPostsProjectionMap.put(PostsColumns.OWNER_ID, PostsColumns.FULL_OWNER_ID);
         sPostsProjectionMap.put(PostsColumns.FROM_ID, PostsColumns.FULL_FROM_ID);
@@ -532,13 +533,13 @@ public class MessengerContentProvider extends ContentProvider {
         sPostsProjectionMap.put(PostsColumns.VIEWS, PostsColumns.FULL_VIEWS);
 
         sPostsAttachmentsProjectionMap = new HashMap<>();
-        sPostsAttachmentsProjectionMap.put(PostAttachmentsColumns._ID, PostAttachmentsColumns.FULL_ID);
+        sPostsAttachmentsProjectionMap.put(BaseColumns._ID, PostAttachmentsColumns.FULL_ID);
         sPostsAttachmentsProjectionMap.put(PostAttachmentsColumns.P_ID, PostAttachmentsColumns.FULL_P_ID);
         sPostsAttachmentsProjectionMap.put(PostAttachmentsColumns.TYPE, PostAttachmentsColumns.FULL_TYPE);
         sPostsAttachmentsProjectionMap.put(PostAttachmentsColumns.DATA, PostAttachmentsColumns.FULL_DATA);
 
         sGroupsProjectionMap = new HashMap<>();
-        sGroupsProjectionMap.put(GroupColumns._ID, GroupColumns.FULL_ID);
+        sGroupsProjectionMap.put(BaseColumns._ID, GroupColumns.FULL_ID);
         sGroupsProjectionMap.put(GroupColumns.NAME, GroupColumns.FULL_NAME);
         sGroupsProjectionMap.put(GroupColumns.SCREEN_NAME, GroupColumns.FULL_SCREEN_NAME);
         sGroupsProjectionMap.put(GroupColumns.IS_CLOSED, GroupColumns.FULL_IS_CLOSED);
@@ -554,7 +555,7 @@ public class MessengerContentProvider extends ContentProvider {
         sGroupsProjectionMap.put(GroupColumns.TOPICS_ORDER, GroupColumns.FULL_TOPICS_ORDER);
 
         sCommentsProjectionMap = new HashMap<>();
-        sCommentsProjectionMap.put(CommentsColumns._ID, CommentsColumns.FULL_ID);
+        sCommentsProjectionMap.put(BaseColumns._ID, CommentsColumns.FULL_ID);
         sCommentsProjectionMap.put(CommentsColumns.COMMENT_ID, CommentsColumns.FULL_COMMENT_ID);
         sCommentsProjectionMap.put(CommentsColumns.FROM_ID, CommentsColumns.FULL_FROM_ID);
         sCommentsProjectionMap.put(CommentsColumns.DATE, CommentsColumns.FULL_DATE);
@@ -574,7 +575,7 @@ public class MessengerContentProvider extends ContentProvider {
         sCommentsProjectionMap.put(CommentsColumns.SOURCE_ACCESS_KEY, CommentsColumns.FULL_SOURCE_ACCESS_KEY);
 
         sCommentsAttachmentsProjectionMap = new HashMap<>();
-        sCommentsAttachmentsProjectionMap.put(CommentsAttachmentsColumns._ID, CommentsAttachmentsColumns.FULL_ID);
+        sCommentsAttachmentsProjectionMap.put(BaseColumns._ID, CommentsAttachmentsColumns.FULL_ID);
         sCommentsAttachmentsProjectionMap.put(CommentsAttachmentsColumns.C_ID, CommentsAttachmentsColumns.FULL_C_ID);
         sCommentsAttachmentsProjectionMap.put(CommentsAttachmentsColumns.TYPE, CommentsAttachmentsColumns.FULL_TYPE);
         sCommentsAttachmentsProjectionMap.put(CommentsAttachmentsColumns.DATA, CommentsAttachmentsColumns.FULL_DATA);
@@ -608,7 +609,7 @@ public class MessengerContentProvider extends ContentProvider {
         //sPollProjectionMap.put(PollColumns.ANSWERS, PollColumns.FULL_ANSWERS);
 
         sNewsProjectionMap = new HashMap<>();
-        sNewsProjectionMap.put(NewsColumns._ID, NewsColumns.FULL_ID);
+        sNewsProjectionMap.put(BaseColumns._ID, NewsColumns.FULL_ID);
         sNewsProjectionMap.put(NewsColumns.TYPE, NewsColumns.FULL_TYPE);
         sNewsProjectionMap.put(NewsColumns.SOURCE_ID, NewsColumns.FULL_SOURCE_ID);
         sNewsProjectionMap.put(NewsColumns.DATE, NewsColumns.FULL_DATE);
@@ -637,11 +638,11 @@ public class MessengerContentProvider extends ContentProvider {
         //sNewsProjectionMap.put(NewsColumns.HAS_COPY_HISTORY, NewsColumns.FULL_HAS_COPY_HISTORY);
 
         sGroupsDetProjectionMap = new HashMap<>();
-        sGroupsDetProjectionMap.put(GroupsDetColumns._ID, GroupsDetColumns.FULL_ID);
+        sGroupsDetProjectionMap.put(BaseColumns._ID, GroupsDetColumns.FULL_ID);
         sGroupsDetProjectionMap.put(GroupsDetColumns.DATA, GroupsDetColumns.FULL_DATA);
 
         sVideoAlbumsProjectionMap = new HashMap<>();
-        sVideoAlbumsProjectionMap.put(VideoAlbumsColumns._ID, VideoAlbumsColumns.FULL_ID);
+        sVideoAlbumsProjectionMap.put(BaseColumns._ID, VideoAlbumsColumns.FULL_ID);
         sVideoAlbumsProjectionMap.put(VideoAlbumsColumns.ALBUM_ID, VideoAlbumsColumns.FULL_ALBUM_ID);
         sVideoAlbumsProjectionMap.put(VideoAlbumsColumns.OWNER_ID, VideoAlbumsColumns.FULL_OWNER_ID);
         sVideoAlbumsProjectionMap.put(VideoAlbumsColumns.TITLE, VideoAlbumsColumns.FULL_TITLE);
@@ -651,7 +652,7 @@ public class MessengerContentProvider extends ContentProvider {
         sVideoAlbumsProjectionMap.put(VideoAlbumsColumns.PRIVACY, VideoAlbumsColumns.FULL_PRIVACY);
 
         sTopicsProjectionMap = new HashMap<>();
-        sTopicsProjectionMap.put(TopicsColumns._ID, TopicsColumns.FULL_ID);
+        sTopicsProjectionMap.put(BaseColumns._ID, TopicsColumns.FULL_ID);
         sTopicsProjectionMap.put(TopicsColumns.TOPIC_ID, TopicsColumns.FULL_TOPIC_ID);
         sTopicsProjectionMap.put(TopicsColumns.OWNER_ID, TopicsColumns.FULL_OWNER_ID);
         sTopicsProjectionMap.put(TopicsColumns.TITLE, TopicsColumns.FULL_TITLE);
@@ -668,40 +669,40 @@ public class MessengerContentProvider extends ContentProvider {
         //sTopicsProjectionMap.put(TopicsColumns.POLL_ID, TopicsColumns.FULL_POLL_ID);
 
         sNoticationsProjectionMap = new HashMap<>();
-        sNoticationsProjectionMap.put(NotificationColumns._ID, NotificationColumns.FULL_ID);
+        sNoticationsProjectionMap.put(BaseColumns._ID, NotificationColumns.FULL_ID);
         sNoticationsProjectionMap.put(NotificationColumns.TYPE, NotificationColumns.FULL_TYPE);
         sNoticationsProjectionMap.put(NotificationColumns.DATE, NotificationColumns.FULL_DATE);
         sNoticationsProjectionMap.put(NotificationColumns.DATA, NotificationColumns.FULL_DATA);
 
         sUserDetProjectionMap = new HashMap<>();
-        sUserDetProjectionMap.put(UsersDetColumns._ID, UsersDetColumns.FULL_ID);
+        sUserDetProjectionMap.put(BaseColumns._ID, UsersDetColumns.FULL_ID);
         sUserDetProjectionMap.put(UsersDetColumns.DATA, UsersDetColumns.FULL_DATA);
 
         sFavePhotosProjectionMap = new HashMap<>();
-        sFavePhotosProjectionMap.put(FavePhotosColumns._ID, FavePhotosColumns.FULL_ID);
+        sFavePhotosProjectionMap.put(BaseColumns._ID, FavePhotosColumns.FULL_ID);
         sFavePhotosProjectionMap.put(FavePhotosColumns.PHOTO_ID, FavePhotosColumns.FULL_PHOTO_ID);
         sFavePhotosProjectionMap.put(FavePhotosColumns.OWNER_ID, FavePhotosColumns.FULL_OWNER_ID);
         sFavePhotosProjectionMap.put(FavePhotosColumns.POST_ID, FavePhotosColumns.FULL_POST_ID);
         sFavePhotosProjectionMap.put(FavePhotosColumns.PHOTO, FavePhotosColumns.FULL_PHOTO);
 
         sFaveVideosProjectionMap = new HashMap<>();
-        sFaveVideosProjectionMap.put(FaveVideosColumns._ID, FaveVideosColumns.FULL_ID);
+        sFaveVideosProjectionMap.put(BaseColumns._ID, FaveVideosColumns.FULL_ID);
         sFaveVideosProjectionMap.put(FaveVideosColumns.VIDEO, FaveVideosColumns.FULL_VIDEO);
 
         sFaveUsersProjectionMap = new HashMap<>();
-        sFaveUsersProjectionMap.put(FavePageColumns._ID, FavePageColumns.FULL_ID);
+        sFaveUsersProjectionMap.put(BaseColumns._ID, FavePageColumns.FULL_ID);
         sFaveUsersProjectionMap.put(FavePageColumns.UPDATED_TIME, FavePageColumns.UPDATED_TIME);
         sFaveUsersProjectionMap.put(FavePageColumns.DESCRIPTION, FavePageColumns.DESCRIPTION);
         sFaveUsersProjectionMap.put(FavePageColumns.FAVE_TYPE, FavePageColumns.FAVE_TYPE);
 
         sFaveGroupsProjectionMap = new HashMap<>();
-        sFaveGroupsProjectionMap.put(FavePageColumns._ID, FavePageColumns.FULL_GROUPS_ID);
+        sFaveGroupsProjectionMap.put(BaseColumns._ID, FavePageColumns.FULL_GROUPS_ID);
         sFaveGroupsProjectionMap.put(FavePageColumns.UPDATED_TIME, FavePageColumns.UPDATED_TIME);
         sFaveGroupsProjectionMap.put(FavePageColumns.DESCRIPTION, FavePageColumns.DESCRIPTION);
         sFaveGroupsProjectionMap.put(FavePageColumns.FAVE_TYPE, FavePageColumns.FAVE_TYPE);
 
         sFaveLinksProjectionMap = new HashMap<>();
-        sFaveLinksProjectionMap.put(FaveLinksColumns._ID, FaveLinksColumns.FULL_ID);
+        sFaveLinksProjectionMap.put(BaseColumns._ID, FaveLinksColumns.FULL_ID);
         sFaveLinksProjectionMap.put(FaveLinksColumns.LINK_ID, FaveLinksColumns.FULL_LINK_ID);
         sFaveLinksProjectionMap.put(FaveLinksColumns.URL, FaveLinksColumns.FULL_URL);
         sFaveLinksProjectionMap.put(FaveLinksColumns.TITLE, FaveLinksColumns.FULL_TITLE);
@@ -710,27 +711,27 @@ public class MessengerContentProvider extends ContentProvider {
         sFaveLinksProjectionMap.put(FaveLinksColumns.PHOTO_100, FaveLinksColumns.FULL_PHOTO_100);
 
         sFavePostsProjectionMap = new HashMap<>();
-        sFavePostsProjectionMap.put(FavePostsColumns._ID, FavePostsColumns.FULL_ID);
+        sFavePostsProjectionMap.put(BaseColumns._ID, FavePostsColumns.FULL_ID);
         sFavePostsProjectionMap.put(FavePostsColumns.POST, FavePostsColumns.FULL_POST);
 
         sCountriesProjectionMap = new HashMap<>();
-        sCountriesProjectionMap.put(CountriesColumns._ID, CountriesColumns.FULL_ID);
+        sCountriesProjectionMap.put(BaseColumns._ID, CountriesColumns.FULL_ID);
         sCountriesProjectionMap.put(CountriesColumns.NAME, CountriesColumns.FULL_NAME);
 
         sFeedListsProjectionMap = new HashMap<>();
-        sFeedListsProjectionMap.put(FeedListsColumns._ID, FeedListsColumns.FULL_ID);
+        sFeedListsProjectionMap.put(BaseColumns._ID, FeedListsColumns.FULL_ID);
         sFeedListsProjectionMap.put(FeedListsColumns.TITLE, FeedListsColumns.FULL_TITLE);
         sFeedListsProjectionMap.put(FeedListsColumns.NO_REPOSTS, FeedListsColumns.FULL_NO_REPOSTS);
         sFeedListsProjectionMap.put(FeedListsColumns.SOURCE_IDS, FeedListsColumns.FULL_SOURCE_IDS);
 
         sFriendListsProjectionMap = new HashMap<>();
-        sFriendListsProjectionMap.put(FriendListsColumns._ID, FriendListsColumns.FULL_ID);
+        sFriendListsProjectionMap.put(BaseColumns._ID, FriendListsColumns.FULL_ID);
         sFriendListsProjectionMap.put(FriendListsColumns.USER_ID, FriendListsColumns.FULL_USER_ID);
         sFriendListsProjectionMap.put(FriendListsColumns.LIST_ID, FriendListsColumns.FULL_LIST_ID);
         sFriendListsProjectionMap.put(FriendListsColumns.NAME, FriendListsColumns.FULL_NAME);
 
         sKeysProjectionMap = new HashMap<>();
-        sKeysProjectionMap.put(KeyColumns._ID, KeyColumns.FULL_ID);
+        sKeysProjectionMap.put(BaseColumns._ID, KeyColumns.FULL_ID);
         sKeysProjectionMap.put(KeyColumns.VERSION, KeyColumns.FULL_VERSION);
         sKeysProjectionMap.put(KeyColumns.PEER_ID, KeyColumns.FULL_PEER_ID);
         sKeysProjectionMap.put(KeyColumns.SESSION_ID, KeyColumns.FULL_SESSION_ID);
@@ -1282,7 +1283,7 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_COMMENTS_ID:
                 _QB.setTables(CommentsColumns.TABLENAME);
                 _QB.setProjectionMap(sCommentsProjectionMap);
-                _QB.appendWhere(CommentsColumns._ID + " = " + uri.getPathSegments().get(1));
+                _QB.appendWhere(BaseColumns._ID + " = " + uri.getPathSegments().get(1));
                 _TableType = URI_COMMENTS;
                 break;
 
@@ -1392,14 +1393,14 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_FAVE_PAGES:
                 _QB.setTables(FavePageColumns.TABLENAME +
                         " LEFT OUTER JOIN " + UserColumns.TABLENAME +
-                        " users ON " + FavePageColumns.FULL_ID + " = users." + UserColumns._ID);
+                        " users ON " + FavePageColumns.FULL_ID + " = users." + BaseColumns._ID);
                 _QB.setProjectionMap(sFaveUsersProjectionMap);
                 _TableType = URI_FAVE_PAGES;
                 break;
             case URI_FAVE_GROUPS:
                 _QB.setTables(FavePageColumns.GROUPSTABLENAME +
                         " LEFT OUTER JOIN " + GroupColumns.TABLENAME +
-                        " groups ON " + FavePageColumns.FULL_GROUPS_ID + " = groups." + GroupColumns._ID);
+                        " groups ON " + FavePageColumns.FULL_GROUPS_ID + " = groups." + BaseColumns._ID);
                 _QB.setProjectionMap(sFaveGroupsProjectionMap);
                 _TableType = URI_FAVE_GROUPS;
                 break;
@@ -1712,9 +1713,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_POSTS_ID:
                 String postId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = PostsColumns._ID + " = " + postId;
+                    selection = BaseColumns._ID + " = " + postId;
                 } else {
-                    selection = selection + " AND " + PostsColumns._ID + " = " + postId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + postId;
                 }
                 tbName = PostsColumns.TABLENAME;
                 break;
@@ -1763,9 +1764,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_GROUPS_DET_ID:
                 String groupDetId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = GroupsDetColumns._ID + " = " + groupDetId;
+                    selection = BaseColumns._ID + " = " + groupDetId;
                 } else {
-                    selection = selection + " AND " + GroupsDetColumns._ID + " = " + groupDetId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + groupDetId;
                 }
                 tbName = GroupsDetColumns.TABLENAME;
                 break;
@@ -1787,9 +1788,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_USER_DET_ID:
                 String userDetId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = UsersDetColumns._ID + " = " + userDetId;
+                    selection = BaseColumns._ID + " = " + userDetId;
                 } else {
-                    selection = selection + " AND " + UsersDetColumns._ID + " = " + userDetId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + userDetId;
                 }
                 tbName = UsersDetColumns.TABLENAME;
                 break;
@@ -1856,9 +1857,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_USERS_ID:
                 String userID = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = UserColumns._ID + " = " + userID;
+                    selection = BaseColumns._ID + " = " + userID;
                 } else {
-                    selection = selection + " AND " + UserColumns._ID + " = " + userID;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + userID;
                 }
                 tbName = UserColumns.TABLENAME;
                 break;
@@ -1868,9 +1869,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_GROUPS_ID:
                 String groupID = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = GroupColumns._ID + " = " + groupID;
+                    selection = BaseColumns._ID + " = " + groupID;
                 } else {
-                    selection = selection + " AND " + GroupColumns._ID + " = " + groupID;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + groupID;
                 }
                 tbName = GroupColumns.TABLENAME;
                 break;
@@ -1886,9 +1887,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_POSTS_ID:
                 String postId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = PostsColumns._ID + " = " + postId;
+                    selection = BaseColumns._ID + " = " + postId;
                 } else {
-                    selection = selection + " AND " + PostsColumns._ID + " = " + postId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + postId;
                 }
                 tbName = PostsColumns.TABLENAME;
                 break;
@@ -1898,9 +1899,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_PHOTOS_ID:
                 String photoId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = PhotosColumns._ID + " = " + photoId;
+                    selection = BaseColumns._ID + " = " + photoId;
                 } else {
-                    selection = selection + " AND " + PhotosColumns._ID + " = " + photoId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + photoId;
                 }
                 tbName = PhotosColumns.TABLENAME;
                 break;
@@ -1913,9 +1914,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_COMMENTS_ID:
                 String commentId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = CommentsColumns._ID + " = " + commentId;
+                    selection = BaseColumns._ID + " = " + commentId;
                 } else {
-                    selection = selection + " AND " + CommentsColumns._ID + " = " + commentId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + commentId;
                 }
                 tbName = CommentsColumns.TABLENAME;
                 break;
@@ -1948,9 +1949,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_GROUPS_DET_ID:
                 String groupDetId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = GroupsDetColumns._ID + " = " + groupDetId;
+                    selection = BaseColumns._ID + " = " + groupDetId;
                 } else {
-                    selection = selection + " AND " + GroupsDetColumns._ID + " = " + groupDetId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + groupDetId;
                 }
                 tbName = GroupsDetColumns.TABLENAME;
                 break;
@@ -1972,9 +1973,9 @@ public class MessengerContentProvider extends ContentProvider {
             case URI_USER_DET_ID:
                 String userDetId = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
-                    selection = UsersDetColumns._ID + " = " + userDetId;
+                    selection = BaseColumns._ID + " = " + userDetId;
                 } else {
-                    selection = selection + " AND " + UsersDetColumns._ID + " = " + userDetId;
+                    selection = selection + " AND " + BaseColumns._ID + " = " + userDetId;
                 }
                 tbName = UsersDetColumns.TABLENAME;
                 break;

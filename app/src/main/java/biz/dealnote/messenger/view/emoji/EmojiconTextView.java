@@ -51,7 +51,7 @@ public class EmojiconTextView extends WrapWidthTextView implements ClickableFore
 
     private static final Pattern URL_PATTERN = Pattern.compile("((http|https|rstp)://\\S*)");
     private int mEmojiconSize;
-    private int mTextStart = 0;
+    private int mTextStart;
     private int mTextLength = -1;
     private List<Character> mAdditionalHashTagChars;
     private OnHashTagClickListener mOnHashTagClickListener;
@@ -68,9 +68,9 @@ public class EmojiconTextView extends WrapWidthTextView implements ClickableFore
     }
 
     private void init(AttributeSet attrs) {
-        this.mAdditionalHashTagChars = new ArrayList<>(2);
-        this.mAdditionalHashTagChars.add('_');
-        this.mAdditionalHashTagChars.add('@');
+        mAdditionalHashTagChars = new ArrayList<>(2);
+        mAdditionalHashTagChars.add('_');
+        mAdditionalHashTagChars.add('@');
 
         if (attrs == null) {
             mEmojiconSize = (int) getTextSize();
@@ -139,7 +139,7 @@ public class EmojiconTextView extends WrapWidthTextView implements ClickableFore
             span = new ForegroundColorSpan(mHashTagWordColor);
         }
 
-        s.setSpan(span, startIndex, nextNotLetterDigitCharIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        s.setSpan(span, startIndex, nextNotLetterDigitCharIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
     @Override
@@ -205,11 +205,11 @@ public class EmojiconTextView extends WrapWidthTextView implements ClickableFore
     }
 
     public void setOnHashTagClickListener(OnHashTagClickListener onHashTagClickListener) {
-        this.mOnHashTagClickListener = onHashTagClickListener;
+        mOnHashTagClickListener = onHashTagClickListener;
     }
 
     public void setAdditionalHashTagChars(List<Character> additionalHashTagChars) {
-        this.mAdditionalHashTagChars = additionalHashTagChars;
+        mAdditionalHashTagChars = additionalHashTagChars;
     }
 
     public List<String> getAllHashTags(boolean withHashes) {

@@ -54,10 +54,10 @@ public class DualTabPhotosFragment extends BaseFragment implements BackPressCall
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.mSources = requireArguments().getParcelable(Extra.SOURCES);
+        mSources = requireArguments().getParcelable(Extra.SOURCES);
 
         if (nonNull(savedInstanceState)) {
-            this.mCurrentTab = savedInstanceState.getInt("mCurrentTab");
+            mCurrentTab = savedInstanceState.getInt("mCurrentTab");
         }
     }
 
@@ -121,7 +121,7 @@ public class DualTabPhotosFragment extends BaseFragment implements BackPressCall
         public Adapter(@NonNull Fragment fm, Sources mSources) {
             super(fm);
             this.mSources = mSources;
-            this.fragments = new LongSparseArray<>();
+            fragments = new LongSparseArray<>();
         }
 
         public CharSequence getPageTitle(int position) {
@@ -178,7 +178,7 @@ public class DualTabPhotosFragment extends BaseFragment implements BackPressCall
             }
 
             if (source instanceof VkPhotosSelectableSource) {
-                final VkPhotosSelectableSource vksource = (VkPhotosSelectableSource) source;
+                VkPhotosSelectableSource vksource = (VkPhotosSelectableSource) source;
                 VKPhotoAlbumsFragment fragment = VKPhotoAlbumsFragment.newInstance(vksource.getAccountId(), vksource.getOwnerId(), null, null, true);
                 fragments.put(position, new WeakReference<>(fragment));
                 return fragment;

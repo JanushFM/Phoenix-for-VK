@@ -44,7 +44,7 @@ public class ViewUtils {
         return null;
     }
 
-    private static Property<TextView, Integer> createAmountAnimatorProperty(final ICountFormatter formatter) {
+    private static Property<TextView, Integer> createAmountAnimatorProperty(ICountFormatter formatter) {
         return new Property<TextView, Integer>(Integer.class, "counter_text") {
             @Override
             public Integer get(TextView view) {
@@ -146,7 +146,7 @@ public class ViewUtils {
         displayAvatar(dest, transformation, url, tag, R.drawable.ic_avatar_unknown);
     }
 
-    public static void showProgress(@NonNull final Fragment fragment, final SwipeRefreshLayout swipeRefreshLayout, boolean show) {
+    public static void showProgress(@NonNull Fragment fragment, SwipeRefreshLayout swipeRefreshLayout, boolean show) {
         if (!fragment.isAdded() || swipeRefreshLayout == null) return;
 
         if (!show) {

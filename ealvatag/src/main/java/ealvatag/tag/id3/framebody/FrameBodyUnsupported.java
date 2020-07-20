@@ -85,7 +85,7 @@ public class FrameBodyUnsupported extends AbstractID3v2FrameBody implements ID3v
      */
     public FrameBodyUnsupported(FrameBodyUnsupported copyObject) {
         super(copyObject);
-        this.identifier = copyObject.identifier;
+        identifier = copyObject.identifier;
 
     }
 
@@ -124,7 +124,7 @@ public class FrameBodyUnsupported extends AbstractID3v2FrameBody implements ID3v
         }
 
         FrameBodyUnsupported object = (FrameBodyUnsupported) obj;
-        return this.identifier.equals(object.identifier) && super.equals(obj);
+        return identifier.equals(object.identifier) && super.equals(obj);
     }
 
 

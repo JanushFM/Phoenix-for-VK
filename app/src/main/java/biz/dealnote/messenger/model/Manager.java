@@ -28,9 +28,9 @@ public final class Manager implements Parcelable {
     }
 
     private Manager(Parcel in) {
-        this.user = in.readParcelable(User.class.getClassLoader());
-        this.displayAsContact = in.readByte() != 0;
-        this.role = in.readString();
+        user = in.readParcelable(User.class.getClassLoader());
+        displayAsContact = in.readByte() != 0;
+        role = in.readString();
     }
 
     public ContactInfo getContactInfo() {

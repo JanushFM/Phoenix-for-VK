@@ -58,16 +58,16 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
 
     public DocsListPresenter(int accountId, int ownerId, @Nullable String action, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.docsInteractor = InteractorFactory.createDocsInteractor();
-        this.uploadManager = Injection.provideUploadManager();
+        docsInteractor = InteractorFactory.createDocsInteractor();
+        uploadManager = Injection.provideUploadManager();
 
-        this.mOwnerId = ownerId;
+        mOwnerId = ownerId;
 
-        this.mDocuments = new ArrayList<>();
-        this.uploadsData = new ArrayList<>(0);
-        this.mAction = action;
+        mDocuments = new ArrayList<>();
+        uploadsData = new ArrayList<>(0);
+        mAction = action;
 
-        this.destination = UploadDestination.forDocuments(ownerId);
+        destination = UploadDestination.forDocuments(ownerId);
 
         appendDisposable(uploadManager.get(getAccountId(), destination)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -95,7 +95,7 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
                 .subscribe(this::onProgressUpdates));
 
         int filter = isNull(savedInstanceState) ? DocFilter.Type.ALL : savedInstanceState.getInt(SAVE_FILTER);
-        this.filters = createFilters(filter);
+        filters = createFilters(filter);
 
         loadAll();
         requestAll();
@@ -209,8 +209,8 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
     private void requestAll() {
         setRequestNow(true);
 
-        final int filter = getSelectedFilter();
-        final int accountId = getAccountId();
+        int filter = getSelectedFilter();
+        int accountId = getAccountId();
 
         requestHolder.append(docsInteractor.request(accountId, mOwnerId, filter)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -225,8 +225,8 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
     private void onCacheDataReceived(List<Document> data) {
         setCacheLoadingNow(false);
 
-        this.mDocuments.clear();
-        this.mDocuments.addAll(data);
+        mDocuments.clear();
+        mDocuments.addAll(data);
 
         safelyNotifyDataSetChanged();
     }
@@ -235,13 +235,13 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
         // cancel db loading if active
         mLoader.dispose();
 
-        this.cacheLoadingNow = false;
-        this.requestNow = false;
+        cacheLoadingNow = false;
+        requestNow = false;
 
         resolveRefreshingView();
 
-        this.mDocuments.clear();
-        this.mDocuments.addAll(data);
+        mDocuments.clear();
+        mDocuments.addAll(data);
 
         safelyNotifyDataSetChanged();
     }
@@ -256,8 +256,8 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
     private void loadAll() {
         setCacheLoadingNow(true);
 
-        final int accountId = getAccountId();
-        final int filter = getSelectedFilter();
+        int accountId = getAccountId();
+        int filter = getSelectedFilter();
 
         mLoader.append(docsInteractor.getCacheData(accountId, mOwnerId, filter)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
@@ -308,7 +308,7 @@ public class DocsListPresenter extends AccountDependencyPresenter<IDocListView> 
 
     public void fireRefresh() {
         mLoader.dispose();
-        this.cacheLoadingNow = false;
+        cacheLoadingNow = false;
 
         requestAll();
     }

@@ -31,7 +31,6 @@ import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.model.VoiceMessage;
 import biz.dealnote.messenger.mvp.presenter.FwdsPresenter;
 import biz.dealnote.messenger.mvp.view.IFwdsView;
-import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -92,12 +91,12 @@ public class FwdsFragment extends PlaceSupportMvpFragment<FwdsPresenter, IFwdsVi
 
     @Override
     public void onAvatarClick(@NonNull Message message, int userId) {
-        super.onOpenOwner(userId);
+        onOpenOwner(userId);
     }
 
     @Override
     public void onLongAvatarClick(@NonNull Message message, int userId) {
-        super.onOpenOwner(userId);
+        onOpenOwner(userId);
     }
 
     @Override
@@ -123,7 +122,7 @@ public class FwdsFragment extends PlaceSupportMvpFragment<FwdsPresenter, IFwdsVi
 
     @Override
     public void displayMessages(@NonNull List<Message> messages, @NonNull LastReadId lastReadId) {
-        if (Objects.nonNull(mAdapter)) {
+        if (nonNull(mAdapter)) {
             mAdapter.setItems(messages, lastReadId);
         }
     }
@@ -135,7 +134,7 @@ public class FwdsFragment extends PlaceSupportMvpFragment<FwdsPresenter, IFwdsVi
 
     @Override
     public void notifyDataChanged() {
-        if (Objects.nonNull(mAdapter)) {
+        if (nonNull(mAdapter)) {
             mAdapter.notifyDataSetChanged();
         }
     }

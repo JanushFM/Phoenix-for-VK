@@ -1,10 +1,9 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 
-public class Link extends AbsModel implements Parcelable {
+public class Link extends AbsModel {
 
     public static final Creator<Link> CREATOR = new Creator<Link>() {
         @Override
@@ -99,7 +98,7 @@ public class Link extends AbsModel implements Parcelable {
     }
 
     public Link setPreviewPhoto(String photo) {
-        this.preview_photo = photo;
+        preview_photo = photo;
         return this;
     }
 

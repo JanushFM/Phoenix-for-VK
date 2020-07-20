@@ -41,7 +41,7 @@ public class VideoAlbumsNewAdapter extends RecyclerView.Adapter<VideoAlbumsNewAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final VideoAlbum item = data.get(position);
+        VideoAlbum item = data.get(position);
 
         holder.tvCount.setText(context.getString(R.string.videos_albums_videos_counter, item.getCount()));
         holder.tvTitle.setText(item.getTitle());

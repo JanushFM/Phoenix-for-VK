@@ -56,7 +56,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
     public AttachmentsBottomSheetAdapter(Context context, List<AttachmenEntry> data, ActionListener actionListener) {
         this.data = data;
         this.actionListener = actionListener;
-        this.holders = new SharedHolders<>(false);
+        holders = new SharedHolders<>(false);
         this.context = context;
     }
 
@@ -90,8 +90,8 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         int dataPosition = position - 1;
         holders.put(dataPosition, holder);
 
-        final AttachmenEntry entry = data.get(dataPosition);
-        final AbsModel model = entry.getAttachment();
+        AttachmenEntry entry = data.get(dataPosition);
+        AbsModel model = entry.getAttachment();
 
         if (model instanceof Photo) {
             bindImageHolder(holder, (Photo) model);
@@ -363,7 +363,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
 
         ImagesButtonHolder(View itemView) {
             super(itemView);
-            this.button = itemView.findViewById(R.id.add);
+            button = itemView.findViewById(R.id.add);
         }
     }
 
@@ -378,12 +378,12 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
 
         EntryHolder(View itemView) {
             super(itemView);
-            this.image = itemView.findViewById(R.id.image);
-            this.title = itemView.findViewById(R.id.title);
-            this.buttomRemove = itemView.findViewById(R.id.progress_root);
-            this.progress = itemView.findViewById(R.id.progress_view);
-            this.tintView = itemView.findViewById(R.id.tint_view);
-            this.Retry = itemView.findViewById(R.id.retry_upload);
+            image = itemView.findViewById(R.id.image);
+            title = itemView.findViewById(R.id.title);
+            buttomRemove = itemView.findViewById(R.id.progress_root);
+            progress = itemView.findViewById(R.id.progress_view);
+            tintView = itemView.findViewById(R.id.tint_view);
+            Retry = itemView.findViewById(R.id.retry_upload);
         }
 
         @Override
@@ -392,7 +392,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         }
 
         void attachId(int id) {
-            this.tintView.setTag(id);
+            tintView.setTag(id);
         }
     }
 }

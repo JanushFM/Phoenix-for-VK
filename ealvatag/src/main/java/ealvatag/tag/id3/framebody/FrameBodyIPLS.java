@@ -41,7 +41,6 @@ public class FrameBodyIPLS extends AbstractFrameBodyPairs implements ID3v23Frame
      * Creates a new FrameBodyIPLS datatype.
      */
     public FrameBodyIPLS() {
-        super();
     }
 
     /**

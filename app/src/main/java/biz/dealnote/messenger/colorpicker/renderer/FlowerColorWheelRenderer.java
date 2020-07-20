@@ -12,7 +12,7 @@ public class FlowerColorWheelRenderer extends AbsColorWheelRenderer {
 
     @Override
     public void draw() {
-        final int setSize = colorCircleList.size();
+        int setSize = colorCircleList.size();
         int currentCount = 0;
         float half = colorWheelRenderOption.targetCanvas.getWidth() / 2f;
         int density = colorWheelRenderOption.density;

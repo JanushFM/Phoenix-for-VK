@@ -48,7 +48,7 @@ final class PicassoDrawable extends BitmapDrawable {
         super(context.getResources(), bitmap);
 
         this.debugging = debugging;
-        this.density = context.getResources().getDisplayMetrics().density;
+        density = context.getResources().getDisplayMetrics().density;
 
         this.loadedFrom = loadedFrom;
 
@@ -87,7 +87,7 @@ final class PicassoDrawable extends BitmapDrawable {
     }
 
     private static Path getTrianglePath(int x1, int y1, int width) {
-        final Path path = new Path();
+        Path path = new Path();
         path.moveTo(x1, y1);
         path.lineTo(x1 + width, y1);
         path.lineTo(x1, y1 + width);

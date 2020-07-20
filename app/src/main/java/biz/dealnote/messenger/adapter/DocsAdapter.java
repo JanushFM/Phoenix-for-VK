@@ -33,7 +33,7 @@ public class DocsAdapter extends RecyclerBindableAdapter<Document, DocsAdapter.D
     }
 
     public void setActionListener(ActionListener listener) {
-        this.mActionListener = listener;
+        mActionListener = listener;
     }
 
     @Override

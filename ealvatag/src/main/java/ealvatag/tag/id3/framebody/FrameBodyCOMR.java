@@ -127,15 +127,15 @@ public class FrameBodyCOMR extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param sellerLogo
      */
     public FrameBodyCOMR(byte textEncoding, String priceString, String validUntil, String contactUrl, byte recievedAs, String nameOfSeller, String description, String mimeType, byte[] sellerLogo) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setObjectValue(DataTypes.OBJ_PRICE_STRING, priceString);
-        this.setObjectValue(DataTypes.OBJ_VALID_UNTIL, validUntil);
-        this.setObjectValue(DataTypes.OBJ_CONTACT_URL, contactUrl);
-        this.setObjectValue(DataTypes.OBJ_RECIEVED_AS, recievedAs);
-        this.setObjectValue(DataTypes.OBJ_SELLER_NAME, nameOfSeller);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
-        this.setObjectValue(DataTypes.OBJ_MIME_TYPE, mimeType);
-        this.setObjectValue(DataTypes.OBJ_SELLER_LOGO, sellerLogo);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setObjectValue(DataTypes.OBJ_PRICE_STRING, priceString);
+        setObjectValue(DataTypes.OBJ_VALID_UNTIL, validUntil);
+        setObjectValue(DataTypes.OBJ_CONTACT_URL, contactUrl);
+        setObjectValue(DataTypes.OBJ_RECIEVED_AS, recievedAs);
+        setObjectValue(DataTypes.OBJ_SELLER_NAME, nameOfSeller);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
+        setObjectValue(DataTypes.OBJ_MIME_TYPE, mimeType);
+        setObjectValue(DataTypes.OBJ_SELLER_LOGO, sellerLogo);
     }
 
     /**
@@ -181,10 +181,10 @@ public class FrameBodyCOMR extends AbstractID3v2FrameBody implements ID3v24Frame
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         if (!((AbstractString) getObject(DataTypes.OBJ_SELLER_NAME)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         super.write(tagBuffer);
     }

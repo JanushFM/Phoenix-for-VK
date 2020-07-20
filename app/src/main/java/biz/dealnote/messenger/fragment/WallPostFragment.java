@@ -93,9 +93,9 @@ public class WallPostFragment extends PlaceSupportMvpFragment<WallPostPresenter,
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        this.attachmentsViewBinder = new AttachmentsViewBinder(requireActivity(), this);
-        this.attachmentsViewBinder.setOnHashTagClickListener(this);
-        this.transformation = CurrentTheme.createTransformationForAvatar(requireActivity());
+        attachmentsViewBinder = new AttachmentsViewBinder(requireActivity(), this);
+        attachmentsViewBinder.setOnHashTagClickListener(this);
+        transformation = CurrentTheme.createTransformationForAvatar(requireActivity());
     }
 
     @Override
@@ -305,12 +305,12 @@ public class WallPostFragment extends PlaceSupportMvpFragment<WallPostPresenter,
 
     @Override
     public void displayDefaultToolbaTitle() {
-        super.setToolbarTitle(getString(R.string.wall_post));
+        setToolbarTitle(getString(R.string.wall_post));
     }
 
     @Override
     public void displayToolbarTitle(String title) {
-        super.setToolbarTitle(title);
+        setToolbarTitle(title);
     }
 
     @Override
@@ -319,22 +319,22 @@ public class WallPostFragment extends PlaceSupportMvpFragment<WallPostPresenter,
 
         switch (subtitleType) {
             case SUBTITLE_NORMAL:
-                super.setToolbarSubtitle(formattedDate);
+                setToolbarSubtitle(formattedDate);
                 break;
 
             case SUBTITLE_STATUS_UPDATE:
-                super.setToolbarSubtitle(getString(R.string.updated_status_at, formattedDate));
+                setToolbarSubtitle(getString(R.string.updated_status_at, formattedDate));
                 break;
 
             case SUBTITLE_PHOTO_UPDATE:
-                super.setToolbarSubtitle(getString(R.string.updated_profile_photo_at, formattedDate));
+                setToolbarSubtitle(getString(R.string.updated_profile_photo_at, formattedDate));
                 break;
         }
     }
 
     @Override
     public void displayDefaultToolbaSubitle() {
-        super.setToolbarSubtitle(null);
+        setToolbarSubtitle(null);
     }
 
     @Override
@@ -491,27 +491,27 @@ public class WallPostFragment extends PlaceSupportMvpFragment<WallPostPresenter,
 
         @Override
         public void setCanDelete(boolean can) {
-            this.canDelete = can;
+            canDelete = can;
         }
 
         @Override
         public void setCanRestore(boolean can) {
-            this.canRestore = can;
+            canRestore = can;
         }
 
         @Override
         public void setCanPin(boolean can) {
-            this.canPin = can;
+            canPin = can;
         }
 
         @Override
         public void setCanUnpin(boolean can) {
-            this.canUnpin = can;
+            canUnpin = can;
         }
 
         @Override
         public void setCanEdit(boolean can) {
-            this.canEdit = can;
+            canEdit = can;
         }
     }
 }

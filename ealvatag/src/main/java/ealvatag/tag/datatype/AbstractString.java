@@ -86,9 +86,9 @@ public abstract class AbstractString extends AbstractDataType {
      * @return true if {@link CharsetEncoder#canEncode(CharSequence)} reports it can encode the value
      */
     public boolean canBeEncoded() {
-        final byte textEncoding = this.getBody().getTextEncoding();
-        final TextEncoding encoding = TextEncoding.getInstanceOf();
-        final Charset charset = encoding.getCharsetForId(textEncoding);
+        byte textEncoding = getBody().getTextEncoding();
+        TextEncoding encoding = TextEncoding.getInstanceOf();
+        Charset charset = encoding.getCharsetForId(textEncoding);
         CharsetEncoder encoder = charset.newEncoder();
 
         return encoder.canEncode((String) value);
@@ -136,13 +136,13 @@ public abstract class AbstractString extends AbstractDataType {
      * @throws IllegalCharsetException if {@link #getTextEncodingCharSet()} throws this
      */
     Charset peekCorrectDecoder(Buffer buffer) {
-        final Charset encodingCharSet = getTextEncodingCharSet();
+        Charset encodingCharSet = getTextEncodingCharSet();
         if (buffer.size() <= 2) {
             return encodingCharSet;
         }
 
         if (encodingCharSet == StandardCharsets.UTF_16) {
-            final int firstCodePoint = getShort(buffer);  // doesn't move position
+            int firstCodePoint = getShort(buffer);  // doesn't move position
             if (firstCodePoint == 0xfffe || firstCodePoint == 0xfeff) {
                 return StandardCharsets.UTF_16;
             } else {

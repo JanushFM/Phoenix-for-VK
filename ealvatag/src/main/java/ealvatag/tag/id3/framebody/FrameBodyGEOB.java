@@ -65,11 +65,11 @@ public class FrameBodyGEOB extends AbstractID3v2FrameBody implements ID3v24Frame
      * Creates a new FrameBodyGEOB datatype.
      */
     public FrameBodyGEOB() {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
-        this.setObjectValue(DataTypes.OBJ_MIME_TYPE, "");
-        this.setObjectValue(DataTypes.OBJ_FILENAME, "");
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, "");
-        this.setObjectValue(DataTypes.OBJ_DATA, new byte[0]);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, TextEncoding.ISO_8859_1);
+        setObjectValue(DataTypes.OBJ_MIME_TYPE, "");
+        setObjectValue(DataTypes.OBJ_FILENAME, "");
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, "");
+        setObjectValue(DataTypes.OBJ_DATA, new byte[0]);
     }
 
     public FrameBodyGEOB(FrameBodyGEOB body) {
@@ -86,11 +86,11 @@ public class FrameBodyGEOB extends AbstractID3v2FrameBody implements ID3v24Frame
      * @param object
      */
     public FrameBodyGEOB(byte textEncoding, String mimeType, String filename, String description, byte[] object) {
-        this.setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
-        this.setObjectValue(DataTypes.OBJ_MIME_TYPE, mimeType);
-        this.setObjectValue(DataTypes.OBJ_FILENAME, filename);
-        this.setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
-        this.setObjectValue(DataTypes.OBJ_DATA, object);
+        setObjectValue(DataTypes.OBJ_TEXT_ENCODING, textEncoding);
+        setObjectValue(DataTypes.OBJ_MIME_TYPE, mimeType);
+        setObjectValue(DataTypes.OBJ_FILENAME, filename);
+        setObjectValue(DataTypes.OBJ_DESCRIPTION, description);
+        setObjectValue(DataTypes.OBJ_DATA, object);
     }
 
     /**
@@ -135,10 +135,10 @@ public class FrameBodyGEOB extends AbstractID3v2FrameBody implements ID3v24Frame
      */
     public void write(ByteArrayOutputStream tagBuffer) {
         if (!((AbstractString) getObject(DataTypes.OBJ_FILENAME)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         if (!((AbstractString) getObject(DataTypes.OBJ_DESCRIPTION)).canBeEncoded()) {
-            this.setTextEncoding(TextEncoding.UTF_16);
+            setTextEncoding(TextEncoding.UTF_16);
         }
         super.write(tagBuffer);
     }

@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public final class NewsFeedCriteria extends BaseSearchCriteria implements Parcelable {
+public final class NewsFeedCriteria extends BaseSearchCriteria {
 
     public static final Creator<NewsFeedCriteria> CREATOR = new Creator<NewsFeedCriteria>() {
         @Override

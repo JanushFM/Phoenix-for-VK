@@ -58,10 +58,10 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
     public CommentsAdapter(Context context, List<Comment> items, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         super(items);
         this.context = context;
-        this.attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
-        this.colorTextSecondary = CurrentTheme.getSecondaryTextColorCode(context);
-        this.iconColorActive = CurrentTheme.getColorPrimary(context);
+        attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
+        transformation = CurrentTheme.createTransformationForAvatar(context);
+        colorTextSecondary = CurrentTheme.getSecondaryTextColorCode(context);
+        iconColorActive = CurrentTheme.getColorPrimary(context);
     }
 
     public void setOnHashTagClickListener(EmojiconTextView.OnHashTagClickListener onHashTagClickListener) {
@@ -80,7 +80,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
         }
     }
 
-    private void bindDeletedComment(DeletedHolder holder, final Comment comment) {
+    private void bindDeletedComment(DeletedHolder holder, Comment comment) {
         holder.buttonRestore.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onRestoreComment(comment.getId());
@@ -88,7 +88,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
         });
     }
 
-    private void bindNormalHolder(final NormalCommentHoler holder, final Comment comment) {
+    private void bindNormalHolder(NormalCommentHoler holder, Comment comment) {
         holder.cancelSelectionAnimation();
 
         if (comment.isAnimationNow()) {
@@ -154,7 +154,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
         });
     }
 
-    private Spannable genTimeAndReplyText(final Comment comment) {
+    private Spannable genTimeAndReplyText(Comment comment) {
         String time = AppTextUtils.getDateFromUnixTime(comment.getDate());
         if (comment.getReplyToUser() == 0) {
             return Spannable.Factory.getInstance().newSpannable(time);

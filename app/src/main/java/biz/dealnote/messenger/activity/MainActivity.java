@@ -39,6 +39,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.stream.JsonReader;
 
@@ -153,6 +154,8 @@ import biz.dealnote.messenger.model.drawer.AbsMenuItem;
 import biz.dealnote.messenger.model.drawer.RecentChat;
 import biz.dealnote.messenger.model.drawer.SectionMenuItem;
 import biz.dealnote.messenger.mvp.presenter.DocsListPresenter;
+import biz.dealnote.messenger.mvp.view.IVideosListView;
+import biz.dealnote.messenger.mvp.view.IVkPhotosView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.place.PlaceProvider;
@@ -395,12 +398,12 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         if (obj.has("app_id"))
                             apk_id = obj.getString("app_id");
 
-                        final String Chenges_log = Chngs;
+                        String Chenges_log = Chngs;
 
                         if (APK_VERS <= Constants.VERSION_APK && Constants.APK_ID.equals(apk_id))
                             return;
 
-                        Handler uiHandler = new Handler(MainActivity.this.getMainLooper());
+                        Handler uiHandler = new Handler(getMainLooper());
                         uiHandler.post(() -> {
                             String res = "<i><a href=\"https://github.com/umerov1999/Phoenix-for-VK/releases/latest\">Скачать с github.com</a></i>";
                             res += ("<p>Изменения: " + Chenges_log + "</p>");
@@ -410,7 +413,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                                     .setMessage(Html.fromHtml(res))
                                     .setPositiveButton("Закрыть", null)
                                     .setNegativeButton("Донатнуть", (dialog, which) -> {
-                                        ClipboardManager clipboard = (ClipboardManager) MainActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
+                                        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                                         ClipData clip = ClipData.newPlainText("response", "5599005042882048");
                                         clipboard.setPrimaryClip(clip);
                                         PhoenixToast.CreatePhoenixToast(MainActivity.this).setDuration(Toast.LENGTH_LONG).showToast("Номер карты скопирован в буфер");
@@ -459,7 +462,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     private void checkFCMRegistration() {
         if (!checkPlayServices(this)) {
             if (!Settings.get().other().isDisabledErrorFCM()) {
-                Utils.ThemedSnack(mViewFragment, getString(R.string.this_device_does_not_support_fcm), Snackbar.LENGTH_LONG)
+                Utils.ThemedSnack(mViewFragment, getString(R.string.this_device_does_not_support_fcm), BaseTransientBottomBar.LENGTH_LONG)
                         .setAnchorView(mBottomNavigationContainer).setAction(R.string.button_access, v -> {
                     Settings.get().other().setDisableErrorFCM(true);
                 }).show();
@@ -506,13 +509,13 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                             case R.id.button_ok:
                                 mCompositeDisposable.add(Injection.provideNetworkInterfaces().vkDefault(Settings.get().accounts().getCurrent()).account().setOffline()
                                         .compose(RxUtils.applySingleIOToMainSchedulers())
-                                        .subscribe(MainActivity.this::OnSetOffline, t -> OnSetOffline(false)));
+                                        .subscribe(this::OnSetOffline, t -> OnSetOffline(false)));
                                 break;
                             case R.id.button_cancel:
-                                final ClipboardManager clipBoard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                ClipboardManager clipBoard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                                 if (clipBoard != null && clipBoard.getPrimaryClip() != null && clipBoard.getPrimaryClip().getItemCount() > 0 && clipBoard.getPrimaryClip().getItemAt(0).getText() != null) {
                                     String temp = clipBoard.getPrimaryClip().getItemAt(0).getText().toString();
-                                    LinkHelper.openUrl(MainActivity.this, mAccountId, temp);
+                                    LinkHelper.openUrl(this, mAccountId, temp);
                                 }
                                 break;
                         }
@@ -539,7 +542,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     }
 
     private void onCurrentAccountChange(int newAccountId) {
-        this.mAccountId = newAccountId;
+        mAccountId = newAccountId;
         Accounts.showAccountSwitchedToast(this);
         UpdateNotificationCount(newAccountId);
     }
@@ -619,7 +622,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
             String title = intent.getStringExtra(Extra.TITLE);
             String imgUrl = intent.getStringExtra(Extra.IMAGE);
 
-            final Peer peer = new Peer(peerId).setTitle(title).setAvaUrl(imgUrl);
+            Peer peer = new Peer(peerId).setTitle(title).setAvaUrl(imgUrl);
             PlaceFactory.getChatPlace(aid, aid, peer, 0).tryOpenWith(this);
             return Settings.get().ui().getSwipes_chat_mode() != SwipesChatMode.V2 || Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.DISABLED;
         }
@@ -675,8 +678,8 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     }
 
     private void openRecentChat(RecentChat chat) {
-        final int accountId = this.mAccountId;
-        final int messagesOwnerId = this.mAccountId;
+        int accountId = mAccountId;
+        int messagesOwnerId = mAccountId;
         openChat(accountId, messagesOwnerId, new Peer(chat.getPeerId()).setAvaUrl(chat.getIconUrl()).setTitle(chat.getTitle()), 0, true);
     }
 
@@ -749,7 +752,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
             clearBackStack();
         }
 
-        final int aid = mAccountId;
+        int aid = mAccountId;
 
 //        PlaceFactory.getDialogsPlace(aid, aid, null)
 
@@ -779,10 +782,10 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 openPlace(PlaceFactory.getNotificationsPlace(aid));
                 break;
             case AdditionalNavigationFragment.PAGE_PHOTOS:
-                openPlace(PlaceFactory.getVKPhotoAlbumsPlace(aid, aid, VKPhotosFragment.ACTION_SHOW_PHOTOS, null));
+                openPlace(PlaceFactory.getVKPhotoAlbumsPlace(aid, aid, IVkPhotosView.ACTION_SHOW_PHOTOS, null));
                 break;
             case AdditionalNavigationFragment.PAGE_VIDEOS:
-                openPlace(PlaceFactory.getVideosPlace(aid, aid, VideosFragment.ACTION_SHOW));
+                openPlace(PlaceFactory.getVideosPlace(aid, aid, IVideosListView.ACTION_SHOW));
                 break;
             case AdditionalNavigationFragment.PAGE_BOOKMARKS:
                 openPlace(PlaceFactory.getBookmarksPlace(aid, FaveTabsFragment.TAB_PHOTOS));
@@ -924,8 +927,8 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 return;
             }
 
-            this.mLastBackPressedTime = System.currentTimeMillis();
-            Snackbar.make(mViewFragment, getString(R.string.click_back_to_exit), Snackbar.LENGTH_SHORT).setAnchorView(mBottomNavigationContainer).show();
+            mLastBackPressedTime = System.currentTimeMillis();
+            Snackbar.make(mViewFragment, getString(R.string.click_back_to_exit), BaseTransientBottomBar.LENGTH_SHORT).setAnchorView(mBottomNavigationContainer).show();
         } else {
             super.onBackPressed();
         }
@@ -1079,7 +1082,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
     @Override
     public void openPlace(Place place) {
-        final Bundle args = place.getArgs();
+        Bundle args = place.getArgs();
         switch (place.type) {
             case Place.VIDEO_PREVIEW:
                 attachToFront(VideoPreviewFragment.newInstance(args));
@@ -1135,13 +1138,13 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.CHAT:
-                final Peer peer = args.getParcelable(Extra.PEER);
+                Peer peer = args.getParcelable(Extra.PEER);
                 AssertUtils.requireNonNull(peer);
                 openChat(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), peer, args.getInt(Extra.OFFSET), true);
                 break;
 
             case Place.CHAT_DUAL:
-                final Peer peer1 = args.getParcelable(Extra.PEER);
+                Peer peer1 = args.getParcelable(Extra.PEER);
                 AssertUtils.requireNonNull(peer1);
                 openChat(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), peer1, args.getInt(Extra.OFFSET), false);
                 break;

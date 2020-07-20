@@ -6,7 +6,7 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class SpinnerOption extends BaseOption implements Parcelable {
+public class SpinnerOption extends BaseOption {
 
     public static final Creator<SpinnerOption> CREATOR = new Creator<SpinnerOption>() {
         @Override
@@ -35,7 +35,7 @@ public class SpinnerOption extends BaseOption implements Parcelable {
     @Override
     public SpinnerOption clone() throws CloneNotSupportedException {
         SpinnerOption clone = (SpinnerOption) super.clone();
-        clone.value = this.value == null ? null : this.value.clone();
+        clone.value = value == null ? null : value.clone();
         return clone;
     }
 

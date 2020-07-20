@@ -22,7 +22,7 @@ public class DocsSearchPresenter extends AbsSearchPresenter<IDocSearchView, Docu
 
     public DocsSearchPresenter(int accountId, @Nullable DocumentSearchCriteria criteria, @Nullable Bundle savedInstanceState) {
         super(accountId, criteria, savedInstanceState);
-        this.docsInteractor = InteractorFactory.createDocsInteractor();
+        docsInteractor = InteractorFactory.createDocsInteractor();
     }
 
     @Override
@@ -37,8 +37,8 @@ public class DocsSearchPresenter extends AbsSearchPresenter<IDocSearchView, Docu
 
     @Override
     Single<Pair<List<Document>, IntNextFrom>> doSearch(int accountId, DocumentSearchCriteria criteria, IntNextFrom startFrom) {
-        final int offset = startFrom.getOffset();
-        final IntNextFrom nextFrom = new IntNextFrom(50 + offset);
+        int offset = startFrom.getOffset();
+        IntNextFrom nextFrom = new IntNextFrom(50 + offset);
         return docsInteractor.search(accountId, criteria, 50, offset)
                 .map(documents -> Pair.Companion.create(documents, nextFrom));
     }

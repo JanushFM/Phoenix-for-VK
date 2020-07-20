@@ -36,7 +36,7 @@ public final class DefaultErrorActivity extends AppCompatActivity {
         setContentView(R.layout.crash_default_error_activity);
         MaterialButton restartButton = findViewById(R.id.crash_error_activity_restart_button);
 
-        final CrashConfig config = CrashActivity.getConfigFromIntent(getIntent());
+        CrashConfig config = CrashActivity.getConfigFromIntent(getIntent());
 
         if (config == null) {
             finish();
@@ -45,18 +45,18 @@ public final class DefaultErrorActivity extends AppCompatActivity {
 
         if (config.isShowRestartButton() && config.getRestartActivityClass() != null) {
             restartButton.setText(R.string.customactivityoncrash_error_activity_restart_app);
-            restartButton.setOnClickListener(v -> CrashActivity.restartApplication(DefaultErrorActivity.this, config));
+            restartButton.setOnClickListener(v -> CrashActivity.restartApplication(this, config));
         } else {
-            restartButton.setOnClickListener(v -> CrashActivity.closeApplication(DefaultErrorActivity.this, config));
+            restartButton.setOnClickListener(v -> CrashActivity.closeApplication(this, config));
         }
 
         MaterialButton moreInfoButton = findViewById(R.id.crash_error_activity_more_info_button);
 
         if (config.isShowErrorDetails()) {
             moreInfoButton.setOnClickListener(v -> {
-                AlertDialog dialog = new AlertDialog.Builder(DefaultErrorActivity.this)
+                AlertDialog dialog = new AlertDialog.Builder(this)
                         .setTitle(R.string.customactivityoncrash_error_activity_error_details_title)
-                        .setMessage(CrashActivity.getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent()))
+                        .setMessage(CrashActivity.getAllErrorDetailsFromIntent(this, getIntent()))
                         .setPositiveButton(R.string.customactivityoncrash_error_activity_error_details_close, null)
                         .setNeutralButton(R.string.customactivityoncrash_error_activity_error_details_copy,
                                 (dialog1, which) -> copyErrorToClipboard())
@@ -79,13 +79,13 @@ public final class DefaultErrorActivity extends AppCompatActivity {
     }
 
     private void copyErrorToClipboard() {
-        String errorInformation = CrashActivity.getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent());
+        String errorInformation = CrashActivity.getAllErrorDetailsFromIntent(this, getIntent());
 
         ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         if (clipboard != null) {
             ClipData clip = ClipData.newPlainText(getString(R.string.customactivityoncrash_error_activity_error_details_clipboard_label), errorInformation);
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(DefaultErrorActivity.this, R.string.customactivityoncrash_error_activity_error_details_copied, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.customactivityoncrash_error_activity_error_details_copied, Toast.LENGTH_SHORT).show();
         }
     }
 }

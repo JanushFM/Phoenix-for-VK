@@ -39,7 +39,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setBinaryData(final byte[] binaryData) {
+    public Artwork setBinaryData(byte[] binaryData) {
         return this;
     }
 
@@ -49,7 +49,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setMimeType(final String mimeType) {
+    public Artwork setMimeType(String mimeType) {
         return this;
     }
 
@@ -59,7 +59,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setDescription(final String description) {
+    public Artwork setDescription(String description) {
         return this;
     }
 
@@ -69,7 +69,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setHeight(final int height) {
+    public Artwork setHeight(int height) {
         return this;
     }
 
@@ -79,7 +79,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setWidth(final int width) {
+    public Artwork setWidth(int width) {
         return this;
     }
 
@@ -89,7 +89,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setLinked(final boolean linked) {
+    public Artwork setLinked(boolean linked) {
         return this;
     }
 
@@ -99,7 +99,7 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setImageUrl(final String imageUrl) {
+    public Artwork setImageUrl(String imageUrl) {
         return this;
     }
 
@@ -109,12 +109,12 @@ public final class NullArtwork implements Artwork {
     }
 
     @Override
-    public Artwork setPictureType(final int pictureType) {
+    public Artwork setPictureType(int pictureType) {
         return this;
     }
 
     @Override
-    public Artwork setFromFile(final File file) throws IOException {
+    public Artwork setFromFile(File file) throws IOException {
         return this;
     }
 }

@@ -30,6 +30,8 @@ public interface IFeedView extends IAccountDependencyView, IAttachmentsPlacesVie
 
     void scrollFeedSourcesToPosition(int position);
 
+    void scrollTo(int pos);
+
     void goToLikes(int accountId, String type, int ownerId, int id);
 
     void goToReposts(int accountId, String type, int ownerId, int id);

@@ -48,23 +48,23 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
 
     public WallPostQueryAttachmentsPresenter(int accountId, int ownerId, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
-        this.owner_id = ownerId;
-        this.mPost = new ArrayList<>();
-        this.fInteractor = Repository.INSTANCE.getWalls();
+        owner_id = ownerId;
+        mPost = new ArrayList<>();
+        fInteractor = Repository.INSTANCE.getWalls();
     }
 
     @Override
     public void onGuiCreated(@NonNull IWallPostQueryAttachmentsView view) {
         super.onGuiCreated(view);
-        view.displayData(this.mPost);
+        view.displayData(mPost);
     }
 
     private void loadActualData(int offset) {
-        this.actualDataLoading = true;
+        actualDataLoading = true;
 
         resolveRefreshingView();
 
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getWallNoCache(accountId, owner_id, offset, 100, WallCriteria.MODE_ALL)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
@@ -76,21 +76,21 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         if (only_insert) {
             return;
         }
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
         resolveRefreshingView();
         getView().onSetLoadingStatus(0);
         fireRefresh();
     }
 
     private void onActualDataGetError(Throwable t) {
-        this.actualDataLoading = false;
+        actualDataLoading = false;
         showError(getView(), getCauseIfRuntime(t));
 
         resolveRefreshingView();
     }
 
-    private boolean check(final String data, final List<String> str) {
+    private boolean check(String data, List<String> str) {
         for (String i : str) {
             if (data.toLowerCase().contains(i)) {
                 return true;
@@ -99,11 +99,11 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean doCompare(final String data, final List<String> str) {
+    private boolean doCompare(String data, List<String> str) {
         return Utils.safeCheck(data, () -> check(data, str));
     }
 
-    private boolean checkDocs(final ArrayList<Document> docs, final List<String> str, final List<Integer> ids) {
+    private boolean checkDocs(ArrayList<Document> docs, List<String> str, List<Integer> ids) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -115,7 +115,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean checkPhotos(final ArrayList<Photo> docs, final List<String> str, final List<Integer> ids) {
+    private boolean checkPhotos(ArrayList<Photo> docs, List<String> str, List<Integer> ids) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -127,7 +127,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean checkVideos(final ArrayList<Video> docs, final List<String> str, final List<Integer> ids) {
+    private boolean checkVideos(ArrayList<Video> docs, List<String> str, List<Integer> ids) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -139,7 +139,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean checkAlbums(final ArrayList<PhotoAlbum> docs, final List<String> str, final List<Integer> ids) {
+    private boolean checkAlbums(ArrayList<PhotoAlbum> docs, List<String> str, List<Integer> ids) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -151,7 +151,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean checkLinks(final ArrayList<Link> docs, final List<String> str) {
+    private boolean checkLinks(ArrayList<Link> docs, List<String> str) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -163,7 +163,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean checkArticles(final ArrayList<Article> docs, final List<String> str, final List<Integer> ids) {
+    private boolean checkArticles(ArrayList<Article> docs, List<String> str, List<Integer> ids) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -175,7 +175,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private boolean checkPoll(final ArrayList<Poll> docs, final List<String> str, final List<Integer> ids) {
+    private boolean checkPoll(ArrayList<Poll> docs, List<String> str, List<Integer> ids) {
         if (Utils.isEmpty(docs)) {
             return false;
         }
@@ -187,7 +187,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         return false;
     }
 
-    private void update(List<Post> data, final List<String> str, final List<Integer> ids) {
+    private void update(List<Post> data, List<String> str, List<Integer> ids) {
 
         for (Post i : data) {
             if ((i.hasText() && doCompare(i.getText(), str)) || ids.contains(i.getOwnerId()) || ids.contains(i.getSignerId()) || ids.contains(i.getAuthorId())) {
@@ -207,10 +207,10 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
 
     private void onActualDataReceived(int offset, List<Post> data) {
 
-        this.actualDataLoading = false;
-        this.endOfContent = data.isEmpty();
-        this.actualDataReceived = true;
-        if (this.endOfContent && isGuiResumed())
+        actualDataLoading = false;
+        endOfContent = data.isEmpty();
+        actualDataReceived = true;
+        if (endOfContent && isGuiResumed())
             getView().onSetLoadingStatus(2);
 
         String[] str = Query.split("\\|");
@@ -229,14 +229,14 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         }
 
         if (offset == 0) {
-            this.loaded = data.size();
-            this.mPost.clear();
+            loaded = data.size();
+            mPost.clear();
             update(data, Arrays.asList(str), ids);
             resolveToolbar();
             callView(IWallPostQueryAttachmentsView::notifyDataSetChanged);
         } else {
             int startSize = mPost.size();
-            this.loaded += data.size();
+            loaded += data.size();
             update(data, Arrays.asList(str), ids);
             resolveToolbar();
             callView(view -> view.notifyDataAdded(startSize, mPost.size() - startSize));
@@ -288,8 +288,8 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
         if (Utils.isEmpty(Query)) {
             return;
         }
-        this.actualDataDisposable.clear();
-        this.actualDataLoading = false;
+        actualDataDisposable.clear();
+        actualDataLoading = false;
 
         loadActualData(0);
     }
@@ -300,7 +300,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
             return;
         }
 
-        super.firePostClick(post);
+        firePostClick(post);
     }
 
     public void firePostRestoreClick(Post post) {
@@ -318,7 +318,7 @@ public class WallPostQueryAttachmentsPresenter extends PlaceSupportPresenter<IWa
     }
 
     public void fireLikeClick(Post post) {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         appendDisposable(fInteractor.like(accountId, post.getOwnerId(), post.getVkid(), !post.isUserLikes())
                 .compose(RxUtils.applySingleIOToMainSchedulers())

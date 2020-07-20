@@ -206,7 +206,7 @@ public class CryptHelper {
         byte[] cipherText;
 
         // get an RSA cipher object and print the provider
-        final Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance("RSA");
         // encrypt the plain text using the public key
         cipher.init(Cipher.ENCRYPT_MODE, key);
         cipherText = cipher.doFinal(text.getBytes());
@@ -226,7 +226,7 @@ public class CryptHelper {
         byte[] dectyptedText;
 
         // get an RSA cipher object and print the provider
-        final Cipher cipher = Cipher.getInstance("RSA");
+        Cipher cipher = Cipher.getInstance("RSA");
 
         // decrypt the text using the private key
         cipher.init(Cipher.DECRYPT_MODE, key);

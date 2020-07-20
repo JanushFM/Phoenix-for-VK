@@ -42,11 +42,11 @@ public class VideoUploadable implements IUploadable<Video> {
             if (scheme.equals("file")) {
                 fileName = uri.getLastPathSegment();
             } else if (scheme.equals("content")) {
-                String[] proj = {MediaStore.Images.Media.TITLE};
+                String[] proj = {MediaStore.MediaColumns.TITLE};
 
                 Cursor cursor = context.getContentResolver().query(uri, proj, null, null, null);
                 if (cursor != null && cursor.getCount() != 0) {
-                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE);
+                    int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.TITLE);
                     cursor.moveToFirst();
                     fileName = cursor.getString(columnIndex);
                 }
@@ -65,8 +65,8 @@ public class VideoUploadable implements IUploadable<Video> {
 
     @Override
     public Single<UploadResult<Video>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
-        final int accountId = upload.getAccountId();
-        final boolean isPrivate = upload.getDestination().getId() == 0;
+        int accountId = upload.getAccountId();
+        boolean isPrivate = upload.getDestination().getId() == 0;
 
         Single<UploadServer> serverSingle = networker.vkDefault(accountId)
                 .docs()
@@ -74,7 +74,7 @@ public class VideoUploadable implements IUploadable<Video> {
                 .map(s -> s);
 
         return serverSingle.flatMap(server -> {
-            final InputStream[] is = new InputStream[1];
+            InputStream[] is = new InputStream[1];
 
             try {
                 Uri uri = upload.getFileUri();
@@ -90,7 +90,7 @@ public class VideoUploadable implements IUploadable<Video> {
                     return Single.error(new NotFoundException("Unable to open InputStream, URI: " + uri));
                 }
 
-                final String filename = findFileName(context, uri);
+                String filename = findFileName(context, uri);
                 return networker.uploads()
                         .uploadVideoRx(server.getUrl(), filename, is[0], listener)
                         .doFinally(safelyCloseAction(is[0]))

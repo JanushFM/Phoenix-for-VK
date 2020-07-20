@@ -70,13 +70,13 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
     }
 
     public void addAll(List<? extends T> items) {
-        final int size = this.items.size();
+        int size = this.items.size();
         this.items.addAll(items);
         notifyItemRangeInserted(size + getHeadersCount(), items.size());
     }
 
     public void addAll(int position, List<? extends T> items) {
-        final int size = this.items.size();
+        int size = this.items.size();
         this.items.addAll(position, items);
         notifyItemRangeInserted(position + getHeadersCount() + size, items.size() - position);
     }
@@ -95,14 +95,14 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
     }
 
     public void clear() {
-        final int size = items.size();
+        int size = items.size();
         items.clear();
         notifyItemRangeRemoved(getHeadersCount(), size);
     }
 
     public void moveChildTo(int fromPosition, int toPosition) {
         if (toPosition != -1 && toPosition < items.size()) {
-            final T item = items.remove(fromPosition);
+            T item = items.remove(fromPosition);
             items.add(toPosition, item);
             notifyItemMoved(getHeadersCount() + fromPosition, getHeadersCount() + toPosition);
             int positionStart = Math.min(fromPosition, toPosition);
@@ -142,7 +142,7 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
     }
 
     @Override
-    public final void onBindViewHolder(@NotNull final RecyclerView.ViewHolder vh, int position) {
+    public final void onBindViewHolder(@NotNull RecyclerView.ViewHolder vh, int position) {
         //check what type of view our position is
         if (isHeader(position)) {
             View v = headers.get(position);
@@ -219,7 +219,7 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
             setManager(recyclerView.getLayoutManager());
         }
         if (inflater == null) {
-            this.inflater = LayoutInflater.from(recyclerView.getContext());
+            inflater = LayoutInflater.from(recyclerView.getContext());
         }
     }
 

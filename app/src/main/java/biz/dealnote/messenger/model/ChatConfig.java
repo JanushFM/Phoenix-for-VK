@@ -26,15 +26,15 @@ public final class ChatConfig implements Parcelable {
     private String uploadFilesMimeType;
 
     public ChatConfig() {
-        this.models = new ModelsBundle();
+        models = new ModelsBundle();
     }
 
     private ChatConfig(Parcel in) {
-        this.closeOnSend = in.readByte() != 0;
-        this.models = in.readParcelable(ModelsBundle.class.getClassLoader());
-        this.initialText = in.readString();
-        this.uploadFiles = in.createTypedArrayList(Uri.CREATOR);
-        this.uploadFilesMimeType = in.readString();
+        closeOnSend = in.readByte() != 0;
+        models = in.readParcelable(ModelsBundle.class.getClassLoader());
+        initialText = in.readString();
+        uploadFiles = in.createTypedArrayList(Uri.CREATOR);
+        uploadFilesMimeType = in.readString();
     }
 
     public ModelsBundle getModels() {

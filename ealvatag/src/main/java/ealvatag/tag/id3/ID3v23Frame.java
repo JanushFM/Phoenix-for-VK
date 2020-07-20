@@ -124,38 +124,38 @@ public class ID3v23Frame extends AbstractID3v2Frame {
         if (frame instanceof ID3v24Frame) {
             //Unknown Frame e.g NCON, also protects when known id but has unsupported frame body
             if (frame.getBody() instanceof FrameBodyUnsupported) {
-                this.frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
+                frameBody.setHeader(this);
                 identifier = frame.getIdentifier();
             }
             // Deprecated frame for v24
             else if (frame.getBody() instanceof FrameBodyDeprecated) {
                 //Was it valid for this tag version, if so try and reconstruct
                 if (ID3Tags.isID3v23FrameIdentifier(frame.getIdentifier())) {
-                    this.frameBody = ((FrameBodyDeprecated) frame.getBody()).getOriginalFrameBody();
+                    frameBody = ((FrameBodyDeprecated) frame.getBody()).getOriginalFrameBody();
                 }
                 //or was it still deprecated, if so leave as is
                 else {
-                    this.frameBody = new FrameBodyDeprecated((FrameBodyDeprecated) frame.getBody());
+                    frameBody = new FrameBodyDeprecated((FrameBodyDeprecated) frame.getBody());
 
                 }
-                this.frameBody.setHeader(this);
-                this.frameBody.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(this, this.frameBody.getTextEncoding()));
+                frameBody.setHeader(this);
+                frameBody.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(this, frameBody.getTextEncoding()));
                 identifier = frame.getIdentifier();
             } else if (ID3Tags.isID3v24FrameIdentifier(frame.getIdentifier())) {
                 //Version between v4 and v3
                 identifier = ID3Tags.convertFrameID24To23(frame.getIdentifier());
                 if (identifier != null) {
-                    this.frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(frame.getBody());
-                    this.frameBody.setHeader(this);
-                    this.frameBody.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(this, frameBody.getTextEncoding()));
+                    frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(frame.getBody());
+                    frameBody.setHeader(this);
+                    frameBody.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(this, frameBody.getTextEncoding()));
                 } else {
                     //Is it a known v4 frame which needs forcing to v3 frame e.g. TDRC - TYER,TDAT
                     identifier = ID3Tags.forceFrameID24To23(frame.getIdentifier());
                     if (identifier != null) {
-                        this.frameBody = this.readBody(identifier, (AbstractID3v2FrameBody) frame.getBody());
-                        this.frameBody.setHeader(this);
-                        this.frameBody.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(this, this.frameBody.getTextEncoding()));
+                        frameBody = readBody(identifier, (AbstractID3v2FrameBody) frame.getBody());
+                        frameBody.setHeader(this);
+                        frameBody.setTextEncoding(ID3TextEncodingConversion.getTextEncoding(this, frameBody.getTextEncoding()));
                     }
                     //It is a v24 frame that is not known and cannot be forced in v23 e.g TDRL,in which case
                     //we convert to a frameBody unsupported by writing contents as a byte array and feeding
@@ -165,8 +165,8 @@ public class ID3v23Frame extends AbstractID3v2Frame {
                         ((AbstractID3v2FrameBody) frame.getBody()).write(baos);
 
                         identifier = frame.getIdentifier();
-                        this.frameBody = new FrameBodyUnsupported(identifier, baos.toByteArray());
-                        this.frameBody.setHeader(this);
+                        frameBody = new FrameBodyUnsupported(identifier, baos.toByteArray());
+                        frameBody.setHeader(this);
                     }
                 }
             }
@@ -178,29 +178,29 @@ public class ID3v23Frame extends AbstractID3v2Frame {
             if (ID3Tags.isID3v22FrameIdentifier(frame.getIdentifier())) {
                 identifier = ID3Tags.convertFrameID22To23(frame.getIdentifier());
                 if (identifier != null) {
-                    this.frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(frame.getBody());
-                    this.frameBody.setHeader(this);
+                    frameBody = (AbstractTagFrameBody) ID3Tags.copyObject(frame.getBody());
+                    frameBody.setHeader(this);
                 }
                 //Is it a known v2 frame which needs forcing to v23 frame e.g PIC - APIC
                 else if (ID3Tags.isID3v22FrameIdentifier(frame.getIdentifier())) {
                     //Force v2 to v3
                     identifier = ID3Tags.forceFrameID22To23(frame.getIdentifier());
                     if (identifier != null) {
-                        this.frameBody = this.readBody(identifier, (AbstractID3v2FrameBody) frame.getBody());
-                        this.frameBody.setHeader(this);
+                        frameBody = readBody(identifier, (AbstractID3v2FrameBody) frame.getBody());
+                        frameBody.setHeader(this);
                     }
                     //No mechanism exists to convert it to a v23 frame
                     else {
-                        this.frameBody = new FrameBodyDeprecated((AbstractID3v2FrameBody) frame.getBody());
-                        this.frameBody.setHeader(this);
+                        frameBody = new FrameBodyDeprecated((AbstractID3v2FrameBody) frame.getBody());
+                        frameBody.setHeader(this);
                         identifier = frame.getIdentifier();
                     }
                 }
             }
             // Unknown Frame e.g NCON
             else {
-                this.frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
-                this.frameBody.setHeader(this);
+                frameBody = new FrameBodyUnsupported((FrameBodyUnsupported) frame.getBody());
+                frameBody.setHeader(this);
                 identifier = frame.getIdentifier();
             }
         }
@@ -216,7 +216,7 @@ public class ID3v23Frame extends AbstractID3v2Frame {
         read(byteBuffer);
     }
 
-    public ID3v23Frame(final Buffer buffer, final String loggingFilename, final boolean ignoreArtwork)
+    public ID3v23Frame(Buffer buffer, String loggingFilename, boolean ignoreArtwork)
             throws InvalidTagException, IOException {
         setLoggingFilename(loggingFilename);
         read(buffer, ignoreArtwork);
@@ -250,7 +250,7 @@ public class ID3v23Frame extends AbstractID3v2Frame {
      * @return int frame size
      */
     public int getSize() {
-        return frameBody.getSize() + ID3v23Frame.FRAME_HEADER_SIZE;
+        return frameBody.getSize() + FRAME_HEADER_SIZE;
     }
 
     /**
@@ -274,8 +274,8 @@ public class ID3v23Frame extends AbstractID3v2Frame {
 
 
         return
-                EqualsUtil.areEqual(this.statusFlags, that.statusFlags) &&
-                        EqualsUtil.areEqual(this.encodingFlags, that.encodingFlags) &&
+                EqualsUtil.areEqual(statusFlags, that.statusFlags) &&
+                        EqualsUtil.areEqual(encodingFlags, that.encodingFlags) &&
                         super.equals(that);
 
     }
@@ -410,8 +410,8 @@ public class ID3v23Frame extends AbstractID3v2Frame {
         }
     }
 
-    private void read(final Buffer buffer, final boolean ignoreArtwork) throws InvalidTagException, IOException {
-        final String fileName = loggingFilename;
+    private void read(Buffer buffer, boolean ignoreArtwork) throws InvalidTagException, IOException {
+        String fileName = loggingFilename;
         try {
             String identifier = readIdentifier(buffer);
             if (!isValidID3v2FrameIdentifier(identifier)) {
@@ -506,7 +506,7 @@ public class ID3v23Frame extends AbstractID3v2Frame {
             } else {
                 //Read the body data
                 if (((EncodingFlags) encodingFlags).isCompression()) {
-                    final Buffer decompressBuffer = AbstractID3v2Frame.decompressPartOfBuffer(buffer, realFrameSize, decompressedFrameSize);
+                    Buffer decompressBuffer = AbstractID3v2Frame.decompressPartOfBuffer(buffer, realFrameSize, decompressedFrameSize);
                     if (((EncodingFlags) encodingFlags).isEncryption()) {
                         frameBody = readEncryptedBody(frameId, decompressBuffer, decompressedFrameSize);
                     } else {
@@ -648,11 +648,11 @@ public class ID3v23Frame extends AbstractID3v2Frame {
      *
      * @param encoding charset.
      */
-    public void setEncoding(final Charset encoding) {
+    public void setEncoding(Charset encoding) {
         try {
             byte encodingId = TextEncoding.getInstanceOf().getIdForCharset(encoding);
             if (encodingId < 2) {
-                this.getBody().setTextEncoding(encodingId);
+                getBody().setTextEncoding(encodingId);
             }
         } catch (NoSuchElementException ignored) {
         }
@@ -758,7 +758,6 @@ public class ID3v23Frame extends AbstractID3v2Frame {
         static final int MASK_GROUPING_IDENTITY = FileConstants.BIT5;
 
         EncodingFlags() {
-            super();
         }
 
         EncodingFlags(byte flags) {

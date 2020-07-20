@@ -12,13 +12,13 @@ import biz.dealnote.messenger.player.util.MusicUtils;
 
 public class PlayPauseButton extends FloatingActionButton implements OnClickListener {
 
-    public PlayPauseButton(final Context context, final AttributeSet attrs) {
+    public PlayPauseButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOnClickListener(this);
     }
 
     @Override
-    public void onClick(final View v) {
+    public void onClick(View v) {
         MusicUtils.playOrPause();
         updateState();
     }

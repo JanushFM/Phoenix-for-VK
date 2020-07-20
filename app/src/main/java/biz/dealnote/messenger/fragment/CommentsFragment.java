@@ -375,7 +375,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
 
     @Override
     public void showAuthorSelectDialog(List<Owner> owners) {
-        final ArrayList<Owner> data = new ArrayList<>(owners);
+        ArrayList<Owner> data = new ArrayList<>(owners);
         OwnersListAdapter adapter = new OwnersListAdapter(requireActivity(), data);
         new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle(R.string.select_comment_author)
@@ -387,9 +387,9 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
 
     @Override
     public void setupOptionMenu(boolean topicPollAvailable, boolean gotoSourceAvailable, Integer gotoSourceText) {
-        this.mTopicPollAvailable = topicPollAvailable;
-        this.mGotoSourceAvailable = gotoSourceAvailable;
-        this.mGotoSourceText = gotoSourceText;
+        mTopicPollAvailable = topicPollAvailable;
+        mGotoSourceAvailable = gotoSourceAvailable;
+        mGotoSourceText = gotoSourceText;
 
         try {
             requireActivity().invalidateOptionsMenu();
@@ -426,7 +426,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
 
     @Override
     public void setCanSendSelectAuthor(boolean can) {
-        this.mCanSendCommentAsAdmin = can;
+        mCanSendCommentAsAdmin = can;
     }
 
     @Override
@@ -461,7 +461,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
 
     @Override
     public void onAvatarClick(int ownerId) {
-        super.onOpenOwner(ownerId);
+        onOpenOwner(ownerId);
     }
 
     @Override
@@ -641,17 +641,17 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
 
         @Override
         public void setCanEdit(boolean can) {
-            this.canEdit = can;
+            canEdit = can;
         }
 
         @Override
         public void setCanDelete(boolean can) {
-            this.canDelete = can;
+            canDelete = can;
         }
 
         @Override
         public void setCanBan(boolean can) {
-            this.canBan = can;
+            canBan = can;
         }
     }
 }

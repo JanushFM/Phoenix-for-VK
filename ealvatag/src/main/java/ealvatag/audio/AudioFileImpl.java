@@ -73,7 +73,7 @@ public class AudioFileImpl implements AudioFile {
      * @param audioHeader the encoding audioHeaders over this file
      * @param tag         the tag contained in this file or null if no tag exists
      */
-    public AudioFileImpl(final File file, final String extension, AudioHeader audioHeader, TagFieldContainer tag) {
+    public AudioFileImpl(File file, String extension, AudioHeader audioHeader, TagFieldContainer tag) {
         checkArgNotNull(file);
         checkArgNotNullOrEmpty(extension);
         checkArgNotNull(audioHeader);
@@ -83,7 +83,7 @@ public class AudioFileImpl implements AudioFile {
         this.tag = tag;
     }
 
-    protected AudioFileImpl(final File file, final String extension) {
+    protected AudioFileImpl(File file, String extension) {
         checkArgNotNull(file);
         checkArgNotNullOrEmpty(extension);
         this.file = file;
@@ -108,9 +108,9 @@ public class AudioFileImpl implements AudioFile {
     }
 
     @Override
-    public void saveAs(final String fullPathWithoutExtension) throws IllegalArgumentException, CannotWriteException {
+    public void saveAs(String fullPathWithoutExtension) throws IllegalArgumentException, CannotWriteException {
         checkReadOnly();
-        Check.checkArgNotNullOrEmpty(fullPathWithoutExtension, Check.CANNOT_BE_NULL_OR_EMPTY, "fullPathWithoutExtension");
+        checkArgNotNullOrEmpty(fullPathWithoutExtension, Check.CANNOT_BE_NULL_OR_EMPTY, "fullPathWithoutExtension");
         AudioFileIO.instance().writeFileAs(this, fullPathWithoutExtension);
     }
 
@@ -226,7 +226,7 @@ public class AudioFileImpl implements AudioFile {
 
 
     protected FileChannel getReadFileChannel(File file) throws FileNotFoundException {
-        final FileChannel channel = new RandomAccessFile(file, "r").getChannel();
+        FileChannel channel = new RandomAccessFile(file, "r").getChannel();
         try {
             if (channel.size() == 0) {
                 throw new FileNotFoundException("Not found or 0 size " + file.getPath());

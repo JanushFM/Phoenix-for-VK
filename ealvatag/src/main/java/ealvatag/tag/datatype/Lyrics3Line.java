@@ -52,11 +52,11 @@ public class Lyrics3Line extends AbstractDataType {
 
     public Lyrics3Line(Lyrics3Line copy) {
         super(copy);
-        this.lyric = copy.lyric;
+        lyric = copy.lyric;
         Lyrics3TimeStamp newTimeStamp;
         for (int i = 0; i < copy.timeStamp.size(); i++) {
             newTimeStamp = new Lyrics3TimeStamp(copy.timeStamp.get(i));
-            this.timeStamp.add(newTimeStamp);
+            timeStamp.add(newTimeStamp);
         }
     }
 
@@ -72,7 +72,7 @@ public class Lyrics3Line extends AbstractDataType {
     }
 
     public void setLyric(ID3v2LyricLine line) {
-        this.lyric = line.getText();
+        lyric = line.getText();
     }
 
     /**
@@ -102,11 +102,11 @@ public class Lyrics3Line extends AbstractDataType {
     }
 
     public void addLyric(String newLyric) {
-        this.lyric += newLyric;
+        lyric += newLyric;
     }
 
     public void addLyric(ID3v2LyricLine line) {
-        this.lyric += line.getText();
+        lyric += line.getText();
     }
 
     /**
@@ -125,10 +125,10 @@ public class Lyrics3Line extends AbstractDataType {
             return false;
         }
         Lyrics3Line object = (Lyrics3Line) obj;
-        if (!this.lyric.equals(object.lyric)) {
+        if (!lyric.equals(object.lyric)) {
             return false;
         }
-        return this.timeStamp.equals(object.timeStamp) && super.equals(obj);
+        return timeStamp.equals(object.timeStamp) && super.equals(obj);
     }
 
     /**
@@ -194,7 +194,7 @@ public class Lyrics3Line extends AbstractDataType {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         readString(buffer.readByteArray().toString(), 0);
     }
 

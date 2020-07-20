@@ -58,7 +58,7 @@ public class StringFixedLength extends AbstractString {
 
     public StringFixedLength(StringFixedLength copyObject) {
         super(copyObject);
-        this.size = copyObject.size;
+        size = copyObject.size;
     }
 
     /**
@@ -70,7 +70,7 @@ public class StringFixedLength extends AbstractString {
             return false;
         }
         StringFixedLength object = (StringFixedLength) obj;
-        return this.size == object.size && super.equals(obj);
+        return size == object.size && super.equals(obj);
     }
 
     /**
@@ -81,7 +81,7 @@ public class StringFixedLength extends AbstractString {
      */
     public void readByteArray(byte[] arr, int offset) throws InvalidDataTypeException {
         try {
-            final CharsetDecoder decoder = getTextEncodingCharSet().newDecoder();
+            CharsetDecoder decoder = getTextEncodingCharSet().newDecoder();
 
             //Decode buffer if runs into problems should through exception which we
             //catch and then set value to empty string.
@@ -98,7 +98,7 @@ public class StringFixedLength extends AbstractString {
     }
 
     @Override
-    public void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException {
+    public void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException {
         try {
             value = buffer.readString(this.size, getTextEncodingCharSet());
         } catch (IllegalCharsetException e) {
@@ -129,8 +129,8 @@ public class StringFixedLength extends AbstractString {
         }
 
         try {
-            final Charset charset = getTextEncodingCharSet();
-            final CharsetEncoder encoder;
+            Charset charset = getTextEncodingCharSet();
+            CharsetEncoder encoder;
             if (StandardCharsets.UTF_16.equals(charset)) {
                 //Note remember LE BOM is ff fe but tis is handled by encoder Unicode char is fe ff
                 encoder = StandardCharsets.UTF_16LE.newEncoder();

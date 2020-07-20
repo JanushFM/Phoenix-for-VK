@@ -64,9 +64,9 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
      * Object Iterator with data.
      */
     protected AbstractTagFrameBody(AbstractTagFrameBody copyObject) {
-        final ArrayList<AbstractDataType> copyObjectList = copyObject.dataTypeList;
+        ArrayList<AbstractDataType> copyObjectList = copyObject.dataTypeList;
         for (int i = 0, size = copyObjectList.size(); i < size; i++) {
-            final AbstractDataType newObject = (AbstractDataType) ID3Tags.copyObject(copyObjectList.get(i));
+            AbstractDataType newObject = (AbstractDataType) ID3Tags.copyObject(copyObjectList.get(i));
             newObject.setBody(this);
             addDataType(newObject);
         }
@@ -82,12 +82,12 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
         return dataTypeList;
     }
 
-    protected void addDataType(final AbstractDataType dataType) {
+    protected void addDataType(AbstractDataType dataType) {
         dataTypeList.add(dataType);
         dataTypeMap.put(dataType.getIdentifier(), dataType);
     }
 
-    private boolean containsDataType(final AbstractDataType dataType) {
+    private boolean containsDataType(AbstractDataType dataType) {
         return dataTypeMap.containsKey(dataType.getIdentifier());
     }
 
@@ -131,14 +131,14 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
      * @return brief description string
      */
     public String getBriefDescription() {
-        final int size = dataTypeList.size();
+        int size = dataTypeList.size();
         StringBuilder builder = new StringBuilder(256);  // during general testing this seems to be a big enough byte array
         for (int i = 0; i < size; i++) {
             AbstractDataType object = dataTypeList.get(i);
             if ((object.toString() != null) && (object.toString().length() > 0)) {
                 builder.append(object.getIdentifier())
                         .append("=\"")
-                        .append(object.toString())
+                        .append(object)
                         .append("\"; ");
             }
         }
@@ -158,7 +158,7 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
         String str = "";
         for (AbstractDataType object : dataTypeList) {
             if ((object.toString() != null) && (object.toString().length() > 0)) {
-                str += (object.getIdentifier() + " = " + object.toString() + "\n");
+                str += (object.getIdentifier() + " = " + object + "\n");
             }
         }
         return str;
@@ -171,7 +171,7 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
      * @param value      new datatype value
      */
     public final void setObjectValue(String identifier, Object value) {
-        final AbstractDataType abstractDataType = dataTypeMap.get(identifier);
+        AbstractDataType abstractDataType = dataTypeMap.get(identifier);
         if (abstractDataType != null) {
             abstractDataType.setValue(value);
         }
@@ -222,7 +222,7 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
         if (!(obj instanceof AbstractTagFrameBody)) {
             return false;
         }
-        final AbstractTagFrameBody possibleSuperset = (AbstractTagFrameBody) obj;
+        AbstractTagFrameBody possibleSuperset = (AbstractTagFrameBody) obj;
         for (int i = 0, size = dataTypeList.size(); i < size; i++) {
             if (!possibleSuperset.containsDataType(dataTypeList.get(i))) {
                 return false;
@@ -244,7 +244,7 @@ public abstract class AbstractTagFrameBody extends AbstractTagItem {
             return false;
         }
         AbstractTagFrameBody object = (AbstractTagFrameBody) obj;
-        return this.dataTypeList.equals(object.dataTypeList);
+        return dataTypeList.equals(object.dataTypeList);
     }
 
     /**

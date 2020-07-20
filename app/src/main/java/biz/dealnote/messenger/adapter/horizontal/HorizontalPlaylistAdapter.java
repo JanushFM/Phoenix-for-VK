@@ -35,7 +35,7 @@ public class HorizontalPlaylistAdapter extends RecyclerBindableAdapter<AudioPlay
     @SuppressLint("SetTextI18n")
     @Override
     protected void onBindItemViewHolder(Holder holder, int position, int type) {
-        final AudioPlaylist playlist = getItem(position);
+        AudioPlaylist playlist = getItem(position);
 
         Context context = holder.itemView.getContext();
 

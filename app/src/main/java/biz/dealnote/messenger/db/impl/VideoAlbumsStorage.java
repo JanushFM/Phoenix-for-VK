@@ -4,6 +4,7 @@ import android.content.ContentProviderOperation;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
 import androidx.annotation.NonNull;
 
@@ -53,8 +54,8 @@ class VideoAlbumsStorage extends AbsStorage implements IVideoAlbumsStorage {
 
             if (nonNull(range)) {
                 where = VideoAlbumsColumns.OWNER_ID + " = ? " +
-                        " AND " + VideoAlbumsColumns._ID + " >= ? " +
-                        " AND " + VideoAlbumsColumns._ID + " <= ?";
+                        " AND " + BaseColumns._ID + " >= ? " +
+                        " AND " + BaseColumns._ID + " <= ?";
                 args = new String[]{String.valueOf(criteria.getOwnerId()),
                         String.valueOf(range.getFirst()),
                         String.valueOf(range.getLast())};
@@ -108,8 +109,8 @@ class VideoAlbumsStorage extends AbsStorage implements IVideoAlbumsStorage {
     }
 
     private VideoAlbumEntity mapAlbum(Cursor cursor) {
-        final int id = cursor.getInt(cursor.getColumnIndex(VideoAlbumsColumns.ALBUM_ID));
-        final int ownerId = cursor.getInt(cursor.getColumnIndex(VideoAlbumsColumns.OWNER_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(VideoAlbumsColumns.ALBUM_ID));
+        int ownerId = cursor.getInt(cursor.getColumnIndex(VideoAlbumsColumns.OWNER_ID));
 
         PrivacyEntity privacyEntity = null;
 

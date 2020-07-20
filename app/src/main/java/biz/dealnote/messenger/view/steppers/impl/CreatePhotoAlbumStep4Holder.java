@@ -20,13 +20,13 @@ public class CreatePhotoAlbumStep4Holder extends AbsStepHolder<CreatePhotoAlbumS
 
     public CreatePhotoAlbumStep4Holder(@NonNull ViewGroup parent, @NonNull ActionListener actionListener) {
         super(parent, R.layout.content_create_photo_album_step_4, CreatePhotoAlbumStepsHost.STEP_PRIVACY_VIEW);
-        this.mActionListener = actionListener;
+        mActionListener = actionListener;
     }
 
     @Override
     public void initInternalView(View contentView) {
-        this.mPrivacyCommentAllowed = contentView.findViewById(R.id.commenting_allowed);
-        this.mPrivacyComemntDisallowed = contentView.findViewById(R.id.commenting_disabled);
+        mPrivacyCommentAllowed = contentView.findViewById(R.id.commenting_allowed);
+        mPrivacyComemntDisallowed = contentView.findViewById(R.id.commenting_disabled);
 
         mRootView = contentView.findViewById(R.id.root);
         mRootView.setOnClickListener(v -> mActionListener.onPrivacyCommentClick());

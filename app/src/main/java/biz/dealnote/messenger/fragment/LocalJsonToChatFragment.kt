@@ -59,7 +59,7 @@ class LocalJsonToChatFragment : PlaceSupportMvpFragment<LocalJsonToChatPresenter
         EmptyAvatar = root.findViewById(R.id.empty_avatar_text)
 
         recyclerView = root.findViewById(android.R.id.list)
-        recyclerView?.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+        recyclerView?.layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, true)
         recyclerView?.addOnScrollListener(PicassoPauseOnScrollListener(Constants.PICASSO_TAG))
         mSwipeRefreshLayout = root.findViewById(R.id.refresh)
         mSwipeRefreshLayout?.isEnabled = false

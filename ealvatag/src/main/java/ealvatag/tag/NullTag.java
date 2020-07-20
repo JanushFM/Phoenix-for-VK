@@ -54,17 +54,17 @@ public final class NullTag implements Tag {
     }
 
     @Override
-    public boolean hasField(final FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public boolean hasField(FieldKey genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         return false;
     }
 
     @Override
-    public boolean hasField(final String id) {
+    public boolean hasField(String id) {
         return false;
     }
 
     @Override
-    public int getFieldCount(final Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
+    public int getFieldCount(Key genericKey) throws IllegalArgumentException, UnsupportedFieldException {
         return 0;
     }
 
@@ -74,71 +74,71 @@ public final class NullTag implements Tag {
     }
 
     @Override
-    public Tag setField(final FieldKey genericKey, final String... values) throws IllegalArgumentException,
+    public Tag setField(FieldKey genericKey, String... values) throws IllegalArgumentException,
             UnsupportedFieldException,
             FieldDataInvalidException {
         return this;
     }
 
     @Override
-    public Tag addField(final FieldKey genericKey, final String... values) throws IllegalArgumentException,
+    public Tag addField(FieldKey genericKey, String... values) throws IllegalArgumentException,
             UnsupportedFieldException,
             FieldDataInvalidException {
         return this;
     }
 
     @Override
-    public String getFirst(final FieldKey genericKey)
+    public String getFirst(FieldKey genericKey)
             throws IllegalArgumentException, UnsupportedFieldException {
         return "";
     }
 
     @Override
-    public String getFirst(final String id) throws IllegalArgumentException, UnsupportedFieldException {
+    public String getFirst(String id) throws IllegalArgumentException, UnsupportedFieldException {
         return null;
     }
 
     @Override
-    public Optional<String> getValue(final FieldKey genericKey) throws IllegalArgumentException {
+    public Optional<String> getValue(FieldKey genericKey) throws IllegalArgumentException {
         return Optional.absent();
     }
 
     @Override
-    public Optional<String> getValue(final FieldKey genericKey, final int index) throws IllegalArgumentException {
+    public Optional<String> getValue(FieldKey genericKey, int index) throws IllegalArgumentException {
         return Optional.absent();
     }
 
     @Override
-    public String getFieldAt(final FieldKey genericKey, final int index)
+    public String getFieldAt(FieldKey genericKey, int index)
             throws IllegalArgumentException, UnsupportedFieldException {
         return "";
     }
 
     @Override
-    public List<String> getAll(final FieldKey genericKey)
+    public List<String> getAll(FieldKey genericKey)
             throws IllegalArgumentException, UnsupportedFieldException {
         return ImmutableList.of();
     }
 
     @Override
-    public Tag deleteField(final FieldKey genericKey)
+    public Tag deleteField(FieldKey genericKey)
             throws IllegalArgumentException, UnsupportedFieldException {
         return this;
     }
 
     @Override
-    public Tag deleteField(final String id) throws IllegalArgumentException, UnsupportedFieldException {
+    public Tag deleteField(String id) throws IllegalArgumentException, UnsupportedFieldException {
         return this;
     }
 
     @Override
-    public Tag setArtwork(final Artwork artwork)
+    public Tag setArtwork(Artwork artwork)
             throws IllegalArgumentException, UnsupportedFieldException, FieldDataInvalidException {
         return this;
     }
 
     @Override
-    public Tag addArtwork(final Artwork artwork)
+    public Tag addArtwork(Artwork artwork)
             throws IllegalArgumentException, UnsupportedFieldException, FieldDataInvalidException {
         return this;
     }
@@ -169,24 +169,24 @@ public final class NullTag implements Tag {
     }
 
     @Override
-    public boolean setEncoding(final Charset enc) throws FieldDataInvalidException {
+    public boolean setEncoding(Charset enc) throws FieldDataInvalidException {
         return false;
     }
 
     @Override
-    public TagField createField(final FieldKey genericKey, final String... value) throws IllegalArgumentException,
+    public TagField createField(FieldKey genericKey, String... value) throws IllegalArgumentException,
             UnsupportedFieldException,
             FieldDataInvalidException {
         return NullTagField.INSTANCE;
     }
 
     @Override
-    public TagField createArtwork(final Artwork artwork) throws UnsupportedFieldException, FieldDataInvalidException {
+    public TagField createArtwork(Artwork artwork) throws UnsupportedFieldException, FieldDataInvalidException {
         return NullTagField.INSTANCE;
     }
 
     @Override
-    public ImmutableList<TagField> getFields(final FieldKey genericKey)
+    public ImmutableList<TagField> getFields(FieldKey genericKey)
             throws IllegalArgumentException, UnsupportedFieldException {
         return ImmutableList.of();
     }
@@ -197,23 +197,23 @@ public final class NullTag implements Tag {
     }
 
     @Override
-    public ImmutableList<TagField> getFields(final String id) {
+    public ImmutableList<TagField> getFields(String id) {
         return ImmutableList.of();
     }
 
     @Override
-    public Optional<TagField> getFirstField(final String id) throws IllegalArgumentException, UnsupportedFieldException {
+    public Optional<TagField> getFirstField(String id) throws IllegalArgumentException, UnsupportedFieldException {
         return Optional.absent();
     }
 
     @Override
-    public Optional<TagField> getFirstField(final FieldKey genericKey)
+    public Optional<TagField> getFirstField(FieldKey genericKey)
             throws IllegalArgumentException, UnsupportedFieldException {
         return Optional.absent();
     }
 
     @Override
-    public TagField createCompilationField(final boolean value) throws UnsupportedFieldException {
+    public TagField createCompilationField(boolean value) throws UnsupportedFieldException {
         return NullTagField.INSTANCE;
     }
 }

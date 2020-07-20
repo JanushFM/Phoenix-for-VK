@@ -42,7 +42,7 @@ public abstract class AbstractDataType {
      * Holds the data
      */
     protected @Nullable
-    Object value = null;
+    Object value;
 
     /**
      * Holds the key such as "Text" or "PictureType", the naming of keys are fairly arbitary but are intended
@@ -54,7 +54,7 @@ public abstract class AbstractDataType {
      * Holds the calling body, allows an datatype to query other objects in the
      * body such as the Text Encoding of the frame
      */
-    protected AbstractTagFrameBody frameBody = null;
+    protected AbstractTagFrameBody frameBody;
 
     /**
      * Holds the size of the data in file when read/written
@@ -95,55 +95,55 @@ public abstract class AbstractDataType {
      */
     public AbstractDataType(AbstractDataType copyObject) {
         // no copy constructor in super class
-        this.identifier = copyObject.identifier;
+        identifier = copyObject.identifier;
         if (copyObject.value == null) {
-            this.value = null;
+            value = null;
         } else if (copyObject.value instanceof String) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Boolean) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Byte) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Character) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Double) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Float) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Integer) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Long) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof Short) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof MultipleTextEncodedStringNullTerminated.Values) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof PairedTextEncodedStringNullTerminated.ValuePairs) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof PartOfSet.PartOfSetValue) {
-            this.value = copyObject.value;
+            value = copyObject.value;
         } else if (copyObject.value instanceof boolean[]) {
-            this.value = ((boolean[]) copyObject.value).clone();
+            value = ((boolean[]) copyObject.value).clone();
         } else if (copyObject.value instanceof byte[]) {
-            this.value = ((byte[]) copyObject.value).clone();
+            value = ((byte[]) copyObject.value).clone();
         } else if (copyObject.value instanceof char[]) {
-            this.value = ((char[]) copyObject.value).clone();
+            value = ((char[]) copyObject.value).clone();
         } else if (copyObject.value instanceof double[]) {
-            this.value = ((double[]) copyObject.value).clone();
+            value = ((double[]) copyObject.value).clone();
         } else if (copyObject.value instanceof float[]) {
-            this.value = ((float[]) copyObject.value).clone();
+            value = ((float[]) copyObject.value).clone();
         } else if (copyObject.value instanceof int[]) {
-            this.value = ((int[]) copyObject.value).clone();
+            value = ((int[]) copyObject.value).clone();
         } else if (copyObject.value instanceof long[]) {
-            this.value = ((long[]) copyObject.value).clone();
+            value = ((long[]) copyObject.value).clone();
         } else if (copyObject.value instanceof short[]) {
-            this.value = ((short[]) copyObject.value).clone();
+            value = ((short[]) copyObject.value).clone();
         } else if (copyObject.value instanceof Object[]) {
-            this.value = ((Object[]) copyObject.value).clone();
+            value = ((Object[]) copyObject.value).clone();
         } else if (copyObject.value instanceof ArrayList) {
-            this.value = ((ArrayList) copyObject.value).clone();
+            value = ((ArrayList) copyObject.value).clone();
         } else if (copyObject.value instanceof LinkedList) {
-            this.value = ((LinkedList) copyObject.value).clone();
+            value = ((LinkedList) copyObject.value).clone();
         } else {
             throw new UnsupportedOperationException("Unable to create copy of class " + copyObject.getClass());
         }
@@ -223,42 +223,42 @@ public abstract class AbstractDataType {
             return false;
         }
         AbstractDataType object = (AbstractDataType) obj;
-        if (!this.identifier.equals(object.identifier)) {
+        if (!identifier.equals(object.identifier)) {
             return false;
         }
-        if ((this.value == null) && (object.value == null)) {
+        if ((value == null) && (object.value == null)) {
             return true;
-        } else if ((this.value == null) || (object.value == null)) {
+        } else if ((value == null) || (object.value == null)) {
             return false;
         }
         // boolean[]
-        if (this.value instanceof boolean[] && object.value instanceof boolean[]) {
-            return Arrays.equals((boolean[]) this.value, (boolean[]) object.value);
+        if (value instanceof boolean[] && object.value instanceof boolean[]) {
+            return Arrays.equals((boolean[]) value, (boolean[]) object.value);
             // byte[]
-        } else if (this.value instanceof byte[] && object.value instanceof byte[]) {
-            return Arrays.equals((byte[]) this.value, (byte[]) object.value);
+        } else if (value instanceof byte[] && object.value instanceof byte[]) {
+            return Arrays.equals((byte[]) value, (byte[]) object.value);
             // char[]
-        } else if (this.value instanceof char[] && object.value instanceof char[]) {
-            return Arrays.equals((char[]) this.value, (char[]) object.value);
+        } else if (value instanceof char[] && object.value instanceof char[]) {
+            return Arrays.equals((char[]) value, (char[]) object.value);
             // double[]
-        } else if (this.value instanceof double[] && object.value instanceof double[]) {
-            return Arrays.equals((double[]) this.value, (double[]) object.value);
+        } else if (value instanceof double[] && object.value instanceof double[]) {
+            return Arrays.equals((double[]) value, (double[]) object.value);
             // float[]
-        } else if (this.value instanceof float[] && object.value instanceof float[]) {
-            return Arrays.equals((float[]) this.value, (float[]) object.value);
+        } else if (value instanceof float[] && object.value instanceof float[]) {
+            return Arrays.equals((float[]) value, (float[]) object.value);
             // int[]
-        } else if (this.value instanceof int[] && object.value instanceof int[]) {
-            return Arrays.equals((int[]) this.value, (int[]) object.value);
+        } else if (value instanceof int[] && object.value instanceof int[]) {
+            return Arrays.equals((int[]) value, (int[]) object.value);
             // long[]
-        } else if (this.value instanceof long[] && object.value instanceof long[]) {
-            return Arrays.equals((long[]) this.value, (long[]) object.value);
+        } else if (value instanceof long[] && object.value instanceof long[]) {
+            return Arrays.equals((long[]) value, (long[]) object.value);
             // Object[]
-        } else if (this.value instanceof Object[] && object.value instanceof Object[]) {
-            return Arrays.equals((Object[]) this.value, (Object[]) object.value);
+        } else if (value instanceof Object[] && object.value instanceof Object[]) {
+            return Arrays.equals((Object[]) value, (Object[]) object.value);
             // short[]
-        } else if (this.value instanceof short[] && object.value instanceof short[]) {
-            return Arrays.equals((short[]) this.value, (short[]) object.value);
-        } else return this.value.equals(object.value);
+        } else if (value instanceof short[] && object.value instanceof short[]) {
+            return Arrays.equals((short[]) value, (short[]) object.value);
+        } else return value.equals(object.value);
     }
 
     /**
@@ -282,7 +282,7 @@ public abstract class AbstractDataType {
      * @throws EOFException             if data is unavailable in the buffer
      * @throws InvalidDataTypeException if error parsing this data type
      */
-    public abstract void read(final Buffer buffer, final int size) throws EOFException, InvalidDataTypeException;
+    public abstract void read(Buffer buffer, int size) throws EOFException, InvalidDataTypeException;
 
     /**
      * Starting point write ID3 Datatype back to array of bytes.

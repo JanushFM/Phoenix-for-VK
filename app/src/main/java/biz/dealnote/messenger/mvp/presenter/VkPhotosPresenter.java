@@ -81,14 +81,14 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
         this.albumId = albumId;
         this.action = action;
 
-        this.interactor = InteractorFactory.createPhotosInteractor();
-        this.ownersRepository = Repository.INSTANCE.getOwners();
-        this.uploadManager = Injection.provideUploadManager();
+        interactor = InteractorFactory.createPhotosInteractor();
+        ownersRepository = Repository.INSTANCE.getOwners();
+        uploadManager = Injection.provideUploadManager();
 
-        this.destination = UploadDestination.forPhotoAlbum(albumId, ownerId);
+        destination = UploadDestination.forPhotoAlbum(albumId, ownerId);
 
-        this.photos = new ArrayList<>();
-        this.uploads = new ArrayList<>();
+        photos = new ArrayList<>();
+        uploads = new ArrayList<>();
 
         if (isNull(savedInstanceState)) {
             this.album = album;
@@ -142,7 +142,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
     }
 
     private void refreshOwnerInfoIfNeed() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         if (!isMy() && isNull(owner)) {
             appendDisposable(ownersRepository.getBaseOwnerInfo(accountId, ownerId, IOwnersRepository.MODE_NET)
@@ -152,7 +152,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
     }
 
     private void refreshAlbumInfoIfNeed() {
-        final int accountId = super.getAccountId();
+        int accountId = getAccountId();
 
         if (isNull(album)) {
             appendDisposable(interactor.getAlbumById(accountId, ownerId, albumId)
@@ -292,13 +292,13 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
     }
 
     private void onActualPhotosReceived(int offset, List<Photo> data) {
-        this.cacheDisposable.clear();
-        this.endOfContent = data.isEmpty();
+        cacheDisposable.clear();
+        endOfContent = data.isEmpty();
 
         setRequestNow(false);
 
         if (offset == 0) {
-            this.photos.clear();
+            photos.clear();
 
             if (Utils.isEmpty(mDownloads)) {
                 photos.addAll(wrappersOf(data));
@@ -309,7 +309,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
             }
             callView(IVkPhotosView::notifyDataSetChanged);
         } else {
-            int startSize = this.photos.size();
+            int startSize = photos.size();
 
             if (Utils.isEmpty(mDownloads)) {
                 photos.addAll(wrappersOf(data));
@@ -324,7 +324,7 @@ public class VkPhotosPresenter extends AccountDependencyPresenter<IVkPhotosView>
     }
 
     private void loadInitialData() {
-        final int accountId = getAccountId();
+        int accountId = getAccountId();
         cacheDisposable.add(interactor.getAllCachedData(accountId, ownerId, albumId)
                 .zipWith(uploadManager.get(getAccountId(), destination), Pair.Companion::create)
                 .compose(RxUtils.applySingleIOToMainSchedulers())

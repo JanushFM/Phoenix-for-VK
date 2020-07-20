@@ -28,7 +28,7 @@ public class UnsupportedFileType extends RuntimeException {
 
     private static final long serialVersionUID = 1780779270599974979L;
 
-    public UnsupportedFileType(final String message) {
+    public UnsupportedFileType(String message) {
         super(message);
     }
 }

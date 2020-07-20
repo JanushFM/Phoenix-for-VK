@@ -53,9 +53,9 @@ public class InputViewController {
     private boolean canStartRecording;
     private RecordActionsCallback mRecordActionsCallback;
 
-    public InputViewController(@NonNull final Activity activity, @NonNull View rootView, @NonNull OnInputActionCallback callback) {
+    public InputViewController(@NonNull Activity activity, @NonNull View rootView, @NonNull OnInputActionCallback callback) {
         this.callback = callback;
-        this.mActivity = activity.getApplicationContext();
+        mActivity = activity.getApplicationContext();
 
         mRecordingDuration = rootView.findViewById(R.id.recording_duration);
 
@@ -208,23 +208,23 @@ public class InputViewController {
     }
 
     public void setTextQuietly(String text) {
-        this.mInputField.removeTextChangedListener(mTextWatcher);
-        this.mInputField.setText(text);
-        this.mInputField.requestFocus();
+        mInputField.removeTextChangedListener(mTextWatcher);
+        mInputField.setText(text);
+        mInputField.requestFocus();
         if (!Utils.isEmpty(text))
-            this.mInputField.setSelection(text.length());
-        this.mInputField.addTextChangedListener(mTextWatcher);
+            mInputField.setSelection(text.length());
+        mInputField.addTextChangedListener(mTextWatcher);
     }
 
     @SuppressLint("SetTextI18n")
     public void AppendTextQuietly(String text) {
         if (text != null) {
-            this.mInputField.removeTextChangedListener(mTextWatcher);
-            this.mInputField.setText(this.mInputField.getText() + " " + text);
-            this.mInputField.requestFocus();
+            mInputField.removeTextChangedListener(mTextWatcher);
+            mInputField.setText(mInputField.getText() + " " + text);
+            mInputField.requestFocus();
             if (!Utils.isEmpty(text))
-                this.mInputField.setSelection(this.mInputField.getText().length());
-            this.mInputField.addTextChangedListener(mTextWatcher);
+                mInputField.setSelection(mInputField.getText().length());
+            mInputField.addTextChangedListener(mTextWatcher);
         }
     }
 
@@ -334,14 +334,14 @@ public class InputViewController {
 
     public void switchModeToEditing(boolean canSave) {
         switchModeTo(Mode.EDITING);
-        this.canEditingSave = canSave;
+        canEditingSave = canSave;
         resolveSendButton();
     }
 
     public void switchModeToNormal(boolean canSend, boolean canStartRecoring) {
         switchModeTo(Mode.NORMAL);
-        this.canNormalSend = canSend;
-        this.canStartRecording = canStartRecoring;
+        canNormalSend = canSend;
+        canStartRecording = canStartRecoring;
         resolveSendButton();
     }
 
@@ -355,7 +355,7 @@ public class InputViewController {
     }
 
     public void setRecordActionsCallback(RecordActionsCallback recordActionsCallback) {
-        this.mRecordActionsCallback = recordActionsCallback;
+        mRecordActionsCallback = recordActionsCallback;
     }
 
     public void setRecordingDuration(long time) {

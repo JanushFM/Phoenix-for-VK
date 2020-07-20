@@ -296,7 +296,6 @@ public class GifPagerFragment extends AbsDocumentPreviewFragment<GifPagerPresent
         int mPageCount;
 
         Adapter(int count) {
-            super();
             mPageCount = count;
             mHolderSparseArray.clear();
         }

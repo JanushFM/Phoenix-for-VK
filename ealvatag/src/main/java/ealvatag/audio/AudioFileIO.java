@@ -56,7 +56,7 @@ public class AudioFileIO {
     private final ImmutableMap<String, AudioFileWriterFactory> writerFactories;
 
     private AudioFileIO() {
-        this.modificationHandler = new ModificationHandler();
+        modificationHandler = new ModificationHandler();
 
         // !! Do not forget to also add new supported extensions to AudioFileFilter
         // !!
@@ -191,7 +191,7 @@ public class AudioFileIO {
         return readAudioFile(file, Utils.getMagicExtension(file), false);
     }
 
-    private AudioFile readFile(File file, final boolean ignoreArtwork) throws CannotReadException,
+    private AudioFile readFile(File file, boolean ignoreArtwork) throws CannotReadException,
             IOException,
             TagException,
             InvalidAudioFrameException {
@@ -213,23 +213,23 @@ public class AudioFileIO {
         afw.delete(f);
     }
 
-    private AudioFileWriter getWriterForExtension(final String ext) throws CannotWriteException {
-        final AudioFileWriterFactory factory = writerFactories.get(ext);
+    private AudioFileWriter getWriterForExtension(String ext) throws CannotWriteException {
+        AudioFileWriterFactory factory = writerFactories.get(ext);
         if (factory == null) {
             throw new CannotWriteException(ErrorMessage.NO_DELETER_FOR_THIS_FORMAT, ext);
         }
         return factory.make().setAudioFileModificationListener(modificationHandler);
     }
 
-    private AudioFile readAudioFile(final File f, final String ext, final boolean ignoreArtwork) throws CannotReadException,
+    private AudioFile readAudioFile(File f, String ext, boolean ignoreArtwork) throws CannotReadException,
             IOException,
             TagException,
             InvalidAudioFrameException {
-        final String extension = ext.toLowerCase(Locale.ROOT);
+        String extension = ext.toLowerCase(Locale.ROOT);
         return getReaderForExtension(extension).read(f, extension, ignoreArtwork);
     }
 
-    private AudioFileReader getReaderForExtension(final String ext) throws CannotReadException {
+    private AudioFileReader getReaderForExtension(String ext) throws CannotReadException {
         AudioFileReaderFactory factory = readerFactories.get(ext);
         if (factory == null) {
             throw new CannotReadException(ext, ErrorMessage.NO_READER_FOR_THIS_FORMAT);
@@ -243,7 +243,7 @@ public class AudioFileIO {
      * @param audioFile The AudioFile to be written
      * @throws CannotWriteException If the file could not be written/accessed, the extension wasn't recognized, or other IO error occurred.
      */
-    void writeFile(final AudioFileImpl audioFile) throws CannotWriteException {
+    void writeFile(AudioFileImpl audioFile) throws CannotWriteException {
         String ext = audioFile.getExt();
         AudioFileWriter afw = getWriterForExtension(ext);
         if (afw == null) {
@@ -263,7 +263,7 @@ public class AudioFileIO {
      */
     void writeFileAs(AudioFileImpl audioFile, String targetPath) throws CannotWriteException {
         try {
-            final File destination = new File(targetPath + "." + audioFile.getExt());
+            File destination = new File(targetPath + "." + audioFile.getExt());
             Utils.copyThrowsOnException(audioFile.getFile(), destination);
             audioFile.setFile(destination);
             writeFile(audioFile);

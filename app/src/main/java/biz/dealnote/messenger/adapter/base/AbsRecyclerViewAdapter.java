@@ -16,7 +16,7 @@ public abstract class AbsRecyclerViewAdapter<H extends RecyclerView.ViewHolder> 
         this.ownerClickListener = ownerClickListener;
     }
 
-    protected void addOwnerAvatarClickHandling(View view, final int ownerId) {
+    protected void addOwnerAvatarClickHandling(View view, int ownerId) {
         view.setOnClickListener(v -> {
             if (nonNull(ownerClickListener)) {
                 ownerClickListener.onOwnerClick(ownerId);

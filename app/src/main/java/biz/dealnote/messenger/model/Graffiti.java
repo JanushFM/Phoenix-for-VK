@@ -1,9 +1,8 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-public class Graffiti extends AbsModel implements Parcelable {
+public class Graffiti extends AbsModel {
 
     public static final Creator<Graffiti> CREATOR = new Creator<Graffiti>() {
         @Override

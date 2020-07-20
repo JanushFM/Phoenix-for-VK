@@ -134,9 +134,9 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
         @ChatAction
         int action = cursor.getInt(cursor.getColumnIndex(MessageColumns.ACTION));
 
-        final int id = cursor.getInt(cursor.getColumnIndex(MessageColumns._ID));
-        final int peerId = cursor.getInt(cursor.getColumnIndex(MessageColumns.PEER_ID));
-        final int fromId = cursor.getInt(cursor.getColumnIndex(MessageColumns.FROM_ID));
+        int id = cursor.getInt(cursor.getColumnIndex(MessageColumns._ID));
+        int peerId = cursor.getInt(cursor.getColumnIndex(MessageColumns.PEER_ID));
+        int fromId = cursor.getInt(cursor.getColumnIndex(MessageColumns.FROM_ID));
 
         HashMap<Integer, String> extras = null;
 
@@ -183,7 +183,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
             if (clearHistory) {
                 Uri uri = MessengerContentProvider.getMessageContentUriFor(accountId);
                 String where = MessageColumns.PEER_ID + " = ? AND " + MessageColumns.ATTACH_TO + " = ? AND " + MessageColumns.STATUS + " = ?";
-                String[] args = new String[]{String.valueOf(peerId), String.valueOf(MessageColumns.DONT_ATTACH), String.valueOf(MessageStatus.SENT)};
+                String[] args = {String.valueOf(peerId), String.valueOf(MessageColumns.DONT_ATTACH), String.valueOf(MessageStatus.SENT)};
 
                 operations.add(ContentProviderOperation.newDelete(uri).withSelection(where, args).build());
             }
@@ -202,7 +202,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
         return Single.create(emitter -> {
             ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
-            final int[] indexes = new int[dbos.size()];
+            int[] indexes = new int[dbos.size()];
 
             for (int i = 0; i < dbos.size(); i++) {
                 MessageEntity dbo = dbos.get(i);
@@ -213,7 +213,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
 
             ContentProviderResult[] results = getContext().getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
 
-            final int[] ids = new int[dbos.size()];
+            int[] ids = new int[dbos.size()];
 
             for (int i = 0; i < indexes.length; i++) {
                 int index = indexes[i];
@@ -229,8 +229,8 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     @Override
     public Single<Optional<Integer>> findLastSentMessageIdForPeer(int accountId, int peerId) {
         return Single.create(emitter -> {
-            final Uri uri = MessengerContentProvider.getMessageContentUriFor(accountId);
-            final String[] projection = {MessageColumns._ID};
+            Uri uri = MessengerContentProvider.getMessageContentUriFor(accountId);
+            String[] projection = {MessageColumns._ID};
 
             String where = MessageColumns.PEER_ID + " = ?" +
                     " AND " + MessageColumns.STATUS + " = ?" +
@@ -293,7 +293,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     @Override
     public Single<List<MessageEntity>> getByCriteria(@NonNull MessagesCriteria criteria, boolean withAtatchments, boolean withForwardMessages) {
         return Single.create(emitter -> {
-            final long start = System.currentTimeMillis();
+            long start = System.currentTimeMillis();
 
             Cancelable cancelable = emitter::isDisposed;
 
@@ -323,7 +323,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     @Override
     public Single<Integer> insert(int accountId, int peerId, @NonNull MessageEditEntity patch) {
         return Single.create(emitter -> {
-            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
             ContentValues cv = new ContentValues();
             cv.put(MessageColumns.PEER_ID, peerId);
@@ -377,8 +377,8 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
                 .getCount(accountId, AttachToType.MESSAGE, messageId)
                 .flatMap(count -> Single
                         .create(emitter -> {
-                            final Uri uri = MessengerContentProvider.getMessageContentUriFor(accountId);
-                            final ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+                            Uri uri = MessengerContentProvider.getMessageContentUriFor(accountId);
+                            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
 
                             ContentValues cv = new ContentValues();
                             cv.put(MessageColumns.FROM_ID, patch.getSenderId());
@@ -398,7 +398,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
                             cv.put(MessageColumns.PAYLOAD, patch.getPayload());
 
                             final String where = MessageColumns._ID + " = ?";
-                            final String[] args = {String.valueOf(messageId)};
+                            String[] args = {String.valueOf(messageId)};
 
                             operations.add(ContentProviderOperation.newUpdate(uri).withValues(cv).withSelection(where, args).build());
 
@@ -420,7 +420,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     }
 
     private MessageEntity fullMapDbo(int accountId, Cursor cursor, boolean withAttachments, boolean withForwardMessages, @NonNull Cancelable cancelable) {
-        final MessageEntity dbo = baseMapDbo(cursor);
+        MessageEntity dbo = baseMapDbo(cursor);
 
         if (withAttachments && dbo.isHasAttachmens()) {
             List<Entity> attachments = getStores()
@@ -645,7 +645,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     private List<MessageEntity> getForwardMessages(int accountId, int attachTo, boolean withAttachments, @NonNull Cancelable cancelable) {
         Uri uri = MessengerContentProvider.getMessageContentUriFor(accountId);
         String where = MessageColumns.ATTACH_TO + " = ?";
-        String[] args = new String[]{String.valueOf(attachTo)};
+        String[] args = {String.valueOf(attachTo)};
 
         Cursor cursor = getContentResolver().query(uri, null, where, args, MessageColumns.FULL_ID + " DESC");
 
@@ -657,7 +657,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
                     break;
                 }
 
-                MessageEntity dbo = this.fullMapDbo(accountId, cursor, withAttachments, true, cancelable);
+                MessageEntity dbo = fullMapDbo(accountId, cursor, withAttachments, true, cancelable);
 
                 // Хз куда это еще влепить
                 //dbo.setRead(true);
@@ -715,7 +715,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     public Single<Optional<Pair<Integer, MessageEntity>>> findFirstUnsentMessage(Collection<Integer> accountIds, boolean withAtatchments, boolean withForwardMessages) {
         return Single.create(emitter -> {
             final String where = MessageColumns.STATUS + " = ? OR " + MessageColumns.STATUS + " = ?";
-            final String[] args = {String.valueOf(MessageStatus.QUEUE), String.valueOf(MessageStatus.SENDING)};
+            String[] args = {String.valueOf(MessageStatus.QUEUE), String.valueOf(MessageStatus.SENDING)};
             final String orderBy = MessageColumns._ID + " ASC LIMIT 1";
 
             for (int accountId : accountIds) {

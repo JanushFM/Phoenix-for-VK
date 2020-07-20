@@ -93,7 +93,7 @@ public class AspectRatioImageView extends AppCompatImageView {
      * Set the aspect ratio for this image view. This will update the view instantly.
      */
     public void setAspectRatio(int w, int h) {
-        this.aspectRatio = (float) h / (float) w;
+        aspectRatio = (float) h / (float) w;
         if (aspectRatioEnabled) {
             requestLayout();
         }

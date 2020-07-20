@@ -35,8 +35,8 @@ public class OwnerPhotoUploadable implements IUploadable<Post> {
 
     @Override
     public Single<UploadResult<Post>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
-        final int accountId = upload.getAccountId();
-        final int ownerId = upload.getDestination().getOwnerId();
+        int accountId = upload.getAccountId();
+        int ownerId = upload.getDestination().getOwnerId();
 
         Single<UploadServer> serverSingle;
         if (initialServer == null) {
@@ -49,7 +49,7 @@ public class OwnerPhotoUploadable implements IUploadable<Post> {
         }
 
         return serverSingle.flatMap(server -> {
-            final InputStream[] is = new InputStream[1];
+            InputStream[] is = new InputStream[1];
 
             try {
                 is[0] = UploadUtils.openStream(context, upload.getFileUri(), upload.getSize());

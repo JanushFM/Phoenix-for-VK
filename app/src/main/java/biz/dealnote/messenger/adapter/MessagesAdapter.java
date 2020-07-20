@@ -87,12 +87,12 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         super(items);
         this.context = context;
         this.lastReadId = lastReadId;
-        this.attachmentsActionCallback = callback;
-        this.attachmentsViewBinder = new AttachmentsViewBinder(context, callback);
-        this.avatarTransformation = CurrentTheme.createTransformationForAvatar(context);
-        this.selectedDrawable = new ShapeDrawable(new OvalShape());
-        this.selectedDrawable.getPaint().setColor(CurrentTheme.getColorPrimary(context));
-        this.unreadColor = CurrentTheme.getMessageUnreadColor(context);
+        attachmentsActionCallback = callback;
+        attachmentsViewBinder = new AttachmentsViewBinder(context, callback);
+        avatarTransformation = CurrentTheme.createTransformationForAvatar(context);
+        selectedDrawable = new ShapeDrawable(new OvalShape());
+        selectedDrawable.getPaint().setColor(CurrentTheme.getColorPrimary(context));
+        unreadColor = CurrentTheme.getMessageUnreadColor(context);
         this.disable_read = disable_read;
     }
 
@@ -120,7 +120,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         }
     }
 
-    private void bindStickerHolder(StickerMessageHolder holder, final Message message) {
+    private void bindStickerHolder(StickerMessageHolder holder, Message message) {
         bindBaseMessageHolder(holder, message);
 
         if (message.isDeleted()) {
@@ -162,7 +162,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         setItems(messages);
     }
 
-    private void bindGiftHolder(GiftMessageHolder holder, final Message message) {
+    private void bindGiftHolder(GiftMessageHolder holder, Message message) {
         bindBaseMessageHolder(holder, message);
 
         if (message.isDeleted()) {
@@ -272,7 +272,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
                 && onMessageActionListener.onMessageLongClick(message));
     }
 
-    private void bindNormalMessage(final MessageHolder holder, final Message message) {
+    private void bindNormalMessage(MessageHolder holder, Message message) {
         bindBaseMessageHolder(holder, message);
 
         if (message.isDeleted()) {
@@ -442,7 +442,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
     }
 
     public void setVoiceActionListener(AttachmentsViewBinder.VoiceActionListener voiceActionListener) {
-        this.attachmentsViewBinder.setVoiceActionListener(voiceActionListener);
+        attachmentsViewBinder.setVoiceActionListener(voiceActionListener);
     }
 
     public void configNowVoiceMessagePlaying(int voiceId, float progress, boolean paused, boolean amin) {
@@ -513,7 +513,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
 
         StickerMessageHolder(View itemView) {
             super(itemView);
-            this.sticker = itemView.findViewById(R.id.sticker);
+            sticker = itemView.findViewById(R.id.sticker);
             forwardMessagesRoot = itemView.findViewById(R.id.forward_messages);
             attachmentsRoot = itemView.findViewById(R.id.item_message_attachment_container);
             attachmentsHolder = new AttachmentsHolder();
@@ -538,12 +538,12 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
 
         BaseMessageHolder(View itemView) {
             super(itemView);
-            this.root = itemView.findViewById(R.id.message_container);
-            this.Restore = itemView.findViewById(R.id.item_message_restore);
-            this.user = itemView.findViewById(R.id.item_message_user);
-            this.status = itemView.findViewById(R.id.item_message_status_text);
-            this.important = itemView.findViewById(R.id.item_message_important);
-            this.avatar = itemView.findViewById(R.id.item_message_avatar);
+            root = itemView.findViewById(R.id.message_container);
+            Restore = itemView.findViewById(R.id.item_message_restore);
+            user = itemView.findViewById(R.id.item_message_user);
+            status = itemView.findViewById(R.id.item_message_status_text);
+            important = itemView.findViewById(R.id.item_message_important);
+            avatar = itemView.findViewById(R.id.item_message_avatar);
         }
     }
 
@@ -558,7 +558,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             message.setOnHashTagClickListener(onHashTagClickListener);
             message.setOnLongClickListener(v -> this.itemView.performLongClick());
             message.setOnClickListener(v -> this.itemView.performClick());
-            this.gift = itemView.findViewById(R.id.gift);
+            gift = itemView.findViewById(R.id.gift);
         }
     }
 

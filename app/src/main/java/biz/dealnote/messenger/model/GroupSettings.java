@@ -34,7 +34,7 @@ public final class GroupSettings implements Parcelable {
     private String obsceneWords;
 
     public GroupSettings() {
-        this.availableCategories = Collections.emptyList();
+        availableCategories = Collections.emptyList();
     }
 
     protected GroupSettings(Parcel in) {

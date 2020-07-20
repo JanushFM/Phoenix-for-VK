@@ -29,11 +29,11 @@ public class VkApiAttachments {
     public ArrayList<Entry> entries;
 
     public VkApiAttachments() {
-        this.entries = new ArrayList<>(1);
+        entries = new ArrayList<>(1);
     }
 
     public VkApiAttachments(int initialSize) {
-        this.entries = new ArrayList<>(initialSize);
+        entries = new ArrayList<>(initialSize);
     }
 
     public List<Entry> entryList() {

@@ -38,7 +38,7 @@ public final class IdOption implements Parcelable, Identificable {
     private IdOption(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        childs = in.createTypedArrayList(IdOption.CREATOR);
+        childs = in.createTypedArrayList(CREATOR);
     }
 
     @Override

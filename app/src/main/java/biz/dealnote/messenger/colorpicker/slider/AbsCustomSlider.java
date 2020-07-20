@@ -23,9 +23,9 @@ public abstract class AbsCustomSlider extends View {
     protected int handleRadius = 20;
     protected int barHeight = 5;
     protected float value = 1;
-    protected boolean showBorder = false;
+    protected boolean showBorder;
 
-    private boolean inVerticalOrientation = false;
+    private boolean inVerticalOrientation;
 
     public AbsCustomSlider(Context context) {
         super(context);

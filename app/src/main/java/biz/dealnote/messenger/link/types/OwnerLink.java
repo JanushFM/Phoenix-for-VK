@@ -6,7 +6,7 @@ public class OwnerLink extends AbsLink {
 
     public OwnerLink(int id) {
         super(id > 0 ? PROFILE : GROUP);
-        this.ownerId = id;
+        ownerId = id;
     }
 
     @Override

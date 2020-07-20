@@ -42,7 +42,7 @@ import ealvatag.utils.EqualsUtil;
 public class NumberHashMap extends NumberFixedLength {
 
     private final SimpleIntStringMap simpleIntStringMap;
-    private boolean hasEmptyValue = false;
+    private boolean hasEmptyValue;
 
 
     /**
@@ -99,10 +99,10 @@ public class NumberHashMap extends NumberFixedLength {
     public NumberHashMap(NumberHashMap copyObject) {
         super(copyObject);
 
-        this.hasEmptyValue = copyObject.hasEmptyValue;
+        hasEmptyValue = copyObject.hasEmptyValue;
 
         // we don't need to clone/copy the maps here because they are static
-        this.simpleIntStringMap = copyObject.simpleIntStringMap;
+        simpleIntStringMap = copyObject.simpleIntStringMap;
     }
 
     public void setValue(Object value) {

@@ -34,14 +34,14 @@ public class BaseSearchCriteria implements Parcelable, Cloneable {
 
     public BaseSearchCriteria(String query, int optionsCount) {
         this.query = query;
-        this.options = new ArrayList<>(optionsCount);
+        options = new ArrayList<>(optionsCount);
     }
 
     protected BaseSearchCriteria(Parcel in) {
-        this.query = in.readString();
+        query = in.readString();
 
         int optionsSize = in.readInt();
-        this.options = new ArrayList<>(optionsSize);
+        options = new ArrayList<>(optionsSize);
 
         for (int i = 0; i < optionsSize; i++) {
             int optionType = in.readInt();
@@ -67,12 +67,12 @@ public class BaseSearchCriteria implements Parcelable, Cloneable {
                     throw new IllegalArgumentException("Unknown option type !!!");
             }
 
-            this.options.add(in.readParcelable(classLoader));
+            options.add(in.readParcelable(classLoader));
         }
     }
 
     void appendOption(BaseOption option) {
-        this.options.add(option);
+        options.add(option);
     }
 
     public String getQuery() {
@@ -80,7 +80,7 @@ public class BaseSearchCriteria implements Parcelable, Cloneable {
     }
 
     public void setQuery(String q) {
-        this.query = q;
+        query = q;
     }
 
     @Override
@@ -104,9 +104,9 @@ public class BaseSearchCriteria implements Parcelable, Cloneable {
     @Override
     protected BaseSearchCriteria clone() throws CloneNotSupportedException {
         BaseSearchCriteria clone = (BaseSearchCriteria) super.clone();
-        clone.options = new ArrayList<>(this.options.size());
+        clone.options = new ArrayList<>(options.size());
 
-        for (BaseOption option : this.options) {
+        for (BaseOption option : options) {
             clone.options.add(option.clone());
         }
 

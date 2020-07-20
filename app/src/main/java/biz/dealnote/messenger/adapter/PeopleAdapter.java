@@ -41,9 +41,9 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private LongClickListener longClickListener;
 
     public PeopleAdapter(Context context, List<? extends Owner> data) {
-        this.mContext = context;
-        this.mData = data;
-        this.transformation = CurrentTheme.createTransformationForAvatar(context);
+        mContext = context;
+        mData = data;
+        transformation = CurrentTheme.createTransformationForAvatar(context);
     }
 
     @NonNull
@@ -70,7 +70,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    private void bindCommunityHolder(CommunityHolder holder, final Community community) {
+    private void bindCommunityHolder(CommunityHolder holder, Community community) {
         holder.tvName.setText(community.getName());
         String status = "@" + community.getScreenName();
         holder.tvStatus.setText(status);
@@ -88,7 +88,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         });
     }
 
-    private void bindUserHolder(PeopleHolder holder, final User user) {
+    private void bindUserHolder(PeopleHolder holder, User user) {
         holder.name.setText(user.getFullName());
         holder.name.setTextColor(Utils.getVerifiedColor(mContext, user.isVerified()));
 
@@ -126,7 +126,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void setItems(List<? extends Owner> data) {
-        this.mData = data;
+        mData = data;
         notifyDataSetChanged();
     }
 
@@ -141,7 +141,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public void setClickListener(ClickListener clickListener) {
-        this.mClickListener = clickListener;
+        mClickListener = clickListener;
     }
 
     public interface ClickListener {

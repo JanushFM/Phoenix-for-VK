@@ -1,11 +1,10 @@
 package biz.dealnote.messenger.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class FwdMessages extends AbsModel implements Parcelable {
+public class FwdMessages extends AbsModel {
 
     public static final Creator<FwdMessages> CREATOR = new Creator<FwdMessages>() {
         @Override

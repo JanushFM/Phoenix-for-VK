@@ -37,7 +37,7 @@ public class InputTextDialog {
         builder.setTitle(titleRes);
         View view = View.inflate(context, R.layout.dialog_enter_text, null);
 
-        final TextInputEditText input = view.findViewById(R.id.editText);
+        TextInputEditText input = view.findViewById(R.id.editText);
         input.setText(value);
         input.setSelection(input.getText().length());
 
@@ -50,9 +50,9 @@ public class InputTextDialog {
         builder.setPositiveButton(R.string.button_ok, null);
         builder.setNegativeButton(R.string.button_cancel, (dialog, which) -> dialog.cancel());
 
-        final AlertDialog alertDialog = builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialog -> {
-            Button b = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            Button b = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
 
             b.setOnClickListener(view1 -> {
                 input.setError(null);
