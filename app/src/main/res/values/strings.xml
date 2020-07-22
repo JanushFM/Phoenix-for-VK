@@ -71,6 +71,16 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="array_pagan_symbol_names">
+        <item>Валькнут</item>
+        <item>Солнце</item>
+    </string-array>
+
+    <string-array name="array_pagan_symbol_items" translatable="false">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
     <string-array name="player_progress_state" translatable="false">
         <item> ••••••</item>
         <item>• •••••</item>
@@ -1414,7 +1424,8 @@
     <string name="wall_themed">Оформление стены"</string>
     <string name="for_pagan">Для язычников"</string>
     <string name="runes_show">Показывать руны"</string>
-    <string name="runes_valknut">Показывать Валькнут"</string>
+    <string name="runes_valknut">Показывать символ"</string>
+    <string name="pagan_sym">Языческий символ"</string>
     <string name="photo_album">Фото Альбом"</string>
     <string name="custom_second_message_color">Второй цвет исходящего сообщения"</string>
     <string name="short_link">Сокращение ссылок"</string>
@@ -1437,4 +1448,12 @@
     <string name="to_json">В Json</string>
     <string name="select_type">Выберите формат:</string>
     <string name="start_news">Обновление новостей при запуске</string>
+    <string name="disable_sensored_voice">Отключить датчик приближения</string>
+    <string name="disable_sensored_voice_summary">Для голосовых сообщений</string>
+    <string name="public_photo">Опубликовал(а) фото:</string>
+    <string name="public_video">Опубликовал(а) видео:</string>
+    <string name="public_audio">Опубликовал(а) аудио:</string>
+    <string name="json_all_attachments">Все вложения</string>
+    <string name="json_all_messages">Выключить</string>
+    <string name="json_attachments_forward">Пересланные</string>
 </resources>

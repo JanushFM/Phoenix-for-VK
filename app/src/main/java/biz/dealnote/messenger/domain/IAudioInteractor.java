@@ -5,6 +5,7 @@ import android.content.Context;
 import java.util.Collection;
 import java.util.List;
 
+import biz.dealnote.messenger.fragment.search.criteria.AudioPlaylistSearchCriteria;
 import biz.dealnote.messenger.fragment.search.criteria.AudioSearchCriteria;
 import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.model.AudioCatalog;
@@ -39,6 +40,8 @@ public interface IAudioInteractor {
     Single<List<Audio>> getRecommendationsByAudio(int accountId, String audio);
 
     Single<List<Audio>> search(int accountId, AudioSearchCriteria criteria, int offset);
+
+    Single<List<AudioPlaylist>> searchPlaylists(int accountId, AudioPlaylistSearchCriteria criteria, int offset);
 
     Single<List<AudioPlaylist>> getPlaylists(int accountId, int owner_id, int offset);
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,9 @@ import biz.dealnote.messenger.adapter.MessagesAdapter.OnMessageActionListener
 import biz.dealnote.messenger.api.PicassoInstance
 import biz.dealnote.messenger.fragment.base.PlaceSupportMvpFragment
 import biz.dealnote.messenger.listener.PicassoPauseOnScrollListener
+import biz.dealnote.messenger.modalbottomsheetdialogfragment.ModalBottomSheetDialogFragment
+import biz.dealnote.messenger.modalbottomsheetdialogfragment.Option
+import biz.dealnote.messenger.modalbottomsheetdialogfragment.OptionRequest
 import biz.dealnote.messenger.model.Message
 import biz.dealnote.messenger.model.Peer
 import biz.dealnote.messenger.mvp.presenter.LocalJsonToChatPresenter
@@ -47,9 +51,9 @@ class LocalJsonToChatFragment : PlaceSupportMvpFragment<LocalJsonToChatPresenter
         (requireActivity() as AppCompatActivity).setSupportActionBar(root.findViewById(R.id.toolbar))
         mEmpty = root.findViewById(R.id.empty)
         val mAttachment: FloatingActionButton = root.findViewById(R.id.goto_button)
-        mAttachment.setOnClickListener { presenter!!.togleAttachment(false) }
+        mAttachment.setOnClickListener { presenter!!.toggleAttachment() }
         mAttachment.setOnLongClickListener {
-            presenter!!.togleAttachment(true)
+            presenter!!.updateMessages(true)
             true
         }
 
@@ -68,6 +72,37 @@ class LocalJsonToChatFragment : PlaceSupportMvpFragment<LocalJsonToChatPresenter
         recyclerView?.adapter = mAdapter
         resolveEmptyText()
         return root
+    }
+
+    @DrawableRes
+    private fun is_select(@DrawableRes res: Int, id: Int, selected: Int): Int {
+        if (id == selected) {
+            return R.drawable.check
+        }
+        return res
+    }
+
+    override fun attachments_mode(accountId: Int, last_selected: Int) {
+        val menus = ModalBottomSheetDialogFragment.Builder()
+        menus.add(OptionRequest(0, getString(R.string.json_all_messages), is_select(R.drawable.close, 0, last_selected)))
+        menus.add(OptionRequest(1, getString(R.string.photos), is_select(R.drawable.camera, 1, last_selected)))
+        menus.add(OptionRequest(2, getString(R.string.videos), is_select(R.drawable.video, 2, last_selected)))
+        menus.add(OptionRequest(3, getString(R.string.documents), is_select(R.drawable.book, 3, last_selected)))
+        menus.add(OptionRequest(4, getString(R.string.music), is_select(R.drawable.song, 4, last_selected)))
+        menus.add(OptionRequest(5, getString(R.string.links), is_select(R.drawable.web, 5, last_selected)))
+        menus.add(OptionRequest(6, getString(R.string.photo_album), is_select(R.drawable.album_photo, 6, last_selected)))
+        menus.add(OptionRequest(7, getString(R.string.playlist), is_select(R.drawable.audio_player, 7, last_selected)))
+        menus.add(OptionRequest(8, getString(R.string.json_attachments_forward), is_select(R.drawable.ic_outline_forward, 8, last_selected)))
+        menus.add(OptionRequest(9, getString(R.string.posts), is_select(R.drawable.about_writed, 9, last_selected)))
+        menus.add(OptionRequest(10, getString(R.string.json_all_attachments), is_select(R.drawable.attachment, 10, last_selected)))
+
+        menus.show(childFragmentManager, "json_attachments_select",
+                object : ModalBottomSheetDialogFragment.Listener {
+                    override fun onModalOptionSelected(option: Option) {
+                        presenter?.uAttachmentType = option.id
+                        presenter?.updateMessages(false)
+                    }
+                })
     }
 
     override fun scroll_pos(pos: Int) {

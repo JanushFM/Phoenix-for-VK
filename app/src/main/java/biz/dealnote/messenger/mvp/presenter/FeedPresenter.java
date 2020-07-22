@@ -128,7 +128,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         resolveLoadMoreFooterView();
         resolveRefreshingView();
 
-        loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, "post", null, sourcesIds)
+        loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, null, 9, sourcesIds)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(pair -> onActualFeedReceived(startFrom, pair.getFirst(), pair.getSecond()), this::onActualFeedGetError));
     }

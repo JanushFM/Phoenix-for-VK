@@ -134,6 +134,8 @@ public interface ISettings {
 
         boolean isDownload_photo_tap();
 
+        boolean isDisable_sensored_voice();
+
         boolean isRunes_show();
 
         boolean isRunes_valknut();
@@ -379,5 +381,7 @@ public interface ISettings {
         int getSwipes_chat_mode();
 
         boolean isDisplay_writing();
+
+        int getPaganSym();
     }
 }

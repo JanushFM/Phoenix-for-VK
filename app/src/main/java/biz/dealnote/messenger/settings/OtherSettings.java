@@ -313,6 +313,11 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public boolean isDisable_sensored_voice() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("disable_sensored_voice", false);
+    }
+
+    @Override
     public boolean isRunes_valknut() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("runes_valknut", false);
     }

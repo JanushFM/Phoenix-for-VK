@@ -63,7 +63,7 @@ public class VbriFrame {
      */
     private static final byte[] VBRI_VBR_ID = {'V', 'B', 'R', 'I'};
 
-    private boolean vbr;
+    private final boolean vbr;
     private int frameCount = -1;
     private int audioSize = -1;
 

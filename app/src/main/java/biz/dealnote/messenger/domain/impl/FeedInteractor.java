@@ -47,10 +47,6 @@ public class FeedInteractor implements IFeedInteractor {
         this.ownersRepository = ownersRepository;
     }
 
-    private static boolean hasNewsSupport(VKApiNews news) {
-        return "post".equals(news.type);
-    }
-
     private static FeedList createFeedListFromEntity(FeedListEntity entity) {
         return new FeedList(entity.getId(), entity.getTitle());
     }
@@ -68,7 +64,9 @@ public class FeedInteractor implements IFeedInteractor {
                         List<NewsEntity> dbos = new ArrayList<>(feed.size());
                         VKOwnIds ownIds = new VKOwnIds();
                         for (VKApiNews news : feed) {
-                            if (!hasNewsSupport(news)) continue;
+                            if (news.source_id == 0 || news.type.equals("ads")) {
+                                continue;
+                            }
                             dbos.add(Dto2Entity.mapNews(news));
                             ownIds.appendNews(news);
                         }
@@ -82,7 +80,9 @@ public class FeedInteractor implements IFeedInteractor {
                                             .map(owners1 -> {
                                                 List<News> news = new ArrayList<>(feed.size());
                                                 for (VKApiNews dto : feed) {
-                                                    if (!hasNewsSupport(dto)) continue;
+                                                    if (dto.source_id == 0 || dto.type.equals("ads")) {
+                                                        continue;
+                                                    }
                                                     news.add(Dto2Model.buildNews(dto, owners1));
                                                 }
                                                 return Pair.Companion.create(news, nextFrom);
@@ -100,7 +100,9 @@ public class FeedInteractor implements IFeedInteractor {
                         List<NewsEntity> dbos = new ArrayList<>(feed.size());
                         VKOwnIds ownIds = new VKOwnIds();
                         for (VKApiNews news : feed) {
-                            if (!hasNewsSupport(news)) continue;
+                            if (news.source_id == 0 || news.type.equals("ads")) {
+                                continue;
+                            }
                             dbos.add(Dto2Entity.mapNews(news));
                             ownIds.appendNews(news);
                         }
@@ -114,7 +116,9 @@ public class FeedInteractor implements IFeedInteractor {
                                             .map(owners1 -> {
                                                 List<News> news = new ArrayList<>(feed.size());
                                                 for (VKApiNews dto : feed) {
-                                                    if (!hasNewsSupport(dto)) continue;
+                                                    if (dto.source_id == 0 || dto.type.equals("ads")) {
+                                                        continue;
+                                                    }
                                                     news.add(Dto2Model.buildNews(dto, owners1));
                                                 }
                                                 return Pair.Companion.create(news, nextFrom);

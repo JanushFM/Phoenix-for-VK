@@ -15,8 +15,8 @@ android {
         applicationId "dev.freya.phoenix"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 29997
-        versionName '2.97'
+        versionCode 29998
+        versionName '2.98'
 
         buildConfigField 'int', 'VK_API_APP_ID', getProps("vk_app_id")
         buildConfigField 'String', 'FCM_SENDER_ID', getProps("fcm_sender_id")

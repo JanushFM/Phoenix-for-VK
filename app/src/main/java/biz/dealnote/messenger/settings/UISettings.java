@@ -222,6 +222,15 @@ class UISettings implements ISettings.IUISettings {
     }
 
     @Override
+    public int getPaganSym() {
+        try {
+            return Integer.parseInt(Objects.requireNonNull(PreferenceManager.getDefaultSharedPreferences(app).getString("pagan_sym", "0")));
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
     public boolean isDisplay_writing() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("display_writing", true);
     }

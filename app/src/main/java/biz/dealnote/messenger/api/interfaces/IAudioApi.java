@@ -26,6 +26,9 @@ public interface IAudioApi {
                                      Integer offset);
 
     @CheckResult
+    Single<Items<VKApiAudioPlaylist>> searchPlaylists(String query, Integer offset);
+
+    @CheckResult
     Single<VKApiAudio> restore(int audioId, Integer ownerId);
 
     @CheckResult

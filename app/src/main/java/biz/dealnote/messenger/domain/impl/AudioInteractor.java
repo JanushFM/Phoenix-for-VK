@@ -13,6 +13,7 @@ import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.model.VKApiAudioPlaylist;
 import biz.dealnote.messenger.domain.IAudioInteractor;
 import biz.dealnote.messenger.domain.mappers.Dto2Model;
+import biz.dealnote.messenger.fragment.search.criteria.AudioPlaylistSearchCriteria;
 import biz.dealnote.messenger.fragment.search.criteria.AudioSearchCriteria;
 import biz.dealnote.messenger.fragment.search.options.SpinnerOption;
 import biz.dealnote.messenger.model.Audio;
@@ -239,6 +240,21 @@ public class AudioInteractor implements IAudioInteractor {
                 .map(items -> listEmptyIfNull(items.getItems()))
                 .map(out -> {
                     List<Audio> ret = new ArrayList<>();
+                    for (int i = 0; i < out.size(); i++)
+                        ret.add(Dto2Model.transform(out.get(i)));
+                    return ret;
+                });
+    }
+
+    @Override
+    public Single<List<AudioPlaylist>> searchPlaylists(int accountId, AudioPlaylistSearchCriteria criteria, int offset) {
+
+        return networker.vkDefault(accountId)
+                .audio()
+                .searchPlaylists(criteria.getQuery(), offset)
+                .map(items -> listEmptyIfNull(items.getItems()))
+                .map(out -> {
+                    List<AudioPlaylist> ret = new ArrayList<>();
                     for (int i = 0; i < out.size(); i++)
                         ret.add(Dto2Model.transform(out.get(i)));
                     return ret;

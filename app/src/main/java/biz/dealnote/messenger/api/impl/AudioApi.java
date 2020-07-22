@@ -53,6 +53,22 @@ class AudioApi extends AbsApi implements IAudioApi {
     }
 
     @Override
+    public Single<Items<VKApiAudioPlaylist>> searchPlaylists(String query, Integer offset) {
+
+        if (Settings.get().other().isUse_old_vk_api()) {
+            return provideService(IAudioService.class)
+                    .flatMap(service -> service
+                            .searchPlaylistsOld(query, offset, "5.90")
+                            .map(extractResponseWithErrorHandling()));
+        } else {
+            return provideService(IAudioService.class)
+                    .flatMap(service -> service
+                            .searchPlaylists(query, offset)
+                            .map(extractResponseWithErrorHandling()));
+        }
+    }
+
+    @Override
     public Single<VKApiAudio> restore(int audioId, Integer ownerId) {
         return provideService(IAudioService.class)
                 .flatMap(service -> service

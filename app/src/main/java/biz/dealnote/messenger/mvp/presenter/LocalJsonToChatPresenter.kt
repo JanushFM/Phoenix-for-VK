@@ -20,7 +20,7 @@ import java.util.*
 class LocalJsonToChatPresenter(accountId: Int, private val context: Context, savedInstanceState: Bundle?) : PlaceSupportPresenter<ILocalJsonToChatView>(accountId, savedInstanceState) {
     private val mPost: ArrayList<Message> = ArrayList()
     private val mCached: ArrayList<Message> = ArrayList()
-    private var isAttachments: Boolean
+    private var AttachmentType: Int
     private var isMy: Boolean
     private var peer: Peer
     private val fInteractor: IMessagesRepository = messages
@@ -30,14 +30,58 @@ class LocalJsonToChatPresenter(accountId: Int, private val context: Context, sav
         viewHost.displayData(mPost)
     }
 
-    fun togleAttachment(isMyTogle: Boolean) {
-        if (!isMyTogle) {
-            isAttachments = !isAttachments
-        } else {
+    var uAttachmentType: Int
+        set(value) {
+            AttachmentType = value
+        }
+        get() = AttachmentType
+
+    private fun isAttachments(message: Message): Boolean {
+        if (message.forwardMessagesCount > 0 && AttachmentType == 8)
+            return true
+        else if (AttachmentType == 8)
+            return false
+        if (!message.isHasAttachments)
+            return false
+        when (AttachmentType) {
+            1 -> {
+                return !Utils.isEmpty(message.attachments.photos)
+            }
+            2 -> {
+                return !Utils.isEmpty(message.attachments.videos)
+            }
+            3 -> {
+                return !Utils.isEmpty(message.attachments.docs)
+            }
+            4 -> {
+                return !Utils.isEmpty(message.attachments.audios)
+            }
+            5 -> {
+                return !Utils.isEmpty(message.attachments.links)
+            }
+            6 -> {
+                return !Utils.isEmpty(message.attachments.photoAlbums)
+            }
+            7 -> {
+                return !Utils.isEmpty(message.attachments.audioPlaylists)
+            }
+            9 -> {
+                return !Utils.isEmpty(message.attachments.posts)
+            }
+        }
+        return true
+    }
+
+    fun toggleAttachment() {
+        view?.attachments_mode(accountId, AttachmentType)
+    }
+
+    fun updateMessages(isMyTogle: Boolean) {
+        if (isMyTogle) {
             isMy = !isMy
         }
         mPost.clear()
-        if (!isAttachments) {
+        if (AttachmentType == 0) {
             if (!isMy) {
                 mPost.addAll(mCached)
             } else {
@@ -49,7 +93,7 @@ class LocalJsonToChatPresenter(accountId: Int, private val context: Context, sav
             }
         } else {
             for (i in mCached) {
-                if (i.isHasAttachments || i.forwardMessagesCount > 0) {
+                if (isAttachments(i)) {
                     if (isMy && i.isOut) {
                         mPost.add(i)
                     } else if (!isMy) {
@@ -115,7 +159,7 @@ class LocalJsonToChatPresenter(accountId: Int, private val context: Context, sav
     }
 
     init {
-        isAttachments = false
+        AttachmentType = 0
         isMy = false
         peer = Peer(0)
         loadActualData()

@@ -1,6 +1,6 @@
 package biz.dealnote.messenger.adapter;
 
-import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +31,13 @@ import static biz.dealnote.messenger.util.Utils.safeLenghtOf;
 
 public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostHolder> {
 
-    private final Activity context;
+    private final Context context;
     private final AttachmentsViewBinder attachmentsViewBinder;
     private final Transformation transformation;
     private ClickListener clickListener;
     private int nextHolderId;
 
-    public FeedAdapter(Activity context, List<News> data, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
+    public FeedAdapter(Context context, List<News> data, AttachmentsViewBinder.OnAttachmentsActionCallback attachmentsActionCallback) {
         super(data);
         this.context = context;
         attachmentsViewBinder = new AttachmentsViewBinder(context, attachmentsActionCallback);
@@ -79,6 +79,26 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
             }
         }));
 
+        boolean force = false;
+        if (TextUtils.isEmpty(item.getText())) {
+            switch (item.getType()) {
+                case "photo":
+                case "wall_photo":
+                    force = true;
+                    holder.tvText.setText(R.string.public_photo);
+                    break;
+                case "audio":
+                    force = true;
+                    holder.tvText.setText(R.string.public_audio);
+                    break;
+                case "video":
+                    force = true;
+                    holder.tvText.setText(R.string.public_video);
+                    break;
+            }
+        }
+        holder.bottomActionsContainer.setVisibility(item.getType().equals("post") ? View.VISIBLE : View.GONE);
+
         holder.tvShowMore.setVisibility(safeLenghtOf(item.getText()) > 400 ? View.VISIBLE : View.GONE);
 
         /*
@@ -97,7 +117,7 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
         String postTime = AppTextUtils.getDateFromUnixTime(context, item.getDate());
         holder.tvTime.setText(postTime);
 
-        holder.vTextRoot.setVisibility(TextUtils.isEmpty(item.getText()) ? View.GONE : View.VISIBLE);
+        holder.vTextRoot.setVisibility(TextUtils.isEmpty(item.getText()) && !force ? View.GONE : View.VISIBLE);
 
         String ownerAvaUrl = item.getOwnerMaxSquareAvatar();
         ViewUtils.displayAvatar(holder.ivOwnerAvatar, transformation, ownerAvaUrl, Constants.PICASSO_TAG);

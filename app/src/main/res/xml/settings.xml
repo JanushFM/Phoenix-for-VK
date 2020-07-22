@@ -98,6 +98,13 @@
             android:title="@string/download_photo_tap"
             app:iconSpaceReserved="false" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="disable_sensored_voice"
+            android:summary="@string/disable_sensored_voice_summary"
+            android:title="@string/disable_sensored_voice"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
             android:defaultValue="2"
             android:entries="@array/array_news_start_updates_names"
@@ -507,6 +514,15 @@
             android:key="runes_valknut"
             android:title="@string/runes_valknut"
             app:iconSpaceReserved="false" />
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="runes_valknut"
+            android:entries="@array/array_pagan_symbol_names"
+            android:entryValues="@array/array_pagan_symbol_items"
+            android:key="pagan_sym"
+            android:title="@string/pagan_sym"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
     <PreferenceCategory

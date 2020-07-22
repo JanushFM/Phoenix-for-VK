@@ -46,6 +46,19 @@ public interface IAudioService {
                                                       @Field("offset") Integer offset,
                                                       @Field("v") String version);
 
+    //https://vk.com/dev/audio.searchPlaylists
+    @FormUrlEncoded
+    @POST("audio.searchPlaylists")
+    Single<BaseResponse<Items<VKApiAudioPlaylist>>> searchPlaylistsOld(@Field("q") String query,
+                                                                       @Field("offset") Integer offset,
+                                                                       @Field("v") String version);
+
+    //https://vk.com/dev/audio.searchPlaylists
+    @FormUrlEncoded
+    @POST("audio.searchPlaylists")
+    Single<BaseResponse<Items<VKApiAudioPlaylist>>> searchPlaylists(@Field("q") String query,
+                                                                    @Field("offset") Integer offset);
+
     //https://vk.com/dev/audio.restore
     @FormUrlEncoded
     @POST("audio.restore")

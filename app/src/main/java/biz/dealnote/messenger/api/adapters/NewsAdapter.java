@@ -11,10 +11,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import biz.dealnote.messenger.api.model.VKApiAudio;
 import biz.dealnote.messenger.api.model.VKApiNews;
 import biz.dealnote.messenger.api.model.VKApiPhoto;
 import biz.dealnote.messenger.api.model.VKApiPlace;
 import biz.dealnote.messenger.api.model.VKApiPost;
+import biz.dealnote.messenger.api.model.VKApiVideo;
 import biz.dealnote.messenger.api.model.VkApiAttachments;
 
 public class NewsAdapter extends AbsAdapter implements JsonDeserializer<VKApiNews> {
@@ -80,11 +82,37 @@ public class NewsAdapter extends AbsAdapter implements JsonDeserializer<VKApiNew
         if (root.has("photos")) {
             JsonArray photosArray = root.getAsJsonObject("photos").getAsJsonArray("items");
             dto.photos = parseArray(photosArray, VKApiPhoto.class, context, null);
+            if (dto.attachments == null) {
+                dto.attachments = new VkApiAttachments();
+            }
+            dto.attachments.append(dto.photos);
         }
 
         if (root.has("photos_tags")) {
             JsonArray photosTagsArray = root.getAsJsonObject("photos_tags").getAsJsonArray("items");
             dto.photo_tags = parseArray(photosTagsArray, VKApiPhoto.class, context, null);
+            if (dto.attachments == null) {
+                dto.attachments = new VkApiAttachments();
+            }
+            dto.attachments.append(dto.photo_tags);
+        }
+
+        if (root.has("audio")) {
+            JsonArray photosTagsArray = root.getAsJsonObject("audio").getAsJsonArray("items");
+            dto.audio = parseArray(photosTagsArray, VKApiAudio.class, context, null);
+            if (dto.attachments == null) {
+                dto.attachments = new VkApiAttachments();
+            }
+            dto.attachments.append(dto.audio);
+        }
+
+        if (root.has("video")) {
+            JsonArray photosTagsArray = root.getAsJsonObject("video").getAsJsonArray("items");
+            dto.video = parseArray(photosTagsArray, VKApiVideo.class, context, null);
+            if (dto.attachments == null) {
+                dto.attachments = new VkApiAttachments();
+            }
+            dto.attachments.append(dto.video);
         }
 
         //if(root.has("notes")){
@@ -96,7 +124,7 @@ public class NewsAdapter extends AbsAdapter implements JsonDeserializer<VKApiNew
             dto.friends = new ArrayList<>(friendsArray.size());
             for (int i = 0; i < friendsArray.size(); i++) {
                 JsonObject friendObj = friendsArray.get(i).getAsJsonObject();
-                dto.friends.add(friendObj.get("uid").getAsString());
+                dto.friends.add(friendObj.get("user_id").getAsString());
             }
         }
 

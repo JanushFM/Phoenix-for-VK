@@ -30,9 +30,10 @@ public class SearchTabsFragment extends Fragment {
     public static final int TAB_COMMUNITIES = 1;
     public static final int TAB_NEWS = 2;
     public static final int TAB_MUSIC = 3;
-    public static final int TAB_VIDEOS = 4;
-    public static final int TAB_MESSAGES = 5;
-    public static final int TAB_DOCUMENTS = 6;
+    public static final int TAB_AUDIO_PLAYLISTS = 4;
+    public static final int TAB_VIDEOS = 5;
+    public static final int TAB_MESSAGES = 6;
+    public static final int TAB_DOCUMENTS = 7;
     private static final String TAG = SearchTabsFragment.class.getSimpleName();
     private static final String SAVE_CURRENT_TAB = "save_current_tab";
     private int mCurrentTab;
@@ -91,6 +92,9 @@ public class SearchTabsFragment extends Fragment {
                     break;
                 case TAB_MESSAGES:
                     tab.setText(R.string.messages);
+                    break;
+                case TAB_AUDIO_PLAYLISTS:
+                    tab.setText(R.string.playlists);
                     break;
             }
         }).attach();
@@ -154,6 +158,10 @@ public class SearchTabsFragment extends Fragment {
 
                 case TAB_MUSIC:
                     fragment = SingleTabSearchFragment.newInstance(accountId, SearchContentType.AUDIOS);
+                    break;
+
+                case TAB_AUDIO_PLAYLISTS:
+                    fragment = SingleTabSearchFragment.newInstance(accountId, SearchContentType.AUDIO_PLAYLISTS);
                     break;
 
                 case TAB_VIDEOS:
