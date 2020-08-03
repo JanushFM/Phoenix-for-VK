@@ -1,10 +1,10 @@
 package biz.dealnote.messenger.view;
 
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.StringRes;
+import androidx.core.widget.ContentLoadingProgressBar;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.model.LoadMoreState;
@@ -43,17 +43,17 @@ public class LoadMoreFooterHelper {
             case LoadMoreState.LOADING:
                 holder.tvEndOfList.setVisibility(View.INVISIBLE);
                 holder.bLoadMore.setVisibility(View.INVISIBLE);
-                holder.progress.setVisibility(View.VISIBLE);
+                holder.progress.show();
                 break;
             case LoadMoreState.END_OF_LIST:
-                holder.progress.setVisibility(View.INVISIBLE);
-                holder.bLoadMore.setVisibility(View.INVISIBLE);
                 holder.tvEndOfList.setVisibility(View.VISIBLE);
+                holder.bLoadMore.setVisibility(View.INVISIBLE);
+                holder.progress.hide();
                 break;
             case LoadMoreState.CAN_LOAD_MORE:
                 holder.tvEndOfList.setVisibility(View.INVISIBLE);
-                holder.progress.setVisibility(View.INVISIBLE);
                 holder.bLoadMore.setVisibility(View.VISIBLE);
+                holder.progress.hide();
                 break;
             case LoadMoreState.INVISIBLE:
                 break;
@@ -68,7 +68,7 @@ public class LoadMoreFooterHelper {
 
         public View root;
         public View container;
-        public ProgressBar progress;
+        public ContentLoadingProgressBar progress;
         public View bLoadMore;
         public TextView tvEndOfList;
 

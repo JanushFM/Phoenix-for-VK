@@ -13,7 +13,7 @@
         android:text="@string/load_more"
         android:textAllCaps="true" />
 
-    <ProgressBar
+    <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/footer_load_more_progress"
         android:layout_width="24dp"
         android:layout_height="24dp"

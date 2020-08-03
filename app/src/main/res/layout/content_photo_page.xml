@@ -18,7 +18,7 @@
             app:layout_behavior="biz.dealnote.messenger.view.verticalswipe.VerticalSwipeBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <ProgressBar
+    <androidx.core.widget.ContentLoadingProgressBar
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
