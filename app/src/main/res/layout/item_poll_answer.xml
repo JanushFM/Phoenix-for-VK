@@ -46,7 +46,7 @@
                 app:cardElevation="1dp"
                 app:contentPadding="0dp">
 
-                <ProgressBar
+                <androidx.core.widget.ContentLoadingProgressBar
                     android:id="@+id/item_poll_answer_progress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"

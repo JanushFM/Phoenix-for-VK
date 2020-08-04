@@ -157,8 +157,8 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
 
         holder.topDivider.setVisibility(View.GONE);
 
-        if (holder.viewCounterRoot != null) {
-            holder.viewCounterRoot.setVisibility(post.getViewCount() > 0 ? View.VISIBLE : View.GONE);
+        if (holder.viewCounter != null) {
+            holder.viewCounter.setVisibility(post.getViewCount() > 0 ? View.VISIBLE : View.GONE);
             holder.viewCounter.setText(String.valueOf(post.getViewCount()));
         }
     }
@@ -299,7 +299,6 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
         TextView tvShowMore;
         TextView tvTime;
         ImageView ivFriendOnly;
-        View viewCounterRoot;
         TextView viewCounter;
         View vSignerRoot;
         ImageView ivSignerIcon;
@@ -328,7 +327,6 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
             ivPlatform = itemView.findViewById(R.id.platform_icon);
             attachmentContainers = AttachmentsHolder.forPost((ViewGroup) itemView);
 
-            viewCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
             viewCounter = itemView.findViewById(R.id.post_views_counter);
         }
     }

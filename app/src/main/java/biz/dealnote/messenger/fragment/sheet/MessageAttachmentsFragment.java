@@ -84,7 +84,7 @@ public class MessageAttachmentsFragment extends AbsPresenterBottomSheetFragment<
         mRecyclerView = view.findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-        mEmptyView = view.findViewById(R.id.empty_root);
+        mEmptyView = view.findViewById(R.id.no_attachments_text);
 
         view.findViewById(R.id.button_send).setOnClickListener(v -> {
             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, null);

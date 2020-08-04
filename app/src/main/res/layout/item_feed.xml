@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/post_views_counter_root"
+                android:layout_toStartOf="@+id/post_views_counter"
                 android:layout_toEndOf="@+id/item_post_avatar"
                 android:orientation="vertical"
                 android:paddingStart="16dp"
@@ -63,30 +63,19 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/post_views_counter_root"
+            <TextView
+                android:id="@+id/post_views_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
+                android:drawablePadding="4dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:drawableRightCompat="@drawable/ic_eye_white_vector"
+                app:drawableTint="?android:textColorSecondary"
+                tools:text="1533" />
 
-                <TextView
-                    android:id="@+id/post_views_counter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    tools:text="1533" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/ic_eye_white_vector"
-                    app:tint="?android:textColorSecondary" />
-
-            </LinearLayout>
 
         </RelativeLayout>
 

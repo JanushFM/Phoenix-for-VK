@@ -46,13 +46,13 @@ import biz.dealnote.messenger.util.PhoenixToast.Companion.CreatePhoenixToast
 import biz.dealnote.messenger.util.RxUtils
 import biz.dealnote.messenger.util.Utils
 import biz.dealnote.messenger.util.Utils.isEmpty
-import biz.dealnote.messenger.view.AspectRatioImageView
 import biz.dealnote.messenger.view.CircleCounterButton
 import biz.dealnote.messenger.view.SeekBarSamsungFixed
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -86,7 +86,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private var tvTitle: TextView? = null
     private var tvAlbum: TextView? = null
     private var tvSubtitle: TextView? = null
-    private var ivCover: AspectRatioImageView? = null
+    private var ivCover: ShapeableImageView? = null
 
     // Broadcast receiver
     private var mPlaybackStatus: PlaybackStatus? = null
@@ -341,22 +341,24 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private fun get_lyrics(audio: Audio) {
         appendDisposable(mAudioInteractor!!.getLyrics(audio.lyricsId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe({ Text: String -> onAudioLyricsRecived(Text) }) { })
+                .subscribe({ Text: String -> onAudioLyricsReceived(Text) }) { })
     }
 
-    private fun onAudioLyricsRecived(Text: String) {
+    private fun onAudioLyricsReceived(Text: String) {
         var title: String? = null
         if (MusicUtils.getCurrentAudio() != null) title = MusicUtils.getCurrentAudio().artistAndTitle
         val dlgAlert = MaterialAlertDialogBuilder(requireActivity())
         dlgAlert.setIcon(R.drawable.dir_song)
         dlgAlert.setMessage(Text)
         dlgAlert.setTitle(title ?: requireContext().getString(R.string.get_lyrics))
-        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("response", Text)
-        clipboard.setPrimaryClip(clip)
         dlgAlert.setPositiveButton("OK", null)
+        dlgAlert.setNeutralButton(requireContext().getString(R.string.copy_text)) { _: DialogInterface, _: Int ->
+            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("response", Text)
+            clipboard.setPrimaryClip(clip)
+            CreatePhoenixToast(requireActivity()).showToast(R.string.copied_to_clipboard)
+        }
         dlgAlert.setCancelable(true)
-        CreatePhoenixToast(requireActivity()).showToast(R.string.copied_to_clipboard)
         dlgAlert.create().show()
     }
 

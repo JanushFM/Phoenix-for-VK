@@ -267,7 +267,7 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
         }
 
         holder.viewsCounter.setText(String.valueOf(post.getViewCount()));
-        holder.viewsCounterRoot.setVisibility(post.getViewCount() > 0 ? View.VISIBLE : View.GONE);
+        holder.viewsCounter.setVisibility(post.getViewCount() > 0 ? View.VISIBLE : View.GONE);
 
         holder.friendsOnlyIcon.setVisibility(post.isFriendsOnly() ? View.VISIBLE : View.GONE);
 
@@ -434,7 +434,6 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
 
         AttachmentsHolder postAttachmentsHolder;
 
-        View viewsCounterRoot;
         TextView viewsCounter;
 
         View friendsOnlyIcon;
@@ -464,7 +463,6 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
             signerName = itemView.findViewById(R.id.item_post_signer_name);
 
             viewsCounter = itemView.findViewById(R.id.post_views_counter);
-            viewsCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
 
             friendsOnlyIcon = itemView.findViewById(R.id.item_post_friedns_only);
 

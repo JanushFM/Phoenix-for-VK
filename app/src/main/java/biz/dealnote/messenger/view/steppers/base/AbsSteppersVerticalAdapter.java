@@ -68,7 +68,7 @@ public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends
         holder.buttonCancel.setOnClickListener(v -> mActionListener.onCancelButtonClick(holder.getAdapterPosition()));
 
         holder.titleText.setText(mHost.getStepTitle(position));
-        holder.titleText.setTypeface(Typeface.create(isCurrent ? "sans-serif-medium" : "sans-serif", Typeface.NORMAL));
+        holder.titleText.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
         holder.bindInternalStepViews(mHost);
         holder.setNextButtonAvailable(mHost.canMoveNext(position));

@@ -67,7 +67,7 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
         };
 
         holder.photoImageView.setOnClickListener(listener);
-        holder.selectedRoot.setOnClickListener(listener);
+        holder.tvIndex.setOnClickListener(listener);
     }
 
     public void updateHoldersSelectionAndIndexes() {
@@ -85,7 +85,7 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
     }
 
     private void resolveSelectionVisibility(LocalPhoto photo, ViewHolder holder) {
-        holder.selectedRoot.setVisibility(photo.isSelected() ? View.VISIBLE : View.GONE);
+        holder.tvIndex.setVisibility(photo.isSelected() ? View.VISIBLE : View.GONE);
     }
 
     private void resolveIndexText(LocalPhoto photo, ViewHolder holder) {

@@ -4,24 +4,7 @@
     android:viewportWidth="40"
     android:viewportHeight="60">
     <path
-        android:fillColor="#00000000"
-        android:pathData="M2,60 L2,0"
+        android:pathData="M2 60V0m23 2L2 25m23-8L2 40"
         android:strokeWidth="4"
-        android:strokeColor="#000000"
-        android:strokeLineCap="butt"
-        android:strokeLineJoin="miter" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M25,2 L2,25"
-        android:strokeWidth="4"
-        android:strokeColor="#000000"
-        android:strokeLineCap="butt"
-        android:strokeLineJoin="miter" />
-    <path
-        android:fillColor="#00000000"
-        android:pathData="M25,17 L2,40"
-        android:strokeWidth="4"
-        android:strokeColor="#000000"
-        android:strokeLineCap="butt"
-        android:strokeLineJoin="miter" />
+        android:strokeColor="#000000" />
 </vector>
