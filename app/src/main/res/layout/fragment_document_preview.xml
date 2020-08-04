@@ -85,6 +85,7 @@
                     android:clickable="true"
                     custom:active_background_color="?attr/icon_color_active"
                     custom:always_counter="false"
+                    android:focusable="true"
                     custom:noactive_icon_color="?attr/colorOnSurface" />
 
                 <biz.dealnote.messenger.view.CircleCounterButton

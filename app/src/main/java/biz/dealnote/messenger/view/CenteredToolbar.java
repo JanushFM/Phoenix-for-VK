@@ -75,7 +75,6 @@ public class CenteredToolbar extends MaterialToolbar {
         tvTitle = new TextView(getContext());
         tvTitle.setSingleLine();
         tvTitle.setEllipsize(TextUtils.TruncateAt.END);
-        tvTitle.setTextAppearance(getContext(), R.style.TextAppearance_Toolbar_Title);
 
         tvSubtitle = new TextView(getContext());
         tvSubtitle.setSingleLine();
