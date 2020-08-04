@@ -119,7 +119,7 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
             }
         });
 
-        holder.item_comment_thread_root.setVisibility(comment.getThreads() > 0 ? View.VISIBLE : View.GONE);
+        holder.item_comment_thread_counter.setVisibility(comment.getThreads() > 0 ? View.VISIBLE : View.GONE);
         if (comment.getThreads() > 0) {
             holder.itemView.setOnClickListener(v -> PlaceFactory.getCommentsThreadPlace(Settings.get().accounts().getCurrent(), comment.getCommented(), null, comment.getId()).tryOpenWith(context));
             holder.item_comment_thread_counter.setText(String.valueOf(comment.getThreads()));
@@ -260,7 +260,6 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
         TextView tvLikeCounter;
         View selectionView;
         View vAttachmentsRoot;
-        View item_comment_thread_root;
         TextView item_comment_thread_counter;
 
         AttachmentsHolder attachmentContainers;
@@ -279,7 +278,6 @@ public class CommentsAdapter extends RecyclerBindableAdapter<Comment, RecyclerVi
                 }
             });
 
-            item_comment_thread_root = root.findViewById(R.id.item_comment_thread_root);
             item_comment_thread_counter = root.findViewById(R.id.item_comment_thread_counter);
             tvTime = root.findViewById(R.id.item_comment_time);
             ivLike = root.findViewById(R.id.item_comment_like);

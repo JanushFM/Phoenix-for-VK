@@ -21,31 +21,22 @@
             app:altAspectRatioHeight="4"
             app:altAspectRatioWidth="3" />
 
-        <LinearLayout
-            android:id="@+id/empty_root"
+        <TextView
+            android:id="@+id/no_attachments_text"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="4dp"
             android:layout_toEndOf="@+id/offset_view"
             android:gravity="center"
+            android:maxWidth="200dp"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:text="@string/message_attachment_empty_text"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:drawableTint="?attr/colorOnSurface"
+            app:drawableTopCompat="@drawable/ic_sad_vector" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_sad_vector"
-                app:tint="?attr/colorOnSurface" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:maxWidth="200dp"
-                android:text="@string/message_attachment_empty_text"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
-
-        </LinearLayout>
 
     </RelativeLayout>
 

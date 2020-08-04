@@ -138,7 +138,7 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
 
         holder.topDivider.setVisibility(View.GONE);
 
-        holder.viewsCounterRoot.setVisibility(item.getViewCount() > 0 ? View.VISIBLE : View.GONE);
+        holder.viewsCounter.setVisibility(item.getViewCount() > 0 ? View.VISIBLE : View.GONE);
         //holder.viewsCounter.setText(String.valueOf(item.getViewCount()));
 
         ViewUtils.setCountText(holder.viewsCounter, item.getViewCount(), false);
@@ -228,7 +228,6 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
         CircleCounterButton shareButton;
         CircleCounterButton commentsButton;
         AttachmentsHolder attachmentsHolder;
-        View viewsCounterRoot;
         TextView viewsCounter;
 
         PostHolder(View root) {
@@ -249,7 +248,6 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
             shareButton = root.findViewById(R.id.share_button);
 
             attachmentsHolder = AttachmentsHolder.forPost((ViewGroup) root);
-            viewsCounterRoot = itemView.findViewById(R.id.post_views_counter_root);
             viewsCounter = itemView.findViewById(R.id.post_views_counter);
         }
 

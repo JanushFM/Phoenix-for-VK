@@ -30,26 +30,17 @@
             android:src="@drawable/lock_outline"
             app:tint="?colorOnSurface" />
 
-        <LinearLayout
-            android:id="@+id/post_views_counter_root"
+        <TextView
+            android:id="@+id/post_views_counter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="4dp"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:drawableRightCompat="@drawable/ic_eye_white_vector"
+            app:drawableTint="?colorOnSurface"
+            tools:text="1533" />
 
-            <TextView
-                android:id="@+id/post_views_counter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                app:drawableRightCompat="@drawable/ic_eye_white_vector"
-                app:drawableTint="?colorOnSurface"
-                tools:text="1533" />
-
-
-        </LinearLayout>
 
     </LinearLayout>
 
