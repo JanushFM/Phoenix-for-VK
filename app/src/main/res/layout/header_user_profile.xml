@@ -105,10 +105,10 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_view"
-            style="@style/CardViewMD2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin"
+            app:cardElevation="0dp"
             android:foreground="?android:attr/selectableItemBackground"
             tools:ignore="UnusedAttribute">
 
@@ -249,6 +249,8 @@
                         android:id="@+id/subscribe_btn"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
+                        android:insetTop="3dp"
+                        android:insetBottom="3dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
