@@ -10,12 +10,12 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -435,7 +435,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
             dlgAlert.setIcon(R.drawable.qr_code);
             View view = LayoutInflater.from(context).inflate(R.layout.qr, null);
             dlgAlert.setTitle(R.string.show_qr);
-            ImageView imageView = view.findViewById(R.id.qr);
+            ShapeableImageView imageView = view.findViewById(R.id.qr);
             imageView.setImageBitmap(qr);
             dlgAlert.setView(view);
             dlgAlert.show();

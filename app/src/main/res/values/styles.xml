@@ -395,6 +395,11 @@
         <item name="cornerSize">30dp</item>
     </style>
 
+    <style name="ShapeAppearance.MediumRounded" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
     <style name="Widget.MPM.Menu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:popupBackground">@drawable/popupmenu_background</item>
         <item name="mpm_paddingBottom">@dimen/mpm_popup_menu_vertical_padding</item>
