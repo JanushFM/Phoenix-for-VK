@@ -33,6 +33,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -658,7 +659,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         }
         if (Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.DISABLED) {
             ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
-            attachToFrontNoAnim(chatFragment);
+            attachToFront(chatFragment, false);
         } else {
             if (Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.V2 && getMainActivityTransform() == MainActivityTransforms.MAIN) {
                 Intent intent = new Intent(this, ChatActivity.class);
@@ -667,12 +668,12 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 startActivity(intent);
             } else if (Settings.get().ui().getSwipes_chat_mode() == SwipesChatMode.V2 && getMainActivityTransform() != MainActivityTransforms.MAIN) {
                 ChatFragment chatFragment = ChatFragment.Companion.newInstance(accountId, messagesOwnerId, peer);
-                attachToFrontNoAnim(chatFragment);
+                attachToFront(chatFragment, false);
             } else {
                 if (!ChatOnly)
                     clearBackStack();
                 DialogsTabsFragment chatFragment = DialogsTabsFragment.newInstance(accountId, messagesOwnerId, peer, Offset);
-                attachToFrontNoAnim(chatFragment);
+                attachToFront(chatFragment, false);
             }
         }
     }
@@ -998,18 +999,12 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         mCurrentFrontSection = null;
     }
 
-    private void attachToFront(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .replace(R.id.fragment, fragment)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
-    }
+    private void attachToFront(Fragment fragment, boolean animate) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (animate)
+            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
-    private void attachToFrontNoAnim(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
+        fragmentTransaction
                 .replace(R.id.fragment, fragment)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
@@ -1085,20 +1080,20 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         Bundle args = place.getArgs();
         switch (place.type) {
             case Place.VIDEO_PREVIEW:
-                attachToFront(VideoPreviewFragment.newInstance(args));
+                attachToFront(VideoPreviewFragment.newInstance(args), true);
                 break;
 
             case Place.STORY_PLAYER:
-                attachToFront(StoryPagerFragment.newInstance(args));
+                attachToFront(StoryPagerFragment.newInstance(args), true);
                 break;
 
             case Place.FRIENDS_AND_FOLLOWERS:
-                attachToFront(FriendsTabsFragment.newInstance(args));
+                attachToFront(FriendsTabsFragment.newInstance(args), true);
                 break;
 
             case Place.WIKI_PAGE:
             case Place.EXTERNAL_LINK:
-                attachToFront(BrowserFragment.newInstance(args));
+                attachToFront(BrowserFragment.newInstance(args), true);
                 break;
 
             case Place.DOC_PREVIEW:
@@ -1108,26 +1103,26 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                     ArrayList<Document> documents = new ArrayList<>(Collections.singletonList(document));
 
                     Bundle argsForGifs = GifPagerFragment.buildArgs(aid, documents, 0);
-                    attachToFront(GifPagerFragment.newInstance(argsForGifs));
+                    attachToFront(GifPagerFragment.newInstance(argsForGifs), true);
                 } else {
-                    attachToFront(DocPreviewFragment.newInstance(args));
+                    attachToFront(DocPreviewFragment.newInstance(args), true);
                 }
                 break;
 
             case Place.WALL_POST:
-                attachToFrontNoAnim(WallPostFragment.newInstance(args));
+                attachToFront(WallPostFragment.newInstance(args), false);
                 break;
 
             case Place.COMMENTS:
-                attachToFrontNoAnim(CommentsFragment.newInstance(place));
+                attachToFront(CommentsFragment.newInstance(place), false);
                 break;
 
             case Place.WALL:
-                attachToFrontNoAnim(AbsWallFragment.newInstance(args));
+                attachToFront(AbsWallFragment.newInstance(args), false);
                 break;
 
             case Place.CONVERSATION_ATTACHMENTS:
-                attachToFront(ConversationFragmentFactory.newInstance(args));
+                attachToFront(ConversationFragmentFactory.newInstance(args), true);
                 break;
 
             case Place.PLAYER:
@@ -1150,13 +1145,13 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.SEARCH:
-                attachToFront(SearchTabsFragment.newInstance(args));
+                attachToFront(SearchTabsFragment.newInstance(args), true);
                 break;
 
             case Place.BUILD_NEW_POST:
                 PostCreateFragment postCreateFragment = PostCreateFragment.newInstance(args);
                 place.applyTargetingTo(postCreateFragment);
-                attachToFront(postCreateFragment);
+                attachToFront(postCreateFragment, true);
                 break;
 
             case Place.DIALOGS_TUBS_TOUCH:
@@ -1172,18 +1167,18 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 Integer commemtId = args.getInt(Extra.COMMENT_ID);
                 CommentEditFragment commentEditFragment = CommentEditFragment.newInstance(accountId, comment, commemtId);
                 place.applyTargetingTo(commentEditFragment);
-                attachToFront(commentEditFragment);
+                attachToFront(commentEditFragment, true);
                 break;
             }
 
             case Place.EDIT_POST:
                 PostEditFragment postEditFragment = PostEditFragment.newInstance(args);
                 place.applyTargetingTo(postEditFragment);
-                attachToFront(postEditFragment);
+                attachToFront(postEditFragment, true);
                 break;
 
             case Place.REPOST:
-                attachToFront(RepostFragment.obtain(place));
+                attachToFront(RepostFragment.obtain(place), true);
                 break;
 
             case Place.DIALOGS:
@@ -1192,19 +1187,19 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.OWNER_ID),
                         args.getString(Extra.SUBTITLE),
                         args.getInt(Extra.OFFSET)
-                ));
+                ), true);
                 break;
 
             case Place.FORWARD_MESSAGES:
-                attachToFront(FwdsFragment.newInstance(args));
+                attachToFront(FwdsFragment.newInstance(args), true);
                 break;
 
             case Place.TOPICS:
-                attachToFront(TopicsFragment.newInstance(args));
+                attachToFront(TopicsFragment.newInstance(args), true);
                 break;
 
             case Place.CHAT_MEMBERS:
-                attachToFront(ChatUsersFragment.newInstance(args));
+                attachToFront(ChatUsersFragment.newInstance(args), true);
                 break;
 
             case Place.COMMUNITIES:
@@ -1213,31 +1208,31 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.USER_ID)
                 );
 
-                attachToFront(communitiesFragment);
+                attachToFront(communitiesFragment, true);
                 break;
 
             case Place.AUDIOS:
-                attachToFront(AudiosTabsFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID)));
+                attachToFront(AudiosTabsFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID)), true);
                 break;
 
             case Place.MENTIONS:
-                attachToFront(NewsfeedMentionsFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID)));
+                attachToFront(NewsfeedMentionsFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID)), true);
                 break;
 
             case Place.AUDIOS_IN_ALBUM:
-                attachToFront(AudiosFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), args.getInt(Extra.ID), 1, args.getString(Extra.ACCESS_KEY)));
+                attachToFront(AudiosFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), args.getInt(Extra.ID), 1, args.getString(Extra.ACCESS_KEY)), true);
                 break;
 
             case Place.SEARCH_BY_AUDIO:
-                attachToFront(AudiosFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), args.getInt(Extra.ID), 2, null));
+                attachToFront(AudiosFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getInt(Extra.OWNER_ID), args.getInt(Extra.ID), 2, null), true);
                 break;
 
             case Place.VIDEO_ALBUM:
-                attachToFront(VideosFragment.newInstance(args));
+                attachToFront(VideosFragment.newInstance(args), true);
                 break;
 
             case Place.VIDEOS:
-                attachToFront(VideosTabsFragment.newInstance(args));
+                attachToFront(VideosTabsFragment.newInstance(args), true);
                 break;
 
             case Place.VK_PHOTO_ALBUMS:
@@ -1246,55 +1241,55 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.OWNER_ID),
                         args.getString(Extra.ACTION),
                         args.getParcelable(Extra.OWNER), false
-                ));
+                ), true);
                 break;
 
             case Place.VK_PHOTO_ALBUM:
-                attachToFront(VKPhotosFragment.newInstance(args));
+                attachToFront(VKPhotosFragment.newInstance(args), true);
                 break;
 
             case Place.VK_PHOTO_ALBUM_GALLERY:
-                attachToFront(PhotoPagerFragment.newInstance(place.type, args));
+                attachToFront(PhotoPagerFragment.newInstance(place.type, args), true);
                 break;
 
             case Place.FAVE_PHOTOS_GALLERY:
-                attachToFront(PhotoPagerFragment.newInstance(place.type, args));
+                attachToFront(PhotoPagerFragment.newInstance(place.type, args), true);
                 break;
 
             case Place.SIMPLE_PHOTO_GALLERY:
-                attachToFront(PhotoPagerFragment.newInstance(place.type, args));
+                attachToFront(PhotoPagerFragment.newInstance(place.type, args), true);
                 break;
 
             case Place.VK_PHOTO_TMP_SOURCE:
-                attachToFront(PhotoPagerFragment.newInstance(place.type, args));
+                attachToFront(PhotoPagerFragment.newInstance(place.type, args), true);
                 break;
 
             case Place.POLL:
-                attachToFrontNoAnim(PollFragment.newInstance(args));
+                attachToFront(PollFragment.newInstance(args), false);
                 break;
 
             case Place.BOOKMARKS:
-                attachToFront(FaveTabsFragment.newInstance(args));
+                attachToFront(FaveTabsFragment.newInstance(args), true);
                 break;
 
             case Place.DOCS:
-                attachToFront(DocsFragment.newInstance(args));
+                attachToFront(DocsFragment.newInstance(args), true);
                 break;
 
             case Place.FEED:
-                attachToFront(FeedFragment.newInstance(args));
+                attachToFront(FeedFragment.newInstance(args), true);
                 break;
 
             case Place.NOTIFICATIONS:
                 if (Settings.get().accounts().getType(mAccountId).equals("vkofficial") || Settings.get().accounts().getType(mAccountId).equals("hacked")) {
-                    attachToFront(AnswerVKOfficialFragment.newInstance(Settings.get().accounts().getCurrent()));
+                    attachToFront(AnswerVKOfficialFragment.newInstance(Settings.get().accounts().getCurrent()), true);
                     break;
                 }
-                attachToFront(FeedbackFragment.newInstance(args));
+                attachToFront(FeedbackFragment.newInstance(args), true);
                 break;
 
             case Place.PREFERENCES:
-                attachToFront(PreferencesFragment.newInstance(args));
+                attachToFront(PreferencesFragment.newInstance(args), true);
                 break;
 
             case Place.RESOLVE_DOMAIN:
@@ -1309,36 +1304,36 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.NOTIFICATION_SETTINGS:
-                attachToFrontNoAnim(new NotificationPreferencesFragment());
+                attachToFront(new NotificationPreferencesFragment(), false);
                 break;
 
             case Place.LIKES_AND_COPIES:
-                attachToFrontNoAnim(LikesFragment.newInstance(args));
+                attachToFront(LikesFragment.newInstance(args), false);
                 break;
 
             case Place.CREATE_PHOTO_ALBUM:
             case Place.EDIT_PHOTO_ALBUM:
                 CreatePhotoAlbumFragment createPhotoAlbumFragment = CreatePhotoAlbumFragment.newInstance(args);
                 place.applyTargetingTo(createPhotoAlbumFragment);
-                attachToFront(createPhotoAlbumFragment);
+                attachToFront(createPhotoAlbumFragment, true);
                 break;
 
             case Place.MESSAGE_LOOKUP:
-                attachToFront(MessagesLookFragment.newInstance(args));
+                attachToFront(MessagesLookFragment.newInstance(args), true);
                 break;
 
             case Place.GIF_PAGER:
-                attachToFrontNoAnim(GifPagerFragment.newInstance(args));
+                attachToFront(GifPagerFragment.newInstance(args), false);
                 break;
 
             case Place.SECURITY:
-                attachToFrontNoAnim(new SecurityPreferencesFragment());
+                attachToFront(new SecurityPreferencesFragment(), false);
                 break;
 
             case Place.CREATE_POLL:
                 CreatePollFragment createPollFragment = CreatePollFragment.newInstance(args);
                 place.applyTargetingTo(createPollFragment);
-                attachToFront(createPollFragment);
+                attachToFront(createPollFragment, true);
                 break;
 
             case Place.COMMENT_CREATE:
@@ -1346,17 +1341,17 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 break;
 
             case Place.LOGS:
-                attachToFrontNoAnim(LogsFragement.newInstance());
+                attachToFront(LogsFragement.newInstance(), false);
                 break;
 
             case Place.SINGLE_SEARCH:
                 SingleTabSearchFragment singleTabSearchFragment = SingleTabSearchFragment.newInstance(args);
-                attachToFront(singleTabSearchFragment);
+                attachToFront(singleTabSearchFragment, true);
                 break;
 
             case Place.NEWSFEED_COMMENTS:
                 NewsfeedCommentsFragment newsfeedCommentsFragment = NewsfeedCommentsFragment.newInstance(args.getInt(Extra.ACCOUNT_ID));
-                attachToFront(newsfeedCommentsFragment);
+                attachToFront(newsfeedCommentsFragment, true);
                 break;
 
             case Place.COMMUNITY_CONTROL:
@@ -1365,7 +1360,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getParcelable(Extra.OWNER),
                         args.getParcelable(Extra.SETTINGS)
                 );
-                attachToFront(communityControlFragment);
+                attachToFront(communityControlFragment, true);
                 break;
 
             case Place.COMMUNITY_INFO:
@@ -1373,7 +1368,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.ACCOUNT_ID),
                         args.getParcelable(Extra.OWNER)
                 );
-                attachToFront(communityInfoFragment);
+                attachToFront(communityInfoFragment, true);
                 break;
 
             case Place.COMMUNITY_INFO_LINKS:
@@ -1381,12 +1376,12 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.ACCOUNT_ID),
                         args.getParcelable(Extra.OWNER)
                 );
-                attachToFrontNoAnim(communityLinksFragment);
+                attachToFront(communityLinksFragment, false);
                 break;
 
             case Place.SETTINGS_THEME:
                 ThemeFragment themes = ThemeFragment.newInstance();
-                attachToFrontNoAnim(themes);
+                attachToFront(themes, false);
                 if (getNavigationFragment().isSheetOpen()) {
                     getNavigationFragment().closeSheet();
                     return;
@@ -1399,7 +1394,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.GROUP_ID),
                         (Banned) args.getParcelable(Extra.BANNED)
                 );
-                attachToFront(communityBanEditFragment);
+                attachToFront(communityBanEditFragment, true);
                 break;
 
             case Place.COMMUNITY_ADD_BAN:
@@ -1407,7 +1402,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.ACCOUNT_ID),
                         args.getInt(Extra.GROUP_ID),
                         args.getParcelableArrayList(Extra.USERS)
-                ));
+                ), true);
                 break;
 
             case Place.COMMUNITY_MANAGER_ADD:
@@ -1415,7 +1410,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.ACCOUNT_ID),
                         args.getInt(Extra.GROUP_ID),
                         args.getParcelableArrayList(Extra.USERS)
-                ));
+                ), true);
                 break;
 
             case Place.COMMUNITY_MANAGER_EDIT:
@@ -1423,58 +1418,58 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         args.getInt(Extra.ACCOUNT_ID),
                         args.getInt(Extra.GROUP_ID),
                         (Manager) args.getParcelable(Extra.MANAGER)
-                ));
+                ), true);
                 break;
 
             case Place.REQUEST_EXECUTOR:
-                attachToFront(RequestExecuteFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                attachToFront(RequestExecuteFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)), true);
                 break;
 
             case Place.USER_BLACKLIST:
-                attachToFrontNoAnim(UserBannedFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                attachToFront(UserBannedFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)), false);
                 break;
 
             case Place.DRAWER_EDIT:
-                attachToFrontNoAnim(DrawerEditFragment.newInstance());
+                attachToFront(DrawerEditFragment.newInstance(), false);
                 break;
 
             case Place.SINGLE_PHOTO:
-                attachToFront(SinglePhotoFragment.newInstance(args));
+                attachToFront(SinglePhotoFragment.newInstance(args), true);
                 break;
 
             case Place.ARTIST:
-                attachToFrontNoAnim(AudioCatalogFragment.newInstance(args));
+                attachToFront(AudioCatalogFragment.newInstance(args), false);
                 break;
 
             case Place.CATALOG_BLOCK_AUDIOS:
-                attachToFront(AudiosInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)));
+                attachToFront(AudiosInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)), true);
                 break;
 
             case Place.CATALOG_BLOCK_PLAYLISTS:
-                attachToFront(PlaylistsInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)));
+                attachToFront(PlaylistsInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)), true);
                 break;
 
             case Place.CATALOG_BLOCK_VIDEOS:
-                attachToFront(VideosInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)));
+                attachToFront(VideosInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)), true);
                 break;
 
             case Place.CATALOG_BLOCK_LINKS:
-                attachToFront(LinksInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)));
+                attachToFront(LinksInCatalogFragment.newInstance(args.getInt(Extra.ACCOUNT_ID), args.getString(Extra.ID), args.getString(Extra.TITLE)), true);
                 break;
 
             case Place.SHORT_LINKS:
-                attachToFrontNoAnim(ShortedLinksFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                attachToFront(ShortedLinksFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)), false);
                 break;
 
             case Place.IMPORTANT_MESSAGES:
-                attachToFrontNoAnim(ImportantMessagesFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)));
+                attachToFront(ImportantMessagesFragment.newInstance(args.getInt(Extra.ACCOUNT_ID)), false);
                 break;
 
             case Place.USER_DETAILS:
                 int accountId = args.getInt(Extra.ACCOUNT_ID);
                 User user = args.getParcelable(Extra.USER);
                 UserDetails details = args.getParcelable("details");
-                attachToFrontNoAnim(UserDetailsFragment.newInstance(accountId, user, details));
+                attachToFront(UserDetailsFragment.newInstance(accountId, user, details), false);
                 break;
 
             case Place.WALL_ATTACHMENTS:
@@ -1482,7 +1477,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 if (wall_attachments == null) {
                     throw new IllegalArgumentException("wall_attachments cant bee null");
                 }
-                attachToFront(wall_attachments);
+                attachToFront(wall_attachments, true);
                 break;
             default:
                 throw new IllegalArgumentException("Main activity can't open this place, type: " + place.type);
@@ -1498,7 +1493,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         );
 
         place.applyTargetingTo(fragment);
-        attachToFront(fragment);
+        attachToFront(fragment, true);
     }
 
     @Override
