@@ -160,7 +160,7 @@
         android:orientation="horizontal"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 
@@ -174,7 +174,7 @@
         android:orientation="horizontal"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 </RelativeLayout>
