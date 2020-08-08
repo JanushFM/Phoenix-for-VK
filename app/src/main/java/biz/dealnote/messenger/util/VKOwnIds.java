@@ -227,6 +227,10 @@ public class VKOwnIds {
             append(news.attachments);
         }
 
+        if (!Utils.isEmpty(news.friends)) {
+            appendAll(news.friends);
+        }
+
         return this;
     }
 

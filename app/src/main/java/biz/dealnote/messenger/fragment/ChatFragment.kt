@@ -645,7 +645,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
 
     override fun goToMessageAttachmentsEditor(
             accountId: Int, messageOwnerId: Int, destination: UploadDestination,
-            body: String?, attachments: ModelsBundle?,
+            body: String?, attachments: ModelsBundle?
     ) {
         val fragment = MessageAttachmentsFragment.newInstance(accountId, messageOwnerId, destination.id, attachments)
         fragment.setTargetFragment(this, REQUEST_EDIT_MESSAGE)
@@ -846,7 +846,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
 
     override fun configOptionMenu(
             canLeaveChat: Boolean, canChangeTitle: Boolean, canShowMembers: Boolean,
-            encryptionStatusVisible: Boolean, encryprionEnabled: Boolean, encryptionPlusEnabled: Boolean, keyExchangeVisible: Boolean, HronoVisible: Boolean, ProfileVisible: Boolean,
+            encryptionStatusVisible: Boolean, encryprionEnabled: Boolean, encryptionPlusEnabled: Boolean, keyExchangeVisible: Boolean, HronoVisible: Boolean, ProfileVisible: Boolean
     ) {
         optionMenuSettings.put(LEAVE_CHAT_VISIBLE, canLeaveChat)
         optionMenuSettings.put(CHANGE_CHAT_TITLE_VISIBLE, canChangeTitle)
@@ -1128,7 +1128,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
                 return true
             }
             R.id.delete_chat -> {
-                Snackbar.make(requireView(), R.string.delete_chat, Snackbar.LENGTH_LONG).setAction(R.string.button_yes
+                Snackbar.make(requireView(), R.string.delete_chat_do, Snackbar.LENGTH_LONG).setAction(R.string.button_yes
                 ) { presenter?.removeDialog() }
                         .setAnchorView(InputView)
                         .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity())).setActionTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity())))

@@ -44,6 +44,17 @@ public interface INewsfeedService {
     Single<BaseResponse<Items<VkApiFeedList>>> getLists(@Field("list_ids") String listIds,
                                                         @Field("extended") Integer extended);
 
+    //https://vk.com/dev/newsfeed.saveList
+    @FormUrlEncoded
+    @POST("newsfeed.saveList")
+    Single<BaseResponse<Integer>> saveList(@Field("title") String title,
+                                           @Field("source_ids") String source_ids);
+
+    //https://vk.com/dev/newsfeed.deleteList
+    @FormUrlEncoded
+    @POST("newsfeed.deleteList")
+    Single<BaseResponse<Integer>> deleteList(@Field("list_id") Integer list_id);
+
     /**
      * Returns search results by statuses.
      *

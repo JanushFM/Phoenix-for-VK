@@ -13,6 +13,7 @@ import biz.dealnote.messenger.api.adapters.LongpollUpdatesAdapter;
 import biz.dealnote.messenger.api.model.longpoll.AbsLongpollEvent;
 import biz.dealnote.messenger.api.model.longpoll.VkApiLongpollUpdates;
 import biz.dealnote.messenger.settings.IProxySettings;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
@@ -63,7 +64,7 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
             Gson gson = new GsonBuilder().create();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://oauth.vk.com/")
+                    .baseUrl("https://" + Settings.get().other().get_Auth_Domain() + "/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(builder.build())
@@ -88,7 +89,7 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
             Gson gson = new GsonBuilder().create();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://api.vk.com/method/")
+                    .baseUrl("https://" + Settings.get().other().get_Api_Domain() + "/method/")
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(builder.build())
@@ -132,7 +133,7 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
                 .create();
 
         return new Retrofit.Builder()
-                .baseUrl("https://api.vk.com/method/") // dummy
+                .baseUrl("https://" + Settings.get().other().get_Api_Domain() + "/method/") // dummy
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(builder.build())

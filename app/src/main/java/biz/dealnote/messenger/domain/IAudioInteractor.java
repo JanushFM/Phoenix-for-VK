@@ -29,9 +29,11 @@ public interface IAudioInteractor {
 
     Single<List<Audio>> get(int accountId, Integer album_id, int ownerId, int offset, String accessKey);
 
-    Single<List<Audio>> getById(List<IdPair> audios);
+    Single<List<Audio>> getById(int accountId, List<IdPair> audios);
 
-    Single<String> getLyrics(int lyrics_id);
+    Single<List<Audio>> getByIdOld(int accountId, List<IdPair> audios);
+
+    Single<String> getLyrics(int accountId, int lyrics_id);
 
     Single<List<Audio>> getPopular(int accountId, int foreign, int genre);
 
@@ -50,6 +52,8 @@ public interface IAudioInteractor {
     Single<AudioPlaylist> getPlaylistById(int accountId, int playlist_id, int ownerId, String accessKey);
 
     Single<Integer> deletePlaylist(int accountId, int playlist_id, int ownerId);
+
+    Single<List<AudioPlaylist>> getDualPlaylists(int accountId, int owner_id, int first_playlist, int second_playlist);
 
     Single<List<AudioCatalog>> getCatalog(int accountId, String artist_id);
 

@@ -599,6 +599,13 @@ public class UserWallPresenter extends AbsWallPresenter<IUserWallView> {
     }
 
     @Override
+    public void fireAddToNewsClick() {
+        appendDisposable(InteractorFactory.createFeedInteractor().saveList(getAccountId(), user.getShortFullName(), Collections.singleton(user.getOwnerId()))
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(i -> getView().showSnackbar(R.string.success, true), t -> showError(getView(), t)));
+    }
+
+    @Override
     public void searchStory(boolean ByName) {
         appendDisposable(ownersRepository.searchStory(getAccountId(), ByName ? user.getFullName() : null, ByName ? null : ownerId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())

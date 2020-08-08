@@ -106,7 +106,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
                         if (!Utils.isEmpty(data)) {
                             stories.clear();
                             stories.addAll(data);
-                            getView().updateStory(stories);
+                            callView(view -> view.updateStory(stories));
                         }
                     }, t -> {
                     }));
@@ -546,6 +546,12 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
     public void fireCopyUrlClick() {
         getView().copyToClipboard(getString(R.string.link), (isCommunity() ? "vk.com/club" : "vk.com/id") + Math.abs(ownerId));
     }
+
+    public void fireCopyIdClick() {
+        getView().copyToClipboard(getString(R.string.id), String.valueOf(ownerId));
+    }
+
+    public abstract void fireAddToNewsClick();
 
     public boolean isCommunity() {
         return ownerId < 0;

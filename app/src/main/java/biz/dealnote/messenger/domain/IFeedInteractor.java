@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.domain;
 
+import java.util.Collection;
 import java.util.List;
 
 import biz.dealnote.messenger.fragment.search.criteria.NewsFeedCriteria;
@@ -19,4 +20,8 @@ public interface IFeedInteractor {
     Single<List<FeedList>> getCachedFeedLists(int accountId);
 
     Single<List<FeedList>> getActualFeedLists(int accountId);
+
+    Single<Integer> saveList(int accountId, String title, Collection<Integer> listIds);
+
+    Single<Integer> deleteList(int accountId, Integer list_id);
 }

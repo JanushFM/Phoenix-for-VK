@@ -21,14 +21,14 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.view.materialplaypausedrawable.MaterialPlayPauseDrawable;
+import biz.dealnote.messenger.view.materialplaypausedrawable.MaterialPlayPauseFab;
 
 
 /**
@@ -77,7 +77,7 @@ public class VideoControllerView extends FrameLayout {
     private boolean mFromXml;
     private boolean mListenersSet;
     private OnClickListener mNextListener, mPrevListener;
-    private FloatingActionButton mPauseButton;
+    private MaterialPlayPauseFab mPauseButton;
     private ImageButton mFfwdButton;
     private ImageButton mRewButton;
     private final OnClickListener mPauseListener = v -> {
@@ -513,9 +513,9 @@ public class VideoControllerView extends FrameLayout {
         }
 
         if (mPlayer.isPlaying()) {
-            mPauseButton.setImageResource(R.drawable.pause);
+            mPauseButton.setState(MaterialPlayPauseDrawable.State.Pause);
         } else {
-            mPauseButton.setImageResource(R.drawable.play);
+            mPauseButton.setState(MaterialPlayPauseDrawable.State.Play);
         }
     }
 

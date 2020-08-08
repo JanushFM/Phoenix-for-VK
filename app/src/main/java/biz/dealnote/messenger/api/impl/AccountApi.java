@@ -48,11 +48,11 @@ class AccountApi extends AbsApi implements IAccountApi {
     }
 
     @Override
-    public Single<Boolean> registerDevice(String token, String deviceModel, Integer deviceYear,
-                                          String deviceId, String systemVersion, String settings) {
+    public Single<Boolean> registerDevice(String token, Integer pushes_granted, String app_version, String push_provider, String companion_apps,
+                                          Integer type, String deviceModel, String deviceId, String systemVersion, String settings) {
         return provideService(IAccountService.class, TokenType.USER)
                 .flatMap(service -> service
-                        .registerDevice(token, deviceModel, deviceYear, deviceId, systemVersion, settings)
+                        .registerDevice(token, pushes_granted, app_version, push_provider, companion_apps, type, deviceModel, deviceId, systemVersion, settings)
                         .map(extractResponseWithErrorHandling())
                         .map(response -> response == 1));
     }

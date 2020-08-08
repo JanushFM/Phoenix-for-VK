@@ -102,6 +102,6 @@ public class InteractorFactory {
     }
 
     public static IAudioInteractor createAudioInteractor() {
-        return new AudioInteractor(Injection.provideNetworkInterfaces(), Injection.provideSettings().accounts().getCurrent());
+        return new AudioInteractor(Injection.provideNetworkInterfaces());
     }
 }

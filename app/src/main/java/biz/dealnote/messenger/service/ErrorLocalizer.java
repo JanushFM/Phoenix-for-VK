@@ -100,6 +100,12 @@ public class ErrorLocalizer {
                     return context.getString(R.string.api_error_23);
                 case 24:
                     return context.getString(R.string.api_error_24);
+                case 27:
+                    return context.getString(R.string.api_error_27);
+                case 28:
+                    return context.getString(R.string.api_error_28);
+                case 29:
+                    return context.getString(R.string.api_error_29);
                 case 30:
                     return context.getString(R.string.api_error_30);
                 case 100:
@@ -169,11 +175,12 @@ public class ErrorLocalizer {
                     return context.getString(R.string.api_error_913);
                 case 921:
                     return context.getString(R.string.api_error_921);
-
                 case 1150:
                     return context.getString(R.string.api_error_1150);
                 case 1151:
                     return context.getString(R.string.api_error_1151);
+                case 1170:
+                    return context.getString(R.string.api_error_1170);
             }
 
             return super.getMessage(context, code, ifUnknown, params);

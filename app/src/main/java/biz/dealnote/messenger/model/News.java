@@ -22,7 +22,7 @@ public class News extends AbsModel {
     /**
      * Каждый из элементов массива в поле friends содержит поля: uid— идентификатор пользователя
      */
-    public List<String> friends;
+    private List<User> friends;
     /**
      * тип списка новости, соответствующий одному из значений параметра filters;
      */
@@ -153,7 +153,7 @@ public class News extends AbsModel {
         repostsCount = in.readInt();
         userReposted = in.readByte() != 0;
         attachments = in.readParcelable(Attachments.class.getClassLoader());
-        friends = in.createStringArrayList();
+        friends = in.createTypedArrayList(User.CREATOR);
         viewCount = in.readInt();
     }
 
@@ -373,11 +373,11 @@ public class News extends AbsModel {
         return this;
     }
 
-    public List<String> getFriends() {
+    public List<User> getFriends() {
         return friends;
     }
 
-    public News setFriends(List<String> friends) {
+    public News setFriends(List<User> friends) {
         this.friends = friends;
         return this;
     }
@@ -447,7 +447,7 @@ public class News extends AbsModel {
         dest.writeInt(repostsCount);
         dest.writeByte((byte) (userReposted ? 1 : 0));
         dest.writeParcelable(attachments, flags);
-        dest.writeStringList(friends);
+        dest.writeTypedList(friends);
         dest.writeInt(viewCount);
     }
 

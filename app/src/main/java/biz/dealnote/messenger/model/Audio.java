@@ -77,7 +77,7 @@ public class Audio extends AbsModel {
     }
 
     public static String getMp3FromM3u8(String url) {
-        if (url == null || !url.contains("index.m3u8"))
+        if (Utils.isEmpty(url) || !url.contains("index.m3u8"))
             return url;
         if (url.contains("/audios/")) {
             final String regex = "^(.+?)/[^/]+?/audios/([^/]+)/.+$";

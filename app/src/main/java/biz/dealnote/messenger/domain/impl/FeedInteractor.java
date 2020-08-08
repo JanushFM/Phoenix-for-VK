@@ -1,6 +1,7 @@
 package biz.dealnote.messenger.domain.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import biz.dealnote.messenger.Constants;
@@ -56,7 +57,7 @@ public class FeedInteractor implements IFeedInteractor {
         if (!"recommendation".equals(sourceIds)) {
             return networker.vkDefault(accountId)
                     .newsfeed()
-                    .get(filters, null, null, null, maxPhotos, sourceIds, startFrom, count, Constants.MAIN_OWNER_FIELDS)
+                    .get(filters, null, null, null, maxPhotos, "updates".equals(sourceIds) ? null : sourceIds, startFrom, count, Constants.MAIN_OWNER_FIELDS)
                     .flatMap(response -> {
                         String nextFrom = response.nextFrom;
                         List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
@@ -148,6 +149,18 @@ public class FeedInteractor implements IFeedInteractor {
                                 return Pair.Companion.create(posts, response.nextFrom);
                             });
                 });
+    }
+
+    @Override
+    public Single<Integer> saveList(int accountId, String title, Collection<Integer> listIds) {
+        return networker.vkDefault(accountId)
+                .newsfeed().saveList(title, listIds).map(response -> response);
+    }
+
+    @Override
+    public Single<Integer> deleteList(int accountId, Integer list_id) {
+        return networker.vkDefault(accountId)
+                .newsfeed().deleteList(list_id).map(response -> response);
     }
 
     @Override

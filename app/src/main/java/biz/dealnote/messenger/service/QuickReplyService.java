@@ -50,7 +50,7 @@ public class QuickReplyService extends IntentService {
 
             if (msg != null) {
                 CharSequence body = msg.getCharSequence(Extra.BODY);
-                addMessage(accountId, peerId, body == null ? null : body.toString(), intent.getExtras().getParcelable(Extra.MESSAGE));
+                addMessage(accountId, peerId, body == null ? null : body.toString());
             }
         } else if (intent != null && ACTION_MARK_AS_READ.equals(intent.getAction()) && intent.getExtras() != null) {
             int accountId = intent.getExtras().getInt(Extra.ACCOUNT_ID);
@@ -60,7 +60,7 @@ public class QuickReplyService extends IntentService {
         }
     }
 
-    private void addMessage(int accountId, int peerId, String body, Message msg) {
+    private void addMessage(int accountId, int peerId, String body) {
         IMessagesRepository messagesInteractor = Repository.INSTANCE.getMessages();
         SaveMessageBuilder builder = new SaveMessageBuilder(accountId, peerId).setBody(body);
 

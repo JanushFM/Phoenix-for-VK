@@ -55,6 +55,18 @@ class PhoenixToast private constructor(context: Context?, Timage: Bitmap?) {
         showToastBottom(M_context.resources.getString(message, *params))
     }
 
+    fun showToastSuccessBottom(message: String?) {
+        if (M_context == null) return
+        val t = getToast(M_context, message, Color.parseColor("#AA48BE2D"))
+        t.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM, 0, 40)
+        t.show()
+    }
+
+    fun showToastSuccessBottom(@StringRes message: Int, vararg params: Any?) {
+        if (M_context == null) return
+        showToastSuccessBottom(M_context.resources.getString(message, *params))
+    }
+
     fun showToastInfo(message: String?) {
         if (M_context == null) return
         val t = getToast(M_context, message, Utils.getThemeColor(true))

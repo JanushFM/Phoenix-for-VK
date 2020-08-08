@@ -83,6 +83,16 @@ public class RelationshipInteractor implements IRelationshipInteractor {
     }
 
     @Override
+    public Single<List<User>> getRecommendations(int accountId, Integer count) {
+        return networker.vkDefault(accountId)
+                .friends()
+                .getRecommendations(count, UserColumns.API_FIELDS, null)
+                .map(response -> Utils.listEmptyIfNull(response.items))
+                .map(Dto2Model::transformUsers);
+
+    }
+
+    @Override
     public Single<List<User>> getFollowers(int accountId, int userId, int count, int offset) {
         return networker.vkDefault(accountId)
                 .users()

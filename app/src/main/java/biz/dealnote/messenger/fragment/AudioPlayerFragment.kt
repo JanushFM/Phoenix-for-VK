@@ -39,8 +39,8 @@ import biz.dealnote.messenger.player.util.MusicUtils
 import biz.dealnote.messenger.settings.CurrentTheme
 import biz.dealnote.messenger.settings.Settings
 import biz.dealnote.messenger.util.AppPerms
-import biz.dealnote.messenger.util.DownloadUtil.TrackIsDownloaded
-import biz.dealnote.messenger.util.DownloadUtil.downloadTrack
+import biz.dealnote.messenger.util.DownloadWorkUtils.TrackIsDownloaded
+import biz.dealnote.messenger.util.DownloadWorkUtils.doDownloadAudio
 import biz.dealnote.messenger.util.Objects
 import biz.dealnote.messenger.util.PhoenixToast.Companion.CreatePhoenixToast
 import biz.dealnote.messenger.util.RxUtils
@@ -274,16 +274,23 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             AppPerms.requestReadWriteStoragePermission(requireActivity())
             return
         }
-        when (downloadTrack(requireContext(), audio, false)) {
+        when (doDownloadAudio(requireActivity(), audio, mAccountId, false)) {
             0 -> {
                 CreatePhoenixToast(requireActivity()).showToastBottom(R.string.saved_audio)
                 ivSave!!.setImageResource(R.drawable.succ)
             }
             1 -> {
                 Snackbar.make(v, R.string.audio_force_download, Snackbar.LENGTH_LONG).setAction(R.string.button_yes
-                ) { downloadTrack(requireActivity(), audio, true) }
+                ) { doDownloadAudio(requireActivity(), audio, mAccountId, true) }
+                        .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity())).setAnchorView(mPlayPauseButton).setActionTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor("#ffffff") else Color.parseColor("#000000"))
+                        .setTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor("#ffffff") else Color.parseColor("#000000")).show()
+            }
+            2 -> {
+                Snackbar.make(v, R.string.audio_force_download_pc, Snackbar.LENGTH_LONG).setAnchorView(mPlayPauseButton).setAction(R.string.button_yes
+                ) { doDownloadAudio(requireActivity(), audio, mAccountId, true) }
                         .setBackgroundTint(CurrentTheme.getColorPrimary(requireActivity())).setActionTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor("#ffffff") else Color.parseColor("#000000"))
                         .setTextColor(if (Utils.isColorDark(CurrentTheme.getColorPrimary(requireActivity()))) Color.parseColor("#ffffff") else Color.parseColor("#000000")).show()
+                ivSave!!.setImageResource(R.drawable.succ)
             }
             else -> CreatePhoenixToast(requireActivity()).showToastBottom(R.string.error_audio)
         }
@@ -339,7 +346,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     }
 
     private fun get_lyrics(audio: Audio) {
-        appendDisposable(mAudioInteractor!!.getLyrics(audio.lyricsId)
+        appendDisposable(mAudioInteractor!!.getLyrics(mAccountId, audio.lyricsId)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe({ Text: String -> onAudioLyricsReceived(Text) }) { })
     }

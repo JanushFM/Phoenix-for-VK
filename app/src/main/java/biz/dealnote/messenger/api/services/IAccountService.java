@@ -53,8 +53,12 @@ public interface IAccountService {
     @FormUrlEncoded
     @POST("account.registerDevice")
     Single<BaseResponse<Integer>> registerDevice(@Field("token") String token,
+                                                 @Field("pushes_granted") Integer pushes_granted,
+                                                 @Field("app_version") String app_version,
+                                                 @Field("push_provider") String push_provider,
+                                                 @Field("companion_apps") String companion_apps,
+                                                 @Field("type") Integer type,
                                                  @Field("device_model") String deviceModel,
-                                                 @Field("device_year") Integer deviceYear,
                                                  @Field("device_id") String deviceId,
                                                  @Field("system_version") String systemVersion,
                                                  @Field("settings") String settings);

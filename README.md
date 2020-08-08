@@ -8,7 +8,7 @@
 
 <b>Инструкция по сборке:</b>
 Требуется:
-  1) Android Studio 4.2 CANARY 4 или выше с включенным Kotlin 1.4 Preview
+  1) Android Studio 4.2 CANARY 7 или выше с включенным Kotlin 1.4
   2) Android SDK r29
   
 <b>Компиляция:</b>

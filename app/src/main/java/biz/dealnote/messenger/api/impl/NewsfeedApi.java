@@ -28,6 +28,20 @@ class NewsfeedApi extends AbsApi implements INewsfeedApi {
     }
 
     @Override
+    public Single<Integer> saveList(String title, Collection<Integer> listIds) {
+        return provideService(INewsfeedService.class, TokenType.USER)
+                .flatMap(service -> service.saveList(title, join(listIds, ","))
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
+    public Single<Integer> deleteList(Integer list_id) {
+        return provideService(INewsfeedService.class, TokenType.USER)
+                .flatMap(service -> service.deleteList(list_id)
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
     public Single<NewsfeedSearchResponse> search(String query, Boolean extended, Integer count, Double latitude, Double longitude, Long startTime, Long endTime, String startFrom, String fields) {
         return provideService(INewsfeedService.class, TokenType.USER)
                 .flatMap(service -> service

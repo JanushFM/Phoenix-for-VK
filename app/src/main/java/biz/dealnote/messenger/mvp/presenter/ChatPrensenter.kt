@@ -12,6 +12,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import biz.dealnote.messenger.*
 import biz.dealnote.messenger.activity.ActivityUtils
 import biz.dealnote.messenger.api.model.VKApiMessage
@@ -37,7 +40,7 @@ import biz.dealnote.messenger.mvp.view.IChatView
 import biz.dealnote.messenger.place.PlaceFactory
 import biz.dealnote.messenger.push.OwnerInfo
 import biz.dealnote.messenger.realtime.Processors
-import biz.dealnote.messenger.service.ChatDownloadIntentService
+import biz.dealnote.messenger.service.ChatDownloadWorker
 import biz.dealnote.messenger.settings.ISettings
 import biz.dealnote.messenger.settings.Settings
 import biz.dealnote.messenger.task.TextingNotifier
@@ -1403,12 +1406,14 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireChatDownloadClick(context: Context, action: String) {
-        val intent = Intent(context, ChatDownloadIntentService::class.java)
-        intent.putExtra(Extra.OWNER_ID, peerId)
-        intent.putExtra(Extra.ACCOUNT_ID, accountId)
-        intent.putExtra(Extra.TITLE, conversation?.title)
-        intent.putExtra(Extra.ACTION, action)
-        context.startService(intent)
+        val downloadWork = OneTimeWorkRequest.Builder(ChatDownloadWorker::class.java)
+        val data = Data.Builder()
+        data.putInt(Extra.OWNER_ID, peerId)
+        data.putInt(Extra.ACCOUNT_ID, accountId)
+        data.putString(Extra.TITLE, conversation?.title)
+        data.putString(Extra.ACTION, action)
+        downloadWork.setInputData(data.build())
+        WorkManager.getInstance(context).enqueue(downloadWork.build())
     }
 
     fun fireDialogAttachmentsClick() {

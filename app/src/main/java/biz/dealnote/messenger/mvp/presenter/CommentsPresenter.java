@@ -550,7 +550,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
 
         data.addAll(comments);
 
-        int index = 0;
+        int index = -1;
         for (int i = 0; i < data.size(); i++) {
             Comment comment = data.get(i);
 
@@ -671,7 +671,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     private void onQuickSendResponse(Comment comment) {
         setSendingNow(false);
 
-        handleCommentAdded(comment);
+        handleCommentAdded();
 
         replyTo = null;
 
@@ -679,7 +679,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         resolveEmptyTextVisibility();
     }
 
-    private void handleCommentAdded(Comment comment) {
+    private void handleCommentAdded() {
         callView(ICommentsView::showCommentSentToast);
         fireRefreshClick();
     }
@@ -710,7 +710,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     private void onNormalSendResponse(Comment comment) {
         setSendingNow(false);
 
-        handleCommentAdded(comment);
+        handleCommentAdded();
 
         draftCommentAttachmentsCount = 0;
         draftCommentBody = null;

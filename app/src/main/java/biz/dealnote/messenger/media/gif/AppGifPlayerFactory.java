@@ -4,13 +4,12 @@ import androidx.annotation.NonNull;
 
 import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.settings.IProxySettings;
-import biz.dealnote.messenger.settings.ISettings;
 
 public class AppGifPlayerFactory implements IGifPlayerFactory {
 
     private final IProxySettings proxySettings;
 
-    public AppGifPlayerFactory(IProxySettings proxySettings, ISettings.IOtherSettings otherSettings) {
+    public AppGifPlayerFactory(IProxySettings proxySettings) {
         this.proxySettings = proxySettings;
     }
 

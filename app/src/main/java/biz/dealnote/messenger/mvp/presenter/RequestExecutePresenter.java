@@ -30,7 +30,7 @@ import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IRequestExecuteView;
 import biz.dealnote.messenger.util.AppPerms;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
@@ -119,7 +119,7 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
         FileOutputStream out = null;
 
         try {
-            String filename = DownloadUtil.makeLegalFilename(method, ".json");
+            String filename = DownloadWorkUtils.makeLegalFilename(method, ".json");
 
             File file = new File(Environment.getExternalStorageDirectory(), filename);
             file.delete();

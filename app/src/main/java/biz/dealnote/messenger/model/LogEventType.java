@@ -40,4 +40,9 @@ public class LogEventType implements Entry {
         this.active = active;
         return this;
     }
+
+    @Override
+    public boolean isCustom() {
+        return false;
+    }
 }

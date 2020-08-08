@@ -32,6 +32,12 @@ public interface IFriendsService {
                                                @Field("fields") String fields,
                                                @Field("name_case") String nameCase);
 
+    @FormUrlEncoded
+    @POST("friends.getRecommendations")
+    Single<BaseResponse<Items<VKApiUser>>> getRecommendations(@Field("count") Integer count,
+                                                              @Field("fields") String fields,
+                                                              @Field("name_case") String nameCase);
+
     //https://vk.com/dev/friends.getLists
     @FormUrlEncoded
     @POST("friends.getLists")

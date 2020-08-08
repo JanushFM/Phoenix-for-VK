@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 29
@@ -21,11 +22,13 @@ android {
 }
 
 ext {
-    okhttpLibraryVersion = '4.8.0'
+    okhttpLibraryVersion = '4.8.1'
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttpLibraryVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttpLibraryVersion"
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation "androidx.exifinterface:exifinterface:1.2.0"
 }

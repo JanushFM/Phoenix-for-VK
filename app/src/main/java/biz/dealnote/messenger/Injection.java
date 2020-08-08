@@ -51,7 +51,7 @@ public class Injection {
     }
 
     public static IGifPlayerFactory provideGifPlayerFactory() {
-        return new AppGifPlayerFactory(proxySettings, provideSettings().other());
+        return new AppGifPlayerFactory(proxySettings);
     }
 
     public static IVoicePlayerFactory provideVoicePlayerFactory() {

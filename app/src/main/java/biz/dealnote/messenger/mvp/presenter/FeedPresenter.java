@@ -75,13 +75,14 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     private static List<FeedSource> createDefaultFeedSources() {
-        List<FeedSource> data = new ArrayList<>(6);
-        data.add(new FeedSource(null, R.string.news_feed));
-        data.add(new FeedSource("friends", R.string.friends));
-        data.add(new FeedSource("groups", R.string.groups));
-        data.add(new FeedSource("pages", R.string.pages));
-        data.add(new FeedSource("following", R.string.subscriptions));
-        data.add(new FeedSource("recommendation", R.string.recommendation));
+        List<FeedSource> data = new ArrayList<>(7);
+        data.add(new FeedSource(null, R.string.news_feed, false));
+        data.add(new FeedSource("updates", R.string.updates, false));
+        data.add(new FeedSource("friends", R.string.friends, false));
+        data.add(new FeedSource("groups", R.string.groups, false));
+        data.add(new FeedSource("pages", R.string.pages, false));
+        data.add(new FeedSource("following", R.string.subscriptions, false));
+        data.add(new FeedSource("recommendation", R.string.recommendation, false));
         return data;
     }
 
@@ -128,9 +129,15 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         resolveLoadMoreFooterView();
         resolveRefreshingView();
 
-        loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, null, 9, sourcesIds)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe(pair -> onActualFeedReceived(startFrom, pair.getFirst(), pair.getSecond()), this::onActualFeedGetError));
+        if ("updates".equals(sourcesIds)) {
+            loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, "photo,photo_tag,wall_photo,friend,audio,video", 9, sourcesIds)
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(pair -> onActualFeedReceived(startFrom, pair.getFirst(), pair.getSecond()), this::onActualFeedGetError));
+        } else {
+            loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, isEmpty(sourcesIds) ? "post" : null, 9, sourcesIds)
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(pair -> onActualFeedReceived(startFrom, pair.getFirst(), pair.getSecond()), this::onActualFeedGetError));
+        }
     }
 
     private void onActualFeedGetError(Throwable t) {
@@ -246,7 +253,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         List<FeedSource> sources = new ArrayList<>(lists.size());
 
         for (FeedList list : lists) {
-            sources.add(new FeedSource("list" + list.getId(), list.getTitle()));
+            sources.add(new FeedSource("list" + list.getId(), list.getTitle(), true));
         }
 
         mFeedSources.clear();
@@ -377,6 +384,12 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         getView().notifyFeedSourcesChanged();
 
         requestFeedAtLast(null);
+    }
+
+    public void fireFeedSourceDelete(Integer id) {
+        appendDisposable(feedInteractor.deleteList(getAccountId(), id)
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(ignore(), t -> showError(getView(), t)));
     }
 
     public void fireNewsShareLongClick(News news) {

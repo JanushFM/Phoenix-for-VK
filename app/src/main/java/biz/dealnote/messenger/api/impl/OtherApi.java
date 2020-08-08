@@ -1,10 +1,13 @@
 package biz.dealnote.messenger.api.impl;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.util.Map;
 
 import biz.dealnote.messenger.api.IVkRetrofitProvider;
 import biz.dealnote.messenger.api.interfaces.IOtherApi;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
 import io.reactivex.Single;
@@ -18,7 +21,6 @@ import okhttp3.ResponseBody;
 
 public class OtherApi implements IOtherApi {
 
-    private static final String API_METHOD_URL = "https://api.vk.com/method/";
     private final IVkRetrofitProvider provider;
     private final int accountId;
 
@@ -39,7 +41,7 @@ public class OtherApi implements IOtherApi {
                 .flatMap(client -> Single
                         .<Response>create(emitter -> {
                             Request request = new Request.Builder()
-                                    .url(API_METHOD_URL + method)
+                                    .url("https://" + Settings.get().other().get_Api_Domain() + "/method/" + method)
                                     .method("POST", bodyBuilder.build())
                                     .build();
 
@@ -49,12 +51,12 @@ public class OtherApi implements IOtherApi {
 
                             call.enqueue(new Callback() {
                                 @Override
-                                public void onFailure(Call call, IOException e) {
+                                public void onFailure(@NotNull Call call, @NotNull IOException e) {
                                     emitter.onError(e);
                                 }
 
                                 @Override
-                                public void onResponse(Call call, Response response) {
+                                public void onResponse(@NotNull Call call, @NotNull Response response) {
                                     emitter.onSuccess(response);
                                 }
                             });

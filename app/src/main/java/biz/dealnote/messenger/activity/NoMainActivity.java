@@ -57,7 +57,7 @@ public abstract class NoMainActivity extends AppCompatActivity {
 
         FragmentManager manager = getSupportFragmentManager();
         if (manager.getBackStackEntryCount() > 1) {
-            Drawable tr = AppCompatResources.getDrawable(this, R.drawable.phoenix_round);
+            Drawable tr = AppCompatResources.getDrawable(this, R.drawable.arrow_left);
             Utils.setColorFilter(tr, CurrentTheme.getColorPrimary(this));
             mToolbar.setNavigationIcon(tr);
         } else {

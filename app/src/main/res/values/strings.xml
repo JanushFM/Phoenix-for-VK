@@ -346,6 +346,9 @@
     <string name="api_error_21">Данное действие разрешено только для Standalone и Open API приложений</string>
     <string name="api_error_23">Метод был выключен</string>
     <string name="api_error_24">Требуется подтверждение со стороны пользователя</string>
+    <string name="api_error_27">Ключ доступа сообщества недействителен</string>
+    <string name="api_error_28">Ключ доступа приложения недействителен</string>
+    <string name="api_error_29">Достигнут количественный лимит на вызов метода</string>
     <string name="api_error_30">Закрытый профиль</string>
     <string name="api_error_100">Один из необходимых параметров был не передан или неверен</string>
     <string name="api_error_101">Неверный API ID приложения</string>
@@ -373,6 +376,7 @@
     <string name="api_error_603">Произошла ошибка при работе с рекламным кабинетом</string>
     <string name="api_error_1150">Неверный идентификатор документа</string>
     <string name="api_error_1151">Нет доступа к удалению документов</string>
+    <string name="api_error_1170">Слишком много списков новостей (максимум 10)</string>
 
     <string name="select_ringtone_title">Мелодия уведомления</string>
     <string name="ringtone_not_selected">Мелодия не выбрана</string>
@@ -578,6 +582,8 @@
     <string name="dislike">Мне не нравится</string>
     <string name="copied_url">Ссылка скопирована</string>
     <string name="copy_url">Копировать ссылку</string>
+    <string name="copy_id">Копировать ИД</string>
+    <string name="add_to_news">В Новостную ленту</string>
     <string name="target_url">Внешняя ссылка</string>
     <string name="goto_user">Открыть владельца</string>
     <string name="goto_community">Открыть сообщество</string>
@@ -628,6 +634,7 @@
     <string name="topics">Обсуждения</string>
     <string name="group_chat_leave">Покинуть беседу</string>
     <string name="delete_chat">Удалить чат</string>
+    <string name="delete_chat_do">Удалить чат?</string>
     <string name="post_from_group">От имени группы</string>
 
     <string name="for_friends_only">Только для друзей</string>
@@ -986,6 +993,7 @@
     <string name="go_to_photo">Перейти к фото</string>
     <string name="wait_until_file_upload_is_complete">Дождитесь завершения загрузки файла</string>
     <string name="link">Ссылка</string>
+    <string name="id">Ид</string>
     <string name="article">Статья</string>
     <string name="copied">Скопировано</string>
 
@@ -1015,6 +1023,8 @@
     <string name="button_add_photo">Добавить фото/видео</string>
     <string name="log_type_error" translatable="false">Исключения</string>
     <string name="settings_show_logs_title" translatable="false">Логи</string>
+    <string name="settings_domain" translatable="false">Домен API VK</string>
+    <string name="settings_vk_auth_domain" translatable="false">Домен OAUTH VK</string>
     <string name="application_logs" translatable="false">Логи приложения</string>
     <string name="search_option_empty_text">Опции поиска недоступны</string>
     <string name="comment_editing_title">Редактирование</string>
@@ -1175,6 +1185,7 @@
     <string name="login_sms_code_hint">SMS-код</string>
     <string name="login_captcha_hint" translatable="false">Captcha</string>
     <string name="button_proxy">Прокси</string>
+    <string name="button_settings">Настройки</string>
     <string name="login_password_hint">Пароль</string>
     <string name="login_phone_or_email_hint">Телефон или email</string>
     <string name="login_title">ВХОД | ВК</string>
@@ -1222,7 +1233,6 @@
     <string name="instagram" translatable="false">Instagram</string>
     <string name="twitter" translatable="false">Twitter</string>
     <string name="facebook" translatable="false">Facebook</string>
-    <string name="force_hls">Принудительно потоковое аудио</string>
     <string name="force_cache">Принудительно слушать из загрузок</string>
     <string name="player_live" translatable="false">Live</string>
     <string name="activity_until_now">текущее время</string>
@@ -1330,6 +1340,7 @@
     <string name="null_audio">Нет проигрываемых аудио</string>
     <string name="audio_not_found">Аудио не найдено в списке</string>
     <string name="audio_force_download">Уже скачен. Всё равно скачать?</string>
+    <string name="audio_force_download_pc">На компьютере. Всё равно скачать?</string>
     <string name="null_image_link">Отсутствует ссылка на скачивание</string>
     <string name="use_old_vk_api">Аудио с VK API 5.90</string>
     <string name="expires">%1$s %2$s</string>
@@ -1450,10 +1461,17 @@
     <string name="start_news">Обновление новостей при запуске</string>
     <string name="disable_sensored_voice">Отключить датчик приближения</string>
     <string name="disable_sensored_voice_summary">Для голосовых сообщений</string>
-    <string name="public_photo">Опубликовал(а) фото:</string>
-    <string name="public_video">Опубликовал(а) видео:</string>
-    <string name="public_audio">Опубликовал(а) аудио:</string>
+    <string name="public_photo">Добавил(а) фото:</string>
+    <string name="public_photo_wall">Добавил(а) на стену:</string>
+    <string name="public_video">Добавил(а) видео:</string>
+    <string name="public_audio">Добавил(а) аудио:</string>
+    <string name="public_photo_tag">Отметили на фото:</string>
+    <string name="public_friends">Добавил(а) друзей:</string>
     <string name="json_all_attachments">Все вложения</string>
     <string name="json_all_messages">Выключить</string>
     <string name="json_attachments_forward">Пересланные</string>
+    <string name="updates">Обновления</string>
+    <string name="do_chat_download">Скачивание чата…</string>
+    <string name="writing_json">Формирование JSON…</string>
+    <string name="do_delete">Удалить?</string>
 </resources>

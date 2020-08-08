@@ -81,50 +81,42 @@ public class NewsAdapter extends AbsAdapter implements JsonDeserializer<VKApiNew
 
         if (root.has("photos")) {
             JsonArray photosArray = root.getAsJsonObject("photos").getAsJsonArray("items");
-            dto.photos = parseArray(photosArray, VKApiPhoto.class, context, null);
             if (dto.attachments == null) {
                 dto.attachments = new VkApiAttachments();
             }
-            dto.attachments.append(dto.photos);
+            dto.attachments.append(parseArray(photosArray, VKApiPhoto.class, context, null));
         }
 
-        if (root.has("photos_tags")) {
-            JsonArray photosTagsArray = root.getAsJsonObject("photos_tags").getAsJsonArray("items");
-            dto.photo_tags = parseArray(photosTagsArray, VKApiPhoto.class, context, null);
+        if (root.has("photo_tags")) {
+            JsonArray photosTagsArray = root.getAsJsonObject("photo_tags").getAsJsonArray("items");
             if (dto.attachments == null) {
                 dto.attachments = new VkApiAttachments();
             }
-            dto.attachments.append(dto.photo_tags);
+            dto.attachments.append(parseArray(photosTagsArray, VKApiPhoto.class, context, null));
         }
 
         if (root.has("audio")) {
             JsonArray photosTagsArray = root.getAsJsonObject("audio").getAsJsonArray("items");
-            dto.audio = parseArray(photosTagsArray, VKApiAudio.class, context, null);
             if (dto.attachments == null) {
                 dto.attachments = new VkApiAttachments();
             }
-            dto.attachments.append(dto.audio);
+            dto.attachments.append(parseArray(photosTagsArray, VKApiAudio.class, context, null));
         }
 
         if (root.has("video")) {
             JsonArray photosTagsArray = root.getAsJsonObject("video").getAsJsonArray("items");
-            dto.video = parseArray(photosTagsArray, VKApiVideo.class, context, null);
             if (dto.attachments == null) {
                 dto.attachments = new VkApiAttachments();
             }
-            dto.attachments.append(dto.video);
+            dto.attachments.append(parseArray(photosTagsArray, VKApiVideo.class, context, null));
         }
-
-        //if(root.has("notes")){
-        //    dto.notes = parseArray(root.getAsJsonArray("notes"), VKApiNote.class, context, null);
-        //}
 
         if (root.has("friends")) {
             JsonArray friendsArray = root.getAsJsonObject("friends").getAsJsonArray("items");
             dto.friends = new ArrayList<>(friendsArray.size());
             for (int i = 0; i < friendsArray.size(); i++) {
                 JsonObject friendObj = friendsArray.get(i).getAsJsonObject();
-                dto.friends.add(friendObj.get("user_id").getAsString());
+                dto.friends.add(friendObj.get("user_id").getAsInt());
             }
         }
 

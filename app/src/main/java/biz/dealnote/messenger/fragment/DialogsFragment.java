@@ -267,7 +267,7 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
                 .setItems(options.toArray(new String[0]), (dialogInterface, which) -> {
                     String selected = options.get(which);
                     if (selected.equals(delete)) {
-                        Utils.ThemedSnack(requireView(), R.string.delete_chat, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
+                        Utils.ThemedSnack(requireView(), R.string.delete_chat_do, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
                                 v1 -> getPresenter().fireRemoveDialogClick(dialog)).show();
                     } else if (selected.equals(addToHomeScreen)) {
                         getPresenter().fireCreateShortcutClick(dialog);

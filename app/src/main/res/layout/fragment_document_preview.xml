@@ -36,7 +36,7 @@
                     android:padding="16dp"
                     android:src="@drawable/file" />
 
-                <ImageView
+                <biz.dealnote.messenger.view.TouchImageView
                     android:id="@+id/fragment_document_preview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
@@ -83,9 +83,9 @@
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
+                    android:focusable="true"
                     custom:active_background_color="?attr/icon_color_active"
                     custom:always_counter="false"
-                    android:focusable="true"
                     custom:noactive_icon_color="?attr/colorOnSurface" />
 
                 <biz.dealnote.messenger.view.CircleCounterButton

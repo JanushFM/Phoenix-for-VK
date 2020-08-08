@@ -15,6 +15,15 @@
     <item
         android:id="@+id/action_copy_url"
         android:title="@string/copy_url" />
+
+    <item
+        android:id="@+id/action_copy_id"
+        android:title="@string/copy_id" />
+
+    <item
+        android:id="@+id/action_add_to_news"
+        android:title="@string/add_to_news" />
+
     <item
         android:id="@+id/action_open_url"
         android:title="@string/open_clipboard_url" />

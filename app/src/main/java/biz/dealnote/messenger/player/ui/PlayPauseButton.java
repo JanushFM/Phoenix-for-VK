@@ -5,12 +5,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.player.util.MusicUtils;
+import biz.dealnote.messenger.view.materialplaypausedrawable.MaterialPlayPauseDrawable;
+import biz.dealnote.messenger.view.materialplaypausedrawable.MaterialPlayPauseFab;
 
-public class PlayPauseButton extends FloatingActionButton implements OnClickListener {
+public class PlayPauseButton extends MaterialPlayPauseFab implements OnClickListener {
 
     public PlayPauseButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,9 +24,9 @@ public class PlayPauseButton extends FloatingActionButton implements OnClickList
 
     public void updateState() {
         if (MusicUtils.isPlaying()) {
-            setImageResource(R.drawable.pause);
+            setState(MaterialPlayPauseDrawable.State.Pause);
         } else {
-            setImageResource(R.drawable.play);
+            setState(MaterialPlayPauseDrawable.State.Play);
         }
     }
 

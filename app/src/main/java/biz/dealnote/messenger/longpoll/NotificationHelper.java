@@ -426,7 +426,7 @@ public class NotificationHelper {
                 }
                 InputStream is = java.util.Objects.requireNonNull(response.body()).byteStream();
                 BufferedInputStream input = new BufferedInputStream(is);
-                byte[] data = new byte[8 * 1024];
+                byte[] data = new byte[80 * 1024];
                 int bufferLength;
 
                 while ((bufferLength = input.read(data)) != -1) {

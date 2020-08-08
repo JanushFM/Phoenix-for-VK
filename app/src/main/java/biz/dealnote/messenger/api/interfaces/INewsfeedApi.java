@@ -22,6 +22,12 @@ public interface INewsfeedApi {
                                           Long endTime, String startFrom, String fields);
 
     @CheckResult
+    Single<Integer> saveList(String title, Collection<Integer> listIds);
+
+    @CheckResult
+    Single<Integer> deleteList(Integer list_id);
+
+    @CheckResult
     Single<NewsfeedCommentsResponse> getComments(Integer count, String filters, String reposts,
                                                  Long startTime, Long endTime, Integer lastCommentsCount,
                                                  String startFrom, String fields);

@@ -195,16 +195,15 @@ public class KeyExchangeService extends Service {
         } else if (ACTION_DECLINE.equals(action)) {
             int accountId = intent.getExtras().getInt(Extra.ACCOUNT_ID);
             int peerId = intent.getExtras().getInt(Extra.PEER_ID);
-            int messageId = intent.getExtras().getInt(Extra.MESSAGE_ID);
             ExchangeMessage message = intent.getParcelableExtra(Extra.MESSAGE);
-            declineInputSession(accountId, peerId, messageId, message);
+            declineInputSession(accountId, peerId, message);
         }
 
         toggleServiceLiveHandler();
         return START_NOT_STICKY;
     }
 
-    private void declineInputSession(int accounId, int peerId, int messageId, @NonNull ExchangeMessage message) {
+    private void declineInputSession(int accounId, int peerId, @NonNull ExchangeMessage message) {
         notifyOpponentAboutSessionFail(accounId, peerId, message.getSessionId(), ErrorCodes.CANCELED_BY_USER);
     }
 
@@ -224,7 +223,7 @@ public class KeyExchangeService extends Service {
             case SessionState.NO_INITIATOR_EMPTY:
                 throw new IllegalStateException("Invalid session state");
             case SessionState.FAILED:
-                onReceiveSessionFailStatus(accountId, peerId, messageId, message);
+                onReceiveSessionFailStatus(message);
                 break;
         }
     }
@@ -292,7 +291,7 @@ public class KeyExchangeService extends Service {
                 });
     }
 
-    private void onReceiveSessionFailStatus(int accountId, int peerId, int messageId, @NonNull ExchangeMessage message) {
+    private void onReceiveSessionFailStatus(@NonNull ExchangeMessage message) {
         Logger.d(TAG, "onReceiveSessionFailStatus, message: " + message);
 
         if (mFinishedSessionsIds.contains(message.getSessionId())) {

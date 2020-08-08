@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.Injection;
@@ -492,6 +493,13 @@ public class GroupWallPresenter extends AbsWallPresenter<IGroupWallView> {
         Peer peer = new Peer(ownerId).setTitle(community.getFullName()).setAvaUrl(community.getMaxSquareAvatar());
         int accountId = getAccountId();
         getView().openChatWith(accountId, accountId, peer);
+    }
+
+    @Override
+    public void fireAddToNewsClick() {
+        appendDisposable(InteractorFactory.createFeedInteractor().saveList(getAccountId(), community.getFullName(), Collections.singleton(community.getOwnerId()))
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(i -> getView().showSnackbar(R.string.success, true), t -> showError(getView(), t)));
     }
 
     @Override

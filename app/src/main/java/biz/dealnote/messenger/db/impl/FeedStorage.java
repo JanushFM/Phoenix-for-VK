@@ -261,10 +261,14 @@ class FeedStorage extends AbsStorage implements IFeedStorage {
     private NewsEntity mapNewsBase(Cursor cursor) {
         String friendString = cursor.getString(cursor.getColumnIndex(NewsColumns.TAG_FRIENDS));
 
-        ArrayList<String> friends = null;
+        ArrayList<Integer> friends = null;
         if (nonEmpty(friendString)) {
-            friends = new ArrayList<>();
-            friends.addAll(Arrays.asList(friendString.split(",")));
+            String[] strArray = friendString.split(",");
+            Integer[] intArray = new Integer[strArray.length];
+            for (int i = 0; i < strArray.length; i++) {
+                intArray[i] = Integer.parseInt(strArray[i]);
+            }
+            friends = new ArrayList<>(Arrays.asList(intArray));
         }
 
         NewsEntity dbo = new NewsEntity()

@@ -58,7 +58,9 @@ public interface ISettings {
 
         boolean isShow_audio_cover();
 
-        boolean isForce_hls();
+        String get_Api_Domain();
+
+        String get_Auth_Domain();
 
         boolean isUse_old_vk_api();
 

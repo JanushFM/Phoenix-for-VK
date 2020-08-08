@@ -80,6 +80,13 @@ class FriendsApi extends AbsApi implements IFriendsApi {
     }
 
     @Override
+    public Single<Items<VKApiUser>> getRecommendations(Integer count, String fields, String nameCase) {
+        return provideService(IFriendsService.class)
+                .flatMap(service -> service.getRecommendations(count, fields, nameCase)
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
     public Single<Items<VkApiFriendList>> getLists(Integer userId, Boolean returnSystem) {
         return provideService(IFriendsService.class)
                 .flatMap(service -> service.getLists(userId, integerFromBoolean(returnSystem))

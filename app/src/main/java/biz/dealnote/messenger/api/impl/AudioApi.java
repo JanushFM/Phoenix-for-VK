@@ -203,6 +203,14 @@ class AudioApi extends AbsApi implements IAudioApi {
     }
 
     @Override
+    public Single<List<VKApiAudio>> getByIdOld(String audios) {
+        return provideService(IAudioService.class)
+                .flatMap(service -> service
+                        .getByIdOld(audios, "5.90")
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
     public Single<VkApiLyrics> getLyrics(int lyrics_id) {
         return provideService(IAudioService.class)
                 .flatMap(service -> service

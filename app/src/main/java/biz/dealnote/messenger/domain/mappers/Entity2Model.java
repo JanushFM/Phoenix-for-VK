@@ -71,6 +71,8 @@ import biz.dealnote.messenger.model.Link;
 import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.model.Military;
 import biz.dealnote.messenger.model.News;
+import biz.dealnote.messenger.model.Owner;
+import biz.dealnote.messenger.model.OwnerType;
 import biz.dealnote.messenger.model.Peer;
 import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.PhotoAlbum;
@@ -92,6 +94,7 @@ import biz.dealnote.messenger.model.VideoAlbum;
 import biz.dealnote.messenger.model.VoiceMessage;
 import biz.dealnote.messenger.model.WikiPage;
 import biz.dealnote.messenger.model.database.Country;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.VKOwnIds;
 
 import static biz.dealnote.messenger.domain.mappers.MapUtil.mapAll;
@@ -193,6 +196,20 @@ public class Entity2Model {
         }
 
         return details;
+    }
+
+    @NonNull
+    public static List<User> buildUserArray(@NonNull List<Integer> users, @NonNull IOwnersBundle owners) {
+        List<User> data = new ArrayList<>(safeCountOf(users));
+        if (nonNull(users)) {
+            for (Integer pair : users) {
+                Owner dt = owners.getById(pair);
+                if (dt.getOwnerType() == OwnerType.USER)
+                    data.add((User) owners.getById(pair));
+            }
+        }
+
+        return data;
     }
 
     public static List<User> buildUsersFromDbo(List<UserEntity> dbos) {
@@ -811,7 +828,7 @@ public class Entity2Model {
                 .setCanPublish(dbo.isCanPublish())
                 .setRepostsCount(dbo.getRepostCount())
                 .setUserReposted(dbo.isUserReposted())
-                .setFriends(dbo.getFriendsTags())
+                .setFriends(buildUserArray(dbo.getFriendsTags(), owners))
                 .setViewCount(dbo.getViews());
 
         if (nonEmpty(dbo.getAttachments())) {
@@ -1024,6 +1041,10 @@ public class Entity2Model {
 
             fillOwnerIds(ids, dbo.getAttachments());
             fillOwnerIds(ids, dbo.getCopyHistory());
+
+            if (!Utils.isEmpty(dbo.getFriendsTags())) {
+                ids.appendAll(dbo.getFriendsTags());
+            }
         }
     }
 

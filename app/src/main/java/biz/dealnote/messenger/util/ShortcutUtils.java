@@ -28,7 +28,6 @@ import biz.dealnote.messenger.model.Peer;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
-import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.isEmpty;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
@@ -138,7 +137,7 @@ public class ShortcutUtils {
         });
     }
 
-    private static Single<Bitmap> loadRoundAvatar(Context context, String url) {
+    private static Single<Bitmap> loadRoundAvatar(String url) {
         return Single.fromCallable(() -> PicassoInstance.with()
                 .load(url)
                 .transform(new RoundTransformation())
@@ -149,7 +148,7 @@ public class ShortcutUtils {
     public static Completable addDynamicShortcut(Context context, int accountId, Peer peer) {
         Context app = context.getApplicationContext();
 
-        return loadRoundAvatar(app, peer.getAvaUrl())
+        return loadRoundAvatar(peer.getAvaUrl())
                 .flatMapCompletable(bitmap -> Completable.fromAction(() -> {
                     ShortcutManager manager = app.getSystemService(ShortcutManager.class);
                     List<ShortcutInfo> infos = new ArrayList<>(manager.getDynamicShortcuts());
@@ -184,10 +183,8 @@ public class ShortcutUtils {
                             .setIntent(intent)
                             .setRank(rank);
 
-                    if (nonNull(bitmap)) {
-                        Icon icon = Icon.createWithBitmap(bitmap);
-                        builder.setIcon(icon);
-                    }
+                    Icon icon = Icon.createWithBitmap(bitmap);
+                    builder.setIcon(icon);
 
                     if (!mustBeRemoved.isEmpty()) {
                         manager.removeDynamicShortcuts(mustBeRemoved);

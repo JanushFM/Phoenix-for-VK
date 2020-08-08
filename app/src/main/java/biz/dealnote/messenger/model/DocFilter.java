@@ -45,6 +45,11 @@ public class DocFilter implements Entry {
         return this;
     }
 
+    @Override
+    public boolean isCustom() {
+        return false;
+    }
+
     public static class Type {
         public static final int ALL = 0;
         public static final int TEXT = 1;

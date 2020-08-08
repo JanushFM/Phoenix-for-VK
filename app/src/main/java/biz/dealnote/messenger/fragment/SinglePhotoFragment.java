@@ -4,7 +4,6 @@ import android.Manifest;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -35,9 +34,8 @@ import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.fragment.base.BaseFragment;
 import biz.dealnote.messenger.listener.BackPressCallback;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.task.InternalDownloadTask;
 import biz.dealnote.messenger.util.AppPerms;
-import biz.dealnote.messenger.util.Objects;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.view.CircleCounterButton;
 import biz.dealnote.messenger.view.TouchImageView;
@@ -185,8 +183,7 @@ public class SinglePhotoFragment extends BaseFragment
             dir = dir_final;
         }
         DateFormat DOWNLOAD_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        String file = dir.getAbsolutePath() + "/" + prefix + "." + photo_prefix + ".profile." + DOWNLOAD_DATE_FORMAT.format(new Date()) + ".jpg";
-        new InternalDownloader(requireActivity(), url, file, prefix).doDownload();
+        DownloadWorkUtils.doDownloadPhoto(requireActivity(), url, dir.getAbsolutePath(), prefix + "." + photo_prefix + ".profile." + DOWNLOAD_DATE_FORMAT.format(new Date()));
     }
 
     @Override
@@ -302,23 +299,6 @@ public class SinglePhotoFragment extends BaseFragment
             mLoadingNow = false;
             resolveProgressVisibility();
             reload.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private final class InternalDownloader extends InternalDownloadTask {
-
-        InternalDownloader(Context context, String url, String file, String photo) {
-            super(context, url, file, photo, true);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (Objects.isNull(s)) {
-                PhoenixToast.CreatePhoenixToast(requireActivity()).showToastBottom(R.string.saved);
-            } else {
-                PhoenixToast.CreatePhoenixToast(requireActivity()).showToastError(R.string.error_with_message, s);
-            }
         }
     }
 }

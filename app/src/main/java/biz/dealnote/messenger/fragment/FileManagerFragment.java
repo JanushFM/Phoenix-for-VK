@@ -279,7 +279,6 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
 
     private void parseDirectoryPath() {
         pathDirsList = new ArrayList<>();
-        pathDirsList.clear();
         String pathString = path.getAbsolutePath();
         String[] parts = pathString.split("/");
 

@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import biz.dealnote.messenger.BuildConfig;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.settings.IProxySettings;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
@@ -81,7 +82,7 @@ public class UploadRetrofitProvider implements IUploadRetrofitProvider {
         ProxyUtil.applyProxyConfig(builder, proxySettings.getActiveProxy());
 
         return new Retrofit.Builder()
-                .baseUrl("https://api.vk.com/method/") // dummy
+                .baseUrl("https://" + Settings.get().other().get_Api_Domain() + "/method/") // dummy
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(builder.build())

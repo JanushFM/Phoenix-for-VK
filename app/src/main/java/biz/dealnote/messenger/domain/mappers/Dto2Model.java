@@ -76,6 +76,7 @@ import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.model.MessageStatus;
 import biz.dealnote.messenger.model.News;
 import biz.dealnote.messenger.model.Owner;
+import biz.dealnote.messenger.model.OwnerType;
 import biz.dealnote.messenger.model.Peer;
 import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.PhotoAlbum;
@@ -550,6 +551,20 @@ public class Dto2Model {
         if (nonNull(copies.pairs)) {
             for (Copies.IdPair pair : copies.pairs) {
                 data.add(owners.getById(pair.owner_id));
+            }
+        }
+
+        return data;
+    }
+
+    @NonNull
+    public static List<User> buildUserArray(@NonNull List<Integer> users, @NonNull IOwnersBundle owners) {
+        List<User> data = new ArrayList<>(safeCountOf(users));
+        if (nonNull(users)) {
+            for (Integer pair : users) {
+                Owner dt = owners.getById(pair);
+                if (dt.getOwnerType() == OwnerType.USER)
+                    data.add((User) owners.getById(pair));
             }
         }
 
@@ -1130,7 +1145,7 @@ public class Dto2Model {
                 .setCanPublish(original.can_publish)
                 .setRepostsCount(original.reposts_count)
                 .setUserReposted(original.user_reposted)
-                .setFriends(original.friends)
+                .setFriends(buildUserArray(original.friends, owners))
                 .setSource(owners.getById(original.source_id))
                 .setViewCount(original.views);
 

@@ -56,7 +56,7 @@ import biz.dealnote.messenger.mvp.view.IVideoPreviewView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.place.PlaceUtil;
 import biz.dealnote.messenger.settings.AppPrefs;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.YoutubeDeveloperKey;
@@ -571,19 +571,19 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
                     Item item = items.get(which);
                     switch (item.getKey()) {
                         case Menu.P_240:
-                            DownloadUtil.downloadVideo(requireContext(), video, video.getMp4link240(), "240");
+                            DownloadWorkUtils.doDownloadVideo(requireContext(), video, video.getMp4link240(), "240");
                             break;
                         case Menu.P_360:
-                            DownloadUtil.downloadVideo(requireContext(), video, video.getMp4link360(), "360");
+                            DownloadWorkUtils.doDownloadVideo(requireContext(), video, video.getMp4link360(), "360");
                             break;
                         case Menu.P_480:
-                            DownloadUtil.downloadVideo(requireContext(), video, video.getMp4link480(), "480");
+                            DownloadWorkUtils.doDownloadVideo(requireContext(), video, video.getMp4link480(), "480");
                             break;
                         case Menu.P_720:
-                            DownloadUtil.downloadVideo(requireContext(), video, video.getMp4link720(), "720");
+                            DownloadWorkUtils.doDownloadVideo(requireContext(), video, video.getMp4link720(), "720");
                             break;
                         case Menu.P_1080:
-                            DownloadUtil.downloadVideo(requireContext(), video, video.getMp4link1080(), "1080");
+                            DownloadWorkUtils.doDownloadVideo(requireContext(), video, video.getMp4link1080(), "1080");
                             break;
                     }
                 })

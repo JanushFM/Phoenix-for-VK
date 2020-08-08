@@ -1,6 +1,5 @@
 package biz.dealnote.messenger.longpoll;
 
-import android.content.Context;
 import android.os.Looper;
 import android.os.Message;
 import android.util.SparseArray;
@@ -38,7 +37,7 @@ public class AndroidLongpollManager implements ILongpollManager, UserLongpoll.Ca
     private final Object lock = new Object();
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    AndroidLongpollManager(Context context, INetworker networker, IRealtimeMessagesProcessor messagesProcessor) {
+    AndroidLongpollManager(INetworker networker, IRealtimeMessagesProcessor messagesProcessor) {
         this.networker = networker;
         this.messagesProcessor = messagesProcessor;
         keepAlivePublisher = PublishProcessor.create();

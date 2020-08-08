@@ -114,10 +114,6 @@
             android:name=".service.QuickReplyService"
             android:exported="false" />
 
-        <service
-            android:name=".service.ChatDownloadIntentService"
-            android:exported="false" />
-
         <activity
             android:name=".activity.PhotosActivity"
             android:label="@string/photos" />

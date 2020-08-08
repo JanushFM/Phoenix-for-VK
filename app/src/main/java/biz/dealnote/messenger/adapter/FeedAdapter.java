@@ -66,6 +66,7 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
 
         attachmentsViewBinder.displayAttachments(item.getAttachments(), holder.attachmentsHolder, false, null);
         attachmentsViewBinder.displayCopyHistory(item.getCopyHistory(), holder.attachmentsHolder.getVgPosts(), true, R.layout.item_copy_history_post);
+        attachmentsViewBinder.displayFriendsPost(item.getFriends(), holder.attachmentsHolder.getVgFriends(), R.layout.item_catalog_link);
 
         holder.tvOwnerName.setText(item.getOwnerName());
 
@@ -83,9 +84,20 @@ public class FeedAdapter extends RecyclerBindableAdapter<News, FeedAdapter.PostH
         if (TextUtils.isEmpty(item.getText())) {
             switch (item.getType()) {
                 case "photo":
-                case "wall_photo":
                     force = true;
                     holder.tvText.setText(R.string.public_photo);
+                    break;
+                case "wall_photo":
+                    force = true;
+                    holder.tvText.setText(R.string.public_photo_wall);
+                    break;
+                case "photo_tag":
+                    force = true;
+                    holder.tvText.setText(R.string.public_photo_tag);
+                    break;
+                case "friend":
+                    force = true;
+                    holder.tvText.setText(R.string.public_friends);
                     break;
                 case "audio":
                     force = true;

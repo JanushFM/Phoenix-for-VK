@@ -2,6 +2,7 @@ package biz.dealnote.messenger.adapter;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -71,6 +72,7 @@ import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Sticker;
 import biz.dealnote.messenger.model.Story;
 import biz.dealnote.messenger.model.Types;
+import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.VoiceMessage;
 import biz.dealnote.messenger.model.WikiPage;
@@ -81,7 +83,7 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AppTextUtils;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.RoundTransformation;
@@ -285,7 +287,7 @@ public class AttachmentsViewBinder {
                 AppPerms.requestReadWriteStoragePermission((Activity) mContext);
                 return true;
             }
-            DownloadUtil.downloadVoice(mContext, voice, voice.getLinkMp3());
+            DownloadWorkUtils.doDownloadVoice(mContext, voice);
 
             return true;
         });
@@ -408,6 +410,68 @@ public class AttachmentsViewBinder {
                 holder.buttonDots.setTag(copy);
 
                 displayAttachments(copy.getAttachments(), holder.attachmentsHolder, false, null);
+            } else {
+                postViewGroup.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void displayFriendsPost(List<User> users, ViewGroup container, int layout) {
+        if (container != null) {
+            container.setVisibility(safeIsEmpty(users) ? View.GONE : View.VISIBLE);
+        }
+
+        if (safeIsEmpty(users) || container == null) {
+            return;
+        }
+
+        int i = users.size() - container.getChildCount();
+        for (int j = 0; j < i; j++) {
+            View itemView = LayoutInflater.from(container.getContext()).inflate(layout, container, false);
+            FriendsPostViewHolder holder = new FriendsPostViewHolder(itemView, mAttachmentsActionCallback);
+            itemView.setTag(holder);
+
+            container.addView(itemView);
+        }
+
+        for (int g = 0; g < container.getChildCount(); g++) {
+            ViewGroup postViewGroup = (ViewGroup) container.getChildAt(g);
+
+            if (g < users.size()) {
+                FriendsPostViewHolder holder = (FriendsPostViewHolder) postViewGroup.getTag();
+                User user = users.get(g);
+
+                if (isNull(user)) {
+                    postViewGroup.setVisibility(View.GONE);
+                    return;
+                }
+
+                postViewGroup.setVisibility(View.VISIBLE);
+
+                if (isEmpty(user.getFullName()))
+                    holder.tvTitle.setVisibility(View.INVISIBLE);
+                else {
+                    holder.tvTitle.setVisibility(View.VISIBLE);
+                    holder.tvTitle.setText(user.getFullName());
+                }
+                if (isEmpty(user.getDomain()))
+                    holder.tvDescription.setVisibility(View.INVISIBLE);
+                else {
+                    holder.tvDescription.setVisibility(View.VISIBLE);
+                    holder.tvDescription.setText("@" + user.getDomain());
+                }
+
+                String imageUrl = user.getMaxSquareAvatar();
+                if (imageUrl != null) {
+                    ViewUtils.displayAvatar(holder.ivImage, mAvatarTransformation, imageUrl, Constants.PICASSO_TAG);
+                } else {
+                    PicassoInstance.with().cancelRequest(holder.ivImage);
+                    holder.ivImage.setImageResource(R.drawable.ic_avatar_unknown);
+                }
+
+                holder.ivImage.setOnClickListener(v -> mAttachmentsActionCallback.onOpenOwner(user.getOwnerId()));
+
             } else {
                 postViewGroup.setVisibility(View.GONE);
             }
@@ -786,7 +850,7 @@ public class AttachmentsViewBinder {
     }
 
     private void get_lyrics(Audio audio) {
-        audioListDisposable.add(mAudioInteractor.getLyrics(audio.getLyricsId())
+        audioListDisposable.add(mAudioInteractor.getLyrics(Settings.get().accounts().getCurrent(), audio.getLyricsId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(t -> onAudioLyricsRecived(t, audio), t -> {/*TODO*/}));
     }
@@ -932,7 +996,7 @@ public class AttachmentsViewBinder {
                     holder.time.setText(AppTextUtils.getDurationString(audio.getDuration()));
                 }
 
-                int Status = DownloadUtil.TrackIsDownloaded(audio);
+                int Status = DownloadWorkUtils.TrackIsDownloaded(audio);
                 if (Status == 2) {
                     holder.saved.setImageResource(R.drawable.remote_cloud);
                 } else {
@@ -949,12 +1013,13 @@ public class AttachmentsViewBinder {
                         return false;
                     }
                     holder.saved.setVisibility(View.VISIBLE);
-                    int ret = DownloadUtil.downloadTrack(mContext, audio, false);
+                    holder.saved.setImageResource(R.drawable.save);
+                    int ret = DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), false);
                     if (ret == 0)
                         PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
-                    else if (ret == 1) {
-                        Utils.ThemedSnack(v, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
-                                v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
+                    else if (ret == 1 || ret == 2) {
+                        Utils.ThemedSnack(v, ret == 1 ? R.string.audio_force_download : R.string.audio_force_download_pc, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
+                                v1 -> DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), true)).show();
 
                     } else {
                         holder.saved.setVisibility(View.GONE);
@@ -986,7 +1051,9 @@ public class AttachmentsViewBinder {
 
                     if (audio.getLyricsId() != 0)
                         menus.add(new OptionRequest(AudioItem.get_lyrics_menu, mContext.getString(R.string.get_lyrics_menu), R.drawable.lyric));
-                    menus.add(new OptionRequest(AudioItem.bitrate_item_audio, mContext.getString(R.string.get_bitrate), R.drawable.high_quality));
+                    if (!audio.isHLS()) {
+                        menus.add(new OptionRequest(AudioItem.bitrate_item_audio, mContext.getString(R.string.get_bitrate), R.drawable.high_quality));
+                    }
                     menus.add(new OptionRequest(AudioItem.search_by_artist, mContext.getString(R.string.search_by_artist), R.drawable.magnify));
                     menus.add(new OptionRequest(AudioItem.copy_url, mContext.getString(R.string.copy_url), R.drawable.content_copy));
 
@@ -1039,12 +1106,13 @@ public class AttachmentsViewBinder {
                                     break;
                                 }
                                 holder.saved.setVisibility(View.VISIBLE);
-                                int ret = DownloadUtil.downloadTrack(mContext, audio, false);
+                                holder.saved.setImageResource(R.drawable.save);
+                                int ret = DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), false);
                                 if (ret == 0)
                                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
-                                else if (ret == 1) {
-                                    Utils.ThemedSnack(view, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
-                                            v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
+                                else if (ret == 1 || ret == 2) {
+                                    Utils.ThemedSnack(view, ret == 1 ? R.string.audio_force_download : R.string.audio_force_download_pc, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
+                                            v1 -> DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), true)).show();
                                 } else {
                                     holder.saved.setVisibility(View.GONE);
                                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.error_audio);
@@ -1152,6 +1220,26 @@ public class AttachmentsViewBinder {
             });
 
             menu.show();
+        }
+    }
+
+    private static class FriendsPostViewHolder implements IdentificableHolder {
+        final OnAttachmentsActionCallback callback;
+        ImageView ivImage;
+        TextView tvTitle;
+        TextView tvDescription;
+
+        private FriendsPostViewHolder(View root, OnAttachmentsActionCallback callback) {
+            ivImage = root.findViewById(R.id.item_link_pic);
+            tvTitle = root.findViewById(R.id.item_link_name);
+            tvDescription = root.findViewById(R.id.item_link_description);
+            ivImage.setTag(generateHolderId());
+            this.callback = callback;
+        }
+
+        @Override
+        public int getHolderId() {
+            return (int) ivImage.getTag();
         }
     }
 

@@ -19,6 +19,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -40,11 +42,12 @@ import biz.dealnote.messenger.place.PlaceUtil;
 import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AppTextUtils;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.CircleCounterButton;
+import biz.dealnote.messenger.view.TouchImageView;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
@@ -57,7 +60,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     private int ownerId;
     private int documentId;
     private Document document;
-    private ImageView preview;
+    private TouchImageView preview;
     private ImageView ivDocIcon;
     private TextView tvTitle;
     private TextView tvSubtitle;
@@ -131,7 +134,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         if (Objects.isNull(document) && !mLoadingNow) {
@@ -167,6 +170,17 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
             if (nonEmpty(graffitiUrl)) {
                 PicassoInstance.with()
                         .load(graffitiUrl)
+                        .into(preview);
+            }
+        } else if (document.getType() == 4 && nonNull(document.getUrl())) {
+            ivDocIcon.setVisibility(View.GONE);
+            preview.setVisibility(View.VISIBLE);
+
+            String previewUrl = document.getUrl();
+
+            if (!TextUtils.isEmpty(previewUrl)) {
+                PicassoInstance.with()
+                        .load(previewUrl)
                         .into(preview);
             }
         } else if (nonNull(document.getPhotoPreview())) {
@@ -340,7 +354,7 @@ public class DocPreviewFragment extends BaseFragment implements View.OnClickList
             return;
         }
 
-        DownloadUtil.downloadDocs(requireActivity(), document, document.getUrl());
+        DownloadWorkUtils.doDownloadDoc(requireActivity(), document);
     }
 
     private void openOwnerWall() {

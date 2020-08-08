@@ -108,8 +108,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin"
-            app:cardElevation="0dp"
             android:foreground="?android:attr/selectableItemBackground"
+            app:cardElevation="0dp"
             tools:ignore="UnusedAttribute">
 
             <ImageView
@@ -249,11 +249,11 @@
                         android:id="@+id/subscribe_btn"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
-                        android:insetTop="3dp"
-                        android:insetBottom="3dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_weight="1"
+                        android:insetTop="3dp"
+                        android:insetBottom="3dp"
                         app:backgroundTint="@color/button_profile_tint" />
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton

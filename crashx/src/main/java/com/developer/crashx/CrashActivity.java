@@ -242,23 +242,25 @@ public final class CrashActivity {
         return intent.getStringExtra(EXTRA_ACTIVITY_LOG);
     }
 
+    private static String getAndroidVersion() {
+        String release = Build.VERSION.RELEASE;
+        int sdkVersion = Build.VERSION.SDK_INT;
+        return "Android SDK: " + sdkVersion + " (" + release + ")";
+    }
+
     @NonNull
     public static String getAllErrorDetailsFromIntent(@NonNull Context context, @NonNull Intent intent) {
 
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
-        String buildDateAsString = getBuildDateAsString(context, dateFormat);
-
         String versionName = getVersionName(context);
 
         String errorDetails = "";
 
         errorDetails += "Build version: " + versionName + " \n";
-        if (buildDateAsString != null) {
-            errorDetails += "Build date: " + buildDateAsString + " \n";
-        }
         errorDetails += "Current date: " + dateFormat.format(currentDate) + " \n";
+        errorDetails += "Android: " + getAndroidVersion() + " \n";
         errorDetails += "Device: " + getDeviceModelName() + " \n \n";
         errorDetails += "Stack trace:  \n";
         errorDetails += getStackTraceFromIntent(intent);
@@ -325,30 +327,6 @@ public final class CrashActivity {
             }
         } while ((throwable = throwable.getCause()) != null);
         return false;
-    }
-
-    @Nullable
-    private static String getBuildDateAsString(@NonNull Context context, @NonNull DateFormat dateFormat) {
-        long buildDate;
-        try {
-            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), 0);
-            ZipFile zf = new ZipFile(ai.sourceDir);
-
-            //If this failed, try with the old zip method
-            ZipEntry ze = zf.getEntry("classes.dex");
-            buildDate = ze.getTime();
-
-
-            zf.close();
-        } catch (Exception e) {
-            buildDate = 0;
-        }
-
-        if (buildDate > 312764400000L) {
-            return dateFormat.format(new Date(buildDate));
-        } else {
-            return null;
-        }
     }
 
     @NonNull

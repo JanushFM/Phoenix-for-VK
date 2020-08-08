@@ -21,8 +21,8 @@ public interface IAccountApi {
     Single<Boolean> unregisterDevice(String deviceId);
 
     @CheckResult
-    Single<Boolean> registerDevice(String token, String deviceModel, Integer deviceYear, String deviceId,
-                                   String systemVersion, String settings);
+    Single<Boolean> registerDevice(String token, Integer pushes_granted, String app_version, String push_provider, String companion_apps,
+                                   Integer type, String deviceModel, String deviceId, String systemVersion, String settings);
 
     @CheckResult
     Single<Boolean> setOffline();

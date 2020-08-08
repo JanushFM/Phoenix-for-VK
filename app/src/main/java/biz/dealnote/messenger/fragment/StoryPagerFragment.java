@@ -216,7 +216,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
             ArrayList<Story> stories = requireArguments().getParcelableArrayList(Extra.STORY);
             AssertUtils.requireNonNull(stories);
 
-            return new StoryPagerPresenter(aid, stories, index, saveInstanceState);
+            return new StoryPagerPresenter(aid, stories, index, requireActivity(), saveInstanceState);
         };
     }
 

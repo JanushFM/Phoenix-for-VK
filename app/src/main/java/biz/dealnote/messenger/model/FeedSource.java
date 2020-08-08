@@ -25,21 +25,25 @@ public class FeedSource implements Entry, Parcelable {
     private final String value;
     private final Text title;
     private boolean active;
+    private boolean custom;
 
-    public FeedSource(String value, String title) {
+    public FeedSource(String value, String title, boolean custom) {
         this.value = value;
         this.title = new Text(title);
+        this.custom = custom;
     }
 
-    public FeedSource(String value, @StringRes int title) {
+    public FeedSource(String value, @StringRes int title, boolean custom) {
         this.value = value;
         this.title = new Text(title);
+        this.custom = custom;
     }
 
     protected FeedSource(Parcel in) {
         value = in.readString();
         title = in.readParcelable(Text.class.getClassLoader());
         active = in.readByte() != 0;
+        custom = in.readByte() != 0;
     }
 
     public String getValue() {
@@ -56,6 +60,7 @@ public class FeedSource implements Entry, Parcelable {
         dest.writeString(value);
         dest.writeParcelable(title, flags);
         dest.writeByte((byte) (active ? 1 : 0));
+        dest.writeByte((byte) (custom ? 1 : 0));
     }
 
     @Override
@@ -70,6 +75,16 @@ public class FeedSource implements Entry, Parcelable {
 
     public FeedSource setActive(boolean active) {
         this.active = active;
+        return this;
+    }
+
+    @Override
+    public boolean isCustom() {
+        return custom;
+    }
+
+    public FeedSource setCustom(boolean custom) {
+        this.custom = custom;
         return this;
     }
 }

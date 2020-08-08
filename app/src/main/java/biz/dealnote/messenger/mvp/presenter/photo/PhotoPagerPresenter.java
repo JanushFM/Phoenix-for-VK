@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -23,10 +22,9 @@ import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IPhotoPagerView;
 import biz.dealnote.messenger.push.OwnerInfo;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.task.InternalDownloadTask;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AssertUtils;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
@@ -298,7 +296,7 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
 
         appendDisposable(OwnerInfo.getRx(context, getAccountId(), photo.getOwnerId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe(userInfo -> DownloadResult(DownloadUtil.makeLegalFilename(userInfo.getOwner().getFullName(), null), dir, photo), throwable -> DownloadResult(null, dir, photo)));
+                .subscribe(userInfo -> DownloadResult(DownloadWorkUtils.makeLegalFilename(userInfo.getOwner().getFullName(), null), dir, photo), throwable -> DownloadResult(null, dir, photo)));
     }
 
     private String transform_owner(int owner_id) {
@@ -321,16 +319,8 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
                 dir_final.setLastModified(Calendar.getInstance().getTime().getTime());
             dir = dir_final;
         }
-        String file = dir.getAbsolutePath() + "/" + (Prefix != null ? (Prefix + "_") : "") + transform_owner(photo.getOwnerId()) + "_" + photo.getId() + ".jpg";
         String url = photo.getUrlForSize(PhotoSize.W, true);
-        File Temp = new File(file);
-        if (Temp.exists()) {
-            Temp.setLastModified(Calendar.getInstance().getTime().getTime());
-            if (isGuiReady())
-                getView().getPhoenixToast().showToastError(R.string.exist_audio);
-            return;
-        }
-        new InternalDownloader(this, getApplicationContext(), url, file, photo).doDownload();
+        DownloadWorkUtils.doDownloadPhoto(context, url, dir.getAbsolutePath(), (Prefix != null ? (Prefix + "_") : "") + transform_owner(photo.getOwnerId()) + "_" + photo.getId());
     }
 
     public void fireSaveYourselfClick() {
@@ -434,30 +424,5 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
 
         Photo photo = getCurrent();
         getView().goToLikesList(getAccountId(), photo.getOwnerId(), photo.getId());
-    }
-
-    private final class InternalDownloader extends InternalDownloadTask {
-
-        final WeakReference<PhotoPagerPresenter> ref;
-
-        InternalDownloader(PhotoPagerPresenter presenter, Context context, String url, String file, Photo photo) {
-            super(context, url, file, photo.getId() + "_" + photo.getOwnerId(), true);
-            ref = new WeakReference<>(presenter);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            PhotoPagerPresenter presenter = ref.get();
-
-            if (Objects.isNull(presenter)) return;
-
-            if (isGuiReady()) {
-                if (Objects.isNull(s)) {
-                    getView().getPhoenixToast().showToastBottom(R.string.saved);
-                } else {
-                    getView().getPhoenixToast().showToastError(R.string.error_with_message, s);
-                }
-            }
-        }
     }
 }

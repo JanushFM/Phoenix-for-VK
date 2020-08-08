@@ -15,6 +15,7 @@ import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IAudioPlaylistsView;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
@@ -83,6 +84,16 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
         actualDataLoading = false;
         endOfContent = data.isEmpty();
         actualDataReceived = true;
+
+        if (Settings.get().other().isDebug_mode() && data.isEmpty() && getAccountId() == owner_id) {
+            actualDataDisposable.add(fInteractor.getDualPlaylists(getAccountId(), owner_id, -21, -22)
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(pl -> {
+                        int startSize = pages.size();
+                        pages.addAll(pl);
+                        callView(view -> view.notifyDataAdded(startSize, pl.size()));
+                    }, this::onActualDataGetError));
+        }
 
         if (offset == 0) {
             pages.clear();

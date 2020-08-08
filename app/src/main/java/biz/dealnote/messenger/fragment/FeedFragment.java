@@ -59,7 +59,7 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedView> implements IFeedView,
-        SwipeRefreshLayout.OnRefreshListener, FeedAdapter.ClickListener, HorizontalOptionsAdapter.Listener<FeedSource> {
+        SwipeRefreshLayout.OnRefreshListener, FeedAdapter.ClickListener, HorizontalOptionsAdapter.Listener<FeedSource>, HorizontalOptionsAdapter.CustomListener<FeedSource> {
 
     private final Gson mGson = new Gson();
     private FeedAdapter mAdapter;
@@ -143,7 +143,7 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
         FloatingActionButton Goto = root.findViewById(R.id.goto_button);
         Goto.setOnClickListener(v -> {
             mRecycleView.stopScroll();
-            mRecycleView.smoothScrollToPosition(0);
+            mRecycleView.scrollToPosition(0);
         });
         Goto.setOnLongClickListener(v -> {
             mRecycleView.stopScroll();
@@ -159,8 +159,8 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
         mLoadMoreFooterHelper = LoadMoreFooterHelper.createFrom(footerView, () -> getPresenter().fireLoadMoreClick());
         mLoadMoreFooterHelper.setEndOfListText("");
 
-        ViewGroup headerView = (ViewGroup) inflater.inflate(R.layout.header_feed, mRecycleView, false);
-        RecyclerView headerRecyclerView = headerView.findViewById(R.id.header_list);
+        //ViewGroup headerView = (ViewGroup) inflater.inflate(R.layout.header_feed, mRecycleView, false);
+        RecyclerView headerRecyclerView = root.findViewById(R.id.header_list);
 
         mHeaderLayoutManager = new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false);
         headerRecyclerView.setLayoutManager(mHeaderLayoutManager);
@@ -169,12 +169,13 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
         mAdapter.setClickListener(this);
         mAdapter.addFooter(footerView);
-        mAdapter.addHeader(headerView);
+        //mAdapter.addHeader(headerView);
 
         mRecycleView.setAdapter(mAdapter);
 
         mFeedSourceAdapter = new HorizontalOptionsAdapter<>(Collections.emptyList());
         mFeedSourceAdapter.setListener(this);
+        mFeedSourceAdapter.setDeleteListener(this);
         headerRecyclerView.setAdapter(mFeedSourceAdapter);
         return root;
     }
@@ -377,7 +378,18 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
 
     @Override
     public void onOptionClick(FeedSource entry) {
+        mRecycleView.stopScroll();
+        mRecycleView.scrollToPosition(0);
         getPresenter().fireFeedSourceClick(entry);
+    }
+
+    @Override
+    public void onDeleteOptionClick(FeedSource entry, int position) {
+        Utils.ThemedSnack(requireView(), R.string.do_delete, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
+                v1 -> {
+                    mFeedSourceAdapter.removeChild(position);
+                    getPresenter().fireFeedSourceDelete(Integer.parseInt(entry.getValue().replace("list", "")));
+                }).show();
     }
 
     @Override

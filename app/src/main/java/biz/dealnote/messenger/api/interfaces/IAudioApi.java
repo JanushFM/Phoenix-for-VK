@@ -64,6 +64,9 @@ public interface IAudioApi {
     Single<List<VKApiAudio>> getById(String audios);
 
     @CheckResult
+    Single<List<VKApiAudio>> getByIdOld(String audios);
+
+    @CheckResult
     Single<VkApiLyrics> getLyrics(int lyrics_id);
 
     @CheckResult

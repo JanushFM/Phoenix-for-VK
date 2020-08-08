@@ -218,6 +218,12 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
             case R.id.action_copy_url:
                 getPresenter().fireCopyUrlClick();
                 return true;
+            case R.id.action_copy_id:
+                getPresenter().fireCopyIdClick();
+                return true;
+            case R.id.action_add_to_news:
+                getPresenter().fireAddToNewsClick();
+                return true;
             case R.id.action_search:
                 getPresenter().fireSearchClick();
                 return true;
@@ -256,6 +262,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_wall, menu);
         menu.findItem(R.id.action_open_url).setVisible(Settings.get().other().isDebug_mode());
+        menu.findItem(R.id.action_copy_id).setVisible(Settings.get().other().isDebug_mode());
         menu.findItem(R.id.search_stories).setVisible(Settings.get().other().isDebug_mode());
     }
 

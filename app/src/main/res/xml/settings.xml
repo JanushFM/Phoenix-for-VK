@@ -548,17 +548,29 @@
             app:icon="@drawable/debug_mode"
             app:iconSpaceReserved="false" />
 
+        <EditTextPreference
+            android:defaultValue="api.vk.com"
+            android:key="vk_api_domain"
+            android:title="@string/settings_domain"
+            app:icon="@drawable/web"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:defaultValue="oauth.vk.com"
+            android:key="vk_auth_domain"
+            android:title="@string/settings_vk_auth_domain"
+            app:icon="@drawable/web"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreference
             android:defaultValue="true"
             android:key="show_audio_cover"
             android:title="@string/show_audio_cover"
             app:allowDividerAbove="true"
             app:iconSpaceReserved="false" />
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="force_hls"
-            android:title="@string/force_hls"
-            app:iconSpaceReserved="false" />
+
         <SwitchPreference
             android:key="use_old_vk_api"
             android:summary="@string/mp3_friendly"

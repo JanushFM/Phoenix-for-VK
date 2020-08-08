@@ -8,7 +8,7 @@ import biz.dealnote.mvp.core.IMvpView;
 public interface IFriendsTabsView extends IMvpView, IAccountDependencyView, IErrorView {
     void displayConters(FriendsCounters counters);
 
-    void configTabs(int accountId, int userId, boolean showMutualTab);
+    void configTabs(int accountId, int userId, boolean isNotMyPage);
 
     void displayUserNameAtToolbar(String userName);
 

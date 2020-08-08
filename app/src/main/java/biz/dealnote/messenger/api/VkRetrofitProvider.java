@@ -84,6 +84,7 @@ import biz.dealnote.messenger.api.model.response.NewsfeedCommentsResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
 import biz.dealnote.messenger.model.AnswerVKOfficialList;
 import biz.dealnote.messenger.settings.IProxySettings;
+import biz.dealnote.messenger.settings.Settings;
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -94,8 +95,6 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class VkRetrofitProvider implements IVkRetrofitProvider {
-
-    private static final String API_METHOD_URL = "https://api.vk.com/method/";
 
     private static final Gson VKGSON = new GsonBuilder()
             .registerTypeAdapter(AnswerVKOfficialList.class, new AnswerVKOfficialDtoAdapter())
@@ -222,7 +221,7 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
 
     private RetrofitWrapper createDefaultVkApiRetrofit(OkHttpClient okHttpClient) {
         return RetrofitWrapper.wrap(new Retrofit.Builder()
-                .baseUrl(API_METHOD_URL)
+                .baseUrl("https://" + Settings.get().other().get_Api_Domain() + "/method/")
                 .addConverterFactory(GSON_CONVERTER_FACTORY)
                 .addCallAdapterFactory(RX_ADAPTER_FACTORY)
                 .client(okHttpClient)

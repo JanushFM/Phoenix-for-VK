@@ -34,13 +34,7 @@ public class VKApiNews {
     public VkApiAttachments attachments;
 
     public VKApiPlace geo;
-
-    public List<VKApiPhoto> photos;
-    public List<VKApiPhoto> photo_tags;
-    public List<VKApiVideo> video;
-    public List<VKApiAudio> audio;
-    public List<VKApiNote> notes;
-    public ArrayList<String> friends;
+    public ArrayList<Integer> friends;
 
     public int views;
 

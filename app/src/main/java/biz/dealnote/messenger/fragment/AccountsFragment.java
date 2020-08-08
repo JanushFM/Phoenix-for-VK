@@ -3,8 +3,8 @@ package biz.dealnote.messenger.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.HapticFeedbackConstants;
@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -47,7 +48,6 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
@@ -80,6 +80,7 @@ import biz.dealnote.messenger.modalbottomsheetdialogfragment.ModalBottomSheetDia
 import biz.dealnote.messenger.modalbottomsheetdialogfragment.OptionRequest;
 import biz.dealnote.messenger.model.Account;
 import biz.dealnote.messenger.model.User;
+import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.Objects;
@@ -87,6 +88,7 @@ import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.ShortcutUtils;
 import biz.dealnote.messenger.util.Utils;
+import io.reactivex.Completable;
 import io.reactivex.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
@@ -380,8 +382,12 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             os.flush();
 
             BufferedReader d = new BufferedReader(new InputStreamReader(osRes));
-            while (!d.ready())
-                Thread.sleep(10);
+            while (!d.ready()) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ignored) {
+                }
+            }
             String currUid = d.readLine();
             boolean exitSu = false;
             if (null == currUid)
@@ -417,8 +423,12 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             BufferedReader d = new BufferedReader(new InputStreamReader(osRes));
             os.writeBytes("cat /data/data/com.perm.kate_new_6/shared_prefs/com.perm.kate_new_6_preferences.xml\n");
             os.flush();
-            while (!d.ready())
-                Thread.sleep(10);
+            while (!d.ready()) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException ignored) {
+                }
+            }
 
             String Temp;
             while (d.ready()) {
@@ -575,13 +585,13 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_ok) {
-            requireActivity().finish();
+        if (item.getItemId() == R.id.action_proxy) {
+            startProxySettings();
             return true;
         }
 
-        if (item.getItemId() == R.id.action_proxy) {
-            startProxySettings();
+        if (item.getItemId() == R.id.action_preferences) {
+            PlaceFactory.getPreferencesPlace(Settings.get().accounts().getCurrent()).tryOpenWith(requireActivity());
             return true;
         }
 
@@ -671,25 +681,13 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         User user = (User) account.getOwner();
 
         Context app = requireContext().getApplicationContext();
-        new AsyncTask<Void, Void, String>() {
-            @Override
-            protected String doInBackground(Void... params) {
-                String avaUrl = user == null ? null : user.getMaxSquareAvatar();
-                try {
-                    ShortcutUtils.createAccountShurtcut(app, account.getId(), account.getDisplayName(), avaUrl);
-                } catch (IOException e) {
-                    return e.getMessage();
-                }
 
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                if (Utils.nonEmpty(s)) {
-                    Toast.makeText(app, s, Toast.LENGTH_LONG).show();
-                }
-            }
-        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        appendDisposable(Completable.create(emitter -> {
+            String avaUrl = user == null ? null : user.getMaxSquareAvatar();
+            ShortcutUtils.createAccountShurtcut(app, account.getId(), account.getDisplayName(), avaUrl);
+            emitter.onComplete();
+        }).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
+                },
+                t -> Snackbar.make(requireView(), t.getLocalizedMessage(), BaseTransientBottomBar.LENGTH_LONG).setTextColor(Color.WHITE).setBackgroundTint(Color.parseColor("#eeff0000")).setAnchorView(mRecyclerView).show()));
     }
 }

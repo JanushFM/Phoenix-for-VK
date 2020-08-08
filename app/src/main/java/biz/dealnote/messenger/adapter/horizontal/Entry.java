@@ -10,5 +10,5 @@ public interface Entry {
 
     boolean isActive();
 
-
+    boolean isCustom();
 }

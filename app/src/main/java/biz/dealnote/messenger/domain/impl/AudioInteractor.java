@@ -36,11 +36,9 @@ import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
 public class AudioInteractor implements IAudioInteractor {
 
     private final INetworker networker;
-    private final int AccountId;
 
-    public AudioInteractor(INetworker networker, int AccountId) {
+    public AudioInteractor(INetworker networker) {
         this.networker = networker;
-        this.AccountId = AccountId;
     }
 
     protected static String join(Collection<IdPair> audios, String delimiter) {
@@ -111,8 +109,8 @@ public class AudioInteractor implements IAudioInteractor {
     }
 
     @Override
-    public Single<List<Audio>> getById(List<IdPair> audios) {
-        return networker.vkDefault(AccountId)
+    public Single<List<Audio>> getById(int accountId, List<IdPair> audios) {
+        return networker.vkDefault(accountId)
                 .audio()
                 .getById(join(audios, ","))
                 .map(Utils::listEmptyIfNull)
@@ -125,8 +123,22 @@ public class AudioInteractor implements IAudioInteractor {
     }
 
     @Override
-    public Single<String> getLyrics(int lyrics_id) {
-        return networker.vkDefault(AccountId)
+    public Single<List<Audio>> getByIdOld(int accountId, List<IdPair> audios) {
+        return networker.vkDefault(accountId)
+                .audio()
+                .getByIdOld(join(audios, ","))
+                .map(Utils::listEmptyIfNull)
+                .map(out -> {
+                    List<Audio> ret = new ArrayList<>();
+                    for (int i = 0; i < out.size(); i++)
+                        ret.add(Dto2Model.transform(out.get(i)));
+                    return ret;
+                });
+    }
+
+    @Override
+    public Single<String> getLyrics(int accountId, int lyrics_id) {
+        return networker.vkDefault(accountId)
                 .audio().getLyrics(lyrics_id).map(out -> out.text);
     }
 
@@ -215,6 +227,22 @@ public class AudioInteractor implements IAudioInteractor {
                 .audio()
                 .getPlaylistById(playlist_id, ownerId, accessKey)
                 .map(Dto2Model::transform);
+    }
+
+    @Override
+    public Single<List<AudioPlaylist>> getDualPlaylists(int accountId, int owner_id, int first_playlist, int second_playlist) {
+        return networker.vkDefault(accountId)
+                .audio()
+                .getPlaylistById(first_playlist, owner_id, null)
+                .flatMap(out -> networker.vkDefault(accountId)
+                        .audio()
+                        .getPlaylistById(second_playlist, owner_id, null)
+                        .flatMap(out2 -> {
+                            List<AudioPlaylist> ret = new ArrayList<>(2);
+                            ret.add(Dto2Model.transform(out));
+                            ret.add(Dto2Model.transform(out2));
+                            return Single.just(ret);
+                        }));
     }
 
     @Override

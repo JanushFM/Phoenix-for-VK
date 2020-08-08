@@ -80,4 +80,9 @@ public class PostFilter implements Entry, Parcelable {
     public void setCount(int count) {
         this.count = count;
     }
+
+    @Override
+    public boolean isCustom() {
+        return false;
+    }
 }

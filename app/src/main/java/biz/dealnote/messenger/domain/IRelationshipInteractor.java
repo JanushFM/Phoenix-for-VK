@@ -22,6 +22,8 @@ public interface IRelationshipInteractor {
 
     Single<List<User>> getOnlineFriends(int accountId, int objectId, int count, int offset);
 
+    Single<List<User>> getRecommendations(int accountId, Integer count);
+
     Single<List<User>> getFollowers(int accountId, int objectId, int count, int offset);
 
     Single<List<User>> getMutualFriends(int accountId, int objectId, int count, int offset);

@@ -85,4 +85,12 @@ public class RxUtils {
         return completable -> completable.subscribeOn(Schedulers.io())
                 .observeOn(Injection.provideMainThreadScheduler());
     }
+
+    public static <T> T BlockingGetSingle(Single<T> single, T default_value) {
+        try {
+            return single.blockingGet();
+        } catch (Throwable ignored) {
+        }
+        return default_value;
+    }
 }

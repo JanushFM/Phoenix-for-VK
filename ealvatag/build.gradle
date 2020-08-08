@@ -24,6 +24,6 @@ android {
 
 dependencies {
     implementation "com.squareup.okio:okio:2.7.0"
-    implementation 'com.google.guava:guava:29.0-jre'
+    implementation 'com.google.guava:guava:29.0-android'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }

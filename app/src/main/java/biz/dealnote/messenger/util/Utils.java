@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.ProxyUtil;
 import biz.dealnote.messenger.api.model.Identificable;
@@ -69,6 +70,7 @@ import biz.dealnote.messenger.model.ISelectable;
 import biz.dealnote.messenger.model.ISomeones;
 import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.settings.CurrentTheme;
+import io.reactivex.Completable;
 import io.reactivex.disposables.Disposable;
 import okhttp3.OkHttpClient;
 
@@ -1188,6 +1190,13 @@ public class Utils {
         if (!isEmpty(data)) {
             function.call();
         }
+    }
+
+    @SuppressLint("CheckResult")
+    public static void inMainThread(@NonNull safeCallInt function) {
+        Completable.complete()
+                .observeOn(Injection.provideMainThreadScheduler())
+                .subscribe(function::call);
     }
 
     public interface safeCallInt {

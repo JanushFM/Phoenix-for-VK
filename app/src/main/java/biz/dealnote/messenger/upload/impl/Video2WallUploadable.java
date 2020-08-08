@@ -73,9 +73,6 @@ public class Video2WallUploadable implements IUploadable<Video> {
 
     @Override
     public Single<UploadResult<Video>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
-        int subjectOwnerId = upload.getDestination().getOwnerId();
-        Integer userId = subjectOwnerId > 0 ? subjectOwnerId : null;
-        Integer groupId = subjectOwnerId < 0 ? Math.abs(subjectOwnerId) : null;
         int accountId = upload.getAccountId();
 
         Single<UploadServer> serverSingle = networker.vkDefault(accountId)

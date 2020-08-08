@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -23,10 +22,9 @@ import biz.dealnote.messenger.model.VideoSize;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IStoryPagerView;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.task.InternalDownloadTask;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AssertUtils;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
@@ -36,11 +34,13 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
     private static final String SAVE_PAGER_INDEX = "save_pager_index";
     private static final VideoSize DEF_SIZE = new VideoSize(1, 1);
     private final ArrayList<Story> mStories;
+    private final Context context;
     private IGifPlayer mGifPlayer;
     private int mCurrentIndex;
 
-    public StoryPagerPresenter(int accountId, @NonNull ArrayList<Story> stories, int index, @Nullable Bundle savedInstanceState) {
+    public StoryPagerPresenter(int accountId, @NonNull ArrayList<Story> stories, int index, Context context, @Nullable Bundle savedInstanceState) {
         super(accountId, savedInstanceState);
+        this.context = context;
         mStories = stories;
 
         if (savedInstanceState == null) {
@@ -244,7 +244,9 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
             String url = Utils.firstNonEmptyString(story.getVideo().getMp4link1080(), story.getVideo().getMp4link720(), story.getVideo().getMp4link480(),
                     story.getVideo().getMp4link360(), story.getVideo().getMp4link240());
             story.getVideo().setTitle(story.getOwner().getFullName());
-            DownloadUtil.downloadVideo(App.getInstance(), story.getVideo(), url, "Story");
+            if (!Utils.isEmpty(url)) {
+                DownloadWorkUtils.doDownloadVideo(App.getInstance(), story.getVideo(), url, "Story");
+            }
         }
     }
 
@@ -259,7 +261,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
         } else
             dir.setLastModified(Calendar.getInstance().getTime().getTime());
 
-        DownloadResult(DownloadUtil.makeLegalFilename(photo.getOwner().getFullName(), null), dir, photo.getPhoto());
+        DownloadResult(DownloadWorkUtils.makeLegalFilename(photo.getOwner().getFullName(), null), dir, photo.getPhoto());
     }
 
     private String transform_owner(int owner_id) {
@@ -282,16 +284,8 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
                 dir_final.setLastModified(Calendar.getInstance().getTime().getTime());
             dir = dir_final;
         }
-        String file = dir.getAbsolutePath() + "/" + (Prefix != null ? (Prefix + "_") : "") + transform_owner(photo.getOwnerId()) + "_" + photo.getId() + ".jpg";
         String url = photo.getUrlForSize(PhotoSize.W, true);
-        File Temp = new File(file);
-        if (Temp.exists()) {
-            Temp.setLastModified(Calendar.getInstance().getTime().getTime());
-            if (isGuiReady())
-                getView().getPhoenixToast().showToastError(R.string.exist_audio);
-            return;
-        }
-        new InternalDownloader(this, getApplicationContext(), url, file, photo).doDownload();
+        DownloadWorkUtils.doDownloadPhoto(context, url, dir.getAbsolutePath(), (Prefix != null ? (Prefix + "_") : "") + transform_owner(photo.getOwnerId()) + "_" + photo.getId());
     }
 
     @Override
@@ -306,31 +300,6 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
     public void onVideoSizeChanged(@NonNull IGifPlayer player, VideoSize size) {
         if (mGifPlayer == player) {
             resolveAspectRatio();
-        }
-    }
-
-    private final class InternalDownloader extends InternalDownloadTask {
-
-        final WeakReference<StoryPagerPresenter> ref;
-
-        InternalDownloader(StoryPagerPresenter presenter, Context context, String url, String file, Photo photo) {
-            super(context, url, file, photo.getId() + "_" + photo.getOwnerId(), true);
-            ref = new WeakReference<>(presenter);
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            StoryPagerPresenter presenter = ref.get();
-
-            if (Objects.isNull(presenter)) return;
-
-            if (isGuiReady()) {
-                if (Objects.isNull(s)) {
-                    getView().getPhoenixToast().showToastBottom(R.string.saved);
-                } else {
-                    getView().getPhoenixToast().showToastError(R.string.error_with_message, s);
-                }
-            }
         }
     }
 }

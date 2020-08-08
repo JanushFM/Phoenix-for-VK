@@ -17,7 +17,7 @@ import biz.dealnote.messenger.model.VideoSize;
 import biz.dealnote.messenger.mvp.view.IGifPagerView;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AssertUtils;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
 
@@ -226,7 +226,7 @@ public class GifPagerPresenter extends BaseDocumentPresenter<IGifPagerView> impl
 
     private void downloadImpl() {
         Document document = mDocuments.get(mCurrentIndex);
-        DownloadUtil.downloadDocs(App.getInstance(), document, document.getUrl());
+        DownloadWorkUtils.doDownloadDoc(App.getInstance(), document);
     }
 
     @Override

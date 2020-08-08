@@ -133,6 +133,16 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public String get_Api_Domain() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getString("vk_api_domain", "api.vk.com").trim();
+    }
+
+    @Override
+    public String get_Auth_Domain() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getString("vk_auth_domain", "oauth.vk.com").trim();
+    }
+
+    @Override
     public boolean isDebug_mode() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("debug_mode", false);
     }
@@ -140,11 +150,6 @@ class OtherSettings implements ISettings.IOtherSettings {
     @Override
     public boolean isForce_cache() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("force_cache", false);
-    }
-
-    @Override
-    public boolean isForce_hls() {
-        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("force_hls", true);
     }
 
     @Override

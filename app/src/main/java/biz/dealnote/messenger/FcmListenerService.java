@@ -81,6 +81,12 @@ public class FcmListenerService extends FirebaseMessagingService {
             return;
         }
 
+        /*
+        if(Settings.get().other().isDebug_mode() && !pushType.equals(PushType.MSG) && !pushType.equals("chat") && !pushType.equals("erase") && !pushType.equals(PushType.VALIDATE_DEVICE)) {
+            PersistentLogger.logThrowable("Push issues", new Exception("Found Push event, key: " + pushType + ", dump: " + bundleDump));
+        }
+         */
+
         try {
             switch (pushType) {
                 case PushType.VALIDATE_DEVICE:
@@ -110,7 +116,6 @@ public class FcmListenerService extends FirebaseMessagingService {
                 case PushType.WALL_PUBLISH:
                     WallPublishFCMMessage.fromRemoteMessage(message).notify(context, accountId);
                     break;
-
                 case PushType.FRIEND_ACCEPTED:
                     FriendAcceptedFCMMessage.fromRemoteMessage(message).notify(context, accountId);
                     break;

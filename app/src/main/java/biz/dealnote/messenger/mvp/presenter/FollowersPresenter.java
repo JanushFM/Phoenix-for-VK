@@ -69,7 +69,6 @@ public class FollowersPresenter extends SimpleOwnersPresenter<ISimpleOwnersView>
         actualDataLoading = false;
 
         cacheDisposable.clear();
-        actualDataLoading = false;
 
         actualDataReceived = true;
         endOfContent = users.isEmpty();

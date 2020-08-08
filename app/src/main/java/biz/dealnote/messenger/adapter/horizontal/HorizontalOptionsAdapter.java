@@ -2,6 +2,7 @@ package biz.dealnote.messenger.adapter.horizontal;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 public class HorizontalOptionsAdapter<T extends Entry> extends RecyclerBindableAdapter<T, HorizontalOptionsAdapter.Holder> {
 
     private Listener<T> listener;
+    private CustomListener<T> delete_listener;
 
     public HorizontalOptionsAdapter(List<T> data) {
         super(data);
@@ -27,7 +29,7 @@ public class HorizontalOptionsAdapter<T extends Entry> extends RecyclerBindableA
         T item = getItem(position);
 
         String title = item.getTitle(holder.itemView.getContext());
-        String targetTitle = title.startsWith("#") ? title : "#" + title;
+        String targetTitle = title.startsWith("#") ? title : (item.isCustom() ? title : "#" + title);
 
         Context context = holder.itemView.getContext();
         holder.title.setText(targetTitle);
@@ -37,6 +39,14 @@ public class HorizontalOptionsAdapter<T extends Entry> extends RecyclerBindableA
                 CurrentTheme.getColorPrimary(context) : CurrentTheme.getColorSurface(context));
 
         holder.itemView.setOnClickListener(v -> listener.onOptionClick(item));
+        holder.delete.setVisibility(item.isCustom() ? View.VISIBLE : View.GONE);
+        holder.delete.setOnClickListener(v -> {
+            if (item.isCustom()) {
+                if (delete_listener != null) {
+                    delete_listener.onDeleteOptionClick(item, position);
+                }
+            }
+        });
     }
 
     @Override
@@ -53,19 +63,29 @@ public class HorizontalOptionsAdapter<T extends Entry> extends RecyclerBindableA
         this.listener = listener;
     }
 
+    public void setDeleteListener(CustomListener<T> listener) {
+        delete_listener = listener;
+    }
+
     public interface Listener<T extends Entry> {
         void onOptionClick(T entry);
+    }
+
+    public interface CustomListener<T extends Entry> {
+        void onDeleteOptionClick(T entry, int position);
     }
 
     static class Holder extends RecyclerView.ViewHolder {
 
         MaterialCardView background;
         TextView title;
+        ImageView delete;
 
         Holder(View itemView) {
             super(itemView);
             background = itemView.findViewById(R.id.card_view);
             title = itemView.findViewById(R.id.title);
+            delete = itemView.findViewById(R.id.delete);
         }
     }
 }

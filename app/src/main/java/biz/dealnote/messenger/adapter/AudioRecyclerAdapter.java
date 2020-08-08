@@ -46,7 +46,7 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.AppTextUtils;
-import biz.dealnote.messenger.util.DownloadUtil;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.RoundTransformation;
@@ -87,7 +87,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
     }
 
     private void get_lyrics(Audio audio) {
-        audioListDisposable.add(mAudioInteractor.getLyrics(audio.getLyricsId())
+        audioListDisposable.add(mAudioInteractor.getLyrics(Settings.get().accounts().getCurrent(), audio.getLyricsId())
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(t -> onAudioLyricsRecived(t, audio), t -> {/*TODO*/}));
     }
@@ -182,7 +182,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         else
             holder.my.setVisibility(audio.getOwnerId() == Settings.get().accounts().getCurrent() ? View.VISIBLE : View.GONE);
 
-        int Status = DownloadUtil.TrackIsDownloaded(audio);
+        int Status = DownloadWorkUtils.TrackIsDownloaded(audio);
         if (Status == 2) {
             holder.saved.setImageResource(R.drawable.remote_cloud);
         } else {
@@ -230,12 +230,13 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                     return false;
                 }
                 holder.saved.setVisibility(View.VISIBLE);
-                int ret = DownloadUtil.downloadTrack(mContext, audio, false);
+                holder.saved.setImageResource(R.drawable.save);
+                int ret = DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), false);
                 if (ret == 0)
                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
-                else if (ret == 1) {
-                    Utils.ThemedSnack(v, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
-                            v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
+                else if (ret == 1 || ret == 2) {
+                    Utils.ThemedSnack(v, ret == 1 ? R.string.audio_force_download : R.string.audio_force_download_pc, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
+                            v1 -> DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), true)).show();
                 } else {
                     holder.saved.setVisibility(View.GONE);
                     PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.error_audio);
@@ -265,7 +266,9 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
                 if (audio.getLyricsId() != 0)
                     menus.add(new OptionRequest(AudioItem.get_lyrics_menu, mContext.getString(R.string.get_lyrics_menu), R.drawable.lyric));
-                menus.add(new OptionRequest(AudioItem.bitrate_item_audio, mContext.getString(R.string.get_bitrate), R.drawable.high_quality));
+                if (!audio.isHLS()) {
+                    menus.add(new OptionRequest(AudioItem.bitrate_item_audio, mContext.getString(R.string.get_bitrate), R.drawable.high_quality));
+                }
                 menus.add(new OptionRequest(AudioItem.search_by_artist, mContext.getString(R.string.search_by_artist), R.drawable.magnify));
                 menus.add(new OptionRequest(AudioItem.copy_url, mContext.getString(R.string.copy_url), R.drawable.content_copy));
 
@@ -321,12 +324,13 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                                 break;
                             }
                             holder.saved.setVisibility(View.VISIBLE);
-                            int ret = DownloadUtil.downloadTrack(mContext, audio, false);
+                            holder.saved.setImageResource(R.drawable.save);
+                            int ret = DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), false);
                             if (ret == 0)
                                 PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.saved_audio);
-                            else if (ret == 1) {
-                                Utils.ThemedSnack(view, R.string.audio_force_download, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
-                                        v1 -> DownloadUtil.downloadTrack(mContext, audio, true)).show();
+                            else if (ret == 1 || ret == 2) {
+                                Utils.ThemedSnack(view, ret == 1 ? R.string.audio_force_download : R.string.audio_force_download_pc, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.button_yes,
+                                        v1 -> DownloadWorkUtils.doDownloadAudio(mContext, audio, Settings.get().accounts().getCurrent(), true)).show();
                             } else {
                                 holder.saved.setVisibility(View.GONE);
                                 PhoenixToast.CreatePhoenixToast(mContext).showToastBottom(R.string.error_audio);

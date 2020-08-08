@@ -34,7 +34,8 @@ import biz.dealnote.messenger.model.Audio
 import biz.dealnote.messenger.model.IdPair
 import biz.dealnote.messenger.player.util.MusicUtils
 import biz.dealnote.messenger.settings.Settings
-import biz.dealnote.messenger.util.DownloadUtil
+import biz.dealnote.messenger.util.DownloadWorkUtils.GetLocalTrackLink
+import biz.dealnote.messenger.util.DownloadWorkUtils.TrackIsDownloaded
 import biz.dealnote.messenger.util.Logger
 import biz.dealnote.messenger.util.RxUtils
 import biz.dealnote.messenger.util.Utils
@@ -493,8 +494,8 @@ class MusicPlaybackService : Service() {
                 return
             }
 
-            if (Settings.get().other().isForce_cache && DownloadUtil.TrackIsDownloaded(audio) == 1)
-                audio.url = DownloadUtil.GetLocalTrackLink(audio)
+            if (Settings.get().other().isForce_cache && TrackIsDownloaded(audio) == 1)
+                audio.url = GetLocalTrackLink(audio)
             if (UpdateMeta) {
                 ErrorsCount = 0
                 CoverAudio = null
@@ -843,9 +844,7 @@ class MusicPlaybackService : Service() {
                         mService.get(), userAgent
                 )).createMediaSource(Uri.parse(url))
             } else {
-                if (Settings.get().other().isForce_hls) {
-                    if (url.contains("index.m3u8")) HlsMediaSource.Factory(factory).createMediaSource(Uri.parse(url)) else ProgressiveMediaSource.Factory(factory).createMediaSource(Uri.parse(url))
-                } else ProgressiveMediaSource.Factory(factory).createMediaSource(Uri.parse(Audio.getMp3FromM3u8(url)))
+                if (url.contains("index.m3u8")) HlsMediaSource.Factory(factory).createMediaSource(Uri.parse(url)) else ProgressiveMediaSource.Factory(factory).createMediaSource(Uri.parse(url))
             }
             mCurrentMediaPlayer.prepare(mediaSource)
             mCurrentMediaPlayer.setAudioAttributes(AudioAttributes.Builder().setContentType(C.CONTENT_TYPE_MUSIC).setUsage(C.USAGE_MEDIA).build(), true)
@@ -858,7 +857,7 @@ class MusicPlaybackService : Service() {
 
         fun setDataSource(ownerId: Int, audioId: Int, url: String) {
             if (Utils.isEmpty(url) || "https://vk.com/mp3/audio_api_unavailable.mp3" == url) {
-                compositeDisposable.add(audioInteractor.getById(listOf(IdPair(audioId, ownerId)))
+                compositeDisposable.add(audioInteractor.getById(Settings.get().accounts().current, listOf(IdPair(audioId, ownerId)))
                         .compose(RxUtils.applySingleIOToMainSchedulers())
                         .map { e: List<Audio> -> e[0].url }
                         .subscribe({ remoteUrl: String? -> this.setDataSource(remoteUrl) }) { setDataSource(url) })
@@ -1159,7 +1158,7 @@ class MusicPlaybackService : Service() {
             if (Utils.isEmpty(url) || "https://vk.com/mp3/audio_api_unavailable.mp3" == url) {
                 try {
                     audios = interactor
-                            .getById(listToIdPair(audios))
+                            .getById(Settings.get().accounts().current, listToIdPair(audios))
                             .subscribeOn(Schedulers.io())
                             .blockingGet() as ArrayList<Audio>
                 } catch (ignore: Throwable) {

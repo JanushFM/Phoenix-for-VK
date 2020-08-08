@@ -1,18 +1,17 @@
 package biz.dealnote.messenger.push;
 
+import android.os.Build;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.api.ApiException;
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.service.ApiErrorCodes;
@@ -143,7 +142,8 @@ public class PushRegistrationResolver implements IPushRegistrationResolver {
     }
 
     private Completable register(VkPushRegistration registration) {
-        try {
+        //try {
+            /*
             JSONArray fr_of_fr = new JSONArray();
             fr_of_fr.put("fr_of_fr");
 
@@ -172,16 +172,19 @@ public class PushRegistrationResolver implements IPushRegistrationResolver {
             json.put("new_post", "on"); //записи выбранных людей и сообществ;
 
             String targetSettingsStr = json.toString();
-            String deviceModel = Utils.getDeviceName();
-            String osVersion = Utils.getAndroidVersion();
 
-            return networker.vkManual(registration.getUserId(), registration.getVkToken())
-                    .account()
-                    .registerDevice(registration.getGmcToken(), deviceModel, null, registration.getDeviceId(), osVersion, targetSettingsStr)
-                    .ignoreElement();
-        } catch (JSONException e) {
-            return Completable.error(e);
-        }
+             */
+        String deviceModel = Utils.getDeviceName();
+        //String osVersion = Utils.getAndroidVersion();
+
+        return networker.vkManual(registration.getUserId(), registration.getVkToken())
+                .account()
+                .registerDevice(registration.getGmcToken(), 1, Constants.VKANDROID_APP_VERSION, "fcm",
+                        "vk_client", 4, deviceModel, registration.getDeviceId(), Build.VERSION.RELEASE, null)
+                .ignoreElement();
+        //} catch (JSONException e) {
+        //return Completable.error(e);
+        //}
     }
 
     private Completable unregister(VkPushRegistration registration) {

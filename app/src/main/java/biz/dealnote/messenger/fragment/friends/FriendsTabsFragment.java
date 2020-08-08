@@ -43,7 +43,8 @@ public class FriendsTabsFragment extends BaseMvpFragment<FriendsTabsPresenter, I
     public static final int TAB_FOLLOWERS = 2;
     public static final int TAB_REQUESTS = 3;
     public static final int TAB_MUTUAL = 4;
-    private CharSequence[] titles;
+    public static final int TAB_RECOMMENDATIONS = 5;
+
     private Adapter adapter;
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
@@ -70,13 +71,6 @@ public class FriendsTabsFragment extends BaseMvpFragment<FriendsTabsPresenter, I
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        titles = new CharSequence[5];
-        titles[TAB_ALL_FRIENDS] = getString(R.string.all_friends);
-        titles[TAB_ONLINE] = getString(R.string.online);
-        titles[TAB_FOLLOWERS] = getString(R.string.counter_followers);
-        titles[TAB_REQUESTS] = getString(R.string.counter_requests);
-        titles[TAB_MUTUAL] = getString(R.string.mutual_friends);
     }
 
     @Override
@@ -93,10 +87,9 @@ public class FriendsTabsFragment extends BaseMvpFragment<FriendsTabsPresenter, I
         return root;
     }
 
-    private void setupTabCounterView(int position, int count) {
+    private void setupTabCounterView(int id, int count) {
         try {
-            String targetTitle = titles[position] + (count > 0 ? " " + count : "");
-            adapter.setPageTitle(position, targetTitle);
+            adapter.updateCount(id, count);
         } catch (Exception ignored) {
         }
     }
@@ -140,8 +133,8 @@ public class FriendsTabsFragment extends BaseMvpFragment<FriendsTabsPresenter, I
     }
 
     @Override
-    public void configTabs(int accountId, int userId, boolean showMutualTab) {
-        adapter = new Adapter(requireActivity(), this, accountId, userId, showMutualTab);
+    public void configTabs(int accountId, int userId, boolean isNotMyPage) {
+        adapter = new Adapter(requireActivity(), this, accountId, userId, isNotMyPage);
 
         viewPager.setAdapter(adapter);
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> tab.setText(adapter.getPageTitle(position))).attach();
@@ -169,60 +162,86 @@ public class FriendsTabsFragment extends BaseMvpFragment<FriendsTabsPresenter, I
         }
     }
 
+    private interface CreateFriendsFragment {
+        Fragment create();
+    }
+
     private static class Adapter extends FragmentStateAdapter {
 
-        private final int accountId;
-        private final int userId;
-        private final boolean showMutualTab;
+        private final boolean isNotMyPage;
 
-        private final List<String> mFragmentTitles = new ArrayList<>(5);
+        private final List<FriendSource> mFragmentTitles = new ArrayList<>(getItemCount());
 
-        public Adapter(Context context, @NonNull Fragment fm, int accountId, int userId, boolean showMutualTab) {
+        public Adapter(Context context, @NonNull Fragment fm, int accountId, int userId, boolean isNotMyPage) {
             super(fm);
-            this.accountId = accountId;
-            this.userId = userId;
-            this.showMutualTab = showMutualTab;
+            this.isNotMyPage = isNotMyPage;
 
-            mFragmentTitles.add(TAB_ALL_FRIENDS, context.getString(R.string.all_friends));
-            mFragmentTitles.add(TAB_ONLINE, context.getString(R.string.online));
-            mFragmentTitles.add(TAB_FOLLOWERS, context.getString(R.string.counter_followers));
-            mFragmentTitles.add(TAB_REQUESTS, context.getString(R.string.counter_requests));
-
-            if (showMutualTab) {
-                mFragmentTitles.add(TAB_MUTUAL, context.getString(R.string.mutual_friends));
+            mFragmentTitles.add(new FriendSource(TAB_ALL_FRIENDS, context.getString(R.string.all_friends), () -> AllFriendsFragment.newInstance(accountId, userId)));
+            mFragmentTitles.add(new FriendSource(TAB_ONLINE, context.getString(R.string.online), () -> OnlineFriendsFragment.newInstance(accountId, userId)));
+            mFragmentTitles.add(new FriendSource(TAB_FOLLOWERS, context.getString(R.string.counter_followers), () -> FollowersFragment.newInstance(accountId, userId)));
+            if (isNotMyPage) {
+                mFragmentTitles.add(new FriendSource(TAB_MUTUAL, context.getString(R.string.mutual_friends), () -> MutualFriendsFragment.newInstance(accountId, userId)));
+            } else {
+                mFragmentTitles.add(new FriendSource(TAB_REQUESTS, context.getString(R.string.counter_requests), () -> RequestsFragment.newInstance(accountId, userId)));
+                mFragmentTitles.add(new FriendSource(TAB_RECOMMENDATIONS, context.getString(R.string.recommendation), () -> RecommendationsFriendsFragment.newInstance(accountId, userId)));
             }
         }
 
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
-
-        void setPageTitle(int position, String title) {
-            mFragmentTitles.set(position, title);
+            return mFragmentTitles.get(position).getTitle();
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            switch (position) {
-                case TAB_ALL_FRIENDS:
-                    return AllFriendsFragment.newInstance(accountId, userId);
-                case TAB_ONLINE:
-                    return OnlineFriendsFragment.newInstance(accountId, userId);
-                case TAB_FOLLOWERS:
-                    return FollowersFragment.newInstance(accountId, userId);
-                case TAB_MUTUAL:
-                    return MutualFriendsFragment.newInstance(accountId, userId);
-                case TAB_REQUESTS:
-                    return RequestsFragment.newInstance(accountId, userId);
-            }
-
-            throw new UnsupportedOperationException();
+            return mFragmentTitles.get(position).getFragment();
         }
 
         @Override
         public int getItemCount() {
-            return showMutualTab ? 5 : 4;
+            return isNotMyPage ? 4 : 5;
+        }
+
+        public void updateCount(int id, Integer count) {
+            for (FriendSource i : mFragmentTitles) {
+                if (i.isId(id)) {
+                    i.updateCount(count);
+                    break;
+                }
+            }
+        }
+    }
+
+    private static class FriendSource {
+        private final String Title;
+        private final CreateFriendsFragment call;
+        private final int Id;
+        private Integer Count;
+
+        public FriendSource(int Id, @NonNull String Title, @NonNull CreateFriendsFragment call) {
+            Count = null;
+            this.Title = Title;
+            this.call = call;
+            this.Id = Id;
+        }
+
+        public void updateCount(@Nullable Integer Count) {
+            this.Count = Count;
+        }
+
+        public String getTitle() {
+            if (Count != null && Count > 0) {
+                return Title + " " + Count;
+            }
+            return Title;
+        }
+
+        public boolean isId(int Id) {
+            return this.Id == Id;
+        }
+
+        public Fragment getFragment() {
+            return call.create();
         }
     }
 }

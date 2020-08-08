@@ -190,7 +190,7 @@ public class SearchTabsFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return 7;
+            return 8;
         }
     }
 }

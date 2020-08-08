@@ -32,8 +32,8 @@
         <LinearLayout
             android:id="@+id/item_additional_info"
             android:layout_width="match_parent"
-            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:orientation="vertical">
 
             <TextView

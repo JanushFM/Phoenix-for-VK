@@ -47,7 +47,7 @@ public class NewsEntity extends Entity {
 
     private int geoId;
 
-    private List<String> friendsTags;
+    private List<Integer> friendsTags;
 
     private int views;
 
@@ -244,11 +244,11 @@ public class NewsEntity extends Entity {
         return this;
     }
 
-    public List<String> getFriendsTags() {
+    public List<Integer> getFriendsTags() {
         return friendsTags;
     }
 
-    public NewsEntity setFriendsTags(List<String> friendsTags) {
+    public NewsEntity setFriendsTags(List<Integer> friendsTags) {
         this.friendsTags = friendsTags;
         return this;
     }
