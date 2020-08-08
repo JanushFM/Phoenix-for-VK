@@ -27,6 +27,7 @@ public class PhotoAlbumsActivity extends NoMainActivity implements PlaceProvider
 
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit)
                     .add(R.id.fragment, fragment)
                     .addToBackStack(null)
                     .commit();
@@ -39,6 +40,7 @@ public class PhotoAlbumsActivity extends NoMainActivity implements PlaceProvider
             VKPhotosFragment fragment = VKPhotosFragment.newInstance(place.getArgs());
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(R.id.fragment, fragment)
                     .addToBackStack("photos")
                     .commit();

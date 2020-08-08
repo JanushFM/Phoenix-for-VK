@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.Extra;
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.attachments.PostCreateFragment;
 import biz.dealnote.messenger.model.EditingPostType;
 import biz.dealnote.messenger.model.WallEditorAttrs;
@@ -46,6 +47,7 @@ public class PostCreateActivity extends NoMainActivity {
             PostCreateFragment fragment = PostCreateFragment.newInstance(args);
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit)
                     .replace(getMainContainerViewId(), fragment)
                     .addToBackStack(null)
                     .commitAllowingStateLoss();

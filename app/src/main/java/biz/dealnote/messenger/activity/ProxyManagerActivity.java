@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.AddProxyFragment;
 import biz.dealnote.messenger.fragment.ProxyManagerFrgament;
 import biz.dealnote.messenger.place.Place;
@@ -19,6 +20,7 @@ public class ProxyManagerActivity extends NoMainActivity implements PlaceProvide
         if (Objects.isNull(savedInstanceState)) {
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(getMainContainerViewId(), ProxyManagerFrgament.newInstance())
                     .addToBackStack("proxy-manager")
                     .commit();
@@ -30,6 +32,7 @@ public class ProxyManagerActivity extends NoMainActivity implements PlaceProvide
         if (place.type == Place.PROXY_ADD) {
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(getMainContainerViewId(), AddProxyFragment.newInstance())
                     .addToBackStack("proxy-add")
                     .commit();

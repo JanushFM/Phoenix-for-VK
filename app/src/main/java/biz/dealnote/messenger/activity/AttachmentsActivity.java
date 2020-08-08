@@ -46,6 +46,7 @@ public class AttachmentsActivity extends NoMainActivity implements PlaceProvider
 
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit)
                     .replace(R.id.fragment, fragment)
                     .addToBackStack(null)
                     .commit();
@@ -58,6 +59,7 @@ public class AttachmentsActivity extends NoMainActivity implements PlaceProvider
             Fragment fragment = VideosFragment.newInstance(place.getArgs());
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(R.id.fragment, fragment)
                     .addToBackStack("video_album")
                     .commit();

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import biz.dealnote.messenger.Extra;
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.VideosFragment;
 import biz.dealnote.messenger.fragment.VideosTabsFragment;
 import biz.dealnote.messenger.fragment.search.SingleTabSearchFragment;
@@ -44,6 +45,7 @@ public class VideoSelectActivity extends NoMainActivity implements PlaceProvider
         VideosTabsFragment fragment = VideosTabsFragment.newInstance(accountId, ownerId, IVideosListView.ACTION_SELECT);
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                 .replace(getMainContainerViewId(), fragment)
                 .addToBackStack("video-tabs")
                 .commit();
@@ -55,6 +57,7 @@ public class VideoSelectActivity extends NoMainActivity implements PlaceProvider
             Fragment fragment = VideosFragment.newInstance(place.getArgs());
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(getMainContainerViewId(), fragment)
                     .addToBackStack("video-album")
                     .commit();
@@ -62,6 +65,7 @@ public class VideoSelectActivity extends NoMainActivity implements PlaceProvider
             SingleTabSearchFragment singleTabSearchFragment = SingleTabSearchFragment.newInstance(place.getArgs());
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(getMainContainerViewId(), singleTabSearchFragment)
                     .addToBackStack("video-search")
                     .commit();

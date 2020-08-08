@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import biz.dealnote.messenger.Extra;
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.AudioSelectTabsFragment;
 import biz.dealnote.messenger.fragment.search.SingleTabSearchFragment;
 import biz.dealnote.messenger.place.Place;
@@ -37,6 +38,7 @@ public class AudioSelectActivity extends NoMainActivity implements PlaceProvider
         AudioSelectTabsFragment fragment = AudioSelectTabsFragment.newInstance(accountId);
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                 .replace(getMainContainerViewId(), fragment)
                 .addToBackStack("audio-select")
                 .commit();
@@ -48,6 +50,7 @@ public class AudioSelectActivity extends NoMainActivity implements PlaceProvider
             SingleTabSearchFragment singleTabSearchFragment = SingleTabSearchFragment.newInstance(place.getArgs());
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(getMainContainerViewId(), singleTabSearchFragment)
                     .addToBackStack("audio-search-select")
                     .commit();

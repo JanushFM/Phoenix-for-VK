@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import biz.dealnote.messenger.Extra;
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.AudioPlayerFragment;
 import biz.dealnote.messenger.fragment.GifPagerFragment;
 import biz.dealnote.messenger.fragment.LocalJsonToChatFragment;
@@ -71,7 +72,7 @@ public class LocalJsonToChatActivity extends NoMainActivity implements PlaceProv
     private void attachInitialFragment(Fragment fragment) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit)
                 .replace(getMainContainerViewId(), fragment)
                 .addToBackStack(null)
                 .commit();

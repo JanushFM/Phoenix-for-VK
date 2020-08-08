@@ -27,6 +27,7 @@ public class PhotosActivity extends NoMainActivity implements PlaceProvider {
         ignoredFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit)
                 .replace(R.id.fragment, ignoredFragment)
                 .addToBackStack(null)
                 .commit();
@@ -40,6 +41,7 @@ public class PhotosActivity extends NoMainActivity implements PlaceProvider {
             LocalPhotosFragment localPhotosFragment = LocalPhotosFragment.newInstance(maxSelectionCount, album, false);
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(R.id.fragment, localPhotosFragment)
                     .addToBackStack("photos")
                     .commit();

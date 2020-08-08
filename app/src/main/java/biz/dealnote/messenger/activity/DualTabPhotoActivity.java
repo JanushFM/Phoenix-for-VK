@@ -59,6 +59,7 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
         DualTabPhotosFragment fragment = DualTabPhotosFragment.newInstance(mSources);
         getSupportFragmentManager()
                 .beginTransaction()
+                .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                 .replace(getMainContainerViewId(), fragment)
                 .addToBackStack("dual-tab-photos")
                 .commit();
@@ -76,6 +77,7 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
 
                 getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                         .replace(R.id.fragment, fragment)
                         .addToBackStack("vk-album-photos")
                         .commit();
@@ -87,6 +89,7 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
                 LocalPhotosFragment localPhotosFragment = LocalPhotosFragment.newInstance(mMaxSelectionCount, album, false);
                 getSupportFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                         .replace(R.id.fragment, localPhotosFragment)
                         .addToBackStack("local-album-photos")
                         .commit();

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.ColorInt;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
@@ -112,9 +113,15 @@ public class ChatActivity extends NoMainActivity implements PlaceProvider, AppSt
     }
 
     private void attachToFront(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+        attachToFront(fragment, true);
+    }
+
+    private void attachToFront(Fragment fragment, boolean animate) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if (animate)
+            fragmentTransaction.setCustomAnimations(R.anim.fragment_enter, R.anim.fragment_exit);
+
+        fragmentTransaction
                 .replace(R.id.fragment, fragment)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
