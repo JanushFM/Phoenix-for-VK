@@ -324,57 +324,32 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
                     android:id="@+id/header_group_contacts_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:padding="8dp"
+                    android:text="@string/community_managers_contacts"
+                    android:textAppearance="@style/ProfileSubText"
+                    app:drawableTint="?android:attr/textColorPrimary"
+                    app:drawableTopCompat="@drawable/account_circle" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/account_circle"
-                        app:tint="?android:attr/textColorPrimary" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:gravity="center"
-                        android:text="@string/community_managers_contacts"
-                        android:textAppearance="@style/ProfileSubText" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
                     android:id="@+id/header_group_links_container"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="8dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/share"
-                        app:tint="?android:attr/textColorPrimary" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:gravity="center"
-                        android:text="@string/links"
-                        android:textAppearance="@style/ProfileSubText" />
-
-                </LinearLayout>
+                    android:padding="8dp"
+                    android:text="@string/links"
+                    android:textAppearance="@style/ProfileSubText"
+                    app:drawableTint="?android:attr/textColorPrimary"
+                    app:drawableTopCompat="@drawable/share" />
 
             </LinearLayout>
 

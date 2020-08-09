@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Transformation;
 
 import java.util.Objects;
@@ -204,10 +205,10 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
         holder.time.setText(AppTextUtils.getDateFromUnixTime(context, Page.time));
         AnswerVKOfficial.ImageAdditional Img = Page.getImage(256);
         if (Img == null) {
-            holder.additional_root.setVisibility(View.GONE);
+            holder.additional.setVisibility(View.GONE);
             PicassoInstance.with().cancelRequest(holder.additional);
         } else {
-            holder.additional_root.setVisibility(View.VISIBLE);
+            holder.additional.setVisibility(View.VISIBLE);
             PicassoInstance.with()
                     .load(Img.url)
                     .tag(Constants.PICASSO_TAG)
@@ -341,8 +342,7 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
         ImageView small;
         View mHeaderRoot;
         TextView mHeaderTitle;
-        ImageView additional;
-        View additional_root;
+        ShapeableImageView additional;
 
         public Holder(View itemView) {
             super(itemView);
@@ -359,7 +359,6 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
             mHeaderRoot = itemView.findViewById(R.id.header_root);
             mHeaderTitle = itemView.findViewById(R.id.header_title);
             additional = itemView.findViewById(R.id.additional_image);
-            additional_root = itemView.findViewById(R.id.additional_image_root);
         }
     }
 }

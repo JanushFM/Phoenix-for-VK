@@ -28,8 +28,6 @@
             android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll|enterAlways|snap" />
 
-        <include layout="@layout/line_divider" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

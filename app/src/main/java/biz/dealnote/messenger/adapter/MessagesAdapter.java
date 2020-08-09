@@ -489,7 +489,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
         ServiceMessageHolder(View itemView) {
             super(itemView);
             tvAction = itemView.findViewById(R.id.item_service_message_text);
-            root = itemView.findViewById(R.id.message_container);
+            root = itemView.findViewById(R.id.item_message_bubble);
             Restore = itemView.findViewById(R.id.item_message_restore);
 
             mAttachmentsHolder = new AttachmentsHolder();

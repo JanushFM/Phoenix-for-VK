@@ -14,7 +14,6 @@
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/comment_container"
         android:layout_alignBottom="@+id/comment_container"
-        android:layout_alignParentTop="true"
         android:background="#ffb9b9b9"
         android:visibility="invisible" />
 

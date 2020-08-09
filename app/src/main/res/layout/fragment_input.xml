@@ -4,14 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="@layout/fragment_chat">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorSurface">
 
         <RelativeLayout
             android:id="@+id/fragment_input_container"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:paddingStart="4dp"
@@ -152,9 +153,8 @@
             android:id="@+id/fragment_input_emoji_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/fragment_input_container"
             android:background="?android:colorBackground"
             android:visibility="gone" />
 
-    </RelativeLayout>
+    </LinearLayout>
 </merge>
