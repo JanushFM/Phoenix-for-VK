@@ -83,9 +83,10 @@
             android:id="@+id/top_divider"
             layout="@layout/line_divider" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingTop="6dp"
             android:paddingBottom="2dp">
 
@@ -129,7 +130,6 @@
                 android:id="@+id/item_post_attachments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/item_text_container"
                 android:orientation="vertical">
 
                 <include
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/buttons_bar"

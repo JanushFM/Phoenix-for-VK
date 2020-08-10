@@ -319,7 +319,7 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
             tvShowMore = itemView.findViewById(R.id.item_post_show_more);
             tvTime = itemView.findViewById(R.id.item_post_time);
 
-            ivFriendOnly = itemView.findViewById(R.id.item_post_friedns_only);
+            ivFriendOnly = itemView.findViewById(R.id.item_post_friends_only);
 
             vSignerRoot = itemView.findViewById(R.id.item_post_signer_root);
             ivSignerIcon = itemView.findViewById(R.id.item_post_signer_icon);

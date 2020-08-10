@@ -15,7 +15,6 @@
         android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/avatar_size_usual"
         android:layout_marginStart="16dp"

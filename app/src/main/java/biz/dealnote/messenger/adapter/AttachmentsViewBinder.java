@@ -937,15 +937,6 @@ public class AttachmentsViewBinder {
                 holder.tvTitle.setText(audio.getArtist());
                 holder.tvSubtitle.setText(audio.getTitle());
 
-                if (!audio.isHLS()) {
-                    holder.quality.setVisibility(View.VISIBLE);
-                    if (audio.getIsHq())
-                        holder.quality.setImageResource(R.drawable.high_quality);
-                    else
-                        holder.quality.setImageResource(R.drawable.low_quality);
-                } else
-                    holder.quality.setVisibility(View.GONE);
-
                 updateAudioStatus(holder, audio);
                 int finalG = g;
                 AtomicInteger PlayState = new AtomicInteger(MusicUtils.AudioStatus(audio));
@@ -1254,7 +1245,6 @@ public class AttachmentsViewBinder {
         ImageView saved;
         ImageView lyric;
         ImageView my;
-        ImageView quality;
         View Track;
         MaterialCardView selectionView;
         MaterialCardView isSelectedView;
@@ -1276,7 +1266,6 @@ public class AttachmentsViewBinder {
             selectionView = root.findViewById(R.id.item_audio_selection);
             isSelectedView = root.findViewById(R.id.item_audio_select_add);
             isSelectedView.setVisibility(View.GONE);
-            quality = root.findViewById(R.id.quality);
             visual = root.findViewById(R.id.item_audio_visual);
             animationAdapter = new WeakViewAnimatorAdapter<View>(selectionView) {
                 @Override

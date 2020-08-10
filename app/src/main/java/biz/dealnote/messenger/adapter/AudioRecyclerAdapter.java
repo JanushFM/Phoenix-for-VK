@@ -157,15 +157,6 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         }
 
         holder.artist.setText(audio.getArtist());
-        if (!audio.isHLS()) {
-            holder.quality.setVisibility(View.VISIBLE);
-            if (audio.getIsHq())
-                holder.quality.setImageResource(R.drawable.high_quality);
-            else
-                holder.quality.setImageResource(R.drawable.low_quality);
-        } else
-            holder.quality.setVisibility(View.GONE);
-
         holder.title.setText(audio.getTitle());
         if (audio.getDuration() <= 0)
             holder.time.setVisibility(View.INVISIBLE);
@@ -396,7 +387,6 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         ImageView saved;
         ImageView lyric;
         ImageView my;
-        ImageView quality;
         View Track;
         MaterialCardView selectionView;
         MaterialCardView isSelectedView;
@@ -415,7 +405,6 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
             lyric = itemView.findViewById(R.id.lyric);
             Track = itemView.findViewById(R.id.track_option);
             my = itemView.findViewById(R.id.my);
-            quality = itemView.findViewById(R.id.quality);
             isSelectedView = itemView.findViewById(R.id.item_audio_select_add);
             selectionView = itemView.findViewById(R.id.item_audio_selection);
             visual = itemView.findViewById(R.id.item_audio_visual);

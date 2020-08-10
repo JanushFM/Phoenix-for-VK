@@ -11,30 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/buttonSendContainer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true">
-
-            <ImageButton
-                android:id="@+id/buttonSend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/send"
-                android:tint="?colorOnSurface" />
-
-            <ImageView
-                android:id="@+id/author_avatar"
-                android:layout_width="18dp"
-                android:layout_height="18dp" />
-
-        </RelativeLayout>
-
         <LinearLayout
             android:id="@+id/message_input_container"
             android:layout_width="match_parent"
@@ -107,13 +83,36 @@
             </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/buttonSendContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <ImageButton
+                android:id="@+id/buttonSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/send"
+                android:tint="?colorOnSurface" />
+
+            <ImageView
+                android:id="@+id/author_avatar"
+                android:layout_width="18dp"
+                android:layout_height="18dp" />
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/fragment_input_emoji_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fragment_input_container"
         android:background="?android:colorBackground"
         android:visibility="gone" />
 

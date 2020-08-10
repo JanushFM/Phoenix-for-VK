@@ -464,7 +464,7 @@ public class NewsfeedCommentsAdapter extends AbsRecyclerViewAdapter<NewsfeedComm
 
             viewsCounter = itemView.findViewById(R.id.post_views_counter);
 
-            friendsOnlyIcon = itemView.findViewById(R.id.item_post_friedns_only);
+            friendsOnlyIcon = itemView.findViewById(R.id.item_post_friends_only);
 
             postRoot = itemView.findViewById(R.id.post_root);
         }

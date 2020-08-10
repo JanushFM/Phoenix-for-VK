@@ -24,7 +24,7 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/item_post_friedns_only"
+            android:id="@+id/item_post_friends_only"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/lock_outline"
@@ -37,10 +37,9 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:drawableRightCompat="@drawable/ic_eye_white_vector"
+            app:drawableEndCompat="@drawable/ic_eye_white_vector"
             app:drawableTint="?colorOnSurface"
             tools:text="1533" />
-
 
     </LinearLayout>
 
