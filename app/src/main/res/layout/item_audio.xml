@@ -9,60 +9,68 @@
     android:paddingEnd="6dp"
     android:paddingBottom="4dp">
 
-    <RelativeLayout
-        android:id="@+id/audio_root"
+    <LinearLayout
+        android:id="@+id/track_option"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_toStartOf="@id/info_block"
+        android:layout_toEndOf="@+id/item_audio_play"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:textColor="?attr/colorSecondary"
+            android:textSize="15sp"
+            tools:text="Name" />
+
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:textSize="12sp"
+            tools:text="Artist" />
+
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/info_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical">
+
+        <TableRow
             android:layout_width="wrap_content"
-            android:layout_height="42dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/item_audio_play">
+            android:layout_height="wrap_content"
+            android:gravity="end">
 
-            <LinearLayout
-                android:id="@+id/track_option"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@id/my"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/dialog_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    android:textColor="?attr/colorSecondary"
-                    android:textSize="15sp"
-                    tools:text="Name" />
-
-                <TextView
-                    android:id="@+id/dialog_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:maxLines="1"
-                    android:scrollHorizontally="true"
-                    android:singleLine="true"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    android:textSize="12sp"
-                    tools:text="Artist" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/my"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:padding="4dp"
+                android:src="@drawable/my"
+                app:tint="?colorSecondary" />
 
             <TextView
                 android:id="@+id/item_audio_time"
-                android:layout_width="42dp"
-                android:layout_height="21dp"
-                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:gravity="end"
                 android:maxLines="1"
                 android:paddingStart="0dp"
@@ -70,96 +78,99 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 tools:text="Time" />
 
-            <ImageView
-                android:id="@+id/my"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_alignParentBottom="true"
-                android:layout_toStartOf="@+id/lyric"
-                android:padding="4dp"
-                android:src="@drawable/my"
-                app:tint="?colorSecondary" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end">
 
             <ImageView
                 android:id="@+id/lyric"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_toStartOf="@id/saved"
                 android:padding="4dp"
                 android:src="@drawable/lyric"
                 app:tint="?colorSecondary" />
 
             <ImageView
+                android:id="@+id/quality"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:padding="2dp"
+                android:src="@drawable/high_quality"
+                app:tint="?attr/colorPrimary" />
+
+            <ImageView
                 android:id="@+id/saved"
                 android:layout_width="21dp"
                 android:layout_height="21dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
                 android:padding="2dp"
                 android:src="@drawable/save"
                 app:tint="?attr/colorPrimary" />
 
+        </TableRow>
 
-        </RelativeLayout>
+    </TableLayout>
 
-        <FrameLayout
-            android:id="@+id/item_audio_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+    <FrameLayout
+        android:id="@+id/item_audio_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true">
 
-            <ImageView
-                android:id="@+id/item_audio_play_cover"
-                android:layout_width="42dp"
-                android:layout_height="42dp" />
+        <ImageView
+            android:id="@+id/item_audio_play_cover"
+            android:layout_width="42dp"
+            android:layout_height="42dp" />
 
-            <ImageView
-                android:id="@+id/item_audio_play_icon"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:padding="8dp"
-                android:src="@drawable/song" />
+        <ImageView
+            android:id="@+id/item_audio_play_icon"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:src="@drawable/song" />
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/item_audio_visual"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                app:lottie_autoPlay="false"
-                app:lottie_fileName="play_visual.json"
-                app:lottie_loop="false" />
-        </FrameLayout>
-
-    </RelativeLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/item_audio_visual"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="play_visual.json"
+            app:lottie_loop="false" />
+    </FrameLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_audio_selection"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/audio_root"
-        android:layout_alignBottom="@+id/audio_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/track_option"
+        android:layout_alignTop="@+id/track_option"
+        android:layout_alignEnd="@+id/track_option"
+        android:layout_alignBottom="@+id/track_option"
         android:alpha="0.5"
         android:orientation="horizontal"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_audio_select_add"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/audio_root"
-        android:layout_alignBottom="@+id/audio_root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/track_option"
+        android:layout_alignTop="@+id/track_option"
+        android:layout_alignEnd="@+id/track_option"
+        android:layout_alignBottom="@+id/track_option"
         android:alpha="0.5"
         android:orientation="horizontal"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 </RelativeLayout>

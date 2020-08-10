@@ -221,7 +221,7 @@ public class UserEntity {
     }
 
     public boolean isVerified() {
-        return verified || getId() == 572488303;
+        return verified;
     }
 
     public UserEntity setVerified(boolean verified) {

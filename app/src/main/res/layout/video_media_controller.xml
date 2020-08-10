@@ -108,25 +108,25 @@
         </LinearLayout>
 
 
-            <ImageView
-                android:id="@+id/comment"
-                style="?borderlessButtonStyle"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_margin="2dp"
-                android:layout_centerVertical="true"
-                android:padding="16dp"
-                android:src="@drawable/comment" />
+        <ImageView
+            android:id="@+id/comment"
+            style="?borderlessButtonStyle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="2dp"
+            android:padding="16dp"
+            android:src="@drawable/comment" />
 
         <ImageView
             android:id="@+id/fullscreen"
             style="?borderlessButtonStyle"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_margin="2dp"
-            android:padding="16dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_margin="2dp"
+            android:padding="16dp"
             android:src="@drawable/arrow_expand" />
 
     </RelativeLayout>

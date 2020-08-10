@@ -5,10 +5,10 @@
     tools:showIn="@layout/fragment_chat">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface">
+        android:background="?attr/colorSurface"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/fragment_input_container"

@@ -34,34 +34,34 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             tools:text="Title" />
 
-            <com.google.android.material.card.MaterialCardView
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="1dp"
+            app:contentPadding="0dp">
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/item_poll_answer_progress"
+                style="?android:attr/progressBarStyleHorizontal"
                 android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:indeterminate="false"
+                android:progress="80"
+                android:progressDrawable="@drawable/progress_drawable" />
+
+            <TextView
+                android:id="@+id/item_poll_answer_count"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="1dp"
-                app:contentPadding="0dp">
-
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/item_poll_answer_progress"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="24dp"
-                    android:indeterminate="false"
-                    android:progress="80"
-                    android:progressDrawable="@drawable/progress_drawable" />
-
-                <TextView
-                    android:id="@+id/item_poll_answer_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:gravity="center"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    tools:text="34" />
-            </com.google.android.material.card.MaterialCardView>
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:text="34" />
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </LinearLayout>

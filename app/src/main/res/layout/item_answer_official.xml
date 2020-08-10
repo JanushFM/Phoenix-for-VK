@@ -32,7 +32,7 @@
 
     <LinearLayout
         android:id="@+id/content_root"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
         android:orientation="horizontal"

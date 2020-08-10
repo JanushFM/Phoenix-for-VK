@@ -564,6 +564,7 @@ public class AttachmentsViewBinder {
                 ImageView ivGraffity = itemView.findViewById(R.id.item_document_graffity);
                 ImageView ivPhoto_Post = itemView.findViewById(R.id.item_post_avatar_image);
                 ImageView ivType = itemView.findViewById(R.id.item_document_type);
+                TextView tvShowMore = itemView.findViewById(R.id.item_post_show_more);
 
                 String title = doc.getTitle(mContext);
                 String details = doc.getSecondaryText(mContext);
@@ -580,9 +581,10 @@ public class AttachmentsViewBinder {
                     tvTitle.setVisibility(View.VISIBLE);
                 }
                 if (doc.getType() == Types.POST) {
+                    tvShowMore.setVisibility(subtitle.length() > 400 ? View.VISIBLE : View.GONE);
                     tvDetails.setVisibility(View.GONE);
                     tvPostText.setVisibility(View.VISIBLE);
-                    tvPostText.setText(OwnerLinkSpanFactory.withSpans(subtitle, true, false, new LinkActionAdapter() {
+                    tvPostText.setText(OwnerLinkSpanFactory.withSpans(AppTextUtils.reduceStringForPost(subtitle), true, false, new LinkActionAdapter() {
                         @Override
                         public void onOwnerClick(int ownerId) {
                             mAttachmentsActionCallback.onOpenOwner(ownerId);
@@ -591,6 +593,7 @@ public class AttachmentsViewBinder {
                 } else {
                     tvDetails.setVisibility(View.VISIBLE);
                     tvPostText.setVisibility(View.GONE);
+                    tvShowMore.setVisibility(View.GONE);
 
                     if (isEmpty(subtitle)) {
                         tvDetails.setVisibility(View.GONE);
@@ -937,6 +940,15 @@ public class AttachmentsViewBinder {
                 holder.tvTitle.setText(audio.getArtist());
                 holder.tvSubtitle.setText(audio.getTitle());
 
+                if (!audio.isHLS()) {
+                    holder.quality.setVisibility(View.VISIBLE);
+                    if (audio.getIsHq())
+                        holder.quality.setImageResource(R.drawable.high_quality);
+                    else
+                        holder.quality.setImageResource(R.drawable.low_quality);
+                } else
+                    holder.quality.setVisibility(View.GONE);
+
                 updateAudioStatus(holder, audio);
                 int finalG = g;
                 AtomicInteger PlayState = new AtomicInteger(MusicUtils.AudioStatus(audio));
@@ -1245,6 +1257,7 @@ public class AttachmentsViewBinder {
         ImageView saved;
         ImageView lyric;
         ImageView my;
+        ImageView quality;
         View Track;
         MaterialCardView selectionView;
         MaterialCardView isSelectedView;
@@ -1266,6 +1279,7 @@ public class AttachmentsViewBinder {
             selectionView = root.findViewById(R.id.item_audio_selection);
             isSelectedView = root.findViewById(R.id.item_audio_select_add);
             isSelectedView.setVisibility(View.GONE);
+            quality = root.findViewById(R.id.quality);
             visual = root.findViewById(R.id.item_audio_visual);
             animationAdapter = new WeakViewAnimatorAdapter<View>(selectionView) {
                 @Override

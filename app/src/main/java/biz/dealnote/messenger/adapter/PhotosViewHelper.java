@@ -136,14 +136,11 @@ public class PhotosViewHelper {
         }
 
         if (container instanceof MozaikLayout) {
-            if (Settings.get().main().isOver_ten_attach()) {
-                if (photos.size() > 10) {
-                    ArrayList<PostImage> images = new ArrayList<>(10);
-                    for (int s = 0; s < 10; s++)
-                        images.add(photos.get(s));
-                    ((MozaikLayout) container).setPhotos(images);
-                } else
-                    ((MozaikLayout) container).setPhotos(photos);
+            if (photos.size() > 10) {
+                ArrayList<PostImage> images = new ArrayList<>(10);
+                for (int s = 0; s < 10; s++)
+                    images.add(photos.get(s));
+                ((MozaikLayout) container).setPhotos(images);
             } else
                 ((MozaikLayout) container).setPhotos(photos);
         }

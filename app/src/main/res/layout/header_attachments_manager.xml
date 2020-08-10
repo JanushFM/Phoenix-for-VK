@@ -67,7 +67,7 @@
 
         <biz.dealnote.messenger.view.emoji.EmojiconEditText
             android:id="@+id/fragment_create_post_text"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:gravity="top"
