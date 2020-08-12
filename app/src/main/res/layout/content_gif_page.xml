@@ -26,7 +26,7 @@
     </biz.dealnote.messenger.view.FlingRelativeLayout>
 
 
-    <androidx.core.widget.ContentLoadingProgressBar
+    <ProgressBar
         android:id="@+id/preparing_progress_bar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
