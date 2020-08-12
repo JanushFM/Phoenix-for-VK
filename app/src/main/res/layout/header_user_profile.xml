@@ -125,16 +125,14 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <RelativeLayout
+                    <FrameLayout
                         android:id="@+id/fragment_user_profile_avatar_container"
                         android:layout_width="@dimen/avatar_size_big"
-                        android:layout_height="@dimen/avatar_size_big"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true">
+                        android:layout_height="@dimen/avatar_size_big">
 
                         <ImageView
                             android:id="@+id/avatar"
@@ -147,8 +145,7 @@
                             android:id="@+id/item_verified"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_alignTop="@+id/avatar"
-                            android:layout_alignEnd="@+id/avatar"
+                            android:layout_gravity="top|end"
                             android:layout_marginStart="4dp"
                             android:layout_marginTop="4dp"
                             android:background="@drawable/sel_button_round_5_white"
@@ -163,20 +160,17 @@
                             android:id="@+id/header_navi_menu_online"
                             android:layout_width="@dimen/online_dot_size_big"
                             android:layout_height="@dimen/online_dot_size_big"
-                            android:layout_alignStart="@+id/avatar"
-                            android:layout_alignBottom="@+id/avatar"
+                            android:layout_gravity="bottom|start"
                             android:layout_marginStart="4dp"
                             android:layout_marginBottom="4dp"
                             android:padding="4dp"
                             app:circle_color="?icon_color_active" />
 
-                    </RelativeLayout>
+                    </FrameLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignTop="@+id/fragment_user_profile_avatar_container"
-                        android:layout_toEndOf="@+id/fragment_user_profile_avatar_container"
                         android:gravity="end|center_vertical"
                         android:orientation="vertical">
 
@@ -235,7 +229,7 @@
 
                     </LinearLayout>
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

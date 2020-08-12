@@ -39,7 +39,7 @@
         android:paddingBottom="8dp"
         android:stateListAnimator="@animator/clicked">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/avatar_root"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -48,16 +48,13 @@
                 android:id="@+id/item_chat_avatar"
                 android:layout_width="@dimen/avatar_size_chat"
                 android:layout_height="@dimen/avatar_size_chat"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
                 android:stateListAnimator="@animator/clicked" />
 
             <ImageView
                 android:id="@+id/item_verified"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_alignTop="@+id/item_chat_avatar"
-                android:layout_alignEnd="@+id/item_chat_avatar"
+                android:layout_gravity="top|end"
                 android:background="@drawable/sel_button_round_5_white"
                 android:backgroundTint="#009900"
                 android:backgroundTintMode="add"
@@ -70,8 +67,7 @@
                 android:id="@+id/empty_avatar_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
                 android:text="@string/voice_click"
@@ -83,9 +79,8 @@
             <biz.dealnote.messenger.view.OnlineView
                 android:id="@+id/item_chat_online"
                 android:layout_width="16dp"
+                android:layout_gravity="bottom|start"
                 android:layout_height="16dp"
-                android:layout_alignStart="@+id/item_chat_avatar"
-                android:layout_alignBottom="@+id/item_chat_avatar"
                 android:padding="3dp"
                 app:circle_color="?icon_color_active"
                 app:stroke_color="?android:colorBackground" />
@@ -94,12 +89,11 @@
                 android:id="@+id/item_blacklisted"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_alignEnd="@+id/item_chat_avatar"
-                android:layout_alignBottom="@+id/item_chat_avatar"
+                android:layout_gravity="bottom|end"
                 android:src="@drawable/audio_died"
                 android:visibility="gone"
                 app:tint="?icon_color_inactive" />
-        </RelativeLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/dialog_content"

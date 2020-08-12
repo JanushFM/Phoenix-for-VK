@@ -7,7 +7,7 @@
     android:background="?attr/selectableItemBackground"
     android:minHeight="64dp">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/avatar_root"
         android:layout_width="@dimen/avatar_size_usual"
         android:layout_height="@dimen/avatar_size_usual"
@@ -23,8 +23,7 @@
             android:id="@+id/item_verified"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_alignTop="@+id/item_people_avatar"
-            android:layout_alignEnd="@+id/item_people_avatar"
+            android:layout_gravity="top|end"
             android:background="@drawable/sel_button_round_5_white"
             android:backgroundTint="#009900"
             android:backgroundTintMode="add"
@@ -37,16 +36,14 @@
             android:id="@+id/item_blacklisted"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignEnd="@+id/item_people_avatar"
-            android:layout_alignBottom="@+id/item_people_avatar"
+            android:layout_gravity="bottom|end"
             android:src="@drawable/audio_died"
             android:visibility="gone"
             app:tint="?icon_color_inactive" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

@@ -13,18 +13,16 @@
     android:paddingEnd="8dp"
     android:paddingBottom="4dp">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/check"
-        app:tint="?colorOnSurface" />
-
     <TextView
         android:id="@+id/counter"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+        app:drawableStartCompat="@drawable/check"
+        app:drawableTint="?colorOnSurface"
         tools:text="14" />
 
 </LinearLayout>

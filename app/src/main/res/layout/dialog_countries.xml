@@ -4,23 +4,26 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <FrameLayout
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:paddingStart="16dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="4dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?messages_background_color"
             android:hint="@string/type_here_to_start_searching"
-            android:inputType="text"
-            android:padding="8dp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="@dimen/font_size_title" />
+            android:inputType="textAutoCorrect|textCapWords"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:textColor="?android:attr/textColorPrimary" />
 
-    </FrameLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <FrameLayout
         android:layout_width="match_parent"

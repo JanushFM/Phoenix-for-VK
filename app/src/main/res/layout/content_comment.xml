@@ -57,7 +57,8 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -65,9 +66,7 @@
                 android:id="@+id/item_comment_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignWithParentIfMissing="false"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 tools:text="time" />
 
@@ -75,9 +74,8 @@
                 android:id="@+id/item_comment_like_root"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
-                android:layout_toEndOf="@+id/item_comment_time"
                 android:gravity="center">
 
                 <TextView
@@ -101,9 +99,8 @@
                 android:id="@+id/item_comment_thread_counter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="8dp"
-                android:layout_toEndOf="@+id/item_comment_like_root"
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:textAllCaps="true"
@@ -115,7 +112,7 @@
                 tools:text="58" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -22,8 +22,7 @@
         android:paddingStart="8dp"
         android:paddingTop="2dp"
         android:paddingEnd="8dp"
-        android:paddingBottom="2dp"
-        android:weightSum="1">
+        android:paddingBottom="2dp">
 
         <TextView
             android:id="@+id/item_fwd_message_username"

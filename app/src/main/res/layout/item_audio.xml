@@ -9,11 +9,42 @@
     android:paddingEnd="6dp"
     android:paddingBottom="4dp">
 
+    <FrameLayout
+        android:id="@+id/item_audio_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/item_audio_play_cover"
+            android:layout_width="42dp"
+            android:layout_height="42dp" />
+
+        <ImageView
+            android:id="@+id/item_audio_play_icon"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:padding="8dp"
+            android:src="@drawable/song" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/item_audio_visual"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:lottie_autoPlay="false"
+            app:lottie_fileName="play_visual.json"
+            app:lottie_loop="false" />
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/track_option"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_alignBottom="@id/item_audio_play"
+        android:layout_alignParentTop="true"
         android:layout_toStartOf="@id/info_block"
         android:layout_toEndOf="@+id/item_audio_play"
         android:gravity="center_vertical"
@@ -113,64 +144,31 @@
 
     </TableLayout>
 
-    <FrameLayout
-        android:id="@+id/item_audio_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true">
-
-        <ImageView
-            android:id="@+id/item_audio_play_cover"
-            android:layout_width="42dp"
-            android:layout_height="42dp" />
-
-        <ImageView
-            android:id="@+id/item_audio_play_icon"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:padding="8dp"
-            android:src="@drawable/song" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/item_audio_visual"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            app:lottie_autoPlay="false"
-            app:lottie_fileName="play_visual.json"
-            app:lottie_loop="false" />
-    </FrameLayout>
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_audio_selection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/track_option"
-        android:layout_alignTop="@+id/track_option"
-        android:layout_alignEnd="@+id/track_option"
-        android:layout_alignBottom="@+id/track_option"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:alpha="0.5"
         android:orientation="horizontal"
+        android:layout_alignTop="@+id/item_audio_play"
+        android:layout_alignBottom="@+id/item_audio_play"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/item_audio_select_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/track_option"
-        android:layout_alignTop="@+id/track_option"
-        android:layout_alignEnd="@+id/track_option"
-        android:layout_alignBottom="@+id/track_option"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:alpha="0.5"
         android:orientation="horizontal"
+        android:layout_alignTop="@+id/item_audio_play"
+        android:layout_alignBottom="@+id/item_audio_play"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 </RelativeLayout>

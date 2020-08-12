@@ -64,7 +64,7 @@ public class SelectCityDialog extends AccountDependencyDialogFragment implements
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        requireDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         View root = inflater.inflate(R.layout.dialog_country_or_city_select, container, false);
 

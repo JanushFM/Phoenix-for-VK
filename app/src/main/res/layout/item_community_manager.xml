@@ -12,7 +12,7 @@
     android:paddingEnd="16dp"
     android:paddingBottom="12dp">
 
-    <RelativeLayout
+    <FrameLayout
         android:id="@+id/avatar_root"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -20,20 +20,18 @@
         <ImageView
             android:id="@+id/avatar"
             android:layout_width="@dimen/avatar_size_usual"
-            android:layout_height="@dimen/avatar_size_usual"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true" />
+            android:layout_height="@dimen/avatar_size_usual" />
 
         <biz.dealnote.messenger.view.OnlineView
             android:id="@+id/online"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_alignBottom="@+id/avatar"
+            android:layout_gravity="bottom"
             android:padding="3dp"
             app:circle_color="?icon_color_active"
             app:stroke_color="?android:colorBackground" />
 
-    </RelativeLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,7 +30,7 @@ public class InputViewController {
     private final Context mActivity;
     private final OnInputActionCallback callback;
     private final EmojiconEditText mInputField;
-    private final RelativeLayout rlEmojiContainer;
+    private final LinearLayout rlEmojiContainer;
     private final ImageView ibEmoji;
     private final ImageView ibAttach;
     private final ViewGroup vgInputViewHolder;
