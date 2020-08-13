@@ -4,14 +4,14 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
-import androidx.appcompat.widget.AppCompatImageView;
+import com.google.android.material.imageview.ShapeableImageView;
 
 import biz.dealnote.messenger.R;
 
 /**
  * Maintains an aspect ratio based on either width or height. Disabled by default.
  */
-public class AspectRatioImageView extends AppCompatImageView {
+public class AspectRatioImageView extends ShapeableImageView {
 
     // NOTE: These must be kept in sync with the AspectRatioImageView attributes in attrs.xml.
     public static final int MEASUREMENT_WIDTH = 0;

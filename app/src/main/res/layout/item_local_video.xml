@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
+    style="@style/CardViewMD2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
     android:foreground="?android:attr/selectableItemBackground"
     tools:ignore="UnusedAttribute">
 
@@ -26,7 +26,9 @@
                 app:aspectRatioEnabled="true"
                 app:aspectRatioH="9"
                 app:aspectRatioW="16"
-                app:dominantMeasurement="width" />
+                android:padding="1dp"
+                app:dominantMeasurement="width"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.RoundedPhotoVideo" />
 
             <LinearLayout
                 android:id="@+id/selected"

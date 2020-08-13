@@ -30,6 +30,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.squareup.picasso.Transformation;
 
@@ -556,11 +557,10 @@ public class AttachmentsViewBinder {
                 itemView.setVisibility(View.VISIBLE);
                 itemView.setTag(doc);
 
-                MaterialCardView backCardT = itemView.findViewById(R.id.card_view);
                 TextView tvTitle = itemView.findViewById(R.id.item_document_title);
                 TextView tvDetails = itemView.findViewById(R.id.item_document_ext_size);
                 EmojiconTextView tvPostText = itemView.findViewById(R.id.item_message_text);
-                ImageView ivPhotoT = itemView.findViewById(R.id.item_document_image);
+                ShapeableImageView ivPhotoT = itemView.findViewById(R.id.item_document_image);
                 ImageView ivGraffity = itemView.findViewById(R.id.item_document_graffity);
                 ImageView ivPhoto_Post = itemView.findViewById(R.id.item_post_avatar_image);
                 ImageView ivType = itemView.findViewById(R.id.item_document_type);
@@ -622,17 +622,17 @@ public class AttachmentsViewBinder {
                     case Types.DOC:
                         if (imageUrl != null) {
                             ivType.setVisibility(View.GONE);
-                            backCardT.setVisibility(View.VISIBLE);
+                            ivPhotoT.setVisibility(View.VISIBLE);
                             ViewUtils.displayAvatar(ivPhotoT, null, imageUrl, Constants.PICASSO_TAG);
                         } else {
                             ivType.setVisibility(View.VISIBLE);
-                            backCardT.setVisibility(View.GONE);
+                            ivPhotoT.setVisibility(View.GONE);
                             Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
                             ivType.setImageResource(R.drawable.file);
                         }
                         break;
                     case Types.GRAFFITY:
-                        backCardT.setVisibility(View.GONE);
+                        ivPhotoT.setVisibility(View.GONE);
                         if (imageUrl != null) {
                             ivType.setVisibility(View.GONE);
                             ivGraffity.setVisibility(View.VISIBLE);
@@ -646,27 +646,27 @@ public class AttachmentsViewBinder {
                     case Types.AUDIO_PLAYLIST:
                         if (imageUrl != null) {
                             ivType.setVisibility(View.VISIBLE);
-                            backCardT.setVisibility(View.VISIBLE);
+                            ivPhotoT.setVisibility(View.VISIBLE);
                             ViewUtils.displayAvatar(ivPhotoT, null, imageUrl, Constants.PICASSO_TAG);
                             Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
                             ivType.setImageResource(R.drawable.audio_player);
                         } else {
-                            backCardT.setVisibility(View.GONE);
+                            ivPhotoT.setVisibility(View.GONE);
                         }
                         break;
                     case Types.ALBUM:
                         if (imageUrl != null) {
                             ivType.setVisibility(View.VISIBLE);
-                            backCardT.setVisibility(View.VISIBLE);
+                            ivPhotoT.setVisibility(View.VISIBLE);
                             ViewUtils.displayAvatar(ivPhotoT, null, imageUrl, Constants.PICASSO_TAG);
                             Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
                             ivType.setImageResource(R.drawable.album_photo);
                         } else {
-                            backCardT.setVisibility(View.GONE);
+                            ivPhotoT.setVisibility(View.GONE);
                         }
                         break;
                     case Types.STORY:
-                        backCardT.setVisibility(View.GONE);
+                        ivPhotoT.setVisibility(View.GONE);
                         ivType.setVisibility(View.GONE);
                         if (imageUrl != null) {
                             ivPhoto_Post.setVisibility(View.VISIBLE);
@@ -677,14 +677,14 @@ public class AttachmentsViewBinder {
                         Story st = (Story) doc.attachment;
                         String prw = st.getPhoto() != null ? st.getPhoto().getUrlForSize(PhotoSize.X, true) : (st.getVideo() != null ? st.getVideo().getImage() : null);
                         if (prw != null) {
-                            backCardT.setVisibility(View.VISIBLE);
+                            ivPhotoT.setVisibility(View.VISIBLE);
                             ViewUtils.displayAvatar(ivPhotoT, null, prw, Constants.PICASSO_TAG);
                         } else {
-                            backCardT.setVisibility(View.GONE);
+                            ivPhotoT.setVisibility(View.GONE);
                         }
                         break;
                     case Types.POST:
-                        backCardT.setVisibility(View.GONE);
+                        ivPhotoT.setVisibility(View.GONE);
                         ivType.setVisibility(View.GONE);
                         if (imageUrl != null) {
                             ivPhoto_Post.setVisibility(View.VISIBLE);
@@ -702,29 +702,29 @@ public class AttachmentsViewBinder {
                     case Types.WIKI_PAGE:
                         ivType.setVisibility(View.VISIBLE);
                         if (imageUrl != null) {
-                            backCardT.setVisibility(View.VISIBLE);
+                            ivPhotoT.setVisibility(View.VISIBLE);
                             ViewUtils.displayAvatar(ivPhotoT, null, imageUrl, Constants.PICASSO_TAG);
                         } else {
-                            backCardT.setVisibility(View.GONE);
+                            ivPhotoT.setVisibility(View.GONE);
                         }
                         Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
                         ivType.setImageResource(R.drawable.attachment);
                         break;
                     case Types.POLL:
                         ivType.setVisibility(View.VISIBLE);
-                        backCardT.setVisibility(View.GONE);
+                        ivPhotoT.setVisibility(View.GONE);
                         Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
                         ivType.setImageResource(R.drawable.chart_bar);
                         break;
                     case Types.CALL:
                         ivType.setVisibility(View.VISIBLE);
-                        backCardT.setVisibility(View.GONE);
+                        ivPhotoT.setVisibility(View.GONE);
                         Utils.setColorFilter(ivType.getBackground(), CurrentTheme.getColorPrimary(mContext));
                         ivType.setImageResource(R.drawable.phone_call);
                         break;
                     default:
                         ivType.setVisibility(View.GONE);
-                        backCardT.setVisibility(View.GONE);
+                        ivPhotoT.setVisibility(View.GONE);
                         break;
                 }
 

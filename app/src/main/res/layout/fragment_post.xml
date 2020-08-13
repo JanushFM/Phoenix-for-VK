@@ -9,9 +9,10 @@
 
     <include layout="@layout/toolbar" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/post_content"
@@ -86,87 +87,81 @@
                 </LinearLayout>
             </ScrollView>
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/buttons_bar_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                android:paddingBottom="4dp">
 
                 <include layout="@layout/line_divider" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+                <biz.dealnote.messenger.view.CircleCounterButton
+                    android:id="@+id/like_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    custom:active_background_color="?attr/icon_color_active"
+                    custom:always_counter="true"
+                    custom:button_icon="@drawable/heart"
+                    custom:noactive_icon_color="?attr/colorOnSurface" />
 
-                    <biz.dealnote.messenger.view.CircleCounterButton
-                        android:id="@+id/like_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:focusable="true"
-                        custom:active_background_color="?attr/icon_color_active"
-                        custom:always_counter="true"
-                        custom:button_icon="@drawable/heart"
-                        custom:noactive_icon_color="?attr/colorOnSurface" />
+                <biz.dealnote.messenger.view.CircleCounterButton
+                    android:id="@+id/comments_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/share_button"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    custom:active="false"
+                    custom:active_background_color="?attr/icon_color_active"
+                    custom:always_counter="true"
+                    custom:button_icon="@drawable/comment"
+                    custom:noactive_icon_color="?attr/colorOnSurface" />
 
-                    <biz.dealnote.messenger.view.CircleCounterButton
-                        android:id="@+id/comments_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toStartOf="@+id/share_button"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:focusable="true"
-                        custom:active="false"
-                        custom:active_background_color="?attr/icon_color_active"
-                        custom:always_counter="true"
-                        custom:button_icon="@drawable/comment"
-                        custom:noactive_icon_color="?attr/colorOnSurface" />
+                <biz.dealnote.messenger.view.CircleCounterButton
+                    android:id="@+id/share_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    custom:active_background_color="?attr/icon_color_active"
+                    custom:always_counter="true"
+                    custom:button_icon="@drawable/ic_outline_share"
+                    custom:noactive_icon_color="?attr/colorOnSurface" />
 
-                    <biz.dealnote.messenger.view.CircleCounterButton
-                        android:id="@+id/share_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="8dp"
-                        android:background="?attr/selectableItemBackgroundBorderless"
-                        android:clickable="true"
-                        android:focusable="true"
-                        custom:active_background_color="?attr/icon_color_active"
-                        custom:always_counter="true"
-                        custom:button_icon="@drawable/ic_outline_share"
-                        custom:noactive_icon_color="?attr/colorOnSurface" />
-
-                </RelativeLayout>
-            </LinearLayout>
+            </RelativeLayout>
         </RelativeLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/fragment_post_deleted"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/deleted_post" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/post_loading_root"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="gone">
@@ -192,6 +187,6 @@
                 android:textAllCaps="true" />
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

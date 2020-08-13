@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.material.imageview.ShapeableImageView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -218,7 +220,7 @@ public class PhotosViewHelper {
 
     private static class Holder {
 
-        final ImageView vgPhoto;
+        final ShapeableImageView vgPhoto;
         final ImageView ivPlay;
         final TextView tvTitle;
 

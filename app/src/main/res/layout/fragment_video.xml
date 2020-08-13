@@ -48,7 +48,7 @@
                         app:cardCornerRadius="4dp"
                         app:cardElevation="1dp">
 
-                        <RelativeLayout
+                        <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
@@ -67,7 +67,7 @@
                                 android:id="@+id/button_play"
                                 android:layout_width="56dp"
                                 android:layout_height="56dp"
-                                android:layout_centerInParent="true"
+                                android:layout_gravity="center"
                                 android:background="?attr/selectableItemBackgroundBorderless"
                                 android:stateListAnimator="@animator/clicked">
 
@@ -87,7 +87,7 @@
 
                             </FrameLayout>
 
-                        </RelativeLayout>
+                        </FrameLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 

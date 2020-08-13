@@ -2,6 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardViewMD2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp">
@@ -12,9 +13,10 @@
         android:background="?message_bubble_color"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="1dp">
 
             <biz.dealnote.messenger.view.AspectRatioImageView
                 android:id="@+id/item_attachment_image"
@@ -26,23 +28,21 @@
                 app:aspectRatioEnabled="true"
                 app:aspectRatioH="1"
                 app:aspectRatioW="1"
-                app:dominantMeasurement="width" />
+                app:dominantMeasurement="width"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.RoundedPhotoVideo" />
 
             <ImageView
                 android:id="@+id/item_attachment_tint"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignStart="@+id/item_attachment_image"
-                android:layout_alignTop="@+id/item_attachment_image"
-                android:layout_alignEnd="@+id/item_attachment_image"
-                android:layout_alignBottom="@+id/item_attachment_image"
+                android:layout_gravity="center"
                 android:background="#9b000000" />
 
             <FrameLayout
                 android:id="@+id/item_attachment_progress_root"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true">
+                android:layout_gravity="center">
 
                 <ImageView
                     android:layout_width="48dp"
@@ -66,7 +66,7 @@
 
             </FrameLayout>
 
-        </RelativeLayout>
+        </FrameLayout>
 
         <View
             android:layout_width="match_parent"

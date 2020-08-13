@@ -371,7 +371,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
 
         ImageView image;
         TextView title;
-        View buttomRemove;
+        ViewGroup buttomRemove;
         CircleRoadProgress progress;
         ImageView Retry;
         View tintView;

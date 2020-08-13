@@ -14,28 +14,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_view"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/item_document_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="1dp"
-        app:contentPadding="0dp">
-
-        <ImageView
-            android:id="@+id/item_document_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="96dp"
-            android:minHeight="96dp"
-            android:scaleType="centerCrop" />
-    </com.google.android.material.card.MaterialCardView>
+        android:minWidth="96dp"
+        android:minHeight="96dp"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRounded" />
 
     <ImageView
         android:id="@+id/item_document_graffity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="4dp"
         android:minWidth="96dp"
         android:minHeight="96dp"
         android:scaleType="centerCrop" />
