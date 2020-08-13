@@ -59,7 +59,7 @@ public abstract class AbsChatAttachmentsFragment<T, P extends BaseChatAttachment
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(getPresenter()::fireRefresh);
 
-        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout, true);
+        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
         mAdapter = createAdapter();
         mRecyclerView.setAdapter(mAdapter);

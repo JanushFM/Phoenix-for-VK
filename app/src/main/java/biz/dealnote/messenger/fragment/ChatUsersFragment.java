@@ -80,7 +80,7 @@ public class ChatUsersFragment extends BaseMvpFragment<ChatMembersPresenter, ICh
 
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> getPresenter().fireRefresh());
-        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout, true);
+        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
         FloatingActionButton fabAdd = root.findViewById(R.id.fragment_chat_users_add);
         fabAdd.setOnClickListener(v -> getPresenter().fireAddUserClick());

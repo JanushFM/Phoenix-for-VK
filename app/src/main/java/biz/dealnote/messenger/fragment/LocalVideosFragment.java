@@ -57,7 +57,7 @@ public class LocalVideosFragment extends BaseMvpFragment<LocalVideosPresenter, I
 
         mSwipeRefreshLayout = view.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout, true);
+        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
         int columnCount = getResources().getInteger(R.integer.local_gallery_column_count);
         RecyclerView.LayoutManager manager = new GridLayoutManager(requireActivity(), columnCount);

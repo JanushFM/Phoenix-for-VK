@@ -79,7 +79,7 @@ public class FeedbackFragment extends PlaceSupportMvpFragment<FeedbackPresenter,
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout, true);
+        ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(requireActivity());
         RecyclerView recyclerView = root.findViewById(R.id.recycleView);
