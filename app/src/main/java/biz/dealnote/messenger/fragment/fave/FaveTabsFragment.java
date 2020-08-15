@@ -37,6 +37,7 @@ public class FaveTabsFragment extends BaseFragment {
     public static final int TAB_POSTS = 2;
     public static final int TAB_PAGES = 3;
     public static final int TAB_LINKS = 4;
+    public static final int TAB_ARTICLES = 5;
     private int mAccountId;
 
     public static Bundle buildArgs(int accountId, int tab) {
@@ -72,6 +73,8 @@ public class FaveTabsFragment extends BaseFragment {
                 return TAB_PAGES;
             case FaveLink.SECTION_LINKS:
                 return TAB_LINKS;
+            case FaveLink.SECTION_ARTICLES:
+                return TAB_ARTICLES;
             default:
                 return TAB_UNKNOWN;
         }
@@ -139,6 +142,7 @@ public class FaveTabsFragment extends BaseFragment {
         tabs.add(new Tab(() -> FavePostsFragment.newInstance(getAccountId()), getString(R.string.posts)));
         tabs.add(new Tab(() -> FavePhotosFragment.newInstance(getAccountId()), getString(R.string.photos)));
         tabs.add(new Tab(() -> FaveVideosFragment.newInstance(getAccountId()), getString(R.string.videos)));
+        tabs.add(new Tab(() -> FaveArticlesFragment.newInstance(getAccountId()), getString(R.string.articles)));
         Adapter adapter = new Adapter(tabs, this);
         viewPager.setAdapter(adapter);
 

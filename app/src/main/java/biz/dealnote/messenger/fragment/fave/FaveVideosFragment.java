@@ -20,7 +20,7 @@ import java.util.List;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
-import biz.dealnote.messenger.adapter.VideosAdapter;
+import biz.dealnote.messenger.adapter.fave.FaveVideosAdapter;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.listener.EndlessRecyclerOnScrollListener;
 import biz.dealnote.messenger.listener.PicassoPauseOnScrollListener;
@@ -34,10 +34,10 @@ import biz.dealnote.mvp.core.IPresenterFactory;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class FaveVideosFragment extends BaseMvpFragment<FaveVideosPresenter, IFaveVideosView>
-        implements IFaveVideosView, SwipeRefreshLayout.OnRefreshListener, VideosAdapter.VideoOnClickListener {
+        implements IFaveVideosView, SwipeRefreshLayout.OnRefreshListener, FaveVideosAdapter.VideoOnClickListener {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private VideosAdapter mAdapter;
+    private FaveVideosAdapter mAdapter;
     private TextView mEmpty;
     private boolean isRequestLast;
 
@@ -75,7 +75,7 @@ public class FaveVideosFragment extends BaseMvpFragment<FaveVideosPresenter, IFa
         mSwipeRefreshLayout.setOnRefreshListener(this);
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);
 
-        mAdapter = new VideosAdapter(requireActivity(), Collections.emptyList());
+        mAdapter = new FaveVideosAdapter(requireActivity(), Collections.emptyList());
         mAdapter.setVideoOnClickListener(this);
         recyclerView.setAdapter(mAdapter);
 
@@ -91,6 +91,11 @@ public class FaveVideosFragment extends BaseMvpFragment<FaveVideosPresenter, IFa
     @Override
     public void onVideoClick(int position, Video video) {
         getPresenter().fireVideoClick(video);
+    }
+
+    @Override
+    public void onDelete(int index, Video video) {
+        getPresenter().fireVideoDelete(index, video);
     }
 
     @Override

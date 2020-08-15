@@ -68,7 +68,7 @@ public class FavePhotoPagerPresenter extends PhotoPagerPresenter {
             mUpdated[index] = true;
 
             if (getCurrentIndex() == index) {
-                refreshInfoViews();
+                refreshInfoViews(true);
             }
         }
     }

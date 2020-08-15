@@ -22,11 +22,11 @@
                 android:id="@+id/item_video_album_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="1dp"
                 android:scaleType="centerCrop"
                 app:aspectRatioEnabled="true"
                 app:aspectRatioH="9"
                 app:aspectRatioW="16"
-                android:padding="1dp"
                 app:dominantMeasurement="width"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.RoundedPhotoVideo" />
 

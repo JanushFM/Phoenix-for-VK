@@ -326,4 +326,18 @@ class OtherSettings implements ISettings.IOtherSettings {
     public boolean isRunes_valknut() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("runes_valknut", false);
     }
+
+    @Override
+    public boolean isSymbolSelectShow() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("symbol_select_show", false);
+    }
+
+    @Override
+    public void setSymbolSelectShow(boolean show) {
+        PreferenceManager
+                .getDefaultSharedPreferences(app)
+                .edit()
+                .putBoolean("symbol_select_show", show)
+                .apply();
+    }
 }

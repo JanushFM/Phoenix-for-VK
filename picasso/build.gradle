@@ -21,10 +21,6 @@ android {
     }
 }
 
-ext {
-    okhttpLibraryVersion = '4.8.1'
-}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation "com.squareup.okhttp3:okhttp:$okhttpLibraryVersion"

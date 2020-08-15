@@ -14,8 +14,8 @@ public class AppGifPlayerFactory implements IGifPlayerFactory {
     }
 
     @Override
-    public IGifPlayer createGifPlayer(@NonNull String url) {
+    public IGifPlayer createGifPlayer(@NonNull String url, boolean isRepeat) {
         ProxyConfig config = proxySettings.getActiveProxy();
-        return new ExoGifPlayer(url, config);
+        return new ExoGifPlayer(url, config, isRepeat);
     }
 }

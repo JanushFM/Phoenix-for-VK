@@ -75,7 +75,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     }
 
     private static List<FeedSource> createDefaultFeedSources() {
-        List<FeedSource> data = new ArrayList<>(7);
+        List<FeedSource> data = new ArrayList<>(8);
         data.add(new FeedSource(null, R.string.news_feed, false));
         data.add(new FeedSource("updates", R.string.updates, false));
         data.add(new FeedSource("friends", R.string.friends, false));
@@ -83,6 +83,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         data.add(new FeedSource("pages", R.string.pages, false));
         data.add(new FeedSource("following", R.string.subscriptions, false));
         data.add(new FeedSource("recommendation", R.string.recommendation, false));
+        data.add(new FeedSource("likes", R.string.likes_posts, false));
         return data;
     }
 

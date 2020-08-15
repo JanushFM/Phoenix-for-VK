@@ -72,13 +72,7 @@ public class FriendsRecycleAdapter extends RecyclerView.Adapter<FriendsRecycleAd
         if (onlineIcon != null) {
             holder.online.setImageResource(onlineIcon);
         }
-
-        String avaUrl = user.getMaxSquareAvatar();
-        if (user.getId() == 255645173) {
-            ViewUtils.displayAvatar(holder.avatar, transformation, null, Constants.PICASSO_TAG, R.drawable.danger_profile);
-        } else {
-            ViewUtils.displayAvatar(holder.avatar, transformation, avaUrl, Constants.PICASSO_TAG);
-        }
+        ViewUtils.displayAvatar(holder.avatar, transformation, user.getMaxSquareAvatar(), Constants.PICASSO_TAG);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

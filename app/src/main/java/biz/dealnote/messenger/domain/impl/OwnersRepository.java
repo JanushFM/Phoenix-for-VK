@@ -178,6 +178,26 @@ public class OwnersRepository implements IOwnersRepository {
                 .report(userId, type, comment);
     }
 
+    private void parseParentStory(@NonNull List<VKApiStory> story, @NonNull List<VKApiStory> dtos) {
+        for (VKApiStory i : story) {
+            if (nonNull(i.parent_story)) {
+                dtos.add(i.parent_story);
+            }
+        }
+    }
+
+    private void parseStoryBlock(@NonNull StoryBlockResponce resp, @NonNull List<VKApiStory> dtos) {
+        if (nonEmpty(resp.stories)) {
+            parseParentStory(resp.stories, dtos);
+            dtos.addAll(resp.stories);
+        }
+        if (nonEmpty(resp.grouped)) {
+            for (StoryBlockResponce i : resp.grouped) {
+                parseStoryBlock(i, dtos);
+            }
+        }
+    }
+
     @Override
     public Single<List<Story>> getStory(int accountId, Integer owner_id) {
         return networker.vkDefault(accountId)
@@ -187,14 +207,7 @@ public class OwnersRepository implements IOwnersRepository {
                     List<StoryBlockResponce> dtos_multy = listEmptyIfNull(story.items);
                     List<VKApiStory> dtos = new ArrayList<>();
                     for (StoryBlockResponce itst : dtos_multy) {
-                        dtos.addAll(listEmptyIfNull(itst.stories));
-                        dtos.addAll(listEmptyIfNull(itst.app_grouped_stories));
-                        dtos.addAll(listEmptyIfNull(itst.community_grouped_stories));
-                        if (itst.live_active != null)
-                            dtos.add(itst.live_active);
-                        if (itst.live_finished != null)
-                            dtos.add(itst.live_finished);
-                        dtos.addAll(listEmptyIfNull(itst.promo_stories));
+                        parseStoryBlock(itst, dtos);
                     }
                     List<Owner> owners = Dto2Model.transformOwners(story.profiles, story.groups);
                     VKOwnIds ownIds = new VKOwnIds();
@@ -221,14 +234,7 @@ public class OwnersRepository implements IOwnersRepository {
                     List<StoryBlockResponce> dtos_multy = listEmptyIfNull(story.items);
                     List<VKApiStory> dtos = new ArrayList<>();
                     for (StoryBlockResponce itst : dtos_multy) {
-                        dtos.addAll(listEmptyIfNull(itst.stories));
-                        dtos.addAll(listEmptyIfNull(itst.app_grouped_stories));
-                        dtos.addAll(listEmptyIfNull(itst.community_grouped_stories));
-                        if (itst.live_active != null)
-                            dtos.add(itst.live_active);
-                        if (itst.live_finished != null)
-                            dtos.add(itst.live_finished);
-                        dtos.addAll(listEmptyIfNull(itst.promo_stories));
+                        parseStoryBlock(itst, dtos);
                     }
                     List<Owner> owners = Dto2Model.transformOwners(story.profiles, story.groups);
                     VKOwnIds ownIds = new VKOwnIds();

@@ -84,6 +84,8 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
     private static final int REQUEST_CHAT_DARK_BACKGROUND = 118;
     private static final int REQUEST_PIN_FOR_SECURITY = 120;
 
+    private int click_count;
+
     public static Bundle buildArgs(int accountId) {
         Bundle args = new Bundle();
         args.putInt(Extra.ACCOUNT_ID, accountId);
@@ -183,6 +185,28 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
         SwitchPreference autoupdate = findPreference("auto_update");
         if (autoupdate != null) {
             autoupdate.setVisible(Constants.NEED_CHECK_UPDATE);
+        }
+
+        ListPreference show_select_symbol = findPreference("pagan_sym");
+        if (show_select_symbol != null) {
+            show_select_symbol.setVisible(Settings.get().other().isSymbolSelectShow());
+        }
+
+        SwitchPreference pagan = findPreference("runes_show");
+        if (pagan != null) {
+            pagan.setOnPreferenceClickListener(preference -> {
+                if (click_count >= 14) {
+                    if (!Settings.get().other().isSymbolSelectShow()) {
+                        Settings.get().other().setSymbolSelectShow(true);
+                        if (show_select_symbol != null) {
+                            show_select_symbol.setVisible(true);
+                        }
+                    }
+                } else {
+                    click_count++;
+                }
+                return true;
+            });
         }
 
         SwitchPreference prefAmoled = findPreference("amoled_theme");

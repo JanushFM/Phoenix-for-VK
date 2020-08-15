@@ -983,7 +983,8 @@ public class Dto2Entity {
                 .setPhoto(nonNull(article.photo) ? mapPhoto(article.photo) : null)
                 .setTitle(article.title)
                 .setSubTitle(article.subtitle)
-                .setURL(article.url);
+                .setURL(article.url)
+                .setIsFavorite(article.is_favorite);
     }
 
     public static StoryEntity mapStory(@NonNull VKApiStory dto) {
@@ -993,6 +994,7 @@ public class Dto2Entity {
                 .setExpires(dto.expires_at)
                 .setIs_expired(dto.is_expired)
                 .setAccessKey(dto.access_key)
+                .setTarget_url(dto.target_url)
                 .setPhoto(dto.photo != null ? mapPhoto(dto.photo) : null)
                 .setVideo(dto.video != null ? mapVideo(dto.video) : null);
     }

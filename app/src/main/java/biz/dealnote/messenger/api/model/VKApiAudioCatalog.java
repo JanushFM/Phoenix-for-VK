@@ -34,6 +34,9 @@ public class VKApiAudioCatalog {
     @SerializedName("playlists")
     public List<VKApiAudioPlaylist> playlists;
 
+    @SerializedName("playlist")
+    public VKApiAudioPlaylist playlist;
+
     @SerializedName("videos")
     public List<VKApiVideo> videos;
 

@@ -10,8 +10,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.domain.ILikesInteractor;
+import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.fragment.search.SearchContentType;
 import biz.dealnote.messenger.fragment.search.criteria.NewsFeedCriteria;
+import biz.dealnote.messenger.model.Article;
 import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.model.Commented;
@@ -27,6 +29,7 @@ import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.WikiPage;
 import biz.dealnote.messenger.mvp.view.IAttachmentsPlacesView;
 import biz.dealnote.messenger.mvp.view.base.IAccountDependencyView;
+import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.core.IMvpView;
 
 public abstract class PlaceSupportPresenter<V extends IMvpView & IAttachmentsPlacesView & IAccountDependencyView>
@@ -102,6 +105,21 @@ public abstract class PlaceSupportPresenter<V extends IMvpView & IAttachmentsPla
 
     public void firePhotoAlbumClick(@NotNull PhotoAlbum album) {
         getView().openPhotoAlbum(getAccountId(), album);
+    }
+
+    public void fireFaveArticleClick(@NotNull Article article) {
+        if (!article.getIsFavorite()) {
+            appendDisposable(InteractorFactory.createFaveInteractor().addArticle(getAccountId(), article.getURL())
+                    .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                    .subscribe(RxUtils.dummy(), t -> {
+                    }));
+        } else {
+            appendDisposable(InteractorFactory.createFaveInteractor().removeArticle(getAccountId(), article.getOwnerId(), article.getId())
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(i -> {
+                    }, t -> {
+                    }));
+        }
     }
 
     public final void fireCopiesLikesClick(String type, int ownerId, int itemId, String filter) {

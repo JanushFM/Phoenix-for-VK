@@ -22,6 +22,7 @@ import biz.dealnote.messenger.db.column.CommentsColumns;
 import biz.dealnote.messenger.db.column.CountriesColumns;
 import biz.dealnote.messenger.db.column.DialogsColumns;
 import biz.dealnote.messenger.db.column.DocColumns;
+import biz.dealnote.messenger.db.column.FaveArticlesColumns;
 import biz.dealnote.messenger.db.column.FaveLinksColumns;
 import biz.dealnote.messenger.db.column.FavePageColumns;
 import biz.dealnote.messenger.db.column.FavePhotosColumns;
@@ -183,6 +184,7 @@ public class DBHelper extends SQLiteOpenHelper {
         createStickerSetTable(db);
         createFavePhotosTable(db);
         createFaveVideosTable(db);
+        createFaveArticlesTable(db);
         createFavePageTable(db);
         createFaveGroupsTable(db);
         createFaveLinksTable(db);
@@ -413,6 +415,18 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Создание таблицы закладок статей
+     *
+     * @param db БД
+     */
+    private void createFaveArticlesTable(SQLiteDatabase db) {
+        String create = "CREATE TABLE [" + FaveArticlesColumns.TABLENAME + "] (" +
+                " [" + BaseColumns._ID + "] INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " [" + FaveArticlesColumns.ARTICLE + "] BLOB);";
+        db.execSQL(create);
+    }
+
+    /**
      * Создание таблицы закладок постов
      *
      * @param db БД
@@ -461,8 +475,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + FaveLinksColumns.URL + "] TEXT, " +
                 " [" + FaveLinksColumns.TITLE + "] TEXT, " +
                 " [" + FaveLinksColumns.DESCRIPTION + "] TEXT, " +
-                " [" + FaveLinksColumns.PHOTO_50 + "] TEXT, " +
-                " [" + FaveLinksColumns.PHOTO_100 + "] TEXT, " +
+                " [" + FaveLinksColumns.PHOTO + "] BLOB, " +
                 " CONSTRAINT [] UNIQUE ([" + FaveLinksColumns.LINK_ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(create);
     }

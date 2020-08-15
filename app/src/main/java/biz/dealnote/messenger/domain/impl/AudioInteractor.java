@@ -95,7 +95,6 @@ public class AudioInteractor implements IAudioInteractor {
 
     @Override
     public Single<List<Audio>> get(int accountId, Integer album_id, int ownerId, int offset, String accessKey) {
-
         return networker.vkDefault(accountId)
                 .audio()
                 .get(album_id, ownerId, offset, accessKey)

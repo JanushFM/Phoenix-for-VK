@@ -13,6 +13,7 @@ import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.adapter.AttachmentsViewBinder;
 import biz.dealnote.messenger.link.LinkHelper;
+import biz.dealnote.messenger.model.Article;
 import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.model.Document;
@@ -178,6 +179,11 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
 
     @Override
     public void onStickerOpen(@NonNull Sticker sticker) {
+
+    }
+
+    @Override
+    public void onFaveArticle(@NonNull Article article) {
 
     }
 

@@ -774,7 +774,8 @@ public class Entity2Model {
                 .setPhoto(nonNull(dbo.getPhoto()) ? map(dbo.getPhoto()) : null)
                 .setTitle(dbo.getTitle())
                 .setSubTitle(dbo.getSubTitle())
-                .setURL(dbo.getURL());
+                .setURL(dbo.getURL())
+                .setIsFavorite(dbo.getIsFavorite());
     }
 
     public static Call buildCallFromDbo(CallEntity dbo) {
@@ -791,6 +792,7 @@ public class Entity2Model {
                 .setExpires(dbo.getExpires())
                 .setIs_expired(dbo.isIs_expired())
                 .setAccessKey(dbo.getAccessKey())
+                .setTarget_url(dbo.getTarget_url())
                 .setOwner(owners.getById(dbo.getOwnerId()))
                 .setPhoto(nonNull(dbo.getPhoto()) ? map(dbo.getPhoto()) : null)
                 .setVideo(dbo.getVideo() != null ? buildVideoFromDbo(dbo.getVideo()) : null);

@@ -51,19 +51,38 @@
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
 
-
-    <biz.dealnote.messenger.view.CircleCounterButton
-        android:id="@+id/button_download"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:stateListAnimator="@animator/clicked"
-        custom:active="true"
-        custom:active_background_color="?attr/icon_color_active"
-        custom:always_counter="false"
-        custom:button_icon="@drawable/download"
-        custom:noactive_icon_color="#fff" />
+        android:orientation="horizontal">
+
+        <biz.dealnote.messenger.view.CircleCounterButton
+            android:id="@+id/button_download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:stateListAnimator="@animator/clicked"
+            custom:active="true"
+            custom:active_background_color="?attr/icon_color_active"
+            custom:always_counter="false"
+            custom:button_icon="@drawable/download"
+            custom:noactive_icon_color="#fff" />
+
+        <biz.dealnote.messenger.view.CircleCounterButton
+            android:id="@+id/button_link"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="25"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:stateListAnimator="@animator/clicked"
+            custom:active="true"
+            custom:active_background_color="?attr/icon_color_active"
+            custom:always_counter="false"
+            custom:button_icon="@drawable/web"
+            custom:noactive_icon_color="#fff" />
+    </LinearLayout>
 
 </RelativeLayout>

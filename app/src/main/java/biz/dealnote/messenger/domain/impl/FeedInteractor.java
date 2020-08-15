@@ -54,10 +54,47 @@ public class FeedInteractor implements IFeedInteractor {
 
     @Override
     public Single<Pair<List<News>, String>> getActualFeed(int accountId, int count, String startFrom, String filters, Integer maxPhotos, String sourceIds) {
-        if (!"recommendation".equals(sourceIds)) {
+
+        if ("likes".equals(sourceIds)) {
             return networker.vkDefault(accountId)
                     .newsfeed()
-                    .get(filters, null, null, null, maxPhotos, "updates".equals(sourceIds) ? null : sourceIds, startFrom, count, Constants.MAIN_OWNER_FIELDS)
+                    .getFeedLikes(maxPhotos, startFrom, count, Constants.MAIN_OWNER_FIELDS)
+                    .flatMap(response -> {
+                        String nextFrom = response.nextFrom;
+                        List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
+                        List<VKApiNews> feed = listEmptyIfNull(response.items);
+                        List<NewsEntity> dbos = new ArrayList<>(feed.size());
+                        VKOwnIds ownIds = new VKOwnIds();
+                        for (VKApiNews news : feed) {
+                            if (news.source_id == 0 || news.type.equals("ads")) {
+                                continue;
+                            }
+                            dbos.add(Dto2Entity.mapNews(news));
+                            ownIds.appendNews(news);
+                        }
+                        OwnerEntities ownerEntities = Dto2Entity.mapOwners(response.profiles, response.groups);
+                        return stores.feed()
+                                .store(accountId, dbos, ownerEntities, Utils.isEmpty(startFrom))
+                                .flatMap(ints -> {
+                                    otherSettings.storeFeedNextFrom(accountId, nextFrom);
+                                    otherSettings.setFeedSourceIds(accountId, sourceIds);
+                                    return ownersRepository.findBaseOwnersDataAsBundle(accountId, ownIds.getAll(), IOwnersRepository.MODE_ANY, owners)
+                                            .map(owners1 -> {
+                                                List<News> news = new ArrayList<>(feed.size());
+                                                for (VKApiNews dto : feed) {
+                                                    if (dto.source_id == 0 || dto.type.equals("ads")) {
+                                                        continue;
+                                                    }
+                                                    news.add(Dto2Model.buildNews(dto, owners1));
+                                                }
+                                                return Pair.Companion.create(news, nextFrom);
+                                            });
+                                });
+                    });
+        } else if ("recommendation".equals(sourceIds)) {
+            return networker.vkDefault(accountId)
+                    .newsfeed()
+                    .getRecommended(null, null, maxPhotos, startFrom, count, Constants.MAIN_OWNER_FIELDS)
                     .flatMap(response -> {
                         String nextFrom = response.nextFrom;
                         List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);
@@ -93,7 +130,7 @@ public class FeedInteractor implements IFeedInteractor {
         } else {
             return networker.vkDefault(accountId)
                     .newsfeed()
-                    .getRecommended(null, null, maxPhotos, startFrom, count, Constants.MAIN_OWNER_FIELDS)
+                    .get(filters, null, null, null, maxPhotos, "updates".equals(sourceIds) ? null : sourceIds, startFrom, count, Constants.MAIN_OWNER_FIELDS)
                     .flatMap(response -> {
                         String nextFrom = response.nextFrom;
                         List<Owner> owners = Dto2Model.transformOwners(response.profiles, response.groups);

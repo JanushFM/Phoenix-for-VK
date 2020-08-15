@@ -9,6 +9,7 @@ import com.google.gson.JsonParseException;
 import java.lang.reflect.Type;
 
 import biz.dealnote.messenger.api.model.FaveLinkDto;
+import biz.dealnote.messenger.api.model.VKApiPhoto;
 
 public class FaveLinkDtoAdapter extends AbsAdapter implements JsonDeserializer<FaveLinkDto> {
 
@@ -22,8 +23,7 @@ public class FaveLinkDtoAdapter extends AbsAdapter implements JsonDeserializer<F
         root = root.get("link").getAsJsonObject();
         link.id = optString(root, "id");
         link.description = optString(root, "description");
-        link.photo_50 = optString(root, "photo_50");
-        link.photo_100 = optString(root, "photo_100");
+        link.photo = context.deserialize(root.get("photo"), VKApiPhoto.class);
         link.title = optString(root, "title");
         link.url = optString(root, "url");
 

@@ -10,6 +10,7 @@ public class ArticleEntity extends Entity {
     private String subtitle;
     private PhotoEntity photo;
     private String access_key;
+    private boolean is_favorite;
 
     public ArticleEntity(int id, int owner_id) {
         this.id = id;
@@ -75,6 +76,15 @@ public class ArticleEntity extends Entity {
 
     public ArticleEntity setAccessKey(String access_key) {
         this.access_key = access_key;
+        return this;
+    }
+
+    public boolean getIsFavorite() {
+        return is_favorite;
+    }
+
+    public ArticleEntity setIsFavorite(boolean is_favorite) {
+        this.is_favorite = is_favorite;
         return this;
     }
 }

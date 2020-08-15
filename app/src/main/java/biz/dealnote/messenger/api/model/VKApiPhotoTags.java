@@ -1,6 +1,5 @@
 package biz.dealnote.messenger.api.model;
 
-@SuppressWarnings("unused")
 public class VKApiPhotoTags {
 
     public int id;
@@ -13,13 +12,13 @@ public class VKApiPhotoTags {
 
     public long date;
 
-    public int x;
+    public double x;
 
-    public int y;
+    public double y;
 
-    public int x2;
+    public double x2;
 
-    public int y2;
+    public double y2;
 
     public int viewed;
 }

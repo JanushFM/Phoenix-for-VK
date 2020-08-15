@@ -16,6 +16,8 @@ public interface IPhotoPagerView extends IMvpView, IAccountDependencyView, IErro
 
     void setupLikeButton(boolean visible, boolean like, int likes);
 
+    void setupWithUserButton(int users);
+
     void setupShareButton(boolean visible);
 
     void setupCommentsButton(boolean visible, int count);
@@ -29,8 +31,6 @@ public interface IPhotoPagerView extends IMvpView, IAccountDependencyView, IErro
     void sharePhoto(int accountId, @NonNull Photo photo);
 
     void postToMyWall(@NonNull Photo photo, int accountId);
-
-    void showPhotoInfo(Photo photo);
 
     void requestWriteToExternalStoragePermission();
 

@@ -138,4 +138,11 @@ public interface INewsfeedService {
                                                           @Field("count") Integer count,
                                                           @Field("fields") String fields);
 
+    @FormUrlEncoded
+    @POST("execute.getFeedLikes")
+    Single<BaseResponse<NewsfeedResponse>> getFeedLikes(@Field("max_photos") Integer maxPhotoCount,
+                                                        @Field("start_from") String startFrom,
+                                                        @Field("count") Integer count,
+                                                        @Field("fields") String fields);
+
 }

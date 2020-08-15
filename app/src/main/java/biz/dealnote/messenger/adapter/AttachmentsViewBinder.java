@@ -759,12 +759,22 @@ public class AttachmentsViewBinder {
                 TextView ivTitle = itemView.findViewById(R.id.item_article_title);
                 TextView ivName = itemView.findViewById(R.id.item_article_name);
 
+                ImageView btFave = itemView.findViewById(R.id.item_article_to_fave);
                 Button ivButton = itemView.findViewById(R.id.item_article_read);
                 if (article.getURL() != null) {
+                    btFave.setVisibility(View.VISIBLE);
+                    btFave.setImageResource(article.getIsFavorite() ? R.drawable.favorite : R.drawable.star);
+                    btFave.setOnClickListener(v -> {
+                        mAttachmentsActionCallback.onFaveArticle(article);
+                        article.setIsFavorite(!article.getIsFavorite());
+                        btFave.setImageResource(article.getIsFavorite() ? R.drawable.favorite : R.drawable.star);
+                    });
                     ivButton.setVisibility(View.VISIBLE);
                     ivButton.setOnClickListener(v -> mAttachmentsActionCallback.onUrlOpen(article.getURL()));
-                } else
+                } else {
                     ivButton.setVisibility(View.GONE);
+                    btFave.setVisibility(View.GONE);
+                }
 
                 String photo_url = null;
                 if (article.getPhoto() != null) {
@@ -1050,7 +1060,7 @@ public class AttachmentsViewBinder {
                     menus.add(new OptionRequest(AudioItem.get_recommendation_by_audio, mContext.getString(R.string.get_recommendation_by_audio), R.drawable.music_mic));
 
                     if (!isEmpty(audio.getMain_artists()))
-                        menus.add(new OptionRequest(AudioItem.goto_artist, mContext.getString(R.string.audio_goto_artist), R.drawable.account_circle));
+                        menus.add(new OptionRequest(AudioItem.goto_artist, mContext.getString(R.string.audio_goto_artist), R.drawable.artist_icon));
 
                     if (audio.getLyricsId() != 0)
                         menus.add(new OptionRequest(AudioItem.get_lyrics_menu, mContext.getString(R.string.get_lyrics_menu), R.drawable.lyric));
@@ -1176,6 +1186,8 @@ public class AttachmentsViewBinder {
         void onLinkOpen(@NonNull Link link);
 
         void onUrlOpen(@NonNull String url);
+
+        void onFaveArticle(@NonNull Article article);
 
         void onWikiPageOpen(@NonNull WikiPage page);
 

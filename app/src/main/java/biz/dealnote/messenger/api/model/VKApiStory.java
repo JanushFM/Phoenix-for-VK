@@ -23,6 +23,10 @@ public class VKApiStory implements VKApiAttachment {
 
     public String access_key;
 
+    public String target_url;
+
+    public VKApiStory parent_story;
+
     public VKApiPhoto photo;
 
     public VKApiVideo video;

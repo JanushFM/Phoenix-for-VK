@@ -7,6 +7,7 @@ public class StoryEntity extends Entity {
     private long expires_at;
     private boolean is_expired;
     private String access_key;
+    private String target_url;
     private PhotoEntity photo;
     private VideoEntity video;
 
@@ -79,6 +80,15 @@ public class StoryEntity extends Entity {
 
     public StoryEntity setAccessKey(String access_key) {
         this.access_key = access_key;
+        return this;
+    }
+
+    public String getTarget_url() {
+        return target_url;
+    }
+
+    public StoryEntity setTarget_url(String target_url) {
+        this.target_url = target_url;
         return this;
     }
 }

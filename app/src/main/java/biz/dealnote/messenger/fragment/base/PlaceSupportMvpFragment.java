@@ -20,6 +20,7 @@ import biz.dealnote.messenger.domain.ILikesInteractor;
 import biz.dealnote.messenger.fragment.search.SearchContentType;
 import biz.dealnote.messenger.fragment.search.criteria.BaseSearchCriteria;
 import biz.dealnote.messenger.link.LinkHelper;
+import biz.dealnote.messenger.model.Article;
 import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.model.Commented;
@@ -103,6 +104,11 @@ public abstract class PlaceSupportMvpFragment<P extends PlaceSupportPresenter<V>
     @Override
     public void onUrlOpen(@NonNull String url) {
         getPresenter().fireUrlClick(url);
+    }
+
+    @Override
+    public void onFaveArticle(@NonNull Article article) {
+        getPresenter().fireFaveArticleClick(article);
     }
 
     @Override

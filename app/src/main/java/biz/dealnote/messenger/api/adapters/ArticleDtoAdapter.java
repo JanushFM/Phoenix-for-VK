@@ -25,6 +25,7 @@ public class ArticleDtoAdapter extends AbsAdapter implements JsonDeserializer<VK
         article.title = optString(root, "title");
         article.subtitle = optString(root, "subtitle");
         article.access_key = optString(root, "access_key");
+        article.is_favorite = optBoolean(root, "is_favorite");
         if (root.has("photo")) {
             article.photo = context.deserialize(root.get("photo"), VKApiPhoto.class);
         }

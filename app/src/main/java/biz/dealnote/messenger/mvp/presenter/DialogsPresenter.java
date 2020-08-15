@@ -16,6 +16,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.domain.IAccountsInteractor;
 import biz.dealnote.messenger.domain.IMessagesRepository;
 import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.domain.Repository;
@@ -62,6 +63,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
     private static final Comparator<Dialog> COMPARATOR = (rhs, lhs) -> Integer.compare(lhs.getLastMessageId(), rhs.getLastMessageId());
     private final ArrayList<Dialog> dialogs;
     private final IMessagesRepository messagesInteractor;
+    private final IAccountsInteractor accountsInteractor;
     private final ILongpollManager longpollManager;
     private final CompositeDisposable netDisposable = new CompositeDisposable();
     private final CompositeDisposable cacheLoadingDisposable = new CompositeDisposable();
@@ -85,6 +87,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
         }
 
         messagesInteractor = Repository.INSTANCE.getMessages();
+        accountsInteractor = InteractorFactory.createAccountInteractor();
         longpollManager = LongpollInstance.get();
 
         appendDisposable(messagesInteractor
@@ -124,7 +127,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
 
     private void onDialogsFisrtResponse(List<Dialog> data) {
         if (!Settings.get().other().isBe_online() || Settings.get().accounts().getType(getAccountId()).equals("hacked")) {
-            netDisposable.add(Injection.provideNetworkInterfaces().vkDefault(dialogsOwnerId).account().setOffline()
+            netDisposable.add(accountsInteractor.setOffline(getAccountId())
                     .compose(RxUtils.applySingleIOToMainSchedulers())
                     .subscribe(t -> {
                     }, t -> {
@@ -156,7 +159,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
     public void fireDialogOptions(Context context, Option option) {
         switch (option.getId()) {
             case R.id.button_ok:
-                appendDisposable(Injection.provideNetworkInterfaces().vkDefault(Settings.get().accounts().getCurrent()).account().setOffline()
+                appendDisposable(accountsInteractor.setOffline(getAccountId())
                         .compose(RxUtils.applySingleIOToMainSchedulers())
                         .subscribe(e -> OnSetOffline(context, e), t -> OnSetOffline(context, false)));
                 break;
@@ -229,7 +232,7 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
 
     private void onNextDialogsResponse(List<Dialog> data) {
         if (!Settings.get().other().isBe_online() || Settings.get().accounts().getType(getAccountId()).equals("hacked")) {
-            netDisposable.add(Injection.provideNetworkInterfaces().vkDefault(dialogsOwnerId).account().setOffline()
+            netDisposable.add(accountsInteractor.setOffline(getAccountId())
                     .compose(RxUtils.applySingleIOToMainSchedulers())
                     .subscribe(t -> {
                     }, t -> {

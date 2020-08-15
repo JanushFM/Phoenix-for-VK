@@ -81,6 +81,12 @@
         <item>1</item>
     </string-array>
 
+    <string-array name="array_accounts_input">
+        <item>VK Официал</item>
+        <item>Kate</item>
+        <item>Невидимка</item>
+    </string-array>
+
     <string-array name="player_progress_state" translatable="false">
         <item> ••••••</item>
         <item>• •••••</item>
@@ -384,6 +390,7 @@
     <string name="cancel">Отмена</string>
     <string name="ringtone_vk">ВКонтакте</string>
     <string name="videos">Видеозаписи</string>
+    <string name="articles">Статьи</string>
 
     <string name="send_on_enter_title">Отправлять по кнопке Enter</string>
 
@@ -978,6 +985,7 @@
 
     <string name="like_title">Мне нравится</string>
     <string name="likes">Отметки \"Мне нравится\"</string>
+    <string name="likes_posts">Понравилось</string>
     <string name="chat_background">Фон</string>
     <string name="chat_light_background">Дневной фон (фото)</string>
     <string name="chat_dark_background">Ночной фон (фото)</string>
@@ -1366,6 +1374,7 @@
     <string name="photo_to_user_dir">Сортировать фото по папкам</string>
     <string name="import_accounts">Импорт аккаунтов</string>
     <string name="export_accounts">Экспорт аккаунтов</string>
+    <string name="entry_account">Ввести</string>
     <string name="show_qr">Показать QR</string>
     <string name="download_peer_to">Скачать переписку</string>
     <string name="usages">Использованные</string>
@@ -1389,7 +1398,7 @@
     <string name="copy_simple">Скопировать</string>
     <string name="webview_night_mode">Включить ночной режим WebView</string>
     <string name="webview_summary">Красить страницы в зависимости от темы</string>
-    <string name="be_online">Отправлять запрос online</string>
+    <string name="be_online">Быть онлайн</string>
     <string name="wall_attachments">Вложения на стене</string>
     <string name="posts_analized">%1$d постов проверено</string>
     <string name="photo_rounded_view">Скругление краёв изображений</string>
@@ -1401,7 +1410,7 @@
     <string name="by_owner">По владельцу</string>
     <string name="notif_sticker">Стикер</string>
     <string name="notif_voice">Голосовое сообщение</string>
-    <string name="debug_mode">Режим отладки</string>
+    <string name="debug_mode">Режим разработчика</string>
     <string name="dont_write">Не посылать статус написания</string>
     <string name="over_ten_attach">Отправлять больше 10 вложений</string>
     <string name="repo">Репозиторий: https://github.com/umerov1999/Phoenix-for-VK</string>
@@ -1474,4 +1483,9 @@
     <string name="do_chat_download">Скачивание чата…</string>
     <string name="writing_json">Формирование JSON…</string>
     <string name="do_delete">Удалить?</string>
+    <string name="enter_link">Введите ссылку</string>
+    <string name="info">Внимание:</string>
+    <string name="what_search">Что ищем?</string>
+    <string name="search_dialogs">Диалоги</string>
+    <string name="search_messages">Сообщения</string>
 </resources>

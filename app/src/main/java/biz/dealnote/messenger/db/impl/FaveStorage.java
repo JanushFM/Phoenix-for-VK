@@ -15,12 +15,14 @@ import java.util.List;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.db.DatabaseIdRange;
 import biz.dealnote.messenger.db.MessengerContentProvider;
+import biz.dealnote.messenger.db.column.FaveArticlesColumns;
 import biz.dealnote.messenger.db.column.FaveLinksColumns;
 import biz.dealnote.messenger.db.column.FavePageColumns;
 import biz.dealnote.messenger.db.column.FavePhotosColumns;
 import biz.dealnote.messenger.db.column.FavePostsColumns;
 import biz.dealnote.messenger.db.column.FaveVideosColumns;
 import biz.dealnote.messenger.db.interfaces.IFaveStorage;
+import biz.dealnote.messenger.db.model.entity.ArticleEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.FaveLinkEntity;
 import biz.dealnote.messenger.db.model.entity.FavePageEntity;
@@ -29,6 +31,7 @@ import biz.dealnote.messenger.db.model.entity.PhotoEntity;
 import biz.dealnote.messenger.db.model.entity.PostEntity;
 import biz.dealnote.messenger.db.model.entity.UserEntity;
 import biz.dealnote.messenger.db.model.entity.VideoEntity;
+import biz.dealnote.messenger.model.criteria.FaveArticlesCriteria;
 import biz.dealnote.messenger.model.criteria.FavePhotosCriteria;
 import biz.dealnote.messenger.model.criteria.FavePostsCriteria;
 import biz.dealnote.messenger.model.criteria.FaveVideosCriteria;
@@ -81,6 +84,11 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
 
     private static PhotoEntity mapFavePhoto(Cursor cursor) {
         String json = cursor.getString(cursor.getColumnIndex(FavePhotosColumns.PHOTO));
+        return GSON.fromJson(json, PhotoEntity.class);
+    }
+
+    private static PhotoEntity mapFaveLinkPhoto(Cursor cursor) {
+        String json = cursor.getString(cursor.getColumnIndex(FaveLinksColumns.PHOTO));
         return GSON.fromJson(json, PhotoEntity.class);
     }
 
@@ -190,8 +198,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
                 cv.put(FaveLinksColumns.URL, entity.getUrl());
                 cv.put(FaveLinksColumns.TITLE, entity.getTitle());
                 cv.put(FaveLinksColumns.DESCRIPTION, entity.getDescription());
-                cv.put(FaveLinksColumns.PHOTO_50, entity.getPhoto50());
-                cv.put(FaveLinksColumns.PHOTO_100, entity.getPhoto100());
+                cv.put(FaveLinksColumns.PHOTO, GSON.toJson(entity.getPhoto()));
 
                 operations.add(ContentProviderOperation
                         .newInsert(uri)
@@ -388,6 +395,47 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     }
 
     @Override
+    public Single<List<ArticleEntity>> getArticles(FaveArticlesCriteria criteria) {
+        return Single.create(e -> {
+            Uri uri = MessengerContentProvider.getFaveArticlesContentUriFor(criteria.getAccountId());
+
+            String where;
+            String[] args;
+
+            DatabaseIdRange range = criteria.getRange();
+            if (nonNull(range)) {
+                where = BaseColumns._ID + " >= ? AND " + BaseColumns._ID + " <= ?";
+                args = new String[]{String.valueOf(range.getFirst()), String.valueOf(range.getLast())};
+            } else {
+                where = null;
+                args = null;
+            }
+
+            Cursor cursor = getContentResolver().query(uri, null, where, args, null);
+
+            List<ArticleEntity> dbos = new ArrayList<>(safeCountOf(cursor));
+            if (nonNull(cursor)) {
+                while (cursor.moveToNext()) {
+                    if (e.isDisposed()) {
+                        break;
+                    }
+
+                    dbos.add(mapArticle(cursor));
+                }
+
+                cursor.close();
+            }
+
+            e.onSuccess(dbos);
+        });
+    }
+
+    private ArticleEntity mapArticle(Cursor cursor) {
+        String json = cursor.getString(cursor.getColumnIndex(FaveArticlesColumns.ARTICLE));
+        return GSON.fromJson(json, ArticleEntity.class);
+    }
+
+    @Override
     public Single<int[]> storeVideos(int accountId, List<VideoEntity> videos, boolean clearBeforeStore) {
         return Single.create(e -> {
             Uri uri = MessengerContentProvider.getFaveVideosContentUriFor(accountId);
@@ -429,6 +477,47 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     }
 
     @Override
+    public Single<int[]> storeArticles(int accountId, List<ArticleEntity> articles, boolean clearBeforeStore) {
+        return Single.create(e -> {
+            Uri uri = MessengerContentProvider.getFaveArticlesContentUriFor(accountId);
+            ArrayList<ContentProviderOperation> operations = new ArrayList<>();
+
+            if (clearBeforeStore) {
+                operations.add(ContentProviderOperation
+                        .newDelete(uri)
+                        .build());
+            }
+
+            int[] indexes = new int[articles.size()];
+
+            for (int i = 0; i < articles.size(); i++) {
+                ArticleEntity dbo = articles.get(i);
+                ContentValues cv = new ContentValues();
+                cv.put(FaveArticlesColumns.ARTICLE, GSON.toJson(dbo));
+
+                int index = addToListAndReturnIndex(operations, ContentProviderOperation
+                        .newInsert(uri)
+                        .withValues(cv)
+                        .build());
+                indexes[i] = index;
+            }
+
+            ContentProviderResult[] results = getContentResolver().applyBatch(MessengerContentProvider.AUTHORITY, operations);
+
+            int[] ids = new int[results.length];
+
+            for (int i = 0; i < indexes.length; i++) {
+                int index = indexes[i];
+
+                ContentProviderResult result = results[index];
+                ids[i] = extractId(result);
+            }
+
+            e.onSuccess(ids);
+        });
+    }
+
+    @Override
     public Completable storePages(int accountId, List<FavePageEntity> users, boolean clearBeforeStore) {
         return Completable.create(e -> {
             Uri uri = MessengerContentProvider.getFaveUsersContentUriFor(accountId);
@@ -440,16 +529,14 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
                         .build());
             }
 
-            int[] indexes = new int[users.size()];
             for (int i = 0; i < users.size(); i++) {
                 FavePageEntity dbo = users.get(i);
                 ContentValues cv = createFaveCv(dbo);
 
-                int index = addToListAndReturnIndex(operations, ContentProviderOperation
+                addToListAndReturnIndex(operations, ContentProviderOperation
                         .newInsert(uri)
                         .withValues(cv)
                         .build());
-                indexes[i] = index;
             }
 
             if (!operations.isEmpty()) {
@@ -472,16 +559,14 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
                         .build());
             }
 
-            int[] indexes = new int[groups.size()];
             for (int i = 0; i < groups.size(); i++) {
                 FavePageEntity dbo = groups.get(i);
                 ContentValues cv = createFaveCv(dbo);
 
-                int index = addToListAndReturnIndex(operations, ContentProviderOperation
+                addToListAndReturnIndex(operations, ContentProviderOperation
                         .newInsert(uri)
                         .withValues(cv)
                         .build());
-                indexes[i] = index;
             }
 
             if (!operations.isEmpty()) {
@@ -498,8 +583,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
         return new FaveLinkEntity(id, url)
                 .setTitle(cursor.getString(cursor.getColumnIndex(FaveLinksColumns.TITLE)))
                 .setDescription(cursor.getString(cursor.getColumnIndex(FaveLinksColumns.DESCRIPTION)))
-                .setPhoto50(cursor.getString(cursor.getColumnIndex(FaveLinksColumns.PHOTO_50)))
-                .setPhoto100(cursor.getString(cursor.getColumnIndex(FaveLinksColumns.PHOTO_100)));
+                .setPhoto(mapFaveLinkPhoto(cursor));
     }
 
     private PostEntity mapFavePosts(Cursor cursor) {

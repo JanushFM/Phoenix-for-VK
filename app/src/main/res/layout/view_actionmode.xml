@@ -63,6 +63,17 @@
             app:tint="?colorOnSurface" />
 
         <ImageView
+            android:id="@+id/buttonCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/copy_data"
+            android:padding="8dp"
+            android:src="@drawable/content_copy"
+            app:tint="?colorOnSurface" />
+
+        <ImageView
             android:id="@+id/buttonPin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,17 +93,6 @@
             android:contentDescription="@string/important"
             android:padding="8dp"
             android:src="@drawable/star"
-            app:tint="?colorOnSurface" />
-
-        <ImageView
-            android:id="@+id/buttonCopy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@string/copy_data"
-            android:padding="8dp"
-            android:src="@drawable/content_copy"
             app:tint="?colorOnSurface" />
 
         <ImageView

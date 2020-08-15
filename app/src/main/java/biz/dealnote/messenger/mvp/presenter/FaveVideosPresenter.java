@@ -146,6 +146,15 @@ public class FaveVideosPresenter extends AccountDependencyPresenter<IFaveVideosV
         getView().goToPreview(getAccountId(), video);
     }
 
+    public void fireVideoDelete(int index, Video video) {
+        netDisposable.add(faveInteractor.removeVideo(getAccountId(), video.getOwnerId(), video.getId())
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(videos -> {
+                    mVideos.remove(index);
+                    callView(IFaveVideosView::notifyDataSetChanged);
+                }, this::onNetDataGetError));
+    }
+
     public void fireScrollToEnd() {
         if (canLoadMore()) {
             requestNext();

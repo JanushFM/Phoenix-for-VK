@@ -29,6 +29,7 @@ public class ExoGifPlayer implements IGifPlayer {
     private final ProxyConfig proxyConfig;
     private final List<IVideoSizeChangeListener> videoSizeChangeListeners = new ArrayList<>(1);
     private final List<IStatusChangeListener> statusChangeListeners = new ArrayList<>(1);
+    private final boolean isRepeat;
     private int status;
     private VideoSize size;
     private final VideoListener videoListener = new VideoListener() {
@@ -46,7 +47,8 @@ public class ExoGifPlayer implements IGifPlayer {
     private SimpleExoPlayer internalPlayer;
     private boolean supposedToBePlaying;
 
-    public ExoGifPlayer(String url, ProxyConfig proxyConfig) {
+    public ExoGifPlayer(String url, ProxyConfig proxyConfig, boolean isRepeat) {
+        this.isRepeat = isRepeat;
         this.url = url;
         this.proxyConfig = proxyConfig;
         status = IStatus.INIT;
@@ -100,7 +102,7 @@ public class ExoGifPlayer implements IGifPlayer {
         // FOR LIVESTREAM LINK:
 
         MediaSource mediaSource = new ProgressiveMediaSource.Factory(Utils.getExoPlayerFactory(userAgent, proxyConfig)).createMediaSource(Uri.parse(url));
-        internalPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
+        internalPlayer.setRepeatMode(isRepeat ? Player.REPEAT_MODE_ONE : Player.REPEAT_MODE_OFF);
         internalPlayer.addListener(new ExoEventAdapter() {
             @Override
             public void onPlayerStateChanged(boolean b, int i) {

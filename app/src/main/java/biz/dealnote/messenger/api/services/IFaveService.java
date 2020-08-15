@@ -31,6 +31,14 @@ public interface IFaveService {
 
     @FormUrlEncoded
     @POST("fave.get")
+    Single<BaseResponse<Items<VkApiAttachments.Entry>>> getArticles(@Field("offset") Integer offset,
+                                                                    @Field("count") Integer count,
+                                                                    @Field("item_type") String item_type,
+                                                                    @Field("extended") Integer extended,
+                                                                    @Field("fields") String fields);
+
+    @FormUrlEncoded
+    @POST("fave.get")
     Single<BaseResponse<FavePostsResponse>> getPosts(@Field("offset") Integer offset,
                                                      @Field("count") Integer count,
                                                      @Field("item_type") String item_type,
@@ -51,6 +59,10 @@ public interface IFaveService {
                                                       @Field("count") Integer count);
 
     @FormUrlEncoded
+    @POST("fave.addLink")
+    Single<BaseResponse<Integer>> addLink(@Field("link") String link);
+
+    @FormUrlEncoded
     @POST("fave.addPage")
     Single<BaseResponse<Integer>> addPage(@Field("user_id") Integer userId,
                                           @Field("group_id") Integer groupId);
@@ -60,6 +72,10 @@ public interface IFaveService {
     Single<BaseResponse<Integer>> addVideo(@Field("owner_id") Integer owner_id,
                                            @Field("id") Integer id,
                                            @Field("access_key") String access_key);
+
+    @FormUrlEncoded
+    @POST("fave.addArticle")
+    Single<BaseResponse<Integer>> addArticle(@Field("url") String url);
 
     @FormUrlEncoded
     @POST("fave.addPost")
@@ -76,5 +92,20 @@ public interface IFaveService {
     @FormUrlEncoded
     @POST("fave.removeLink")
     Single<BaseResponse<Integer>> removeLink(@Field("link_id") String linkId);
+
+    @FormUrlEncoded
+    @POST("fave.removeArticle")
+    Single<BaseResponse<Integer>> removeArticle(@Field("owner_id") Integer owner_id,
+                                                @Field("article_id") Integer article_id);
+
+    @FormUrlEncoded
+    @POST("fave.removePost")
+    Single<BaseResponse<Integer>> removePost(@Field("owner_id") Integer owner_id,
+                                             @Field("id") Integer id);
+
+    @FormUrlEncoded
+    @POST("fave.removeVideo")
+    Single<BaseResponse<Integer>> removeVideo(@Field("owner_id") Integer owner_id,
+                                              @Field("id") Integer id);
 
 }

@@ -43,4 +43,7 @@ public interface INewsfeedApi {
     Single<NewsfeedResponse> getRecommended(Long startTime, Long endTime,
                                             Integer maxPhotoCount, String startFrom, Integer count, String fields);
 
+    @CheckResult
+    Single<NewsfeedResponse> getFeedLikes(Integer maxPhotoCount, String startFrom, Integer count, String fields);
+
 }

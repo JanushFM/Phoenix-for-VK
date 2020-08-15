@@ -2,7 +2,6 @@ package biz.dealnote.messenger.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.ColorInt;
 
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.Utils;
 
 public class MySpinnerView extends RelativeLayout {
@@ -45,10 +45,10 @@ public class MySpinnerView extends RelativeLayout {
 
         try {
             mHintText = a.getString(R.styleable.MySpinnerView_spinner_hint);
-            mHintColor = a.getColor(R.styleable.MySpinnerView_spinner_hint_color, Color.GRAY);
-            mTextColor = a.getColor(R.styleable.MySpinnerView_spinner_text_color, Color.BLACK);
+            mHintColor = a.getColor(R.styleable.MySpinnerView_spinner_hint_color, CurrentTheme.getColorSecondary(context));
+            mTextColor = a.getColor(R.styleable.MySpinnerView_spinner_text_color, CurrentTheme.getColorOnSurface(context));
 
-            int iconColor = a.getColor(R.styleable.MySpinnerView_spinner_icon_color, Color.BLUE);
+            int iconColor = a.getColor(R.styleable.MySpinnerView_spinner_icon_color, CurrentTheme.getColorPrimary(context));
             Utils.setColorFilter(icon, iconColor);
         } finally {
             a.recycle();

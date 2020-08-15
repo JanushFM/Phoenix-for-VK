@@ -38,7 +38,12 @@ public class PhotoAlbumPagerPresenter extends PhotoPagerPresenter {
         refreshPagerView();
         resolveButtonsBarVisible();
         resolveToolbarVisibility();
-        refreshInfoViews();
+        refreshInfoViews(true);
+    }
+
+    @Override
+    protected boolean need_update_info() {
+        return true;
     }
 
     @Override
@@ -87,7 +92,7 @@ public class PhotoAlbumPagerPresenter extends PhotoPagerPresenter {
         refreshPagerView();
         resolveButtonsBarVisible();
         resolveToolbarVisibility();
-        refreshInfoViews();
+        refreshInfoViews(true);
     }
 
     @Override

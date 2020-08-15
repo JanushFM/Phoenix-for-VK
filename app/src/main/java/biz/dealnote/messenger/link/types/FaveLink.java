@@ -7,6 +7,7 @@ public class FaveLink extends AbsLink {
     public static final String SECTION_POSTS = "likes_posts";
     public static final String SECTION_PAGES = "pages";
     public static final String SECTION_LINKS = "links";
+    public static final String SECTION_ARTICLES = "articles";
 
     public String section;
 

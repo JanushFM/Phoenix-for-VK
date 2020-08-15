@@ -5,12 +5,14 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import biz.dealnote.messenger.db.model.entity.ArticleEntity;
 import biz.dealnote.messenger.db.model.entity.FaveLinkEntity;
 import biz.dealnote.messenger.db.model.entity.FavePageEntity;
 import biz.dealnote.messenger.db.model.entity.OwnerEntities;
 import biz.dealnote.messenger.db.model.entity.PhotoEntity;
 import biz.dealnote.messenger.db.model.entity.PostEntity;
 import biz.dealnote.messenger.db.model.entity.VideoEntity;
+import biz.dealnote.messenger.model.criteria.FaveArticlesCriteria;
 import biz.dealnote.messenger.model.criteria.FavePhotosCriteria;
 import biz.dealnote.messenger.model.criteria.FavePostsCriteria;
 import biz.dealnote.messenger.model.criteria.FaveVideosCriteria;
@@ -49,7 +51,13 @@ public interface IFaveStorage extends IStorage {
     Single<List<VideoEntity>> getVideos(FaveVideosCriteria criteria);
 
     @CheckResult
+    Single<List<ArticleEntity>> getArticles(FaveArticlesCriteria criteria);
+
+    @CheckResult
     Single<int[]> storeVideos(int accountId, List<VideoEntity> videos, boolean clearBeforeStore);
+
+    @CheckResult
+    Single<int[]> storeArticles(int accountId, List<ArticleEntity> articles, boolean clearBeforeStore);
 
     Single<List<FavePageEntity>> getFaveGroups(int accountId);
 

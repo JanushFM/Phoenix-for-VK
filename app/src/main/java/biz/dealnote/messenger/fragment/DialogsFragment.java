@@ -41,6 +41,7 @@ import biz.dealnote.messenger.dialog.DialogNotifOptionsDialog;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.fragment.search.SearchContentType;
 import biz.dealnote.messenger.fragment.search.criteria.DialogsSearchCriteria;
+import biz.dealnote.messenger.fragment.search.criteria.MessageSeachCriteria;
 import biz.dealnote.messenger.listener.EndlessRecyclerOnScrollListener;
 import biz.dealnote.messenger.listener.OnSectionResumeCallback;
 import biz.dealnote.messenger.listener.PicassoPauseOnScrollListener;
@@ -411,10 +412,23 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
     @Override
     public void goToSearch(int accountId) {
-        DialogsSearchCriteria criteria = new DialogsSearchCriteria("");
+        new MaterialAlertDialogBuilder(requireActivity())
+                .setTitle(R.string.info)
+                .setCancelable(true)
+                .setMessage(R.string.what_search)
+                .setNegativeButton(R.string.search_dialogs, (dialog, which) -> {
+                    DialogsSearchCriteria criteria = new DialogsSearchCriteria("");
 
-        PlaceFactory.getSingleTabSearchPlace(accountId, SearchContentType.DIALOGS, criteria)
-                .tryOpenWith(requireActivity());
+                    PlaceFactory.getSingleTabSearchPlace(accountId, SearchContentType.DIALOGS, criteria)
+                            .tryOpenWith(requireActivity());
+                })
+                .setPositiveButton(R.string.search_messages, (dialog, which) -> {
+                    MessageSeachCriteria criteria = new MessageSeachCriteria("");
+
+                    PlaceFactory.getSingleTabSearchPlace(accountId, SearchContentType.MESSAGES, criteria)
+                            .tryOpenWith(requireActivity());
+                })
+                .show();
     }
 
     @Override

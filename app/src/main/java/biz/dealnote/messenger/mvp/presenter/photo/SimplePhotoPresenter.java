@@ -80,7 +80,7 @@ public class SimplePhotoPresenter extends PhotoPagerPresenter {
             }
         }
 
-        refreshInfoViews();
+        refreshInfoViews(true);
     }
 
     @Override

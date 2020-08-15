@@ -25,6 +25,7 @@ public class Article extends AbsModel {
     private String subtitle;
     private Photo photo;
     private String access_key;
+    private boolean is_favorite;
 
     public Article(int id, int owner_id) {
         this.id = id;
@@ -41,6 +42,7 @@ public class Article extends AbsModel {
         subtitle = in.readString();
         access_key = in.readString();
         photo = in.readParcelable(Photo.class.getClassLoader());
+        is_favorite = in.readByte() != 0;
     }
 
     @Override
@@ -54,6 +56,7 @@ public class Article extends AbsModel {
         dest.writeString(subtitle);
         dest.writeString(access_key);
         dest.writeParcelable(photo, flags);
+        dest.writeByte((byte) (is_favorite ? 1 : 0));
     }
 
     public int getId() {
@@ -115,6 +118,15 @@ public class Article extends AbsModel {
 
     public Article setAccessKey(String access_key) {
         this.access_key = access_key;
+        return this;
+    }
+
+    public boolean getIsFavorite() {
+        return is_favorite;
+    }
+
+    public Article setIsFavorite(boolean is_favorite) {
+        this.is_favorite = is_favorite;
         return this;
     }
 

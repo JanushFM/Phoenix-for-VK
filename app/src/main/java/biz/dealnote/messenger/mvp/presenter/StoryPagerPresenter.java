@@ -115,7 +115,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
             return;
         }
 
-        mGifPlayer = Injection.provideGifPlayerFactory().createGifPlayer(url);
+        mGifPlayer = Injection.provideGifPlayerFactory().createGifPlayer(url, false);
         mGifPlayer.addStatusChangeListener(this);
         mGifPlayer.addVideoSizeChangeListener(this);
 
@@ -160,7 +160,7 @@ public class StoryPagerPresenter extends AccountDependencyPresenter<IStoryPagerV
     @OnGuiCreated
     private void resolveToolbarSubtitle() {
         if (isGuiReady()) {
-            getView().setToolbarSubtitle(mStories.get(mCurrentIndex));
+            getView().setToolbarSubtitle(mStories.get(mCurrentIndex), getAccountId());
         }
     }
 

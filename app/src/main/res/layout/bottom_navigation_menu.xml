@@ -1,6 +1,5 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     app:cardCornerRadius="0dp"
@@ -12,12 +11,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/bottom_mini_player"
-            android:name="biz.dealnote.messenger.fragment.MiniPlayerFragment"
+        <biz.dealnote.messenger.view.MiniPlayerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout="@layout/mini_player" />
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_menu"

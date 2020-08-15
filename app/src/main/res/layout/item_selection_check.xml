@@ -15,11 +15,11 @@
 
     <TextView
         android:id="@+id/counter"
-        android:drawablePadding="4dp"
-        android:gravity="center_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
         app:drawableStartCompat="@drawable/check"
         app:drawableTint="?colorOnSurface"

@@ -96,7 +96,7 @@ public class GifPagerPresenter extends BaseDocumentPresenter<IGifPagerView> impl
 
         String url = document.getVideoPreview().getSrc();
 
-        mGifPlayer = Injection.provideGifPlayerFactory().createGifPlayer(url);
+        mGifPlayer = Injection.provideGifPlayerFactory().createGifPlayer(url, true);
         mGifPlayer.addStatusChangeListener(this);
         mGifPlayer.addVideoSizeChangeListener(this);
 

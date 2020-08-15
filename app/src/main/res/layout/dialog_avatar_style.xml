@@ -23,8 +23,8 @@
     <ImageView
         android:id="@+id/oval_avatar"
         android:layout_width="64dp"
-        android:layout_margin="18dp"
         android:layout_height="64dp"
+        android:layout_margin="18dp"
         android:layout_toEndOf="@id/circle_avatar" />
 
     <ImageView

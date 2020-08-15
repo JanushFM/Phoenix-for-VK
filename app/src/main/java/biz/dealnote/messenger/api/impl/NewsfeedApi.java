@@ -86,4 +86,12 @@ class NewsfeedApi extends AbsApi implements INewsfeedApi {
                                 maxPhotoCount, startFrom, count, fields)
                         .map(extractResponseWithErrorHandling()));
     }
+
+    @Override
+    public Single<NewsfeedResponse> getFeedLikes(Integer maxPhotoCount, String startFrom, Integer count, String fields) {
+        return provideService(INewsfeedService.class, TokenType.USER)
+                .flatMap(service -> service
+                        .getFeedLikes(maxPhotoCount, startFrom, count, fields)
+                        .map(extractResponseWithErrorHandling()));
+    }
 }

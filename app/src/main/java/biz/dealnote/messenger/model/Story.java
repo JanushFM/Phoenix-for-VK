@@ -20,6 +20,7 @@ public class Story extends AbsModel {
     private long expires_at;
     private boolean is_expired;
     private String access_key;
+    private String target_url;
     private Photo photo;
     private Video video;
     private Owner author;
@@ -36,6 +37,7 @@ public class Story extends AbsModel {
         expires_at = in.readLong();
         is_expired = in.readInt() != 0;
         access_key = in.readString();
+        target_url = in.readString();
         video = in.readParcelable(Video.class.getClassLoader());
         photo = in.readParcelable(Photo.class.getClassLoader());
         author = ParcelableOwnerWrapper.readOwner(in);
@@ -50,6 +52,7 @@ public class Story extends AbsModel {
         dest.writeLong(expires_at);
         dest.writeInt(is_expired ? 1 : 0);
         dest.writeString(access_key);
+        dest.writeString(target_url);
         dest.writeParcelable(video, flags);
         dest.writeParcelable(photo, flags);
         ParcelableOwnerWrapper.writeOwner(dest, flags, author);
@@ -133,6 +136,15 @@ public class Story extends AbsModel {
 
     public Story setOwner(Owner author) {
         this.author = author;
+        return this;
+    }
+
+    public String getTarget_url() {
+        return target_url;
+    }
+
+    public Story setTarget_url(String target_url) {
+        this.target_url = target_url;
         return this;
     }
 

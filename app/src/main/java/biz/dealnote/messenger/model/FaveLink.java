@@ -19,8 +19,7 @@ public class FaveLink extends AbsModel {
     private String url;
     private String title;
     private String description;
-    private String photo50;
-    private String photo100;
+    private Photo photo;
 
     public FaveLink(String id) {
         this.id = id;
@@ -32,8 +31,7 @@ public class FaveLink extends AbsModel {
         url = in.readString();
         title = in.readString();
         description = in.readString();
-        photo50 = in.readString();
-        photo100 = in.readString();
+        photo = in.readParcelable(Photo.class.getClassLoader());
     }
 
     public String getId() {
@@ -67,21 +65,12 @@ public class FaveLink extends AbsModel {
         return this;
     }
 
-    public String getPhoto50() {
-        return photo50;
+    public Photo getPhoto() {
+        return photo;
     }
 
-    public FaveLink setPhoto50(String photo50) {
-        this.photo50 = photo50;
-        return this;
-    }
-
-    public String getPhoto100() {
-        return photo100;
-    }
-
-    public FaveLink setPhoto100(String photo100) {
-        this.photo100 = photo100;
+    public FaveLink setPhoto(Photo photo) {
+        this.photo = photo;
         return this;
     }
 
@@ -92,8 +81,7 @@ public class FaveLink extends AbsModel {
         dest.writeString(url);
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(photo50);
-        dest.writeString(photo100);
+        dest.writeParcelable(photo, flags);
     }
 
     @Override

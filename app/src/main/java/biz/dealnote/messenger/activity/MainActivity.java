@@ -227,7 +227,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         resolveToolbarNavigationIcon();
         keyboardHide();
     };
-    private FragmentContainerView mMiniPlayer;
     private MusicUtils.ServiceToken mAudioPlayServiceToken;
     private boolean mDestroyed;
     /**
@@ -295,7 +294,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
 
         mBottomNavigationContainer = findViewById(R.id.bottom_navigation_menu_container);
-        mMiniPlayer = findViewById(R.id.bottom_mini_player);
         mViewFragment = findViewById(R.id.fragment);
 
         getSupportFragmentManager().addOnBackStackChangedListener(mOnBackStackChangedListener);
@@ -508,7 +506,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                     menus.show(getSupportFragmentManager(), "left_options", option -> {
                         switch (option.getId()) {
                             case R.id.button_ok:
-                                mCompositeDisposable.add(Injection.provideNetworkInterfaces().vkDefault(Settings.get().accounts().getCurrent()).account().setOffline()
+                                mCompositeDisposable.add(InteractorFactory.createAccountInteractor().setOffline(Settings.get().accounts().getCurrent())
                                         .compose(RxUtils.applySingleIOToMainSchedulers())
                                         .subscribe(this::OnSetOffline, t -> OnSetOffline(false)));
                                 break;

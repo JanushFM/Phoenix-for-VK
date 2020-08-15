@@ -171,6 +171,15 @@ public class FavePostsPresenter extends PlaceSupportPresenter<IFavePostsView> {
                 .subscribe(RxUtils.ignore(), this::onLikeError));
     }
 
+    public void firePostDelete(int index, Post post) {
+        appendDisposable(faveInteractor.removePost(getAccountId(), post.getOwnerId(), post.getVkid())
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(videos -> {
+                    posts.remove(index);
+                    callView(IFavePostsView::notifyDataSetChanged);
+                }, this::onActualDataGetError));
+    }
+
     private void onLikeError(Throwable t) {
         showError(getView(), t);
     }

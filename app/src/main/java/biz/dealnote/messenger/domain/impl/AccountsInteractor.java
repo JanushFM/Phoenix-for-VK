@@ -84,6 +84,14 @@ public class AccountsInteractor implements IAccountsInteractor {
     }
 
     @Override
+    public Single<Boolean> setOffline(int accountId) {
+        return networker.vkDefault(accountId)
+                .account()
+                .setOffline()
+                .map(t -> t);
+    }
+
+    @Override
     public Single<List<Account>> getAll() {
         return Single.create(emitter -> {
             Collection<Integer> ids = settings.getRegistered();

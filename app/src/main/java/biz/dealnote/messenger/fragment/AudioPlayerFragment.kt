@@ -96,7 +96,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private var mPosOverride: Long = -1
     private var mStartSeekPos: Long = 0
     private var mLastSeekEventTime: Long = 0
-    private var mIsPaused = false
     private var mFromTouch = false
     private lateinit var mPlayerProgressStrings: Array<String>
 
@@ -472,7 +471,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     override fun onDestroy() {
         mCompositeDisposable.dispose()
         super.onDestroy()
-        mIsPaused = false
         mTimeHandler!!.removeMessages(REFRESH_TIME)
         mBroadcastDisposable.dispose()
 
@@ -537,8 +535,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
 
         // Set the total time
         resolveTotalTime()
-        // Update the current time
-        queueNextRefresh(1)
     }
 
     private fun resolveTotalTime() {
@@ -629,11 +625,9 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
      * @param delay When to update
      */
     private fun queueNextRefresh(delay: Long) {
-        if (!mIsPaused) {
-            val message = mTimeHandler!!.obtainMessage(REFRESH_TIME)
-            mTimeHandler!!.removeMessages(REFRESH_TIME)
-            mTimeHandler!!.sendMessageDelayed(message, delay)
-        }
+        val message = mTimeHandler!!.obtainMessage(REFRESH_TIME)
+        mTimeHandler!!.removeMessages(REFRESH_TIME)
+        mTimeHandler!!.sendMessageDelayed(message, delay)
     }
 
     private fun resolveControlViews() {
@@ -744,7 +738,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             val duration = MusicUtils.duration()
             if (pos >= 0 && duration > 0) {
                 refreshCurrentTimeText(pos)
-                val progress = (1000 * pos / MusicUtils.duration()).toInt()
+                val progress = (1000 * pos / duration).toInt()
                 mProgress!!.progress = progress
                 val bufferProgress = (MusicUtils.bufferPercent().toFloat() * 10f).toInt()
                 mProgress!!.secondaryProgress = bufferProgress
@@ -802,6 +796,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         private val mAudioPlayer: WeakReference<AudioPlayerFragment> = WeakReference(player)
         override fun handleMessage(msg: Message) {
             if (msg.what == REFRESH_TIME) {
+                if (mAudioPlayer.get() == null) return
                 val next = mAudioPlayer.get()!!.refreshCurrentTime()
                 mAudioPlayer.get()!!.queueNextRefresh(next)
             }

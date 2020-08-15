@@ -7,6 +7,7 @@ import biz.dealnote.messenger.api.IServiceProvider;
 import biz.dealnote.messenger.api.interfaces.IFaveApi;
 import biz.dealnote.messenger.api.model.FaveLinkDto;
 import biz.dealnote.messenger.api.model.Items;
+import biz.dealnote.messenger.api.model.VKApiArticle;
 import biz.dealnote.messenger.api.model.VKApiPhoto;
 import biz.dealnote.messenger.api.model.VKApiVideo;
 import biz.dealnote.messenger.api.model.VkApiAttachments;
@@ -56,6 +57,22 @@ class FaveApi extends AbsApi implements IFaveApi {
     }
 
     @Override
+    public Single<List<VKApiArticle>> getArticles(Integer offset, Integer count) {
+        return provideService(IFaveService.class)
+                .flatMap(service -> service.getVideos(offset, count, "article", 1, UserColumns.API_FIELDS)
+                        .map(extractResponseWithErrorHandling()).flatMap(t -> {
+                                    List<VkApiAttachments.Entry> temp = listEmptyIfNull(t.items);
+                                    List<VKApiArticle> articles = new ArrayList<>();
+                                    for (VkApiAttachments.Entry i : temp) {
+                                        if (i.attachment instanceof VKApiArticle)
+                                            articles.add((VKApiArticle) i.attachment);
+                                    }
+                                    return Single.just(articles);
+                                }
+                        ));
+    }
+
+    @Override
     public Single<FavePostsResponse> getPosts(Integer offset, Integer count) {
         return provideService(IFaveService.class)
                 .flatMap(service -> service.getPosts(offset, count, "post", 1, UserColumns.API_FIELDS)
@@ -78,9 +95,25 @@ class FaveApi extends AbsApi implements IFaveApi {
     }
 
     @Override
+    public Single<Boolean> addLink(String link) {
+        return provideService(IFaveService.class)
+                .flatMap(service -> service.addLink(link)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response == 1));
+    }
+
+    @Override
     public Single<Boolean> addVideo(Integer owner_id, Integer id, String access_key) {
         return provideService(IFaveService.class)
                 .flatMap(service -> service.addVideo(owner_id, id, access_key)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response == 1));
+    }
+
+    @Override
+    public Single<Boolean> addArticle(String url) {
+        return provideService(IFaveService.class)
+                .flatMap(service -> service.addArticle(url)
                         .map(extractResponseWithErrorHandling())
                         .map(response -> response == 1));
     }
@@ -105,6 +138,30 @@ class FaveApi extends AbsApi implements IFaveApi {
     public Single<Boolean> removeLink(String linkId) {
         return provideService(IFaveService.class)
                 .flatMap(service -> service.removeLink(linkId)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response == 1));
+    }
+
+    @Override
+    public Single<Boolean> removeArticle(Integer owner_id, Integer article_id) {
+        return provideService(IFaveService.class)
+                .flatMap(service -> service.removeArticle(owner_id, article_id)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response == 1));
+    }
+
+    @Override
+    public Single<Boolean> removePost(Integer owner_id, Integer id) {
+        return provideService(IFaveService.class)
+                .flatMap(service -> service.removePost(owner_id, id)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response == 1));
+    }
+
+    @Override
+    public Single<Boolean> removeVideo(Integer owner_id, Integer id) {
+        return provideService(IFaveService.class)
+                .flatMap(service -> service.removeVideo(owner_id, id)
                         .map(extractResponseWithErrorHandling())
                         .map(response -> response == 1));
     }

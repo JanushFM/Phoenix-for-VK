@@ -56,6 +56,6 @@ public class TmpGalleryPagerPresenter extends PhotoPagerPresenter {
         refreshPagerView();
         resolveButtonsBarVisible();
         resolveToolbarVisibility();
-        refreshInfoViews();
+        refreshInfoViews(true);
     }
 }

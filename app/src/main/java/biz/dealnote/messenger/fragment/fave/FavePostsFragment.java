@@ -21,7 +21,7 @@ import java.util.List;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
-import biz.dealnote.messenger.adapter.WallAdapter;
+import biz.dealnote.messenger.adapter.fave.FavePostAdapter;
 import biz.dealnote.messenger.domain.ILikesInteractor;
 import biz.dealnote.messenger.fragment.base.PlaceSupportMvpFragment;
 import biz.dealnote.messenger.listener.EndlessRecyclerOnScrollListener;
@@ -37,10 +37,10 @@ import biz.dealnote.mvp.core.IPresenterFactory;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class FavePostsFragment extends PlaceSupportMvpFragment<FavePostsPresenter, IFavePostsView>
-        implements WallAdapter.ClickListener, IFavePostsView {
+        implements FavePostAdapter.ClickListener, IFavePostsView {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private WallAdapter mAdapter;
+    private FavePostAdapter mAdapter;
     private TextView mEmpty;
     private boolean isRequestLast;
 
@@ -80,7 +80,7 @@ public class FavePostsFragment extends PlaceSupportMvpFragment<FavePostsPresente
             }
         });
 
-        mAdapter = new WallAdapter(requireActivity(), Collections.emptyList(), this, this);
+        mAdapter = new FavePostAdapter(requireActivity(), Collections.emptyList(), this, this);
         recyclerView.setAdapter(mAdapter);
         return root;
     }
@@ -134,6 +134,11 @@ public class FavePostsFragment extends PlaceSupportMvpFragment<FavePostsPresente
     @Override
     public void onLikeClick(Post post) {
         getPresenter().fireLikeClick(post);
+    }
+
+    @Override
+    public void onDelete(int index, Post post) {
+        getPresenter().firePostDelete(index, post);
     }
 
     @Override

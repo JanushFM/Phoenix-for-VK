@@ -50,6 +50,7 @@ import biz.dealnote.messenger.util.RxUtils.*
 import biz.dealnote.messenger.util.Utils.*
 import biz.dealnote.mvp.reflect.OnGuiCreated
 import io.reactivex.Flowable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposables
 import io.reactivex.functions.Consumer
 import io.reactivex.functions.Predicate
@@ -534,17 +535,21 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         resolveEmptyTextVisibility()
         if (Settings.get().other().isAuto_read && !isCache) {
-            readAllUnreadMessagesIfExists()
-            var need = false
-            for (i: Message in data) {
-                if (i.status == MessageStatus.ERROR) {
-                    need = true
-                    messagesRepository.enqueueAgain(messagesOwnerId, i.id).blockingGet()
-                }
-            }
-            if (need)
-                startSendService()
+            appendDisposable(CheckMessages().compose(applySingleIOToMainSchedulers()).subscribe({ t -> if (t) startSendService() else readAllUnreadMessagesIfExists() }) { })
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun CheckMessages(): Single<Boolean> {
+        if (Settings.get().accounts().getType(accountId) == "hacked") return Single.just(false)
+        var need = false
+        for (i: Message in data) {
+            if (i.status == MessageStatus.ERROR) {
+                need = true
+                messagesRepository.enqueueAgain(messagesOwnerId, i.id).blockingGet()
+            }
+        }
+        return Single.just(need)
     }
 
     private fun setCacheLoadingNow(cacheLoadingNow: Boolean) {

@@ -3,8 +3,8 @@ package biz.dealnote.messenger.activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.model.SelectProfileCriteria;
@@ -60,10 +60,10 @@ public class SelectionUtils {
     }
 
     private static ViewGroup.LayoutParams createLayoutParams(ViewGroup parent) {
-        if (parent instanceof RelativeLayout) {
+        if (parent instanceof FrameLayout) {
             int margin = (int) Utils.dpToPx(6, parent.getContext());
 
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
             params.bottomMargin = margin;

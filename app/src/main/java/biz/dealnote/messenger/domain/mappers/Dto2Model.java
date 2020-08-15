@@ -683,6 +683,7 @@ public class Dto2Model {
                 .setExpires(dto.expires_at)
                 .setIs_expired(dto.is_expired)
                 .setAccessKey(dto.access_key)
+                .setTarget_url(dto.target_url)
                 .setPhoto(dto.photo != null ? transform(dto.photo) : null)
                 .setVideo(dto.video != null ? transform(dto.video) : null)
                 .setOwner(owners.getById(dto.owner_id));
@@ -784,6 +785,13 @@ public class Dto2Model {
     }
 
     public static AudioCatalog transform(@NonNull VKApiAudioCatalog dto) {
+        List<AudioPlaylist> playlists = transformAudioPlaylists(dto.playlists);
+        if (nonNull(dto.playlist)) {
+            if (!nonNull(playlists)) {
+                playlists = new ArrayList<>();
+            }
+            playlists.add(transform(dto.playlist));
+        }
         return new AudioCatalog()
                 .setId(dto.id)
                 .setSource(dto.source)
@@ -793,7 +801,7 @@ public class Dto2Model {
                 .setType(dto.type)
                 .setCount(dto.count)
                 .setAudios(transformAudios(dto.audios))
-                .setPlaylists(transformAudioPlaylists(dto.playlists))
+                .setPlaylists(playlists)
                 .setVideos(transformVideos(dto.videos))
                 .setLinks(transformCatalogLinks(dto.items))
                 .setArtist(dto.artist != null ? transform(dto.artist) : null);
@@ -825,7 +833,8 @@ public class Dto2Model {
                 .setPhoto(isNull(article.photo) ? null : transform(article.photo))
                 .setTitle(article.title)
                 .setSubTitle(article.subtitle)
-                .setURL(article.url);
+                .setURL(article.url)
+                .setIsFavorite(article.is_favorite);
     }
 
     public static Sticker.Image map(VKApiSticker.Image dto) {
@@ -844,8 +853,7 @@ public class Dto2Model {
                 .setUrl(dto.url)
                 .setTitle(dto.title)
                 .setDescription(dto.description)
-                .setPhoto50(dto.photo_50)
-                .setPhoto100(dto.photo_100);
+                .setPhoto(nonNull(dto.photo) ? transform(dto.photo) : null);
     }
 
     public static VoiceMessage transform(VkApiAudioMessage dto) {

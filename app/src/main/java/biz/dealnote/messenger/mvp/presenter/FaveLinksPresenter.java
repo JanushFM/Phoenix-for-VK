@@ -1,13 +1,19 @@
 package biz.dealnote.messenger.mvp.presenter;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.domain.IFaveInteractor;
 import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.model.FaveLink;
@@ -157,6 +163,19 @@ public class FaveLinksPresenter extends AccountDependencyPresenter<IFaveLinksVie
                 break;
             }
         }
+    }
+
+    public void fireAdd(Context context) {
+        View root = View.inflate(context, R.layout.entry_link, null);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.enter_link)
+                .setCancelable(true)
+                .setView(root)
+                .setPositiveButton(R.string.button_ok, (dialog, which) -> actualDisposable.add(faveInteractor.addLink(getAccountId(), ((TextInputEditText) root.findViewById(R.id.edit_link)).getText().toString().trim())
+                        .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                        .subscribe(this::fireRefresh, t -> showError(getView(), getCauseIfRuntime(t)))))
+                .setNegativeButton(R.string.button_cancel, null);
+        builder.create().show();
     }
 
     public void fireLinkClick(FaveLink link) {

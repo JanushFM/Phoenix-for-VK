@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -63,6 +65,9 @@ public class FaveLinksFragment extends BaseMvpFragment<FaveLinksPresenter, IFave
                 getPresenter().fireScrollToEnd();
             }
         });
+
+        FloatingActionButton add = root.findViewById(R.id.add_button);
+        add.setOnClickListener(v -> getPresenter().fireAdd(requireActivity()));
 
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         ViewUtils.setupSwipeRefreshLayoutWithCurrentTheme(requireActivity(), mSwipeRefreshLayout);

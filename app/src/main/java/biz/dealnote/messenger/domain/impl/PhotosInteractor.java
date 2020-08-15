@@ -123,8 +123,18 @@ public class PhotosInteractor implements IPhotosInteractor {
                     if (dtos.isEmpty()) {
                         throw new NotFoundException();
                     }
+                    int pos = -1;
+                    for (int i = 0; i < dtos.size(); i++) {
+                        if (dtos.get(i).id == albumId) {
+                            pos = i;
+                            break;
+                        }
+                    }
+                    if (pos == -1) {
+                        throw new NotFoundException();
+                    }
 
-                    return Dto2Model.transformPhotoAlbum(dtos.get(0));
+                    return Dto2Model.transformPhotoAlbum(dtos.get(pos));
                 });
     }
 

@@ -8,6 +8,7 @@ public class VKApiArticle implements VKApiAttachment {
     public String title;
     public String subtitle;
     public VKApiPhoto photo;
+    public boolean is_favorite;
     public String access_key;
 
     public VKApiArticle() {

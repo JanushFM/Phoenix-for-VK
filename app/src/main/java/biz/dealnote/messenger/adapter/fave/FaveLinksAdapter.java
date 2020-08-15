@@ -16,9 +16,14 @@ import java.util.List;
 
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.model.FaveLink;
+import biz.dealnote.messenger.model.PhotoSizes;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
+
+import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Holder> {
 
@@ -32,6 +37,14 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
         this.context = context;
     }
 
+    public String getImageUrl(FaveLink link) {
+        if (nonNull(link.getPhoto()) && nonNull(link.getPhoto().getSizes())) {
+            PhotoSizes sizes = link.getPhoto().getSizes();
+            return sizes.getUrlForSize(Settings.get().main().getPrefPreviewImageSize(), true);
+        }
+        return null;
+    }
+
     @NotNull
     @Override
     public Holder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
@@ -39,18 +52,41 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
     }
 
     @Override
-    public void onBindViewHolder(Holder holder, int position) {
-        FaveLink link = data.get(position);
-        holder.title.setText(link.getTitle());
-        holder.description.setText(link.getDescription());
+    public void onBindViewHolder(@NotNull Holder holder, int position) {
+        FaveLink item = data.get(position);
+        if (Utils.isEmpty(item.getTitle()))
+            holder.tvTitle.setVisibility(View.GONE);
+        else {
+            holder.tvTitle.setVisibility(View.VISIBLE);
+            holder.tvTitle.setText(item.getTitle());
+        }
+        if (Utils.isEmpty(item.getDescription()))
+            holder.tvDescription.setVisibility(View.GONE);
+        else {
+            holder.tvDescription.setVisibility(View.VISIBLE);
+            holder.tvDescription.setText(item.getDescription());
+        }
+        if (Utils.isEmpty(item.getUrl()))
+            holder.tvURL.setVisibility(View.GONE);
+        else {
+            holder.tvURL.setVisibility(View.VISIBLE);
+            holder.tvURL.setText(item.getUrl());
+        }
 
-        String photo = Utils.firstNonEmptyString(link.getPhoto100(), link.getPhoto50());
-
-        ViewUtils.displayAvatar(holder.image, null, photo, Constants.PICASSO_TAG);
+        String imageUrl = getImageUrl(item);
+        if (imageUrl != null) {
+            holder.ivEmpty.setVisibility(View.GONE);
+            holder.ivImage.setVisibility(View.VISIBLE);
+            ViewUtils.displayAvatar(holder.ivImage, null, imageUrl, Constants.PICASSO_TAG);
+        } else {
+            PicassoInstance.with().cancelRequest(holder.ivImage);
+            holder.ivImage.setVisibility(View.GONE);
+            holder.ivEmpty.setVisibility(View.VISIBLE);
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
-                clickListener.onLinkClick(holder.getAdapterPosition(), link);
+                clickListener.onLinkClick(holder.getBindingAdapterPosition(), item);
             }
         });
     }
@@ -89,17 +125,21 @@ public class FaveLinksAdapter extends RecyclerView.Adapter<FaveLinksAdapter.Hold
 
     public class Holder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
-        ImageView image;
-        TextView title;
-        TextView description;
+        ImageView ivImage;
+        ImageView ivEmpty;
+        TextView tvTitle;
+        TextView tvDescription;
+        TextView tvURL;
 
-        public Holder(View itemView) {
-            super(itemView);
+        public Holder(View root) {
+            super(root);
             itemView.setOnCreateContextMenuListener(this);
 
-            image = itemView.findViewById(R.id.link_image);
-            title = itemView.findViewById(R.id.link_title);
-            description = itemView.findViewById(R.id.link_description);
+            ivImage = root.findViewById(R.id.item_fave_link_image);
+            ivEmpty = root.findViewById(R.id.item_fave_link_empty);
+            tvTitle = root.findViewById(R.id.item_fave_link_title);
+            tvDescription = root.findViewById(R.id.item_fave_link_description);
+            tvURL = root.findViewById(R.id.item_fave_link_url);
         }
 
         @Override

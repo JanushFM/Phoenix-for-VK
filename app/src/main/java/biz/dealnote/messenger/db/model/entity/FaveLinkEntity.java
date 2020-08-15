@@ -10,9 +10,7 @@ public class FaveLinkEntity {
 
     private String description;
 
-    private String photo50;
-
-    private String photo100;
+    private PhotoEntity photo;
 
     public FaveLinkEntity(String id, String url) {
         this.id = id;
@@ -45,21 +43,12 @@ public class FaveLinkEntity {
         return this;
     }
 
-    public String getPhoto50() {
-        return photo50;
+    public PhotoEntity getPhoto() {
+        return photo;
     }
 
-    public FaveLinkEntity setPhoto50(String photo50) {
-        this.photo50 = photo50;
-        return this;
-    }
-
-    public String getPhoto100() {
-        return photo100;
-    }
-
-    public FaveLinkEntity setPhoto100(String photo100) {
-        this.photo100 = photo100;
+    public FaveLinkEntity setPhoto(PhotoEntity photo) {
+        this.photo = photo;
         return this;
     }
 }

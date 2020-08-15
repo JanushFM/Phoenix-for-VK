@@ -5,6 +5,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.model.FaveLinkDto;
+import biz.dealnote.messenger.api.model.VKApiArticle;
 import biz.dealnote.messenger.api.model.VKApiPhoto;
 import biz.dealnote.messenger.api.model.VKApiPost;
 import biz.dealnote.messenger.api.model.VKApiVideo;
@@ -12,6 +13,7 @@ import biz.dealnote.messenger.api.model.VkApiAttachments;
 import biz.dealnote.messenger.api.model.response.FavePageResponse;
 import biz.dealnote.messenger.db.column.UserColumns;
 import biz.dealnote.messenger.db.interfaces.IStorages;
+import biz.dealnote.messenger.db.model.entity.ArticleEntity;
 import biz.dealnote.messenger.db.model.entity.CommunityEntity;
 import biz.dealnote.messenger.db.model.entity.FaveLinkEntity;
 import biz.dealnote.messenger.db.model.entity.FavePageEntity;
@@ -25,6 +27,7 @@ import biz.dealnote.messenger.domain.IOwnersRepository;
 import biz.dealnote.messenger.domain.mappers.Dto2Entity;
 import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.domain.mappers.Entity2Model;
+import biz.dealnote.messenger.model.Article;
 import biz.dealnote.messenger.model.EndlessData;
 import biz.dealnote.messenger.model.FaveLink;
 import biz.dealnote.messenger.model.FavePage;
@@ -33,6 +36,7 @@ import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Video;
+import biz.dealnote.messenger.model.criteria.FaveArticlesCriteria;
 import biz.dealnote.messenger.model.criteria.FavePhotosCriteria;
 import biz.dealnote.messenger.model.criteria.FavePostsCriteria;
 import biz.dealnote.messenger.model.criteria.FaveVideosCriteria;
@@ -60,8 +64,7 @@ public class FaveInteractor implements IFaveInteractor {
     private static FaveLink createLinkFromEntity(FaveLinkEntity entity) {
         return new FaveLink(entity.getId())
                 .setDescription(entity.getDescription())
-                .setPhoto50(entity.getPhoto50())
-                .setPhoto100(entity.getPhoto100())
+                .setPhoto(nonNull(entity.getPhoto()) ? Entity2Model.map(entity.getPhoto()) : null)
                 .setTitle(entity.getTitle())
                 .setUrl(entity.getUrl());
     }
@@ -70,8 +73,7 @@ public class FaveInteractor implements IFaveInteractor {
         return new FaveLinkEntity(dto.id, dto.url)
                 .setDescription(dto.description)
                 .setTitle(dto.title)
-                .setPhoto50(dto.photo_50)
-                .setPhoto100(dto.photo_100);
+                .setPhoto(nonNull(dto.photo) ? Dto2Entity.mapPhoto(dto.photo) : null);
     }
 
     @Override
@@ -179,6 +181,21 @@ public class FaveInteractor implements IFaveInteractor {
     }
 
     @Override
+    public Single<List<Article>> getCachedArticles(int accountId) {
+        FaveArticlesCriteria criteria = new FaveArticlesCriteria(accountId);
+
+        return cache.fave()
+                .getArticles(criteria)
+                .map(articleDbos -> {
+                    List<Article> articles = new ArrayList<>(articleDbos.size());
+                    for (ArticleEntity dbo : articleDbos) {
+                        articles.add(Entity2Model.buildArticleFromDbo(dbo));
+                    }
+                    return articles;
+                });
+    }
+
+    @Override
     public Single<List<Video>> getVideos(int accountId, int count, int offset) {
         return networker.vkDefault(accountId)
                 .fave()
@@ -196,6 +213,27 @@ public class FaveInteractor implements IFaveInteractor {
 
                     return cache.fave().storeVideos(accountId, dbos, offset == 0)
                             .map(ints -> videos);
+                });
+    }
+
+    @Override
+    public Single<List<Article>> getArticles(int accountId, int count, int offset) {
+        return networker.vkDefault(accountId)
+                .fave()
+                .getArticles(offset, count)
+                .flatMap(items -> {
+                    List<VKApiArticle> dtos = listEmptyIfNull(items);
+
+                    List<ArticleEntity> dbos = new ArrayList<>(dtos.size());
+                    List<Article> articles = new ArrayList<>(dtos.size());
+
+                    for (VKApiArticle dto : dtos) {
+                        dbos.add(Dto2Entity.mapArticle(dto));
+                        articles.add(Dto2Model.transform(dto));
+                    }
+
+                    return cache.fave().storeArticles(accountId, dbos, offset == 0)
+                            .map(ints -> articles);
                 });
     }
 
@@ -300,6 +338,27 @@ public class FaveInteractor implements IFaveInteractor {
     }
 
     @Override
+    public Single<Boolean> removeArticle(int accountId, Integer owner_id, Integer article_id) {
+        return networker.vkDefault(accountId)
+                .fave()
+                .removeArticle(owner_id, article_id);
+    }
+
+    @Override
+    public Single<Boolean> removePost(int accountId, Integer owner_id, Integer id) {
+        return networker.vkDefault(accountId)
+                .fave()
+                .removePost(owner_id, id);
+    }
+
+    @Override
+    public Single<Boolean> removeVideo(int accountId, Integer owner_id, Integer id) {
+        return networker.vkDefault(accountId)
+                .fave()
+                .removeVideo(owner_id, id);
+    }
+
+    @Override
     public Completable addPage(int accountId, int ownerId) {
         return networker.vkDefault(accountId)
                 .fave()
@@ -308,10 +367,26 @@ public class FaveInteractor implements IFaveInteractor {
     }
 
     @Override
+    public Completable addLink(int accountId, String link) {
+        return networker.vkDefault(accountId)
+                .fave()
+                .addLink(link)
+                .ignoreElement();
+    }
+
+    @Override
     public Completable addVideo(int accountId, Integer owner_id, Integer id, String access_key) {
         return networker.vkDefault(accountId)
                 .fave()
                 .addVideo(owner_id, id, access_key)
+                .ignoreElement();
+    }
+
+    @Override
+    public Completable addArticle(int accountId, String url) {
+        return networker.vkDefault(accountId)
+                .fave()
+                .addArticle(url)
                 .ignoreElement();
     }
 

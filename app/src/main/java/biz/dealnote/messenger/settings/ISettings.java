@@ -141,6 +141,10 @@ public interface ISettings {
         boolean isRunes_show();
 
         boolean isRunes_valknut();
+
+        boolean isSymbolSelectShow();
+
+        void setSymbolSelectShow(boolean show);
     }
 
     interface IAccountsSettings {

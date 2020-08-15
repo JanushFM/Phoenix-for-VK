@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,8 +28,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.developer.filepicker.model.DialogConfigs;
 import com.developer.filepicker.model.DialogProperties;
 import com.developer.filepicker.view.FilePickerDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -67,7 +70,6 @@ import biz.dealnote.messenger.activity.LoginActivity;
 import biz.dealnote.messenger.activity.ProxyManagerActivity;
 import biz.dealnote.messenger.adapter.AccountAdapter;
 import biz.dealnote.messenger.api.Auth;
-import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.db.DBHelper;
 import biz.dealnote.messenger.dialog.DirectAuthDialog;
 import biz.dealnote.messenger.domain.IAccountsInteractor;
@@ -79,6 +81,8 @@ import biz.dealnote.messenger.longpoll.LongpollInstance;
 import biz.dealnote.messenger.modalbottomsheetdialogfragment.ModalBottomSheetDialogFragment;
 import biz.dealnote.messenger.modalbottomsheetdialogfragment.OptionRequest;
 import biz.dealnote.messenger.model.Account;
+import biz.dealnote.messenger.model.IOwnersBundle;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
@@ -90,8 +94,6 @@ import biz.dealnote.messenger.util.ShortcutUtils;
 import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Completable;
 import io.reactivex.disposables.CompositeDisposable;
-
-import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
 public class AccountsFragment extends BaseFragment implements View.OnClickListener, AccountAdapter.Callback {
 
@@ -237,10 +239,9 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         dialog.setDialogSelectionListener(files -> {
             File file = new File(files[0], "phoenix_accounts_backup.json");
 
-            appendDisposable(Injection.provideNetworkInterfaces().vkDefault(Settings.get().accounts().getCurrent()).users().get(Settings.get().accounts().getRegistered(), null, "photo_max_orig,first_name,last_name", null)
+            appendDisposable(mOwnersInteractor.findBaseOwnersDataAsBundle(Settings.get().accounts().getCurrent(), Settings.get().accounts().getRegistered(), IOwnersRepository.MODE_ANY)
                     .compose(RxUtils.applySingleIOToMainSchedulers())
-                    .subscribe(userInfo ->
-                            SaveAccounts(file, userInfo), throwable -> SaveAccounts(file, null)));
+                    .subscribe(userInfo -> SaveAccounts(file, userInfo), throwable -> SaveAccounts(file, null)));
         });
         dialog.show();
     }
@@ -385,7 +386,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             while (!d.ready()) {
                 try {
                     Thread.sleep(10);
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException | IllegalArgumentException ignored) {
                 }
             }
             String currUid = d.readLine();
@@ -426,7 +427,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             while (!d.ready()) {
                 try {
                     Thread.sleep(10);
-                } catch (InterruptedException ignored) {
+                } catch (InterruptedException | IllegalArgumentException ignored) {
                 }
             }
 
@@ -531,31 +532,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
         });
     }
 
-    private VKApiUser getByID(List<VKApiUser> Users, int user_id) {
-        for (VKApiUser i : Users) {
-            if (i.id == user_id)
-                return i;
-        }
-        return null;
-    }
-
-    private void AddUserInfo(JsonObject temp, List<VKApiUser> Users, int user_id) {
-        if (Users == null) {
-            temp.addProperty("user_name", "error");
-            temp.addProperty("avatar", "error");
-            return;
-        }
-        VKApiUser usr = getByID(Users, user_id);
-        if (usr == null) {
-            temp.addProperty("user_name", "error");
-            temp.addProperty("avatar", "error");
-            return;
-        }
-        temp.addProperty("user_name", firstNonEmptyString(usr.last_name, " ") + " " + firstNonEmptyString(usr.first_name, " "));
-        temp.addProperty("avatar", firstNonEmptyString(usr.photo_max_orig, " "));
-    }
-
-    private void SaveAccounts(File file, List<VKApiUser> Users) {
+    private void SaveAccounts(File file, IOwnersBundle Users) {
         FileOutputStream out = null;
         try {
             JsonObject root = new JsonObject();
@@ -563,10 +540,13 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
             for (int i : Settings.get().accounts().getRegistered()) {
                 JsonObject temp = new JsonObject();
 
-                AddUserInfo(temp, Users, i);
+                Owner owner = Users.getById(i);
+                temp.addProperty("user_name", owner.getFullName());
                 temp.addProperty("user_id", i);
-                temp.addProperty("access_token", Settings.get().accounts().getAccessToken(i));
                 temp.addProperty("type", Settings.get().accounts().getType(i));
+                temp.addProperty("domain", owner.getDomain());
+                temp.addProperty("access_token", Settings.get().accounts().getAccessToken(i));
+                temp.addProperty("avatar", owner.getMaxSquareAvatar());
                 arr.add(temp);
             }
             root.add("phoenix_accounts", arr);
@@ -592,6 +572,24 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
 
         if (item.getItemId() == R.id.action_preferences) {
             PlaceFactory.getPreferencesPlace(Settings.get().accounts().getCurrent()).tryOpenWith(requireActivity());
+            return true;
+        }
+
+        if (item.getItemId() == R.id.entry_account) {
+            View root = View.inflate(requireActivity(), R.layout.entry_account, null);
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle(R.string.entry_account)
+                    .setCancelable(true)
+                    .setView(root)
+                    .setPositiveButton(R.string.button_ok, (dialog, which) -> {
+                        int id = Integer.parseInt(((TextInputEditText) root.findViewById(R.id.edit_user_id)).getText().toString().trim());
+                        String access_token = ((TextInputEditText) root.findViewById(R.id.edit_access_token)).getText().toString().trim();
+                        int selected = ((Spinner) root.findViewById(R.id.access_token_type)).getSelectedItemPosition();
+                        String[] types = {"vkofficial", "kate", "hacked"};
+                        processNewAccount(id, access_token, types[selected], "", "", "phoenix_app", true, false);
+                    })
+                    .setNegativeButton(R.string.button_cancel, null);
+            builder.create().show();
             return true;
         }
 
@@ -668,7 +666,7 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NotNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.export_accounts).setVisible(mData.size() > 0);
     }

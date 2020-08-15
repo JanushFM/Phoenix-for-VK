@@ -5,8 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,13 +14,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
@@ -42,13 +38,11 @@ import java.util.List;
 
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
-import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.activity.ActivityFeatures;
 import biz.dealnote.messenger.activity.ActivityUtils;
 import biz.dealnote.messenger.activity.SendAttachmentsActivity;
 import biz.dealnote.messenger.api.PicassoInstance;
-import biz.dealnote.messenger.api.model.VKApiPhotoTags;
 import biz.dealnote.messenger.domain.ILikesInteractor;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.listener.BackPressCallback;
@@ -67,10 +61,8 @@ import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.place.PlaceUtil;
 import biz.dealnote.messenger.settings.Settings;
-import biz.dealnote.messenger.util.AppTextUtils;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
-import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.CircleCounterButton;
 import biz.dealnote.messenger.view.TouchImageView;
@@ -108,6 +100,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
 
     private final WeakGoBackAnimationAdapter mGoBackAnimationAdapter = new WeakGoBackAnimationAdapter(this);
     private ViewPager2 mViewPager;
+    private CircleCounterButton mButtonWithUser;
     private CircleCounterButton mButtonLike;
     private CircleCounterButton mButtonComments;
     private CircleCounterButton buttonShare;
@@ -225,6 +218,9 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
             getPresenter().fireLikeLongClick();
             return false;
         });
+
+        mButtonWithUser = root.findViewById(R.id.with_user_button);
+        mButtonWithUser.setOnClickListener(v -> getPresenter().fireWithUserClick());
 
         mButtonComments = root.findViewById(R.id.comments_button);
         mButtonComments.setOnClickListener(v -> getPresenter().fireCommentsButtonClick());
@@ -371,6 +367,14 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
     }
 
     @Override
+    public void setupWithUserButton(int users) {
+        if (nonNull(mButtonWithUser)) {
+            mButtonWithUser.setVisibility(users > 0 ? View.VISIBLE : View.GONE);
+            mButtonWithUser.setCount(users);
+        }
+    }
+
+    @Override
     public void setupShareButton(boolean visible) {
         if (nonNull(buttonShare)) {
             buttonShare.setVisibility(visible ? View.VISIBLE : View.GONE);
@@ -491,65 +495,6 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
     public void rebindPhotoAt(int position) {
         if (nonNull(mPagerAdapter)) {
             mPagerAdapter.notifyItemChanged(position);
-        }
-    }
-
-    @Override
-    public void showPhotoInfo(Photo photo) {
-        AlertDialog dlg = new MaterialAlertDialogBuilder(requireActivity())
-                .setTitle(requireContext().getString(R.string.uploaded) + " " + AppTextUtils.getDateFromUnixTime(photo.getDate()))
-                .setPositiveButton("OK", null)
-                .setCancelable(true)
-                .create();
-        String res = "";
-        res += "<p><i><a href=\"" + "https://vk.com/album" + photo.getOwnerId() + "_" + photo.getAlbumId() + "\">" + requireContext().getString(R.string.open_photo_album) + "</a></i></p>";
-        if (photo.getOwnerId() >= 0)
-            res += "<p><i><a href=\"" + "https://vk.com/id" + photo.getOwnerId() + "\">" + requireContext().getString(R.string.goto_user) + "</a></i></p>";
-        else
-            res += "<p><i><a href=\"" + "https://vk.com/club" + (photo.getOwnerId() * -1) + "\">" + requireContext().getString(R.string.goto_community) + "</a></i></p>";
-        if (photo.getText().length() > 0)
-            res += ("<p><b>" + requireContext().getString(R.string.description_hint) + ":</b></p>" + photo.getText());
-        if (photo.getTagsCount() > 0) {
-            String finalRes = res;
-            getPresenter().appendDisposable(
-                    Injection.provideNetworkInterfaces().vkDefault(Settings.get().accounts().getCurrent()).photos().getTags(photo.getOwnerId(), photo.getId(), photo.getAccessKey())
-                            .compose(RxUtils.applySingleIOToMainSchedulers())
-                            .subscribe(userInfo -> {
-                                StringBuilder tmp = new StringBuilder(finalRes);
-                                tmp.append("<p><b>").append(requireContext().getString(R.string.has_tags)).append(":</b></p>").append(photo.getText());
-                                for (VKApiPhotoTags i : userInfo) {
-                                    if (i.user_id != 0)
-                                        tmp.append("<i><a href=\"https://vk.com/id").append(i.user_id).append("\">").append(i.tagged_name != null ? i.tagged_name : "").append("</a></i>").append(" ");
-                                    else
-                                        tmp.append(i.tagged_name != null ? i.tagged_name : "").append(" ");
-                                }
-                                dlg.setMessage(Html.fromHtml(tmp.toString()));
-                                dlg.show();
-                                try {
-                                    TextView tv = dlg.findViewById(android.R.id.message);
-                                    if (tv != null)
-                                        tv.setMovementMethod(LinkMovementMethod.getInstance());
-                                } catch (Exception ignored) {
-                                }
-                            }, throwable -> {
-                                dlg.setMessage(Html.fromHtml(finalRes));
-                                dlg.show();
-                                try {
-                                    TextView tv = dlg.findViewById(android.R.id.message);
-                                    if (tv != null)
-                                        tv.setMovementMethod(LinkMovementMethod.getInstance());
-                                } catch (Exception ignored) {
-                                }
-                            }));
-            return;
-        }
-
-        dlg.setMessage(Html.fromHtml(res));
-        dlg.show();
-        try {
-            TextView tv = dlg.findViewById(android.R.id.message);
-            if (tv != null) tv.setMovementMethod(LinkMovementMethod.getInstance());
-        } catch (Exception ignored) {
         }
     }
 

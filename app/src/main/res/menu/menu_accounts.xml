@@ -20,4 +20,8 @@
         android:id="@+id/export_accounts"
         android:title="@string/export_accounts" />
 
+    <item
+        android:id="@+id/entry_account"
+        android:title="@string/entry_account" />
+
 </menu>

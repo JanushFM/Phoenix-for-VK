@@ -18,5 +18,7 @@ public interface IAccountsInteractor {
 
     Completable changeStatus(int accountId, String status);
 
+    Single<Boolean> setOffline(int accountId);
+
     Single<List<Account>> getAll();
 }

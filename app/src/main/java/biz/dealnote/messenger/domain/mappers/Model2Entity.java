@@ -213,7 +213,8 @@ public class Model2Entity {
                 .setPhoto(isNull(dbo.getPhoto()) ? null : buildPhotoEntity(dbo.getPhoto()))
                 .setTitle(dbo.getTitle())
                 .setSubTitle(dbo.getSubTitle())
-                .setURL(dbo.getURL());
+                .setURL(dbo.getURL())
+                .setIsFavorite(dbo.getIsFavorite());
     }
 
     public static StoryEntity buildStoryDbo(Story dbo) {
@@ -223,6 +224,7 @@ public class Model2Entity {
                 .setExpires(dbo.getExpires())
                 .setIs_expired(dbo.isIs_expired())
                 .setAccessKey(dbo.getAccessKey())
+                .setTarget_url(dbo.getTarget_url())
                 .setPhoto(isNull(dbo.getPhoto()) ? null : buildPhotoEntity(dbo.getPhoto()))
                 .setVideo(dbo.getVideo() != null ? buildVideoDbo(dbo.getVideo()) : null);
     }

@@ -43,6 +43,7 @@ import biz.dealnote.messenger.activity.ActivityFeatures;
 import biz.dealnote.messenger.activity.ActivityUtils;
 import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
+import biz.dealnote.messenger.link.LinkHelper;
 import biz.dealnote.messenger.listener.BackPressCallback;
 import biz.dealnote.messenger.media.gif.IGifPlayer;
 import biz.dealnote.messenger.model.PhotoSize;
@@ -88,6 +89,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     private TextView mExp;
     private Transformation transformation;
     private CircleCounterButton mDownload;
+    private CircleCounterButton mLink;
     private boolean mFullscreen;
 
     public static StoryPagerFragment newInstance(Bundle args) {
@@ -141,6 +143,8 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
 
         mDownload = root.findViewById(R.id.button_download);
         mDownload.setOnClickListener(v -> getPresenter().fireDownloadButtonClick());
+
+        mLink = root.findViewById(R.id.button_link);
 
         resolveFullscreenViews();
         return root;
@@ -278,12 +282,12 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     }
 
     @Override
-    public void setToolbarSubtitle(Story story) {
+    public void setToolbarSubtitle(@NonNull Story story, int account_id) {
         ActionBar actionBar = ActivityUtils.supportToolbarFor(this);
         if (Objects.nonNull(actionBar)) {
             actionBar.setSubtitle(story.getOwner().getFullName());
         }
-        Avatar.setOnClickListener(v -> PlaceFactory.getOwnerWallPlace(getPresenter().getAccountId(), story.getOwner()).tryOpenWith(requireActivity()));
+        Avatar.setOnClickListener(v -> PlaceFactory.getOwnerWallPlace(account_id, story.getOwner()).tryOpenWith(requireActivity()));
         ViewUtils.displayAvatar(Avatar, transformation, story.getOwner().getMaxSquareAvatar(), Constants.PICASSO_TAG);
 
         if (Objects.nonNull(mExp)) {
@@ -291,8 +295,17 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
                 mExp.setVisibility(View.GONE);
             else {
                 mExp.setVisibility(View.VISIBLE);
-                Long exp = (story.getExpires() - Calendar.getInstance().getTime().getTime() / 1000) / 3600;
+                long exp = (story.getExpires() - Calendar.getInstance().getTime().getTime() / 1000) / 3600;
                 mExp.setText(getString(R.string.expires, String.valueOf(exp), getString(Utils.declOfNum(exp, new int[]{R.string.hour, R.string.hour_sec, R.string.hours}))));
+            }
+        }
+
+        if (Objects.nonNull(mLink)) {
+            if (Utils.isEmpty(story.getTarget_url())) {
+                mLink.setVisibility(View.GONE);
+            } else {
+                mLink.setVisibility(View.VISIBLE);
+                mLink.setOnClickListener(v -> LinkHelper.openUrl(requireActivity(), account_id, story.getTarget_url()));
             }
         }
     }
@@ -308,7 +321,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
     }
 
     private void fireHolderCreate(@NonNull MultiHolder holder) {
-        getPresenter().fireHolderCreate(holder.getAdapterPosition());
+        getPresenter().fireHolderCreate(holder.getBindingAdapterPosition());
     }
 
     public MultiHolder findByPosition(int position) {
@@ -378,7 +391,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         public void surfaceCreated(SurfaceHolder holder) {
             mSurfaceReady = true;
             if (isPresenterPrepared()) {
-                getPresenter().fireSurfaceCreated(getAdapterPosition());
+                getPresenter().fireSurfaceCreated(getBindingAdapterPosition());
             }
         }
 
@@ -594,13 +607,13 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         @Override
         public void onViewDetachedFromWindow(@NotNull MultiHolder holder) {
             super.onViewDetachedFromWindow(holder);
-            mHolderSparseArray.remove(holder.getAdapterPosition());
+            mHolderSparseArray.remove(holder.getBindingAdapterPosition());
         }
 
         @Override
         public void onViewAttachedToWindow(@NotNull MultiHolder holder) {
             super.onViewAttachedToWindow(holder);
-            mHolderSparseArray.put(holder.getAdapterPosition(), new WeakReference<>(holder));
+            mHolderSparseArray.put(holder.getBindingAdapterPosition(), new WeakReference<>(holder));
             fireHolderCreate(holder);
         }
     }

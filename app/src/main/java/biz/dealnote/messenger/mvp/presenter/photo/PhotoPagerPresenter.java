@@ -2,27 +2,41 @@ package biz.dealnote.messenger.mvp.presenter.photo;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.App;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.api.model.VKApiPhotoTags;
+import biz.dealnote.messenger.domain.IOwnersRepository;
 import biz.dealnote.messenger.domain.IPhotosInteractor;
 import biz.dealnote.messenger.domain.InteractorFactory;
+import biz.dealnote.messenger.domain.Repository;
+import biz.dealnote.messenger.model.AccessIdPair;
 import biz.dealnote.messenger.model.Commented;
+import biz.dealnote.messenger.model.IOwnersBundle;
 import biz.dealnote.messenger.model.Photo;
+import biz.dealnote.messenger.model.PhotoAlbum;
 import biz.dealnote.messenger.model.PhotoSize;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IPhotoPagerView;
 import biz.dealnote.messenger.push.OwnerInfo;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppPerms;
+import biz.dealnote.messenger.util.AppTextUtils;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
@@ -133,7 +147,7 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
         super.onGuiCreated(viewHost);
         getView().displayPhotos(mPhotos, mCurrentIndex);
 
-        refreshInfoViews();
+        refreshInfoViews(true);
         resolveRestoreButtonVisibility();
         resolveToolbarVisibility();
         resolveButtonsBarVisible();
@@ -157,6 +171,10 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
         onPositionChanged();
     }
 
+    void updatePhotoInfo() {
+
+    }
+
     private void resolveLikeView() {
         if (isGuiReady() && hasPhotos()) {
             if (isStory) {
@@ -165,6 +183,13 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
             }
             Photo photo = getCurrent();
             getView().setupLikeButton(true, photo.isUserLikes(), photo.getLikesCount());
+        }
+    }
+
+    private void resolveWithUserView() {
+        if (isGuiReady() && hasPhotos()) {
+            Photo photo = getCurrent();
+            getView().setupWithUserButton(photo.getTagsCount());
         }
     }
 
@@ -204,13 +229,51 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     private void onPositionChanged() {
-        refreshInfoViews();
+        refreshInfoViews(true);
         resolveRestoreButtonVisibility();
         resolveOptionMenu();
     }
 
+    private void showPhotoInfo(@NonNull Photo photo, PhotoAlbum album, IOwnersBundle bundle) {
+        AlertDialog dlg = new MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.uploaded) + " " + AppTextUtils.getDateFromUnixTime(photo.getDate()))
+                .setPositiveButton("OK", null)
+                .setCancelable(true)
+                .create();
+        String res = "";
+        String album_info = (album == null ? context.getString(R.string.open_photo_album) : album.getTitle());
+        String user = (photo.getOwnerId() >= 0 ? context.getString(R.string.goto_user) : context.getString(R.string.goto_community));
+        if (bundle != null) {
+            user = bundle.getById(photo.getOwnerId()).getFullName();
+        }
+        res += "<p><i><a href=\"" + "https://vk.com/album" + photo.getOwnerId() + "_" + photo.getAlbumId() + "\">" + album_info + "</a></i></p>";
+        if (photo.getOwnerId() >= 0)
+            res += "<p><i><a href=\"" + "https://vk.com/id" + photo.getOwnerId() + "\">" + user + "</a></i></p>";
+        else
+            res += "<p><i><a href=\"" + "https://vk.com/club" + (photo.getOwnerId() * -1) + "\">" + user + "</a></i></p>";
+        if (photo.getText().length() > 0)
+            res += ("<p><b>" + context.getString(R.string.description_hint) + ":</b></p>" + photo.getText());
+
+        dlg.setMessage(Html.fromHtml(res));
+        dlg.show();
+        try {
+            TextView tv = dlg.findViewById(android.R.id.message);
+            if (tv != null) tv.setMovementMethod(LinkMovementMethod.getInstance());
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void getOwnerForPhoto(@NonNull Photo photo, PhotoAlbum album) {
+        appendDisposable(Repository.INSTANCE.getOwners().findBaseOwnersDataAsBundle(getAccountId(), Collections.singleton(photo.getOwnerId()), IOwnersRepository.MODE_ANY)
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(t -> showPhotoInfo(photo, album, t), i -> showPhotoInfo(photo, album, null)));
+    }
+
     public void fireInfoButtonClick() {
-        getView().showPhotoInfo(getCurrent());
+        Photo photo = getCurrent();
+        appendDisposable(photosInteractor.getAlbumById(getAccountId(), photo.getOwnerId(), photo.getAlbumId())
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(t -> getOwnerForPhoto(photo, t), i -> getOwnerForPhoto(photo, null)));
     }
 
     public void fireShareButtonClick() {
@@ -223,12 +286,34 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
         getView().postToMyWall(photo, getAccountId());
     }
 
-    void refreshInfoViews() {
+    void refreshInfoViews(boolean need_update) {
         resolveToolbarTitleSubtitleView();
         resolveLikeView();
+        resolveWithUserView();
         resolveShareView();
         resolveCommentsView();
         resolveOptionMenu();
+        if (need_update && need_update_info() && hasPhotos()) {
+            Photo photo = getCurrent();
+            appendDisposable(photosInteractor.getPhotosByIds(getAccountId(),
+                    Collections.singleton(new AccessIdPair(photo.getId(), photo.getOwnerId(), photo.getAccessKey())))
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(t -> {
+                        if (t.get(0).getId() == photo.getId()) {
+                            Photo ne = t.get(0);
+                            if (ne.getAccessKey() == null) {
+                                ne.setAccessKey(photo.getAccessKey());
+                            }
+                            mPhotos.set(getCurrentIndex(), ne);
+                            refreshInfoViews(false);
+                        }
+                    }, throwable -> {
+                    }));
+        }
+    }
+
+    protected boolean need_update_info() {
+        return false;
     }
 
     public void fireLikeClick() {
@@ -236,6 +321,9 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     }
 
     private void addOrRemoveLike() {
+        if (Settings.get().accounts().getType(getAccountId()).equals("hacked")) {
+            return;
+        }
         Photo photo = getCurrent();
 
         int ownerId = photo.getOwnerId();
@@ -384,6 +472,38 @@ public class PhotoPagerPresenter extends AccountDependencyPresenter<IPhotoPagerV
     public void fireCommentsButtonClick() {
         Photo photo = getCurrent();
         getView().goToComments(getAccountId(), Commented.from(photo));
+    }
+
+    public void fireWithUserClick() {
+        Photo photo = getCurrent();
+        AlertDialog dlg = new MaterialAlertDialogBuilder(context)
+                .setTitle(context.getString(R.string.uploaded) + " " + AppTextUtils.getDateFromUnixTime(photo.getDate()))
+                .setPositiveButton("OK", null)
+                .setCancelable(true)
+                .create();
+        appendDisposable(
+                InteractorFactory.createPhotosInteractor().getTags(getAccountId(), photo.getOwnerId(), photo.getId(), photo.getAccessKey())
+                        .compose(RxUtils.applySingleIOToMainSchedulers())
+                        .subscribe(userInfo -> {
+                            StringBuilder tmp = new StringBuilder();
+                            tmp.append("<p><b>").append(context.getString(R.string.has_tags)).append(":</b></p>");
+                            for (VKApiPhotoTags i : userInfo) {
+                                if (i.user_id != 0)
+                                    tmp.append("<i><a href=\"https://vk.com/id").append(i.user_id).append("\">").append(i.tagged_name != null ? i.tagged_name : "").append("</a></i>").append(" ");
+                                else
+                                    tmp.append(i.tagged_name != null ? i.tagged_name : "").append(" ");
+                            }
+                            dlg.setMessage(Html.fromHtml(tmp.toString()));
+                            dlg.show();
+                            try {
+                                TextView tv = dlg.findViewById(android.R.id.message);
+                                if (tv != null)
+                                    tv.setMovementMethod(LinkMovementMethod.getInstance());
+                            } catch (Exception ignored) {
+                            }
+                        }, throwable -> {
+                            showError(getView(), throwable);
+                        }));
     }
 
     private boolean hasPhotos() {

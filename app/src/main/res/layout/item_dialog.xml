@@ -79,8 +79,8 @@
             <biz.dealnote.messenger.view.OnlineView
                 android:id="@+id/item_chat_online"
                 android:layout_width="16dp"
-                android:layout_gravity="bottom|start"
                 android:layout_height="16dp"
+                android:layout_gravity="bottom|start"
                 android:padding="3dp"
                 app:circle_color="?icon_color_active"
                 app:stroke_color="?android:colorBackground" />
