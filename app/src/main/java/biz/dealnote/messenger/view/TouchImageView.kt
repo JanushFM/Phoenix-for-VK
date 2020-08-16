@@ -202,7 +202,7 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
      *
      * @return true if image is zoomed
      */
-    private val isZoomed: Boolean
+    val isZoomed: Boolean
         get() = currentZoom != 1f
 
     /**
@@ -848,15 +848,19 @@ class TouchImageView @JvmOverloads constructor(context: Context, attrs: Attribut
         override fun onDoubleTap(e: MotionEvent?): Boolean {
             var consumed = false
             if (e != null && isZoomEnabled) {
-                doubleTapListener?.let {
-                    consumed = it.onDoubleTap(e)
-                }
                 if (state == State.NONE) {
                     val maxZoomScale = if (doubleTapScale == 0f) maxScale else doubleTapScale
                     val targetZoom = if (currentZoom == minScale) maxZoomScale else (if (currentZoom < maxScale - 1) maxScale else minScale)
                     val doubleTap = DoubleTapZoom(targetZoom, e.x, e.y, false)
                     compatPostOnAnimation(doubleTap)
                     consumed = true
+                }
+                doubleTapListener?.let {
+                    if (!consumed) {
+                        consumed = it.onDoubleTap(e)
+                    } else {
+                        it.onDoubleTap(e)
+                    }
                 }
             }
             return consumed

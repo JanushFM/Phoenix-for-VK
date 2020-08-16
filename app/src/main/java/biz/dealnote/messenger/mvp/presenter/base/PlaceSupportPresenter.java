@@ -55,8 +55,8 @@ public abstract class PlaceSupportPresenter<V extends IMvpView & IAttachmentsPla
         getView().openStory(getAccountId(), story);
     }
 
-    public void firePhotoClick(@NonNull ArrayList<Photo> photos, int index) {
-        getView().openSimplePhotoGallery(getAccountId(), photos, index, true);
+    public void firePhotoClick(@NonNull ArrayList<Photo> photos, int index, boolean refresh) {
+        getView().openSimplePhotoGallery(getAccountId(), photos, index, refresh);
     }
 
     public void firePostClick(@NonNull Post post) {

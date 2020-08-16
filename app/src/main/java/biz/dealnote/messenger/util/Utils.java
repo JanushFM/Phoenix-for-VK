@@ -19,6 +19,7 @@ import android.graphics.BlendModeColorFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Shader;
@@ -41,6 +42,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.graphics.ColorUtils;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
@@ -1197,6 +1200,51 @@ public class Utils {
         Completable.complete()
                 .observeOn(Injection.provideMainThreadScheduler())
                 .subscribe(function::call);
+    }
+
+    /**
+     * Returns the bitmap position inside an imageView.
+     *
+     * @param imageView source ImageView
+     * @return 0: left, 1: top, 2: width, 3: height
+     */
+    public static int[] getBitmapPositionInsideImageView(@NonNull ImageView imageView) {
+        int[] ret = new int[4];
+        if (imageView.getDrawable() == null)
+            return ret;
+        // Get image dimensions
+        // Get image matrix values and place them in an array
+        float[] f = new float[9];
+        imageView.getImageMatrix().getValues(f);
+        // Extract the scale values using the constants (if aspect ratio maintained, scaleX == scaleY)
+        float scaleX = f[Matrix.MSCALE_X];
+        float scaleY = f[Matrix.MSCALE_Y];
+        // Get the drawable (could also get the bitmap behind the drawable and getWidth/getHeight)
+        Drawable d = imageView.getDrawable();
+        int origW = d.getIntrinsicWidth();
+        int origH = d.getIntrinsicHeight();
+        // Calculate the actual dimensions
+        int actW = Math.round(origW * scaleX);
+        int actH = Math.round(origH * scaleY);
+        ret[2] = actW;
+        ret[3] = actH;
+        // Get image position
+        // We assume that the image is centered into ImageView
+        int imgViewW = imageView.getWidth();
+        int imgViewH = imageView.getHeight();
+        int top = (int) ((float) imgViewH - actH) / 2;
+        int left = (int) ((float) imgViewW - actW) / 2;
+        ret[0] = left;
+        ret[1] = top;
+        return ret;
+    }
+
+    public static <T extends RecyclerView.ViewHolder> View createAlertRecycleFrame(@NonNull Context context, @NonNull RecyclerView.Adapter<T> adapter) {
+        View root = View.inflate(context, R.layout.alert_recycle_frame, null);
+        RecyclerView recyclerView = root.findViewById(R.id.alert_recycle);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
+        return root;
     }
 
     public interface safeCallInt {

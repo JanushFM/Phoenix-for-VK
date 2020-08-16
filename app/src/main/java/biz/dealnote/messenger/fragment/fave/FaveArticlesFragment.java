@@ -134,7 +134,7 @@ public class FaveArticlesFragment extends BaseMvpFragment<FaveArticlesPresenter,
     @Override
     public void goToPhoto(int accountId, Photo photo) {
         ArrayList<Photo> temp = new ArrayList<>(Collections.singletonList(photo));
-        PlaceFactory.getSimpleGalleryPlace(accountId, temp, 0, true).tryOpenWith(requireActivity());
+        PlaceFactory.getSimpleGalleryPlace(accountId, temp, 0, false).tryOpenWith(requireActivity());
     }
 
     @NotNull

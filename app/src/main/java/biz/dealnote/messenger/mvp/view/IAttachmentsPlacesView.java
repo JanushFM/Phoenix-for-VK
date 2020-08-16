@@ -37,8 +37,6 @@ public interface IAttachmentsPlacesView {
 
     void openSimplePhotoGallery(int accountId, @NonNull ArrayList<Photo> photos, int index, boolean needUpdate);
 
-    void openSimplePhotoGalleryHistory(int accountId, @NonNull ArrayList<Photo> photos, int index, boolean needUpdate);
-
     void openPost(int accountId, @NonNull Post post);
 
     void openDocPreview(int accountId, @NonNull Document document);

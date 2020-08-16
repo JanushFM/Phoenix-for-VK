@@ -180,6 +180,10 @@ public class BrowserFragment extends BaseFragment implements BackPressCallback {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.contains("github.com")) {
+                view.loadUrl(url);
+                return true;
+            }
             AbsLink link = VkLinkParser.parse(url);
             Logger.d(TAG, "shouldOverrideUrlLoading, link: " + link + ", url: " + url);
 

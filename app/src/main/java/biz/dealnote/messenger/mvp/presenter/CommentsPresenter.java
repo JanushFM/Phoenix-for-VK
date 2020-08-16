@@ -812,7 +812,7 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
                         .setId(commented.getSourceId())
                         .setAccessKey(commented.getAccessKey());
 
-                firePhotoClick(Utils.singletonArrayList(photo), 0);
+                firePhotoClick(Utils.singletonArrayList(photo), 0, true);
                 break;
 
             case CommentedType.POST:

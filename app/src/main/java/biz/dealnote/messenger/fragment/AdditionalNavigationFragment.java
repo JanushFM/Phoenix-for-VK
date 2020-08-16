@@ -78,7 +78,7 @@ public class AdditionalNavigationFragment extends BaseFragment implements MenuLi
     public static final SectionMenuItem SECTION_ITEM_FEEDBACK = new IconMenuItem(PAGE_NOTIFICATION, R.drawable.feed, R.string.drawer_feedback);
     public static final SectionMenuItem SECTION_ITEM_NEWSFEED_COMMENTS = new IconMenuItem(PAGE_NEWSFEED_COMMENTS, R.drawable.comment_page, R.string.drawer_newsfeed_comments);
     public static final SectionMenuItem SECTION_ITEM_GROUPS = new IconMenuItem(PAGE_GROUPS, R.drawable.groups, R.string.groups);
-    public static final SectionMenuItem SECTION_ITEM_PHOTOS = new IconMenuItem(PAGE_PHOTOS, R.drawable.camera, R.string.photos);
+    public static final SectionMenuItem SECTION_ITEM_PHOTOS = new IconMenuItem(PAGE_PHOTOS, R.drawable.photo_album, R.string.photos);
     public static final SectionMenuItem SECTION_ITEM_VIDEOS = new IconMenuItem(PAGE_VIDEOS, R.drawable.video, R.string.videos);
     public static final SectionMenuItem SECTION_ITEM_BOOKMARKS = new IconMenuItem(PAGE_BOOKMARKS, R.drawable.star, R.string.bookmarks);
     public static final SectionMenuItem SECTION_ITEM_AUDIOS = new IconMenuItem(PAGE_MUSIC, R.drawable.music, R.string.music);

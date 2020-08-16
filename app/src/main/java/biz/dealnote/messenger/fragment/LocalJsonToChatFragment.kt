@@ -85,7 +85,7 @@ class LocalJsonToChatFragment : PlaceSupportMvpFragment<LocalJsonToChatPresenter
     override fun attachments_mode(accountId: Int, last_selected: Int) {
         val menus = ModalBottomSheetDialogFragment.Builder()
         menus.add(OptionRequest(0, getString(R.string.json_all_messages), is_select(R.drawable.close, 0, last_selected)))
-        menus.add(OptionRequest(1, getString(R.string.photos), is_select(R.drawable.camera, 1, last_selected)))
+        menus.add(OptionRequest(1, getString(R.string.photos), is_select(R.drawable.photo_album, 1, last_selected)))
         menus.add(OptionRequest(2, getString(R.string.videos), is_select(R.drawable.video, 2, last_selected)))
         menus.add(OptionRequest(3, getString(R.string.documents), is_select(R.drawable.book, 3, last_selected)))
         menus.add(OptionRequest(4, getString(R.string.music), is_select(R.drawable.song, 4, last_selected)))

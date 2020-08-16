@@ -786,7 +786,7 @@ public class AttachmentsViewBinder {
                     ViewUtils.displayAvatar(ivPhoto, null, photo_url, Constants.PICASSO_TAG);
                     ivPhoto.setOnLongClickListener(v -> {
                         ArrayList<Photo> temp = new ArrayList<>(Collections.singletonList(article.getPhoto()));
-                        mAttachmentsActionCallback.onPhotosOpen(temp, 0);
+                        mAttachmentsActionCallback.onPhotosOpen(temp, 0, false);
                         return true;
                     });
                 } else
@@ -1193,7 +1193,7 @@ public class AttachmentsViewBinder {
 
         void onStickerOpen(@NonNull Sticker sticker);
 
-        void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index);
+        void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index, boolean refresh);
 
         void onStoryOpen(@NonNull Story story);
 

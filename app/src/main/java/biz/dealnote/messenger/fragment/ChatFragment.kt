@@ -941,7 +941,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         val types = arrayOf(FindAttachmentType.TYPE_PHOTO, FindAttachmentType.TYPE_VIDEO, FindAttachmentType.TYPE_DOC, FindAttachmentType.TYPE_AUDIO, FindAttachmentType.TYPE_LINK, FindAttachmentType.TYPE_POST)
 
         val menus = ModalBottomSheetDialogFragment.Builder()
-        menus.add(OptionRequest(0, getString(R.string.photos), R.drawable.camera))
+        menus.add(OptionRequest(0, getString(R.string.photos), R.drawable.photo_album))
         menus.add(OptionRequest(1, getString(R.string.videos), R.drawable.video))
         menus.add(OptionRequest(2, getString(R.string.documents), R.drawable.book))
         menus.add(OptionRequest(3, getString(R.string.music), R.drawable.song))

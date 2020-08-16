@@ -313,6 +313,11 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public boolean isAudio_save_mode_button() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("audio_save_mode_button", true);
+    }
+
+    @Override
     public boolean isRunes_show() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("runes_show", false);
     }

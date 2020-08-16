@@ -122,17 +122,6 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
         return args;
     }
 
-    public static Bundle buildArgsForSimpleGalleryHistory(int aid, int index, ArrayList<Photo> photos,
-                                                          boolean needUpdate) {
-        Bundle args = new Bundle();
-        args.putInt(Extra.ACCOUNT_ID, aid);
-        args.putParcelableArrayList(EXTRA_PHOTOS, photos);
-        args.putInt(Extra.INDEX, index);
-        args.putInt(Extra.STORY, 1);
-        args.putBoolean(EXTRA_NEED_UPDATE, needUpdate);
-        return args;
-    }
-
     public static Bundle buildArgsForAlbum(int aid, int albumId, int ownerId, ArrayList<Photo> photos, int position) {
         Bundle args = new Bundle();
         args.putInt(Extra.ACCOUNT_ID, aid);
@@ -330,7 +319,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
                     boolean needUpdate = requireArguments().getBoolean(EXTRA_NEED_UPDATE);
                     ArrayList<Photo> photos = requireArguments().getParcelableArrayList(EXTRA_PHOTOS);
                     AssertUtils.requireNonNull(photos);
-                    return new SimplePhotoPresenter(photos, index, needUpdate, aid, requireArguments().getInt(Extra.STORY), requireActivity(), saveInstanceState);
+                    return new SimplePhotoPresenter(photos, index, needUpdate, aid, requireActivity(), saveInstanceState);
 
                 case Place.VK_PHOTO_ALBUM_GALLERY:
                     int indexx = requireArguments().getInt(Extra.INDEX);

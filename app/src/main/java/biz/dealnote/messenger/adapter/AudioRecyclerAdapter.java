@@ -60,9 +60,9 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
     private final Context mContext;
     private final IAudioInteractor mAudioInteractor;
     private final boolean not_show_my;
-    private final boolean iSSelectMode;
     private final int iCatalogBlock;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private boolean iSSelectMode;
     private ClickListener mClickListener;
 
     public AudioRecyclerAdapter(Context context, List<Audio> data, boolean not_show_my, boolean iSSelectMode, int iCatalogBlock) {
@@ -84,6 +84,10 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         audioListDisposable.add(mAudioInteractor.add(accountId, audio, null, null).compose(RxUtils.applyCompletableIOToMainSchedulers()).subscribe(() -> {
         }, ignore -> {
         }));
+    }
+
+    public void toggleSelectMode(boolean iSSelectMode) {
+        this.iSSelectMode = iSSelectMode;
     }
 
     private void get_lyrics(Audio audio) {

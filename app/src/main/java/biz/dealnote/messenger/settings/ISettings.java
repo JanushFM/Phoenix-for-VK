@@ -138,6 +138,8 @@ public interface ISettings {
 
         boolean isDisable_sensored_voice();
 
+        boolean isAudio_save_mode_button();
+
         boolean isRunes_show();
 
         boolean isRunes_valknut();

@@ -21,6 +21,7 @@ import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import io.reactivex.disposables.CompositeDisposable;
@@ -183,11 +184,18 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
         }
     }
 
-    public ArrayList<Audio> getSelected() {
+    public ArrayList<Audio> getSelected(boolean noDownloaded) {
         ArrayList<Audio> ret = new ArrayList<>();
         for (Audio i : audios) {
-            if (i.isSelected())
-                ret.add(i);
+            if (i.isSelected()) {
+                if (noDownloaded) {
+                    if (DownloadWorkUtils.TrackIsDownloaded(i) == 0 && !Utils.isEmpty(i.getUrl()) && !i.getUrl().contains("file://")) {
+                        ret.add(i);
+                    }
+                } else {
+                    ret.add(i);
+                }
+            }
         }
         return ret;
     }
@@ -205,6 +213,15 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
             }
         }
         return -1;
+    }
+
+    public void fireUpdateSelectMode() {
+        for (Audio i : audios) {
+            if (i.isSelected()) {
+                i.setIsSelected(false);
+            }
+        }
+        callView(IAudiosView::notifyListChanged);
     }
 
     public void fireRefresh() {

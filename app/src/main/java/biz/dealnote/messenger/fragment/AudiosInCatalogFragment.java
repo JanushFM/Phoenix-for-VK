@@ -80,7 +80,7 @@ public class AudiosInCatalogFragment extends BaseMvpFragment<AudiosInCatalogPres
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_music, container, false);
+        View root = inflater.inflate(R.layout.fragment_catalog_music, container, false);
         Toolbar toolbar = root.findViewById(R.id.toolbar);
 
         if (!inTabsContainer) {

@@ -197,7 +197,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
                 FindAttachmentType.TYPE_LINK, FindAttachmentType.TYPE_ALBUM, FindAttachmentType.TYPE_POST_WITH_COMMENT, FindAttachmentType.TYPE_POST_WITH_QUERY};
 
         ModalBottomSheetDialogFragment.Builder menus = new ModalBottomSheetDialogFragment.Builder();
-        menus.add(new OptionRequest(0, getString(R.string.photos), R.drawable.camera));
+        menus.add(new OptionRequest(0, getString(R.string.photos), R.drawable.photo_album));
         menus.add(new OptionRequest(1, getString(R.string.videos), R.drawable.video));
         menus.add(new OptionRequest(2, getString(R.string.documents), R.drawable.book));
         menus.add(new OptionRequest(3, getString(R.string.music), R.drawable.song));

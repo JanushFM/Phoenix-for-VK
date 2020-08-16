@@ -1488,4 +1488,9 @@
     <string name="what_search">Что ищем?</string>
     <string name="search_dialogs">Диалоги</string>
     <string name="search_messages">Сообщения</string>
+    <string name="changes">Изменения:</string>
+    <string name="do_update">Обновить</string>
+    <string name="do_donate">Донатнуть</string>
+    <string name="copied_card">Номер карты скопирован в буфер</string>
+    <string name="audio_save_mode_button">Скачивать несколько треков</string>
 </resources>

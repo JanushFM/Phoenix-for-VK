@@ -20,11 +20,15 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkContinuation;
+import androidx.work.WorkManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,7 +52,9 @@ import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
+import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
@@ -79,6 +85,7 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
     private boolean inTabsContainer;
     private boolean doAudioLoadTabs;
     private boolean isSelectMode;
+    private boolean isSaveMode;
     private View headerPlaylist;
     private HorizontalPlaylistAdapter mPlaylistAdapter;
 
@@ -112,6 +119,7 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
         super.onCreate(savedInstanceState);
         inTabsContainer = requireArguments().getBoolean(EXTRA_IN_TABS_CONTAINER);
         isSelectMode = requireArguments().getBoolean(ACTION_SELECT);
+        isSaveMode = false;
     }
 
     @Override
@@ -144,7 +152,16 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
             new ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(recyclerView);
         }
 
+        FloatingActionButton save_mode = root.findViewById(R.id.save_mode_button);
         FloatingActionButton Goto = root.findViewById(R.id.goto_button);
+        save_mode.setVisibility(isSelectMode ? View.GONE : (Settings.get().other().isAudio_save_mode_button() ? View.VISIBLE : View.GONE));
+        save_mode.setOnClickListener(v -> {
+            isSaveMode = !isSaveMode;
+            Goto.setImageResource(isSaveMode ? R.drawable.check : R.drawable.audio_player);
+            mAudioRecyclerAdapter.toggleSelectMode(isSaveMode);
+            getPresenter().fireUpdateSelectMode();
+        });
+
         if (isSelectMode)
             Goto.setImageResource(R.drawable.check);
         else
@@ -162,22 +179,49 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
         Goto.setOnClickListener(v -> {
             if (isSelectMode) {
                 Intent intent = new Intent();
-                intent.putParcelableArrayListExtra(Extra.ATTACHMENTS, getPresenter().getSelected());
+                intent.putParcelableArrayListExtra(Extra.ATTACHMENTS, getPresenter().getSelected(false));
                 requireActivity().setResult(Activity.RESULT_OK, intent);
                 requireActivity().finish();
             } else {
-                Audio curr = MusicUtils.getCurrentAudio();
-                if (curr != null) {
-                    int index = getPresenter().getAudioPos(curr);
-                    if (index >= 0) {
-                        if (Settings.get().other().isShow_audio_cover())
-                            recyclerView.scrollToPosition(index);
-                        else
-                            recyclerView.smoothScrollToPosition(index);
+                if (isSaveMode) {
+                    List<Audio> tracks = getPresenter().getSelected(true);
+                    isSaveMode = false;
+                    Goto.setImageResource(R.drawable.audio_player);
+                    mAudioRecyclerAdapter.toggleSelectMode(isSaveMode);
+                    getPresenter().fireUpdateSelectMode();
+
+                    if (!Utils.isEmpty(tracks)) {
+                        DownloadWorkUtils.CheckDirectory(Settings.get().other().getMusicDir());
+                        int account_id = getPresenter().getAccountId();
+                        WorkContinuation object = WorkManager.getInstance(requireActivity()).beginWith(DownloadWorkUtils.makeDownloadRequestAudio(tracks.get(0), account_id));
+                        if (tracks.size() > 1) {
+                            List<OneTimeWorkRequest> Requests = new ArrayList<>(tracks.size() - 1);
+                            boolean is_first = true;
+                            for (Audio i : tracks) {
+                                if (is_first) {
+                                    is_first = false;
+                                    continue;
+                                }
+                                Requests.add(DownloadWorkUtils.makeDownloadRequestAudio(i, account_id));
+                            }
+                            object = object.then(Requests);
+                        }
+                        object.enqueue();
+                    }
+                } else {
+                    Audio curr = MusicUtils.getCurrentAudio();
+                    if (curr != null) {
+                        int index = getPresenter().getAudioPos(curr);
+                        if (index >= 0) {
+                            if (Settings.get().other().isShow_audio_cover())
+                                recyclerView.scrollToPosition(index);
+                            else
+                                recyclerView.smoothScrollToPosition(index);
+                        } else
+                            PhoenixToast.CreatePhoenixToast(requireActivity()).showToast(R.string.audio_not_found);
                     } else
-                        PhoenixToast.CreatePhoenixToast(requireActivity()).showToast(R.string.audio_not_found);
-                } else
-                    PhoenixToast.CreatePhoenixToast(requireActivity()).showToastError(R.string.null_audio);
+                        PhoenixToast.CreatePhoenixToast(requireActivity()).showToastError(R.string.null_audio);
+                }
             }
         });
 

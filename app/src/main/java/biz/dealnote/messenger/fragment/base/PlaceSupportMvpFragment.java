@@ -137,8 +137,8 @@ public abstract class PlaceSupportMvpFragment<P extends PlaceSupportPresenter<V>
     }
 
     @Override
-    public void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index) {
-        getPresenter().firePhotoClick(photos, index);
+    public void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index, boolean refresh) {
+        getPresenter().firePhotoClick(photos, index, refresh);
     }
 
     @Override
@@ -175,11 +175,6 @@ public abstract class PlaceSupportMvpFragment<P extends PlaceSupportPresenter<V>
     @Override
     public void openSimplePhotoGallery(int accountId, @NonNull ArrayList<Photo> photos, int index, boolean needUpdate) {
         PlaceFactory.getSimpleGalleryPlace(accountId, photos, index, true).tryOpenWith(requireActivity());
-    }
-
-    @Override
-    public void openSimplePhotoGalleryHistory(int accountId, @NonNull ArrayList<Photo> photos, int index, boolean needUpdate) {
-        PlaceFactory.getSimpleGalleryHistoryPlace(accountId, photos, index, true).tryOpenWith(requireActivity());
     }
 
     @Override

@@ -14,20 +14,16 @@ import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.util.RxUtils;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
-import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 
 public class SimplePhotoPresenter extends PhotoPagerPresenter {
 
     private static final String SAVE_DATA_REFRESH_RESULT = "save-data-refresh-result";
-    private final boolean isHistory;
     private boolean mDataRefreshSuccessfull;
 
     public SimplePhotoPresenter(@NonNull ArrayList<Photo> photos, int index, boolean needToRefreshData,
-                                int accountId, Integer History, Context context, @Nullable Bundle savedInstanceState) {
-        super(photos, accountId, History == 1, context, savedInstanceState);
-
-        isHistory = nonNull(History) && History == 1;
+                                int accountId, Context context, @Nullable Bundle savedInstanceState) {
+        super(photos, accountId, !needToRefreshData, context, savedInstanceState);
 
         if (savedInstanceState == null) {
             setCurrentIndex(index);
@@ -41,8 +37,6 @@ public class SimplePhotoPresenter extends PhotoPagerPresenter {
     }
 
     private void refreshData() {
-        if (isHistory)
-            return;
         ArrayList<AccessIdPair> ids = new ArrayList<>(getData().size());
         int accountId = getAccountId();
 

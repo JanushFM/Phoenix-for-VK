@@ -12,8 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +37,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.badge.BadgeDrawable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
@@ -404,29 +403,24 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
 
                         Handler uiHandler = new Handler(getMainLooper());
                         uiHandler.post(() -> {
-                            String res = "<i><a href=\"https://github.com/umerov1999/Phoenix-for-VK/releases/latest\">Скачать с github.com</a></i>";
-                            res += ("<p>Изменения: " + Chenges_log + "</p>");
+                            View update = View.inflate(MainActivity.this, R.layout.dialog_update, null);
+                            MaterialButton doUpdate = update.findViewById(R.id.item_view_latest);
+                            doUpdate.setOnClickListener(v -> LinkHelper.openUrl(MainActivity.this, mAccountId, "https://github.com/umerov1999/Phoenix-for-VK/releases/latest"));
+                            ((TextView) update.findViewById(R.id.item_latest_info)).setText(Chenges_log);
 
                             AlertDialog dlg = new MaterialAlertDialogBuilder(MainActivity.this)
                                     .setTitle("Обновление клиента")
-                                    .setMessage(Html.fromHtml(res))
-                                    .setPositiveButton("Закрыть", null)
-                                    .setNegativeButton("Донатнуть", (dialog, which) -> {
+                                    .setView(update)
+                                    .setPositiveButton(R.string.close, null)
+                                    .setNegativeButton(R.string.do_donate, (dialog, which) -> {
                                         ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                                         ClipData clip = ClipData.newPlainText("response", "5599005042882048");
                                         clipboard.setPrimaryClip(clip);
-                                        PhoenixToast.CreatePhoenixToast(MainActivity.this).setDuration(Toast.LENGTH_LONG).showToast("Номер карты скопирован в буфер");
+                                        PhoenixToast.CreatePhoenixToast(MainActivity.this).setDuration(Toast.LENGTH_LONG).showToast(R.string.copied_card);
                                     })
-
                                     .setCancelable(true)
                                     .create();
                             dlg.show();
-                            try {
-                                TextView tv = dlg.findViewById(android.R.id.message);
-                                if (tv != null)
-                                    tv.setMovementMethod(LinkMovementMethod.getInstance());
-                            } catch (Exception ignored) {
-                            }
                         });
 
                     } catch (JSONException e) {

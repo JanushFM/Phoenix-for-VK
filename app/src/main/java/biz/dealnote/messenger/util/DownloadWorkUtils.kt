@@ -288,6 +288,21 @@ object DownloadWorkUtils {
         return 0
     }
 
+    @JvmStatic
+    fun makeDownloadRequestAudio(audio: Audio, account_id: Int): OneTimeWorkRequest {
+        val result_filename = DownloadInfo(makeLegalFilename(audio.artist + " - " + audio.title, null), Settings.get().other().musicDir, "mp3")
+        val downloadWork = OneTimeWorkRequest.Builder(TrackDownloadWorker::class.java)
+        val data = Data.Builder()
+        data.putString(ExtraDwn.URL, Gson().toJson(audio))
+        data.putString(ExtraDwn.DIR, result_filename.path)
+        data.putString(ExtraDwn.FILE, result_filename.file)
+        data.putString(ExtraDwn.EXT, result_filename.ext)
+        data.putInt(ExtraDwn.ACCOUNT, account_id)
+        downloadWork.setInputData(data.build())
+
+        return downloadWork.build()
+    }
+
     open class DefaultDownloadWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
         protected fun show_notification(notification: NotificationCompat.Builder, id: Int, cancel_id: Int?) {
             if (cancel_id != null) {

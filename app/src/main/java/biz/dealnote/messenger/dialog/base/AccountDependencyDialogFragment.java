@@ -158,8 +158,8 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
     }
 
     @Override
-    public void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index) {
-        PlaceFactory.getSimpleGalleryPlace(getAccountId(), photos, index, true).tryOpenWith(requireActivity());
+    public void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index, boolean refresh) {
+        PlaceFactory.getSimpleGalleryPlace(getAccountId(), photos, index, refresh).tryOpenWith(requireActivity());
     }
 
     @Override

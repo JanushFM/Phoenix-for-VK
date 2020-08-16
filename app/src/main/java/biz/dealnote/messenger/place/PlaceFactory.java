@@ -203,11 +203,6 @@ public class PlaceFactory {
                 .setArguments(PhotoPagerFragment.buildArgsForSimpleGallery(accountId, position, photos, needRefresh));
     }
 
-    public static Place getSimpleGalleryHistoryPlace(int accountId, ArrayList<Photo> photos, int position, boolean needRefresh) {
-        return new Place(Place.SIMPLE_PHOTO_GALLERY)
-                .setArguments(PhotoPagerFragment.buildArgsForSimpleGalleryHistory(accountId, position, photos, needRefresh));
-    }
-
     public static Place getFavePhotosGallery(int accountId, ArrayList<Photo> photos, int position) {
         return new Place(Place.FAVE_PHOTOS_GALLERY)
                 .setArguments(PhotoPagerFragment.buildArgsForFave(accountId, photos, position));

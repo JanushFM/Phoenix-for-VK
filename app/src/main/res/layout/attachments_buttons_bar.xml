@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:youtube_button_icon="@drawable/camera"
+        app:youtube_button_icon="@drawable/photo_album"
         app:youtube_button_icon_color="?attr/colorOnSurface"
         app:youtube_button_text="@string/photo"
         app:youtube_button_text_color="?attr/colorOnSurface" />

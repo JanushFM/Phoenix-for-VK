@@ -215,7 +215,7 @@ public class PhotosViewHelper {
             }
         }
 
-        attachmentsActionCallback.onPhotosOpen(models, index);
+        attachmentsActionCallback.onPhotosOpen(models, index, true);
     }
 
     private static class Holder {
