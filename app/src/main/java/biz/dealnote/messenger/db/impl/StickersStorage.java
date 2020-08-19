@@ -12,10 +12,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import biz.dealnote.messenger.db.column.StickersKeywordsColumns;
 import biz.dealnote.messenger.db.column.StikerSetColumns;
 import biz.dealnote.messenger.db.interfaces.IStickersStorage;
 import biz.dealnote.messenger.db.model.entity.StickerEntity;
 import biz.dealnote.messenger.db.model.entity.StickerSetEntity;
+import biz.dealnote.messenger.db.model.entity.StickersKeywordsEntity;
 import biz.dealnote.messenger.util.Exestime;
 import io.reactivex.Completable;
 import io.reactivex.Single;
@@ -45,7 +47,15 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
             ACTIVE,
             STICKERS
     };
+    private static final String[] KEYWORDS_STICKER_COLUMNS = {
+            _ID,
+            StickersKeywordsColumns.KEYWORDS,
+            StickersKeywordsColumns.STICKERS
+    };
     private static final Type TYPE = new TypeToken<List<StickerEntity>>() {
+    }.getType();
+
+    private static final Type WORDS = new TypeToken<List<String>>() {
     }.getType();
 
     StickersStorage(@NonNull AppStorages base) {
@@ -68,6 +78,14 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
         return cv;
     }
 
+    private static ContentValues createCvStickersKeywords(StickersKeywordsEntity entity, int id) {
+        ContentValues cv = new ContentValues();
+        cv.put(_ID, id);
+        cv.put(StickersKeywordsColumns.KEYWORDS, GSON.toJson(entity.getKeywords()));
+        cv.put(StickersKeywordsColumns.STICKERS, GSON.toJson(entity.getStickers()));
+        return cv;
+    }
+
     private static StickerSetEntity map(Cursor cursor) {
         String stickersJson = cursor.getString(cursor.getColumnIndex(STICKERS));
         return new StickerSetEntity(cursor.getInt(cursor.getColumnIndex(_ID)))
@@ -79,6 +97,12 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
                 .setPhoto70(cursor.getString(cursor.getColumnIndex(PHOTO_70)))
                 .setPhoto140(cursor.getString(cursor.getColumnIndex(PHOTO_140)))
                 .setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
+    }
+
+    private static StickersKeywordsEntity mapStickersKeywords(Cursor cursor) {
+        String stickersJson = cursor.getString(cursor.getColumnIndex(StickersKeywordsColumns.STICKERS));
+        String keywordsJson = cursor.getString(cursor.getColumnIndex(StickersKeywordsColumns.KEYWORDS));
+        return new StickersKeywordsEntity(GSON.fromJson(keywordsJson, WORDS), GSON.fromJson(stickersJson, TYPE));
     }
 
     @Override
@@ -108,6 +132,33 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
     }
 
     @Override
+    public Completable storeKeyWords(int accountId, List<StickersKeywordsEntity> sets) {
+        return Completable.create(e -> {
+            long start = System.currentTimeMillis();
+
+            SQLiteDatabase db = helper(accountId).getWritableDatabase();
+
+            db.beginTransaction();
+
+            try {
+                db.delete(StickersKeywordsColumns.TABLENAME, null, null);
+                int id = 0;
+                for (StickersKeywordsEntity entity : sets) {
+                    db.insert(StickersKeywordsColumns.TABLENAME, null, createCvStickersKeywords(entity, id++));
+                }
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                e.onComplete();
+            } catch (Exception exception) {
+                db.endTransaction();
+                e.tryOnError(exception);
+            }
+
+            Exestime.log("StickersStorage.storeKeyWords", start, "count: " + safeCountOf(sets));
+        });
+    }
+
+    @Override
     public Single<List<StickerSetEntity>> getPurchasedAndActive(int accountId) {
         return Single.create(e -> {
             long start = System.currentTimeMillis();
@@ -121,6 +172,26 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
                     break;
                 }
                 stickers.add(map(cursor));
+            }
+
+            cursor.close();
+            e.onSuccess(stickers);
+            Exestime.log("StickersStorage.get", start, "count: " + stickers.size());
+        });
+    }
+
+    @Override
+    public Single<List<StickersKeywordsEntity>> getKeywordsStickers(int accountId) {
+        return Single.create(e -> {
+            long start = System.currentTimeMillis();
+            Cursor cursor = helper(accountId).getReadableDatabase().query(StickersKeywordsColumns.TABLENAME, KEYWORDS_STICKER_COLUMNS, null, null, null, null, null);
+
+            List<StickersKeywordsEntity> stickers = new ArrayList<>(cursor.getCount());
+            while (cursor.moveToNext()) {
+                if (e.isDisposed()) {
+                    break;
+                }
+                stickers.add(mapStickersKeywords(cursor));
             }
 
             cursor.close();

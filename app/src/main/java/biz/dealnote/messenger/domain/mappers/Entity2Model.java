@@ -39,6 +39,7 @@ import biz.dealnote.messenger.db.model.entity.PrivacyEntity;
 import biz.dealnote.messenger.db.model.entity.SchoolEntity;
 import biz.dealnote.messenger.db.model.entity.StickerEntity;
 import biz.dealnote.messenger.db.model.entity.StickerSetEntity;
+import biz.dealnote.messenger.db.model.entity.StickersKeywordsEntity;
 import biz.dealnote.messenger.db.model.entity.StoryEntity;
 import biz.dealnote.messenger.db.model.entity.TopicEntity;
 import biz.dealnote.messenger.db.model.entity.UniversityEntity;
@@ -84,6 +85,7 @@ import biz.dealnote.messenger.model.School;
 import biz.dealnote.messenger.model.SimplePrivacy;
 import biz.dealnote.messenger.model.Sticker;
 import biz.dealnote.messenger.model.StickerSet;
+import biz.dealnote.messenger.model.StickersKeywords;
 import biz.dealnote.messenger.model.Story;
 import biz.dealnote.messenger.model.Topic;
 import biz.dealnote.messenger.model.University;
@@ -664,11 +666,20 @@ public class Entity2Model {
         return new Sticker(entity.getId())
                 .setImages(mapAll(entity.getImages(), Entity2Model::map))
                 .setImagesWithBackground(mapAll(entity.getImagesWithBackground(), Entity2Model::map))
+                .setAnimations(mapAll(entity.getAnimations(), Entity2Model::mapStickerAnimation))
                 .setAnimationUrl(entity.getAnimationUrl());
+    }
+
+    public static Sticker.Animation mapStickerAnimation(StickerEntity.AnimationEntity entity) {
+        return new Sticker.Animation(entity.getUrl(), entity.getType());
     }
 
     public static StickerSet map(StickerSetEntity entity) {
         return new StickerSet(entity.getPhoto70(), mapAll(entity.getStickers(), Entity2Model::buildStickerFromDbo), entity.getTitle());
+    }
+
+    public static StickersKeywords map(StickersKeywordsEntity entity) {
+        return new StickersKeywords(entity.getKeywords(), mapAll(entity.getStickers(), Entity2Model::buildStickerFromDbo));
     }
 
     public static Sticker.Image map(StickerEntity.Img entity) {

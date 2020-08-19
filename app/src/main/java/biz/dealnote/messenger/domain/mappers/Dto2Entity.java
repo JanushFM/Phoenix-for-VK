@@ -935,6 +935,7 @@ public class Dto2Entity {
         return new StickerEntity(sticker.sticker_id)
                 .setImages(mapAll(sticker.images, Dto2Entity::mapStickerImage))
                 .setImagesWithBackground(mapAll(sticker.images_with_background, Dto2Entity::mapStickerImage))
+                .setAnimations(mapAll(sticker.animations, Dto2Entity::mapStickerAnimation))
                 .setAnimationUrl(sticker.animation_url);
     }
 
@@ -952,6 +953,10 @@ public class Dto2Entity {
 
     public static StickerEntity.Img mapStickerImage(VKApiSticker.Image dto) {
         return new StickerEntity.Img(dto.url, dto.width, dto.height);
+    }
+
+    public static StickerEntity.AnimationEntity mapStickerAnimation(VKApiSticker.VKApiAnimation dto) {
+        return new StickerEntity.AnimationEntity(dto.url, dto.type);
     }
 
     public static PageEntity mapWikiPage(VKApiWikiPage dto) {

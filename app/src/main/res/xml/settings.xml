@@ -111,6 +111,12 @@
             android:title="@string/audio_save_mode_button"
             app:iconSpaceReserved="false" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="hint_stickers"
+            android:title="@string/hint_stickers"
+            app:iconSpaceReserved="false" />
+
         <ListPreference
             android:defaultValue="2"
             android:entries="@array/array_news_start_updates_names"

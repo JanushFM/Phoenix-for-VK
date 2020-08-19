@@ -22,6 +22,7 @@ import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import biz.dealnote.messenger.*
 import biz.dealnote.messenger.activity.*
@@ -61,6 +62,7 @@ import biz.dealnote.messenger.view.LoadMoreFooterHelper
 import biz.dealnote.messenger.view.WeakViewAnimatorAdapter
 import biz.dealnote.messenger.view.emoji.EmojiconTextView
 import biz.dealnote.messenger.view.emoji.EmojiconsPopup
+import biz.dealnote.messenger.view.emoji.StickersKeyWordsAdapter
 import biz.dealnote.mvp.core.IPresenterFactory
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -77,6 +79,8 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     private var loadMoreFooterHelper: LoadMoreFooterHelper? = null
 
     private var recyclerView: RecyclerView? = null
+    private var stickersKeywordsView: RecyclerView? = null
+    private var stickersAdapter: StickersKeyWordsAdapter? = null
     private var adapter: MessagesAdapter? = null
 
     private var inputViewController: InputViewController? = null
@@ -122,6 +126,13 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         toolbar!!.setOnMenuItemClickListener { item: MenuItem ->
             OptionsItemSelected(item)
         }
+
+        stickersKeywordsView = root.findViewById(R.id.stickers)
+        stickersAdapter = StickersKeyWordsAdapter(requireActivity(), Collections.emptyList())
+        stickersAdapter?.setStickerClickedListener { presenter?.fireStickerSendClick(it) }
+        stickersKeywordsView?.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+        stickersKeywordsView?.adapter = stickersAdapter
+        stickersKeywordsView?.visibility = View.GONE
 
         Title = root.findViewById(R.id.dialog_title)
         SubTitle = root.findViewById(R.id.dialog_subtitle)
@@ -218,6 +229,15 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         Writing_msg?.text = owner.fullName + " "
         ViewUtils.displayAvatar(Writing_msg_Ava!!, CurrentTheme.createTransformationForAvatar(requireContext()),
                 owner.get100photoOrSmaller(), null)
+    }
+
+    override fun updateStickers(items: List<Sticker>) {
+        if (Utils.isEmpty(items)) {
+            stickersKeywordsView?.visibility = View.GONE
+        } else {
+            stickersKeywordsView?.visibility = View.VISIBLE
+        }
+        stickersAdapter?.setData(items)
     }
 
     override fun hideWriting() {
@@ -1182,6 +1202,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
 
     override fun onInputTextChanged(s: String) {
         presenter?.fireDraftMessageTextEdited(s)
+        presenter?.fireTextEdited(s)
     }
 
     override fun onSendClicked(body: String) {
@@ -1256,6 +1277,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         inputViewController?.destroyView()
         inputViewController = null
     }
+
 
     companion object {
 

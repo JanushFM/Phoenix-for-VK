@@ -11,6 +11,8 @@ public class StickerEntity extends Entity {
 
     private List<Img> imagesWithBackground;
 
+    private List<AnimationEntity> animations;
+
     private String animationUrl;
 
     public StickerEntity(int id) {
@@ -39,6 +41,15 @@ public class StickerEntity extends Entity {
         return this;
     }
 
+    public List<AnimationEntity> getAnimations() {
+        return animations;
+    }
+
+    public StickerEntity setAnimations(List<AnimationEntity> animations) {
+        this.animations = animations;
+        return this;
+    }
+
     public List<Img> getImagesWithBackground() {
         return imagesWithBackground;
     }
@@ -46,6 +57,24 @@ public class StickerEntity extends Entity {
     public StickerEntity setImagesWithBackground(List<Img> imagesWithBackground) {
         this.imagesWithBackground = imagesWithBackground;
         return this;
+    }
+
+    public static final class AnimationEntity {
+        private final String type;
+        private final String url;
+
+        public AnimationEntity(String url, String type) {
+            this.url = url;
+            this.type = type;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getType() {
+            return type;
+        }
     }
 
     public static final class Img {

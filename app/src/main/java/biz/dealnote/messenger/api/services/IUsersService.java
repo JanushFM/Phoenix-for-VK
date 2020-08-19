@@ -3,7 +3,6 @@ package biz.dealnote.messenger.api.services;
 import java.util.List;
 
 import biz.dealnote.messenger.api.model.Items;
-import biz.dealnote.messenger.api.model.VKApiSticker;
 import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
 import biz.dealnote.messenger.api.model.response.StoryResponse;
@@ -119,8 +118,4 @@ public interface IUsersService {
                                                     @Field("count") Integer count,
                                                     @Field("extended") Integer extended,
                                                     @Field("fields") String fields);
-
-    @POST("messages.getRecentStickers")
-    Single<BaseResponse<Items<VKApiSticker>>> getRecentStickers();
-
 }

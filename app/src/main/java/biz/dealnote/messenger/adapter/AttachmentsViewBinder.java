@@ -339,7 +339,7 @@ public class AttachmentsViewBinder {
         imageView.getLayoutParams().width = (int) finalWidth;
 
         if (sticker.isAnimated()) {
-            imageView.setAnimationFromUrl(sticker.getAnimationUrl());
+            imageView.setAnimationFromUrl(sticker.getAnimationByDayNight(mContext));
             imageView.setRepeatCount(3);
             imageView.playAnimation();
             stickersContainer.setOnLongClickListener(e -> {

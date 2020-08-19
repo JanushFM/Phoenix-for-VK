@@ -138,7 +138,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
 
         Sticker sticker = message.getAttachments().getStickers().get(0);
         if (sticker.isAnimated()) {
-            holder.sticker.setAnimationFromUrl(sticker.getAnimationUrl());
+            holder.sticker.setAnimationFromUrl(sticker.getAnimationByDayNight(context));
             holder.sticker.playAnimation();
         } else {
             Sticker.Image image = sticker.getImage(256, true);

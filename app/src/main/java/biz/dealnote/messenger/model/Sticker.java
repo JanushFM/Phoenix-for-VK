@@ -1,11 +1,14 @@
 package biz.dealnote.messenger.model;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.List;
 
 import biz.dealnote.messenger.api.model.VKApiStickerSet;
+import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.util.Utils;
 
 
 public class Sticker extends AbsModel {
@@ -25,6 +28,7 @@ public class Sticker extends AbsModel {
     private List<Image> images;
     private List<Image> imagesWithBackground;
     private String animationUrl;
+    private List<Animation> animations;
 
     public Sticker(int id) {
         this.id = id;
@@ -35,6 +39,7 @@ public class Sticker extends AbsModel {
         id = in.readInt();
         images = in.createTypedArrayList(Image.CREATOR);
         imagesWithBackground = in.createTypedArrayList(Image.CREATOR);
+        animations = in.createTypedArrayList(Animation.CREATOR);
         animationUrl = in.readString();
     }
 
@@ -73,8 +78,28 @@ public class Sticker extends AbsModel {
         return this;
     }
 
+    public String getAnimationByType(String type) {
+        if (Utils.isEmpty(animations)) {
+            return animationUrl;
+        }
+        for (Animation i : animations) {
+            if (i.type.equals(type)) {
+                return i.url;
+            }
+        }
+        return animationUrl;
+    }
+
+    public String getAnimationByDayNight(Context context) {
+        boolean dark = Settings.get().ui().isDarkModeEnabled(context);
+        return getAnimationByType(dark ? "dark" : "light");
+    }
+
     public boolean isAnimated() {
-        return animationUrl != null && !animationUrl.isEmpty();
+        if (Utils.isEmpty(animations)) {
+            return animationUrl != null && !animationUrl.isEmpty();
+        }
+        return true;
     }
 
     public List<Image> getImages() {
@@ -83,6 +108,15 @@ public class Sticker extends AbsModel {
 
     public Sticker setImages(List<Image> images) {
         this.images = images;
+        return this;
+    }
+
+    public List<Animation> getAnimations() {
+        return animations;
+    }
+
+    public Sticker setAnimations(List<Animation> animations) {
+        this.animations = animations;
         return this;
     }
 
@@ -101,6 +135,7 @@ public class Sticker extends AbsModel {
         dest.writeInt(id);
         dest.writeTypedList(images);
         dest.writeTypedList(imagesWithBackground);
+        dest.writeTypedList(animations);
         dest.writeString(animationUrl);
     }
 
@@ -168,6 +203,52 @@ public class Sticker extends AbsModel {
 
         private int calcAverageSize() {
             return (width + height) / 2;
+        }
+    }
+
+    public static final class Animation implements Parcelable {
+
+        public static final Creator<Animation> CREATOR = new Creator<Animation>() {
+            @Override
+            public Animation createFromParcel(Parcel in) {
+                return new Animation(in);
+            }
+
+            @Override
+            public Animation[] newArray(int size) {
+                return new Animation[size];
+            }
+        };
+        private final String url;
+        private final String type;
+
+        public Animation(String url, String type) {
+            this.url = url;
+            this.type = type;
+        }
+
+        Animation(Parcel in) {
+            url = in.readString();
+            type = in.readString();
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(url);
+            dest.writeString(type);
         }
     }
 }

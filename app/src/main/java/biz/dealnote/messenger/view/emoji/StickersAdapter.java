@@ -75,7 +75,7 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             default:
             case TYPE_ANIMATED:
                 StickerAnimatedHolder animatedHolder = (StickerAnimatedHolder) holder;
-                animatedHolder.animation.setAnimationFromUrl(item.getAnimationUrl());
+                animatedHolder.animation.setAnimationFromUrl(item.getAnimationByDayNight(context));
                 animatedHolder.root.setOnClickListener(v -> stickerClickedListener.onStickerClick(item));
                 animatedHolder.root.setOnLongClickListener(v -> {
                     animatedHolder.animation.playAnimation();

@@ -140,6 +140,8 @@ public interface ISettings {
 
         boolean isAudio_save_mode_button();
 
+        boolean isHint_stickers();
+
         boolean isRunes_show();
 
         boolean isRunes_valknut();

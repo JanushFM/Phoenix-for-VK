@@ -153,10 +153,15 @@ public class Dto2Model {
         return new Sticker.Image(dto.url, dto.width, dto.height);
     }
 
+    public static Sticker.Animation transformStickerAnimation(VKApiSticker.VKApiAnimation dto) {
+        return new Sticker.Animation(dto.url, dto.type);
+    }
+
     public static Sticker transformSticker(VKApiSticker sticker) {
         return new Sticker(sticker.sticker_id)
                 .setImages(mapAll(sticker.images, Dto2Model::transformStickerImage))
                 .setImagesWithBackground(mapAll(sticker.images_with_background, Dto2Model::transformStickerImage))
+                .setAnimations(mapAll(sticker.animations, Dto2Model::transformStickerAnimation))
                 .setAnimationUrl(sticker.animation_url);
     }
 

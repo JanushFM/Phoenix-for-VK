@@ -1,17 +1,24 @@
 package biz.dealnote.messenger.domain.impl;
 
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import biz.dealnote.messenger.api.interfaces.INetworker;
+import biz.dealnote.messenger.api.model.VKApiSticker;
 import biz.dealnote.messenger.api.model.VKApiStickerSet;
+import biz.dealnote.messenger.api.model.VkApiStickersKeywords;
 import biz.dealnote.messenger.db.interfaces.IStickersStorage;
 import biz.dealnote.messenger.db.model.entity.StickerSetEntity;
+import biz.dealnote.messenger.db.model.entity.StickersKeywordsEntity;
 import biz.dealnote.messenger.domain.IStickersInteractor;
 import biz.dealnote.messenger.domain.mappers.Dto2Entity;
-import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.domain.mappers.Entity2Model;
-import biz.dealnote.messenger.model.Sticker;
 import biz.dealnote.messenger.model.StickerSet;
+import biz.dealnote.messenger.model.StickersKeywords;
+import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.util.Utils;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -33,16 +40,43 @@ public class StickersInteractor implements IStickersInteractor {
     public Completable getAndStore(int accountId) {
         return networker.vkDefault(accountId)
                 .store()
-                .getProducts(true, "active,purchased", "stickers")
-                .flatMapCompletable(items -> networker.vkDefault(accountId).users().getRecentStickers().flatMapCompletable(t -> {
-                    List<VKApiStickerSet.Product> list = listEmptyIfNull(items.items);
+                .getStickers()
+                .flatMapCompletable(items -> {
+                    List<VKApiStickerSet.Product> list = listEmptyIfNull(items.sticker_pack.items);
 
                     StickerSetEntity temp = new StickerSetEntity(-1).setTitle("recent")
-                            .setStickers(mapAll(listEmptyIfNull(t.items), Dto2Entity::mapSticker)).setActive(true).setPurchased(true);
+                            .setStickers(mapAll(listEmptyIfNull(listEmptyIfNull(items.recent.items)), Dto2Entity::mapSticker)).setActive(true).setPurchased(true);
                     List<StickerSetEntity> ret = mapAll(list, Dto2Entity::mapStikerSet);
                     ret.add(temp);
-                    return storage.store(accountId, ret);
-                }));
+                    if (Settings.get().other().isHint_stickers()) {
+                        return storage.store(accountId, ret).andThen(getStickersKeywordsAndStore(accountId, items));
+                    } else {
+                        return storage.store(accountId, ret);
+                    }
+                });
+    }
+
+    private List<StickersKeywordsEntity> generateKeywords(@NonNull List<List<VKApiSticker>> s, @NonNull List<List<String>> w) {
+        List<StickersKeywordsEntity> ret = new ArrayList<>(w.size());
+        for (int i = 0; i < w.size(); i++) {
+            if (Utils.isEmpty(w.get(i))) {
+                continue;
+            }
+            ret.add(new StickersKeywordsEntity(w.get(i), mapAll(listEmptyIfNull(s.get(i)), Dto2Entity::mapSticker)));
+        }
+        return ret;
+    }
+
+    private Completable getStickersKeywordsAndStore(int accountId, VkApiStickersKeywords items) {
+        List<List<VKApiSticker>> s = listEmptyIfNull(items.words_stickers);
+        List<List<String>> w = listEmptyIfNull(items.keywords);
+        List<StickersKeywordsEntity> temp = new ArrayList<>();
+        if (Utils.isEmpty(w) || Utils.isEmpty(s) || w.size() != s.size()) {
+            return storage.storeKeyWords(accountId, temp);
+        }
+
+        temp.addAll(generateKeywords(s, w));
+        return storage.storeKeyWords(accountId, temp);
     }
 
     @Override
@@ -52,11 +86,8 @@ public class StickersInteractor implements IStickersInteractor {
     }
 
     @Override
-    public Single<StickerSet> getRecentStickers(int accountId) {
-        return networker.vkDefault(accountId).users().getRecentStickers().flatMap(t -> {
-            List<Sticker> list = Dto2Model.transformStickers(listEmptyIfNull(t.items));
-            StickerSet temp = new StickerSet("recent", list, "recent");
-            return Single.just(temp);
-        });
+    public Single<List<StickersKeywords>> getKeywordsStickers(int accountId) {
+        return storage.getKeywordsStickers(accountId)
+                .map(entities -> mapAll(entities, Entity2Model::map));
     }
 }

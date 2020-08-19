@@ -36,10 +36,8 @@ public class UploadDestination implements Parcelable {
     protected UploadDestination(Parcel in) {
         id = in.readInt();
         ownerId = in.readInt();
-
-        @Method
-        int tMethod = in.readInt();
-        method = tMethod;
+        method = in.readInt();
+        message_method = in.readInt();
     }
 
     public static UploadDestination forProfilePhoto(int ownerId) {
@@ -94,6 +92,7 @@ public class UploadDestination implements Parcelable {
         dest.writeInt(id);
         dest.writeInt(ownerId);
         dest.writeInt(method);
+        dest.writeInt(message_method);
     }
 
     @Override
@@ -126,6 +125,7 @@ public class UploadDestination implements Parcelable {
                 "id=" + id +
                 ", ownerId=" + ownerId +
                 ", method=" + method +
+                ", message_method=" + message_method +
                 '}';
     }
 

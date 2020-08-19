@@ -359,11 +359,17 @@ public class Model2Entity {
     public static StickerEntity buildStickerEntity(Sticker sticker) {
         return new StickerEntity(sticker.getId())
                 .setImagesWithBackground(mapAll(sticker.getImagesWithBackground(), Model2Entity::map))
-                .setImagesWithBackground(mapAll(sticker.getImages(), Model2Entity::map));
+                .setImages(mapAll(sticker.getImages(), Model2Entity::map))
+                .setAnimations(mapAll(sticker.getAnimations(), Model2Entity::mapStickerAnimation))
+                .setAnimationUrl(sticker.getAnimationUrl());
     }
 
     public static StickerEntity.Img map(Sticker.Image image) {
         return new StickerEntity.Img(image.getUrl(), image.getWidth(), image.getHeight());
+    }
+
+    public static StickerEntity.AnimationEntity mapStickerAnimation(Sticker.Animation dto) {
+        return new StickerEntity.AnimationEntity(dto.getUrl(), dto.getType());
     }
 
     public static AudioEntity buildAudioEntity(Audio audio) {

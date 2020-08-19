@@ -3,6 +3,7 @@ package biz.dealnote.messenger.domain;
 import java.util.List;
 
 import biz.dealnote.messenger.model.StickerSet;
+import biz.dealnote.messenger.model.StickersKeywords;
 import io.reactivex.Completable;
 import io.reactivex.Single;
 
@@ -12,5 +13,5 @@ public interface IStickersInteractor {
 
     Single<List<StickerSet>> getStickers(int accountId);
 
-    Single<StickerSet> getRecentStickers(int accountId);
+    Single<List<StickersKeywords>> getKeywordsStickers(int accountId);
 }

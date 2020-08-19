@@ -44,6 +44,7 @@ import biz.dealnote.messenger.db.column.PhotosColumns;
 import biz.dealnote.messenger.db.column.PostAttachmentsColumns;
 import biz.dealnote.messenger.db.column.PostsColumns;
 import biz.dealnote.messenger.db.column.RelationshipColumns;
+import biz.dealnote.messenger.db.column.StickersKeywordsColumns;
 import biz.dealnote.messenger.db.column.StikerSetColumns;
 import biz.dealnote.messenger.db.column.TopicsColumns;
 import biz.dealnote.messenger.db.column.UserCareerColumns;
@@ -182,6 +183,7 @@ public class DBHelper extends SQLiteOpenHelper {
         createUserDetTable(db);
         createUserCareerTable(db);
         createStickerSetTable(db);
+        createStickersKeywordsTable(db);
         createFavePhotosTable(db);
         createFaveVideosTable(db);
         createFaveArticlesTable(db);
@@ -264,7 +266,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + UsersDetColumns.TABLENAME);
         db.execSQL("DROP TABLE IF EXISTS " + UserCareerColumns.TABLENAME);
         db.execSQL("DROP TABLE IF EXISTS " + StikerSetColumns.TABLENAME);
+        db.execSQL("DROP TABLE IF EXISTS " + StickersKeywordsColumns.TABLENAME);
         db.execSQL("DROP TABLE IF EXISTS " + FavePhotosColumns.TABLENAME);
+        db.execSQL("DROP TABLE IF EXISTS " + FaveArticlesColumns.TABLENAME);
         db.execSQL("DROP TABLE IF EXISTS " + FaveVideosColumns.TABLENAME);
         db.execSQL("DROP TABLE IF EXISTS " + FavePageColumns.TABLENAME);
         db.execSQL("DROP TABLE IF EXISTS " + FavePageColumns.GROUPSTABLENAME);
@@ -305,6 +309,15 @@ public class DBHelper extends SQLiteOpenHelper {
                 " [" + StikerSetColumns.PROMOTED + "] BOOLEAN, " +
                 " [" + StikerSetColumns.ACTIVE + "] BOOLEAN, " +
                 " [" + StikerSetColumns.STICKERS + "] TEXT, " +
+                " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
+        db.execSQL(sql);
+    }
+
+    private void createStickersKeywordsTable(SQLiteDatabase db) {
+        String sql = "CREATE TABLE [" + StickersKeywordsColumns.TABLENAME + "] (\n" +
+                " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE, " +
+                " [" + StickersKeywordsColumns.KEYWORDS + "] TEXT, " +
+                " [" + StickersKeywordsColumns.STICKERS + "] TEXT, " +
                 " CONSTRAINT [] PRIMARY KEY([" + BaseColumns._ID + "]) ON CONFLICT REPLACE);";
         db.execSQL(sql);
     }

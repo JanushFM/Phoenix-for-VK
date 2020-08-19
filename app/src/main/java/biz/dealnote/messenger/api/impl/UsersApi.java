@@ -8,7 +8,6 @@ import biz.dealnote.messenger.api.IServiceProvider;
 import biz.dealnote.messenger.api.TokenType;
 import biz.dealnote.messenger.api.interfaces.IUsersApi;
 import biz.dealnote.messenger.api.model.Items;
-import biz.dealnote.messenger.api.model.VKApiSticker;
 import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.api.model.response.StoryResponse;
 import biz.dealnote.messenger.api.model.response.UserWallInfoResponse;
@@ -129,13 +128,6 @@ class UsersApi extends AbsApi implements IUsersApi {
     public Single<StoryResponse> searchStory(String q, Integer mentioned_id, Integer count, Integer extended, String fields) {
         return provideService(IUsersService.class, TokenType.USER)
                 .flatMap(service -> service.searchStory(q, mentioned_id, count, extended, fields)
-                        .map(extractResponseWithErrorHandling()));
-    }
-
-    @Override
-    public Single<Items<VKApiSticker>> getRecentStickers() {
-        return provideService(IUsersService.class, TokenType.USER)
-                .flatMap(service -> service.getRecentStickers()
                         .map(extractResponseWithErrorHandling()));
     }
 

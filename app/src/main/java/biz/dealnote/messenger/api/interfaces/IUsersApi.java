@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.List;
 
 import biz.dealnote.messenger.api.model.Items;
-import biz.dealnote.messenger.api.model.VKApiSticker;
 import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.api.model.response.StoryResponse;
 import io.reactivex.Single;
@@ -48,8 +47,5 @@ public interface IUsersApi {
 
     @CheckResult
     Single<Integer> report(Integer userId, String type, String comment);
-
-    @CheckResult
-    Single<Items<VKApiSticker>> getRecentStickers();
 
 }

@@ -174,7 +174,7 @@ public abstract class PlaceSupportMvpFragment<P extends PlaceSupportPresenter<V>
 
     @Override
     public void openSimplePhotoGallery(int accountId, @NonNull ArrayList<Photo> photos, int index, boolean needUpdate) {
-        PlaceFactory.getSimpleGalleryPlace(accountId, photos, index, true).tryOpenWith(requireActivity());
+        PlaceFactory.getSimpleGalleryPlace(accountId, photos, index, needUpdate).tryOpenWith(requireActivity());
     }
 
     @Override

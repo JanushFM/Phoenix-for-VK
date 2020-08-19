@@ -23,6 +23,9 @@ public class VKApiSticker implements VKApiAttachment {
     @SerializedName("animation_url")
     public String animation_url;
 
+    @SerializedName("animations")
+    public List<VKApiAnimation> animations;
+
     @Override
     public String getType() {
         return TYPE_STICKER;
@@ -37,5 +40,13 @@ public class VKApiSticker implements VKApiAttachment {
 
         @SerializedName("height")
         public int height;
+    }
+
+    public static final class VKApiAnimation {
+        @SerializedName("type")
+        public String type;
+
+        @SerializedName("url")
+        public String url;
     }
 }

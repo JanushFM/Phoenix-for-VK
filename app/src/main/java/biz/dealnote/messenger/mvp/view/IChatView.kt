@@ -72,4 +72,6 @@ interface IChatView : IBasicMessageListView, IErrorView {
     fun ScrollTo(position: Int)
     fun showSnackbar(@StringRes res: Int, isLong: Boolean)
     fun goToMessagesLookup(accountId: Int, peerId: Int, messageId: Int)
+
+    fun updateStickers(items: List<Sticker>)
 }

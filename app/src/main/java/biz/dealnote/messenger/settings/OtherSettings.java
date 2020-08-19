@@ -318,6 +318,11 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public boolean isHint_stickers() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("hint_stickers", true);
+    }
+
+    @Override
     public boolean isRunes_show() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("runes_show", false);
     }

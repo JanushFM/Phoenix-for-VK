@@ -23,11 +23,8 @@ import biz.dealnote.messenger.crypt.KeyExchangeService
 import biz.dealnote.messenger.crypt.KeyLocationPolicy
 import biz.dealnote.messenger.crypt.KeyPairDoesNotExistException
 import biz.dealnote.messenger.db.Stores
-import biz.dealnote.messenger.domain.IAttachmentsRepository
-import biz.dealnote.messenger.domain.IMessagesRepository
+import biz.dealnote.messenger.domain.*
 import biz.dealnote.messenger.domain.IOwnersRepository.MODE_NET
-import biz.dealnote.messenger.domain.Mode
-import biz.dealnote.messenger.domain.Repository
 import biz.dealnote.messenger.exception.UploadNotResolvedException
 import biz.dealnote.messenger.longpoll.ILongpollManager
 import biz.dealnote.messenger.longpoll.LongpollInstance
@@ -58,6 +55,7 @@ import java.io.File
 import java.io.IOException
 import java.lang.ref.WeakReference
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
@@ -78,9 +76,14 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private var recordingLookup: Lookup
 
     private val messagesRepository: IMessagesRepository = Repository.messages
+    private val stickersInteractor = InteractorFactory.createStickersInteractor()
     private val longpollManager: ILongpollManager = LongpollInstance.get()
     private val uploadManager: IUploadManager = Injection.provideUploadManager()
 
+    private val words: ArrayList<StickersKeywords> = ArrayList()
+
+    private var stickersWordsLoadingDisposable = Disposables.disposed()
+    private var stickersWordsDisplayDisposable = Disposables.disposed()
     private var cacheLoadingDisposable = Disposables.disposed()
     private var netLoadingDisposable = Disposables.disposed()
     private var fetchConversationDisposable = Disposables.disposed()
@@ -357,6 +360,14 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         loadAllCachedData()
         requestAtStart()
+
+        if (Settings.get().other().isHint_stickers) {
+            stickersWordsLoadingDisposable = stickersInteractor.getKeywordsStickers(accountId)
+                    .fromIOToMain()
+                    .subscribe({
+                        words.addAll(it)
+                    }, ignore())
+        }
     }
 
     private fun onUploadProgressUpdate(data: List<IUploadManager.IProgressUpdate>) {
@@ -610,6 +621,31 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
             isDeletedForAll = false
             view?.notifyDataChanged()
         }
+    }
+
+    fun fireTextEdited(s: String) {
+        if (!Settings.get().other().isHint_stickers) {
+            return
+        }
+        stickersWordsDisplayDisposable.dispose()
+        if (isEmpty(s) || isEmpty(words)) {
+            view?.updateStickers(Collections.emptyList())
+        }
+        stickersWordsDisplayDisposable = findStickerByWord(s)
+                .delay(500, TimeUnit.MILLISECONDS)
+                .fromIOToMain()
+                .subscribe({ stickers -> view?.updateStickers(stickers) }, ignore())
+    }
+
+    private fun findStickerByWord(s: String): Single<List<Sticker>> {
+        for (i in words) {
+            for (v in i.keywords) {
+                if (s == v) {
+                    return Single.just(i.stickers)
+                }
+            }
+        }
+        return Single.just(Collections.emptyList())
     }
 
     fun fireDraftMessageTextEdited(s: String) {
@@ -1195,6 +1231,8 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     override fun onDestroyed() {
+        stickersWordsDisplayDisposable.dispose()
+        stickersWordsLoadingDisposable.dispose()
         cacheLoadingDisposable.dispose()
         netLoadingDisposable.dispose()
         fetchConversationDisposable.dispose()
