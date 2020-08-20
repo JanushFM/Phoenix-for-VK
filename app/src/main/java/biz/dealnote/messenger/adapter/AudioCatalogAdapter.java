@@ -180,6 +180,11 @@ public class AudioCatalogAdapter extends RecyclerView.Adapter<AudioCatalogAdapte
     }
 
     @Override
+    public void onUrlPhotoOpen(@NonNull String url, @NonNull String prefix, @NonNull String photo_prefix) {
+        PlaceFactory.getSingleURLPhotoPlace(url, prefix, photo_prefix).tryOpenWith(mContext);
+    }
+
+    @Override
     public void onVideoClick(int position, Video video) {
         PlaceFactory.getVideoPreviewPlace(account_id, video).tryOpenWith(mContext);
     }

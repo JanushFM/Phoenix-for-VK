@@ -195,6 +195,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         } else {
             goto_button?.setImageResource(R.drawable.view)
             goto_button?.setOnClickListener { recyclerView?.smoothScrollToPosition(presenter?.getConversation()!!.unreadCount) }
+            goto_button?.setOnLongClickListener { presenter?.fireDialogAttachmentsClick(); true; }
         }
 
         if (!Settings.get().other().isEnable_last_read)
@@ -237,11 +238,13 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         } else {
             stickersKeywordsView?.visibility = View.VISIBLE
         }
+        if (Settings.get().ui().swipes_chat_mode == SwipesChatMode.V1) {
+            PlaceFactory.enableTouchViewPagerDialogs(Utils.isEmpty(items)).tryOpenWith(requireActivity())
+        }
         stickersAdapter?.setData(items)
     }
 
     override fun hideWriting() {
-
         val animator: ObjectAnimator? = ObjectAnimator.ofFloat(Writing_msg_Group, View.ALPHA, 0.0f)
         animator?.addListener(object : WeakViewAnimatorAdapter<View>(Writing_msg_Group) {
             override fun onAnimationEnd(view: View) {
@@ -254,7 +257,6 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             override fun onAnimationCancel(view: View) {
             }
         })
-
         animator?.setDuration(200)?.start()
     }
 

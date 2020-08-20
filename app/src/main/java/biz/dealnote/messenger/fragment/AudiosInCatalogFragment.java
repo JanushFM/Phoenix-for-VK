@@ -130,7 +130,17 @@ public class AudiosInCatalogFragment extends BaseMvpFragment<AudiosInCatalogPres
                 PhoenixToast.CreatePhoenixToast(requireActivity()).showToastError(R.string.null_audio);
         });
         mAudioRecyclerAdapter = new AudioRecyclerAdapter(requireActivity(), Collections.emptyList(), false, false, 0);
-        mAudioRecyclerAdapter.setClickListener((position, catalog, audio) -> getPresenter().playAudio(requireActivity(), position));
+        mAudioRecyclerAdapter.setClickListener(new AudioRecyclerAdapter.ClickListener() {
+            @Override
+            public void onClick(int position, int catalog, Audio audio) {
+                getPresenter().playAudio(requireActivity(), position);
+            }
+
+            @Override
+            public void onUrlPhotoOpen(@NonNull String url, @NonNull String prefix, @NonNull String photo_prefix) {
+                PlaceFactory.getSingleURLPhotoPlace(url, prefix, photo_prefix).tryOpenWith(requireActivity());
+            }
+        });
         recyclerView.setAdapter(mAudioRecyclerAdapter);
         return root;
     }

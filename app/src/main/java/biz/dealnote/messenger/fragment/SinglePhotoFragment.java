@@ -79,8 +79,8 @@ public class SinglePhotoFragment extends BaseFragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         url = requireArguments().getString(Extra.URL);
-        prefix = requireArguments().getString(Extra.STATUS);
-        photo_prefix = requireArguments().getString(Extra.KEY);
+        prefix = DownloadWorkUtils.makeLegalFilename(requireArguments().getString(Extra.STATUS), null);
+        photo_prefix = DownloadWorkUtils.makeLegalFilename(requireArguments().getString(Extra.KEY), null);
     }
 
     @SuppressLint("ClickableViewAccessibility")

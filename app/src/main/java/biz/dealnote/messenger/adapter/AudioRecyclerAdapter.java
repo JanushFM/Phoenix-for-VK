@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,6 +55,8 @@ import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.WeakViewAnimatorAdapter;
 import io.reactivex.disposables.CompositeDisposable;
+
+import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
 public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRecyclerAdapter.AudioHolder> {
 
@@ -213,6 +216,15 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
             holder.play_cover.setImageResource(getAudioCoverSimple());
         }
 
+        holder.play.setOnLongClickListener(v -> {
+            if (!Utils.isEmpty(audio.getThumb_image_very_big())
+                    || !Utils.isEmpty(audio.getThumb_image_big()) || !Utils.isEmpty(audio.getThumb_image_little())) {
+                mClickListener.onUrlPhotoOpen(firstNonEmptyString(audio.getThumb_image_very_big(),
+                        audio.getThumb_image_big(), audio.getThumb_image_little()), audio.getArtist(), audio.getTitle());
+            }
+            return true;
+        });
+
         holder.play.setOnClickListener(v -> {
             if (MusicUtils.isNowPlayingOrPreparingOrPaused(audio)) {
                 if (!Settings.get().other().isUse_stop_audio()) {
@@ -277,7 +289,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                 menus.add(new OptionRequest(AudioItem.copy_url, mContext.getString(R.string.copy_url), R.drawable.content_copy));
 
 
-                menus.header(Utils.firstNonEmptyString(audio.getArtist(), " ") + " - " + audio.getTitle(), R.drawable.song, audio.getThumb_image_little());
+                menus.header(firstNonEmptyString(audio.getArtist(), " ") + " - " + audio.getTitle(), R.drawable.song, audio.getThumb_image_little());
                 menus.columns(2);
                 menus.show(((FragmentActivity) mContext).getSupportFragmentManager(), "audio_options", option -> {
                     switch (option.getId()) {
@@ -386,6 +398,8 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
     public interface ClickListener {
         void onClick(int position, int catalog, Audio audio);
+
+        void onUrlPhotoOpen(@NonNull String url, @NonNull String prefix, @NonNull String photo_prefix);
     }
 
     class AudioHolder extends RecyclerView.ViewHolder {

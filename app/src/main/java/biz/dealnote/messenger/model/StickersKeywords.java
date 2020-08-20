@@ -28,6 +28,7 @@ public class StickersKeywords implements Parcelable {
         in.readStringList(keywords);
         stickers = in.createTypedArrayList(Sticker.CREATOR);
     }
+
     public StickersKeywords(List<String> keywords, List<Sticker> stickers) {
         this.keywords = keywords;
         this.stickers = stickers;

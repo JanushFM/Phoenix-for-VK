@@ -988,6 +988,15 @@ public class AttachmentsViewBinder {
                     holder.play_cover.setImageResource(getAudioCoverSimple());
                 }
 
+                holder.ibPlay.setOnLongClickListener(v -> {
+                    if (!isEmpty(audio.getThumb_image_very_big())
+                            || !isEmpty(audio.getThumb_image_big()) || !isEmpty(audio.getThumb_image_little())) {
+                        mAttachmentsActionCallback.onUrlPhotoOpen(firstNonEmptyString(audio.getThumb_image_very_big(),
+                                audio.getThumb_image_big(), audio.getThumb_image_little()), audio.getArtist(), audio.getTitle());
+                    }
+                    return true;
+                });
+
                 holder.ibPlay.setOnClickListener(v -> {
                     if (MusicUtils.isNowPlayingOrPreparingOrPaused(audio)) {
                         if (!Settings.get().other().isUse_stop_audio()) {
@@ -1194,6 +1203,8 @@ public class AttachmentsViewBinder {
         void onStickerOpen(@NonNull Sticker sticker);
 
         void onPhotosOpen(@NonNull ArrayList<Photo> photos, int index, boolean refresh);
+
+        void onUrlPhotoOpen(@NonNull String url, @NonNull String prefix, @NonNull String photo_prefix);
 
         void onStoryOpen(@NonNull Story story);
 

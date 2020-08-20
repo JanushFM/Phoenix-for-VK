@@ -48,7 +48,7 @@ public class StickersKeyWordsAdapter extends RecyclerView.Adapter<RecyclerView.V
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new StickerHolder(LayoutInflater.from(context).inflate(R.layout.sticker_grid_item, parent, false));
+        return new StickerHolder(LayoutInflater.from(context).inflate(R.layout.sticker_keyword_item, parent, false));
     }
 
     @Override

@@ -168,6 +168,11 @@ public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
     }
 
     @Override
+    public void onUrlPhotoOpen(@NonNull String url, @NonNull String prefix, @NonNull String photo_prefix) {
+        PlaceFactory.getSingleURLPhotoPlace(url, prefix, photo_prefix).tryOpenWith(requireActivity());
+    }
+
+    @Override
     public void onAudioPlaylistOpen(@NonNull AudioPlaylist playlist) {
         PlaceFactory.getAudiosInAlbumPlace(accountId, playlist.getOwnerId(), playlist.getId(), playlist.getAccess_key()).tryOpenWith(requireActivity());
     }

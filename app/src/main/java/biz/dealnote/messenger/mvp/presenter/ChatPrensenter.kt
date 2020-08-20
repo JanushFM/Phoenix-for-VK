@@ -640,7 +640,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private fun findStickerByWord(s: String): Single<List<Sticker>> {
         for (i in words) {
             for (v in i.keywords) {
-                if (s == v) {
+                if (s.equals(v, true)) {
                     return Single.just(i.stickers)
                 }
             }

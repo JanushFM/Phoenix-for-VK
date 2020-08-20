@@ -125,6 +125,10 @@ class PlaylistFragment : BottomSheetDialogFragment(), AudioRecyclerAdapter.Click
         startForPlayList(requireActivity(), mData!!, position, false)
     }
 
+    override fun onUrlPhotoOpen(url: String, prefix: String, photo_prefix: String) {
+        PlaceFactory.getSingleURLPhotoPlace(url, prefix, photo_prefix).tryOpenWith(requireActivity())
+    }
+
     override fun onResume() {
         super.onResume()
         mPlaybackStatus = PlaybackStatus()
