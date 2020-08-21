@@ -108,4 +108,12 @@ class VideoApi extends AbsApi implements IVideoApi {
                         .map(extractResponseWithErrorHandling())
                         .map(response -> response == 1));
     }
+
+    @Override
+    public Single<Boolean> edit(Integer ownerId, int video_id, String name, String desc) {
+        return provideService(IVideoService.class, TokenType.USER)
+                .flatMap(service -> service.edit(ownerId, video_id, name, desc)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response == 1));
+    }
 }

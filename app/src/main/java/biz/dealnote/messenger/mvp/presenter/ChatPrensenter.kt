@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -272,11 +271,8 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         }
     }
 
-    fun fireResendSwipe(position: Int, swipeDir: Int) {
-        if (swipeDir == ItemTouchHelper.LEFT)
-            fireForwardToHereClick(ArrayList(Collections.singleton(data[position])))
-        else if (swipeDir == ItemTouchHelper.RIGHT)
-            fireForwardToAnotherClick(ArrayList(Collections.singleton(data[position])))
+    fun fireResendSwipe(position: Int) {
+        fireForwardToHereClick(ArrayList(Collections.singleton(data[position])))
     }
 
     fun fireTranscript(voiceMessageId: String, messageId: Int) {
@@ -623,15 +619,16 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         }
     }
 
-    fun fireTextEdited(s: String) {
+    fun fireTextEdited(s: String?) {
         if (!Settings.get().other().isHint_stickers) {
             return
         }
         stickersWordsDisplayDisposable.dispose()
         if (isEmpty(s) || isEmpty(words)) {
             view?.updateStickers(Collections.emptyList())
+            return
         }
-        stickersWordsDisplayDisposable = findStickerByWord(s)
+        stickersWordsDisplayDisposable = findStickerByWord(s!!.trim())
                 .delay(500, TimeUnit.MILLISECONDS)
                 .fromIOToMain()
                 .subscribe({ stickers -> view?.updateStickers(stickers) }, ignore())
@@ -673,7 +670,6 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireSendClick() {
-        view?.ScrollTo(0)
         if (canSendNormalMessage()) {
             sendImpl()
         }
@@ -766,6 +762,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private fun onMessageSaveSuccess(message: Message) {
         addMessageToList(message)
         view?.notifyDataChanged()
+        view?.ScrollTo(0)
     }
 
     private fun startSendService() {
@@ -1226,6 +1223,12 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         resolveDraftMessageText()
     }
 
+    fun resetDraftMessage() {
+        draftMessageText = null
+        resolvePrimaryButton()
+        resolveDraftMessageText()
+    }
+
     private fun resolveAccountHotSwapSupport() {
         setSupportAccountHotSwap(!Peer.isGroupChat(peerId))
     }
@@ -1551,7 +1554,20 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireForwardToHereClick(messages: ArrayList<Message>) {
-        outConfig.models.append(FwdMessages(messages))
+        for (i in outConfig.models) {
+            if (i is FwdMessages) {
+                if (!isEmpty(i.fwds)) {
+                    for (p in i.fwds) {
+                        if (messages.contains(p)) {
+                            messages.remove(p)
+                        }
+                    }
+                }
+            }
+        }
+        if (!isEmpty(messages)) {
+            outConfig.models.append(FwdMessages(messages))
+        }
 
         resolveAttachmentsCounter()
         resolvePrimaryButton()

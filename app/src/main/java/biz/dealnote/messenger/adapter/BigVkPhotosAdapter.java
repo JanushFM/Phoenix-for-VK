@@ -79,7 +79,7 @@ public class BigVkPhotosAdapter extends DifferentDataAdapter {
                 return new UploadViewHolder(LayoutInflater.from(mContext).inflate(R.layout.vk_upload_photo_item, parent, false));
         }
 
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

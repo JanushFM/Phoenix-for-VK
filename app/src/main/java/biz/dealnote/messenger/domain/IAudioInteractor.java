@@ -23,6 +23,8 @@ public interface IAudioInteractor {
 
     Completable delete(int accountId, int audioId, int ownerId);
 
+    Completable edit(int accountId, int ownerId, int audioId, String artist, String title, String text);
+
     Completable restore(int accountId, int audioId, int ownerId);
 
     Completable sendBroadcast(int accountId, int audioOwnerId, int audioId, @Nullable Collection<Integer> targetIds);

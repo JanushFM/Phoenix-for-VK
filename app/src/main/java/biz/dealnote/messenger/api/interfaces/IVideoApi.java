@@ -54,4 +54,7 @@ public interface IVideoApi {
     @CheckResult
     Single<Boolean> editComment(Integer ownerId, int commentId, String message, Collection<IAttachmentToken> attachments);
 
+    @CheckResult
+    Single<Boolean> edit(Integer ownerId, int video_id, String name, String desc);
+
 }

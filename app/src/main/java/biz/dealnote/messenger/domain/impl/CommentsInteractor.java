@@ -126,8 +126,10 @@ public class CommentsInteractor implements ICommentsInteractor {
                 .map(bundle -> {
                     List<Comment> data = new ArrayList<>(comments.size());
                     for (VKApiComment dto : comments) {
-                        if (dto.from_id != 0)
-                            data.add(Dto2Model.buildComment(commented, dto, bundle));
+                        Comment cm = Dto2Model.buildComment(commented, dto, bundle);
+                        if (nonNull(cm)) {
+                            data.add(cm);
+                        }
                     }
                     Collections.sort(data, (o1, o2) -> Integer.compare(o2.getId(), o1.getId()));
                     return data;

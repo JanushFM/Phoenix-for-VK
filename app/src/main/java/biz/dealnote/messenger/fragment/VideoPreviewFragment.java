@@ -131,6 +131,8 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
         getPresenter().fireOptionViewCreated(view);
 
         menu.findItem(R.id.action_add_to_my_videos).setVisible(view.canAdd);
+        menu.findItem(R.id.action_delete_from_my_videos).setVisible(view.isMy);
+        menu.findItem(R.id.action_edit).setVisible(view.isMy);
     }
 
     @Override
@@ -141,8 +143,13 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
         } else if (item.getItemId() == R.id.action_copy_url) {
             getPresenter().fireCopyUrlClick(requireActivity());
             return true;
+        } else if (item.getItemId() == R.id.action_delete_from_my_videos) {
+            getPresenter().fireDeleteMyClick();
+            return true;
+        } else if (item.getItemId() == R.id.action_edit) {
+            getPresenter().fireEditVideo(requireActivity());
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -654,9 +661,16 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
 
         boolean canAdd;
 
+        boolean isMy;
+
         @Override
         public void setCanAdd(boolean can) {
             canAdd = can;
+        }
+
+        @Override
+        public void setIsMy(boolean my) {
+            isMy = my;
         }
     }
 

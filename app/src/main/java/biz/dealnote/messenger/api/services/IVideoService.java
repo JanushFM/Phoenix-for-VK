@@ -96,4 +96,11 @@ public interface IVideoService {
                                               @Field("comment_id") int commentId,
                                               @Field("message") String message,
                                               @Field("attachments") String attachments);
+
+    @FormUrlEncoded
+    @POST("video.edit")
+    Single<BaseResponse<Integer>> edit(@Field("owner_id") Integer ownerId,
+                                       @Field("video_id") int video_id,
+                                       @Field("name") String name,
+                                       @Field("desc") String desc);
 }

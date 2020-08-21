@@ -34,8 +34,8 @@ import biz.dealnote.messenger.model.PhotoSize;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Story;
 import biz.dealnote.messenger.model.Video;
-import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.upload.Upload;
+import biz.dealnote.messenger.util.AppTextUtils;
 import biz.dealnote.messenger.view.CircleRoadProgress;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -89,6 +89,7 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
     private void bindEntryHolder(EntryHolder holder, int position) {
         int dataPosition = position - 1;
         holders.put(dataPosition, holder);
+        holder.image.setBackgroundResource(R.drawable.background_unknown_image);
 
         AttachmenEntry entry = data.get(dataPosition);
         AbsModel model = entry.getAttachment();
@@ -130,8 +131,13 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         holder.progress.setVisibility(View.INVISIBLE);
         holder.Retry.setVisibility(View.GONE);
         holder.tintView.setVisibility(View.GONE);
+        holder.image.setBackgroundResource(R.drawable.background_emails);
 
-        holder.title.setText(R.string.messages);
+        if (!isEmpty(messages.fwds) && messages.fwds.size() == 1 && !isEmpty(messages.fwds.get(0).getBody())) {
+            holder.title.setText(AppTextUtils.reduceText(messages.fwds.get(0).getBody(), 20));
+        } else {
+            holder.title.setText(R.string.messages);
+        }
 
         bindImageView(holder, null);
     }
@@ -140,18 +146,6 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         if (isEmpty(url)) {
             PicassoInstance.with().cancelRequest(holder.image);
             holder.image.setImageResource(R.drawable.background_gray);
-        } else {
-            PicassoInstance.with()
-                    .load(url)
-                    .placeholder(R.drawable.background_gray)
-                    .into(holder.image);
-        }
-    }
-
-    private void bindImageAudioView(EntryHolder holder, String url) {
-        if (isEmpty(url)) {
-            PicassoInstance.with().cancelRequest(holder.image);
-            holder.image.setImageResource(Settings.get().ui().isDarkModeEnabled(context) ? R.drawable.generic_audio_nowplaying_dark : R.drawable.generic_audio_nowplaying_light);
         } else {
             PicassoInstance.with()
                     .load(url)
@@ -220,7 +214,8 @@ public class AttachmentsBottomSheetAdapter extends RecyclerView.Adapter<Recycler
         holder.progress.setVisibility(View.INVISIBLE);
         holder.Retry.setVisibility(View.GONE);
         holder.tintView.setVisibility(View.GONE);
-        bindImageAudioView(holder, audio.getThumb_image_big());
+        holder.image.setBackgroundResource(R.drawable.background_unknown_song);
+        bindImageView(holder, audio.getThumb_image_big());
     }
 
     private void bindVideo(EntryHolder holder, Video video) {

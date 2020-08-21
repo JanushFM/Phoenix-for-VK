@@ -12,6 +12,7 @@ import biz.dealnote.messenger.api.model.VKApiAudioCatalog;
 import biz.dealnote.messenger.api.model.VKApiAudioPlaylist;
 import biz.dealnote.messenger.api.model.VkApiLyrics;
 import biz.dealnote.messenger.api.model.response.CatalogResponse;
+import biz.dealnote.messenger.api.model.server.VkApiAudioUploadServer;
 import io.reactivex.Single;
 
 
@@ -33,6 +34,9 @@ public interface IAudioApi {
 
     @CheckResult
     Single<Boolean> delete(int audioId, int ownerId);
+
+    @CheckResult
+    Single<Integer> edit(int ownerId, int audioId, String artist, String title, String text);
 
     @CheckResult
     Single<Integer> add(int audioId, int ownerId, Integer groupId, Integer album_id);
@@ -77,4 +81,10 @@ public interface IAudioApi {
 
     @CheckResult
     Single<CatalogResponse> getCatalogBlockById(String block_id, String start_from);
+
+    @CheckResult
+    Single<VkApiAudioUploadServer> getUploadServer();
+
+    @CheckResult
+    Single<VKApiAudio> save(String server, String audio, String hash, String artist, String title);
 }

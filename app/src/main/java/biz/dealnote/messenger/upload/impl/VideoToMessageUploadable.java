@@ -86,7 +86,7 @@ public class VideoToMessageUploadable implements IUploadable<Video> {
 
         Single<UploadServer> serverSingle = networker.vkDefault(accountId)
                 .docs()
-                .getVideoServer(1, findFileName(context, upload.getFileUri()))
+                .getVideoServer(1, null, findFileName(context, upload.getFileUri()))
                 .map(s -> s);
 
         return serverSingle.flatMap(server -> {

@@ -588,8 +588,10 @@ public class Dto2Model {
         return data;
     }
 
-    @NonNull
     public static Comment buildComment(@NonNull Commented commented, @NonNull VKApiComment dto, @NonNull IOwnersBundle owners) {
+        if (dto.from_id == 0) {
+            return null;
+        }
         Comment comment = new Comment(commented)
                 .setId(dto.id)
                 .setFromId(dto.from_id)

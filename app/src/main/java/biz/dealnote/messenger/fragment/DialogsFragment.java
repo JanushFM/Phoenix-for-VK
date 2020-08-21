@@ -76,6 +76,7 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
     private DialogsAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private Toolbar toolbar;
+    private boolean isCreateChat = true;
 
     private FloatingActionButton mFab;
     private final RecyclerView.OnScrollListener mFabScrollListener = new RecyclerView.OnScrollListener() {
@@ -94,6 +95,10 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
 
             if (dy < -scrollMinOffset && !mFab.isShown()) {
                 mFab.show();
+                if (view.getLayoutManager() instanceof LinearLayoutManager) {
+                    LinearLayoutManager myLayoutManager = (LinearLayoutManager) view.getLayoutManager();
+                    ToggleFab(myLayoutManager.findFirstVisibleItemPosition() > 20);
+                }
             }
         }
     };
@@ -108,6 +113,16 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
         args.putInt(Extra.OFFSET, Offset);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private void ToggleFab(boolean isUp) {
+        if (isUp && isCreateChat) {
+            isCreateChat = false;
+            mFab.setImageResource(R.drawable.ic_outline_keyboard_arrow_up);
+        } else if (!isUp && !isCreateChat) {
+            isCreateChat = true;
+            mFab.setImageResource(R.drawable.pencil);
+        }
     }
 
     private void onSecurityClick() {
@@ -157,8 +172,14 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
                 Settings.get().security().setShowHiddenDialogs(false);
                 ReconfigureOptionsHide();
                 notifyDataSetChanged();
-            } else
-                createGroupChat();
+            } else {
+                if (isCreateChat) {
+                    createGroupChat();
+                } else {
+                    mRecyclerView.smoothScrollToPosition(0);
+                    ToggleFab(false);
+                }
+            }
         });
 
         mFab.setOnLongClickListener(v -> {

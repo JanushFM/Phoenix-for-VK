@@ -48,6 +48,11 @@ public class ConversationAudiosFragment extends AbsChatAttachmentsFragment<Audio
     }
 
     @Override
+    public void onEdit(int position, Audio audio) {
+
+    }
+
+    @Override
     public void displayAttachments(List<Audio> data) {
         ((AudioRecyclerAdapter) getAdapter()).setData(data);
     }

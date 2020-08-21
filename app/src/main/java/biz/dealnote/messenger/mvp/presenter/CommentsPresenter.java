@@ -10,9 +10,11 @@ import androidx.annotation.StringRes;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
@@ -21,6 +23,8 @@ import biz.dealnote.messenger.db.AttachToType;
 import biz.dealnote.messenger.domain.IAttachmentsRepository;
 import biz.dealnote.messenger.domain.ICommentsInteractor;
 import biz.dealnote.messenger.domain.IOwnersRepository;
+import biz.dealnote.messenger.domain.IStickersInteractor;
+import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.domain.impl.CommentsInteractor;
 import biz.dealnote.messenger.exception.NotFoundException;
@@ -37,6 +41,7 @@ import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.Poll;
 import biz.dealnote.messenger.model.Sticker;
+import biz.dealnote.messenger.model.StickersKeywords;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.base.PlaceSupportPresenter;
 import biz.dealnote.messenger.mvp.view.ICommentsView;
@@ -71,9 +76,12 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
     private final List<Comment> data;
     private final Integer CommentThread;
     private final Context context;
+    private final CompositeDisposable stickersWordsLoadingDisposable = new CompositeDisposable();
+    private final DisposableHolder<Void> stickersWordsDisplayDisposable = new DisposableHolder<>();
     private final CompositeDisposable actualLoadingDisposable = new CompositeDisposable();
     private final DisposableHolder<Void> deepLookingHolder = new DisposableHolder<>();
     private final CompositeDisposable cacheLoadingDisposable = new CompositeDisposable();
+    private final ArrayList<StickersKeywords> words = new ArrayList<>();
     private Integer focusToComment;
     private CommentedState commentedState;
     private int authorId;
@@ -130,6 +138,13 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         restoreDraftCommentSync();
         requestInitialData();
         loadAuthorData();
+
+        if (Settings.get().other().isHint_stickers()) {
+            IStickersInteractor stickersInteractor = InteractorFactory.createStickersInteractor();
+            stickersWordsLoadingDisposable.add(stickersInteractor.getKeywordsStickers(accountId)
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(words::addAll, ignore()));
+        }
     }
 
     private static String buildReplyTextFor(Comment comment) {
@@ -185,6 +200,45 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         if (update.hasDeleteUpdate()) {
             comment.setDeleted(update.getDeleteUpdate().isDeleted());
         }
+    }
+
+    public void resetDraftMessage() {
+        draftCommentAttachmentsCount = 0;
+        draftCommentBody = null;
+        draftCommentId = null;
+        replyTo = null;
+
+        resolveAttachmentsCounter();
+        resolveBodyView();
+        resolveReplyViews();
+        resolveSendButtonAvailability();
+        resolveEmptyTextVisibility();
+    }
+
+    public void fireTextEdited(String s) {
+        if (!Settings.get().other().isHint_stickers()) {
+            return;
+        }
+        stickersWordsDisplayDisposable.dispose();
+        if (Utils.isEmpty(s) || Utils.isEmpty(words)) {
+            getView().updateStickers(Collections.emptyList());
+            return;
+        }
+        stickersWordsDisplayDisposable.append(findStickerByWord(s.trim())
+                .delay(500, TimeUnit.MILLISECONDS)
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(stickers -> getView().updateStickers(stickers), u -> showError(getView(), u)));
+    }
+
+    private Single<List<Sticker>> findStickerByWord(String s) {
+        for (StickersKeywords i : words) {
+            for (String v : i.getKeywords()) {
+                if (s.equalsIgnoreCase(v)) {
+                    return Single.just(i.getStickers());
+                }
+            }
+        }
+        return Single.just(Collections.emptyList());
     }
 
     @SuppressWarnings("unused")
@@ -1051,6 +1105,8 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         cacheLoadingDisposable.dispose();
         actualLoadingDisposable.dispose();
         deepLookingHolder.dispose();
+        stickersWordsLoadingDisposable.dispose();
+        stickersWordsDisplayDisposable.dispose();
 
         // save draft async
         saveSingle().subscribeOn(Schedulers.io()).subscribe(ignore(), ignore());

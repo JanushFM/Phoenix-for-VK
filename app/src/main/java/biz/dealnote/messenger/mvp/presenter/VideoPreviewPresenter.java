@@ -4,9 +4,13 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.domain.IFaveInteractor;
@@ -74,6 +78,22 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
                 .subscribe(this::onVideoAddedToBookmarks, t -> showError(getView(), getCauseIfRuntime(t))));
     }
 
+    public void fireEditVideo(Context context) {
+        View root = View.inflate(context, R.layout.entry_video_info, null);
+        ((TextInputEditText) root.findViewById(R.id.edit_title)).setText(video.getTitle());
+        ((TextInputEditText) root.findViewById(R.id.edit_description)).setText(video.getDescription());
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.edit)
+                .setCancelable(true)
+                .setView(root)
+                .setPositiveButton(R.string.button_ok, (dialog, which) -> appendDisposable(interactor.edit(getAccountId(), video.getOwnerId(), video.getId(),
+                        ((TextInputEditText) root.findViewById(R.id.edit_title)).getText().toString(),
+                        ((TextInputEditText) root.findViewById(R.id.edit_description)).getText().toString()).compose(RxUtils.applyCompletableIOToMainSchedulers())
+                        .subscribe(this::refreshVideoInfo, t -> showError(getView(), getCauseIfRuntime(t)))))
+                .setNegativeButton(R.string.button_cancel, null);
+        builder.create().show();
+    }
+
     @OnGuiCreated
     private void resolveSubtitle() {
         if (isGuiReady()) getView().showSubtitle(nonNull(video) ? video.getTitle() : null);
@@ -137,6 +157,7 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
 
     public void fireOptionViewCreated(IVideoPreviewView.IOptionView view) {
         view.setCanAdd(nonNull(video) && !isMy() && video.isCanAdd());
+        view.setIsMy(nonNull(video) && isMy());
     }
 
     private void onAddComplete() {
@@ -151,6 +172,14 @@ public class VideoPreviewPresenter extends AccountDependencyPresenter<IVideoPrev
         int accountId = getAccountId();
 
         appendDisposable(interactor.addToMy(accountId, accountId, ownerId, videoId)
+                .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                .subscribe(this::onAddComplete, throwable -> onAddError(getCauseIfRuntime(throwable))));
+    }
+
+    public void fireDeleteMyClick() {
+        int accountId = getAccountId();
+
+        appendDisposable(interactor.delete(accountId, videoId, ownerId, accountId)
                 .compose(RxUtils.applyCompletableIOToMainSchedulers())
                 .subscribe(this::onAddComplete, throwable -> onAddError(getCauseIfRuntime(throwable))));
     }

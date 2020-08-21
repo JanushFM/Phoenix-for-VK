@@ -269,8 +269,10 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                 if (audio.getOwnerId() != Settings.get().accounts().getCurrent()) {
                     menus.add(new OptionRequest(AudioItem.add_item_audio, mContext.getString(R.string.action_add), R.drawable.list_add));
                     menus.add(new OptionRequest(AudioItem.add_and_download_button, mContext.getString(R.string.add_and_download_button), R.drawable.add_download));
-                } else
+                } else {
                     menus.add(new OptionRequest(AudioItem.add_item_audio, mContext.getString(R.string.delete), R.drawable.ic_outline_delete));
+                    menus.add(new OptionRequest(AudioItem.edit_track, mContext.getString(R.string.edit), R.drawable.about_writed));
+                }
                 menus.add(new OptionRequest(AudioItem.share_button, mContext.getString(R.string.share), R.drawable.ic_outline_share));
                 menus.add(new OptionRequest(AudioItem.save_item_audio, mContext.getString(R.string.save), R.drawable.save));
                 if (audio.getAlbumId() != 0)
@@ -298,6 +300,11 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
                                 mClickListener.onClick(position, iCatalogBlock, audio);
                                 if (Settings.get().other().isShow_mini_player())
                                     PlaceFactory.getPlayerPlace(Settings.get().accounts().getCurrent()).tryOpenWith(mContext);
+                            }
+                            break;
+                        case AudioItem.edit_track:
+                            if (mClickListener != null) {
+                                mClickListener.onEdit(position, audio);
                             }
                             break;
                         case AudioItem.share_button:
@@ -398,6 +405,8 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
     public interface ClickListener {
         void onClick(int position, int catalog, Audio audio);
+
+        void onEdit(int position, Audio audio);
 
         void onUrlPhotoOpen(@NonNull String url, @NonNull String prefix, @NonNull String photo_prefix);
     }

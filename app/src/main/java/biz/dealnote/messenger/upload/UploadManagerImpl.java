@@ -30,6 +30,7 @@ import biz.dealnote.messenger.db.interfaces.IStorages;
 import biz.dealnote.messenger.domain.IAttachmentsRepository;
 import biz.dealnote.messenger.domain.IWallsRepository;
 import biz.dealnote.messenger.longpoll.NotificationHelper;
+import biz.dealnote.messenger.upload.impl.AudioUploadable;
 import biz.dealnote.messenger.upload.impl.DocumentUploadable;
 import biz.dealnote.messenger.upload.impl.OwnerPhotoUploadable;
 import biz.dealnote.messenger.upload.impl.Photo2AlbumUploadable;
@@ -111,6 +112,10 @@ public class UploadManagerImpl implements IUploadManager {
 
         switch (upload.getDestination().getMethod()) {
             case Method.DOCUMENT:
+            case Method.VIDEO:
+            case Method.AUDIO:
+            case Method.TO_COMMENT:
+            case Method.TO_WALL:
                 if (dest.getOwnerId() < 0) {
                     builder.append(Extra.GROUP_ID).append(Math.abs(dest.getOwnerId()));
                 }
@@ -120,15 +125,6 @@ public class UploadManagerImpl implements IUploadManager {
                 if (dest.getOwnerId() < 0) {
                     builder.append(Extra.GROUP_ID).append(Math.abs(dest.getOwnerId()));
                 }
-                break;
-            case Method.TO_COMMENT:
-            case Method.TO_WALL:
-                if (dest.getOwnerId() < 0) {
-                    builder.append(Extra.GROUP_ID).append(Math.abs(dest.getOwnerId()));
-                }
-                break;
-            case Method.VIDEO:
-                builder.append(Extra.OWNER_ID).append(dest.getOwnerId());
                 break;
             case Method.TO_MESSAGE:
                 //do nothink
@@ -412,6 +408,8 @@ public class UploadManagerImpl implements IUploadManager {
         switch (destination.getMethod()) {
             case Method.VIDEO:
                 return new VideoUploadable(context, networker);
+            case Method.AUDIO:
+                return new AudioUploadable(context, networker);
             case Method.TO_MESSAGE:
                 if (destination.getMessageMethod() == MessageMethod.PHOTO)
                     return new Photo2MessageUploadable(context, networker, attachmentsRepository, storages.messages());

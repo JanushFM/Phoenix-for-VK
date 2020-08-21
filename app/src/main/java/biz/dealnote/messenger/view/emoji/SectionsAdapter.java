@@ -54,7 +54,7 @@ public class SectionsAdapter extends RecyclerView.Adapter<SectionsAdapter.Holder
                     holder.icon.getDrawable().setTint(CurrentTheme.getColorPrimary(mContext));
                 } else {
                     PicassoInstance.with()
-                            .load(stickerSection.stickerSet.getPhoto70())
+                            .load(stickerSection.stickerSet.getImageUrl(128))
                             .placeholder(R.drawable.sticker_pack_with_alpha)
                             .into(holder.icon);
                     holder.icon.setColorFilter(null);

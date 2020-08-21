@@ -20,6 +20,7 @@ import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.model.Sticker;
 import biz.dealnote.messenger.model.StickerSet;
+import biz.dealnote.messenger.util.Utils;
 
 public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TYPE_IMAGE = 0;
@@ -59,7 +60,7 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case TYPE_ANIMATED:
                 return new StickerAnimatedHolder(LayoutInflater.from(context).inflate(R.layout.sticker_grid_item_animated, parent, false));
         }
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -86,14 +87,18 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case TYPE_IMAGE:
                 StickerHolder normalHolder = (StickerHolder) holder;
                 normalHolder.image.setVisibility(View.VISIBLE);
-                String url = item.getImage(256, true).getUrl();
-
-                PicassoInstance.with()
-                        .load(url)
-                        //.networkPolicy(NetworkPolicy.OFFLINE)
-                        .tag(Constants.PICASSO_TAG)
-                        .into(normalHolder.image, new LoadOnErrorCallback(normalHolder.image, url));
-                normalHolder.root.setOnClickListener(v -> stickerClickedListener.onStickerClick(item));
+                String url = item.getImage(256, context).getUrl();
+                if (Utils.isEmpty(url)) {
+                    PicassoInstance.with().cancelRequest(normalHolder.image);
+                    normalHolder.image.setImageResource(R.drawable.ic_avatar_unknown);
+                } else {
+                    PicassoInstance.with()
+                            .load(url)
+                            //.networkPolicy(NetworkPolicy.OFFLINE)
+                            .tag(Constants.PICASSO_TAG)
+                            .into(normalHolder.image, new LoadOnErrorCallback(normalHolder.image, url));
+                    normalHolder.root.setOnClickListener(v -> stickerClickedListener.onStickerClick(item));
+                }
                 break;
         }
     }

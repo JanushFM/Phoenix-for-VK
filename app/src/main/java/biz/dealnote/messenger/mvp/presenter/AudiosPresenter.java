@@ -2,9 +2,13 @@ package biz.dealnote.messenger.mvp.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +29,8 @@ import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import io.reactivex.disposables.CompositeDisposable;
+
+import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 
 public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
 
@@ -176,11 +182,11 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
         setLoadingNow(false);
 
         if (ownerId != getAccountId()) {
-            showError(getView(), Utils.getCauseIfRuntime(t));
+            showError(getView(), getCauseIfRuntime(t));
             return;
         }
         if (isGuiResumed()) {
-            showError(getView(), Utils.getCauseIfRuntime(t));
+            showError(getView(), getCauseIfRuntime(t));
         }
     }
 
@@ -236,7 +242,7 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
             if (isAlbum == 1) {
                 audioListDisposable.add(audioInteractor.getPlaylistById(getAccountId(), option_menu_id, ownerId, accessKey)
                         .compose(RxUtils.applySingleIOToMainSchedulers())
-                        .subscribe(this::loadedPlaylist, t -> showError(getView(), Utils.getCauseIfRuntime(t))));
+                        .subscribe(this::loadedPlaylist, t -> showError(getView(), getCauseIfRuntime(t))));
             }
             requestList(0, option_menu_id);
         }
@@ -262,6 +268,29 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
         if (actualReceived && !endOfContent) {
             requestNext();
         }
+    }
+
+    public void fireEditTrackIn(Context context, Audio audio) {
+        audioListDisposable.add(audioInteractor.getLyrics(Settings.get().accounts().getCurrent(), audio.getLyricsId())
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(t -> fireEditTrack(context, audio, t), v -> fireEditTrack(context, audio, null)));
+    }
+
+    public void fireEditTrack(Context context, Audio audio, String lyrics) {
+        View root = View.inflate(context, R.layout.entry_audio_info, null);
+        ((TextInputEditText) root.findViewById(R.id.edit_artist)).setText(audio.getArtist());
+        ((TextInputEditText) root.findViewById(R.id.edit_title)).setText(audio.getTitle());
+        ((TextInputEditText) root.findViewById(R.id.edit_lyrics)).setText(lyrics);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.enter_audio_info)
+                .setCancelable(true)
+                .setView(root)
+                .setPositiveButton(R.string.button_ok, (dialog, which) -> audioListDisposable.add(audioInteractor.edit(getAccountId(), audio.getOwnerId(), audio.getId(),
+                        ((TextInputEditText) root.findViewById(R.id.edit_artist)).getText().toString(), ((TextInputEditText) root.findViewById(R.id.edit_title)).getText().toString(),
+                        ((TextInputEditText) root.findViewById(R.id.edit_lyrics)).getText().toString()).compose(RxUtils.applyCompletableIOToMainSchedulers())
+                        .subscribe(this::fireRefresh, t -> showError(getView(), getCauseIfRuntime(t)))))
+                .setNegativeButton(R.string.button_cancel, null);
+        builder.create().show();
     }
 
     @Override

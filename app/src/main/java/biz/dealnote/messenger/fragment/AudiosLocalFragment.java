@@ -25,6 +25,7 @@ import java.util.List;
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.adapter.DocsUploadAdapter;
 import biz.dealnote.messenger.adapter.LocalAudioRecyclerAdapter;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.listener.EndlessRecyclerOnScrollListener;
@@ -36,6 +37,7 @@ import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.MySearchView;
@@ -45,12 +47,14 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, IAudiosLocalView>
-        implements MySearchView.OnQueryTextListener, IAudiosLocalView {
+        implements MySearchView.OnQueryTextListener, DocsUploadAdapter.ActionListener, LocalAudioRecyclerAdapter.ClickListener, IAudiosLocalView {
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocalAudioRecyclerAdapter mAudioRecyclerAdapter;
     private PlaybackStatus mPlaybackStatus;
     private boolean doAudioLoadTabs;
+    private DocsUploadAdapter mUploadAdapter;
+    private View mUploadRoot;
 
     public static AudiosLocalFragment newInstance(int accountId) {
         Bundle args = new Bundle();
@@ -67,6 +71,12 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
         MySearchView searchView = root.findViewById(R.id.searchview);
         searchView.setOnQueryTextListener(this);
         searchView.setQuery("", true);
+
+        RecyclerView uploadRecyclerView = root.findViewById(R.id.uploads_recycler_view);
+        uploadRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+        mUploadAdapter = new DocsUploadAdapter(Collections.emptyList(), this);
+        uploadRecyclerView.setAdapter(mUploadAdapter);
+        mUploadRoot = root.findViewById(R.id.uploads_root);
 
         mSwipeRefreshLayout = root.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(() -> getPresenter().fireRefresh());
@@ -108,7 +118,7 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
                 PhoenixToast.CreatePhoenixToast(requireActivity()).showToastError(R.string.null_audio);
         });
         mAudioRecyclerAdapter = new LocalAudioRecyclerAdapter(requireActivity(), Collections.emptyList());
-        mAudioRecyclerAdapter.setClickListener((position, audio) -> getPresenter().playAudio(requireActivity(), position));
+        mAudioRecyclerAdapter.setClickListener(this);
         recyclerView.setAdapter(mAudioRecyclerAdapter);
         return root;
     }
@@ -163,6 +173,60 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
     }
 
     @Override
+    public void setUploadDataVisible(boolean visible) {
+        if (nonNull(mUploadRoot)) {
+            mUploadRoot.setVisibility(visible ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void displayUploads(List<Upload> data) {
+        if (nonNull(mUploadAdapter)) {
+            mUploadAdapter.setData(data);
+        }
+    }
+
+    @Override
+    public void notifyUploadDataChanged() {
+        if (nonNull(mUploadAdapter)) {
+            mUploadAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void notifyUploadItemsAdded(int position, int count) {
+        if (nonNull(mUploadAdapter)) {
+            mUploadAdapter.notifyItemRangeInserted(position, count);
+        }
+    }
+
+    @Override
+    public void notifyUploadItemChanged(int position) {
+        if (nonNull(mUploadAdapter)) {
+            mUploadAdapter.notifyItemChanged(position);
+        }
+    }
+
+    @Override
+    public void notifyUploadItemRemoved(int position) {
+        if (nonNull(mUploadAdapter)) {
+            mUploadAdapter.notifyItemRemoved(position);
+        }
+    }
+
+    @Override
+    public void notifyUploadProgressChanged(int position, int progress, boolean smoothly) {
+        if (nonNull(mUploadAdapter)) {
+            mUploadAdapter.changeUploadProgress(position, progress, smoothly);
+        }
+    }
+
+    @Override
+    public void onRemoveClick(Upload upload) {
+        getPresenter().fireRemoveClick(upload);
+    }
+
+    @Override
     public void onPause() {
         try {
             requireActivity().unregisterReceiver(mPlaybackStatus);
@@ -181,6 +245,16 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
     public boolean onQueryTextChange(String newText) {
         getPresenter().fireQuery(newText);
         return false;
+    }
+
+    @Override
+    public void onClick(int position, Audio audio) {
+        getPresenter().playAudio(requireActivity(), position);
+    }
+
+    @Override
+    public void onUpload(int position, Audio audio) {
+        getPresenter().fireFileForUploadSelected(audio.getUrl());
     }
 
     private final class PlaybackStatus extends BroadcastReceiver {

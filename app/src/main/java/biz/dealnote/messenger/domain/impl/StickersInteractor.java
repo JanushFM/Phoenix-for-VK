@@ -3,6 +3,7 @@ package biz.dealnote.messenger.domain.impl;
 import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.api.interfaces.INetworker;
@@ -43,6 +44,10 @@ public class StickersInteractor implements IStickersInteractor {
                 .getStickers()
                 .flatMapCompletable(items -> {
                     List<VKApiStickerSet.Product> list = listEmptyIfNull(items.sticker_pack.items);
+
+                    if (Settings.get().ui().isStickers_by_new()) {
+                        Collections.reverse(list);
+                    }
 
                     StickerSetEntity temp = new StickerSetEntity(-1).setTitle("recent")
                             .setStickers(mapAll(listEmptyIfNull(listEmptyIfNull(items.recent.items)), Dto2Entity::mapSticker)).setActive(true).setPurchased(true);

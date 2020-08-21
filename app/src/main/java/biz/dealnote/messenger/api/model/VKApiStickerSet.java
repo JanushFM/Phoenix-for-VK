@@ -5,22 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class VKApiStickerSet implements Identificable {
-
-    @SerializedName("photo_35")
-    public String photo_35;
-
-    @SerializedName("photo_70")
-    public String photo_70;
-
-    @SerializedName("photo_140")
-    public String photo_140;
-
-    @SerializedName("photo_296")
-    public String photo_296;
-
-    @SerializedName("photo_592")
-    public String photo_592;
-
     @SerializedName("background")
     public String background;
 
@@ -42,17 +26,20 @@ public class VKApiStickerSet implements Identificable {
     @SerializedName("product")
     public Product product;
 
-    public static String buildImgUrl256(int stickerId) {
-        return buildImagUrl(stickerId, 256);
-    }
-
-    private static String buildImagUrl(int stickerId, int size) {
-        return "https://vk.com/images/stickers/" + stickerId + "/" + size + "b.png";
-    }
-
     @Override
     public int getId() {
         return product.id;
+    }
+
+    public static final class Image {
+        @SerializedName("url")
+        public String url;
+
+        @SerializedName("width")
+        public int width;
+
+        @SerializedName("height")
+        public int height;
     }
 
     public static class Product {
@@ -74,6 +61,9 @@ public class VKApiStickerSet implements Identificable {
 
         @SerializedName("type")
         public String type;
+
+        @SerializedName("icon")
+        public List<Image> icon;
 
         @SerializedName("stickers")
         public List<VKApiSticker> stickers;

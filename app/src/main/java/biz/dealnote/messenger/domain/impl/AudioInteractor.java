@@ -78,6 +78,14 @@ public class AudioInteractor implements IAudioInteractor {
     }
 
     @Override
+    public Completable edit(int accountId, int ownerId, int audioId, String artist, String title, String text) {
+        return networker.vkDefault(accountId)
+                .audio()
+                .edit(ownerId, audioId, artist, title, text)
+                .ignoreElement();
+    }
+
+    @Override
     public Completable restore(int accountId, int audioId, int ownerId) {
         return networker.vkDefault(accountId)
                 .audio()

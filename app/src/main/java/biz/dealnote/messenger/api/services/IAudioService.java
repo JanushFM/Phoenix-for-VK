@@ -10,6 +10,7 @@ import biz.dealnote.messenger.api.model.VkApiLyrics;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
 import biz.dealnote.messenger.api.model.response.BlockResponse;
 import biz.dealnote.messenger.api.model.response.CatalogResponse;
+import biz.dealnote.messenger.api.model.server.VkApiAudioUploadServer;
 import io.reactivex.Single;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -190,4 +191,23 @@ public interface IAudioService {
     Single<BaseResponse<BlockResponse<CatalogResponse>>> getCatalogBlockByIdOld(@Field("block_id") String block_id,
                                                                                 @Field("start_from") String start_from,
                                                                                 @Field("v") String version);
+
+    @POST("audio.getUploadServer")
+    Single<BaseResponse<VkApiAudioUploadServer>> getUploadServer();
+
+    @FormUrlEncoded
+    @POST("audio.save")
+    Single<BaseResponse<VKApiAudio>> save(@Field("server") String server,
+                                          @Field("audio") String audio,
+                                          @Field("hash") String hash,
+                                          @Field("artist") String artist,
+                                          @Field("title") String title);
+
+    @FormUrlEncoded
+    @POST("audio.edit")
+    Single<BaseResponse<Integer>> edit(@Field("owner_id") int ownerId,
+                                       @Field("audio_id") int audioId,
+                                       @Field("artist") String artist,
+                                       @Field("title") String title,
+                                       @Field("text") String text);
 }

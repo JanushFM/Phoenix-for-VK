@@ -96,8 +96,8 @@ class PlaylistFragment : BottomSheetDialogFragment(), AudioRecyclerAdapter.Click
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
             viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            mAdapter?.notifyDataSetChanged()
-            startForPlayList(requireActivity(), mData!!, mAdapter!!.getItemRawPosition(viewHolder.layoutPosition), false)
+            mAdapter?.notifyItemChanged(viewHolder.bindingAdapterPosition)
+            startForPlayList(requireActivity(), mData!!, mAdapter!!.getItemRawPosition(viewHolder.bindingAdapterPosition), false)
         }
     }
 
@@ -123,6 +123,10 @@ class PlaylistFragment : BottomSheetDialogFragment(), AudioRecyclerAdapter.Click
 
     override fun onClick(position: Int, catalog: Int, audio: Audio) {
         startForPlayList(requireActivity(), mData!!, position, false)
+    }
+
+    override fun onEdit(position: Int, audio: Audio?) {
+        TODO("Not yet implemented")
     }
 
     override fun onUrlPhotoOpen(url: String, prefix: String, photo_prefix: String) {

@@ -216,6 +216,19 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="stickers_by_theme"
+            android:summary="@string/stickers_by_theme_summary"
+            android:title="@string/stickers_by_theme"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="stickers_by_new"
+            android:title="@string/stickers_by_new"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:key="send_by_enter"
             android:title="@string/send_on_enter_title"

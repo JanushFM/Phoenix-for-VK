@@ -26,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,6 +78,31 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
     private WallAdapter mWallAdapter;
     private LoadMoreFooterHelper mLoadMoreFooterHelper;
     private HorizontalStoryAdapter mStoryAdapter;
+    private FloatingActionButton fabCreate;
+    private boolean isCreatePost = true;
+    private final RecyclerView.OnScrollListener mFabScrollListener = new RecyclerView.OnScrollListener() {
+        int scrollMinOffset;
+
+        @Override
+        public void onScrolled(@NotNull RecyclerView view, int dx, int dy) {
+            if (scrollMinOffset == 0) {
+                // one-time-init
+                scrollMinOffset = (int) Utils.dpToPx(2, view.getContext());
+            }
+
+            if (dy > scrollMinOffset && fabCreate.isShown()) {
+                fabCreate.hide();
+            }
+
+            if (dy < -scrollMinOffset && !fabCreate.isShown()) {
+                fabCreate.show();
+                if (view.getLayoutManager() instanceof LinearLayoutManager) {
+                    LinearLayoutManager myLayoutManager = (LinearLayoutManager) view.getLayoutManager();
+                    ToggleFab(myLayoutManager.findFirstVisibleItemPosition() > 7);
+                }
+            }
+        }
+    };
 
     public static Bundle buildArgs(int accoutnId, int ownerId, @Nullable Owner owner) {
         Bundle args = new Bundle();
@@ -100,6 +127,16 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
     protected static void setupCounter(TextView view, int count) {
         view.setText((count > 0 ? (AppTextUtils.getCounterWithK(count)) : "-"));
         view.setEnabled(count > 0);
+    }
+
+    private void ToggleFab(boolean isUp) {
+        if (isUp && isCreatePost) {
+            isCreatePost = false;
+            fabCreate.setImageResource(R.drawable.ic_outline_keyboard_arrow_up);
+        } else if (!isUp && !isCreatePost) {
+            isCreatePost = true;
+            fabCreate.setImageResource(R.drawable.pencil);
+        }
     }
 
     @Override
@@ -130,6 +167,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(manager);
         recyclerView.addOnScrollListener(new PicassoPauseOnScrollListener(Constants.PICASSO_TAG));
+        recyclerView.addOnScrollListener(mFabScrollListener);
         recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
             @Override
             public void onScrollToLastElement() {
@@ -144,8 +182,15 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         mLoadMoreFooterHelper = LoadMoreFooterHelper.createFrom(footerView, () -> getPresenter().fireLoadMoreClick());
         mLoadMoreFooterHelper.setEndOfListText("• • • • • • • •");
 
-        FloatingActionButton fabCreate = root.findViewById(R.id.fragment_user_profile_fab);
-        fabCreate.setOnClickListener(v -> getPresenter().fireCreateClick());
+        fabCreate = root.findViewById(R.id.fragment_user_profile_fab);
+        fabCreate.setOnClickListener(v -> {
+            if (isCreatePost) {
+                getPresenter().fireCreateClick();
+            } else {
+                recyclerView.scrollToPosition(0);
+                ToggleFab(false);
+            }
+        });
 
 
         View headerStory = inflater.inflate(R.layout.header_story, recyclerView, false);

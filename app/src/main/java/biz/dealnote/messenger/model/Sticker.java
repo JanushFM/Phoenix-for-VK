@@ -6,7 +6,6 @@ import android.os.Parcelable;
 
 import java.util.List;
 
-import biz.dealnote.messenger.api.model.VKApiStickerSet;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Utils;
 
@@ -43,11 +42,22 @@ public class Sticker extends AbsModel {
         animationUrl = in.readString();
     }
 
-    public Image getImage(int prefSize, boolean withBackground) {
-        return withBackground ? getImage(prefSize, imagesWithBackground) : getImage(prefSize, images);
+    public Image getImage(int prefSize, Context context) {
+        if (!Settings.get().ui().isStickers_by_theme()) {
+            return getImage(prefSize, images);
+        }
+        boolean dark = Settings.get().ui().isDarkModeEnabled(context);
+        return dark ? getImage(prefSize, imagesWithBackground) : getImage(prefSize, images);
+    }
+
+    public Image getImageLight(int prefSize) {
+        return getImage(prefSize, images);
     }
 
     private Image getImage(int prefSize, List<Image> images) {
+        if (Utils.isEmpty(images)) {
+            return new Image(null, 256, 256);
+        }
         Image result = null;
 
         for (Image image : images) {
@@ -63,7 +73,7 @@ public class Sticker extends AbsModel {
 
         if (result == null) {
             // default
-            return new Image(VKApiStickerSet.buildImgUrl256(id), 256, 256);
+            return images.get(0);
         }
 
         return result;
@@ -91,6 +101,9 @@ public class Sticker extends AbsModel {
     }
 
     public String getAnimationByDayNight(Context context) {
+        if (!Settings.get().ui().isStickers_by_theme()) {
+            return getAnimationByType("light");
+        }
         boolean dark = Settings.get().ui().isDarkModeEnabled(context);
         return getAnimationByType(dark ? "dark" : "light");
     }

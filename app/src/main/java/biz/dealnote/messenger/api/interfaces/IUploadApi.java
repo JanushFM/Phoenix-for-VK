@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import java.io.InputStream;
 
 import biz.dealnote.messenger.api.PercentagePublisher;
+import biz.dealnote.messenger.api.model.upload.UploadAudioDto;
 import biz.dealnote.messenger.api.model.upload.UploadDocDto;
 import biz.dealnote.messenger.api.model.upload.UploadOwnerPhotoDto;
 import biz.dealnote.messenger.api.model.upload.UploadPhotoToAlbumDto;
@@ -15,6 +16,8 @@ import io.reactivex.Single;
 
 public interface IUploadApi {
     Single<UploadDocDto> uploadDocumentRx(String server, String filename, @NonNull InputStream doc, PercentagePublisher listener);
+
+    Single<UploadAudioDto> uploadAudioRx(String server, String filename, @NonNull InputStream is, PercentagePublisher listener);
 
     Single<UploadVideoDto> uploadVideoRx(String server, String filename, @NonNull InputStream video, PercentagePublisher listener);
 

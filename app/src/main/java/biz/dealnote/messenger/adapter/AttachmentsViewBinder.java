@@ -319,7 +319,7 @@ public class AttachmentsViewBinder {
         Sticker sticker = stickers.get(0);
 
         int prefferedStickerSize = (int) dpToPx(PREFFERED_STICKER_SIZE, mContext);
-        Sticker.Image image = sticker.getImage(256, true);
+        Sticker.Image image = sticker.getImage(256, mContext);
 
         boolean horisontal = image.getHeight() < image.getWidth();
         double proporsion = (double) image.getWidth() / (double) image.getHeight();

@@ -151,7 +151,7 @@ public class NotificationHelper {
 
         if (message.isHasAttachments() && message.getAttachments() != null) {
             if (!isEmpty(message.getAttachments().getStickers())) {
-                String url = message.getAttachments().getStickers().get(0).getImage(256, true).getUrl();
+                String url = message.getAttachments().getStickers().get(0).getImageLight(256).getUrl();
                 Content cont = doDownloadDataNotification(context, url, "notif_" + accountId + "_" + message.getId());
                 if (cont != null) {
                     h_inbox.setData(cont.Mime, cont.uri_data);

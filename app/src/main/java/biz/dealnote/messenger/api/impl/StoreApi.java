@@ -19,8 +19,8 @@ class StoreApi extends AbsApi implements IStoreApi {
     public Single<VkApiStickersKeywords> getStickers() {
         return provideService(IStoreService.class, TokenType.USER)
                 .flatMap(service -> service
-                        .getStickers(Settings.get().other().isHint_stickers() ? "var pack = API.store.getProducts({'extended':1,'filters':'active,purchased','type':'stickers'}); var recent = API.messages.getRecentStickers(); var dic=API.store.getStickersKeywords({'aliases':1,'all_products':1}).dictionary;return {'sticker_pack': pack, 'recent': recent, 'keywords': dic@.words, 'words_stickers': dic@.user_stickers};"
-                                : "var pack = API.store.getProducts({'extended':1,'filters':'active,purchased','type':'stickers'}); var recent = API.messages.getRecentStickers(); return {'sticker_pack': pack, 'recent': recent};")
+                        .getStickers(Settings.get().other().isHint_stickers() ? "var pack = API.store.getProducts({'extended':1,'filters':'active','type':'stickers'}); var recent = API.messages.getRecentStickers(); var dic=API.store.getStickersKeywords({'aliases':1,'all_products':1}).dictionary;return {'sticker_pack': pack, 'recent': recent, 'keywords': dic@.words, 'words_stickers': dic@.user_stickers};"
+                                : "var pack = API.store.getProducts({'extended':1,'filters':'active','type':'stickers'}); var recent = API.messages.getRecentStickers(); return {'sticker_pack': pack, 'recent': recent};")
                         .map(extractResponseWithErrorHandling()));
     }
 }

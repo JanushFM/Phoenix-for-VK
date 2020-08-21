@@ -56,14 +56,19 @@ public class StickersKeyWordsAdapter extends RecyclerView.Adapter<RecyclerView.V
         Sticker item = stickers.get(position);
         StickerHolder normalHolder = (StickerHolder) holder;
         normalHolder.image.setVisibility(View.VISIBLE);
-        String url = item.getImage(256, true).getUrl();
+        String url = item.getImage(256, context).getUrl();
 
-        PicassoInstance.with()
-                .load(url)
-                //.networkPolicy(NetworkPolicy.OFFLINE)
-                .tag(Constants.PICASSO_TAG)
-                .into(normalHolder.image, new LoadOnErrorCallback(normalHolder.image, url));
-        normalHolder.root.setOnClickListener(v -> stickerClickedListener.onStickerClick(item));
+        if (Utils.isEmpty(url)) {
+            PicassoInstance.with().cancelRequest(normalHolder.image);
+            normalHolder.image.setImageResource(R.drawable.ic_avatar_unknown);
+        } else {
+            PicassoInstance.with()
+                    .load(url)
+                    //.networkPolicy(NetworkPolicy.OFFLINE)
+                    .tag(Constants.PICASSO_TAG)
+                    .into(normalHolder.image, new LoadOnErrorCallback(normalHolder.image, url));
+            normalHolder.root.setOnClickListener(v -> stickerClickedListener.onStickerClick(item));
+        }
     }
 
     @Override

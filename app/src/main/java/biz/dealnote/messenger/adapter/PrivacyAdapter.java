@@ -54,7 +54,7 @@ public class PrivacyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new TitleViewHolder(inflater.inflate(R.layout.item_privacy_title, parent, false));
         }
 
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

@@ -16,7 +16,7 @@ public class Constants {
     public static final boolean NEED_CHECK_UPDATE = true;
 
     public static final String API_VERSION = "5.122";
-    public static final int DATABASE_VERSION = 200;
+    public static final int DATABASE_VERSION = 202;
     public static final int VERSION_APK = BuildConfig.VERSION_CODE;
     public static final String APK_ID = BuildConfig.APPLICATION_ID;
 
@@ -27,8 +27,8 @@ public class Constants {
     //public static final String DEVICE_COUNTRY_CODE = Injection.provideApplicationContext().getResources().getConfiguration().locale.getCountry().toLowerCase();
     public static final String DEVICE_COUNTRY_CODE = "ru";
     public static final String KATE_USER_AGENT = String.format(Locale.US, "KateMobileAndroid/64 lite-475 (Android %s; SDK %d; %s; %s; %s; %s)", Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
-    public static final String VKANDROID_APP_VERSION = "5860";
-    public static final String VKANDROID_USER_AGENT = String.format(Locale.US, "VKAndroidApp/6.10-%s (Android %s; SDK %d; %s; %s; %s; %s)", VKANDROID_APP_VERSION, Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
+    public static final String VKANDROID_APP_VERSION = "5877";
+    public static final String VKANDROID_USER_AGENT = String.format(Locale.US, "VKAndroidApp/6.10.1-%s (Android %s; SDK %d; %s; %s; %s; %s)", VKANDROID_APP_VERSION, Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
     public static final int API_ID = BuildConfig.VK_API_APP_ID;
     public static final String SECRET = BuildConfig.VK_CLIENT_SECRET;
     public static final String MAIN_OWNER_FIELDS = UserColumns.API_FIELDS + "," + GroupColumns.API_FIELDS;

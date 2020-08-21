@@ -65,9 +65,9 @@ class DocsApi extends AbsApi implements IDocsApi {
     }
 
     @Override
-    public Single<VkApiVideosUploadServer> getVideoServer(Integer isPrivate, String name) {
+    public Single<VkApiVideosUploadServer> getVideoServer(Integer isPrivate, Integer group_id, String name) {
         return provideService(IDocsService.class)
-                .flatMap(service -> service.getVideoServer(isPrivate, name)
+                .flatMap(service -> service.getVideoServer(isPrivate, group_id, name)
                         .map(extractResponseWithErrorHandling()));
     }
 

@@ -202,6 +202,16 @@ class UISettings implements ISettings.IUISettings {
     }
 
     @Override
+    public boolean isStickers_by_theme() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("stickers_by_theme", true);
+    }
+
+    @Override
+    public boolean isStickers_by_new() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("stickers_by_new", false);
+    }
+
+    @Override
     public boolean isPhoto_swipe_pos_top_to_bottom() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("photo_swipe_pos_top_to_bottom", false);
     }

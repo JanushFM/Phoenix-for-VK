@@ -34,5 +34,7 @@ public interface IVideoPreviewView extends IAccountDependencyView, IMvpView, IEr
 
     interface IOptionView {
         void setCanAdd(boolean can);
+
+        void setIsMy(boolean my);
     }
 }

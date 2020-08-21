@@ -34,7 +34,7 @@ public interface IDocsApi {
     Single<VkApiDocsUploadServer> getUploadServer(Integer groupId, String type);
 
     @CheckResult
-    Single<VkApiVideosUploadServer> getVideoServer(Integer isPrivate, String name);
+    Single<VkApiVideosUploadServer> getVideoServer(Integer isPrivate, Integer group_id, String name);
 
     @CheckResult
     Single<Items<VkApiDoc>> get(Integer ownerId, Integer count, Integer offset, Integer type);

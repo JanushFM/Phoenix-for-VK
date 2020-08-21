@@ -301,10 +301,9 @@ public class DBHelper extends SQLiteOpenHelper {
     private void createStickerSetTable(SQLiteDatabase db) {
         String sql = "CREATE TABLE [" + StikerSetColumns.TABLENAME + "] (\n" +
                 " [" + BaseColumns._ID + "] INTEGER NOT NULL UNIQUE ON CONFLICT REPLACE, " +
+                " [" + StikerSetColumns.POSITION + "] INTEGER, " +
                 " [" + StikerSetColumns.TITLE + "] TEXT, " +
-                " [" + StikerSetColumns.PHOTO_35 + "] TEXT, " +
-                " [" + StikerSetColumns.PHOTO_70 + "] TEXT, " +
-                " [" + StikerSetColumns.PHOTO_140 + "] TEXT, " +
+                " [" + StikerSetColumns.ICON + "] TEXT, " +
                 " [" + StikerSetColumns.PURCHASED + "] BOOLEAN, " +
                 " [" + StikerSetColumns.PROMOTED + "] BOOLEAN, " +
                 " [" + StikerSetColumns.ACTIVE + "] BOOLEAN, " +

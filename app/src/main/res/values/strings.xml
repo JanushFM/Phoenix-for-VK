@@ -279,6 +279,9 @@
 
     <string name="emojis_type_title">Использовать системные смайлы</string>
     <string name="emojis_full_screen">Стикеры на весь экран</string>
+    <string name="stickers_by_theme">Дневные/Ночные стикеры</string>
+    <string name="stickers_by_new">Стикеры от новых к старым</string>
+    <string name="stickers_by_theme_summary">Могут некорректно отображаться при выборе</string>
     <string name="appearance_settings">Внешний вид</string>
     <string name="behaviour_settings">Поведение</string>
     <string name="music_settings">Плеер</string>
@@ -477,6 +480,7 @@
     <string name="play_1080" translatable="false">1080p</string>
 
     <string name="play">Воспроизвести</string>
+    <string name="upload">Загрузить</string>
     <string name="for_video">к видеозаписи</string>
 
     <string name="more_info">Подробнее</string>
@@ -1484,6 +1488,7 @@
     <string name="writing_json">Формирование JSON…</string>
     <string name="do_delete">Удалить?</string>
     <string name="enter_link">Введите ссылку</string>
+    <string name="enter_audio_info">Редактировать аудио</string>
     <string name="info">Внимание:</string>
     <string name="what_search">Что ищем?</string>
     <string name="search_dialogs">Диалоги</string>

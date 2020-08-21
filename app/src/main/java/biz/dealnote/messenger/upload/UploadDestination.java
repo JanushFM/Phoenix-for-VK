@@ -48,8 +48,12 @@ public class UploadDestination implements Parcelable {
         return new UploadDestination(NO_ID, ownerId, Method.DOCUMENT, MessageMethod.NULL);
     }
 
-    public static UploadDestination forVideo(int is_public) {
-        return new UploadDestination(is_public, WITHOUT_OWNER, Method.VIDEO, MessageMethod.NULL);
+    public static UploadDestination forAudio(int ownerId) {
+        return new UploadDestination(NO_ID, ownerId, Method.AUDIO, MessageMethod.NULL);
+    }
+
+    public static UploadDestination forVideo(int is_public, int ownerId) {
+        return new UploadDestination(is_public, ownerId, Method.VIDEO, MessageMethod.NULL);
     }
 
     public static UploadDestination forMessage(int mdbid) {

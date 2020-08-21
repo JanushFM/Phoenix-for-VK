@@ -77,8 +77,8 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
         @Override
         public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int swipeDir) {
             viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
-            mAudioRecyclerAdapter.notifyDataSetChanged();
-            getPresenter().playAudio(requireActivity(), mAudioRecyclerAdapter.getItemRawPosition(viewHolder.getLayoutPosition()));
+            mAudioRecyclerAdapter.notifyItemChanged(viewHolder.getBindingAdapterPosition());
+            getPresenter().playAudio(requireActivity(), mAudioRecyclerAdapter.getItemRawPosition(viewHolder.getBindingAdapterPosition()));
         }
     };
     private PlaybackStatus mPlaybackStatus;
@@ -239,6 +239,11 @@ public class AudiosFragment extends BaseMvpFragment<AudiosPresenter, IAudiosView
             @Override
             public void onClick(int position, int catalog, Audio audio) {
                 getPresenter().playAudio(requireActivity(), position);
+            }
+
+            @Override
+            public void onEdit(int position, Audio audio) {
+                getPresenter().fireEditTrackIn(requireActivity(), audio);
             }
 
             @Override

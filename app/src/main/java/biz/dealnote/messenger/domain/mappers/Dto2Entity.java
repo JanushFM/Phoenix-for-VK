@@ -945,14 +945,16 @@ public class Dto2Entity {
                 .setPromoted(dto.promoted)
                 .setActive(dto.active)
                 .setPurchased(dto.purchased)
-                .setPhoto35("https://vk.com/images/store/stickers/" + dto.id + "/cover_35b.png")
-                .setPhoto70("https://vk.com/images/store/stickers/" + dto.id + "/cover_70b.png")
-                .setPhoto140("https://vk.com/images/store/stickers/" + dto.id + "/cover_140b.png")
+                .setIcon(mapAll(dto.icon, Dto2Entity::map))
                 .setStickers(mapAll(dto.stickers, Dto2Entity::mapSticker));
     }
 
     public static StickerEntity.Img mapStickerImage(VKApiSticker.Image dto) {
         return new StickerEntity.Img(dto.url, dto.width, dto.height);
+    }
+
+    public static StickerSetEntity.Img map(VKApiStickerSet.Image dto) {
+        return new StickerSetEntity.Img(dto.url, dto.width, dto.height);
     }
 
     public static StickerEntity.AnimationEntity mapStickerAnimation(VKApiSticker.VKApiAnimation dto) {

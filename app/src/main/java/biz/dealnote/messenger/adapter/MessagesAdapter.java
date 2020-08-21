@@ -141,7 +141,7 @@ public class MessagesAdapter extends RecyclerBindableAdapter<Message, RecyclerVi
             holder.sticker.setAnimationFromUrl(sticker.getAnimationByDayNight(context));
             holder.sticker.playAnimation();
         } else {
-            Sticker.Image image = sticker.getImage(256, true);
+            Sticker.Image image = sticker.getImage(256, context);
 
             PicassoInstance.with()
                     .load(image.getUrl())

@@ -78,7 +78,15 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stickers"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:background="?message_bubble_color"
+                android:visibility="gone" />
 
             <include
                 layout="@layout/content_comment_input"

@@ -16,7 +16,8 @@ import java.lang.annotation.RetentionPolicy;
         AudioItem.search_by_artist,
         AudioItem.share_button,
         AudioItem.add_and_download_button,
-        AudioItem.goto_artist})
+        AudioItem.goto_artist,
+        AudioItem.edit_track})
 @Retention(RetentionPolicy.SOURCE)
 public @interface AudioItem {
     int play_item_audio = 1;
@@ -31,5 +32,6 @@ public @interface AudioItem {
     int share_button = 10;
     int add_and_download_button = 11;
     int goto_artist = 12;
+    int edit_track = 13;
 }
 

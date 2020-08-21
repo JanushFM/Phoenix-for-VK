@@ -59,6 +59,7 @@ import biz.dealnote.messenger.view.CommentsInputViewController;
 import biz.dealnote.messenger.view.LoadMoreFooterHelper;
 import biz.dealnote.messenger.view.emoji.EmojiconTextView;
 import biz.dealnote.messenger.view.emoji.EmojiconsPopup;
+import biz.dealnote.messenger.view.emoji.StickersKeyWordsAdapter;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
@@ -87,6 +88,8 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     private View mEmptyView;
     private ImageView mAuthorAvatar;
     private AlertDialog mDeepLookingProgressDialog;
+    private RecyclerView stickersKeywordsView;
+    private StickersKeyWordsAdapter stickersAdapter;
     private boolean mCanSendCommentAsAdmin;
     private boolean mTopicPollAvailable;
     private boolean mGotoSourceAvailable;
@@ -122,6 +125,16 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_comments, container, false);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(root.findViewById(R.id.toolbar));
+
+        stickersKeywordsView = root.findViewById(R.id.stickers);
+        stickersAdapter = new StickersKeyWordsAdapter(requireActivity(), Collections.emptyList());
+        stickersAdapter.setStickerClickedListener(stickerId -> {
+            getPresenter().fireStickerClick(stickerId);
+            getPresenter().resetDraftMessage();
+        });
+        stickersKeywordsView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+        stickersKeywordsView.setAdapter(stickersAdapter);
+        stickersKeywordsView.setVisibility(View.GONE);
 
         mAuthorAvatar = root.findViewById(R.id.author_avatar);
 
@@ -275,6 +288,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     public void displayBody(String body) {
         if (nonNull(mInputController)) {
             mInputController.setTextQuietly(body);
+            getPresenter().fireTextEdited(body);
         }
     }
 
@@ -430,6 +444,16 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     }
 
     @Override
+    public void updateStickers(List<Sticker> items) {
+        if (Utils.isEmpty(items)) {
+            stickersKeywordsView.setVisibility(View.GONE);
+        } else {
+            stickersKeywordsView.setVisibility(View.VISIBLE);
+        }
+        stickersAdapter.setData(items);
+    }
+
+    @Override
     public void onStickerClick(Sticker sticker) {
         getPresenter().fireStickerClick(sticker);
     }
@@ -437,6 +461,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     @Override
     public void onInputTextChanged(String s) {
         getPresenter().fireInputTextChanged(s);
+        getPresenter().fireTextEdited(s);
     }
 
     @Override

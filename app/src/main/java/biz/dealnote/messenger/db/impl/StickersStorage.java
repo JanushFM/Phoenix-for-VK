@@ -10,6 +10,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import biz.dealnote.messenger.db.column.StickersKeywordsColumns;
@@ -23,9 +25,8 @@ import io.reactivex.Completable;
 import io.reactivex.Single;
 
 import static biz.dealnote.messenger.db.column.StikerSetColumns.ACTIVE;
-import static biz.dealnote.messenger.db.column.StikerSetColumns.PHOTO_140;
-import static biz.dealnote.messenger.db.column.StikerSetColumns.PHOTO_35;
-import static biz.dealnote.messenger.db.column.StikerSetColumns.PHOTO_70;
+import static biz.dealnote.messenger.db.column.StikerSetColumns.ICON;
+import static biz.dealnote.messenger.db.column.StikerSetColumns.POSITION;
 import static biz.dealnote.messenger.db.column.StikerSetColumns.PROMOTED;
 import static biz.dealnote.messenger.db.column.StikerSetColumns.PURCHASED;
 import static biz.dealnote.messenger.db.column.StikerSetColumns.STICKERS;
@@ -38,10 +39,9 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
 
     private static final String[] COLUMNS = {
             _ID,
+            POSITION,
             TITLE,
-            PHOTO_35,
-            PHOTO_70,
-            PHOTO_140,
+            ICON,
             PURCHASED,
             PROMOTED,
             ACTIVE,
@@ -58,17 +58,20 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
     private static final Type WORDS = new TypeToken<List<String>>() {
     }.getType();
 
+    private static final Type ICONS = new TypeToken<List<StickerSetEntity.Img>>() {
+    }.getType();
+
+    private static final Comparator<StickerSetEntity> COMPARATOR = (rhs, lhs) -> Integer.compare(lhs.getPosition(), rhs.getPosition());
+
     StickersStorage(@NonNull AppStorages base) {
         super(base);
     }
 
-    private static ContentValues createCv(StickerSetEntity entity) {
+    private static ContentValues createCv(StickerSetEntity entity, int pos) {
         ContentValues cv = new ContentValues();
-        cv.put(PHOTO_35, entity.getPhoto35());
-        cv.put(PHOTO_70, entity.getPhoto70());
-        cv.put(PHOTO_140, entity.getPhoto140());
-
         cv.put(_ID, entity.getId());
+        cv.put(POSITION, pos);
+        cv.put(ICON, GSON.toJson(entity.getIcon()));
         cv.put(TITLE, entity.getTitle());
         cv.put(PURCHASED, entity.isPurchased());
         cv.put(PROMOTED, entity.isPromoted());
@@ -88,14 +91,14 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
 
     private static StickerSetEntity map(Cursor cursor) {
         String stickersJson = cursor.getString(cursor.getColumnIndex(STICKERS));
+        String iconJson = cursor.getString(cursor.getColumnIndex(ICON));
         return new StickerSetEntity(cursor.getInt(cursor.getColumnIndex(_ID)))
                 .setStickers(GSON.fromJson(stickersJson, TYPE))
                 .setActive(cursor.getInt(cursor.getColumnIndex(ACTIVE)) == 1)
                 .setPurchased(cursor.getInt(cursor.getColumnIndex(PURCHASED)) == 1)
                 .setPromoted(cursor.getInt(cursor.getColumnIndex(PROMOTED)) == 1)
-                .setPhoto35(cursor.getString(cursor.getColumnIndex(PHOTO_35)))
-                .setPhoto70(cursor.getString(cursor.getColumnIndex(PHOTO_70)))
-                .setPhoto140(cursor.getString(cursor.getColumnIndex(PHOTO_140)))
+                .setIcon(GSON.fromJson(iconJson, ICONS))
+                .setPosition(cursor.getInt(cursor.getColumnIndex(POSITION)))
                 .setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
     }
 
@@ -116,8 +119,9 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
 
             try {
                 db.delete(StikerSetColumns.TABLENAME, null, null);
+                int i = 0;
                 for (StickerSetEntity entity : sets) {
-                    db.insert(StikerSetColumns.TABLENAME, null, createCv(entity));
+                    db.insert(StikerSetColumns.TABLENAME, null, createCv(entity, i++));
                 }
                 db.setTransactionSuccessful();
                 db.endTransaction();
@@ -173,6 +177,7 @@ class StickersStorage extends AbsStorage implements IStickersStorage {
                 }
                 stickers.add(map(cursor));
             }
+            Collections.sort(stickers, COMPARATOR);
 
             cursor.close();
             e.onSuccess(stickers);

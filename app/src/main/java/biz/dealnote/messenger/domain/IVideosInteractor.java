@@ -29,4 +29,8 @@ public interface IVideosInteractor {
     Single<List<VideoAlbum>> getActualAlbums(int accoutnId, int ownerId, int count, int offset);
 
     Single<List<Video>> search(int accountId, VideoSearchCriteria criteria, int count, int offset);
+
+    Completable edit(int accountId, Integer ownerId, int video_id, String name, String desc);
+
+    Completable delete(int accountId, Integer videoId, Integer ownerId, Integer targetId);
 }

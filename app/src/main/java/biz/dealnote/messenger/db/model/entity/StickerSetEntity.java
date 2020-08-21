@@ -6,11 +6,7 @@ public class StickerSetEntity {
 
     private final int id;
 
-    private String photo70;
-
-    private String photo35;
-
-    private String photo140;
+    private List<Img> icon;
 
     private String title;
 
@@ -20,40 +16,24 @@ public class StickerSetEntity {
 
     private boolean active;
 
+    private int position;
+
     private List<StickerEntity> stickers;
 
     public StickerSetEntity(int id) {
         this.id = id;
     }
 
-    public String getPhoto70() {
-        return photo70;
-    }
-
-    public StickerSetEntity setPhoto70(String photo70) {
-        this.photo70 = photo70;
-        return this;
-    }
-
     public int getId() {
         return id;
     }
 
-    public String getPhoto35() {
-        return photo35;
+    public List<Img> getIcon() {
+        return icon;
     }
 
-    public StickerSetEntity setPhoto35(String photo35) {
-        this.photo35 = photo35;
-        return this;
-    }
-
-    public String getPhoto140() {
-        return photo140;
-    }
-
-    public StickerSetEntity setPhoto140(String photo140) {
-        this.photo140 = photo140;
+    public StickerSetEntity setIcon(List<Img> icon) {
+        this.icon = icon;
         return this;
     }
 
@@ -84,6 +64,15 @@ public class StickerSetEntity {
         return this;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
+    public StickerSetEntity setPosition(int position) {
+        this.position = position;
+        return this;
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -100,5 +89,30 @@ public class StickerSetEntity {
     public StickerSetEntity setStickers(List<StickerEntity> stickers) {
         this.stickers = stickers;
         return this;
+    }
+
+    public static final class Img {
+
+        private final String url;
+        private final int width;
+        private final int height;
+
+        public Img(String url, int width, int height) {
+            this.url = url;
+            this.width = width;
+            this.height = height;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        public int getWidth() {
+            return width;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 }

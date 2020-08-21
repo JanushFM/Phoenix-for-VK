@@ -3,6 +3,15 @@
     <item
         android:id="@+id/action_add_to_my_videos"
         android:title="@string/add_to_my_videos" />
+
+    <item
+        android:id="@+id/action_delete_from_my_videos"
+        android:title="@string/delete" />
+
+    <item
+        android:id="@+id/action_edit"
+        android:title="@string/edit" />
+
     <item
         android:id="@+id/action_copy_url"
         android:title="@string/copy_url" />

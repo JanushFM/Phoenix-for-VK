@@ -129,7 +129,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
 
         stickersKeywordsView = root.findViewById(R.id.stickers)
         stickersAdapter = StickersKeyWordsAdapter(requireActivity(), Collections.emptyList())
-        stickersAdapter?.setStickerClickedListener { presenter?.fireStickerSendClick(it) }
+        stickersAdapter?.setStickerClickedListener { presenter?.fireStickerSendClick(it); presenter?.resetDraftMessage() }
         stickersKeywordsView?.layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         stickersKeywordsView?.adapter = stickersAdapter
         stickersKeywordsView?.visibility = View.GONE
@@ -164,7 +164,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             })
         }
 
-        ItemTouchHelper(simpleItemTouchCallback).attachToRecyclerView(recyclerView)
+        ItemTouchHelper(MessagesReplyItemCallback { presenter?.fireResendSwipe(adapter!!.getItemRawPosition(it)) }).attachToRecyclerView(recyclerView)
 
         headerView = inflater.inflate(R.layout.footer_load_more, recyclerView, false)
 
@@ -260,18 +260,6 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         animator?.setDuration(200)?.start()
     }
 
-    private var simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-            return false
-        }
-
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            viewHolder.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
-            presenter?.fireResendSwipe(adapter!!.getItemRawPosition(viewHolder.layoutPosition), swipeDir)
-            adapter?.notifyDataSetChanged()
-        }
-    }
-
     private class ActionModeHolder(val rootView: View, fragment: ChatFragment) : View.OnClickListener {
 
         override fun onClick(v: View) {
@@ -359,7 +347,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
     }
 
     private fun createLayoutManager(): RecyclerView.LayoutManager {
-        return androidx.recyclerview.widget.LinearLayoutManager(activity, RecyclerView.VERTICAL, true)
+        return LinearLayoutManager(activity, RecyclerView.VERTICAL, true)
     }
 
     override fun displayMessages(messages: List<Message>, lastReadId: LastReadId) {
@@ -441,6 +429,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
 
     override fun displayDraftMessageText(text: String?) {
         inputViewController?.setTextQuietly(text)
+        presenter?.fireTextEdited(text)
     }
 
     override fun AppendMessageText(text: String?) {
@@ -764,7 +753,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
         val adapter = AttachmentsBottomSheetAdapter(rootView.context, attachments, this)
 
         init {
-            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(rootView.context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
+            recyclerView.layoutManager = LinearLayoutManager(rootView.context, LinearLayoutManager.HORIZONTAL, false)
             recyclerView.adapter = adapter
 
             rootView.findViewById<View>(R.id.buttonHide).setOnClickListener(this)

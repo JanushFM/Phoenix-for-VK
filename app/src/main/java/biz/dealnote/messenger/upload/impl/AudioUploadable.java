@@ -11,36 +11,29 @@ import androidx.annotation.Nullable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Collections;
 
 import biz.dealnote.messenger.api.PercentagePublisher;
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.model.server.UploadServer;
-import biz.dealnote.messenger.db.AttachToType;
-import biz.dealnote.messenger.domain.IAttachmentsRepository;
+import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.exception.NotFoundException;
-import biz.dealnote.messenger.model.Video;
+import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.upload.IUploadable;
-import biz.dealnote.messenger.upload.Method;
 import biz.dealnote.messenger.upload.Upload;
-import biz.dealnote.messenger.upload.UploadDestination;
 import biz.dealnote.messenger.upload.UploadResult;
-import io.reactivex.Completable;
 import io.reactivex.Single;
 
 import static biz.dealnote.messenger.util.RxUtils.safelyCloseAction;
 import static biz.dealnote.messenger.util.Utils.safelyClose;
 
-public class Video2WallUploadable implements IUploadable<Video> {
+public class AudioUploadable implements IUploadable<Audio> {
 
     private final Context context;
     private final INetworker networker;
-    private final IAttachmentsRepository attachmentsRepository;
 
-    public Video2WallUploadable(Context context, INetworker networker, IAttachmentsRepository attachmentsRepository) {
+    public AudioUploadable(Context context, INetworker networker) {
         this.context = context;
         this.networker = networker;
-        this.attachmentsRepository = attachmentsRepository;
     }
 
     private static String findFileName(Context context, Uri uri) {
@@ -72,14 +65,18 @@ public class Video2WallUploadable implements IUploadable<Video> {
     }
 
     @Override
-    public Single<UploadResult<Video>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
+    public Single<UploadResult<Audio>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
         int accountId = upload.getAccountId();
-        int ownerId = upload.getDestination().getOwnerId();
-        Integer groupId = ownerId < 0 ? Math.abs(ownerId) : null;
-        Single<UploadServer> serverSingle = networker.vkDefault(accountId)
-                .docs()
-                .getVideoServer(1, groupId, findFileName(context, upload.getFileUri()))
-                .map(s -> s);
+
+        Single<UploadServer> serverSingle;
+        if (initialServer == null) {
+            serverSingle = networker.vkDefault(accountId)
+                    .audio()
+                    .getUploadServer()
+                    .map(s -> s);
+        } else {
+            serverSingle = Single.just(initialServer);
+        }
 
         return serverSingle.flatMap(server -> {
             InputStream[] is = new InputStream[1];
@@ -99,40 +96,33 @@ public class Video2WallUploadable implements IUploadable<Video> {
                 }
 
                 String filename = findFileName(context, uri);
+
+                String TrackName = filename.replace(".mp3", "");
+                String Artist = "";
+                String[] arr = TrackName.split(" - ");
+                if (arr.length > 1) {
+                    Artist = arr[0];
+                    TrackName = TrackName.replace(Artist + " - ", "");
+                }
+
+                String finalArtist = Artist;
+                String finalTrackName = TrackName;
                 return networker.uploads()
-                        .uploadVideoRx(server.getUrl(), filename, is[0], listener)
+                        .uploadAudioRx(server.getUrl(), filename, is[0], listener)
                         .doFinally(safelyCloseAction(is[0]))
-                        .flatMap(dto -> {
-
-                            Video video = new Video().setId(dto.video_id).setOwnerId(dto.owner_id).setTitle(findFileName(context, upload.getFileUri()));
-                            UploadResult<Video> result = new UploadResult<>(server, video);
-
-                            if (upload.isAutoCommit()) {
-                                return commit(attachmentsRepository, upload, video).andThen(Single.just(result));
-                            } else {
-                                return Single.just(result);
-                            }
-                        });
+                        .flatMap(dto -> networker
+                                .vkDefault(accountId)
+                                .audio()
+                                .save(dto.server, dto.audio, dto.hash, finalArtist, finalTrackName)
+                                .flatMap(tmpList -> {
+                                    Audio document = Dto2Model.transform(tmpList);
+                                    UploadResult<Audio> result = new UploadResult<>(server, document);
+                                    return Single.just(result);
+                                }));
             } catch (Exception e) {
                 safelyClose(is[0]);
                 return Single.error(e);
             }
         });
-    }
-
-    private Completable commit(IAttachmentsRepository repository, Upload upload, Video video) {
-        int accountId = upload.getAccountId();
-        UploadDestination dest = upload.getDestination();
-
-        switch (dest.getMethod()) {
-            case Method.TO_COMMENT:
-                return repository
-                        .attach(accountId, AttachToType.COMMENT, dest.getId(), Collections.singletonList(video));
-            case Method.TO_WALL:
-                return repository
-                        .attach(accountId, AttachToType.POST, dest.getId(), Collections.singletonList(video));
-        }
-
-        return Completable.error(new UnsupportedOperationException());
     }
 }

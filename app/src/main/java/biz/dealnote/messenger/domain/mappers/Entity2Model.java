@@ -675,7 +675,7 @@ public class Entity2Model {
     }
 
     public static StickerSet map(StickerSetEntity entity) {
-        return new StickerSet(entity.getPhoto70(), mapAll(entity.getStickers(), Entity2Model::buildStickerFromDbo), entity.getTitle());
+        return new StickerSet(mapAll(entity.getIcon(), Entity2Model::map), mapAll(entity.getStickers(), Entity2Model::buildStickerFromDbo), entity.getTitle());
     }
 
     public static StickersKeywords map(StickersKeywordsEntity entity) {
@@ -684,6 +684,10 @@ public class Entity2Model {
 
     public static Sticker.Image map(StickerEntity.Img entity) {
         return new Sticker.Image(entity.getUrl(), entity.getWidth(), entity.getHeight());
+    }
+
+    public static StickerSet.Image map(StickerSetEntity.Img entity) {
+        return new StickerSet.Image(entity.getUrl(), entity.getWidth(), entity.getHeight());
     }
 
     public static WikiPage buildWikiPageFromDbo(PageEntity dbo) {

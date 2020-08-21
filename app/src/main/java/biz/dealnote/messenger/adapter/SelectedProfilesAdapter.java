@@ -50,7 +50,7 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         }
 
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override

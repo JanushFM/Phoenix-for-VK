@@ -7,6 +7,7 @@ import java.util.List;
 import biz.dealnote.messenger.model.Comment;
 import biz.dealnote.messenger.model.LoadMoreState;
 import biz.dealnote.messenger.model.Owner;
+import biz.dealnote.messenger.model.Sticker;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.view.base.IAccountDependencyView;
 import biz.dealnote.mvp.core.IMvpView;
@@ -70,6 +71,8 @@ public interface ICommentsView extends IAccountDependencyView, IAttachmentsPlace
     void dismissDeepLookingCommentProgress();
 
     void setCanSendSelectAuthor(boolean can);
+
+    void updateStickers(List<Sticker> items);
 
     interface ICommentContextView {
         void setCanEdit(boolean can);

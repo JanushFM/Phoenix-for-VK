@@ -169,6 +169,22 @@ public class VideosInteractor implements IVideosInteractor {
     }
 
     @Override
+    public Completable edit(int accountId, Integer ownerId, int video_id, String name, String desc) {
+        return networker.vkDefault(accountId)
+                .video()
+                .edit(ownerId, video_id, name, desc)
+                .ignoreElement();
+    }
+
+    @Override
+    public Completable delete(int accountId, Integer videoId, Integer ownerId, Integer targetId) {
+        return networker.vkDefault(accountId)
+                .video()
+                .deleteVideo(videoId, ownerId, targetId)
+                .ignoreElement();
+    }
+
+    @Override
     public Single<Pair<Integer, Boolean>> likeOrDislike(int accountId, int ownerId, int videoId, String accessKey, boolean like) {
         if (like) {
             return networker.vkDefault(accountId)
@@ -218,6 +234,7 @@ public class VideosInteractor implements IVideosInteractor {
                             .andThen(Single.just(albums));
                 });
     }
+
 
     @Override
     public Single<List<Video>> search(int accountId, VideoSearchCriteria criteria, int count, int offset) {

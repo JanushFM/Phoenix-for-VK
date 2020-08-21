@@ -12,6 +12,7 @@ import biz.dealnote.messenger.api.model.VKApiAudioCatalog;
 import biz.dealnote.messenger.api.model.VKApiAudioPlaylist;
 import biz.dealnote.messenger.api.model.VkApiLyrics;
 import biz.dealnote.messenger.api.model.response.CatalogResponse;
+import biz.dealnote.messenger.api.model.server.VkApiAudioUploadServer;
 import biz.dealnote.messenger.api.services.IAudioService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
@@ -83,6 +84,15 @@ class AudioApi extends AbsApi implements IAudioApi {
                         .delete(audioId, ownerId)
                         .map(extractResponseWithErrorHandling())
                         .map(response -> response == 1));
+    }
+
+    @Override
+    public Single<Integer> edit(int ownerId, int audioId, String artist, String title, String text) {
+        return provideService(IAudioService.class)
+                .flatMap(service -> service
+                        .edit(ownerId, audioId, artist, title, text)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response));
     }
 
     @Override
@@ -231,5 +241,19 @@ class AudioApi extends AbsApi implements IAudioApi {
                             .getCatalogBlockById(block_id, start_from)
                             .map(extractBlockResponseWithErrorHandling()));
         }
+    }
+
+    @Override
+    public Single<VkApiAudioUploadServer> getUploadServer() {
+        return provideService(IAudioService.class)
+                .flatMap(service -> service.getUploadServer()
+                        .map(extractResponseWithErrorHandling()));
+    }
+
+    @Override
+    public Single<VKApiAudio> save(String server, String audio, String hash, String artist, String title) {
+        return provideService(IAudioService.class)
+                .flatMap(service -> service.save(server, audio, hash, artist, title)
+                        .map(extractResponseWithErrorHandling()));
     }
 }

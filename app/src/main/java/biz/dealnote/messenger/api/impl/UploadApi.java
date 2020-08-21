@@ -7,6 +7,7 @@ import java.io.InputStream;
 import biz.dealnote.messenger.api.IUploadRetrofitProvider;
 import biz.dealnote.messenger.api.PercentagePublisher;
 import biz.dealnote.messenger.api.interfaces.IUploadApi;
+import biz.dealnote.messenger.api.model.upload.UploadAudioDto;
 import biz.dealnote.messenger.api.model.upload.UploadDocDto;
 import biz.dealnote.messenger.api.model.upload.UploadOwnerPhotoDto;
 import biz.dealnote.messenger.api.model.upload.UploadPhotoToAlbumDto;
@@ -46,6 +47,13 @@ public class UploadApi implements IUploadApi {
         ProgressRequestBody body = new ProgressRequestBody(is, wrapPercentageListener(listener), MediaType.parse("*/*"));
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", filename, body);
         return service().uploadDocumentRx(server, part);
+    }
+
+    @Override
+    public Single<UploadAudioDto> uploadAudioRx(String server, String filename, @NonNull InputStream is, PercentagePublisher listener) {
+        ProgressRequestBody body = new ProgressRequestBody(is, wrapPercentageListener(listener), MediaType.parse("*/*"));
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", filename, body);
+        return service().uploadAudioRx(server, part);
     }
 
     @Override

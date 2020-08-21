@@ -66,11 +66,13 @@ public class VideoUploadable implements IUploadable<Video> {
     @Override
     public Single<UploadResult<Video>> doUpload(@NonNull Upload upload, @Nullable UploadServer initialServer, @Nullable PercentagePublisher listener) {
         int accountId = upload.getAccountId();
+        int ownerId = upload.getDestination().getOwnerId();
+        Integer groupId = ownerId >= 0 ? null : ownerId;
         boolean isPrivate = upload.getDestination().getId() == 0;
 
         Single<UploadServer> serverSingle = networker.vkDefault(accountId)
                 .docs()
-                .getVideoServer(isPrivate ? 1 : 0, findFileName(context, upload.getFileUri()))
+                .getVideoServer(isPrivate ? 1 : 0, groupId, findFileName(context, upload.getFileUri()))
                 .map(s -> s);
 
         return serverSingle.flatMap(server -> {

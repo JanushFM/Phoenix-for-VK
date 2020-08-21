@@ -89,6 +89,7 @@ public interface IDocsService {
     @FormUrlEncoded
     @POST("video.save")
     Single<BaseResponse<VkApiVideosUploadServer>> getVideoServer(@Field("is_private") Integer is_private,
+                                                                 @Field("group_id") Integer group_id,
                                                                  @Field("name") String name);
 
     /**

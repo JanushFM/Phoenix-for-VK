@@ -139,6 +139,7 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
 
             ModalBottomSheetDialogFragment.Builder menus = new ModalBottomSheetDialogFragment.Builder();
 
+            menus.add(new OptionRequest(AudioItem.save_item_audio, mContext.getString(R.string.upload), R.drawable.web));
             menus.add(new OptionRequest(AudioItem.play_item_audio, mContext.getString(R.string.play), R.drawable.play));
             menus.add(new OptionRequest(AudioItem.add_item_audio, mContext.getString(R.string.delete), R.drawable.ic_outline_delete));
 
@@ -147,6 +148,11 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
             menus.columns(2);
             menus.show(((FragmentActivity) mContext).getSupportFragmentManager(), "audio_options", option -> {
                 switch (option.getId()) {
+                    case AudioItem.save_item_audio:
+                        if (mClickListener != null) {
+                            mClickListener.onUpload(position, audio);
+                        }
+                        break;
                     case AudioItem.play_item_audio:
                         if (mClickListener != null) {
                             mClickListener.onClick(position, audio);
@@ -191,6 +197,8 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
 
     public interface ClickListener {
         void onClick(int position, Audio audio);
+
+        void onUpload(int position, Audio audio);
     }
 
     class AudioHolder extends RecyclerView.ViewHolder {

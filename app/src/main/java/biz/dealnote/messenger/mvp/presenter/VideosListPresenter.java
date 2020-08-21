@@ -70,7 +70,7 @@ public class VideosListPresenter extends AccountDependencyPresenter<IVideosListV
         super(accountId, savedInstanceState);
         interactor = InteractorFactory.createVideosInteractor();
         uploadManager = Injection.provideUploadManager();
-        destination = UploadDestination.forVideo(IVideosListView.ACTION_SELECT.equalsIgnoreCase(action) ? 0 : 1);
+        destination = UploadDestination.forVideo(IVideosListView.ACTION_SELECT.equalsIgnoreCase(action) ? 0 : 1, ownerId);
         uploadsData = new ArrayList<>(0);
 
         this.ownerId = ownerId;

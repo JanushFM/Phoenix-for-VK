@@ -30,9 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/pencil"
-        app:layout_behavior="biz.dealnote.messenger.view.FABBehavior" />
-
+        android:src="@drawable/pencil" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

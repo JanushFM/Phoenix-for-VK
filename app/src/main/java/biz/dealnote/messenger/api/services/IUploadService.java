@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.api.services;
 
+import biz.dealnote.messenger.api.model.upload.UploadAudioDto;
 import biz.dealnote.messenger.api.model.upload.UploadDocDto;
 import biz.dealnote.messenger.api.model.upload.UploadOwnerPhotoDto;
 import biz.dealnote.messenger.api.model.upload.UploadPhotoToAlbumDto;
@@ -18,6 +19,10 @@ public interface IUploadService {
     @Multipart
     @POST
     Single<UploadDocDto> uploadDocumentRx(@Url String server, @Part MultipartBody.Part file);
+
+    @Multipart
+    @POST
+    Single<UploadAudioDto> uploadAudioRx(@Url String server, @Part MultipartBody.Part file);
 
     @Multipart
     @POST
