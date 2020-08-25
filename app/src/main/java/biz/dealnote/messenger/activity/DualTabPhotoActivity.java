@@ -13,6 +13,7 @@ import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.DualTabPhotosFragment;
 import biz.dealnote.messenger.fragment.LocalPhotosFragment;
+import biz.dealnote.messenger.fragment.SinglePhotoFragment;
 import biz.dealnote.messenger.fragment.VKPhotosFragment;
 import biz.dealnote.messenger.model.LocalImageAlbum;
 import biz.dealnote.messenger.model.selection.Sources;
@@ -80,6 +81,22 @@ public class DualTabPhotoActivity extends NoMainActivity implements PlaceProvide
                         .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                         .replace(R.id.fragment, fragment)
                         .addToBackStack("vk-album-photos")
+                        .commit();
+                break;
+
+            case Place.VK_INTERNAL_PLAYER:
+                Intent intent = new Intent(this, VideoPlayerActivity.class);
+                intent.putExtras(place.getArgs());
+                startActivity(intent);
+                break;
+
+            case Place.SINGLE_PHOTO:
+                SinglePhotoFragment previewPhotosFragment = SinglePhotoFragment.newInstance(place.getArgs());
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
+                        .replace(R.id.fragment, previewPhotosFragment)
+                        .addToBackStack("preview")
                         .commit();
                 break;
 

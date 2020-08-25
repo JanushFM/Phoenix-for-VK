@@ -87,6 +87,11 @@
         <item>Невидимка</item>
     </string-array>
 
+    <string-array name="array_sex">
+        <item>Женский</item>
+        <item>Мужской</item>
+    </string-array>
+
     <string-array name="player_progress_state" translatable="false">
         <item> ••••••</item>
         <item>• •••••</item>
@@ -1499,4 +1504,6 @@
     <string name="copied_card">Номер карты скопирован в буфер</string>
     <string name="audio_save_mode_button">Скачивать несколько треков</string>
     <string name="hint_stickers">Подсказывать Стикеры</string>
+    <string name="not_changed">Нет изменений</string>
+    <string name="later">Заявка принята, ожидайте…</string>
 </resources>

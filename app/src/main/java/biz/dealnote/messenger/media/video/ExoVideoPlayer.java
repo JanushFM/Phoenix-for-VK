@@ -10,6 +10,8 @@ import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.video.VideoListener;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -36,15 +38,19 @@ public class ExoVideoPlayer implements IVideoPlayer {
     public ExoVideoPlayer(Context context, String url, ProxyConfig config, @InternalVideoSize int size) {
         player = createPlayer(context);
         player.addVideoListener(onVideoSizeChangedListener);
-        source = createMediaSource(url, config, size == InternalVideoSize.SIZE_HLS || size == InternalVideoSize.SIZE_LIVE);
+        source = createMediaSource(context, url, config, size == InternalVideoSize.SIZE_HLS || size == InternalVideoSize.SIZE_LIVE);
     }
 
-    private static MediaSource createMediaSource(String url, ProxyConfig proxyConfig, boolean isHLS) {
+    private static MediaSource createMediaSource(Context context, String url, ProxyConfig proxyConfig, boolean isHLS) {
         String userAgent = Constants.USER_AGENT(null);
-        if (!isHLS)
+        if (!isHLS) {
+            if (url.contains("file://")) {
+                return new ProgressiveMediaSource.Factory(new DefaultDataSourceFactory(context, userAgent)).createMediaSource(Uri.parse(url));
+            }
             return new ProgressiveMediaSource.Factory(Utils.getExoPlayerFactory(userAgent, proxyConfig)).createMediaSource(Uri.parse(url));
-        else
+        } else {
             return new HlsMediaSource.Factory(Utils.getExoPlayerFactory(userAgent, proxyConfig)).createMediaSource(Uri.parse(url));
+        }
     }
 
     private SimpleExoPlayer createPlayer(Context context) {
@@ -131,7 +137,7 @@ public class ExoVideoPlayer implements IVideoPlayer {
         videoSizeChangeListeners.remove(listener);
     }
 
-    private static final class OnVideoSizeChangedListener implements SimpleExoPlayer.VideoListener {
+    private static final class OnVideoSizeChangedListener implements VideoListener {
 
         final WeakReference<ExoVideoPlayer> ref;
 

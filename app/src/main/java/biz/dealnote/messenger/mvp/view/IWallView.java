@@ -50,4 +50,10 @@ public interface IWallView extends IAttachmentsPlacesView,
     void notifyWallItemRemoved(int index);
 
     void goToConversationAttachments(int accountId, int ownerId);
+
+    interface IOptionView {
+        void setIsMy(boolean my);
+
+        void setIsDebug(boolean debug);
+    }
 }

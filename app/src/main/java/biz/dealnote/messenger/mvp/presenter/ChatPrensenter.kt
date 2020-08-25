@@ -625,13 +625,15 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         }
         stickersWordsDisplayDisposable.dispose()
         if (isEmpty(s) || isEmpty(words)) {
-            view?.updateStickers(Collections.emptyList())
+            if (isGuiReady) {
+                view?.updateStickers(Collections.emptyList())
+            }
             return
         }
         stickersWordsDisplayDisposable = findStickerByWord(s!!.trim())
                 .delay(500, TimeUnit.MILLISECONDS)
                 .fromIOToMain()
-                .subscribe({ stickers -> view?.updateStickers(stickers) }, ignore())
+                .subscribe({ stickers -> if (isGuiReady) view?.updateStickers(stickers) }, ignore())
     }
 
     private fun findStickerByWord(s: String): Single<List<Sticker>> {

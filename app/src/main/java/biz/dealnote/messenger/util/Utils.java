@@ -904,14 +904,6 @@ public class Utils {
         activity.startActivity(Intent.createChooser(sharingIntent, activity.getResources().getString(R.string.share_using)));
     }
 
-    public static void setColorFilterATOP(Drawable dr, int Color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            dr.setColorFilter(new BlendModeColorFilter(Color, BlendMode.SRC_ATOP));
-        } else {
-            dr.setColorFilter(Color, PorterDuff.Mode.SRC_ATOP);
-        }
-    }
-
     public static void setColorFilter(Drawable dr, int Color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             dr.setColorFilter(new BlendModeColorFilter(Color, BlendMode.MODULATE));
@@ -1245,6 +1237,22 @@ public class Utils {
         recyclerView.setLayoutManager(new LinearLayoutManager(context, RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         return root;
+    }
+
+    public static @Nullable
+    String checkEditInfo(@Nullable String info, @Nullable String original) {
+        if (isEmpty(info) || info.equals(original)) {
+            return null;
+        }
+        return info;
+    }
+
+    public static @Nullable
+    Integer checkEditInfo(@Nullable Integer info, @Nullable Integer original) {
+        if (isNull(info) || info.equals(original)) {
+            return null;
+        }
+        return info;
     }
 
     public interface safeCallInt {

@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.model.VKApiUser;
+import biz.dealnote.messenger.api.model.VkApiProfileInfo;
 import biz.dealnote.messenger.db.column.UserColumns;
 import biz.dealnote.messenger.domain.IAccountsInteractor;
 import biz.dealnote.messenger.domain.IBlacklistRepository;
@@ -89,6 +90,22 @@ public class AccountsInteractor implements IAccountsInteractor {
                 .account()
                 .setOffline()
                 .map(t -> t);
+    }
+
+    @Override
+    public Single<VkApiProfileInfo> getProfileInfo(int accountId) {
+        return networker.vkDefault(accountId)
+                .account()
+                .getProfileInfo()
+                .map(t -> t);
+    }
+
+    @Override
+    public Single<Integer> saveProfileInfo(int accountId, String first_name, String last_name, String maiden_name, String screen_name, String bdate, String home_town, Integer sex) {
+        return networker.vkDefault(accountId)
+                .account()
+                .saveProfileInfo(first_name, last_name, maiden_name, screen_name, bdate, home_town, sex)
+                .map(t -> t.status);
     }
 
     @Override

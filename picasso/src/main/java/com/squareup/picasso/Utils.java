@@ -30,6 +30,8 @@ import android.os.StatFs;
 import android.provider.Settings;
 import android.util.Log;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -41,10 +43,7 @@ import okio.ByteString;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 import static android.content.pm.ApplicationInfo.FLAG_LARGE_HEAP;
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR2;
-import static android.os.Build.VERSION_CODES.KITKAT;
 import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
 import static com.squareup.picasso.Picasso.TAG;
 import static java.lang.String.format;
@@ -105,7 +104,7 @@ final class Utils {
     }
 
     static int getBitmapBytes(Bitmap bitmap) {
-        int result = SDK_INT >= KITKAT ? bitmap.getAllocationByteCount() : bitmap.getByteCount();
+        int result = bitmap.getAllocationByteCount();
         if (result < 0) {
             throw new IllegalStateException("Negative size: " + bitmap);
         }
@@ -226,12 +225,10 @@ final class Utils {
 
         try {
             StatFs statFs = new StatFs(dir.getAbsolutePath());
-            //noinspection deprecation
             long blockCount =
-                    SDK_INT < JELLY_BEAN_MR2 ? (long) statFs.getBlockCount() : statFs.getBlockCountLong();
-            //noinspection deprecation
+                    statFs.getBlockCountLong();
             long blockSize =
-                    SDK_INT < JELLY_BEAN_MR2 ? (long) statFs.getBlockSize() : statFs.getBlockSizeLong();
+                    statFs.getBlockSizeLong();
             long available = blockCount * blockSize;
             // Target 2% of the total space.
             size = available / 50;
@@ -253,19 +250,13 @@ final class Utils {
     static boolean isAirplaneModeOn(Context context) {
         ContentResolver contentResolver = context.getContentResolver();
         try {
-            if (SDK_INT < JELLY_BEAN_MR1) {
-                //noinspection deprecation
-                return Settings.System.getInt(contentResolver, Settings.System.AIRPLANE_MODE_ON, 0) != 0;
-            }
             return Settings.Global.getInt(contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-        } catch (NullPointerException e) {
+        } catch (NullPointerException | SecurityException e) {
             // https://github.com/square/picasso/issues/761, some devices might crash here, assume that
             // airplane mode is off.
             return false;
-        } catch (SecurityException e) {
-            //https://github.com/square/picasso/issues/1197
-            return false;
-        }
+        } //https://github.com/square/picasso/issues/1197
+
     }
 
     @SuppressWarnings("unchecked")
@@ -334,7 +325,7 @@ final class Utils {
     static void flushStackLocalLeaks(Looper looper) {
         Handler handler = new Handler(looper) {
             @Override
-            public void handleMessage(Message msg) {
+            public void handleMessage(@NotNull Message msg) {
                 sendMessageDelayed(obtainMessage(), THREAD_LEAK_CLEANING_MS);
             }
         };
@@ -342,7 +333,6 @@ final class Utils {
     }
 
     static class PicassoThreadFactory implements ThreadFactory {
-        @SuppressWarnings("NullableProblems")
         public Thread newThread(Runnable r) {
             return new PicassoThread(r);
         }

@@ -1,6 +1,7 @@
 package biz.dealnote.messenger.view;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -79,7 +80,11 @@ public class CenteredToolbar extends MaterialToolbar {
         tvSubtitle = new TextView(getContext());
         tvSubtitle.setSingleLine();
         tvSubtitle.setEllipsize(TextUtils.TruncateAt.END);
-        tvSubtitle.setTextAppearance(getContext(), R.style.TextAppearance_MaterialComponents_Caption);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            tvSubtitle.setTextAppearance(R.style.TextAppearance_MaterialComponents_Caption);
+        } else {
+            tvSubtitle.setTextAppearance(getContext(), R.style.TextAppearance_MaterialComponents_Caption);
+        }
 
         LinearLayout linear = new LinearLayout(getContext());
         linear.setGravity(Gravity.CENTER);

@@ -3,6 +3,8 @@ package biz.dealnote.messenger.api.interfaces;
 import androidx.annotation.CheckResult;
 
 import biz.dealnote.messenger.api.model.CountersDto;
+import biz.dealnote.messenger.api.model.VkApiProfileInfo;
+import biz.dealnote.messenger.api.model.VkApiProfileInfoResponce;
 import biz.dealnote.messenger.api.model.response.AccountsBannedResponce;
 import io.reactivex.Single;
 
@@ -26,6 +28,12 @@ public interface IAccountApi {
 
     @CheckResult
     Single<Boolean> setOffline();
+
+    @CheckResult
+    Single<VkApiProfileInfo> getProfileInfo();
+
+    @CheckResult
+    Single<VkApiProfileInfoResponce> saveProfileInfo(String first_name, String last_name, String maiden_name, String screen_name, String bdate, String home_town, Integer sex);
 
     @CheckResult
     Single<CountersDto> getCounters(String filter);

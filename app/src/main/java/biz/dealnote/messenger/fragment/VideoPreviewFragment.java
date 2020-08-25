@@ -56,6 +56,7 @@ import biz.dealnote.messenger.mvp.view.IVideoPreviewView;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.place.PlaceUtil;
 import biz.dealnote.messenger.settings.AppPrefs;
+import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.Utils;
@@ -502,7 +503,11 @@ public class VideoPreviewFragment extends BaseMvpFragment<VideoPreviewPresenter,
                 break;
 
             case Menu.DOWNLOAD:
-                showDownloadPlayerMenu(video);
+                if (!AppPerms.hasReadWriteStoragePermision(requireActivity())) {
+                    AppPerms.requestReadWriteStoragePermission(requireActivity());
+                } else {
+                    showDownloadPlayerMenu(video);
+                }
                 break;
             case Menu.ADD_TO_FAVE:
                 getPresenter().fireAddFaveVideo();

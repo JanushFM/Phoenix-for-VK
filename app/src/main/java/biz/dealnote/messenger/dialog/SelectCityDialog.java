@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +35,7 @@ public class SelectCityDialog extends AccountDependencyDialogFragment implements
 
     private static final int COUNT_PER_REQUEST = 1000;
     private static final int RUN_SEACRH_DELAY = 1000;
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private int accountId;
     private int countryId;
     private ArrayList<City> mData;

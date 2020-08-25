@@ -221,13 +221,13 @@ public class CommentsPresenter extends PlaceSupportPresenter<ICommentsView> {
         }
         stickersWordsDisplayDisposable.dispose();
         if (Utils.isEmpty(s) || Utils.isEmpty(words)) {
-            getView().updateStickers(Collections.emptyList());
+            callView(view -> view.updateStickers(Collections.emptyList()));
             return;
         }
         stickersWordsDisplayDisposable.append(findStickerByWord(s.trim())
                 .delay(500, TimeUnit.MILLISECONDS)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe(stickers -> getView().updateStickers(stickers), u -> showError(getView(), u)));
+                .subscribe(stickers -> callView(view -> view.updateStickers(stickers)), u -> showError(getView(), u)));
     }
 
     private Single<List<Sticker>> findStickerByWord(String s) {

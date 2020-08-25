@@ -6,6 +6,7 @@ import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.fragment.LocalImageAlbumsFragment;
 import biz.dealnote.messenger.fragment.LocalPhotosFragment;
+import biz.dealnote.messenger.fragment.SinglePhotoFragment;
 import biz.dealnote.messenger.model.LocalImageAlbum;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceProvider;
@@ -44,6 +45,14 @@ public class PhotosActivity extends NoMainActivity implements PlaceProvider {
                     .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
                     .replace(R.id.fragment, localPhotosFragment)
                     .addToBackStack("photos")
+                    .commit();
+        } else if (place.type == Place.SINGLE_PHOTO) {
+            SinglePhotoFragment localPhotosFragment = SinglePhotoFragment.newInstance(place.getArgs());
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.fragment_enter_pop, R.anim.fragment_exit_pop)
+                    .replace(R.id.fragment, localPhotosFragment)
+                    .addToBackStack("preview")
                     .commit();
         }
     }

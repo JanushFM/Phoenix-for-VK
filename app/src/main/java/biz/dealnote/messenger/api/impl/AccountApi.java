@@ -4,6 +4,8 @@ import biz.dealnote.messenger.api.IServiceProvider;
 import biz.dealnote.messenger.api.TokenType;
 import biz.dealnote.messenger.api.interfaces.IAccountApi;
 import biz.dealnote.messenger.api.model.CountersDto;
+import biz.dealnote.messenger.api.model.VkApiProfileInfo;
+import biz.dealnote.messenger.api.model.VkApiProfileInfoResponce;
 import biz.dealnote.messenger.api.model.response.AccountsBannedResponce;
 import biz.dealnote.messenger.api.services.IAccountService;
 import io.reactivex.Single;
@@ -64,6 +66,24 @@ class AccountApi extends AbsApi implements IAccountApi {
                         .setOffline()
                         .map(extractResponseWithErrorHandling())
                         .map(response -> response == 1));
+    }
+
+    @Override
+    public Single<VkApiProfileInfo> getProfileInfo() {
+        return provideService(IAccountService.class, TokenType.USER)
+                .flatMap(service -> service
+                        .getProfileInfo()
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response));
+    }
+
+    @Override
+    public Single<VkApiProfileInfoResponce> saveProfileInfo(String first_name, String last_name, String maiden_name, String screen_name, String bdate, String home_town, Integer sex) {
+        return provideService(IAccountService.class, TokenType.USER)
+                .flatMap(service -> service
+                        .saveProfileInfo(first_name, last_name, maiden_name, screen_name, bdate, home_town, sex)
+                        .map(extractResponseWithErrorHandling())
+                        .map(response -> response));
     }
 
     @Override

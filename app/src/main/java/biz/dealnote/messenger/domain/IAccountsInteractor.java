@@ -3,6 +3,7 @@ package biz.dealnote.messenger.domain;
 import java.util.Collection;
 import java.util.List;
 
+import biz.dealnote.messenger.api.model.VkApiProfileInfo;
 import biz.dealnote.messenger.model.Account;
 import biz.dealnote.messenger.model.BannedPart;
 import biz.dealnote.messenger.model.User;
@@ -19,6 +20,10 @@ public interface IAccountsInteractor {
     Completable changeStatus(int accountId, String status);
 
     Single<Boolean> setOffline(int accountId);
+
+    Single<VkApiProfileInfo> getProfileInfo(int accountId);
+
+    Single<Integer> saveProfileInfo(int accountId, String first_name, String last_name, String maiden_name, String screen_name, String bdate, String home_town, Integer sex);
 
     Single<List<Account>> getAll();
 }

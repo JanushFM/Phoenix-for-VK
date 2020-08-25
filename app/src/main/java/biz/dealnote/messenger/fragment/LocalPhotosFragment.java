@@ -36,6 +36,7 @@ import biz.dealnote.messenger.model.LocalImageAlbum;
 import biz.dealnote.messenger.model.LocalPhoto;
 import biz.dealnote.messenger.mvp.presenter.LocalPhotosPresenter;
 import biz.dealnote.messenger.mvp.view.ILocalPhotosView;
+import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.mvp.core.IPresenterFactory;
@@ -94,6 +95,11 @@ public class LocalPhotosFragment extends BaseMvpFragment<LocalPhotosPresenter, I
     @Override
     public void onPhotoClick(LocalPhotosAdapter.ViewHolder holder, LocalPhoto photo) {
         getPresenter().firePhotoClick(photo);
+    }
+
+    @Override
+    public void onLongPhotoClick(LocalPhotosAdapter.ViewHolder holder, LocalPhoto photo) {
+        PlaceFactory.getSingleURLPhotoPlace(LocalPhoto.buildUriForPicasso(photo.getImageId()).toString(), "Preview", "Temp").tryOpenWith(requireActivity());
     }
 
     @Override

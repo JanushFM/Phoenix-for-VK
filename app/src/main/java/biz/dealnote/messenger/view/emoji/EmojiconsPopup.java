@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -434,7 +435,7 @@ public class EmojiconsPopup {
 
         private final int normalInterval;
         private final OnClickListener clickListener;
-        private final Handler handler = new Handler();
+        private final Handler handler = new Handler(Looper.getMainLooper());
         private final int initialInterval;
         private View downView;
         private final Runnable handlerRunnable = new Runnable() {

@@ -1,6 +1,8 @@
 package biz.dealnote.messenger.api.services;
 
 import biz.dealnote.messenger.api.model.CountersDto;
+import biz.dealnote.messenger.api.model.VkApiProfileInfo;
+import biz.dealnote.messenger.api.model.VkApiProfileInfoResponce;
 import biz.dealnote.messenger.api.model.response.AccountsBannedResponce;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
 import io.reactivex.Single;
@@ -71,4 +73,16 @@ public interface IAccountService {
     @GET("account.setOffline")
     Single<BaseResponse<Integer>> setOffline();
 
+    @GET("account.getProfileInfo")
+    Single<BaseResponse<VkApiProfileInfo>> getProfileInfo();
+
+    @FormUrlEncoded
+    @POST("account.saveProfileInfo")
+    Single<BaseResponse<VkApiProfileInfoResponce>> saveProfileInfo(@Field("first_name") String first_name,
+                                                                   @Field("last_name") String last_name,
+                                                                   @Field("maiden_name") String maiden_name,
+                                                                   @Field("screen_name") String screen_name,
+                                                                   @Field("bdate") String bdate,
+                                                                   @Field("home_town") String home_town,
+                                                                   @Field("sex") Integer sex);
 }

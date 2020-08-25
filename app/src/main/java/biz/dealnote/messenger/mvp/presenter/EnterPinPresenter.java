@@ -2,6 +2,7 @@ package biz.dealnote.messenger.mvp.presenter;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,6 +11,7 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import java.util.Arrays;
 import java.util.List;
 
 import biz.dealnote.messenger.Constants;
@@ -37,7 +39,7 @@ public class EnterPinPresenter extends RxSupportPresenter<IEnterPinView> {
     private final ISettings.ISecuritySettings securitySettings;
     private final int[] mValues;
     private final Fragment myContext;
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final Runnable mOnFullyEnteredRunnable = this::onFullyEntered;
     private Owner mOwner;
 
@@ -212,9 +214,7 @@ public class EnterPinPresenter extends RxSupportPresenter<IEnterPinView> {
     }
 
     private void resetPin() {
-        for (int i = 0; i < mValues.length; i++) {
-            mValues[i] = NO_VALUE;
-        }
+        Arrays.fill(mValues, NO_VALUE);
     }
 
     @Override
@@ -238,7 +238,7 @@ public class EnterPinPresenter extends RxSupportPresenter<IEnterPinView> {
     private boolean canAuthenticateWithBiometrics() {
         BiometricManager biometricManager = BiometricManager.from(getApplicationContext());
         if (biometricManager != null) {
-            return biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
+            return biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS;
         }
         return false;
     }

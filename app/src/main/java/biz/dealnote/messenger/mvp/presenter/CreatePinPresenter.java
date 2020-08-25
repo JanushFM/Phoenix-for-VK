@@ -2,6 +2,7 @@ package biz.dealnote.messenger.mvp.presenter;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.R;
@@ -22,7 +23,7 @@ public class CreatePinPresenter extends RxSupportPresenter<ICreatePinView> {
     private static final int STEP_REPEAT = 2;
     private final int[] mCreatedPin;
     private final int[] mRepeatedPin;
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private int mCurrentStep;
     private final Runnable mOnFullyEnteredRunnable = () -> {
         if (mCurrentStep == STEP_CREATE) {

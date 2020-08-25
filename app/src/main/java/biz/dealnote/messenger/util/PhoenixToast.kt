@@ -79,6 +79,7 @@ class PhoenixToast private constructor(context: Context?, Timage: Bitmap?) {
         showToastInfo(M_context.resources.getString(message, *params))
     }
 
+    @Suppress("DEPRECATION")
     fun showToastError(message: String?) {
         if (M_context == null) return
         val view = View.inflate(M_context, R.layout.toast_error, null)
@@ -106,6 +107,7 @@ class PhoenixToast private constructor(context: Context?, Timage: Bitmap?) {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun getToast(context: Context, message: String?, bgColor: Int): Toast {
         val toast = Toast(context)
         val view: View = View.inflate(context, R.layout.phoenix_toast_base, null)

@@ -354,6 +354,8 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
     @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        OptionView view = new OptionView();
+        getPresenter().fireOptionViewCreated(view);
         menu.add(R.string.show_qr).setOnMenuItemClickListener(item -> {
             getPresenter().fireShowQR(requireActivity());
             return true;
@@ -366,7 +368,7 @@ public class UserWallFragment extends AbsWallFragment<IUserWallView, UserWallPre
             getPresenter().fireMentions();
             return true;
         });
-        if (getPresenter().getAccountId() != getPresenter().getOwnerId()) {
+        if (!view.isMy) {
             menu.add(R.string.report).setOnMenuItemClickListener(item -> {
                 getPresenter().fireReport();
                 return true;

@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -33,9 +35,11 @@ import java.util.List;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.model.VKApiPost;
+import biz.dealnote.messenger.api.model.VkApiProfileInfo;
 import biz.dealnote.messenger.db.model.PostUpdate;
 import biz.dealnote.messenger.domain.IOwnersRepository;
 import biz.dealnote.messenger.domain.IWallsRepository;
+import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.model.EditingPostType;
 import biz.dealnote.messenger.model.LoadMoreState;
@@ -61,6 +65,7 @@ import static biz.dealnote.messenger.util.Utils.findIndexByPredicate;
 import static biz.dealnote.messenger.util.Utils.findInfoByPredicate;
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 import static biz.dealnote.messenger.util.Utils.intValueNotIn;
+import static biz.dealnote.messenger.util.Utils.isEmpty;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupportPresenter<V> {
@@ -103,7 +108,7 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
             appendDisposable(ownersRepository.getStory(accountId, accountId == ownerId ? null : ownerId)
                     .compose(RxUtils.applySingleIOToMainSchedulers())
                     .subscribe(data -> {
-                        if (!Utils.isEmpty(data)) {
+                        if (!isEmpty(data)) {
                             stories.clear();
                             stories.addAll(data);
                             callView(view -> view.updateStory(stories));
@@ -350,8 +355,59 @@ public abstract class AbsWallPresenter<V extends IWallView> extends PlaceSupport
         }
     }
 
+    public void fireOptionViewCreated(IWallView.IOptionView view) {
+        view.setIsMy(getAccountId() == getOwnerId());
+        view.setIsDebug(Settings.get().other().isDebug_mode());
+    }
+
     public void fireCreateClick() {
         getView().goToPostCreation(getAccountId(), ownerId, EditingPostType.DRAFT);
+    }
+
+    private void fireEdit(Context context, VkApiProfileInfo p) {
+        View root = View.inflate(context, R.layout.entry_info, null);
+        ((TextInputEditText) root.findViewById(R.id.edit_first_name)).setText(p.first_name);
+        ((TextInputEditText) root.findViewById(R.id.edit_last_name)).setText(p.last_name);
+        ((TextInputEditText) root.findViewById(R.id.edit_maiden_name)).setText(p.maiden_name);
+        ((TextInputEditText) root.findViewById(R.id.edit_screen_name)).setText(p.screen_name);
+        ((TextInputEditText) root.findViewById(R.id.edit_bdate)).setText(p.bdate);
+        ((TextInputEditText) root.findViewById(R.id.edit_home_town)).setText(p.home_town);
+        ((Spinner) root.findViewById(R.id.sex)).setSelection(p.sex - 1);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context)
+                .setTitle(R.string.edit)
+                .setCancelable(true)
+                .setView(root)
+                .setPositiveButton(R.string.button_ok, (dialog, which) -> appendDisposable(InteractorFactory.createAccountInteractor().saveProfileInfo(getAccountId(),
+                        Utils.checkEditInfo(((TextInputEditText) root.findViewById(R.id.edit_first_name)).getEditableText().toString().trim(), p.first_name),
+                        Utils.checkEditInfo(((TextInputEditText) root.findViewById(R.id.edit_last_name)).getEditableText().toString().trim(), p.last_name),
+                        Utils.checkEditInfo(((TextInputEditText) root.findViewById(R.id.edit_maiden_name)).getEditableText().toString().trim(), p.maiden_name),
+                        Utils.checkEditInfo(((TextInputEditText) root.findViewById(R.id.edit_screen_name)).getEditableText().toString().trim(), p.screen_name),
+                        Utils.checkEditInfo(((TextInputEditText) root.findViewById(R.id.edit_bdate)).getEditableText().toString().trim(), p.bdate),
+                        Utils.checkEditInfo(((TextInputEditText) root.findViewById(R.id.edit_home_town)).getEditableText().toString().trim(), p.home_town),
+                        Utils.checkEditInfo(((Spinner) root.findViewById(R.id.sex)).getSelectedItemPosition() + 1, p.sex))
+                        .compose(RxUtils.applySingleIOToMainSchedulers())
+                        .subscribe(t -> {
+                            switch (t) {
+                                case 0:
+                                    PhoenixToast.CreatePhoenixToast(context).showToastError(R.string.not_changed);
+                                    break;
+                                case 1:
+                                    PhoenixToast.CreatePhoenixToast(context).showToastSuccessBottom(R.string.success);
+                                    break;
+                                case 2:
+                                    PhoenixToast.CreatePhoenixToast(context).showToastBottom(R.string.later);
+                                    break;
+                            }
+                        }, v -> showError(getView(), v))))
+                .setNegativeButton(R.string.button_cancel, null);
+        builder.create().show();
+    }
+
+    public final void fireEdit(Context context) {
+        appendDisposable(InteractorFactory.createAccountInteractor().getProfileInfo(getAccountId())
+                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .subscribe(t -> fireEdit(context, t), v -> {
+                }));
     }
 
     public final void fireRefresh() {

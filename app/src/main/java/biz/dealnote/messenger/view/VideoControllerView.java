@@ -3,6 +3,7 @@ package biz.dealnote.messenger.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -644,6 +645,7 @@ public class VideoControllerView extends FrameLayout {
         private final WeakReference<VideoControllerView> mView;
 
         MessageHandler(VideoControllerView view) {
+            super(Looper.getMainLooper());
             mView = new WeakReference<>(view);
         }
 

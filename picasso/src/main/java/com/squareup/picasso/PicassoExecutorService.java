@@ -36,7 +36,7 @@ class PicassoExecutorService extends ThreadPoolExecutor {
 
     PicassoExecutorService() {
         super(DEFAULT_THREAD_COUNT, DEFAULT_THREAD_COUNT, 0, TimeUnit.MILLISECONDS,
-                new PriorityBlockingQueue<Runnable>(), new Utils.PicassoThreadFactory());
+                new PriorityBlockingQueue<>(), new Utils.PicassoThreadFactory());
     }
 
     void adjustThreadCount(NetworkInfo info) {

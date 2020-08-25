@@ -38,6 +38,7 @@ import biz.dealnote.messenger.api.adapters.PhotoDtoAdapter;
 import biz.dealnote.messenger.api.adapters.PostDtoAdapter;
 import biz.dealnote.messenger.api.adapters.PostSourceDtoAdapter;
 import biz.dealnote.messenger.api.adapters.PrivacyDtoAdapter;
+import biz.dealnote.messenger.api.adapters.ProfileInfoResponceDtoAdapter;
 import biz.dealnote.messenger.api.adapters.SchoolClazzDtoAdapter;
 import biz.dealnote.messenger.api.adapters.SearchDialogsResponseAdapter;
 import biz.dealnote.messenger.api.adapters.StoryDtoAdapter;
@@ -72,6 +73,7 @@ import biz.dealnote.messenger.api.model.VkApiDoc;
 import biz.dealnote.messenger.api.model.VkApiJsonString;
 import biz.dealnote.messenger.api.model.VkApiPostSource;
 import biz.dealnote.messenger.api.model.VkApiPrivacy;
+import biz.dealnote.messenger.api.model.VkApiProfileInfoResponce;
 import biz.dealnote.messenger.api.model.database.SchoolClazzDto;
 import biz.dealnote.messenger.api.model.feedback.UserArray;
 import biz.dealnote.messenger.api.model.feedback.VkApiBaseFeedback;
@@ -135,6 +137,7 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
             .registerTypeAdapter(VKApiCatalogLink.class, new VKApiCatalogLinkDtoAdapter())
             .registerTypeAdapter(ChatJsonResponse.class, new ChatJsonResponseDtoAdapter())
             .registerTypeAdapter(VkApiJsonString.class, new JsonStringDtoAdapter())
+            .registerTypeAdapter(VkApiProfileInfoResponce.class, new ProfileInfoResponceDtoAdapter())
             .create();
 
     private static final GsonConverterFactory GSON_CONVERTER_FACTORY = GsonConverterFactory.create(VKGSON);

@@ -66,7 +66,16 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
             }
         };
 
+        View.OnLongClickListener preview_listener = v -> {
+            if (clickListener != null) {
+                clickListener.onLongPhotoClick(holder, photo);
+                return true;
+            }
+            return false;
+        };
+
         holder.photoImageView.setOnClickListener(listener);
+        holder.photoImageView.setOnLongClickListener(preview_listener);
         holder.selectedRoot.setOnClickListener(listener);
     }
 
@@ -103,6 +112,8 @@ public class LocalPhotosAdapter extends RecyclerView.Adapter<LocalPhotosAdapter.
 
     public interface ClickListener {
         void onPhotoClick(ViewHolder holder, LocalPhoto photo);
+
+        void onLongPhotoClick(ViewHolder holder, LocalPhoto photo);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

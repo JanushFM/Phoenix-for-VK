@@ -1,6 +1,7 @@
 package biz.dealnote.messenger.util;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import java.lang.ref.WeakReference;
@@ -11,6 +12,7 @@ public class WeakActionHandler<T> extends Handler {
     private Action<T> action;
 
     public WeakActionHandler(T object) {
+        super(Looper.getMainLooper());
         ref = new WeakReference<>(object);
     }
 
@@ -22,7 +24,7 @@ public class WeakActionHandler<T> extends Handler {
         }
     }
 
-    public WeakActionHandler setAction(Action<T> action) {
+    public WeakActionHandler<T> setAction(Action<T> action) {
         this.action = action;
         return this;
     }

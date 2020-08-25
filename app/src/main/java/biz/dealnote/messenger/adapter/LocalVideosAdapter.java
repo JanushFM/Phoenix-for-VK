@@ -67,7 +67,16 @@ public class LocalVideosAdapter extends RecyclerView.Adapter<LocalVideosAdapter.
             }
         };
 
+        View.OnLongClickListener preview_listener = v -> {
+            if (clickListener != null) {
+                clickListener.onVideoLongClick(holder, video);
+                return true;
+            }
+            return false;
+        };
+
         holder.photoImageView.setOnClickListener(listener);
+        holder.photoImageView.setOnLongClickListener(preview_listener);
         holder.selectedRoot.setOnClickListener(listener);
     }
 
@@ -106,6 +115,8 @@ public class LocalVideosAdapter extends RecyclerView.Adapter<LocalVideosAdapter.
 
     public interface ClickListener {
         void onVideoClick(ViewHolder holder, LocalVideo video);
+
+        void onVideoLongClick(ViewHolder holder, LocalVideo video);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

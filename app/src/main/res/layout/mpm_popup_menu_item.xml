@@ -22,7 +22,7 @@
         android:visibility="gone"
         app:tint="?colorPrimary"
         tools:ignore="PrivateResource"
-        tools:src="@drawable/online_phoenix"
+        tools:src="@drawable/phoenix_round"
         tools:visibility="visible" />
 
     <TextView

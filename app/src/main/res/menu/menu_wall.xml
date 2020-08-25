@@ -33,6 +33,10 @@
         android:title="@string/search_stories" />
 
     <item
+        android:id="@+id/action_edit"
+        android:title="@string/edit" />
+
+    <item
         android:id="@+id/wall_attachments"
         android:title="@string/wall_attachments" />
 </menu>

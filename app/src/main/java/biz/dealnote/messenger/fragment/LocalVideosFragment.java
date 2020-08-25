@@ -29,9 +29,13 @@ import biz.dealnote.messenger.adapter.LocalPhotosAdapter;
 import biz.dealnote.messenger.adapter.LocalVideosAdapter;
 import biz.dealnote.messenger.fragment.base.BaseMvpFragment;
 import biz.dealnote.messenger.listener.PicassoPauseOnScrollListener;
+import biz.dealnote.messenger.model.InternalVideoSize;
 import biz.dealnote.messenger.model.LocalVideo;
+import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.mvp.presenter.LocalVideosPresenter;
 import biz.dealnote.messenger.mvp.view.ILocalVideosView;
+import biz.dealnote.messenger.place.PlaceFactory;
+import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.mvp.core.IPresenterFactory;
@@ -77,6 +81,14 @@ public class LocalVideosFragment extends BaseMvpFragment<LocalVideosPresenter, I
     @Override
     public void onVideoClick(LocalVideosAdapter.ViewHolder holder, LocalVideo video) {
         getPresenter().fireVideoClick(video);
+    }
+
+    @Override
+    public void onVideoLongClick(LocalVideosAdapter.ViewHolder holder, LocalVideo video) {
+
+        Video target = new Video().setOwnerId(Settings.get().accounts().getCurrent()).setId((int) video.getId())
+                .setMp4link1080("file://" + video.getData().getPath());
+        PlaceFactory.getVkInternalPlayerPlace(target, InternalVideoSize.SIZE_1080).tryOpenWith(requireActivity());
     }
 
     @Override

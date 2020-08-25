@@ -46,7 +46,7 @@ final class TargetAction extends Action<Target> {
         Target target = getTarget();
         if (target != null) {
             if (errorResId != 0) {
-                target.onBitmapFailed(e, picasso.context.getResources().getDrawable(errorResId));
+                target.onBitmapFailed(e, picasso.context.getDrawable(errorResId));
             } else {
                 target.onBitmapFailed(e, errorDrawable);
             }

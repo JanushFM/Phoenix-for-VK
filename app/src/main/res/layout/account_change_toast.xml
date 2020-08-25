@@ -50,6 +50,6 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:padding="8dp"
-        android:src="@drawable/online_phoenix" />
+        android:src="@drawable/phoenix_round" />
 
 </RelativeLayout>

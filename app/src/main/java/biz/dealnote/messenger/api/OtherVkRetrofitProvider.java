@@ -47,6 +47,12 @@ public class OtherVkRetrofitProvider implements IOtherVkRetrofitProvider {
                 longpollRetrofitInstance = null;
             }
         }
+        synchronized (amazonaudiocoverRetrofitLock) {
+            if (nonNull(amazonaudiocoverRetrofitInstance)) {
+                amazonaudiocoverRetrofitInstance.cleanup();
+                amazonaudiocoverRetrofitInstance = null;
+            }
+        }
     }
 
     @Override

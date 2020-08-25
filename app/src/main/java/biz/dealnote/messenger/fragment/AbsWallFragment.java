@@ -260,6 +260,9 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
             case R.id.action_refresh:
                 getPresenter().fireRefresh();
                 return true;
+            case R.id.action_edit:
+                getPresenter().fireEdit(requireActivity());
+                return true;
             case R.id.action_copy_url:
                 getPresenter().fireCopyUrlClick();
                 return true;
@@ -306,9 +309,19 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_wall, menu);
-        menu.findItem(R.id.action_open_url).setVisible(Settings.get().other().isDebug_mode());
-        menu.findItem(R.id.action_copy_id).setVisible(Settings.get().other().isDebug_mode());
-        menu.findItem(R.id.search_stories).setVisible(Settings.get().other().isDebug_mode());
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NotNull Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        OptionView view = new OptionView();
+        getPresenter().fireOptionViewCreated(view);
+
+        menu.findItem(R.id.action_open_url).setVisible(view.isDebug);
+        menu.findItem(R.id.action_copy_id).setVisible(view.isDebug);
+        menu.findItem(R.id.search_stories).setVisible(view.isDebug);
+        menu.findItem(R.id.action_edit).setVisible(view.isMy);
     }
 
     @Override
@@ -471,5 +484,22 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
     @Override
     public void onButtonRemoveClick(Post post) {
         getPresenter().fireButtonRemoveClick(post);
+    }
+
+    protected static final class OptionView implements IOptionView {
+
+        boolean isMy;
+
+        boolean isDebug;
+
+        @Override
+        public void setIsMy(boolean my) {
+            isMy = my;
+        }
+
+        @Override
+        public void setIsDebug(boolean debug) {
+            isDebug = debug;
+        }
     }
 }

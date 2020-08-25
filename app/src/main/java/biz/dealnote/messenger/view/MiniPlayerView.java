@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -321,6 +322,7 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
          * Constructor of <code>TimeHandler</code>
          */
         TimeHandler(MiniPlayerView player) {
+            super(Looper.getMainLooper());
             mAudioPlayer = new WeakReference<>(player);
         }
 

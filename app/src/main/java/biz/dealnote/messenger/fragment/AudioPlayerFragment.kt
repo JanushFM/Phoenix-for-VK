@@ -5,10 +5,7 @@ import android.content.*
 import android.graphics.Color
 import android.media.AudioManager
 import android.media.audiofx.AudioEffect
-import android.os.Bundle
-import android.os.Handler
-import android.os.Message
-import android.os.SystemClock
+import android.os.*
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -792,7 +789,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     /**
      * Used to update the current time string
      */
-    private class TimeHandler(player: AudioPlayerFragment) : Handler() {
+    private class TimeHandler(player: AudioPlayerFragment) : Handler(Looper.getMainLooper()) {
         private val mAudioPlayer: WeakReference<AudioPlayerFragment> = WeakReference(player)
         override fun handleMessage(msg: Message) {
             if (msg.what == REFRESH_TIME) {
