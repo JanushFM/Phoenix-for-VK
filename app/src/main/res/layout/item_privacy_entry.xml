@@ -11,7 +11,7 @@
         android:background="?message_bubble_color"
         android:orientation="vertical">
 
-        <biz.dealnote.messenger.view.square.SquareRelativeLayout
+        <biz.dealnote.messenger.view.square.SquareFrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -19,7 +19,7 @@
                 android:id="@+id/avatar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
 
@@ -27,13 +27,13 @@
                 android:id="@+id/button_remove"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:background="@drawable/circle_back"
                 android:padding="8dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/close" />
 
-        </biz.dealnote.messenger.view.square.SquareRelativeLayout>
+        </biz.dealnote.messenger.view.square.SquareFrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

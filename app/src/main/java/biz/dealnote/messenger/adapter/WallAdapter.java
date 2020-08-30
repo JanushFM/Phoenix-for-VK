@@ -340,7 +340,7 @@ public class WallAdapter extends RecyclerBindableAdapter<Post, RecyclerView.View
 
         NormalHolder(View view) {
             super(view);
-            pinRoot = root.findViewById(R.id.item_post_normal_pin_root);
+            pinRoot = root.findViewById(R.id.item_post_normal_pin);
             likeButton = root.findViewById(R.id.like_button);
             commentsButton = root.findViewById(R.id.comments_button);
             shareButton = root.findViewById(R.id.share_button);

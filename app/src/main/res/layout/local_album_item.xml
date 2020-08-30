@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    style="@style/CardViewMD2"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardElevation="1dp"
     tools:ignore="UnusedAttribute">
 
     <RelativeLayout
@@ -25,7 +25,8 @@
             app:aspectRatioEnabled="true"
             app:aspectRatioH="1"
             app:aspectRatioW="1"
-            app:dominantMeasurement="width" />
+            app:dominantMeasurement="width"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRoundedPictures" />
 
         <LinearLayout
             android:layout_width="wrap_content"

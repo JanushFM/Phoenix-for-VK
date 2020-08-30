@@ -301,7 +301,7 @@ public class FavePostAdapter extends RecyclerBindableAdapter<Post, RecyclerView.
         NormalHolder(View view) {
             super(view);
             itemView.setOnCreateContextMenuListener(this);
-            pinRoot = root.findViewById(R.id.item_post_normal_pin_root);
+            pinRoot = root.findViewById(R.id.item_post_normal_pin);
             likeButton = root.findViewById(R.id.like_button);
             commentsButton = root.findViewById(R.id.comments_button);
             shareButton = root.findViewById(R.id.share_button);

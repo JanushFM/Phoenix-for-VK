@@ -289,7 +289,7 @@ public class BubbleDrawable extends Drawable {
         public static final float DEFAULT_ANGLE = 20;
         public static final float DEFAULT_ARROW_POSITION = 50;
         public static final int DEFAULT_BUBBLE_COLOR = Color.RED;
-        public static final float DEFAULT_RADIUS = 20;
+        public static final float DEFAULT_RADIUS = 10;
         private RectF mRect;
         private float mArrowWidth = DEFAULT_ARROW_WITH;
         private float mAngle = DEFAULT_ANGLE;

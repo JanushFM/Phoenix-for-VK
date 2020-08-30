@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:background="#9b000000" />
 
-            <RelativeLayout
+            <FrameLayout
                 android:id="@+id/progress_root"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:background="@drawable/circle_back"
                     android:padding="8dp"
                     android:scaleType="centerCrop"
@@ -50,15 +50,14 @@
                     android:id="@+id/progress"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
                     custom:arcLoadingColor="?attr/icon_color_active"
                     custom:arcLoadingStartAngle="270"
                     custom:arcLoadingStrokeWidth="4dp"
                     custom:roadColor="#ffffff"
                     custom:roadStrokeWidth="8dp" />
 
-            </RelativeLayout>
+            </FrameLayout>
 
             <TextView
                 android:id="@+id/title"

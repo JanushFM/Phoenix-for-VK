@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="?message_bubble_color"
     app:cardCornerRadius="6dp"
     app:cardUseCompatPadding="true">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <biz.dealnote.messenger.view.AspectRatioImageView
@@ -29,10 +29,7 @@
             android:id="@+id/selected"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignStart="@+id/imageView"
-            android:layout_alignTop="@+id/imageView"
-            android:layout_alignEnd="@+id/imageView"
-            android:layout_alignBottom="@+id/imageView"
+            android:layout_gravity="center"
             android:background="#60000000"
             android:gravity="center">
 
@@ -45,5 +42,5 @@
                 tools:text="1" />
 
         </LinearLayout>
-    </RelativeLayout>
+    </FrameLayout>
 </com.google.android.material.card.MaterialCardView>

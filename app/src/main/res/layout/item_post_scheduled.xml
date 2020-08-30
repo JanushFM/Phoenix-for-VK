@@ -28,26 +28,19 @@
 
         <include layout="@layout/content_post" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:padding="4dp">
-
-            <biz.dealnote.messenger.view.CircleCounterButton
-                android:id="@+id/button_delete"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                app:active_background_color="?attr/icon_color_active"
-                app:always_counter="false"
-                app:button_icon="@drawable/ic_outline_delete"
-                app:noactive_icon_color="?attr/colorOnSurface" />
-
-        </LinearLayout>
+        <biz.dealnote.messenger.view.CircleCounterButton
+            android:id="@+id/button_delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:layout_margin="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:active_background_color="?attr/icon_color_active"
+            app:always_counter="false"
+            app:button_icon="@drawable/ic_outline_delete"
+            app:noactive_icon_color="?attr/colorOnSurface" />
 
     </LinearLayout>
 

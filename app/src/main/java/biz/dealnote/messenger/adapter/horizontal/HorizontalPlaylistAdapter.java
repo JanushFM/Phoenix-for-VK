@@ -50,6 +50,12 @@ public class HorizontalPlaylistAdapter extends RecyclerBindableAdapter<AudioPlay
         else {
             holder.description.setVisibility(View.VISIBLE);
             holder.description.setText(playlist.getDescription());
+            holder.description.setOnClickListener(view -> {
+                if (holder.description.getMaxLines() == 1)
+                    holder.description.setMaxLines(6);
+                else
+                    holder.description.setMaxLines(1);
+            });
         }
         if (Utils.isEmpty(playlist.getArtist_name()))
             holder.artist.setVisibility(View.GONE);

@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.RoundedPhotoVideo" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRoundedPictures" />
 
     <ImageView
         android:id="@+id/item_video_play"

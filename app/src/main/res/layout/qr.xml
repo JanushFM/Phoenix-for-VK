@@ -10,6 +10,6 @@
         android:id="@+id/qr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRounded" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRoundedPictures" />
 
 </LinearLayout>

@@ -153,6 +153,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:active_background_color="?attr/icon_color_active"
                 app:always_counter="false"
                 app:button_icon="@drawable/heart"
@@ -165,6 +166,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:active_background_color="?attr/icon_color_active"
                 app:always_counter="false"
                 app:button_icon="@drawable/comment"
@@ -177,6 +179,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 app:active_background_color="?attr/icon_color_active"
                 app:button_icon="@drawable/ic_outline_share"
                 app:noactive_icon_color="?attr/colorOnSurface" />

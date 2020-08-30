@@ -1,6 +1,6 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
     android:paddingStart="16dp"
@@ -8,12 +8,19 @@
     android:paddingEnd="16dp"
     android:paddingBottom="8dp">
 
+    <ImageView
+        android:id="@+id/item_file_icon"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_gravity="center_vertical"
+        android:checked="true"
+        android:padding="12dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
         android:layout_marginStart="12dp"
-        android:layout_toEndOf="@+id/item_file_icon"
         android:orientation="vertical">
 
         <TextView
@@ -34,13 +41,4 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/item_file_icon"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentTop="false"
-        android:layout_centerVertical="true"
-        android:checked="true"
-        android:padding="12dp" />
-</RelativeLayout>
+</LinearLayout>

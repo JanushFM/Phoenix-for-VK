@@ -22,7 +22,7 @@
         android:minWidth="96dp"
         android:minHeight="96dp"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRounded" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRoundedPictures" />
 
     <ImageView
         android:id="@+id/item_document_graffity"

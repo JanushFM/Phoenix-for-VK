@@ -6,7 +6,9 @@
     style="@style/CardViewMD2"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
     android:foreground="?android:attr/selectableItemBackground"
     android:stateListAnimator="@animator/clicked"
     app:contentPadding="8dp"
@@ -19,8 +21,8 @@
 
         <ImageView
             android:id="@+id/item_story_pic"
-            android:layout_width="64dp"
-            android:layout_height="64dp" />
+            android:layout_width="72dp"
+            android:layout_height="72dp" />
 
         <TextView
             android:id="@+id/item_story_name"
@@ -28,9 +30,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:gravity="center"
-            android:singleLine="true"
+            android:lines="2"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textSize="12sp"
+            android:textSize="13sp"
             tools:text="Name" />
 
         <TextView
@@ -41,7 +43,8 @@
             android:gravity="center"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textSize="12sp"
+            android:textSize="11sp"
+            tools:ignore="SmallSp"
             tools:text="Expires" />
     </LinearLayout>
 

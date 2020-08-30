@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -87,14 +87,12 @@
         android:id="@+id/item_audio_selection"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@+id/audio_root"
-        android:layout_alignBottom="@+id/audio_root"
         android:alpha="0.5"
         android:orientation="horizontal"
         android:visibility="gone"
         app:cardBackgroundColor="?colorPrimary"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="6dp"
         app:cardElevation="0dp"
         app:contentPadding="0dp" />
 
-</RelativeLayout>
+</FrameLayout>

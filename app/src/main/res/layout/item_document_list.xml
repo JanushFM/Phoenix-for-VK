@@ -21,7 +21,7 @@
             android:layout_width="@dimen/avatar_size_big"
             android:layout_height="@dimen/avatar_size_big"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRounded" />
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.MediumRoundedPictures" />
 
         <ImageView
             android:id="@+id/item_document_empty"

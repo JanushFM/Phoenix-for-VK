@@ -3,13 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
+    style="@style/CardViewMD2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/card_margin"
     android:layout_marginEnd="@dimen/card_margin"
     android:layout_marginBottom="@dimen/card_margin"
+    app:contentPadding="1dp"
     android:foreground="?android:attr/selectableItemBackground"
-    app:cardElevation="1dp"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout
