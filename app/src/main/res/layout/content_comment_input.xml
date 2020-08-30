@@ -71,7 +71,7 @@
                         android:background="@android:color/transparent"
                         android:hint="@string/text_hint"
                         android:imeOptions="actionDone|flagNoExtractUi"
-                        android:inputType="textLongMessage|textAutoCorrect|textMultiLine|textCapSentences|textAutoComplete"
+                        android:inputType="text|textCapSentences|textMultiLine"
                         android:maxLines="8"
                         android:minHeight="40dp"
                         android:saveEnabled="false"

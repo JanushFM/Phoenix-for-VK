@@ -1503,7 +1503,7 @@
     <string name="do_donate">Донатнуть</string>
     <string name="copied_card">Номер карты скопирован в буфер</string>
     <string name="audio_save_mode_button">Скачивать несколько треков</string>
-    <string name="hint_stickers">Подсказывать Стикеры</string>
+    <string name="hint_stickers">Подсказывать стикеры</string>
     <string name="not_changed">Нет изменений</string>
     <string name="later">Заявка принята, ожидайте…</string>
 </resources>
