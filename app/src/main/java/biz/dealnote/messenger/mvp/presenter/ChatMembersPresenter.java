@@ -11,6 +11,7 @@ import java.util.List;
 import biz.dealnote.messenger.domain.IMessagesRepository;
 import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.model.AppChatUser;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IChatMembersView;
@@ -18,6 +19,7 @@ import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
+import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 
 public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMembersView> {
@@ -112,12 +114,19 @@ public class ChatMembersPresenter extends AccountDependencyPresenter<IChatMember
         }
     }
 
-    public void fireUserSelected(ArrayList<User> users) {
+    public void fireUserSelected(ArrayList<Owner> owners) {
         int accountId = getAccountId();
-
-        appendDisposable(messagesInteractor.addChatUsers(accountId, chatId, users)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe(this::onChatUsersAdded, this::onChatUsersAddError));
+        ArrayList<User> users = new ArrayList<>();
+        for (Owner i : owners) {
+            if (i instanceof User) {
+                users.add((User) i);
+            }
+        }
+        if (nonEmpty(users)) {
+            appendDisposable(messagesInteractor.addChatUsers(accountId, chatId, users)
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(this::onChatUsersAdded, this::onChatUsersAddError));
+        }
     }
 
     private void onChatUsersAddError(Throwable t) {

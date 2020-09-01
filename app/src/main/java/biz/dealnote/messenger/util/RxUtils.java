@@ -6,17 +6,17 @@ import java.io.Closeable;
 
 import biz.dealnote.messenger.BuildConfig;
 import biz.dealnote.messenger.Injection;
-import io.reactivex.Completable;
-import io.reactivex.CompletableTransformer;
-import io.reactivex.FlowableTransformer;
-import io.reactivex.MaybeTransformer;
-import io.reactivex.ObservableTransformer;
-import io.reactivex.Single;
-import io.reactivex.SingleTransformer;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableTransformer;
+import io.reactivex.rxjava3.core.FlowableTransformer;
+import io.reactivex.rxjava3.core.MaybeTransformer;
+import io.reactivex.rxjava3.core.ObservableTransformer;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class RxUtils {

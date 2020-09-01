@@ -1,18 +1,21 @@
 package biz.dealnote.messenger.util;
 
-import android.graphics.Bitmap;
+import com.squareup.picasso3.RequestHandler;
+import com.squareup.picasso3.Transformation;
 
-import com.squareup.picasso.Transformation;
+import org.jetbrains.annotations.NotNull;
 
 public class PolyTransformation implements Transformation {
 
-    @Override
-    public Bitmap transform(Bitmap source) {
-        return ImageHelper.getPolyBitmap(source, true);
-    }
-
+    @NotNull
     @Override
     public String key() {
         return "poly()";
+    }
+
+    @NotNull
+    @Override
+    public RequestHandler.Result.Bitmap transform(@NotNull RequestHandler.Result.Bitmap source) {
+        return new RequestHandler.Result.Bitmap(ImageHelper.getPolyBitmap(source.getBitmap()), source.loadedFrom, source.exifRotation);
     }
 }

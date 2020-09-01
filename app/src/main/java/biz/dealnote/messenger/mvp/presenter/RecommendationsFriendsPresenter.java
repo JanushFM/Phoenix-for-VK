@@ -11,7 +11,7 @@ import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.view.ISimpleOwnersView;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 
 public class RecommendationsFriendsPresenter extends SimpleOwnersPresenter<ISimpleOwnersView> {

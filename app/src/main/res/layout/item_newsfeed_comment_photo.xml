@@ -9,8 +9,8 @@
     android:layout_marginStart="@dimen/card_margin"
     android:layout_marginEnd="@dimen/card_margin"
     android:layout_marginBottom="@dimen/card_margin"
-    app:contentPadding="1dp"
     android:foreground="?android:attr/selectableItemBackground"
+    app:contentPadding="1dp"
     tools:ignore="UnusedAttribute">
 
     <LinearLayout

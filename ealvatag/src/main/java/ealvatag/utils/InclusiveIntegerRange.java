@@ -20,12 +20,14 @@ package ealvatag.utils;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * An ranges of numbers between lower and upper, inclusive.
  * <p>
  * Created by Eric on 8/22/2015.
  */
-@SuppressWarnings({"WeakerAccess", "unused"})
+@SuppressWarnings("WeakerAccess")
 public class InclusiveIntegerRange {
     private final int lowerBounds;
     private final int upperBounds;
@@ -56,10 +58,7 @@ public class InclusiveIntegerRange {
         if (value < lowerBounds) {
             return lowerBounds;
         }
-        if (value > upperBounds) {
-            return upperBounds;
-        }
-        return value;
+        return Math.min(value, upperBounds);
     }
 
     public int clampToRange(float value) {
@@ -86,6 +85,7 @@ public class InclusiveIntegerRange {
         return hash;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)

@@ -27,8 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Callback;
+import com.squareup.picasso3.Transformation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -509,7 +509,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
         }
 
         @Override
-        public void onError(Exception e) {
+        public void onError(@NotNull Throwable e) {
             mLoadingNow = false;
             resolveProgressVisibility();
             reload.setVisibility(View.VISIBLE);
@@ -525,6 +525,7 @@ public class StoryPagerFragment extends BaseMvpFragment<StoryPagerPresenter, ISt
             mHolderSparseArray.clear();
         }
 
+        @SuppressWarnings("unchecked")
         @SuppressLint("ClickableViewAccessibility")
         @NonNull
         @Override

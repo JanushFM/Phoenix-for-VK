@@ -25,8 +25,8 @@ import biz.dealnote.messenger.api.model.response.MessageHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageImportantResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
 import biz.dealnote.messenger.api.services.IMessageService;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;

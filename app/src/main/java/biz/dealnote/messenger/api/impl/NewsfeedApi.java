@@ -11,7 +11,7 @@ import biz.dealnote.messenger.api.model.response.NewsfeedCommentsResponse;
 import biz.dealnote.messenger.api.model.response.NewsfeedResponse;
 import biz.dealnote.messenger.api.model.response.NewsfeedSearchResponse;
 import biz.dealnote.messenger.api.services.INewsfeedService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class NewsfeedApi extends AbsApi implements INewsfeedApi {

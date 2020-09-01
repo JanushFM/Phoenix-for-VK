@@ -14,9 +14,9 @@ import biz.dealnote.messenger.service.KeepLongpollService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.PhoenixToast;
 import ealvatag.tag.TagOptionSingleton;
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.longpoll.NotificationHelper.tryCancelNotificationForPeer;
 import static biz.dealnote.messenger.util.RxUtils.ignore;

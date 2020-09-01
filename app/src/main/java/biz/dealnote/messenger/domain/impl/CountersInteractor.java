@@ -3,7 +3,7 @@ package biz.dealnote.messenger.domain.impl;
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.domain.ICountersInteractor;
 import biz.dealnote.messenger.model.SectionCounters;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class CountersInteractor implements ICountersInteractor {
 

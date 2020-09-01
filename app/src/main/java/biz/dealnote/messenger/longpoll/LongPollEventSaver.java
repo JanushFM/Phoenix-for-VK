@@ -6,7 +6,7 @@ import biz.dealnote.messenger.api.model.longpoll.VkApiLongpollUpdates;
 import biz.dealnote.messenger.domain.IMessagesRepository;
 import biz.dealnote.messenger.domain.IOwnersRepository;
 import biz.dealnote.messenger.domain.Repository;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 

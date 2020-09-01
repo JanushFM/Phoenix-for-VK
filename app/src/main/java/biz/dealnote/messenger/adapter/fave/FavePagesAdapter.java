@@ -11,12 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.util.List;
 
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.activity.SelectionUtils;
 import biz.dealnote.messenger.model.FavePage;
 import biz.dealnote.messenger.model.FavePageType;
 import biz.dealnote.messenger.model.Owner;
@@ -75,6 +76,8 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
             holder.blacklisted.setVisibility(View.GONE);
         }
 
+        SelectionUtils.addSelectionProfileSupport(context, holder.avatar_root, favePage);
+
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.onPageClick(holder.getBindingAdapterPosition(), favePage.getOwner());
@@ -116,6 +119,7 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
 
     public class Holder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
 
+        ViewGroup avatar_root;
         AspectRatioImageView avatar;
         ImageView blacklisted;
         TextView name;
@@ -132,6 +136,7 @@ public class FavePagesAdapter extends RecyclerView.Adapter<FavePagesAdapter.Hold
             description = itemView.findViewById(R.id.description);
             blacklisted = itemView.findViewById(R.id.item_blacklisted);
             ivVerified = itemView.findViewById(R.id.item_verified);
+            avatar_root = itemView.findViewById(R.id.avatar_root);
         }
 
         @Override

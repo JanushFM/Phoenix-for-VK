@@ -14,9 +14,9 @@ import biz.dealnote.messenger.model.Chat;
 import biz.dealnote.messenger.model.criteria.DialogsCriteria;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IDialogsStorage extends IStorage {
 

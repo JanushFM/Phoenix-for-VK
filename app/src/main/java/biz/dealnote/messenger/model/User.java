@@ -85,7 +85,7 @@ public class User extends Owner implements Identificable {
 
     public String getShortFullName() {
         if (!Utils.isEmpty(firstName)) {
-            return lastName + " " + firstName.substring(0, 1) + ".";
+            return lastName + " " + firstName.charAt(0) + ".";
         }
         return lastName;
     }

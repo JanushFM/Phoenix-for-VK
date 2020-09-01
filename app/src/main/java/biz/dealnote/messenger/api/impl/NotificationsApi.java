@@ -10,7 +10,7 @@ import biz.dealnote.messenger.api.model.feedback.VkApiBaseFeedback;
 import biz.dealnote.messenger.api.model.response.NotificationsResponse;
 import biz.dealnote.messenger.api.services.INotificationsService;
 import biz.dealnote.messenger.model.AnswerVKOfficialList;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;

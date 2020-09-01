@@ -9,8 +9,8 @@ import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.db.interfaces.ILogsStorage;
 import biz.dealnote.messenger.model.LogEvent;
 import biz.dealnote.messenger.settings.Settings;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class PersistentLogger {

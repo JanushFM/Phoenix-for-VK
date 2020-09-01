@@ -92,8 +92,8 @@ import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.ShortcutUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class AccountsFragment extends BaseFragment implements View.OnClickListener, AccountAdapter.Callback {
 
@@ -582,11 +582,16 @@ public class AccountsFragment extends BaseFragment implements View.OnClickListen
                     .setCancelable(true)
                     .setView(root)
                     .setPositiveButton(R.string.button_ok, (dialog, which) -> {
-                        int id = Integer.parseInt(((TextInputEditText) root.findViewById(R.id.edit_user_id)).getText().toString().trim());
-                        String access_token = ((TextInputEditText) root.findViewById(R.id.edit_access_token)).getText().toString().trim();
-                        int selected = ((Spinner) root.findViewById(R.id.access_token_type)).getSelectedItemPosition();
-                        String[] types = {"vkofficial", "kate", "hacked"};
-                        processNewAccount(id, access_token, types[selected], "", "", "phoenix_app", true, false);
+                        try {
+                            int id = Integer.parseInt(((TextInputEditText) root.findViewById(R.id.edit_user_id)).getText().toString().trim());
+                            String access_token = ((TextInputEditText) root.findViewById(R.id.edit_access_token)).getText().toString().trim();
+                            int selected = ((Spinner) root.findViewById(R.id.access_token_type)).getSelectedItemPosition();
+                            String[] types = {"vkofficial", "kate", "hacked"};
+                            if (!Utils.isEmpty(access_token) && id != 0 && selected >= 0 && selected < 3) {
+                                processNewAccount(id, access_token, types[selected], "", "", "phoenix_app", true, false);
+                            }
+                        } catch (NumberFormatException ignored) {
+                        }
                     })
                     .setNegativeButton(R.string.button_cancel, null);
             builder.create().show();

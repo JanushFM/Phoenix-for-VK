@@ -4,7 +4,7 @@ import androidx.annotation.CheckResult;
 
 import biz.dealnote.messenger.api.model.response.NotificationsResponse;
 import biz.dealnote.messenger.model.AnswerVKOfficialList;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface INotificationsApi {

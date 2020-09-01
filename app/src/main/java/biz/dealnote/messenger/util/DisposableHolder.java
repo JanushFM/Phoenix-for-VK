@@ -1,6 +1,6 @@
 package biz.dealnote.messenger.util;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 

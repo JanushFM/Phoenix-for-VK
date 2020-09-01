@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import java.util.Arrays;
+
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.mvp.presenter.base.RxSupportPresenter;
@@ -179,8 +181,6 @@ public class CreatePinPresenter extends RxSupportPresenter<ICreatePinView> {
     }
 
     private void resetPin(int[] pin) {
-        for (int i = 0; i < pin.length; i++) {
-            pin[i] = NO_VALUE;
-        }
+        Arrays.fill(pin, NO_VALUE);
     }
 }

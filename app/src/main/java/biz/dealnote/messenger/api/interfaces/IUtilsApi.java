@@ -6,7 +6,7 @@ import biz.dealnote.messenger.api.model.Items;
 import biz.dealnote.messenger.api.model.VKApiCheckedLink;
 import biz.dealnote.messenger.api.model.VKApiShortLink;
 import biz.dealnote.messenger.api.model.response.ResolveDomailResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IUtilsApi {
 

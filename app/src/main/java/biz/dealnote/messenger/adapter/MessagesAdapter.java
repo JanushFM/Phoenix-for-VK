@@ -17,7 +17,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.link.internal;
 
+import org.jetbrains.annotations.NotNull;
+
 public class AbsInternalLink {
 
     public int start;
@@ -7,6 +9,7 @@ public class AbsInternalLink {
 
     public String targetLine;
 
+    @NotNull
     @Override
     public String toString() {
         return "AbsInternalLink{" +

@@ -14,7 +14,7 @@ import biz.dealnote.messenger.api.model.database.SchoolClazzDto;
 import biz.dealnote.messenger.api.model.database.SchoolDto;
 import biz.dealnote.messenger.api.model.database.UniversityDto;
 import biz.dealnote.messenger.api.services.IDatabaseService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class DatabaseApi extends AbsApi implements IDatabaseApi {

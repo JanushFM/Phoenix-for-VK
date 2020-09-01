@@ -4,16 +4,15 @@ import java.util.concurrent.TimeUnit;
 
 import biz.dealnote.messenger.api.Apis;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.Completable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.disposables.Disposables;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class TextingNotifier {
 
     private final int accountId;
     private long lastNotifyTime;
     private boolean isRequestNow;
-    private Disposable disposable = Disposables.disposed();
+    private Disposable disposable = Disposable.disposed();
 
     public TextingNotifier(int accountId) {
         this.accountId = accountId;

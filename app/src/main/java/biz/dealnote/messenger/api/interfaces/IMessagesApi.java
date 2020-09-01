@@ -22,8 +22,8 @@ import biz.dealnote.messenger.api.model.response.LongpollHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageImportantResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IMessagesApi {
 

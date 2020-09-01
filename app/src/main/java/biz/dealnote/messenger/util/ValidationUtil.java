@@ -1,11 +1,14 @@
 package biz.dealnote.messenger.util;
 
+import android.annotation.SuppressLint;
+
 import androidx.core.util.PatternsCompat;
 
 import static biz.dealnote.messenger.util.Utils.trimmedIsEmpty;
 
 public class ValidationUtil {
 
+    @SuppressLint("RestrictedApi")
     public static boolean isValidURL(String url) {
         return url != null && PatternsCompat.AUTOLINK_WEB_URL.matcher(url).find();
     }

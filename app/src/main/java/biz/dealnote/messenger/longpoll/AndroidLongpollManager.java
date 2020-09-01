@@ -6,6 +6,8 @@ import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Executors;
 
@@ -16,11 +18,11 @@ import biz.dealnote.messenger.api.model.longpoll.VkApiLongpollUpdates;
 import biz.dealnote.messenger.realtime.IRealtimeMessagesProcessor;
 import biz.dealnote.messenger.util.Logger;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
@@ -197,7 +199,7 @@ public class AndroidLongpollManager implements ILongpollManager, UserLongpoll.Ca
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NotNull Message msg) {
             LongpollEntry holder = reference.get();
             if (holder != null && !holder.released) {
                 switch (msg.what) {

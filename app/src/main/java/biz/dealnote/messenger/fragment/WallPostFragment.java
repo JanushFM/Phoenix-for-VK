@@ -20,7 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -258,7 +258,7 @@ public class WallPostFragment extends PlaceSupportMvpFragment<WallPostPresenter,
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NotNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
         OptionView optionView = new OptionView();

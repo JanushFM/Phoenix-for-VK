@@ -7,7 +7,7 @@ import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.exception.NotFoundException;
 import biz.dealnote.messenger.model.Chat;
 import biz.dealnote.messenger.model.Peer;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.isEmpty;
 

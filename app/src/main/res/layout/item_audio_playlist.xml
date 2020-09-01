@@ -15,8 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <biz.dealnote.messenger.view.AspectRatioImageView
             android:id="@+id/item_thumb"
@@ -27,14 +26,16 @@
             app:aspectRatioEnabled="true"
             app:aspectRatioH="1"
             app:aspectRatioW="1"
-            app:dominantMeasurement="width" />
+            app:dominantMeasurement="width"
+            app:shapeAppearance="@style/ShapeAppearance.RoundedPlayList" />
 
         <LinearLayout
             android:id="@+id/item_additional_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/item_name"

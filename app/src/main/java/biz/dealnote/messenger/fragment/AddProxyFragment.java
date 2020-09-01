@@ -25,11 +25,7 @@ import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class AddProxyFragment extends BaseMvpFragment<AddProxyPresenter, IAddProxyView> implements IAddProxyView {
 
-    private TextInputEditText mAddress;
-    private TextInputEditText mPort;
     private CheckBox mAuth;
-    private TextInputEditText mUsername;
-    private TextInputEditText mPassword;
     private View mAuthFieldsRoot;
 
     public static AddProxyFragment newInstance() {
@@ -48,7 +44,7 @@ public class AddProxyFragment extends BaseMvpFragment<AddProxyPresenter, IAddPro
 
         mAuthFieldsRoot = root.findViewById(R.id.auth_fields_root);
 
-        mAddress = root.findViewById(R.id.address);
+        TextInputEditText mAddress = root.findViewById(R.id.address);
         mAddress.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -56,7 +52,7 @@ public class AddProxyFragment extends BaseMvpFragment<AddProxyPresenter, IAddPro
             }
         });
 
-        mPort = root.findViewById(R.id.port);
+        TextInputEditText mPort = root.findViewById(R.id.port);
         mPort.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -67,7 +63,7 @@ public class AddProxyFragment extends BaseMvpFragment<AddProxyPresenter, IAddPro
         mAuth = root.findViewById(R.id.authorization);
         mAuth.setOnCheckedChangeListener((buttonView, isChecked) -> getPresenter().fireAuthChecked(isChecked));
 
-        mUsername = root.findViewById(R.id.username);
+        TextInputEditText mUsername = root.findViewById(R.id.username);
         mUsername.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -75,7 +71,7 @@ public class AddProxyFragment extends BaseMvpFragment<AddProxyPresenter, IAddPro
             }
         });
 
-        mPassword = root.findViewById(R.id.password);
+        TextInputEditText mPassword = root.findViewById(R.id.password);
         mPassword.addTextChangedListener(new TextWatcherAdapter() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

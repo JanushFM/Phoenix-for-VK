@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.model.FavePage;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.SelectProfileCriteria;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Logger;
@@ -22,9 +24,13 @@ public class SelectionUtils {
 
         SelectProfileCriteria criteria = ((ProfileSelectable) context).getAcceptableCriteria();
 
-        boolean canSelect = mayBeUser instanceof User;
+        boolean canSelect = false;
+        if (criteria.getIsPeopleOnly() ? mayBeUser instanceof User : mayBeUser instanceof Owner || mayBeUser instanceof FavePage) {
+            canSelect = true;
+        }
 
-        if (canSelect && criteria.isFriendsOnly()) {
+        if (canSelect && criteria.getOwnerType() == SelectProfileCriteria.OwnerType.ONLY_FRIENDS) {
+            assert mayBeUser instanceof User;
             canSelect = ((User) mayBeUser).isFriend();
         }
 
@@ -55,7 +61,11 @@ public class SelectionUtils {
         if (!canSelect) {
             selectionView.setOnClickListener(null);
         } else {
-            selectionView.setOnClickListener(v -> callack.select((User) mayBeUser));
+            if (mayBeUser instanceof FavePage && ((FavePage) mayBeUser).getOwner() != null) {
+                selectionView.setOnClickListener(v -> callack.select(((FavePage) mayBeUser).getOwner()));
+            } else if (mayBeUser instanceof Owner) {
+                selectionView.setOnClickListener(v -> callack.select((Owner) mayBeUser));
+            }
         }
     }
 

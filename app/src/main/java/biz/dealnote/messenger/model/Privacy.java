@@ -6,6 +6,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -174,6 +176,7 @@ public class Privacy implements Parcelable, Cloneable {
         return isEmpty(additional) ? "-" : additional;
     }
 
+    @NotNull
     @Override
     public Privacy clone() throws CloneNotSupportedException {
         Privacy clone = (Privacy) super.clone();

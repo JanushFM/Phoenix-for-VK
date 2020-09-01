@@ -19,8 +19,8 @@ import biz.dealnote.messenger.db.model.PhotoPatch;
 import biz.dealnote.messenger.db.model.entity.PhotoEntity;
 import biz.dealnote.messenger.db.model.entity.PhotoSizeEntity;
 import biz.dealnote.messenger.model.criteria.PhotoCriteria;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
@@ -143,7 +143,7 @@ class PhotosStorage extends AbsStorage implements IPhotosStorage {
 
             if (cv.size() > 0) {
                 Uri uri = MessengerContentProvider.getPhotosContentUriFor(accountId);
-                final String where = PhotosColumns.PHOTO_ID + " = ? AND " + PhotosColumns.OWNER_ID + " = ?";
+                String where = PhotosColumns.PHOTO_ID + " = ? AND " + PhotosColumns.OWNER_ID + " = ?";
                 String[] args = {String.valueOf(photoId), String.valueOf(ownerId)};
 
                 getContentResolver().update(uri, cv, where, args);

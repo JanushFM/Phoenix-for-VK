@@ -1,9 +1,8 @@
 package biz.dealnote.messenger;
 
-import android.content.Context;
+import android.content.res.Resources;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.view.WindowManager;
 
 import java.util.Locale;
 
@@ -27,8 +26,8 @@ public class Constants {
     //public static final String DEVICE_COUNTRY_CODE = Injection.provideApplicationContext().getResources().getConfiguration().locale.getCountry().toLowerCase();
     public static final String DEVICE_COUNTRY_CODE = "ru";
     public static final String KATE_USER_AGENT = String.format(Locale.US, "KateMobileAndroid/64 lite-475 (Android %s; SDK %d; %s; %s; %s; %s)", Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
-    public static final String VKANDROID_APP_VERSION = "5896";
-    public static final String VKANDROID_USER_AGENT = String.format(Locale.US, "VKAndroidApp/6.10.3-%s (Android %s; SDK %d; %s; %s; %s; %s)", VKANDROID_APP_VERSION, Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
+    public static final String VKANDROID_APP_VERSION = "5935";
+    public static final String VKANDROID_USER_AGENT = String.format(Locale.US, "VKAndroidApp/6.11-%s (Android %s; SDK %d; %s; %s; %s; %s)", VKANDROID_APP_VERSION, Build.VERSION.RELEASE, Build.VERSION.SDK_INT, Build.SUPPORTED_ABIS[0], Utils.getDeviceName(), DEVICE_COUNTRY_CODE, SCREEN_RESOLUTION());
     public static final int API_ID = BuildConfig.VK_API_APP_ID;
     public static final String SECRET = BuildConfig.VK_CLIENT_SECRET;
     public static final String MAIN_OWNER_FIELDS = UserColumns.API_FIELDS + "," + GroupColumns.API_FIELDS;
@@ -39,13 +38,11 @@ public class Constants {
     public static final boolean IS_DEBUG = BuildConfig.DEBUG;
 
     public static String SCREEN_RESOLUTION() {
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowmanager = (WindowManager) Injection.provideApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-        if (windowmanager == null || windowmanager.getDefaultDisplay() == null) {
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        if (metrics == null) {
             return "1920x1080";
         }
-        windowmanager.getDefaultDisplay().getMetrics(displayMetrics);
-        return displayMetrics.heightPixels + "x" + displayMetrics.widthPixels;
+        return metrics.heightPixels + "x" + metrics.widthPixels;
     }
 
     public static String USER_AGENT(String type) {

@@ -3,9 +3,13 @@ package biz.dealnote.messenger.task;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Request;
-import com.squareup.picasso.RequestHandler;
+import com.squareup.picasso3.Picasso;
+import com.squareup.picasso3.Request;
+import com.squareup.picasso3.RequestHandler;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 import biz.dealnote.messenger.db.Stores;
 
@@ -23,10 +27,11 @@ public class LocalPhotoRequestHandler extends RequestHandler {
     }
 
     @Override
-    public RequestHandler.Result load(Request data, int arg1) {
-        long imageId = Long.parseLong(data.uri.getLastPathSegment());
+    public void load(@NotNull Picasso picasso, @NotNull Request request, @NotNull Callback callback) throws IOException {
+        assert request.uri != null;
+        long imageId = Long.parseLong(request.uri.getLastPathSegment());
 
-        boolean isVideo = data.uri.getPath().contains("videos");
+        boolean isVideo = request.uri.getPath().contains("videos");
 
         Bitmap bm;
         if (!isVideo) {
@@ -39,6 +44,6 @@ public class LocalPhotoRequestHandler extends RequestHandler {
                     .getVideoThumbnail(imageId);
         }
 
-        return new RequestHandler.Result(bm, Picasso.LoadedFrom.DISK);
+        callback.onSuccess(new RequestHandler.Result.Bitmap(bm, Picasso.LoadedFrom.DISK));
     }
 }

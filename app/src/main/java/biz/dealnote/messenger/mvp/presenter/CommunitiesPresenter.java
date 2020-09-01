@@ -18,9 +18,9 @@ import biz.dealnote.messenger.mvp.view.ICommunitiesView;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Translit;
-import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;

@@ -38,6 +38,7 @@ import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.ViewUtils;
+import biz.dealnote.messenger.view.MySearchView;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
 public class LocalVideosFragment extends BaseMvpFragment<LocalVideosPresenter, ILocalVideosView>
@@ -58,6 +59,23 @@ public class LocalVideosFragment extends BaseMvpFragment<LocalVideosPresenter, I
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_video_gallery, container, false);
         view.findViewById(R.id.toolbar).setVisibility(View.GONE);
+
+        MySearchView mySearchView = view.findViewById(R.id.searchview);
+        mySearchView.setRightButtonVisibility(false);
+        mySearchView.setLeftIcon(R.drawable.magnify);
+        mySearchView.setOnQueryTextListener(new MySearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getPresenter().fireSearchRequestChanged(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                getPresenter().fireSearchRequestChanged(newText);
+                return false;
+            }
+        });
 
         mSwipeRefreshLayout = view.findViewById(R.id.refresh);
         mSwipeRefreshLayout.setOnRefreshListener(this);

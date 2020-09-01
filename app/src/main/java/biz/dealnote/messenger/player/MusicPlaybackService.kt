@@ -48,15 +48,15 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.squareup.picasso.Picasso.LoadedFrom
-import com.squareup.picasso.Target
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.squareup.picasso3.BitmapTarget
+import com.squareup.picasso3.Picasso.LoadedFrom
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.lang.ref.WeakReference
 import java.util.*
 
 class MusicPlaybackService : Service() {
-    val SHUTDOWN = "biz.dealnote.phoenix.player.shutdown"
+    private val SHUTDOWN = "biz.dealnote.phoenix.player.shutdown"
     private val mBinder: IBinder = ServiceStub(this)
     private var mPlayer: MultiPlayer? = null
     private var mAlarmManager: AlarmManager? = null
@@ -444,7 +444,7 @@ class MusicPlaybackService : Service() {
         PicassoInstance.with()
                 .load(albumCover)
                 .tag(PICASSO_TAG)
-                .into(object : Target {
+                .into(object : BitmapTarget {
                     override fun onBitmapLoaded(bitmap: Bitmap, from: LoadedFrom) {
                         CoverBitmap = bitmap
                         updateMetadata()

@@ -17,7 +17,7 @@ import biz.dealnote.messenger.api.model.upload.UploadVideoDto;
 import biz.dealnote.messenger.api.services.IUploadService;
 import biz.dealnote.messenger.api.util.ProgressRequestBody;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 

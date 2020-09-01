@@ -8,6 +8,8 @@
 package ealvatag.utils.tree;
 // ISSUE: this class depends on nothing in AWT -- move to java.util?
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -1230,12 +1232,9 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
      *
      * @see #getUserObject
      */
+    @NotNull
     public String toString() {
-        if (userObject == null) {
-            return null;
-        } else {
-            return userObject.toString();
-        }
+        return userObject.toString();
     }
 
     /**
@@ -1245,8 +1244,9 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
      *
      * @return a copy of this node
      */
+    @NotNull
     public Object clone() {
-        DefaultMutableTreeNode newNode = null;
+        DefaultMutableTreeNode newNode;
 
         try {
             newNode = (DefaultMutableTreeNode) super.clone();
@@ -1291,7 +1291,7 @@ public class DefaultMutableTreeNode extends Object implements Cloneable,
             userObject = tValues[1];
     }
 
-    final class PreorderEnumeration implements Enumeration<TreeNode> {
+    static final class PreorderEnumeration implements Enumeration<TreeNode> {
         protected Stack stack;
 
         public PreorderEnumeration(TreeNode rootNode) {

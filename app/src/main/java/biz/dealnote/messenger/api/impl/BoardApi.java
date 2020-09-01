@@ -9,7 +9,7 @@ import biz.dealnote.messenger.api.model.VKApiTopic;
 import biz.dealnote.messenger.api.model.response.DefaultCommentsResponse;
 import biz.dealnote.messenger.api.model.response.TopicsResponse;
 import biz.dealnote.messenger.api.services.IBoardService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class BoardApi extends AbsApi implements IBoardApi {

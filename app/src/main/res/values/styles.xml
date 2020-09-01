@@ -399,6 +399,12 @@
         <item name="cornerSize">12dp</item>
     </style>
 
+    <style name="ShapeAppearance.RoundedPlayList" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSize">15dp</item>
+    </style>
+
     <style name="Widget.MPM.Menu" parent="Widget.AppCompat.PopupMenu.Overflow">
         <item name="android:popupBackground">@drawable/popupmenu_background</item>
         <item name="mpm_paddingBottom">@dimen/mpm_popup_menu_vertical_padding</item>

@@ -18,7 +18,7 @@ import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.ICommunityInfoLinksView;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.functions.Function;
 
 
 public class CommunityInfoLinksPresenter extends AccountDependencyPresenter<ICommunityInfoLinksView> {

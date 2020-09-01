@@ -18,8 +18,8 @@ import biz.dealnote.messenger.db.model.entity.PhotoSizeEntity;
 import biz.dealnote.messenger.model.DocFilter;
 import biz.dealnote.messenger.model.criteria.DocsCriteria;
 import biz.dealnote.messenger.util.Exestime;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
@@ -151,7 +151,7 @@ class DocsStorage extends AbsStorage implements IDocsStorage {
     public Completable delete(int accountId, int docId, int ownerId) {
         return Completable.fromAction(() -> {
             Uri uri = MessengerContentProvider.getDocsContentUriFor(accountId);
-            final String where = DocColumns.DOC_ID + " = ? AND " + DocColumns.OWNER_ID + " = ?";
+            String where = DocColumns.DOC_ID + " = ? AND " + DocColumns.OWNER_ID + " = ?";
             String[] args = {String.valueOf(docId), String.valueOf(ownerId)};
             getContentResolver().delete(uri, where, args);
         });

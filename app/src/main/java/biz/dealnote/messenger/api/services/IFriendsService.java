@@ -7,7 +7,7 @@ import biz.dealnote.messenger.api.model.response.BaseResponse;
 import biz.dealnote.messenger.api.model.response.DeleteFriendResponse;
 import biz.dealnote.messenger.api.model.response.MutualFriendsResponse;
 import biz.dealnote.messenger.api.model.response.OnlineFriendsResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;

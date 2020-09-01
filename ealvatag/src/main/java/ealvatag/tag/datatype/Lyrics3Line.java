@@ -20,6 +20,8 @@
  */
 package ealvatag.tag.datatype;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.EOFException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -168,10 +170,11 @@ public class Lyrics3Line extends AbstractDataType {
     /**
      * @return
      */
+    @NotNull
     public String toString() {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         for (Object aTimeStamp : timeStamp) {
-            str += aTimeStamp.toString();
+            str.append(aTimeStamp);
         }
         return "timeStamp = " + str + ", lyric = " + lyric + "\n";
     }
@@ -180,11 +183,11 @@ public class Lyrics3Line extends AbstractDataType {
      * @return
      */
     public String writeString() {
-        String str = "";
+        StringBuilder str = new StringBuilder();
         Lyrics3TimeStamp time;
         for (Object aTimeStamp : timeStamp) {
             time = (Lyrics3TimeStamp) aTimeStamp;
-            str += time.writeString();
+            str.append(time.writeString());
         }
         return str + lyric;
     }

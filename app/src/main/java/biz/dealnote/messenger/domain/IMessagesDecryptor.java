@@ -3,7 +3,7 @@ package biz.dealnote.messenger.domain;
 import java.util.List;
 
 import biz.dealnote.messenger.model.Message;
-import io.reactivex.SingleTransformer;
+import io.reactivex.rxjava3.core.SingleTransformer;
 
 public interface IMessagesDecryptor {
     /**

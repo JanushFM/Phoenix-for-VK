@@ -40,9 +40,9 @@ import biz.dealnote.messenger.model.criteria.MessagesCriteria;
 import biz.dealnote.messenger.util.Exestime;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -397,7 +397,7 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
                             cv.put(MessageColumns.EXTRAS, isNull(patch.getExtras()) ? null : GSON.toJson(patch.getExtras()));
                             cv.put(MessageColumns.PAYLOAD, patch.getPayload());
 
-                            final String where = MessageColumns._ID + " = ?";
+                            String where = MessageColumns._ID + " = ?";
                             String[] args = {String.valueOf(messageId)};
 
                             operations.add(ContentProviderOperation.newUpdate(uri).withValues(cv).withSelection(where, args).build());
@@ -714,9 +714,9 @@ class MessagesStorage extends AbsStorage implements IMessagesStorage {
     @Override
     public Single<Optional<Pair<Integer, MessageEntity>>> findFirstUnsentMessage(Collection<Integer> accountIds, boolean withAtatchments, boolean withForwardMessages) {
         return Single.create(emitter -> {
-            final String where = MessageColumns.STATUS + " = ? OR " + MessageColumns.STATUS + " = ?";
-            String[] args = {String.valueOf(MessageStatus.QUEUE), String.valueOf(MessageStatus.SENDING)};
-            final String orderBy = MessageColumns._ID + " ASC LIMIT 1";
+            String where = MessageColumns.STATUS + " = ?";
+            String[] args = {String.valueOf(MessageStatus.QUEUE)};
+            String orderBy = MessageColumns._ID + " ASC LIMIT 1";
 
             for (int accountId : accountIds) {
                 if (emitter.isDisposed()) {

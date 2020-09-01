@@ -290,7 +290,7 @@ public class VideoControllerView extends FrameLayout {
             mPrevButton.setVisibility(View.GONE);
         }
 
-        mProgress = (SeekBar) v.findViewById(R.id.mediacontroller_progress);
+        mProgress = v.findViewById(R.id.mediacontroller_progress);
         if (mProgress != null) {
             SeekBar seeker = (SeekBar) mProgress;
             seeker.setOnSeekBarChangeListener(mSeekListener);

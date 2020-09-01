@@ -60,7 +60,7 @@ public class DrawerEditFragment extends AbsMvpFragment<DrawerEditPresenter, IDra
 
         ItemTouchHelper.Callback callback = new ItemTouchHelper.Callback() {
             @Override
-            public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            public int getMovementFlags(@NotNull RecyclerView recyclerView, @NotNull RecyclerView.ViewHolder viewHolder) {
                 int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 return makeMovementFlags(dragFlags, 0);
             }
@@ -76,7 +76,7 @@ public class DrawerEditFragment extends AbsMvpFragment<DrawerEditPresenter, IDra
             }
 
             @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int i) {
+            public void onSwiped(@NotNull RecyclerView.ViewHolder viewHolder, int i) {
 
             }
 

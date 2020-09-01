@@ -7,8 +7,8 @@ import biz.dealnote.messenger.api.model.VKApiPhotoTags;
 import biz.dealnote.messenger.model.AccessIdPair;
 import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.PhotoAlbum;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IPhotosInteractor {
     Single<List<Photo>> get(int accountId, int ownerId, int albumId, int count, int offset, boolean rev);

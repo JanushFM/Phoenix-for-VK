@@ -3,7 +3,10 @@ package biz.dealnote.messenger.fragment.search.criteria;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 import biz.dealnote.messenger.fragment.search.options.BaseOption;
 import biz.dealnote.messenger.fragment.search.options.DatabaseOption;
@@ -90,8 +93,8 @@ public class BaseSearchCriteria implements Parcelable, Cloneable {
 
         BaseSearchCriteria that = (BaseSearchCriteria) o;
 
-        return (query != null ? query.equals(that.query) : that.query == null)
-                && (options != null ? options.equals(that.options) : that.options == null);
+        return (Objects.equals(query, that.query))
+                && (Objects.equals(options, that.options));
     }
 
     @Override
@@ -101,6 +104,7 @@ public class BaseSearchCriteria implements Parcelable, Cloneable {
         return result;
     }
 
+    @NotNull
     @Override
     protected BaseSearchCriteria clone() throws CloneNotSupportedException {
         BaseSearchCriteria clone = (BaseSearchCriteria) super.clone();

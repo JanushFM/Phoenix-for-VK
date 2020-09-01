@@ -2,6 +2,8 @@ package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.R;
@@ -45,6 +47,7 @@ public class AudioSearchCriteria extends BaseSearchCriteria {
         super(in);
     }
 
+    @NotNull
     @Override
     public AudioSearchCriteria clone() throws CloneNotSupportedException {
         return (AudioSearchCriteria) super.clone();

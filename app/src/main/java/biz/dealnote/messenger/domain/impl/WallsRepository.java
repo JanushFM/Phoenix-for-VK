@@ -32,11 +32,11 @@ import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.VKOwnIds;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.SingleTransformer;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.isEmpty;

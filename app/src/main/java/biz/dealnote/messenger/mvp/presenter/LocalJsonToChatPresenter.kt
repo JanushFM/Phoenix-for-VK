@@ -14,7 +14,7 @@ import biz.dealnote.messenger.util.PersistentLogger
 import biz.dealnote.messenger.util.RxUtils
 import biz.dealnote.messenger.util.Utils
 import biz.dealnote.mvp.reflect.OnGuiCreated
-import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import java.util.*
 
 class LocalJsonToChatPresenter(accountId: Int, private val context: Context, savedInstanceState: Bundle?) : PlaceSupportPresenter<ILocalJsonToChatView>(accountId, savedInstanceState) {

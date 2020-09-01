@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import biz.dealnote.messenger.api.model.VKApiPoll;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IPollsApi {

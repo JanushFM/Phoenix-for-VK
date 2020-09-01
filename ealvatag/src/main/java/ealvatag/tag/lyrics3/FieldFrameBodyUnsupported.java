@@ -22,6 +22,8 @@
  */
 package ealvatag.tag.lyrics3;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -129,6 +131,7 @@ public class FieldFrameBodyUnsupported extends AbstractLyrics3v2FieldFrameBody {
     /**
      * @return
      */
+    @NotNull
     public String toString() {
         return getIdentifier() + " : " + (new String(value));
     }

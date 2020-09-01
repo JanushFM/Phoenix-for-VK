@@ -12,8 +12,8 @@ import biz.dealnote.messenger.domain.mappers.Dto2Entity;
 import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.domain.mappers.Entity2Model;
 import biz.dealnote.messenger.model.Community;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
 

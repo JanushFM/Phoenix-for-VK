@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.link.types;
 
+import org.jetbrains.annotations.NotNull;
+
 public class AudioPlaylistLink extends AbsLink {
 
     public int ownerId;
@@ -13,6 +15,7 @@ public class AudioPlaylistLink extends AbsLink {
         this.access_key = access_key;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "AudioPlaylistLink{" +

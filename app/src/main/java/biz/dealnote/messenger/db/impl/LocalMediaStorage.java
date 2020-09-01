@@ -16,10 +16,9 @@ import biz.dealnote.messenger.model.LocalImageAlbum;
 import biz.dealnote.messenger.model.LocalPhoto;
 import biz.dealnote.messenger.model.LocalVideo;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.safeCountOf;
-
 
 class LocalMediaStorage extends AbsStorage implements ILocalMediaStorage {
 

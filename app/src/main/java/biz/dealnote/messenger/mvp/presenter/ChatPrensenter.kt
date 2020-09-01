@@ -45,11 +45,11 @@ import biz.dealnote.messenger.util.*
 import biz.dealnote.messenger.util.RxUtils.*
 import biz.dealnote.messenger.util.Utils.*
 import biz.dealnote.mvp.reflect.OnGuiCreated
-import io.reactivex.Flowable
-import io.reactivex.Single
-import io.reactivex.disposables.Disposables
-import io.reactivex.functions.Consumer
-import io.reactivex.functions.Predicate
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.functions.Consumer
+import io.reactivex.rxjava3.functions.Predicate
 import java.io.File
 import java.io.IOException
 import java.lang.ref.WeakReference
@@ -81,11 +81,11 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
     private val words: ArrayList<StickersKeywords> = ArrayList()
 
-    private var stickersWordsLoadingDisposable = Disposables.disposed()
-    private var stickersWordsDisplayDisposable = Disposables.disposed()
-    private var cacheLoadingDisposable = Disposables.disposed()
-    private var netLoadingDisposable = Disposables.disposed()
-    private var fetchConversationDisposable = Disposables.disposed()
+    private var stickersWordsLoadingDisposable = Disposable.disposed()
+    private var stickersWordsDisplayDisposable = Disposable.disposed()
+    private var cacheLoadingDisposable = Disposable.disposed()
+    private var netLoadingDisposable = Disposable.disposed()
+    private var fetchConversationDisposable = Disposable.disposed()
 
     private var conversation: Conversation? = null
 
@@ -553,7 +553,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
         for (i: Message in data) {
             if (i.status == MessageStatus.ERROR) {
                 need = true
-                messagesRepository.enqueueAgain(messagesOwnerId, i.id).blockingGet()
+                messagesRepository.enqueueAgain(messagesOwnerId, i.id).blockingAwait()
             }
         }
         return Single.just(need)

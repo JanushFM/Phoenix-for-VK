@@ -87,10 +87,10 @@ import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
 import biz.dealnote.messenger.model.AnswerVKOfficialList;
 import biz.dealnote.messenger.settings.IProxySettings;
 import biz.dealnote.messenger.settings.Settings;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
@@ -141,7 +141,7 @@ public class VkRetrofitProvider implements IVkRetrofitProvider {
             .create();
 
     private static final GsonConverterFactory GSON_CONVERTER_FACTORY = GsonConverterFactory.create(VKGSON);
-    private static final RxJava2CallAdapterFactory RX_ADAPTER_FACTORY = RxJava2CallAdapterFactory.create();
+    private static final RxJava3CallAdapterFactory RX_ADAPTER_FACTORY = RxJava3CallAdapterFactory.create();
 
     private final IProxySettings proxyManager;
     private final IVkMethodHttpClientFactory clientFactory;

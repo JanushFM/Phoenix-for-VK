@@ -12,8 +12,8 @@ import biz.dealnote.messenger.db.model.entity.PostEntity;
 import biz.dealnote.messenger.model.EditingPostType;
 import biz.dealnote.messenger.model.criteria.WallCriteria;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IWallStorage extends IStorage {
 

@@ -22,6 +22,8 @@
  */
 package ealvatag.tag.lyrics3;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -264,14 +266,15 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody {
     /**
      * @return
      */
+    @NotNull
     public String toString() {
-        String str = getIdentifier() + " : ";
+        StringBuilder str = new StringBuilder(getIdentifier() + " : ");
 
         for (Object line : lines) {
-            str += line.toString();
+            str.append(line);
         }
 
-        return str;
+        return str.toString();
     }
 
     /**
@@ -346,14 +349,14 @@ public class FieldFrameBodyLYR extends AbstractLyrics3v2FieldFrameBody {
      */
     private String writeString() {
         Lyrics3Line line;
-        String str = "";
+        StringBuilder str = new StringBuilder();
 
         for (Object line1 : lines) {
             line = (Lyrics3Line) line1;
-            str += (line.writeString() + Lyrics3v2Fields.CRLF);
+            str.append(line.writeString()).append(Lyrics3v2Fields.CRLF);
         }
 
-        return str;
+        return str.toString();
 
         //return str.substring(0,str.length()-2); // cut off the last CRLF pair
     }

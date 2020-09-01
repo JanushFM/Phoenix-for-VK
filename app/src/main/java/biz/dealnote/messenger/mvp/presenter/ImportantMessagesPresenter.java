@@ -14,7 +14,7 @@ import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.mvp.view.IImportantMessagesView;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 import static biz.dealnote.messenger.util.Utils.getSelected;

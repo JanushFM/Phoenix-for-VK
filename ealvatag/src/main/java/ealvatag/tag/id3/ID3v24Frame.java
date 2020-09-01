@@ -916,99 +916,9 @@ public class ID3v24Frame extends AbstractID3v2Frame {
     }
 
     /**
-     * Member Class This represents a frame headers Status Flags
-     * Make adjustments if necessary based on frame type and specification.
-     */
-    public class StatusFlags extends AbstractID3v2Frame.StatusFlags {
-        static final String TYPE_TAGALTERPRESERVATION = "typeTagAlterPreservation";
-        static final String TYPE_FILEALTERPRESERVATION = "typeFileAlterPreservation";
-        static final String TYPE_READONLY = "typeReadOnly";
-
-
-        /**
-         * Discard frame if tag altered
-         */
-        static final int MASK_TAG_ALTER_PRESERVATION = FileConstants.BIT6;
-
-        /**
-         * Discard frame if audio part of file altered
-         */
-        static final int MASK_FILE_ALTER_PRESERVATION = FileConstants.BIT5;
-
-        /**
-         * Frame tagged as read only
-         */
-        static final int MASK_READ_ONLY = FileConstants.BIT4;
-
-        /**
-         * Use this when creating a frame from scratch
-         */
-        StatusFlags() {
-        }
-
-        /**
-         * Use this constructor when reading from file or from another v4 frame
-         */
-        StatusFlags(byte flags) {
-            originalFlags = flags;
-            writeFlags = flags;
-            modifyFlags();
-        }
-
-        /**
-         * Use this constructor when convert a v23 frame
-         */
-        StatusFlags(ID3v23Frame.StatusFlags statusFlags) {
-            originalFlags = convertV3ToV4Flags(statusFlags.getOriginalFlags());
-            writeFlags = originalFlags;
-            modifyFlags();
-        }
-
-        /**
-         * Makes modifications to flags based on specification and frameid
-         */
-        void modifyFlags() {
-            String str = getIdentifier();
-            if (ID3v24Frames.getInstanceOf().isDiscardIfFileAltered(str)) {
-                writeFlags |= (byte) MASK_FILE_ALTER_PRESERVATION;
-                writeFlags &= (byte) ~MASK_TAG_ALTER_PRESERVATION;
-            } else {
-                writeFlags &= (byte) ~MASK_FILE_ALTER_PRESERVATION;
-                writeFlags &= (byte) ~MASK_TAG_ALTER_PRESERVATION;
-            }
-        }
-
-        /**
-         * Convert V3 Flags to equivalent V4 Flags
-         */
-        private byte convertV3ToV4Flags(byte v3Flag) {
-            byte v4Flag = (byte) 0;
-            if ((v3Flag & ID3v23Frame.StatusFlags.MASK_FILE_ALTER_PRESERVATION) != 0) {
-                v4Flag |= (byte) MASK_FILE_ALTER_PRESERVATION;
-            }
-            if ((v3Flag & ID3v23Frame.StatusFlags.MASK_TAG_ALTER_PRESERVATION) != 0) {
-                v4Flag |= (byte) MASK_TAG_ALTER_PRESERVATION;
-            }
-            return v4Flag;
-        }
-
-        public void createStructure() {
-            MP3File.getStructureFormatter().openHeadingElement(TYPE_FLAGS, "");
-            MP3File.getStructureFormatter()
-                    .addElement(TYPE_TAGALTERPRESERVATION, originalFlags & MASK_TAG_ALTER_PRESERVATION);
-            MP3File.getStructureFormatter()
-                    .addElement(TYPE_FILEALTERPRESERVATION, originalFlags & MASK_FILE_ALTER_PRESERVATION);
-            MP3File.getStructureFormatter().addElement(TYPE_READONLY, originalFlags & MASK_READ_ONLY);
-            MP3File.getStructureFormatter().closeHeadingElement(TYPE_FLAGS);
-        }
-
-
-    }
-
-    /**
      * This represents a frame headers Encoding Flags
      */
-    class EncodingFlags extends AbstractID3v2Frame.EncodingFlags {
+    static class EncodingFlags extends AbstractID3v2Frame.EncodingFlags {
         static final String TYPE_COMPRESSION = "compression";
         static final String TYPE_ENCRYPTION = "encryption";
         static final String TYPE_GROUPIDENTITY = "groupidentity";
@@ -1145,5 +1055,95 @@ public class ID3v24Frame extends AbstractID3v2Frame {
                 flags &= (byte) ~FileConstants.BIT4;
             }
         }
+    }
+
+    /**
+     * Member Class This represents a frame headers Status Flags
+     * Make adjustments if necessary based on frame type and specification.
+     */
+    public class StatusFlags extends AbstractID3v2Frame.StatusFlags {
+        static final String TYPE_TAGALTERPRESERVATION = "typeTagAlterPreservation";
+        static final String TYPE_FILEALTERPRESERVATION = "typeFileAlterPreservation";
+        static final String TYPE_READONLY = "typeReadOnly";
+
+
+        /**
+         * Discard frame if tag altered
+         */
+        static final int MASK_TAG_ALTER_PRESERVATION = FileConstants.BIT6;
+
+        /**
+         * Discard frame if audio part of file altered
+         */
+        static final int MASK_FILE_ALTER_PRESERVATION = FileConstants.BIT5;
+
+        /**
+         * Frame tagged as read only
+         */
+        static final int MASK_READ_ONLY = FileConstants.BIT4;
+
+        /**
+         * Use this when creating a frame from scratch
+         */
+        StatusFlags() {
+        }
+
+        /**
+         * Use this constructor when reading from file or from another v4 frame
+         */
+        StatusFlags(byte flags) {
+            originalFlags = flags;
+            writeFlags = flags;
+            modifyFlags();
+        }
+
+        /**
+         * Use this constructor when convert a v23 frame
+         */
+        StatusFlags(ID3v23Frame.StatusFlags statusFlags) {
+            originalFlags = convertV3ToV4Flags(statusFlags.getOriginalFlags());
+            writeFlags = originalFlags;
+            modifyFlags();
+        }
+
+        /**
+         * Makes modifications to flags based on specification and frameid
+         */
+        void modifyFlags() {
+            String str = getIdentifier();
+            if (ID3v24Frames.getInstanceOf().isDiscardIfFileAltered(str)) {
+                writeFlags |= (byte) MASK_FILE_ALTER_PRESERVATION;
+                writeFlags &= (byte) ~MASK_TAG_ALTER_PRESERVATION;
+            } else {
+                writeFlags &= (byte) ~MASK_FILE_ALTER_PRESERVATION;
+                writeFlags &= (byte) ~MASK_TAG_ALTER_PRESERVATION;
+            }
+        }
+
+        /**
+         * Convert V3 Flags to equivalent V4 Flags
+         */
+        private byte convertV3ToV4Flags(byte v3Flag) {
+            byte v4Flag = (byte) 0;
+            if ((v3Flag & ID3v23Frame.StatusFlags.MASK_FILE_ALTER_PRESERVATION) != 0) {
+                v4Flag |= (byte) MASK_FILE_ALTER_PRESERVATION;
+            }
+            if ((v3Flag & ID3v23Frame.StatusFlags.MASK_TAG_ALTER_PRESERVATION) != 0) {
+                v4Flag |= (byte) MASK_TAG_ALTER_PRESERVATION;
+            }
+            return v4Flag;
+        }
+
+        public void createStructure() {
+            MP3File.getStructureFormatter().openHeadingElement(TYPE_FLAGS, "");
+            MP3File.getStructureFormatter()
+                    .addElement(TYPE_TAGALTERPRESERVATION, originalFlags & MASK_TAG_ALTER_PRESERVATION);
+            MP3File.getStructureFormatter()
+                    .addElement(TYPE_FILEALTERPRESERVATION, originalFlags & MASK_FILE_ALTER_PRESERVATION);
+            MP3File.getStructureFormatter().addElement(TYPE_READONLY, originalFlags & MASK_READ_ONLY);
+            MP3File.getStructureFormatter().closeHeadingElement(TYPE_FLAGS);
+        }
+
+
     }
 }

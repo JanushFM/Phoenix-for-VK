@@ -6,7 +6,7 @@ import biz.dealnote.messenger.api.model.CountersDto;
 import biz.dealnote.messenger.api.model.VkApiProfileInfo;
 import biz.dealnote.messenger.api.model.VkApiProfileInfoResponce;
 import biz.dealnote.messenger.api.model.response.AccountsBannedResponce;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IAccountApi {

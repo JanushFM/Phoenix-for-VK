@@ -19,7 +19,7 @@ import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class AudiosSearchPresenter extends AbsSearchPresenter<IAudioSearchView, AudioSearchCriteria, Audio, IntNextFrom> {
 

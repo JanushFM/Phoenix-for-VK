@@ -27,6 +27,7 @@ import biz.dealnote.messenger.longpoll.LongpollInstance;
 import biz.dealnote.messenger.modalbottomsheetdialogfragment.Option;
 import biz.dealnote.messenger.model.Dialog;
 import biz.dealnote.messenger.model.Message;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Peer;
 import biz.dealnote.messenger.model.PeerUpdate;
 import biz.dealnote.messenger.model.User;
@@ -42,8 +43,8 @@ import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.ShortcutUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -141,13 +142,15 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
 
         safeNotifyDataSetChanged();
 
-        try {
-            appendDisposable(InteractorFactory.createStickersInteractor()
-                    .getAndStore(getAccountId())
-                    .compose(RxUtils.applyCompletableIOToMainSchedulers())
-                    .subscribe(dummy(), ignore()));
-        } catch (Exception ignored) {
-            /*ignore*/
+        if (Utils.needReloadStickers(getAccountId())) {
+            try {
+                appendDisposable(InteractorFactory.createStickersInteractor()
+                        .getAndStore(getAccountId())
+                        .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                        .subscribe(dummy(), ignore()));
+            } catch (Exception ignored) {
+                /*ignore*/
+            }
         }
 
         if (offset > 0) {
@@ -482,7 +485,13 @@ public class DialogsPresenter extends AccountDependencyPresenter<IDialogsView> {
         callView(view -> view.goToChat(getAccountId(), dialogsOwnerId, Peer.fromChatId(chatId), title, null, 0));
     }
 
-    public void fireUsersForChatSelected(@NonNull ArrayList<User> users) {
+    public void fireUsersForChatSelected(@NonNull ArrayList<Owner> owners) {
+        ArrayList<User> users = new ArrayList<>();
+        for (Owner i : owners) {
+            if (i instanceof User) {
+                users.add((User) i);
+            }
+        }
         if (users.size() == 1) {
             User user = users.get(0);
             // Post?

@@ -29,11 +29,11 @@ import biz.dealnote.messenger.model.criteria.CommentsCriteria;
 import biz.dealnote.messenger.util.Exestime;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Unixtime;
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Single;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import static biz.dealnote.messenger.db.impl.AttachmentsStorage.appendAttachOperationWithBackReference;
 import static biz.dealnote.messenger.util.Objects.nonNull;

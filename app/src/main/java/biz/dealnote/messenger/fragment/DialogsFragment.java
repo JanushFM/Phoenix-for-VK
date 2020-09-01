@@ -229,7 +229,7 @@ public class DialogsFragment extends BaseMvpFragment<DialogsPresenter, IDialogsV
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == REQUEST_CODE_SELECT_USERS_FOR_CHAT && resultCode == Activity.RESULT_OK) {
-            ArrayList<User> users = data.getParcelableArrayListExtra(Extra.USERS);
+            ArrayList<Owner> users = data.getParcelableArrayListExtra(Extra.OWNERS);
             AssertUtils.requireNonNull(users);
 
             getPresenter().fireUsersForChatSelected(users);

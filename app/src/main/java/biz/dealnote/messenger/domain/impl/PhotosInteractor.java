@@ -26,8 +26,8 @@ import biz.dealnote.messenger.model.PhotoAlbum;
 import biz.dealnote.messenger.model.criteria.PhotoAlbumsCriteria;
 import biz.dealnote.messenger.model.criteria.PhotoCriteria;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.domain.mappers.MapUtil.mapAll;
 
@@ -70,11 +70,9 @@ public class PhotosInteractor implements IPhotosInteractor {
                 .map(items -> Utils.listEmptyIfNull(items.getItems()))
                 .flatMap(dtos -> {
                     List<Photo> photos = new ArrayList<>(dtos.size());
-                    List<PhotoEntity> dbos = new ArrayList<>(dtos.size());
 
                     for (VKApiPhoto dto : dtos) {
                         photos.add(Dto2Model.transform(dto));
-                        dbos.add(Dto2Entity.mapPhoto(dto));
                     }
 
                     return Single.just(photos);
@@ -89,11 +87,9 @@ public class PhotosInteractor implements IPhotosInteractor {
                 .map(items -> Utils.listEmptyIfNull(items.getItems()))
                 .flatMap(dtos -> {
                     List<Photo> photos = new ArrayList<>(dtos.size());
-                    List<PhotoEntity> dbos = new ArrayList<>(dtos.size());
 
                     for (VKApiPhoto dto : dtos) {
                         photos.add(Dto2Model.transform(dto));
-                        dbos.add(Dto2Entity.mapPhoto(dto));
                     }
 
                     return Single.just(photos);

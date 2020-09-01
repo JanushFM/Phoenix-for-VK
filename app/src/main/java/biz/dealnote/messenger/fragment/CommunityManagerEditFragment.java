@@ -175,7 +175,7 @@ public class CommunityManagerEditFragment extends BaseMvpFragment<CommunityManag
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NotNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.action_delete).setVisible(mOptionDeleteVisible);
     }

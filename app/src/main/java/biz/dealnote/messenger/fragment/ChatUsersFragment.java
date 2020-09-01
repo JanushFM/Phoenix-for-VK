@@ -35,7 +35,6 @@ import biz.dealnote.messenger.fragment.friends.FriendsTabsFragment;
 import biz.dealnote.messenger.model.AppChatUser;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.SelectProfileCriteria;
-import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.ChatMembersPresenter;
 import biz.dealnote.messenger.mvp.view.IChatMembersView;
 import biz.dealnote.messenger.place.Place;
@@ -91,7 +90,7 @@ public class ChatUsersFragment extends BaseMvpFragment<ChatMembersPresenter, ICh
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_ADD_USER && resultCode == Activity.RESULT_OK && data != null) {
-            ArrayList<User> users = data.getParcelableArrayListExtra(Extra.USERS);
+            ArrayList<Owner> users = data.getParcelableArrayListExtra(Extra.OWNERS);
             AssertUtils.requireNonNull(users);
 
             postPrenseterReceive(presenter -> presenter.fireUserSelected(users));
@@ -169,7 +168,7 @@ public class ChatUsersFragment extends BaseMvpFragment<ChatMembersPresenter, ICh
     @Override
     public void startSelectUsersActivity(int accountId) {
         Place place = PlaceFactory.getFriendsFollowersPlace(accountId, accountId, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
-        SelectProfileCriteria criteria = new SelectProfileCriteria().setFriendsOnly(true);
+        SelectProfileCriteria criteria = new SelectProfileCriteria().setOwnerType(SelectProfileCriteria.OwnerType.ONLY_FRIENDS);
 
         Intent intent = SelectProfilesActivity.createIntent(requireActivity(), place, criteria);
 

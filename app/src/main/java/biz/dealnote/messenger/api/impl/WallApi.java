@@ -13,7 +13,7 @@ import biz.dealnote.messenger.api.model.response.RepostReponse;
 import biz.dealnote.messenger.api.model.response.WallResponse;
 import biz.dealnote.messenger.api.model.response.WallSearchResponse;
 import biz.dealnote.messenger.api.services.IWallService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 

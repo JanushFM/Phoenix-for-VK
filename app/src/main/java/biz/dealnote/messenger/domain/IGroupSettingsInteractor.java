@@ -9,8 +9,8 @@ import biz.dealnote.messenger.model.GroupSettings;
 import biz.dealnote.messenger.model.Manager;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IGroupSettingsInteractor {
 

@@ -23,7 +23,7 @@ import biz.dealnote.messenger.api.model.server.VkApiPhotoMessageServer;
 import biz.dealnote.messenger.api.model.server.VkApiUploadServer;
 import biz.dealnote.messenger.api.model.server.VkApiWallUploadServer;
 import biz.dealnote.messenger.api.services.IPhotosService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 

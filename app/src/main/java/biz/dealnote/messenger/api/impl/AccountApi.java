@@ -8,7 +8,7 @@ import biz.dealnote.messenger.api.model.VkApiProfileInfo;
 import biz.dealnote.messenger.api.model.VkApiProfileInfoResponce;
 import biz.dealnote.messenger.api.model.response.AccountsBannedResponce;
 import biz.dealnote.messenger.api.services.IAccountService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class AccountApi extends AbsApi implements IAccountApi {

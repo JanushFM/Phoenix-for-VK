@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.api;
 
 import biz.dealnote.messenger.api.model.Captcha;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 
 public interface ICaptchaProvider {
 

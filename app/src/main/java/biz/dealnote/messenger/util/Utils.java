@@ -48,6 +48,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso3.Picasso;
+import com.squareup.picasso3.RequestHandler;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -71,26 +73,35 @@ import biz.dealnote.messenger.api.model.Identificable;
 import biz.dealnote.messenger.media.exo.OkHttpDataSourceFactory;
 import biz.dealnote.messenger.model.ISelectable;
 import biz.dealnote.messenger.model.ISomeones;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.settings.CurrentTheme;
-import io.reactivex.Completable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.disposables.Disposable;
 import okhttp3.OkHttpClient;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 
 public class Utils {
 
+    private static final List<Integer> reload_news = new ArrayList<>();
+    private static final List<Integer> reload_stickers = new ArrayList<>();
     private static String device_id;
-
-    private static boolean reload_news = true;
 
     private Utils() {
     }
 
-    public static boolean needReloadNews() {
-        if (reload_news) {
-            reload_news = false;
+    public static boolean needReloadNews(int account_id) {
+        if (!reload_news.contains(account_id)) {
+            reload_news.add(account_id);
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean needReloadStickers(int account_id) {
+        if (!reload_stickers.contains(account_id)) {
+            reload_stickers.add(account_id);
             return true;
         }
         return false;
@@ -647,6 +658,20 @@ public class Utils {
         return -1;
     }
 
+    public static int indexOfOwner(List<Owner> data, Owner in) {
+        if (data == null || in == null) {
+            return -1;
+        }
+
+        for (int i = 0; i < data.size(); i++) {
+            if (data.get(i).getOwnerId() == in.getOwnerId()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     public static boolean safeIsEmpty(CharSequence text) {
         return isNull(text) || text.length() == 0;
     }
@@ -809,7 +834,7 @@ public class Utils {
 
     @SuppressLint("HardwareIds")
     public static String getDiviceId(Context context) {
-        if (device_id == null) {
+        if (isEmpty(device_id)) {
             device_id = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
             if (isEmpty(device_id))
                 device_id = "0123456789A";
@@ -946,7 +971,7 @@ public class Utils {
         }
     }
 
-    public static Bitmap createGradientChatImage(int width, int height, int owner_id) {
+    public static RequestHandler.Result.Bitmap createGradientChatImage(int width, int height, int owner_id) {
         int pp = owner_id % 10;
         String Color1 = "#D81B60";
         String Color2 = "#F48FB1";
@@ -998,7 +1023,7 @@ public class Utils {
         Paint paint2 = new Paint();
         paint2.setShader(gradient);
         canvas.drawRect(0F, 0F, (float) width, (float) height, paint2);
-        return bitmap;
+        return new RequestHandler.Result.Bitmap(bitmap, Picasso.LoadedFrom.MEMORY, 0);
     }
 
     public static int getThemeColor(boolean isOfReadToast) {

@@ -6,6 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
+import org.jetbrains.annotations.NotNull;
+
 import biz.dealnote.messenger.util.ParcelUtils;
 
 public class ExchangeMessage implements Parcelable {
@@ -68,6 +70,7 @@ public class ExchangeMessage implements Parcelable {
         return errorCode != 0;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "RSA" + new Gson().toJson(this);

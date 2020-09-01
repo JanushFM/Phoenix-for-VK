@@ -2,7 +2,7 @@ package biz.dealnote.messenger.api.interfaces;
 
 import biz.dealnote.messenger.api.model.longpoll.VkApiGroupLongpollUpdates;
 import biz.dealnote.messenger.api.model.longpoll.VkApiLongpollUpdates;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface ILongpollApi {
     Single<VkApiLongpollUpdates> getUpdates(String server, String key, long ts, int wait, int mode, int version);

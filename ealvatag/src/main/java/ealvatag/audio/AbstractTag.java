@@ -37,6 +37,8 @@ package ealvatag.audio;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -188,9 +190,7 @@ public abstract class AbstractTag implements TagFieldContainer {
     public List<TagField> getAll() {
         List<TagField> fieldList = new ArrayList<>();
         for (List<TagField> listOfFields : fields.values()) {
-            for (TagField next : listOfFields) {
-                fieldList.add(next);
-            }
+            fieldList.addAll(listOfFields);
         }
         return fieldList;
     }
@@ -398,6 +398,7 @@ public abstract class AbstractTag implements TagFieldContainer {
         }
     }
 
+    @NotNull
     public String toString() {
         StringBuilder out = new StringBuilder();
         out.append("Tag content:\n");
@@ -410,7 +411,7 @@ public abstract class AbstractTag implements TagFieldContainer {
             out.append(field);
             out.append("\n");
         }
-        return out.toString().substring(0, out.length() - 1);
+        return out.substring(0, out.length() - 1);
     }
 
 

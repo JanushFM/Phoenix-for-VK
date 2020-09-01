@@ -1,5 +1,8 @@
 package biz.dealnote.messenger.domain.mappers;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -7,8 +10,6 @@ import java.util.List;
 
 import biz.dealnote.messenger.api.model.VkApiConversation;
 import biz.dealnote.messenger.model.Conversation;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.annotations.Nullable;
 
 import static biz.dealnote.messenger.util.Utils.addFlagIf;
 

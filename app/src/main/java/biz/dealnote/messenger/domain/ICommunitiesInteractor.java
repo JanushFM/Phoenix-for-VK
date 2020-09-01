@@ -3,8 +3,8 @@ package biz.dealnote.messenger.domain;
 import java.util.List;
 
 import biz.dealnote.messenger.model.Community;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface ICommunitiesInteractor {
     Single<List<Community>> getCachedData(int accountId, int userId);

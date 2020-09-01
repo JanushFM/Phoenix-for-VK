@@ -16,9 +16,10 @@ import java.util.ArrayList;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.adapter.SelectedProfilesAdapter;
+import biz.dealnote.messenger.fragment.fave.FaveTabsFragment;
 import biz.dealnote.messenger.fragment.friends.FriendsTabsFragment;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.SelectProfileCriteria;
-import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
@@ -29,9 +30,9 @@ import biz.dealnote.messenger.util.Utils;
 public class SelectProfilesActivity extends MainActivity implements SelectedProfilesAdapter.ActionListener, ProfileSelectable {
 
     private static final String TAG = SelectProfilesActivity.class.getSimpleName();
-    private static final String SAVE_SELECTED_USERS = "save_selected_users";
+    private static final String SAVE_SELECTED_OWNERS = "save_selected_owners";
     private SelectProfileCriteria mSelectableCriteria;
-    private ArrayList<User> mSelectedUsers;
+    private ArrayList<Owner> mSelectedOwners;
     private RecyclerView mRecyclerView;
     private SelectedProfilesAdapter mProfilesAdapter;
 
@@ -49,7 +50,23 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
 
         Place place = PlaceFactory.getFriendsFollowersPlace(aid, aid, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
 
-        SelectProfileCriteria criteria = new SelectProfileCriteria().setFriendsOnly(true);
+        SelectProfileCriteria criteria = new SelectProfileCriteria().setOwnerType(SelectProfileCriteria.OwnerType.ONLY_FRIENDS);
+
+        Intent intent = new Intent(fragment.requireActivity(), SelectProfilesActivity.class);
+        intent.setAction(MainActivity.ACTION_OPEN_PLACE);
+        intent.putExtra(Extra.PLACE, place);
+        intent.putExtra(Extra.CRITERIA, criteria);
+        fragment.startActivityForResult(intent, requestCode);
+    }
+
+    public static void startFaveSelection(@NonNull Fragment fragment, int requestCode) {
+        int aid = Settings.get()
+                .accounts()
+                .getCurrent();
+
+        Place place = PlaceFactory.getBookmarksPlace(aid, FaveTabsFragment.TAB_PAGES);
+
+        SelectProfileCriteria criteria = new SelectProfileCriteria().setOwnerType(SelectProfileCriteria.OwnerType.OWNERS);
 
         Intent intent = new Intent(fragment.requireActivity(), SelectProfilesActivity.class);
         intent.setAction(MainActivity.ACTION_OPEN_PLACE);
@@ -84,15 +101,15 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
         mSelectableCriteria = getIntent().getParcelableExtra(Extra.CRITERIA);
 
         if (savedInstanceState != null) {
-            mSelectedUsers = savedInstanceState.getParcelableArrayList(SAVE_SELECTED_USERS);
+            mSelectedOwners = savedInstanceState.getParcelableArrayList(SAVE_SELECTED_OWNERS);
         }
 
-        if (mSelectedUsers == null) {
-            mSelectedUsers = new ArrayList<>();
+        if (mSelectedOwners == null) {
+            mSelectedOwners = new ArrayList<>();
         }
 
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mProfilesAdapter = new SelectedProfilesAdapter(this, mSelectedUsers);
+        mProfilesAdapter = new SelectedProfilesAdapter(this, mSelectedOwners);
         mProfilesAdapter.setActionListener(this);
 
         mRecyclerView = findViewById(R.id.recycleView);
@@ -107,12 +124,12 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(SAVE_SELECTED_USERS, mSelectedUsers);
+        outState.putParcelableArrayList(SAVE_SELECTED_OWNERS, mSelectedOwners);
     }
 
     @Override
-    public void onClick(int adapterPosition, User user) {
-        mSelectedUsers.remove(mProfilesAdapter.toDataPosition(adapterPosition));
+    public void onClick(int adapterPosition, Owner owner) {
+        mSelectedOwners.remove(mProfilesAdapter.toDataPosition(adapterPosition));
         mProfilesAdapter.notifyItemRemoved(adapterPosition);
         mProfilesAdapter.notifyHeaderChange();
     }
@@ -120,23 +137,23 @@ public class SelectProfilesActivity extends MainActivity implements SelectedProf
     @Override
     public void onCheckClick() {
         Intent intent = new Intent();
-        intent.putParcelableArrayListExtra(Extra.USERS, mSelectedUsers);
+        intent.putParcelableArrayListExtra(Extra.OWNERS, mSelectedOwners);
         setResult(RESULT_OK, intent);
         finish();
     }
 
     @Override
-    public void select(User user) {
-        Logger.d(TAG, "Select, user: " + user);
+    public void select(Owner owner) {
+        Logger.d(TAG, "Select, owner: " + owner);
 
-        int index = Utils.indexOf(mSelectedUsers, user.getId());
+        int index = Utils.indexOfOwner(mSelectedOwners, owner);
 
         if (index != -1) {
-            mSelectedUsers.remove(index);
+            mSelectedOwners.remove(index);
             mProfilesAdapter.notifyItemRemoved(mProfilesAdapter.toAdapterPosition(index));
         }
 
-        mSelectedUsers.add(0, user);
+        mSelectedOwners.add(0, owner);
         mProfilesAdapter.notifyItemInserted(mProfilesAdapter.toAdapterPosition(0));
         mProfilesAdapter.notifyHeaderChange();
         mRecyclerView.smoothScrollToPosition(0);

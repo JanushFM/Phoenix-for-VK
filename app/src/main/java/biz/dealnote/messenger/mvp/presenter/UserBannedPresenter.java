@@ -13,6 +13,7 @@ import biz.dealnote.messenger.domain.IAccountsInteractor;
 import biz.dealnote.messenger.domain.IBlacklistRepository;
 import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.model.BannedPart;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IUserBannedView;
@@ -21,6 +22,7 @@ import biz.dealnote.messenger.util.RxUtils;
 
 import static biz.dealnote.messenger.util.Utils.findIndexById;
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
+import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 
 public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedView> {
@@ -146,12 +148,20 @@ public class UserBannedPresenter extends AccountDependencyPresenter<IUserBannedV
         showError(getView(), throwable);
     }
 
-    public void fireUsersSelected(ArrayList<User> users) {
+    public void fireUsersSelected(ArrayList<Owner> owners) {
         int accountId = getAccountId();
 
-        appendDisposable(interactor.banUsers(accountId, users)
-                .compose(RxUtils.applyCompletableIOToMainSchedulers())
-                .subscribe(this::onAddingComplete, throwable -> onAddError(getCauseIfRuntime(throwable))));
+        ArrayList<User> users = new ArrayList<>();
+        for (Owner i : owners) {
+            if (i instanceof User) {
+                users.add((User) i);
+            }
+        }
+        if (nonEmpty(users)) {
+            appendDisposable(interactor.banUsers(accountId, users)
+                    .compose(RxUtils.applyCompletableIOToMainSchedulers())
+                    .subscribe(this::onAddingComplete, throwable -> onAddError(getCauseIfRuntime(throwable))));
+        }
     }
 
     public void fireScrollToEnd() {

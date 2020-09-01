@@ -28,7 +28,6 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
-import biz.dealnote.messenger.util.StatusbarUtil;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 
@@ -156,8 +155,6 @@ public class LocalJsonToChatActivity extends NoMainActivity implements PlaceProv
                 flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
             getWindow().getDecorView().setSystemUiVisibility(flags);
-
-            StatusbarUtil.setCustomStatusbarDarkMode(this, invertIcons);
         }
 
         if (Utils.hasOreo()) {

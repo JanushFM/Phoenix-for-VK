@@ -30,8 +30,8 @@ import biz.dealnote.messenger.model.WikiPage;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.settings.Settings;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public abstract class AccountDependencyDialogFragment extends BaseDialogFragment
         implements AttachmentsViewBinder.OnAttachmentsActionCallback {

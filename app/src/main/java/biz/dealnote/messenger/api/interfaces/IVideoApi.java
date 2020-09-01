@@ -11,7 +11,7 @@ import biz.dealnote.messenger.api.model.VKApiVideo;
 import biz.dealnote.messenger.api.model.VKApiVideoAlbum;
 import biz.dealnote.messenger.api.model.response.DefaultCommentsResponse;
 import biz.dealnote.messenger.api.model.response.SearchVideoResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IVideoApi {

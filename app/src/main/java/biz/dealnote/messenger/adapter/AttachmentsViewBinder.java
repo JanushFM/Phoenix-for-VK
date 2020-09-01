@@ -32,7 +32,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -94,7 +94,7 @@ import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.WaveFormView;
 import biz.dealnote.messenger.view.WeakViewAnimatorAdapter;
 import biz.dealnote.messenger.view.emoji.EmojiconTextView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;

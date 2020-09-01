@@ -16,7 +16,7 @@ import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IAudioCatalogView;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 
@@ -55,7 +55,7 @@ public class AudioCatalogPresenter extends AccountDependencyPresenter<IAudioCata
         int accountId = getAccountId();
         actualDataDisposable.add(fInteractor.getCatalog(accountId, artist_id)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
-                .subscribe(data -> onActualDataReceived(data), this::onActualDataGetError));
+                .subscribe(this::onActualDataReceived, this::onActualDataGetError));
 
     }
 

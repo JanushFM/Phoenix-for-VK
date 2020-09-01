@@ -17,7 +17,8 @@ import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IFaveUsersView;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import biz.dealnote.messenger.util.Utils;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.findIndexById;
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
@@ -66,9 +67,13 @@ public class FavePagesPresenter extends AccountDependencyPresenter<IFaveUsersVie
         }
         this.q = query;
         search_pages.clear();
-        for (int i = 0; i < pages.size(); i++) {
-            if (pages.get(i).getOwner().getFullName().toLowerCase().contains(q.toLowerCase()))
-                search_pages.add(pages.get(i));
+        for (FavePage i : pages) {
+            if (i.getOwner() == null || Utils.isEmpty(i.getOwner().getFullName())) {
+                continue;
+            }
+            if (i.getOwner().getFullName().toLowerCase().contains(q.toLowerCase())) {
+                search_pages.add(i);
+            }
         }
 
         if (isSeacrhNow())

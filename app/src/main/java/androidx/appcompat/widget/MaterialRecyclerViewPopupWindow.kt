@@ -27,7 +27,6 @@ internal class MaterialRecyclerViewPopupWindow(
 
     companion object {
 
-        private const val TAG = "MaterialRVPopupWindow"
         private const val DEFAULT_BACKGROUND_DIM_AMOUNT = 0.3f
 
     }

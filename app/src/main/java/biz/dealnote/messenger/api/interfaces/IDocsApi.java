@@ -10,7 +10,7 @@ import biz.dealnote.messenger.api.model.Items;
 import biz.dealnote.messenger.api.model.VkApiDoc;
 import biz.dealnote.messenger.api.model.server.VkApiDocsUploadServer;
 import biz.dealnote.messenger.api.model.server.VkApiVideosUploadServer;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IDocsApi {

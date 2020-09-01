@@ -22,7 +22,7 @@ import biz.dealnote.messenger.mvp.view.search.INewsFeedSearchView;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class NewsFeedSearchPresenter extends AbsSearchPresenter<INewsFeedSearchView, NewsFeedCriteria, Post, StringNextFrom> {
 

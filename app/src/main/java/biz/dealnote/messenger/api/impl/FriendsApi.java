@@ -11,7 +11,7 @@ import biz.dealnote.messenger.api.model.response.DeleteFriendResponse;
 import biz.dealnote.messenger.api.model.response.OnlineFriendsResponse;
 import biz.dealnote.messenger.api.services.IFriendsService;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class FriendsApi extends AbsApi implements IFriendsApi {

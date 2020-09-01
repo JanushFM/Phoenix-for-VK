@@ -51,8 +51,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -79,7 +79,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     // VK Additional action
     private var ivAdd: CircleCounterButton? = null
     private var ivSave: RepeatingImageButton? = null
-    private val ivTranslate: CircleCounterButton? = null
     private var tvTitle: TextView? = null
     private var tvAlbum: TextView? = null
     private var tvSubtitle: TextView? = null
@@ -495,14 +494,14 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             tvAlbum!!.text = album
         }
         if (tvTitle != null) {
-            tvTitle!!.text = artist?.trim { it <= ' ' }
+            tvTitle!!.text = artist.trim { it <= ' ' }
         }
         if (tvSubtitle != null) {
-            tvSubtitle!!.text = trackName?.trim { it <= ' ' }
+            tvSubtitle!!.text = trackName.trim { it <= ' ' }
         }
         if (coverUrl != null) {
             ivCover!!.scaleType = ImageView.ScaleType.FIT_START
-            PicassoInstance.with().load(coverUrl).tag(Constants.PICASSO_TAG).into(ivCover)
+            PicassoInstance.with().load(coverUrl).tag(Constants.PICASSO_TAG).into(ivCover!!)
         } else {
             ivCover!!.scaleType = ImageView.ScaleType.CENTER
             ivCover!!.setImageResource(R.drawable.itunes)

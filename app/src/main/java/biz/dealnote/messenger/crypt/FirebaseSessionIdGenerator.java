@@ -10,7 +10,7 @@ import com.google.firebase.database.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class FirebaseSessionIdGenerator implements ISessionIdGenerator {
 

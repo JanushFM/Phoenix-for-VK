@@ -13,10 +13,10 @@ import biz.dealnote.messenger.api.model.LoginResponse;
 import biz.dealnote.messenger.api.model.VkApiValidationResponce;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
-import io.reactivex.SingleTransformer;
-import io.reactivex.exceptions.Exceptions;
-import io.reactivex.functions.Function;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.exceptions.Exceptions;
+import io.reactivex.rxjava3.functions.Function;
 import okhttp3.ResponseBody;
 import retrofit2.HttpException;
 
@@ -66,8 +66,8 @@ public class AuthApi implements IAuthApi {
                     if (nonEmpty(response.error)) {
                         return Single.error(new AuthException(response.error, response.errorDescription));
                     }
-                } catch (Exception ignored) {
-                    ignored.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 

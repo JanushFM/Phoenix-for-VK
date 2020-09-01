@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.Extra;
@@ -43,7 +45,7 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.InputTextDialog;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class FilterEditFragment extends BottomSheetDialogFragment implements SearchOptionsAdapter.OptionClickListener {
 
@@ -85,7 +87,7 @@ public class FilterEditFragment extends BottomSheetDialogFragment implements Sea
 
     @SuppressLint("RestrictedApi")
     @Override
-    public void setupDialog(Dialog dialog, int style) {
+    public void setupDialog(@NotNull Dialog dialog, int style) {
         super.setupDialog(dialog, style);
 
         View root = View.inflate(requireActivity(), R.layout.sheet_filter_edirt, null);

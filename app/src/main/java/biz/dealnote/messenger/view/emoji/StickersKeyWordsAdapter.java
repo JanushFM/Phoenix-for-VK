@@ -9,7 +9,9 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Callback;
+import com.squareup.picasso3.Callback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 import java.util.Collections;
@@ -92,7 +94,7 @@ public class StickersKeyWordsAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
         @Override
-        public void onError(Exception e) {
+        public void onError(@NotNull Throwable e) {
             ImageView view = ref.get();
             try {
                 if (view != null) {

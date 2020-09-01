@@ -19,8 +19,8 @@ import java.util.Set;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.push.IPushRegistrationResolver;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.Flowable;
-import io.reactivex.processors.PublishProcessor;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;

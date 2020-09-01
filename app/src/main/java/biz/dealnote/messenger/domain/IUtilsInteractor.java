@@ -11,7 +11,7 @@ import biz.dealnote.messenger.model.Privacy;
 import biz.dealnote.messenger.model.ShortLink;
 import biz.dealnote.messenger.model.SimplePrivacy;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IUtilsInteractor {
     Single<Map<Integer, Privacy>> createFullPrivacies(int accountId, @NonNull Map<Integer, SimplePrivacy> orig);

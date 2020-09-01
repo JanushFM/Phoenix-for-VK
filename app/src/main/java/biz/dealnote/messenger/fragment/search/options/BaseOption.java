@@ -3,6 +3,8 @@ package biz.dealnote.messenger.fragment.search.options;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 public class BaseOption implements Parcelable, Cloneable {
 
     public static final int DATABASE = 44;
@@ -94,6 +96,7 @@ public class BaseOption implements Parcelable, Cloneable {
         return result;
     }
 
+    @NotNull
     @Override
     public BaseOption clone() throws CloneNotSupportedException {
         BaseOption option = (BaseOption) super.clone();

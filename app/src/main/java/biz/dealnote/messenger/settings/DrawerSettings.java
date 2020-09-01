@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import androidx.preference.PreferenceManager;
 
 import biz.dealnote.messenger.model.SwitchableCategory;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import static biz.dealnote.messenger.model.SwitchableCategory.BOOKMARKS;
 import static biz.dealnote.messenger.model.SwitchableCategory.DOCS;

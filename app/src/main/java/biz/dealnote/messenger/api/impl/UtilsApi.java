@@ -8,7 +8,7 @@ import biz.dealnote.messenger.api.model.VKApiCheckedLink;
 import biz.dealnote.messenger.api.model.VKApiShortLink;
 import biz.dealnote.messenger.api.model.response.ResolveDomailResponse;
 import biz.dealnote.messenger.api.services.IUtilsService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class UtilsApi extends AbsApi implements IUtilsApi {

@@ -7,8 +7,8 @@ import java.util.List;
 import biz.dealnote.messenger.db.AttachToType;
 import biz.dealnote.messenger.db.model.entity.Entity;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IAttachmentsStorage extends IStorage {

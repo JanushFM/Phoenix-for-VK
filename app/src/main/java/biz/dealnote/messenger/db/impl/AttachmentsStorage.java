@@ -23,8 +23,8 @@ import biz.dealnote.messenger.db.model.AttachmentsTypes;
 import biz.dealnote.messenger.db.model.entity.Entity;
 import biz.dealnote.messenger.exception.NotFoundException;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.safeCountOf;
@@ -78,9 +78,7 @@ class AttachmentsStorage extends AbsStorage implements IAttachmentsStorage {
     private static String idColumnFor(@AttachToType int type) {
         switch (type) {
             case AttachToType.COMMENT:
-                return BaseColumns._ID;
             case AttachToType.MESSAGE:
-                return BaseColumns._ID;
             case AttachToType.POST:
                 return BaseColumns._ID;
         }

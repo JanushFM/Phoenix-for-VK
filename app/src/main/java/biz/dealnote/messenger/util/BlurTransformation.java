@@ -19,8 +19,12 @@ package biz.dealnote.messenger.util;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Build;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.RequestHandler;
+import com.squareup.picasso3.Transformation;
+
+import org.jetbrains.annotations.NotNull;
 
 public class BlurTransformation implements Transformation {
 
@@ -43,11 +47,22 @@ public class BlurTransformation implements Transformation {
         mSampling = sampling;
     }
 
+    @NotNull
     @Override
-    public Bitmap transform(Bitmap source) {
+    public String key() {
+        return "BlurTransformation(radius=" + mRadius + ", sampling=" + mSampling + ")";
+    }
 
+    @NotNull
+    @Override
+    public RequestHandler.Result.Bitmap transform(@NotNull RequestHandler.Result.Bitmap source_request) {
+        Bitmap source = source_request.getBitmap();
         int scaledWidth = source.getWidth() / mSampling;
         int scaledHeight = source.getHeight() / mSampling;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && source.getConfig() == Bitmap.Config.HARDWARE) {
+            source = source.copy(Bitmap.Config.ARGB_8888, true);
+        }
 
         Bitmap bitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888);
 
@@ -60,11 +75,7 @@ public class BlurTransformation implements Transformation {
 
         source.recycle();
 
-        return bitmap;
-    }
-
-    @Override
-    public String key() {
-        return "BlurTransformation(radius=" + mRadius + ", sampling=" + mSampling + ")";
+        assert bitmap != null;
+        return new RequestHandler.Result.Bitmap(bitmap, source_request.loadedFrom, source_request.exifRotation);
     }
 }

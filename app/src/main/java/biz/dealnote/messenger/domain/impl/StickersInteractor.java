@@ -20,8 +20,8 @@ import biz.dealnote.messenger.model.StickerSet;
 import biz.dealnote.messenger.model.StickersKeywords;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.domain.mappers.MapUtil.mapAll;
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;

@@ -13,7 +13,7 @@ import biz.dealnote.messenger.api.model.database.FacultyDto;
 import biz.dealnote.messenger.api.model.database.SchoolClazzDto;
 import biz.dealnote.messenger.api.model.database.SchoolDto;
 import biz.dealnote.messenger.api.model.database.UniversityDto;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IDatabaseApi {

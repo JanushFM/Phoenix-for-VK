@@ -2,7 +2,6 @@ package biz.dealnote.messenger.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,6 @@ import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.AppTextUtils;
-import biz.dealnote.messenger.util.ImageHelper;
-import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 
@@ -48,9 +45,9 @@ public class AudioPlaylistsAdapter extends RecyclerView.Adapter<AudioPlaylistsAd
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         AudioPlaylist playlist = data.get(position);
         if (!Utils.isEmpty(playlist.getThumb_image()))
-            ViewUtils.displayAvatar(holder.thumb, new PolyTransformation(), playlist.getThumb_image(), Constants.PICASSO_TAG);
+            ViewUtils.displayAvatar(holder.thumb, null, playlist.getThumb_image(), Constants.PICASSO_TAG);
         else
-            holder.thumb.setImageBitmap(ImageHelper.getPolyBitmap(BitmapFactory.decodeResource(context.getResources(), Settings.get().ui().isDarkModeEnabled(context) ? R.drawable.generic_audio_nowplaying_dark : R.drawable.generic_audio_nowplaying_light), true));
+            holder.thumb.setImageResource(Settings.get().ui().isDarkModeEnabled(context) ? R.drawable.generic_audio_nowplaying_dark : R.drawable.generic_audio_nowplaying_light);
         holder.count.setText(playlist.getCount() + " " + context.getString(R.string.audios_pattern_count));
         holder.name.setText(playlist.getTitle());
         if (Utils.isEmpty(playlist.getDescription()))

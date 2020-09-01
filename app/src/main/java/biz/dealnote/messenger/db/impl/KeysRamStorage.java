@@ -13,9 +13,9 @@ import biz.dealnote.messenger.db.interfaces.IKeysStorage;
 import biz.dealnote.messenger.db.interfaces.IStorages;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 
 
 class KeysRamStorage implements IKeysStorage {
@@ -46,9 +46,7 @@ class KeysRamStorage implements IKeysStorage {
             List<AesKeyPair> list = mData.get(accountId);
             List<AesKeyPair> result = new ArrayList<>(Objects.isNull(list) ? 0 : 1);
             if (Objects.nonNull(list)) {
-                for (AesKeyPair pair : list) {
-                    result.add(pair);
-                }
+                result.addAll(list);
             }
 
             e.onSuccess(result);

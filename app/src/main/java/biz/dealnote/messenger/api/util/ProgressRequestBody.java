@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.api.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -31,7 +33,7 @@ public class ProgressRequestBody extends RequestBody {
     }
 
     @Override
-    public void writeTo(BufferedSink sink) throws IOException {
+    public void writeTo(@NotNull BufferedSink sink) throws IOException {
         long fileLength = stream.available();
 
         byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];

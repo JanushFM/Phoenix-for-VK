@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.link.types;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DomainLink extends AbsLink {
 
     public String fullLink;
@@ -11,6 +13,7 @@ public class DomainLink extends AbsLink {
         this.fullLink = fullLink;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "DomainLink{" +

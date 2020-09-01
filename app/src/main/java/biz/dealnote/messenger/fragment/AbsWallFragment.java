@@ -197,9 +197,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         RecyclerView headerStoryRecyclerView = headerStory.findViewById(R.id.header_story);
         headerStoryRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
         mStoryAdapter = new HorizontalStoryAdapter(Collections.emptyList());
-        mStoryAdapter.setListener((item, pos) -> {
-            openHistoryVideo(Settings.get().accounts().getCurrent(), new ArrayList<>(getPresenter().getStories()), pos);
-        });
+        mStoryAdapter.setListener((item, pos) -> openHistoryVideo(Settings.get().accounts().getCurrent(), new ArrayList<>(getPresenter().getStories()), pos));
         headerStoryRecyclerView.setAdapter(mStoryAdapter);
 
         mWallAdapter = new WallAdapter(requireActivity(), Collections.emptyList(), this, this);
@@ -321,6 +319,7 @@ public abstract class AbsWallFragment<V extends IWallView, P extends AbsWallPres
         menu.findItem(R.id.action_open_url).setVisible(view.isDebug);
         menu.findItem(R.id.action_copy_id).setVisible(view.isDebug);
         menu.findItem(R.id.search_stories).setVisible(view.isDebug);
+        menu.findItem(R.id.action_add_to_news).setVisible(view.isDebug);
         menu.findItem(R.id.action_edit).setVisible(view.isMy);
     }
 

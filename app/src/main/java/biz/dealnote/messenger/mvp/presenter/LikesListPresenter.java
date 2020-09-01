@@ -12,7 +12,7 @@ import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.mvp.view.ISimpleOwnersView;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class LikesListPresenter extends SimpleOwnersPresenter<ISimpleOwnersView> {
 

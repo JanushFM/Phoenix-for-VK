@@ -1,18 +1,20 @@
 package biz.dealnote.messenger.util;
 
-import android.graphics.Bitmap;
+import com.squareup.picasso3.RequestHandler;
+import com.squareup.picasso3.Transformation;
 
-import com.squareup.picasso.Transformation;
+import org.jetbrains.annotations.NotNull;
 
 public class RoundTransformation implements Transformation {
-
-    @Override
-    public Bitmap transform(Bitmap source) {
-        return ImageHelper.getRoundedBitmap(source, true);
-    }
-
+    @NotNull
     @Override
     public String key() {
         return "round()";
+    }
+
+    @NotNull
+    @Override
+    public RequestHandler.Result.Bitmap transform(@NotNull RequestHandler.Result.Bitmap source) {
+        return new RequestHandler.Result.Bitmap(ImageHelper.getRoundedBitmap(source.getBitmap()), source.loadedFrom, source.exifRotation);
     }
 }

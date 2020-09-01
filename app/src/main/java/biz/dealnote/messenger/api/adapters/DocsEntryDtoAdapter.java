@@ -17,7 +17,7 @@ public class DocsEntryDtoAdapter extends AbsAdapter implements JsonDeserializer<
         JsonObject o = json.getAsJsonObject();
 
         String type = optString(o, "type");
-        VkApiDoc.Entry entry = null;
+        VkApiDoc.Entry entry;
         VkApiDoc pp = context.deserialize(o.get(type), VkApiDoc.class);
         entry = new VkApiDoc.Entry(type, pp);
 

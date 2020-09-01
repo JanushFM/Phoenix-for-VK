@@ -5,8 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.StatFs;
 
-import com.squareup.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
+import com.squareup.picasso3.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -121,10 +120,8 @@ public class PicassoInstance {
             ProxyUtil.applyProxyConfig(builder, config);
         }
 
-        OkHttp3Downloader downloader = new OkHttp3Downloader(builder.build());
-
         return new Picasso.Builder(app)
-                .downloader(downloader)
+                .callFactory(builder.build())
                 .addRequestHandler(new LocalPhotoRequestHandler(app))
                 .defaultBitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();

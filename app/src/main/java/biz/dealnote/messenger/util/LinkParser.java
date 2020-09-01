@@ -9,8 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class LinkParser {
-    public static final Pattern MENTIONS_PATTERN = Pattern.compile("\\[((?:id|club|event|public)[0-9]+)\\|([^\\]]+)\\]");
-    public static final Pattern MENTIONS_AVATAR_PATTERN = Pattern.compile("\\[((?:id|club|event|public))([0-9]+)\\|([^\\]]+)\\]");
+    public static final Pattern MENTIONS_PATTERN = Pattern.compile("\\[((?:id|club|event|public)[0-9]+)\\|([^]]+)]");
+    public static final Pattern MENTIONS_AVATAR_PATTERN = Pattern.compile("\\[((?:id|club|event|public))([0-9]+)\\|([^]]+)]");
     public static final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("\\+\\d{8,15}");
     public static Pattern REPLY_URL_PATTERN;
     public static Pattern URL_PATTERN;
@@ -19,8 +19,8 @@ public class LinkParser {
         URL_PATTERN = null;
         REPLY_URL_PATTERN = null;
         try {
-            URL_PATTERN = Pattern.compile("((?:(http|https|Http|Https|ftp|Ftp):\\/\\/(?:(?:[a-zA-Z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-fA-F0-9]{2})){1,64}(?:\\:(?:[a-zA-Z0-9\\$\\-\\_\\.\\+\\!\\*\\'\\(\\)\\,\\;\\?\\&\\=]|(?:\\%[a-fA-F0-9]{2})){1,25})?\\@)?)?(?:" + Pattern.compile("(([a-zA-Z0-9 -퟿豈-﷏ﷰ-￯]([a-zA-Z0-9 -퟿豈-﷏ﷰ-￯\\-]{0,61}[a-zA-Z0-9 -퟿豈-﷏ﷰ-￯]){0,1}\\.)+([a-zA-Z0-9-]{2,63}|рф|бел|укр)|" + Patterns.IP_ADDRESS + ")") + ")" + "(?:\\:\\d{1,5})?)" + "(\\/(?:(?:[" + "a-zA-Z0-9 -퟿豈-﷏ﷰ-￯" + "\\;\\/\\?\\:\\@\\&\\=\\#\\~" + "\\-\\.\\+\\!\\*\\'\\(\\)\\,\\_])|(?:\\%[a-fA-F0-9]{2}))*)?" + "(?:\\b|$)");
-            REPLY_URL_PATTERN = Pattern.compile("\\[(" + URL_PATTERN + ")\\|([^\\]]+)\\]");
+            URL_PATTERN = Pattern.compile("((?:(http|https|Http|Https|ftp|Ftp)://(?:(?:[a-zA-Z0-9$\\-_.+!*'(),;?&=]|(?:%[a-fA-F0-9]{2})){1,64}(?::(?:[a-zA-Z0-9$\\-_.+!*'(),;?&=]|(?:%[a-fA-F0-9]{2})){1,25})?@)?)?(?:" + Pattern.compile("(([a-zA-Z0-9 -퟿豈-﷏ﷰ-￯]([a-zA-Z0-9 -퟿豈-﷏ﷰ-￯\\-]{0,61}[a-zA-Z0-9 -퟿豈-﷏ﷰ-￯])?\\.)+([a-zA-Z0-9-]{2,63}|рф|бел|укр)|" + Patterns.IP_ADDRESS + ")") + ")" + "(?::\\d{1,5})?)" + "(/(?:(?:[" + "a-zA-Z0-9 -퟿豈-﷏ﷰ-￯" + ";/?:@&=#~" + "\\-.+!*'(),_])|(?:%[a-fA-F0-9]{2}))*)?" + "(?:\\b|$)");
+            REPLY_URL_PATTERN = Pattern.compile("\\[(" + URL_PATTERN + ")\\|([^]]+)]");
         } catch (Exception ignored) {
         }
     }

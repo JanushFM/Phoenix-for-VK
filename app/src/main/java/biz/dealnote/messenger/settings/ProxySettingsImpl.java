@@ -13,8 +13,8 @@ import java.util.Set;
 import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 

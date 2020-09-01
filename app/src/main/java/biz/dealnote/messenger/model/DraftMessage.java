@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.model;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DraftMessage {
 
     private final int id;
@@ -29,6 +31,7 @@ public class DraftMessage {
         return body;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "id=" + getId() + ", body='" + getBody() + '\'' + ", count=" + attachmentsCount;

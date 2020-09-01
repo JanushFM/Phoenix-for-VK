@@ -22,6 +22,8 @@
  */
 package ealvatag.tag.lyrics3;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
@@ -287,17 +289,18 @@ public class Lyrics3v2 extends AbstractLyrics3 {
     /**
      * @return
      */
+    @NotNull
     public String toString() {
         Iterator<Lyrics3v2Field> iterator = fieldMap.values().iterator();
         Lyrics3v2Field field;
-        String str = getIdentifier() + " " + getSize() + "\n";
+        StringBuilder str = new StringBuilder(getIdentifier() + " " + getSize() + "\n");
 
         while (iterator.hasNext()) {
             field = iterator.next();
-            str += (field + "\n");
+            str.append(field).append("\n");
         }
 
-        return str;
+        return str.toString();
     }
 
     /**

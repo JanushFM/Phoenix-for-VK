@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -17,6 +17,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.activity.SelectionUtils;
 import biz.dealnote.messenger.adapter.multidata.MultyDataAdapter;
 import biz.dealnote.messenger.model.Community;
 import biz.dealnote.messenger.model.DataWrapper;
@@ -28,11 +29,13 @@ public class CommunitiesAdapter extends MultyDataAdapter<Community, CommunitiesA
 
     private static final ItemInfo<Community> INFO = new ItemInfo<>();
     private final Transformation transformation;
+    private final Context context;
     private ActionListener actionListener;
 
-    public CommunitiesAdapter(Context context, List<DataWrapper<Community>> dataWrappers, int[] titles) {
+    public CommunitiesAdapter(Context context, List<DataWrapper<Community>> dataWrappers, Integer[] titles) {
         super(dataWrappers, titles);
         transformation = CurrentTheme.createTransformationForAvatar(context);
+        this.context = context;
     }
 
     @NotNull
@@ -47,13 +50,17 @@ public class CommunitiesAdapter extends MultyDataAdapter<Community, CommunitiesA
         get(position, INFO);
 
         Community community = INFO.item;
-        holder.headerRoot.setVisibility(INFO.internalPosition == 0 ? View.VISIBLE : View.GONE);
-        holder.headerTitle.setText(INFO.sectionTitleRes);
+        holder.headerRoot.setVisibility(INFO.internalPosition == 0 ? (INFO.sectionTitleRes == null ? View.GONE : View.VISIBLE) : View.GONE);
+        if (INFO.sectionTitleRes != null) {
+            holder.headerTitle.setText(INFO.sectionTitleRes);
+        }
 
         ViewUtils.displayAvatar(holder.ivAvatar, transformation, community.getMaxSquareAvatar(), Constants.PICASSO_TAG);
 
         holder.tvName.setText(community.getFullName());
         holder.subtitle.setText(R.string.community);
+
+        SelectionUtils.addSelectionProfileSupport(context, holder.avatar_root, community);
 
         holder.contentRoot.setOnClickListener(view -> {
             if (Objects.nonNull(actionListener)) {
@@ -72,6 +79,7 @@ public class CommunitiesAdapter extends MultyDataAdapter<Community, CommunitiesA
 
     static class Holder extends RecyclerView.ViewHolder {
 
+        ViewGroup avatar_root;
         View headerRoot;
         TextView headerTitle;
 
@@ -88,6 +96,7 @@ public class CommunitiesAdapter extends MultyDataAdapter<Community, CommunitiesA
             tvName = root.findViewById(R.id.name);
             ivAvatar = root.findViewById(R.id.avatar);
             subtitle = root.findViewById(R.id.subtitle);
+            avatar_root = itemView.findViewById(R.id.avatar_root);
         }
     }
 }

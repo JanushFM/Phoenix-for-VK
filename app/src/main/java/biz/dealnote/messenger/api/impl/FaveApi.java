@@ -15,7 +15,7 @@ import biz.dealnote.messenger.api.model.response.FavePageResponse;
 import biz.dealnote.messenger.api.model.response.FavePostsResponse;
 import biz.dealnote.messenger.api.services.IFaveService;
 import biz.dealnote.messenger.db.column.UserColumns;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
 

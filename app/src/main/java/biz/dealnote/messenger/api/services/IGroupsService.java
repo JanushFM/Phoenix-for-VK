@@ -10,7 +10,7 @@ import biz.dealnote.messenger.api.model.VkApiBanned;
 import biz.dealnote.messenger.api.model.response.BaseResponse;
 import biz.dealnote.messenger.api.model.response.GroupLongpollServer;
 import biz.dealnote.messenger.api.model.response.GroupWallInfoResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;

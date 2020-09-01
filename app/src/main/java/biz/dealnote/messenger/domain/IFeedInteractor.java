@@ -8,7 +8,7 @@ import biz.dealnote.messenger.model.FeedList;
 import biz.dealnote.messenger.model.News;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IFeedInteractor {
     Single<List<News>> getCachedFeed(int accountId);

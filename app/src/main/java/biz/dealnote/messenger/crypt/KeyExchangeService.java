@@ -49,8 +49,8 @@ import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Unixtime;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
@@ -679,7 +679,7 @@ public class KeyExchangeService extends Service {
             int localState = session.getLocalSessionState();
             int opponentState = session.getOppenentSessionState();
 
-            int state = localState > opponentState ? localState : opponentState;
+            int state = Math.max(localState, opponentState);
 
             builder.setProgress(SessionState.CLOSED, state, false);
             mNotificationManager.notify(String.valueOf(session.getId()), NOTIFICATION_KEY_EXCHANGE, builder.build());

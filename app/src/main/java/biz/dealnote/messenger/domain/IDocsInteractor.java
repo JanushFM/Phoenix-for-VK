@@ -4,8 +4,8 @@ import java.util.List;
 
 import biz.dealnote.messenger.fragment.search.criteria.DocumentSearchCriteria;
 import biz.dealnote.messenger.model.Document;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IDocsInteractor {
     Single<List<Document>> request(int accountId, int ownerId, int filter);

@@ -16,7 +16,7 @@ import biz.dealnote.messenger.mvp.view.search.IAudioPlaylistSearchView;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class AudioPlaylistSearchPresenter extends AbsSearchPresenter<IAudioPlaylistSearchView, AudioPlaylistSearchCriteria, AudioPlaylist, IntNextFrom> {
 

@@ -25,7 +25,7 @@ import biz.dealnote.messenger.push.OwnerInfo;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.push.NotificationUtils.configOtherPushNotification;
 

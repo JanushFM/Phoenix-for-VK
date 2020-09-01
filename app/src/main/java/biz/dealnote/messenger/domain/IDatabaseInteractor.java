@@ -9,7 +9,7 @@ import biz.dealnote.messenger.model.database.Faculty;
 import biz.dealnote.messenger.model.database.School;
 import biz.dealnote.messenger.model.database.SchoolClazz;
 import biz.dealnote.messenger.model.database.University;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IDatabaseInteractor {
     Single<List<Chair>> getChairs(int accoutnId, int facultyId, int count, int offset);

@@ -18,6 +18,7 @@ import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.domain.impl.GroupSettingsInteractor;
 import biz.dealnote.messenger.fragment.search.nextfrom.IntNextFrom;
 import biz.dealnote.messenger.model.Banned;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.ICommunityBlacklistView;
@@ -143,7 +144,13 @@ public class CommunityBlacklistPresenter extends AccountDependencyPresenter<ICom
         getView().startSelectProfilesActivity(getAccountId(), groupId);
     }
 
-    public void fireAddToBanUsersSelected(ArrayList<User> users) {
+    public void fireAddToBanUsersSelected(ArrayList<Owner> owners) {
+        ArrayList<User> users = new ArrayList<>();
+        for (Owner i : owners) {
+            if (i instanceof User) {
+                users.add((User) i);
+            }
+        }
         if (nonEmpty(users)) {
             getView().addUsersToBan(getAccountId(), groupId, users);
         }

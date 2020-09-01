@@ -23,8 +23,8 @@ import biz.dealnote.messenger.upload.UploadDestination;
 import biz.dealnote.messenger.upload.UploadResult;
 import biz.dealnote.messenger.upload.UploadUtils;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.RxUtils.safelyCloseAction;
 import static biz.dealnote.messenger.util.Utils.safelyClose;

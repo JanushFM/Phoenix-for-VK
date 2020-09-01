@@ -2,7 +2,7 @@ package biz.dealnote.messenger.api.interfaces;
 
 import biz.dealnote.messenger.api.model.LoginResponse;
 import biz.dealnote.messenger.api.model.VkApiValidationResponce;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IAuthApi {

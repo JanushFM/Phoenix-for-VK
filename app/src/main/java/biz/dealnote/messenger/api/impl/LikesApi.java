@@ -5,7 +5,7 @@ import biz.dealnote.messenger.api.TokenType;
 import biz.dealnote.messenger.api.interfaces.ILikesApi;
 import biz.dealnote.messenger.api.model.response.LikesListResponse;
 import biz.dealnote.messenger.api.services.ILikesService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class LikesApi extends AbsApi implements ILikesApi {

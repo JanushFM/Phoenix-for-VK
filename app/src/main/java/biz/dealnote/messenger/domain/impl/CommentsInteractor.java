@@ -51,11 +51,11 @@ import biz.dealnote.messenger.model.Poll;
 import biz.dealnote.messenger.model.criteria.CommentsCriteria;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.VKOwnIds;
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
-import io.reactivex.SingleTransformer;
-import io.reactivex.functions.BooleanSupplier;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.functions.BooleanSupplier;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;

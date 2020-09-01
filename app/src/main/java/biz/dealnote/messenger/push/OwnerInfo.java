@@ -12,7 +12,7 @@ import biz.dealnote.messenger.model.Community;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class OwnerInfo {
 

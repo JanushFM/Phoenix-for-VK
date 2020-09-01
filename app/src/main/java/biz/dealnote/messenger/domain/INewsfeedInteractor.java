@@ -4,7 +4,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.model.NewsfeedComment;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface INewsfeedInteractor {
 

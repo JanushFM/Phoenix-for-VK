@@ -14,7 +14,7 @@ import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IAnswerVKOfficialView;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.RxUtils.ignore;
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;

@@ -24,7 +24,7 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -41,7 +41,7 @@ import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.RoundTransformation;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.player.util.MusicUtils.mService;
 import static biz.dealnote.messenger.player.util.MusicUtils.observeServiceBinding;

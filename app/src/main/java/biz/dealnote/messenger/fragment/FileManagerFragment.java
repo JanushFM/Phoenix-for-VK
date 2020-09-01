@@ -25,6 +25,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
@@ -41,7 +43,11 @@ import biz.dealnote.messenger.listener.BackPressCallback;
 import biz.dealnote.messenger.model.FileItem;
 import biz.dealnote.messenger.util.InputTextDialog;
 import biz.dealnote.messenger.util.Logger;
+import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
+import biz.dealnote.messenger.view.MySearchView;
+
+import static biz.dealnote.messenger.util.Utils.isEmpty;
 
 public class FileManagerFragment extends Fragment implements FileManagerAdapter.ClickListener, BackPressCallback {
 
@@ -61,13 +67,14 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
     // Stores names of traversed directories
     private ArrayList<String> pathDirsList;
     private ArrayList<FileItem> fileList;
+    private ArrayList<FileItem> fileList_search;
+
     private boolean showHiddenFilesAndDirs = true;
-    private boolean directoryShownIsEmpty;
     private String filterFileExtension;
+    private String q;
     private RecyclerView mRecyclerView;
     private LinearLayoutManager mLinearLayoutManager;
     private TextView empty;
-    private ImageView btnSelectCurrentDir;
     private TextView tvCurrentDir;
     private FileManagerAdapter mAdapter;
     private File path;
@@ -87,23 +94,23 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
         // One binary gigabyte equals 1,073,741,824 bytes.
         if (bytes > 1073741824) {// Add GB
             long gbs = bytes / 1073741824;
-            retStr += (Long.valueOf(gbs)) + "GB ";
+            retStr += (gbs) + "GB ";
             bytes = bytes - (gbs * 1073741824);
         }
 
         // One MB - 1048576 bytes
         if (bytes > 1048576) {// Add GB
             long mbs = bytes / 1048576;
-            retStr += (Long.valueOf(mbs)) + "MB ";
+            retStr += (mbs) + "MB ";
             bytes = bytes - (mbs * 1048576);
         }
 
         if (bytes > 1024) {
             long kbs = bytes / 1024;
-            retStr += (Long.valueOf(kbs)) + "KB";
+            retStr += (kbs) + "KB";
             bytes = bytes - (kbs * 1024);
         } else {
-            retStr += (Long.valueOf(bytes)) + " bytes";
+            retStr += (bytes) + " bytes";
         }
 
         return retStr;
@@ -115,6 +122,7 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
         if (savedInstanceState != null) {
             restoreFromSavedInstanceState(savedInstanceState);
         }
+        fileList_search = new ArrayList<>();
 
         setHasOptionsMenu(true);
 
@@ -144,6 +152,32 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
         };
     }
 
+    public void fireSearchRequestChanged(String q) {
+        if (fileList == null) {
+            return;
+        }
+        String query = q == null ? null : q.trim();
+
+        if (Objects.safeEquals(q, this.q)) {
+            return;
+        }
+        this.q = query;
+        fileList_search.clear();
+        for (FileItem i : fileList) {
+            if (isEmpty(i.file)) {
+                continue;
+            }
+            if (i.file.toLowerCase().contains(q.toLowerCase())) {
+                fileList_search.add(i);
+            }
+        }
+
+        if (!isEmpty(q))
+            mAdapter.setItems(fileList_search);
+        else
+            mAdapter.setItems(fileList);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_file_explorer, container, false);
@@ -151,11 +185,28 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
         mRecyclerView = root.findViewById(R.id.list);
         empty = root.findViewById(R.id.empty);
 
+        MySearchView mySearchView = root.findViewById(R.id.searchview);
+        mySearchView.setRightButtonVisibility(false);
+        mySearchView.setLeftIcon(R.drawable.magnify);
+        mySearchView.setOnQueryTextListener(new MySearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                fireSearchRequestChanged(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                fireSearchRequestChanged(newText);
+                return false;
+            }
+        });
+
         mLinearLayoutManager = new LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setHasFixedSize(Boolean.TRUE);
 
-        btnSelectCurrentDir = root.findViewById(R.id.select_current_directory_button);
+        ImageView btnSelectCurrentDir = root.findViewById(R.id.select_current_directory_button);
         tvCurrentDir = root.findViewById(R.id.current_path);
 
         btnSelectCurrentDir.setVisibility(currentAction == SELECT_DIRECTORY ? View.VISIBLE : View.GONE);
@@ -168,7 +219,7 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (directoryScrollPositions == null) {
             directoryScrollPositions = new DirectoryScrollPositions();
@@ -218,7 +269,6 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
             String[] fList = path.list(filter);
             if (fList == null)
                 return;
-            directoryShownIsEmpty = false;
 
             for (int i = 0; i < fList.length; i++) {
                 // Convert into file path
@@ -240,24 +290,19 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
                 String details = isDirectory ? null : formatBytes(file.length());
                 fileList.add(i, new FileItem(isDirectory, fList[i], details, drawableID, mod, file.getAbsolutePath(), canRead));
             }
-
-            if (fileList.isEmpty()) {
-                directoryShownIsEmpty = true;
-            } else {
-                ArrayList<FileItem> dirsList = new ArrayList<>();
-                ArrayList<FileItem> flsList = new ArrayList<>();
-                for (FileItem i : fileList) {
-                    if (i.directory)
-                        dirsList.add(i);
-                    else
-                        flsList.add(i);
-                }
-                Collections.sort(dirsList, new ItemModificationComparator());
-                Collections.sort(flsList, new ItemModificationComparator());
-                fileList.clear();
-                fileList.addAll(dirsList);
-                fileList.addAll(flsList);
+            ArrayList<FileItem> dirsList = new ArrayList<>();
+            ArrayList<FileItem> flsList = new ArrayList<>();
+            for (FileItem i : fileList) {
+                if (i.directory)
+                    dirsList.add(i);
+                else
+                    flsList.add(i);
             }
+            Collections.sort(dirsList, new ItemModificationComparator());
+            Collections.sort(flsList, new ItemModificationComparator());
+            fileList.clear();
+            fileList.addAll(dirsList);
+            fileList.addAll(flsList);
         }
 
         resolveEmptyText();
@@ -422,9 +467,7 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
                 Toast.makeText(requireActivity(), R.string.path_not_exist, Toast.LENGTH_LONG).show();
             }
         } else {
-            if (!directoryShownIsEmpty) {
-                returnFileFinishActivity(sel.getAbsolutePath());
-            }
+            returnFileFinishActivity(sel.getAbsolutePath());
         }
     }
 
@@ -490,21 +533,17 @@ public class FileManagerFragment extends Fragment implements FileManagerAdapter.
         }
     }
 
-    private class ItemFileNameComparator implements Comparator<FileItem> {
+    private static class ItemFileNameComparator implements Comparator<FileItem> {
         @Override
         public int compare(FileItem lhs, FileItem rhs) {
             return lhs.file.toLowerCase().compareTo(rhs.file.toLowerCase());
         }
     }
 
-    private class ItemModificationComparator implements Comparator<FileItem> {
+    private static class ItemModificationComparator implements Comparator<FileItem> {
         @Override
         public int compare(FileItem lhs, FileItem rhs) {
-            if (lhs.Modification == rhs.Modification)
-                return 0;
-            if (lhs.Modification < rhs.Modification)
-                return 1;
-            return -1;
+            return Long.compare(rhs.Modification, lhs.Modification);
         }
     }
 }

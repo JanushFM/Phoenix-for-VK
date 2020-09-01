@@ -49,7 +49,7 @@ public class CommentEditFragment extends AbsAttachmentsEditFragment<CommentEditP
     public IPresenterFactory<CommentEditPresenter> getPresenterFactory(@Nullable Bundle saveInstanceState) {
         return () -> {
             int aid = requireArguments().getInt(Extra.ACCOUNT_ID);
-            Integer CommentThread = requireArguments().getParcelable(Extra.COMMENT_ID);
+            Integer CommentThread = requireArguments().getInt(Extra.COMMENT_ID);
             Comment comment = requireArguments().getParcelable(Extra.COMMENT);
             AssertUtils.requireNonNull(comment);
             return new CommentEditPresenter(comment, aid, CommentThread, saveInstanceState);

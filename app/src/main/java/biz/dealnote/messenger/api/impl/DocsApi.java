@@ -11,7 +11,7 @@ import biz.dealnote.messenger.api.model.VkApiDoc;
 import biz.dealnote.messenger.api.model.server.VkApiDocsUploadServer;
 import biz.dealnote.messenger.api.model.server.VkApiVideosUploadServer;
 import biz.dealnote.messenger.api.services.IDocsService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class DocsApi extends AbsApi implements IDocsApi {

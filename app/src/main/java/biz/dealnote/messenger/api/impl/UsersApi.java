@@ -14,7 +14,7 @@ import biz.dealnote.messenger.api.model.response.UserWallInfoResponse;
 import biz.dealnote.messenger.api.services.IUsersService;
 import biz.dealnote.messenger.exception.NotFoundException;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;

@@ -40,10 +40,17 @@
         android:paddingEnd="16dp"
         android:paddingBottom="8dp">
 
-        <ImageView
-            android:id="@+id/avatar"
+        <FrameLayout
+            android:id="@+id/avatar_root"
             android:layout_width="@dimen/avatar_size_chat"
-            android:layout_height="@dimen/avatar_size_chat" />
+            android:layout_height="@dimen/avatar_size_chat">
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/avatar_size_chat"
+                android:layout_height="@dimen/avatar_size_chat" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

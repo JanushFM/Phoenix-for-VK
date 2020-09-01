@@ -429,7 +429,7 @@ public abstract class AbsAttachmentsEditFragment<P extends AbsAttachmentsEditPre
 
     private void postResolveEmptyTextVisibility() {
         if (nonNull(mEmptyText)) {
-            Action<AbsAttachmentsEditFragment> action = AbsAttachmentsEditFragment::resolveEmptyTextVisibility;
+            Action<AbsAttachmentsEditFragment<P, V>> action = AbsAttachmentsEditFragment::resolveEmptyTextVisibility;
             mEmptyText.postDelayed(new WeakRunnable<>(this, action), 1000);
         }
     }

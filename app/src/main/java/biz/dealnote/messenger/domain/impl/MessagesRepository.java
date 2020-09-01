@@ -14,7 +14,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -121,14 +120,14 @@ import biz.dealnote.messenger.util.Unixtime;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.VKOwnIds;
 import biz.dealnote.messenger.util.WeakMainLooperHandler;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.SingleTransformer;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static biz.dealnote.messenger.longpoll.NotificationHelper.tryCancelNotificationForPeer;
 import static biz.dealnote.messenger.util.Objects.isNull;
@@ -566,15 +565,16 @@ public class MessagesRepository implements IMessagesRepository {
             InputStreamReader b = new InputStreamReader(context.getContentResolver().openInputStream(((Activity) context).getIntent().getData()));
             ChatJsonResponse resp = gson.fromJson(b, ChatJsonResponse.class);
             b.close();
+            if (resp == null || isEmpty(resp.page_title)) {
+                return Single.error(new Throwable("parsing error"));
+            }
             VKOwnIds ids = new VKOwnIds().append(resp.messages);
-
             return ownersRepository.findBaseOwnersDataAsBundle(accountId, ids.getAll(), IOwnersRepository.MODE_ANY, Collections.emptyList())
                     .map(bundle -> new Pair<>(new Peer(resp.page_id).setAvaUrl(resp.page_avatar).setTitle(resp.page_title), Dto2Model.transformMessages(resp.page_id, resp.messages, bundle)));
-        } catch (IOException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
+            return Single.error(e);
         }
-
-        return Single.just(new Pair<>(null, Collections.emptyList()));
     }
 
     @Override

@@ -4,7 +4,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.model.ProxyConfig;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 
 public interface IProxySettings {
     void put(String address, int port);

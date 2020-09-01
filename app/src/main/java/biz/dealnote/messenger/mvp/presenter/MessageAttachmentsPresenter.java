@@ -41,8 +41,8 @@ import biz.dealnote.messenger.util.FileUtil;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
-import io.reactivex.Single;
-import io.reactivex.functions.Predicate;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.Predicate;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -282,9 +282,7 @@ public class MessageAttachmentsPresenter extends RxSupportPresenter<IMessageAtta
     private void doUploadFile(String file) {
         new MaterialAlertDialogBuilder(context)
                 .setTitle(R.string.select)
-                .setNegativeButton(R.string.video, (dialog, which) -> {
-                    doUploadFile(file, 0, true);
-                })
+                .setNegativeButton(R.string.video, (dialog, which) -> doUploadFile(file, 0, true))
                 .setPositiveButton(R.string.photo, (dialog, which) -> {
                     Integer size = Settings.get()
                             .main()

@@ -2,6 +2,8 @@ package biz.dealnote.messenger.util;
 
 import androidx.exifinterface.media.ExifInterface;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ExifGeoDegree {
 
     private boolean valid;
@@ -59,6 +61,7 @@ public class ExifGeoDegree {
         return valid;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return (Latitude + ", " + Longitude);

@@ -31,7 +31,7 @@ import biz.dealnote.messenger.model.SimplePrivacy;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Utils.isEmpty;

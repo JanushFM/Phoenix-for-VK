@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
@@ -19,6 +20,7 @@ import biz.dealnote.messenger.Constants;
 
 public class FileUtil {
 
+    @SuppressLint("ConstantLocale")
     private static final DateFormat PHOTO_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
     private static final Random Random = new Random();
 

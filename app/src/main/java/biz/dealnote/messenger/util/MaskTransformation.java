@@ -10,7 +10,10 @@ import android.graphics.drawable.Drawable;
 
 import androidx.core.content.ContextCompat;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.RequestHandler;
+import com.squareup.picasso3.Transformation;
+
+import org.jetbrains.annotations.NotNull;
 
 public class MaskTransformation implements Transformation {
 
@@ -43,8 +46,17 @@ public class MaskTransformation implements Transformation {
         return drawable;
     }
 
+    @NotNull
     @Override
-    public Bitmap transform(Bitmap source) {
+    public String key() {
+        return "MaskTransformation(maskId=" + mContext.getResources().getResourceEntryName(mMaskId)
+                + ")";
+    }
+
+    @NotNull
+    @Override
+    public RequestHandler.Result.Bitmap transform(@NotNull RequestHandler.Result.Bitmap source_request) {
+        Bitmap source = source_request.getBitmap();
         int width = source.getWidth();
         int height = source.getHeight();
 
@@ -59,12 +71,6 @@ public class MaskTransformation implements Transformation {
 
         source.recycle();
 
-        return result;
-    }
-
-    @Override
-    public String key() {
-        return "MaskTransformation(maskId=" + mContext.getResources().getResourceEntryName(mMaskId)
-                + ")";
+        return new RequestHandler.Result.Bitmap(result, source_request.loadedFrom, source_request.exifRotation);
     }
 }

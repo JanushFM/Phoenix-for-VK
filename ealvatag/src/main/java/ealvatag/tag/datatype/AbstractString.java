@@ -74,6 +74,7 @@ public abstract class AbstractString extends AbstractDataType {
      */
     @NotNull
     public String toString() {
+        assert value != null;
         return (String) value;
     }
 

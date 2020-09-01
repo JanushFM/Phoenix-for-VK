@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.model.criteria;
 
+import java.util.Objects;
+
 public class MessagesCriteria extends Criteria {
 
     private final int accountId;
@@ -49,7 +51,7 @@ public class MessagesCriteria extends Criteria {
 
         return accountId == that.accountId
                 && peerId == that.peerId
-                && (startMessageId != null ? startMessageId.equals(that.startMessageId) : that.startMessageId == null);
+                && (Objects.equals(startMessageId, that.startMessageId));
     }
 
     @Override

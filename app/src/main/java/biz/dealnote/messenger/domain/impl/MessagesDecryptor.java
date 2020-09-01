@@ -13,8 +13,8 @@ import biz.dealnote.messenger.domain.IMessagesDecryptor;
 import biz.dealnote.messenger.model.CryptStatus;
 import biz.dealnote.messenger.model.Message;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Single;
-import io.reactivex.SingleTransformer;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleTransformer;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;

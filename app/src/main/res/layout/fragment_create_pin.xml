@@ -27,8 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="#FFF"
                 android:text="@string/create_pin_code_title"
+                android:textColor="#FFF"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -73,9 +73,9 @@
 
             <biz.dealnote.messenger.view.KeyboardView
                 android:id="@+id/keyboard"
-                android:layout_gravity="center"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:keyboard_theme="fullscreen" />
 
         </FrameLayout>

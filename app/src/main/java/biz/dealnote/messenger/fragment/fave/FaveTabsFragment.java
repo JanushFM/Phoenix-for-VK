@@ -32,12 +32,13 @@ import biz.dealnote.messenger.settings.Settings;
 public class FaveTabsFragment extends BaseFragment {
 
     public static final int TAB_UNKNOWN = -1;
-    public static final int TAB_PHOTOS = 0;
-    public static final int TAB_VIDEOS = 1;
+    public static final int TAB_PAGES = 0;
+    public static final int TAB_GROUPS = 1;
     public static final int TAB_POSTS = 2;
-    public static final int TAB_PAGES = 3;
-    public static final int TAB_LINKS = 4;
-    public static final int TAB_ARTICLES = 5;
+    public static final int TAB_LINKS = 3;
+    public static final int TAB_ARTICLES = 4;
+    public static final int TAB_PHOTOS = 5;
+    public static final int TAB_VIDEOS = 6;
     private int mAccountId;
 
     public static Bundle buildArgs(int accountId, int tab) {
@@ -138,11 +139,11 @@ public class FaveTabsFragment extends BaseFragment {
         List<ITab> tabs = new ArrayList<>();
         tabs.add(new Tab(() -> FavePagesFragment.newInstance(getAccountId(), true), getString(R.string.pages)));
         tabs.add(new Tab(() -> FavePagesFragment.newInstance(getAccountId(), false), getString(R.string.groups)));
-        tabs.add(new Tab(() -> FaveLinksFragment.newInstance(getAccountId()), getString(R.string.links)));
         tabs.add(new Tab(() -> FavePostsFragment.newInstance(getAccountId()), getString(R.string.posts)));
+        tabs.add(new Tab(() -> FaveLinksFragment.newInstance(getAccountId()), getString(R.string.links)));
+        tabs.add(new Tab(() -> FaveArticlesFragment.newInstance(getAccountId()), getString(R.string.articles)));
         tabs.add(new Tab(() -> FavePhotosFragment.newInstance(getAccountId()), getString(R.string.photos)));
         tabs.add(new Tab(() -> FaveVideosFragment.newInstance(getAccountId()), getString(R.string.videos)));
-        tabs.add(new Tab(() -> FaveArticlesFragment.newInstance(getAccountId()), getString(R.string.articles)));
         Adapter adapter = new Adapter(tabs, this);
         viewPager.setAdapter(adapter);
 

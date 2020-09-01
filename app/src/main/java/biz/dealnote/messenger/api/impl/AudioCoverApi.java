@@ -3,8 +3,8 @@ package biz.dealnote.messenger.api.impl;
 import biz.dealnote.messenger.api.IAudioCoverSeviceProvider;
 import biz.dealnote.messenger.api.interfaces.IAudioCoverApi;
 import biz.dealnote.messenger.api.model.AudioCoverAmazon;
-import io.reactivex.Single;
-import io.reactivex.exceptions.Exceptions;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.exceptions.Exceptions;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 

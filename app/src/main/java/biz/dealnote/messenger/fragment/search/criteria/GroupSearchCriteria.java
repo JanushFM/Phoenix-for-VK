@@ -2,6 +2,8 @@ package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.R;
@@ -73,6 +75,7 @@ public class GroupSearchCriteria extends BaseSearchCriteria {
         return 0;
     }
 
+    @NotNull
     @Override
     public GroupSearchCriteria clone() throws CloneNotSupportedException {
         return (GroupSearchCriteria) super.clone();

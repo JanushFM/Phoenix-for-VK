@@ -9,7 +9,7 @@ import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.api.model.VkApiFriendList;
 import biz.dealnote.messenger.api.model.response.DeleteFriendResponse;
 import biz.dealnote.messenger.api.model.response.OnlineFriendsResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IFriendsApi {

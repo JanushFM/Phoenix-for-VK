@@ -2,6 +2,10 @@ package biz.dealnote.messenger.fragment.search.options;
 
 import android.os.Parcel;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 public class SimpleTextOption extends BaseOption {
 
     public static final Creator<SimpleTextOption> CREATOR = new Creator<SimpleTextOption>() {
@@ -39,7 +43,7 @@ public class SimpleTextOption extends BaseOption {
         if (!super.equals(o)) return false;
 
         SimpleTextOption that = (SimpleTextOption) o;
-        return value != null ? value.equals(that.value) : that.value == null;
+        return Objects.equals(value, that.value);
     }
 
     @Override
@@ -49,6 +53,7 @@ public class SimpleTextOption extends BaseOption {
         return result;
     }
 
+    @NotNull
     @Override
     public SimpleTextOption clone() throws CloneNotSupportedException {
         SimpleTextOption clone = (SimpleTextOption) super.clone();

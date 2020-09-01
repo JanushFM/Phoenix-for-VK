@@ -4,7 +4,7 @@ import biz.dealnote.messenger.api.IServiceProvider;
 import biz.dealnote.messenger.api.TokenType;
 import biz.dealnote.messenger.api.interfaces.IStatusApi;
 import biz.dealnote.messenger.api.services.IStatusService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class StatusApi extends AbsApi implements IStatusApi {

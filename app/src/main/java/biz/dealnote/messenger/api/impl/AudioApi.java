@@ -16,7 +16,7 @@ import biz.dealnote.messenger.api.model.server.VkApiAudioUploadServer;
 import biz.dealnote.messenger.api.services.IAudioService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class AudioApi extends AbsApi implements IAudioApi {

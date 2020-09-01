@@ -77,7 +77,7 @@ public class CommunitiesFragment extends BaseMvpFragment<CommunitiesPresenter, I
             }
         });
 
-        mAdapter = new CommunitiesAdapter(requireActivity(), Collections.emptyList(), new int[0]);
+        mAdapter = new CommunitiesAdapter(requireActivity(), Collections.emptyList(), new Integer[0]);
         mAdapter.setActionListener(this);
 
         recyclerView.setAdapter(mAdapter);
@@ -109,7 +109,7 @@ public class CommunitiesFragment extends BaseMvpFragment<CommunitiesPresenter, I
             wrappers.add(filtered);
             wrappers.add(seacrh);
 
-            int[] titles = {R.string.my_communities_title, R.string.quick_search_title, R.string.other};
+            Integer[] titles = {null, R.string.quick_search_title, R.string.other};
             mAdapter.setData(wrappers, titles);
         }
     }

@@ -17,8 +17,8 @@ import biz.dealnote.messenger.exception.NotFoundException;
 import biz.dealnote.messenger.fragment.search.criteria.DocumentSearchCriteria;
 import biz.dealnote.messenger.model.Document;
 import biz.dealnote.messenger.model.criteria.DocsCriteria;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
 

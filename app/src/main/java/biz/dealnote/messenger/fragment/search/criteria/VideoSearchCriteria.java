@@ -2,6 +2,8 @@ package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.R;
@@ -66,6 +68,7 @@ public final class VideoSearchCriteria extends BaseSearchCriteria {
         return 0;
     }
 
+    @NotNull
     @Override
     public VideoSearchCriteria clone() throws CloneNotSupportedException {
         return (VideoSearchCriteria) super.clone();

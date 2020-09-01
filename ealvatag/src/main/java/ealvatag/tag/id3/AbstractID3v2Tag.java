@@ -1381,9 +1381,7 @@ public abstract class AbstractID3v2Tag extends AbstractID3Tag implements TagFiel
             if (key.startsWith(identifier)) {
                 Object o = frameMap.get(key);
                 if (o instanceof List) {
-                    for (Object next : (List) o) {
-                        result.add(next);
-                    }
+                    result.addAll((List) o);
                 } else {
                     result.add(o);
                 }

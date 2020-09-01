@@ -3,9 +3,9 @@ package biz.dealnote.messenger.push;
 import java.util.concurrent.Executors;
 
 import biz.dealnote.messenger.Injection;
-import io.reactivex.Scheduler;
-import io.reactivex.SingleTransformer;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.core.SingleTransformer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class NotificationScheduler {
 

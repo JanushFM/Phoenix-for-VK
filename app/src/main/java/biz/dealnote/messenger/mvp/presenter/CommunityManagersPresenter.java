@@ -20,6 +20,7 @@ import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.model.Community;
 import biz.dealnote.messenger.model.ContactInfo;
 import biz.dealnote.messenger.model.Manager;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.ICommunityManagersView;
@@ -29,6 +30,7 @@ import biz.dealnote.messenger.util.Utils;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
+import static biz.dealnote.messenger.util.Utils.nonEmpty;
 
 
 public class CommunityManagersPresenter extends AccountDependencyPresenter<ICommunityManagersView> {
@@ -194,7 +196,15 @@ public class CommunityManagersPresenter extends AccountDependencyPresenter<IComm
         getView().startSelectProfilesActivity(getAccountId(), groupId.getId());
     }
 
-    public void fireProfilesSelected(ArrayList<User> users) {
-        getView().startAddingUsersToManagers(getAccountId(), groupId.getId(), users);
+    public void fireProfilesSelected(ArrayList<Owner> owners) {
+        ArrayList<User> users = new ArrayList<>();
+        for (Owner i : owners) {
+            if (i instanceof User) {
+                users.add((User) i);
+            }
+        }
+        if (nonEmpty(users)) {
+            getView().startAddingUsersToManagers(getAccountId(), groupId.getId(), users);
+        }
     }
 }

@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -26,6 +28,7 @@ import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,6 +37,7 @@ import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.activity.ActivityFeatures;
 import biz.dealnote.messenger.activity.ActivityUtils;
+import biz.dealnote.messenger.activity.SelectProfilesActivity;
 import biz.dealnote.messenger.adapter.FeedAdapter;
 import biz.dealnote.messenger.adapter.horizontal.HorizontalOptionsAdapter;
 import biz.dealnote.messenger.domain.ILikesInteractor;
@@ -46,11 +50,13 @@ import biz.dealnote.messenger.model.CommentedType;
 import biz.dealnote.messenger.model.FeedSource;
 import biz.dealnote.messenger.model.LoadMoreState;
 import biz.dealnote.messenger.model.News;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.mvp.presenter.FeedPresenter;
 import biz.dealnote.messenger.mvp.view.IFeedView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
 import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.LoadMoreFooterHelper;
 import biz.dealnote.mvp.core.IPresenterFactory;
@@ -61,6 +67,7 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedView> implements IFeedView,
         SwipeRefreshLayout.OnRefreshListener, FeedAdapter.ClickListener, HorizontalOptionsAdapter.Listener<FeedSource>, HorizontalOptionsAdapter.CustomListener<FeedSource> {
 
+    private static final int REQUEST_CREATE_LIST = 216;
     private final Gson mGson = new Gson();
     private FeedAdapter mAdapter;
     private TextView mEmptyText;
@@ -103,6 +110,9 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.refresh) {
             getPresenter().fireRefresh();
+            return true;
+        } else if (item.getItemId() == R.id.action_create_list) {
+            SelectProfilesActivity.startFaveSelection(this, REQUEST_CREATE_LIST);
             return true;
         }
 
@@ -215,6 +225,16 @@ public class FeedFragment extends PlaceSupportMvpFragment<FeedPresenter, IFeedVi
     @Override
     public void onAvatarClick(int ownerId) {
         super.onOwnerClick(ownerId);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CREATE_LIST && resultCode == Activity.RESULT_OK) {
+            ArrayList<Owner> owners = data.getParcelableArrayListExtra(Extra.OWNERS);
+            AssertUtils.requireNonNull(owners);
+            postPrenseterReceive(presenter -> presenter.fireAddToFaveList(requireActivity(), owners));
+        }
     }
 
     @Override

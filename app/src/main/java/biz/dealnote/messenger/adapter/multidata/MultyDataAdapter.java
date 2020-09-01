@@ -10,14 +10,14 @@ import biz.dealnote.messenger.model.DataWrapper;
 public abstract class MultyDataAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private List<DataWrapper<T>> fullData;
-    private int[] titles;
+    private Integer[] titles;
 
-    public MultyDataAdapter(List<DataWrapper<T>> dataWrappers, int[] titles) {
+    public MultyDataAdapter(List<DataWrapper<T>> dataWrappers, Integer[] titles) {
         fullData = dataWrappers;
         this.titles = titles;
     }
 
-    public void setData(List<DataWrapper<T>> wrappers, int[] titles) {
+    public void setData(List<DataWrapper<T>> wrappers, Integer[] titles) {
         fullData = wrappers;
         this.titles = titles;
         notifyDataSetChanged();
@@ -124,6 +124,6 @@ public abstract class MultyDataAdapter<T, VH extends RecyclerView.ViewHolder> ex
 
         public int internalPosition;
 
-        public int sectionTitleRes;
+        public Integer sectionTitleRes;
     }
 }

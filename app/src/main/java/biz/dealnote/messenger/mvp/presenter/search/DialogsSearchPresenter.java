@@ -17,7 +17,7 @@ import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.view.search.IDialogsSearchView;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class DialogsSearchPresenter extends AbsSearchPresenter<IDialogsSearchView, DialogsSearchCriteria, Object, IntNextFrom> {
 

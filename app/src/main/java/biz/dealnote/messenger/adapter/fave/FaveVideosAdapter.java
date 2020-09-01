@@ -46,7 +46,7 @@ public class FaveVideosAdapter extends RecyclerView.Adapter<FaveVideosAdapter.Ho
     public void onBindViewHolder(@NonNull Holder holder, int position) {
         Video video = data.get(position);
 
-        holder.viewsCount.setText(context.getString(R.string.view_count, video.getViews()));
+        holder.viewsCount.setText(String.valueOf(video.getViews()));
         holder.title.setText(video.getTitle());
         holder.videoLenght.setText(AppTextUtils.getDurationString(video.getDuration()));
 

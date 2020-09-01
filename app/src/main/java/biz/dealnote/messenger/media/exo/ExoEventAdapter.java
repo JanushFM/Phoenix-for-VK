@@ -7,14 +7,16 @@ import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ExoEventAdapter implements Player.EventListener {
     @Override
-    public void onTimelineChanged(Timeline timeline, int reason) {
+    public void onTimelineChanged(@NotNull Timeline timeline, int reason) {
 
     }
 
     @Override
-    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+    public void onTracksChanged(@NotNull TrackGroupArray trackGroups, @NotNull TrackSelectionArray trackSelections) {
 
     }
 
@@ -39,7 +41,7 @@ public class ExoEventAdapter implements Player.EventListener {
     }
 
     @Override
-    public void onPlayerError(ExoPlaybackException error) {
+    public void onPlayerError(@NotNull ExoPlaybackException error) {
 
     }
 
@@ -49,7 +51,7 @@ public class ExoEventAdapter implements Player.EventListener {
     }
 
     @Override
-    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+    public void onPlaybackParametersChanged(@NotNull PlaybackParameters playbackParameters) {
 
     }
 

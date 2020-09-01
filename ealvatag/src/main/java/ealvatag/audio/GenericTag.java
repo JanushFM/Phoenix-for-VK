@@ -19,6 +19,8 @@ package ealvatag.audio;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
@@ -145,7 +147,7 @@ public abstract class GenericTag extends AbstractTag {
      *
      * @author Raphaël Slinckx
      */
-    protected class GenericTagTextField implements TagTextField {
+    protected static class GenericTagTextField implements TagTextField {
 
         /**
          * Stores the identifier.
@@ -224,6 +226,7 @@ public abstract class GenericTag extends AbstractTag {
             return "".equals(content);
         }
 
+        @NotNull
         @Override
         public String toString() {
             return getContent();

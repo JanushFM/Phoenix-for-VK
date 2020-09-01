@@ -10,7 +10,7 @@ import biz.dealnote.messenger.domain.ILikesInteractor;
 import biz.dealnote.messenger.domain.mappers.Dto2Model;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public class LikesInteractor implements ILikesInteractor {

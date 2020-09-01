@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.link.types;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DialogLink extends AbsLink {
 
     public int peerId;
@@ -9,6 +11,7 @@ public class DialogLink extends AbsLink {
         this.peerId = peerId;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "DialogLink{" +

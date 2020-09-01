@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.link.types;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DocLink extends AbsLink {
 
     public int ownerId;
@@ -11,6 +13,7 @@ public class DocLink extends AbsLink {
         this.ownerId = ownerId;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "DocLink{" +

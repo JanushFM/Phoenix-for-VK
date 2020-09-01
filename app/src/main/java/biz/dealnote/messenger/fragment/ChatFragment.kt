@@ -450,7 +450,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             PicassoInstance.with()
                     .load(peer?.avaUrl)
                     .transform(RoundTransformation())
-                    .into(Avatar)
+                    .into(Avatar!!)
         } else {
             PicassoInstance.with().cancelRequest(Avatar!!)
             EmptyAvatar?.visibility = View.VISIBLE
@@ -458,7 +458,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             if (name.length > 2) name = name.substring(0, 2)
             name = name.trim { it <= ' ' }
             EmptyAvatar?.text = name
-            Avatar?.setImageBitmap(RoundTransformation().transform(Utils.createGradientChatImage(200, 200, peer.id)))
+            Avatar?.setImageBitmap(RoundTransformation().transform(Utils.createGradientChatImage(200, 200, peer.id)).bitmap)
         }
     }
 

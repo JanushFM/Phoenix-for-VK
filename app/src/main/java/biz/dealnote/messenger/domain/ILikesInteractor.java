@@ -3,7 +3,7 @@ package biz.dealnote.messenger.domain;
 import java.util.List;
 
 import biz.dealnote.messenger.model.Owner;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface ILikesInteractor {
     String FILTER_LIKES = "likes";

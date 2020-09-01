@@ -5,7 +5,7 @@ import biz.dealnote.messenger.api.interfaces.ILongpollApi;
 import biz.dealnote.messenger.api.model.longpoll.VkApiGroupLongpollUpdates;
 import biz.dealnote.messenger.api.model.longpoll.VkApiLongpollUpdates;
 import biz.dealnote.messenger.api.services.ILongpollUpdatesService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public class LongpollApi implements ILongpollApi {

@@ -41,7 +41,7 @@ public class TitleExtractor {
             // read the response body, using BufferedReader for performance
             InputStream in = conn.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(in, charset));
-            int n = 0, totalRead = 0;
+            int n, totalRead = 0;
             char[] buf = new char[1024];
             StringBuilder content = new StringBuilder();
 

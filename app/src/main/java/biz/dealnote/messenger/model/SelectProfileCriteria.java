@@ -3,6 +3,11 @@ package biz.dealnote.messenger.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 
 public final class SelectProfileCriteria implements Parcelable {
 
@@ -17,23 +22,29 @@ public final class SelectProfileCriteria implements Parcelable {
             return new SelectProfileCriteria[size];
         }
     };
-    private boolean friendsOnly;
+    private @OwnerType
+    int ownerType;
 
     public SelectProfileCriteria(Parcel in) {
-        friendsOnly = in.readByte() != 0;
+        ownerType = in.readInt();
     }
 
     public SelectProfileCriteria() {
-
+        ownerType = OwnerType.ALL_PEOPLE;
     }
 
-    public boolean isFriendsOnly() {
-        return friendsOnly;
+    @OwnerType
+    public int getOwnerType() {
+        return ownerType;
     }
 
-    public SelectProfileCriteria setFriendsOnly(boolean friendsOnly) {
-        this.friendsOnly = friendsOnly;
+    public SelectProfileCriteria setOwnerType(@OwnerType int ownerType) {
+        this.ownerType = ownerType;
         return this;
+    }
+
+    public boolean getIsPeopleOnly() {
+        return ownerType == OwnerType.ALL_PEOPLE || ownerType == OwnerType.ONLY_FRIENDS;
     }
 
     @Override
@@ -43,6 +54,16 @@ public final class SelectProfileCriteria implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (friendsOnly ? 1 : 0));
+        dest.writeInt(ownerType);
+    }
+
+    @IntDef({OwnerType.ALL_PEOPLE,
+            OwnerType.ONLY_FRIENDS,
+            OwnerType.OWNERS})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface OwnerType {
+        int ALL_PEOPLE = 1;
+        int ONLY_FRIENDS = 2;
+        int OWNERS = 3;
     }
 }

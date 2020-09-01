@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Picasso;
+import com.squareup.picasso3.RequestCreator;
+import com.squareup.picasso3.Transformation;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.PicassoInstance;

@@ -42,6 +42,7 @@ import biz.dealnote.messenger.mvp.presenter.UserBannedPresenter;
 import biz.dealnote.messenger.mvp.view.IUserBannedView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
+import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
@@ -166,7 +167,8 @@ public class UserBannedFragment extends BaseMvpFragment<UserBannedPresenter, IUs
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT && resultCode == Activity.RESULT_OK) {
-            ArrayList<User> users = data.getParcelableArrayListExtra(Extra.USERS);
+            ArrayList<Owner> users = data.getParcelableArrayListExtra(Extra.OWNERS);
+            AssertUtils.requireNonNull(users);
             postPrenseterReceive(presenter -> presenter.fireUsersSelected(users));
         }
     }

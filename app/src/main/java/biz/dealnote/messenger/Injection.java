@@ -29,8 +29,8 @@ import biz.dealnote.messenger.settings.SettingsImpl;
 import biz.dealnote.messenger.upload.IUploadManager;
 import biz.dealnote.messenger.upload.UploadManagerImpl;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Scheduler;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 

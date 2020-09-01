@@ -1,6 +1,6 @@
 package biz.dealnote.messenger.api;
 
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.OkHttpClient;
 
 public interface IVkRetrofitProvider {

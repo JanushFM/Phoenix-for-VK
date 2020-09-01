@@ -25,6 +25,8 @@
  */
 package ealvatag.logging;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 
 /**
@@ -96,5 +98,6 @@ public abstract class AbstractTagDisplayFormatter {
 
     public abstract void addElement(String type, boolean value);
 
+    @NotNull
     public abstract String toString();
 }

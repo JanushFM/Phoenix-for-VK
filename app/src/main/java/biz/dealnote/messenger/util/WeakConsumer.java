@@ -2,7 +2,7 @@ package biz.dealnote.messenger.util;
 
 import java.lang.ref.WeakReference;
 
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.functions.Consumer;
 
 public class WeakConsumer<T> implements Consumer<T> {
 
@@ -13,7 +13,7 @@ public class WeakConsumer<T> implements Consumer<T> {
     }
 
     @Override
-    public void accept(T t) throws Exception {
+    public void accept(T t) throws Throwable {
         Consumer<T> orig = ref.get();
         if (orig != null) {
             orig.accept(t);

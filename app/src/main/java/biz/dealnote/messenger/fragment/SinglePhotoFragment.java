@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Callback;
+import com.squareup.picasso3.Callback;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -83,6 +83,7 @@ public class SinglePhotoFragment extends BaseFragment
         photo_prefix = DownloadWorkUtils.makeLegalFilename(requireArguments().getString(Extra.KEY), null);
     }
 
+    @SuppressWarnings("unchecked")
     @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
@@ -295,7 +296,7 @@ public class SinglePhotoFragment extends BaseFragment
         }
 
         @Override
-        public void onError(Exception e) {
+        public void onError(Throwable e) {
             mLoadingNow = false;
             resolveProgressVisibility();
             reload.setVisibility(View.VISIBLE);

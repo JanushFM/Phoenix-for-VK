@@ -61,14 +61,14 @@ public class AnswerVKOfficialDtoAdapter extends AbsAdapter implements JsonDeseri
             dto.iconType = optString(root_item, "icon_type");
             dto.header = optString(root_item, "header");
             if (dto.header != null) {
-                dto.header = dto.header.replace("{date}", "").replaceAll("'''(((?!''').)*)'''", "<b>$1</b>").replaceAll("\\[vk(ontakte)?:\\/\\/[A-Za-z0-9\\/\\?=]+\\|([^\\]]+)\\]", "$2");
+                dto.header = dto.header.replace("{date}", "").replaceAll("'''(((?!''').)*)'''", "<b>$1</b>").replaceAll("\\[vk(ontakte)?://[A-Za-z0-9/?=]+\\|([^]]+)]", "$2");
             }
             dto.text = optString(root_item, "text");
             if (dto.text != null)
-                dto.text = dto.text.replace("{date}", "").replaceAll("'''(((?!''').)*)'''", "<b>$1</b>").replaceAll("\\[vk(ontakte)?:\\/\\/[A-Za-z0-9\\/\\?=]+\\|([^\\]]+)\\]", "$2");
+                dto.text = dto.text.replace("{date}", "").replaceAll("'''(((?!''').)*)'''", "<b>$1</b>").replaceAll("\\[vk(ontakte)?://[A-Za-z0-9/?=]+\\|([^]]+)]", "$2");
             dto.footer = optString(root_item, "footer");
             if (dto.footer != null)
-                dto.footer = dto.footer.replace("{date}", "").replaceAll("'''(((?!''').)*)'''", "<b>$1</b>").replaceAll("\\[vk(ontakte)?:\\/\\/[A-Za-z0-9\\/\\?=]+\\|([^\\]]+)\\]", "$2");
+                dto.footer = dto.footer.replace("{date}", "").replaceAll("'''(((?!''').)*)'''", "<b>$1</b>").replaceAll("\\[vk(ontakte)?://[A-Za-z0-9/?=]+\\|([^]]+)]", "$2");
             dto.time = optLong(root_item, "date");
             dto.iconURL = optString(root_item, "icon_url");
 

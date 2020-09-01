@@ -27,7 +27,7 @@ import biz.dealnote.messenger.mvp.view.IWallPostView;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 
 import static biz.dealnote.messenger.api.model.VkApiPostSource.Data.PROFILE_ACTIVITY;
 import static biz.dealnote.messenger.api.model.VkApiPostSource.Data.PROFILE_PHOTO;

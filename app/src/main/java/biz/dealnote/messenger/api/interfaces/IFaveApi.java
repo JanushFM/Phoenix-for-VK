@@ -11,7 +11,7 @@ import biz.dealnote.messenger.api.model.VKApiPhoto;
 import biz.dealnote.messenger.api.model.VKApiVideo;
 import biz.dealnote.messenger.api.model.response.FavePageResponse;
 import biz.dealnote.messenger.api.model.response.FavePostsResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IFaveApi {

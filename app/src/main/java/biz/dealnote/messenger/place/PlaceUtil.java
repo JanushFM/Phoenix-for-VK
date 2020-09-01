@@ -26,7 +26,7 @@ import biz.dealnote.messenger.model.WallEditorAttrs;
 import biz.dealnote.messenger.spots.SpotsDialog;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class PlaceUtil {
 

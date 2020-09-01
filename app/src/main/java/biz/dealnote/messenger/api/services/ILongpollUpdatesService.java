@@ -2,7 +2,7 @@ package biz.dealnote.messenger.api.services;
 
 import biz.dealnote.messenger.api.model.longpoll.VkApiGroupLongpollUpdates;
 import biz.dealnote.messenger.api.model.longpoll.VkApiLongpollUpdates;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import retrofit2.http.Url;

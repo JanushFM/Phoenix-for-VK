@@ -12,7 +12,7 @@ import biz.dealnote.messenger.api.model.upload.UploadPhotoToAlbumDto;
 import biz.dealnote.messenger.api.model.upload.UploadPhotoToMessageDto;
 import biz.dealnote.messenger.api.model.upload.UploadPhotoToWallDto;
 import biz.dealnote.messenger.api.model.upload.UploadVideoDto;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IUploadApi {
     Single<UploadDocDto> uploadDocumentRx(String server, String filename, @NonNull InputStream doc, PercentagePublisher listener);

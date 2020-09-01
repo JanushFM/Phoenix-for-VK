@@ -22,7 +22,7 @@ import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Predicate;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.RxUtils.subscribeOnIOAndIgnore;

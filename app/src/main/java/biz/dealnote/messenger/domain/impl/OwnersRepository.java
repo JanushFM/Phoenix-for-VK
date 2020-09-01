@@ -48,11 +48,11 @@ import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Unixtime;
 import biz.dealnote.messenger.util.VKOwnIds;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.processors.PublishProcessor;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.functions.BiFunction;
+import io.reactivex.rxjava3.processors.PublishProcessor;
 
 import static biz.dealnote.messenger.api.model.VKApiCommunity.ACTIVITY;
 import static biz.dealnote.messenger.api.model.VKApiCommunity.BAN_INFO;

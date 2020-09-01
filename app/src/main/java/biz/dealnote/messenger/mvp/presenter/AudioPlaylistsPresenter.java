@@ -15,12 +15,11 @@ import biz.dealnote.messenger.domain.InteractorFactory;
 import biz.dealnote.messenger.model.AudioPlaylist;
 import biz.dealnote.messenger.mvp.presenter.base.AccountDependencyPresenter;
 import biz.dealnote.messenger.mvp.view.IAudioPlaylistsView;
-import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
@@ -28,11 +27,14 @@ import static biz.dealnote.messenger.util.Utils.nonEmpty;
 public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPlaylistsView> {
 
     private static final int SEARCH_COUNT = 20;
+    private static final int GET_COUNT = 50;
     private static final int WEB_SEARCH_DELAY = 1000;
+    private final List<AudioPlaylist> addon;
     private final List<AudioPlaylist> pages;
     private final IAudioInteractor fInteractor;
     private final int owner_id;
     private final CompositeDisposable actualDataDisposable = new CompositeDisposable();
+    private int Foffset;
     private boolean actualDataReceived;
     private boolean endOfContent;
     private boolean actualDataLoading;
@@ -42,12 +44,22 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
         super(accountId, savedInstanceState);
         owner_id = ownerId;
         pages = new ArrayList<>();
+        addon = new ArrayList<>();
         fInteractor = InteractorFactory.createAudioInteractor();
         search_at = new FindAt();
     }
 
     public void LoadAudiosTool() {
-        loadActualData(0);
+        if (getAccountId() == owner_id) {
+            actualDataDisposable.add(fInteractor.getDualPlaylists(getAccountId(), owner_id, -21, -22)
+                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .subscribe(pl -> {
+                        addon.addAll(pl);
+                        loadActualData(0);
+                    }, i -> loadActualData(0)));
+        } else {
+            loadActualData(0);
+        }
     }
 
     public int getOwner_id() {
@@ -66,7 +78,7 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
         resolveRefreshingView();
 
         int accountId = getAccountId();
-        actualDataDisposable.add(fInteractor.getPlaylists(accountId, owner_id, offset)
+        actualDataDisposable.add(fInteractor.getPlaylists(accountId, owner_id, offset, GET_COUNT)
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> onActualDataReceived(offset, data), this::onActualDataGetError));
 
@@ -80,23 +92,14 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
     }
 
     private void onActualDataReceived(int offset, List<AudioPlaylist> data) {
-
+        Foffset = offset + GET_COUNT;
         actualDataLoading = false;
         endOfContent = data.isEmpty();
         actualDataReceived = true;
 
-        if (Settings.get().other().isDebug_mode() && data.isEmpty() && getAccountId() == owner_id) {
-            actualDataDisposable.add(fInteractor.getDualPlaylists(getAccountId(), owner_id, -21, -22)
-                    .compose(RxUtils.applySingleIOToMainSchedulers())
-                    .subscribe(pl -> {
-                        int startSize = pages.size();
-                        pages.addAll(pl);
-                        callView(view -> view.notifyDataAdded(startSize, pl.size()));
-                    }, this::onActualDataGetError));
-        }
-
         if (offset == 0) {
             pages.clear();
+            pages.addAll(addon);
             pages.addAll(data);
             callView(IAudioPlaylistsView::notifyDataSetChanged);
         } else {
@@ -128,7 +131,7 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
 
     public boolean fireScrollToEnd() {
         if (!endOfContent && nonEmpty(pages) && actualDataReceived && !actualDataLoading) {
-            loadActualData(pages.size());
+            loadActualData(Foffset);
             return false;
         }
         return true;
@@ -196,7 +199,7 @@ public class AudioPlaylistsPresenter extends AccountDependencyPresenter<IAudioPl
                 .compose(RxUtils.applySingleIOToMainSchedulers())
                 .subscribe(data -> {
                     pages.remove(index);
-                    callView(view -> view.notifyDataSetChanged());
+                    callView(IAudioPlaylistsView::notifyDataSetChanged);
                     getView().getPhoenixToast().showToast(R.string.success);
                 }, throwable ->
                         getView().getPhoenixToast().showToastError(throwable.getLocalizedMessage())));

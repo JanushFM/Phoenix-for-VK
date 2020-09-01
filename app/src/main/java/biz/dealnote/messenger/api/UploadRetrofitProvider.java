@@ -10,12 +10,12 @@ import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.settings.IProxySettings;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -84,7 +84,7 @@ public class UploadRetrofitProvider implements IUploadRetrofitProvider {
         return new Retrofit.Builder()
                 .baseUrl("https://" + Settings.get().other().get_Api_Domain() + "/method/") // dummy
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .client(builder.build())
                 .build();
     }

@@ -73,6 +73,7 @@ public class NotificationHelper {
     public static final int NOTIFICATION_UPLOAD = 73;
     public static final int NOTIFICATION_DOWNLOADING = 74;
     public static final int NOTIFICATION_DOWNLOAD = 75;
+    public static final int NOTIFICATION_DOWNLOAD_MANAGER = 76;
 
     /**
      * Отображение уведомления в statusbar о новом сообщении.

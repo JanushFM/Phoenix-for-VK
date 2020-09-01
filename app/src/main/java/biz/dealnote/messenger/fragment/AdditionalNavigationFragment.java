@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -40,7 +40,7 @@ import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.NightMode;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.model.SwitchableCategory.BOOKMARKS;
 import static biz.dealnote.messenger.model.SwitchableCategory.DOCS;

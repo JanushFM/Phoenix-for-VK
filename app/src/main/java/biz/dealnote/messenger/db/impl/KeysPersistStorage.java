@@ -17,9 +17,9 @@ import biz.dealnote.messenger.db.interfaces.IKeysStorage;
 import biz.dealnote.messenger.exception.DatabaseException;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 

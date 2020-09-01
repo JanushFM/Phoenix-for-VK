@@ -29,9 +29,9 @@ import biz.dealnote.messenger.model.SentMsg;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.model.WriteText;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IMessagesRepository {
     Flowable<Throwable> observeMessagesSendErrors();

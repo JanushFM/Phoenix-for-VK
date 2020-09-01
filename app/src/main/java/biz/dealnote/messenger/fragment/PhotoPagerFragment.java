@@ -28,7 +28,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.squareup.picasso.Callback;
+import com.squareup.picasso3.Callback;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -617,7 +617,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
         }
 
         @Override
-        public void onError(Exception e) {
+        public void onError(@NotNull Throwable e) {
             mLoadingNow = false;
             resolveProgressVisibility();
             reload.setVisibility(View.VISIBLE);
@@ -632,6 +632,7 @@ public class PhotoPagerFragment extends BaseMvpFragment<PhotoPagerPresenter, IPh
             mPhotos = data;
         }
 
+        @SuppressWarnings("unchecked")
         @SuppressLint("ClickableViewAccessibility")
         @NonNull
         @Override

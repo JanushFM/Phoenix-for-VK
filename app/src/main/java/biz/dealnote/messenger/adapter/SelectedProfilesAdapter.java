@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +18,8 @@ import java.util.List;
 
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.PicassoInstance;
+import biz.dealnote.messenger.model.Community;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.settings.CurrentTheme;
 
@@ -27,11 +29,11 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static final int VIEW_TYPE_USER = 1;
 
     private final Context mContext;
-    private final List<User> mData;
+    private final List<Owner> mData;
     private final Transformation mTransformation;
     private ActionListener mActionListener;
 
-    public SelectedProfilesAdapter(Context context, List<User> data) {
+    public SelectedProfilesAdapter(Context context, List<Owner> data) {
         mContext = context;
         mData = data;
         mTransformation = CurrentTheme.createTransformationForAvatar(context);
@@ -82,17 +84,26 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     private void bindProfileViewHolder(ProfileViewHolder holder, int adapterPosition) {
-        User user = mData.get(toDataPosition(adapterPosition));
-        holder.name.setText(user.getFirstName());
+        Owner owner = mData.get(toDataPosition(adapterPosition));
+        String title = null;
+        String ava = null;
+        if (owner instanceof User) {
+            title = ((User) owner).getFirstName();
+            ava = ((User) owner).getPhoto50();
+        } else if (owner instanceof Community) {
+            title = ((Community) owner).getName();
+            ava = ((Community) owner).getPhoto50();
+        }
+        holder.name.setText(title);
 
         PicassoInstance.with()
-                .load(user.getPhoto50())
+                .load(ava)
                 .transform(mTransformation)
                 .into(holder.avatar);
 
         holder.buttonRemove.setOnClickListener(v -> {
             if (mActionListener != null) {
-                mActionListener.onClick(holder.getBindingAdapterPosition(), user);
+                mActionListener.onClick(holder.getBindingAdapterPosition(), owner);
             }
         });
     }
@@ -119,7 +130,7 @@ public class SelectedProfilesAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public interface ActionListener extends EventListener {
-        void onClick(int adapterPosition, User user);
+        void onClick(int adapterPosition, Owner owner);
 
         void onCheckClick();
     }

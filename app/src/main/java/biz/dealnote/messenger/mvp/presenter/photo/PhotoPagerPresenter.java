@@ -47,7 +47,7 @@ import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
+import io.reactivex.rxjava3.core.Completable;
 
 import static biz.dealnote.messenger.util.Utils.findIndexById;
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;

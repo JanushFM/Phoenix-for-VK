@@ -22,7 +22,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +54,7 @@ import biz.dealnote.messenger.util.RoundTransformation;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.WeakViewAnimatorAdapter;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 

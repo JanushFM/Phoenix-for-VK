@@ -157,8 +157,6 @@ class UISettings implements ISettings.IUISettings {
         switch (page) {
             case "1":
                 return PlaceFactory.getFriendsFollowersPlace(accountId, accountId, FriendsTabsFragment.TAB_ALL_FRIENDS, null);
-            case "2":
-                return PlaceFactory.getDialogsPlace(accountId, accountId, null, 0);
             case "3":
                 return PlaceFactory.getFeedPlace(accountId);
             case "4":

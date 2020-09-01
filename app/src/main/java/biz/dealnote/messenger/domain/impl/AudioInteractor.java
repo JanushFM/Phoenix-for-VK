@@ -27,8 +27,8 @@ import biz.dealnote.messenger.util.AppPerms;
 import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;
@@ -193,10 +193,10 @@ public class AudioInteractor implements IAudioInteractor {
     }
 
     @Override
-    public Single<List<AudioPlaylist>> getPlaylists(int accountId, int owner_id, int offset) {
+    public Single<List<AudioPlaylist>> getPlaylists(int accountId, int owner_id, int offset, int count) {
         return networker.vkDefault(accountId)
                 .audio()
-                .getPlaylists(owner_id, offset, 50)
+                .getPlaylists(owner_id, offset, count)
                 .map(items -> listEmptyIfNull(items.getItems()))
                 .map(out -> {
                     List<AudioPlaylist> ret = new ArrayList<>();

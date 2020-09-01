@@ -1,6 +1,8 @@
 package biz.dealnote.messenger.mvp.presenter;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,16 +21,19 @@ import biz.dealnote.messenger.model.FeedList;
 import biz.dealnote.messenger.model.FeedSource;
 import biz.dealnote.messenger.model.LoadMoreState;
 import biz.dealnote.messenger.model.News;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.mvp.presenter.base.PlaceSupportPresenter;
 import biz.dealnote.messenger.mvp.view.IFeedView;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.DisposableHolder;
-import biz.dealnote.messenger.util.RxUtils;
+import biz.dealnote.messenger.util.InputTextDialog;
+import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
+import static biz.dealnote.messenger.util.RxUtils.applySingleIOToMainSchedulers;
 import static biz.dealnote.messenger.util.RxUtils.ignore;
 import static biz.dealnote.messenger.util.Utils.isEmpty;
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
@@ -91,7 +96,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         int accountId = getAccountId();
 
         appendDisposable(feedInteractor.getCachedFeedLists(accountId)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .compose(applySingleIOToMainSchedulers())
                 .subscribe(lists -> {
                     onFeedListsUpdated(lists);
                     requestActualFeedLists();
@@ -101,7 +106,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
     private void requestActualFeedLists() {
         int accountId = getAccountId();
         appendDisposable(feedInteractor.getActualFeedLists(accountId)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .compose(applySingleIOToMainSchedulers())
                 .subscribe(this::onFeedListsUpdated, ignore()));
     }
 
@@ -132,11 +137,11 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
 
         if ("updates".equals(sourcesIds)) {
             loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, "photo,photo_tag,wall_photo,friend,audio,video", 9, sourcesIds)
-                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .compose(applySingleIOToMainSchedulers())
                     .subscribe(pair -> onActualFeedReceived(startFrom, pair.getFirst(), pair.getSecond()), this::onActualFeedGetError));
         } else {
             loadingHolder.append(feedInteractor.getActualFeed(accountId, 25, startFrom, isEmpty(sourcesIds) ? "post" : null, 9, sourcesIds)
-                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .compose(applySingleIOToMainSchedulers())
                     .subscribe(pair -> onActualFeedReceived(startFrom, pair.getFirst(), pair.getSecond()), this::onActualFeedGetError));
         }
     }
@@ -202,7 +207,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
 
         cacheLoadingHolder.append(feedInteractor
                 .getCachedFeed(accountId)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .compose(applySingleIOToMainSchedulers())
                 .subscribe(feed -> onCachedFeedReceived(feed, thenScrollToState), ignore()));
     }
 
@@ -234,7 +239,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         if (mFeed.isEmpty()) {
             requestFeedAtLast(null);
         } else {
-            if (Utils.needReloadNews()) {
+            if (Utils.needReloadNews(getAccountId())) {
                 int vr = Settings.get().main().getStart_newsMode();
                 if (vr == 2) {
                     getView().askToReload();
@@ -372,6 +377,27 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
         }
     }
 
+    public void fireAddToFaveList(Context context, ArrayList<Owner> owners) {
+        if (isEmpty(owners)) {
+            return;
+        }
+        List<Integer> Ids = new ArrayList<>(owners.size());
+        for (Owner i : owners) {
+            Ids.add(i.getOwnerId());
+        }
+        new InputTextDialog.Builder(context)
+                .setTitleRes(R.string.set_news_list_title)
+                .setAllowEmpty(false)
+                .setInputType(InputType.TYPE_CLASS_TEXT)
+                .setCallback(newValue -> appendDisposable(feedInteractor.saveList(getAccountId(), newValue.trim(), Ids)
+                        .compose(applySingleIOToMainSchedulers())
+                        .subscribe(t -> {
+                            PhoenixToast.CreatePhoenixToast(context).showToastSuccessBottom(R.string.success);
+                            requestActualFeedLists();
+                        }, i -> showError(getView(), i))))
+                .show();
+    }
+
     public void fireFeedSourceClick(FeedSource entry) {
         mSourceIds = entry.getValue();
         mNextFrom = null;
@@ -389,7 +415,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
 
     public void fireFeedSourceDelete(Integer id) {
         appendDisposable(feedInteractor.deleteList(getAccountId(), id)
-                .compose(RxUtils.applySingleIOToMainSchedulers())
+                .compose(applySingleIOToMainSchedulers())
                 .subscribe(ignore(), t -> showError(getView(), t)));
     }
 
@@ -426,7 +452,7 @@ public class FeedPresenter extends PlaceSupportPresenter<IFeedView> {
             int accountId = getAccountId();
 
             appendDisposable(walls.like(accountId, news.getSourceId(), news.getPostId(), add)
-                    .compose(RxUtils.applySingleIOToMainSchedulers())
+                    .compose(applySingleIOToMainSchedulers())
                     .subscribe(ignore(), ignore()));
         }
     }

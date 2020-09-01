@@ -35,8 +35,8 @@ import biz.dealnote.messenger.model.criteria.FaveArticlesCriteria;
 import biz.dealnote.messenger.model.criteria.FavePhotosCriteria;
 import biz.dealnote.messenger.model.criteria.FavePostsCriteria;
 import biz.dealnote.messenger.model.criteria.FaveVideosCriteria;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.db.impl.OwnersStorage.appendOwnersInsertOperations;
 import static biz.dealnote.messenger.util.Objects.isNull;
@@ -174,7 +174,7 @@ class FaveStorage extends AbsStorage implements IFaveStorage {
     public Completable removeLink(int accountId, String id) {
         return Completable.fromAction(() -> {
             Uri uri = MessengerContentProvider.getFaveLinksContentUriFor(accountId);
-            final String where = FaveLinksColumns.LINK_ID + " LIKE ?";
+            String where = FaveLinksColumns.LINK_ID + " LIKE ?";
             String[] args = {id};
             getContentResolver().delete(uri, where, args);
         });

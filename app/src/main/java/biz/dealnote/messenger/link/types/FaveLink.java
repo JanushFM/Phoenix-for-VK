@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.link.types;
 
+import org.jetbrains.annotations.NotNull;
+
 public class FaveLink extends AbsLink {
 
     public static final String SECTION_VIDEOS = "likes_video";
@@ -20,6 +22,7 @@ public class FaveLink extends AbsLink {
         this(null);
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "FaveLink{" +

@@ -22,6 +22,8 @@ package ealvatag.tag.datatype;
 
 import com.google.common.base.Strings;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.charset.Charset;
 
 import ealvatag.tag.id3.AbstractTagFrameBody;
@@ -82,6 +84,7 @@ public class StringHashMap extends StringFixedLength {
                 super.equals(obj);
     }
 
+    @NotNull
     public String toString() {
         if (value != null) {
             return Strings.nullToEmpty(simpleStringStringMap.getValue(value.toString()));

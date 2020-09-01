@@ -26,8 +26,8 @@ import biz.dealnote.messenger.model.VideoCriteria;
 import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.join;
 import static biz.dealnote.messenger.util.Utils.listEmptyIfNull;

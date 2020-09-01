@@ -14,8 +14,8 @@ import biz.dealnote.messenger.db.column.TempDataColumns;
 import biz.dealnote.messenger.db.interfaces.ITempDataStorage;
 import biz.dealnote.messenger.db.serialize.ISerializeAdapter;
 import biz.dealnote.messenger.util.Exestime;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 
 public class TempDataStorage implements ITempDataStorage {

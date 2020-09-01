@@ -30,7 +30,7 @@ import biz.dealnote.messenger.db.model.entity.feedback.PostFeedbackEntity;
 import biz.dealnote.messenger.db.model.entity.feedback.ReplyCommentEntity;
 import biz.dealnote.messenger.db.model.entity.feedback.UsersEntity;
 import biz.dealnote.messenger.model.criteria.NotificationsCriteria;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;

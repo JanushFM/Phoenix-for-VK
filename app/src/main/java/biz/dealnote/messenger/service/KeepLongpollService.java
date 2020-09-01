@@ -22,7 +22,7 @@ import biz.dealnote.messenger.longpoll.LongpollInstance;
 import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class KeepLongpollService extends Service {
 

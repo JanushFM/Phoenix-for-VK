@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.R;
@@ -14,21 +13,27 @@ import biz.dealnote.messenger.db.Stores;
 import biz.dealnote.messenger.model.LocalVideo;
 import biz.dealnote.messenger.mvp.presenter.base.RxSupportPresenter;
 import biz.dealnote.messenger.mvp.view.ILocalVideosView;
+import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
+
+import static biz.dealnote.messenger.util.Utils.isEmpty;
 
 
 public class LocalVideosPresenter extends RxSupportPresenter<ILocalVideosView> {
 
     private static final String TAG = LocalVideosPresenter.class.getSimpleName();
 
-    private List<LocalVideo> mLocalVideos;
+    private final List<LocalVideo> mLocalVideos;
+    private final List<LocalVideo> mLocalVideos_search;
     private boolean mLoadingNow;
+    private String q;
 
     public LocalVideosPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
 
-        mLocalVideos = Collections.emptyList();
+        mLocalVideos = new ArrayList<>();
+        mLocalVideos_search = new ArrayList<>();
         loadData();
     }
 
@@ -43,13 +48,36 @@ public class LocalVideosPresenter extends RxSupportPresenter<ILocalVideosView> {
                 .subscribe(this::onDataLoaded, this::onLoadError));
     }
 
+    public void fireSearchRequestChanged(String q) {
+        String query = q == null ? null : q.trim();
+
+        if (Objects.safeEquals(q, this.q)) {
+            return;
+        }
+        this.q = query;
+        mLocalVideos_search.clear();
+        for (LocalVideo i : mLocalVideos) {
+            if (isEmpty(i.getTitle())) {
+                continue;
+            }
+            if (i.getTitle().toLowerCase().contains(q.toLowerCase())) {
+                mLocalVideos_search.add(i);
+            }
+        }
+
+        if (!isEmpty(q))
+            callView(v -> v.displayData(mLocalVideos_search));
+        else
+            callView(v -> v.displayData(mLocalVideos));
+    }
+
     private void onLoadError(Throwable throwable) {
         changeLoadingState(false);
     }
 
     private void onDataLoaded(List<LocalVideo> data) {
         changeLoadingState(false);
-        mLocalVideos = data;
+        mLocalVideos.addAll(data);
         resolveListData();
         resolveEmptyTextVisibility();
     }

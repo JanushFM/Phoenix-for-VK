@@ -25,8 +25,8 @@ import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Logger;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 
 public final class MusicUtils {

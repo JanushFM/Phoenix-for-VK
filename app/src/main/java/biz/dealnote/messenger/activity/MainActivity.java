@@ -175,9 +175,8 @@ import biz.dealnote.messenger.util.MainActivityTransforms;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.RxUtils;
-import biz.dealnote.messenger.util.StatusbarUtil;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -356,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
             while (reader.hasNext()) {
                 MusicUtils.RemoteAudios.add(reader.nextString());
             }
-        } catch (IOException ignore) {
+        } catch (Throwable ignore) {
             PhoenixToast.CreatePhoenixToast(this).showToastError(R.string.remote_audio_error);
         }
     }
@@ -456,9 +455,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
         if (!checkPlayServices(this)) {
             if (!Settings.get().other().isDisabledErrorFCM()) {
                 Utils.ThemedSnack(mViewFragment, getString(R.string.this_device_does_not_support_fcm), BaseTransientBottomBar.LENGTH_LONG)
-                        .setAnchorView(mBottomNavigationContainer).setAction(R.string.button_access, v -> {
-                    Settings.get().other().setDisableErrorFCM(true);
-                }).show();
+                        .setAnchorView(mBottomNavigationContainer).setAction(R.string.button_access, v -> Settings.get().other().setDisableErrorFCM(true)).show();
             }
             return;
         }
@@ -781,7 +778,7 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 openPlace(PlaceFactory.getVideosPlace(aid, aid, IVideosListView.ACTION_SHOW));
                 break;
             case AdditionalNavigationFragment.PAGE_BOOKMARKS:
-                openPlace(PlaceFactory.getBookmarksPlace(aid, FaveTabsFragment.TAB_PHOTOS));
+                openPlace(PlaceFactory.getBookmarksPlace(aid, FaveTabsFragment.TAB_PAGES));
                 break;
             case AdditionalNavigationFragment.PAGE_SEARCH:
                 openPlace(PlaceFactory.getSearchPlace(aid, SearchTabsFragment.TAB_PEOPLE));
@@ -1028,8 +1025,6 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                 flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
             }
             getWindow().getDecorView().setSystemUiVisibility(flags);
-
-            StatusbarUtil.setCustomStatusbarDarkMode(this, invertIcons);
         }
 
         if (Utils.hasOreo()) {

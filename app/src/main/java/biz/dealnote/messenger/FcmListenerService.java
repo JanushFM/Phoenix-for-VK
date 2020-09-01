@@ -6,6 +6,8 @@ import android.content.Context;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Map;
 
 import biz.dealnote.messenger.longpoll.NotificationHelper;
@@ -36,7 +38,7 @@ public class FcmListenerService extends FirebaseMessagingService {
 
     @SuppressLint("CheckResult")
     @Override
-    public void onNewToken(String s) {
+    public void onNewToken(@NotNull String s) {
         super.onNewToken(s);
         Injection.providePushRegistrationResolver()
                 .resolvePushRegistration()

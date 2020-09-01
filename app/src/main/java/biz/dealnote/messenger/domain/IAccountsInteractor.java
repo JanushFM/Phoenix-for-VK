@@ -7,8 +7,8 @@ import biz.dealnote.messenger.api.model.VkApiProfileInfo;
 import biz.dealnote.messenger.model.Account;
 import biz.dealnote.messenger.model.BannedPart;
 import biz.dealnote.messenger.model.User;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IAccountsInteractor {
     Single<BannedPart> getBanned(int accountId, int count, int offset);

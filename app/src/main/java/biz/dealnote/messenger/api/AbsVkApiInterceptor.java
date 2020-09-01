@@ -16,6 +16,8 @@ import biz.dealnote.messenger.api.model.Error;
 import biz.dealnote.messenger.api.model.response.VkReponse;
 import biz.dealnote.messenger.exception.UnauthorizedException;
 import biz.dealnote.messenger.service.ApiErrorCodes;
+import biz.dealnote.messenger.settings.Settings;
+import biz.dealnote.messenger.util.PersistentLogger;
 import biz.dealnote.messenger.util.Utils;
 import okhttp3.FormBody;
 import okhttp3.Interceptor;
@@ -103,8 +105,11 @@ abstract class AbsVkApiInterceptor implements Interceptor {
             if (nonNull(error)) {
                 switch (error.errorCode) {
                     case ApiErrorCodes.TOO_MANY_REQUESTS_PER_SECOND:
+                        break;
                     case ApiErrorCodes.CAPTCHA_NEED:
-                        // no logging
+                        if (Settings.get().other().isDebug_mode()) {
+                            PersistentLogger.logThrowable("Captcha request", new Exception("URL: " + request.url() + ", dump: " + new Gson().toJson(error)));
+                        }
                         break;
                     default:
                         //FirebaseCrash.log("ApiError, method: " + error.method + ", code: " + error.errorCode + ", message: " + error.errorMsg);
@@ -141,7 +146,9 @@ abstract class AbsVkApiInterceptor implements Interceptor {
                             break;
                         }
                     }
-
+                    if (Settings.get().other().isDebug_mode()) {
+                        PersistentLogger.logThrowable("Captcha answer", new Exception("URL: " + request.url() + ", code: " + code + ", sid: " + captcha.getSid()));
+                    }
                     if (nonNull(code)) {
                         formBuiler.add("captcha_sid", captcha.getSid());
                         formBuiler.add("captcha_key", code);

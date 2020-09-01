@@ -30,6 +30,7 @@ import biz.dealnote.messenger.fragment.search.SearchContentType;
 import biz.dealnote.messenger.fragment.search.criteria.PeopleSearchCriteria;
 import biz.dealnote.messenger.model.Community;
 import biz.dealnote.messenger.model.Manager;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.SelectProfileCriteria;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.presenter.CommunityManagersPresenter;
@@ -178,7 +179,7 @@ public class CommunityManagersFragment extends BaseMvpFragment<CommunityManagers
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_SELECT_PROFILES && resultCode == Activity.RESULT_OK) {
-            ArrayList<User> users = data.getParcelableArrayListExtra(Extra.USERS);
+            ArrayList<Owner> users = data.getParcelableArrayListExtra(Extra.OWNERS);
             AssertUtils.requireNonNull(users);
             postPrenseterReceive(presenter -> presenter.fireProfilesSelected(users));
         }

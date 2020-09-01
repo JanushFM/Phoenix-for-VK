@@ -209,6 +209,7 @@
     <string name="refresh">Обновить</string>
 
     <string name="set_groupchat_title">Укажите тему беседы</string>
+    <string name="set_news_list_title">Укажите название списка</string>
 
     <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
 
@@ -406,7 +407,6 @@
     <string name="videos_albums">Альбомы</string>
     <string name="videos_albums_videos_counter">%1$d видео</string>
 
-    <string name="view_count">просмотров: %1$d</string>
     <string name="edit">Редактировать</string>
     <string name="added">Добавлено</string>
 
@@ -1506,4 +1506,7 @@
     <string name="hint_stickers">Подсказывать стикеры</string>
     <string name="not_changed">Нет изменений</string>
     <string name="later">Заявка принята, ожидайте…</string>
+    <string name="work_manager">Phoenix Work</string>
+    <string name="channel_keep_work_manager">WorkManager</string>
+    <string name="action_create_list">Создать список</string>
 </resources>

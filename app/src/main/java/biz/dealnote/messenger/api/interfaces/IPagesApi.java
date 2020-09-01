@@ -1,7 +1,7 @@
 package biz.dealnote.messenger.api.interfaces;
 
 import biz.dealnote.messenger.api.model.VKApiWikiPage;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IPagesApi {

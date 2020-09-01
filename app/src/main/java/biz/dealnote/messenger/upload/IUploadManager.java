@@ -6,8 +6,8 @@ import java.util.List;
 
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Flowable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IUploadManager {
     Single<List<Upload>> get(int accountId, @NonNull UploadDestination destination);

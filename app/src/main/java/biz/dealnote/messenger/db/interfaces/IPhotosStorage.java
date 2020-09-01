@@ -7,8 +7,8 @@ import java.util.List;
 import biz.dealnote.messenger.db.model.PhotoPatch;
 import biz.dealnote.messenger.db.model.entity.PhotoEntity;
 import biz.dealnote.messenger.model.criteria.PhotoCriteria;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IPhotosStorage extends IStorage {
 

@@ -19,7 +19,7 @@ import biz.dealnote.messenger.api.model.response.LongpollHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageHistoryResponse;
 import biz.dealnote.messenger.api.model.response.MessageImportantResponse;
 import biz.dealnote.messenger.api.model.response.SearchDialogsResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;

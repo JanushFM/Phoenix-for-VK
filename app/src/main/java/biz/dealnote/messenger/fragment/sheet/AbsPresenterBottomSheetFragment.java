@@ -9,6 +9,8 @@ import androidx.loader.app.LoaderManager;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import org.jetbrains.annotations.NotNull;
+
 import biz.dealnote.mvp.compat.ViewHostDelegate;
 import biz.dealnote.mvp.core.IMvpView;
 import biz.dealnote.mvp.core.IPresenter;
@@ -35,7 +37,7 @@ public abstract class AbsPresenterBottomSheetFragment<P extends IPresenter<V>, V
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         delegate.onSaveInstanceState(outState);
     }

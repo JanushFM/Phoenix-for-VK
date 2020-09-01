@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.util.List;
 

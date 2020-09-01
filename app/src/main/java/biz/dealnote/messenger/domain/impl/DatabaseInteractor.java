@@ -22,7 +22,7 @@ import biz.dealnote.messenger.model.database.School;
 import biz.dealnote.messenger.model.database.SchoolClazz;
 import biz.dealnote.messenger.model.database.University;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class DatabaseInteractor implements IDatabaseInteractor {
 

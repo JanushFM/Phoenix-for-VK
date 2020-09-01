@@ -25,6 +25,7 @@ public class Extra {
     public static final String CLEAR = "clear";
     public static final String PHOTOS = "photos";
     public static final String OWNER = "owner";
+    public static final String OWNERS = "owners";
     public static final String OWNER_ID = "owner_id";
     public static final String OPTIONS = "options";
     public static final String ITEM_ID = "item_id";

@@ -158,8 +158,6 @@ public class NotificationsPrefs implements ISettings.INotificationSettings {
                 return new long[]{0, 500};
             case "3":
                 return new long[]{0, 300, 250, 300};
-            case "4":
-                return new long[]{0, 400, 250, 400};
             case "5":
                 return new long[]{0, 500, 250, 500};
             default:

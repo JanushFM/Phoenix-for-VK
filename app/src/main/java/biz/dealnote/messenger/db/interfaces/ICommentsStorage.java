@@ -11,10 +11,10 @@ import biz.dealnote.messenger.model.CommentUpdate;
 import biz.dealnote.messenger.model.Commented;
 import biz.dealnote.messenger.model.DraftComment;
 import biz.dealnote.messenger.model.criteria.CommentsCriteria;
-import io.reactivex.Completable;
-import io.reactivex.Maybe;
-import io.reactivex.Observable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface ICommentsStorage extends IStorage {
 

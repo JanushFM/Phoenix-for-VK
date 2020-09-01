@@ -14,19 +14,48 @@ import biz.dealnote.messenger.mvp.presenter.base.RxSupportPresenter;
 import biz.dealnote.messenger.mvp.view.ILocalPhotoAlbumsView;
 import biz.dealnote.messenger.util.Analytics;
 import biz.dealnote.messenger.util.AppPerms;
+import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
+
+import static biz.dealnote.messenger.util.Utils.isEmpty;
 
 
 public class LocalPhotoAlbumsPresenter extends RxSupportPresenter<ILocalPhotoAlbumsView> {
 
     private final List<LocalImageAlbum> mLocalImageAlbums;
+    private final List<LocalImageAlbum> mLocalImageAlbums_Search;
     private boolean permissionRequestedOnce;
     private boolean mLoadingNow;
+    private String q;
 
     public LocalPhotoAlbumsPresenter(@Nullable Bundle savedInstanceState) {
         super(savedInstanceState);
         mLocalImageAlbums = new ArrayList<>();
+        mLocalImageAlbums_Search = new ArrayList<>();
+    }
+
+    public void fireSearchRequestChanged(String q) {
+        String query = q == null ? null : q.trim();
+
+        if (Objects.safeEquals(q, this.q)) {
+            return;
+        }
+        this.q = query;
+        mLocalImageAlbums_Search.clear();
+        for (LocalImageAlbum i : mLocalImageAlbums) {
+            if (isEmpty(i.getName())) {
+                continue;
+            }
+            if (i.getName().toLowerCase().contains(q.toLowerCase())) {
+                mLocalImageAlbums_Search.add(i);
+            }
+        }
+
+        if (!isEmpty(q))
+            callView(v -> v.displayData(mLocalImageAlbums_Search));
+        else
+            callView(v -> v.displayData(mLocalImageAlbums));
     }
 
     @Override

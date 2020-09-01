@@ -253,7 +253,7 @@ public abstract class AbsAttachmentsEditPresenter<V extends IBaseAttachmentsEdit
 
     private int getMaxFutureAttachmentCount() {
         int count = data.size() - getMaxCountOfAttachments();
-        return count < 0 ? 0 : count;
+        return Math.max(count, 0);
     }
 
     public final void firePhotoFromVkChoose() {

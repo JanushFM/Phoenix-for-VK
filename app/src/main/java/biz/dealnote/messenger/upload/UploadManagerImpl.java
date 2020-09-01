@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import biz.dealnote.messenger.Extra;
 import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.api.ApiException;
 import biz.dealnote.messenger.api.PercentagePublisher;
 import biz.dealnote.messenger.api.interfaces.INetworker;
 import biz.dealnote.messenger.api.model.server.UploadServer;
@@ -30,6 +31,7 @@ import biz.dealnote.messenger.db.interfaces.IStorages;
 import biz.dealnote.messenger.domain.IAttachmentsRepository;
 import biz.dealnote.messenger.domain.IWallsRepository;
 import biz.dealnote.messenger.longpoll.NotificationHelper;
+import biz.dealnote.messenger.service.ErrorLocalizer;
 import biz.dealnote.messenger.upload.impl.AudioUploadable;
 import biz.dealnote.messenger.upload.impl.DocumentUploadable;
 import biz.dealnote.messenger.upload.impl.OwnerPhotoUploadable;
@@ -42,13 +44,13 @@ import biz.dealnote.messenger.upload.impl.VideoUploadable;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
-import io.reactivex.Single;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.processors.PublishProcessor;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Scheduler;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
@@ -291,13 +293,23 @@ public class UploadManagerImpl implements IUploadManager {
                 current = null;
 
                 Throwable cause = getCauseIfRuntime(t);
-                String message = firstNonEmptyString(cause.getMessage(), cause.toString());
+                String message;
+                if (cause instanceof ApiException) {
+                    message = ErrorLocalizer.localizeThrowable(context, cause);
+                } else {
+                    message = firstNonEmptyString(cause.getMessage(), cause.toString());
+                }
                 compositeDisposable.add(Completable.complete()
                         .observeOn(Injection.provideMainThreadScheduler())
                         .subscribe(() -> Toast.makeText(context, message, Toast.LENGTH_SHORT).show()));
 
             }
-            String errorMessage = firstNonEmptyString(t.getMessage(), t.toString());
+            String errorMessage;
+            if (t instanceof ApiException) {
+                errorMessage = ErrorLocalizer.localizeThrowable(context, t);
+            } else {
+                errorMessage = firstNonEmptyString(t.getMessage(), t.toString());
+            }
             upload.setStatus(Upload.STATUS_ERROR).setErrorText(errorMessage);
             statusProcessor.onNext(upload);
 

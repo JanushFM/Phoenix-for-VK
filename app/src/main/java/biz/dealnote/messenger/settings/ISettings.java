@@ -16,8 +16,8 @@ import biz.dealnote.messenger.model.PhotoSize;
 import biz.dealnote.messenger.model.SwitchableCategory;
 import biz.dealnote.messenger.model.drawer.RecentChat;
 import biz.dealnote.messenger.place.Place;
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
 
 public interface ISettings {
 

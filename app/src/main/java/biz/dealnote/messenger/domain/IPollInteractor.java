@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import biz.dealnote.messenger.model.Poll;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IPollInteractor {
     Single<Poll> createPoll(int accountId, String question, boolean anon, boolean multiple, int ownerId, List<String> options);

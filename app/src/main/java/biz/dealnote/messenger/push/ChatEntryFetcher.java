@@ -9,7 +9,7 @@ import biz.dealnote.messenger.domain.Repository;
 import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Peer;
 import biz.dealnote.messenger.util.Optional;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class ChatEntryFetcher {
 

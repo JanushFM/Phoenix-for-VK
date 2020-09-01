@@ -13,6 +13,8 @@ import com.google.android.exoplayer2.audio.AudioAttributes;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 
+import org.jetbrains.annotations.NotNull;
+
 import biz.dealnote.messenger.Constants;
 import biz.dealnote.messenger.media.exo.ExoEventAdapter;
 import biz.dealnote.messenger.media.exo.ExoUtil;
@@ -87,7 +89,7 @@ public class ExoVoicePlayer implements IVoicePlayer {
             }
 
             @Override
-            public void onPlayerError(ExoPlaybackException error) {
+            public void onPlayerError(@NotNull ExoPlaybackException error) {
                 onExoPlayerException(error);
             }
         });

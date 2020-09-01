@@ -1,10 +1,11 @@
 package biz.dealnote.messenger.db.model.entity;
 
+import androidx.annotation.NonNull;
+
 import java.util.Collections;
 import java.util.List;
 
 import biz.dealnote.messenger.util.AssertUtils;
-import io.reactivex.annotations.NonNull;
 
 
 public class PostEntity extends Entity {

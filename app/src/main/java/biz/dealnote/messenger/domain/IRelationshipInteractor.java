@@ -5,7 +5,7 @@ import java.util.List;
 import biz.dealnote.messenger.model.FriendsCounters;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IRelationshipInteractor {
     int FRIEND_ADD_REQUEST_SENT = 1;

@@ -3,7 +3,7 @@ package biz.dealnote.messenger.api.interfaces;
 import androidx.annotation.CheckResult;
 
 import biz.dealnote.messenger.api.model.response.LikesListResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface ILikesApi {
 

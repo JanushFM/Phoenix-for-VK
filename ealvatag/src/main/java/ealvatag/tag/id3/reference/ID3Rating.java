@@ -15,10 +15,6 @@ public abstract class ID3Rating {
 
             case MEDIA_MONKEY:
                 return MediaMonkeyPlayerRating.getInstance();
-
-            case MEDIAPLAYER:
-                return MediaPlayerRating.getInstance();
-
             default:
                 return MediaPlayerRating.getInstance();
         }

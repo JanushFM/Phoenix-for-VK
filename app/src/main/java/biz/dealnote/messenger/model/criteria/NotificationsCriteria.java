@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.model.criteria;
 
+import java.util.Objects;
+
 import biz.dealnote.messenger.db.DatabaseIdRange;
 
 public class NotificationsCriteria extends Criteria {
@@ -33,7 +35,7 @@ public class NotificationsCriteria extends Criteria {
         NotificationsCriteria that = (NotificationsCriteria) o;
 
         return accountId == that.accountId
-                && (range != null ? range.equals(that.range) : that.range == null);
+                && (Objects.equals(range, that.range));
     }
 
     @Override

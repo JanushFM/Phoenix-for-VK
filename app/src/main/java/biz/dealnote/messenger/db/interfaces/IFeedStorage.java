@@ -10,8 +10,8 @@ import biz.dealnote.messenger.db.model.entity.NewsEntity;
 import biz.dealnote.messenger.db.model.entity.OwnerEntities;
 import biz.dealnote.messenger.model.FeedSourceCriteria;
 import biz.dealnote.messenger.model.criteria.FeedCriteria;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IFeedStorage extends IStorage {
 

@@ -14,7 +14,7 @@ import biz.dealnote.messenger.fragment.search.options.SpinnerOption;
 import biz.dealnote.messenger.model.Community;
 import biz.dealnote.messenger.mvp.view.search.ICommunitiesSearchView;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 

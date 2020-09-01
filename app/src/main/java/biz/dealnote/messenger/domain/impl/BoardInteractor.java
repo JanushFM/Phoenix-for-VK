@@ -19,7 +19,7 @@ import biz.dealnote.messenger.model.Topic;
 import biz.dealnote.messenger.model.criteria.TopicsCriteria;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.VKOwnIds;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public class BoardInteractor implements IBoardInteractor {

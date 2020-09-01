@@ -9,8 +9,8 @@ import biz.dealnote.messenger.model.FavePage;
 import biz.dealnote.messenger.model.Photo;
 import biz.dealnote.messenger.model.Post;
 import biz.dealnote.messenger.model.Video;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IFaveInteractor {
     Single<List<Post>> getPosts(int accountId, int count, int offset);

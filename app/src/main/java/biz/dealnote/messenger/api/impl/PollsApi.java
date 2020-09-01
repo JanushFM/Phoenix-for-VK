@@ -10,7 +10,7 @@ import biz.dealnote.messenger.api.TokenType;
 import biz.dealnote.messenger.api.interfaces.IPollsApi;
 import biz.dealnote.messenger.api.model.VKApiPoll;
 import biz.dealnote.messenger.api.services.IPollsService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class PollsApi extends AbsApi implements IPollsApi {

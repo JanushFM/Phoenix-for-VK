@@ -1,6 +1,8 @@
 package biz.dealnote.messenger.view.pager;
 
-import com.squareup.picasso.Callback;
+import com.squareup.picasso3.Callback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
@@ -21,7 +23,7 @@ public class WeakPicassoLoadCallback implements Callback {
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(@NotNull Throwable e) {
         Callback callback = mReference.get();
         if (callback != null) {
             callback.onError(e);

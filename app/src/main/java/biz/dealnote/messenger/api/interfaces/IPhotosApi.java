@@ -19,7 +19,7 @@ import biz.dealnote.messenger.api.model.server.VkApiOwnerPhotoUploadServer;
 import biz.dealnote.messenger.api.model.server.VkApiPhotoMessageServer;
 import biz.dealnote.messenger.api.model.server.VkApiUploadServer;
 import biz.dealnote.messenger.api.model.server.VkApiWallUploadServer;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IPhotosApi {
 

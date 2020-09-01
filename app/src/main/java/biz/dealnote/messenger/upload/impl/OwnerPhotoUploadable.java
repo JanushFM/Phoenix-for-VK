@@ -17,7 +17,7 @@ import biz.dealnote.messenger.upload.IUploadable;
 import biz.dealnote.messenger.upload.Upload;
 import biz.dealnote.messenger.upload.UploadResult;
 import biz.dealnote.messenger.upload.UploadUtils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.safelyClose;
 

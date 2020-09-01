@@ -7,8 +7,8 @@ import biz.dealnote.messenger.model.Video;
 import biz.dealnote.messenger.model.VideoAlbum;
 import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IVideosInteractor {

@@ -12,7 +12,7 @@ import biz.dealnote.messenger.db.LogSqliteHelper;
 import biz.dealnote.messenger.db.column.LogColumns;
 import biz.dealnote.messenger.db.interfaces.ILogsStorage;
 import biz.dealnote.messenger.model.LogEvent;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public class LogsStorage implements ILogsStorage {

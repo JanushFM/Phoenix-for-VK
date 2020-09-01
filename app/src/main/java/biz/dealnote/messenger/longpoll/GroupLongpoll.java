@@ -10,8 +10,8 @@ import biz.dealnote.messenger.api.model.longpoll.VkApiGroupLongpollUpdates;
 import biz.dealnote.messenger.api.model.response.GroupLongpollServer;
 import biz.dealnote.messenger.util.PersistentLogger;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.Observable;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 

@@ -2,6 +2,8 @@ package biz.dealnote.messenger.domain;
 
 import android.content.Context;
 
+import androidx.annotation.Nullable;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -14,9 +16,8 @@ import biz.dealnote.messenger.model.CatalogBlock;
 import biz.dealnote.messenger.model.IdPair;
 import biz.dealnote.messenger.util.FindAt;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.annotations.Nullable;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 public interface IAudioInteractor {
     Completable add(int accountId, Audio orig, Integer groupId, Integer albumId);
@@ -47,7 +48,7 @@ public interface IAudioInteractor {
 
     Single<List<AudioPlaylist>> searchPlaylists(int accountId, AudioPlaylistSearchCriteria criteria, int offset);
 
-    Single<List<AudioPlaylist>> getPlaylists(int accountId, int owner_id, int offset);
+    Single<List<AudioPlaylist>> getPlaylists(int accountId, int owner_id, int offset, int count);
 
     Single<AudioPlaylist> followPlaylist(int accountId, int playlist_id, int ownerId, String accessKey);
 

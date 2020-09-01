@@ -1,5 +1,7 @@
 package biz.dealnote.messenger.crypt;
 
+import org.jetbrains.annotations.NotNull;
+
 public class AesKeyPair {
 
     private int version;
@@ -106,6 +108,7 @@ public class AesKeyPair {
         return (int) (sessionId ^ (sessionId >>> 32));
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "AesKeyPair{" +

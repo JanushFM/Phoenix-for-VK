@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -25,8 +26,11 @@ public class AppTextUtils {
     private static final String TWO_ZERO = "00";
     private static final String POINT = ".";
     private static final String EMPTY = "";
+    @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat SHORT_DATE = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat FULL_DATE = new SimpleDateFormat("dd MMM yyyy HH:mm", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat FULL_LITTLE_DATE = new SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault());
 
     public static String safeTrim(String text, @Nullable String ifNull) {

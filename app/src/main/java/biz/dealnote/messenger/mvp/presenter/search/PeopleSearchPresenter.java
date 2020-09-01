@@ -13,7 +13,7 @@ import biz.dealnote.messenger.fragment.search.nextfrom.IntNextFrom;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.mvp.view.search.IPeopleSearchView;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class PeopleSearchPresenter extends AbsSearchPresenter<IPeopleSearchView, PeopleSearchCriteria, User, IntNextFrom> {
 

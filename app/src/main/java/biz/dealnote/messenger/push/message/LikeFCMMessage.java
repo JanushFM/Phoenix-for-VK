@@ -206,7 +206,7 @@ public class LikeFCMMessage {
         notifyImpl(context);
     }
 
-    class LikeContext {
+    static class LikeContext {
         @SerializedName("feedback")
         int feedback;
 

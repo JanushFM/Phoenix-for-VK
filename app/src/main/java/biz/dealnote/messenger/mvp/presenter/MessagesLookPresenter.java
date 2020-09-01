@@ -17,7 +17,7 @@ import biz.dealnote.messenger.mvp.view.IMessagesLookView;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 import static biz.dealnote.messenger.util.Utils.getSelected;

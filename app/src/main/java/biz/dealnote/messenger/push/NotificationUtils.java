@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.DrawableRes;
 
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import biz.dealnote.messenger.settings.ISettings;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.ImageHelper;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.nonEmpty;
 import static biz.dealnote.messenger.util.Utils.safeIsEmpty;
@@ -82,7 +82,7 @@ public class NotificationUtils {
             e.printStackTrace();
 
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), res);
-            return ImageHelper.getRoundedBitmap(bitmap, true);
+            return ImageHelper.getRoundedBitmap(bitmap);
         }
     }
 

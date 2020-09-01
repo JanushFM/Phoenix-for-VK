@@ -37,7 +37,7 @@ import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.AlternativeAspectRatioFrameLayout;
 import biz.dealnote.messenger.view.VideoControllerView;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class VideoPlayerActivity extends AppCompatActivity implements SurfaceHolder.Callback,
         VideoControllerView.MediaPlayerControl, IVideoPlayer.IVideoSizeChangeListener {

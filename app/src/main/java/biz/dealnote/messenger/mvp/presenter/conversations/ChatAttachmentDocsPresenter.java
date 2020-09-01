@@ -17,7 +17,7 @@ import biz.dealnote.messenger.model.Document;
 import biz.dealnote.messenger.mvp.view.conversations.IChatAttachmentDocsView;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.safeCountOf;

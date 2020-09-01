@@ -3,6 +3,8 @@ package biz.dealnote.messenger.db;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 public class DatabaseIdRange implements Parcelable {
 
     public static final Creator<DatabaseIdRange> CREATOR = new Creator<DatabaseIdRange>() {
@@ -41,6 +43,7 @@ public class DatabaseIdRange implements Parcelable {
         return last;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "DatabaseIdRange{" +

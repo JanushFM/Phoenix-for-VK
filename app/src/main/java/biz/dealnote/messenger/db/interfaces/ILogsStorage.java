@@ -3,7 +3,7 @@ package biz.dealnote.messenger.db.interfaces;
 import java.util.List;
 
 import biz.dealnote.messenger.model.LogEvent;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface ILogsStorage {

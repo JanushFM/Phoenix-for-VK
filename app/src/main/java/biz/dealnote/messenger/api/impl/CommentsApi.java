@@ -4,7 +4,7 @@ import biz.dealnote.messenger.api.IServiceProvider;
 import biz.dealnote.messenger.api.interfaces.ICommentsApi;
 import biz.dealnote.messenger.api.model.response.CustomCommentsResponse;
 import biz.dealnote.messenger.api.services.ICommentsService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class CommentsApi extends AbsApi implements ICommentsApi {

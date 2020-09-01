@@ -34,7 +34,7 @@ import biz.dealnote.messenger.api.interfaces.IUsersApi;
 import biz.dealnote.messenger.api.interfaces.IUtilsApi;
 import biz.dealnote.messenger.api.interfaces.IVideoApi;
 import biz.dealnote.messenger.api.interfaces.IWallApi;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.intValueIn;
 

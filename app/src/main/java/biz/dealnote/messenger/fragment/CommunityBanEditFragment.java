@@ -208,8 +208,8 @@ public class CommunityBanEditFragment extends BaseMvpFragment<CommunityBanEditPr
                 Spannable spannable = FormatUtil.formatCommunityBanInfo(context, adminId, adminName, endDate, null);
                 mBanStatus.setText(spannable, TextView.BufferType.SPANNABLE);
                 mBanStatus.setMovementMethod(LinkMovementMethod.getInstance());
-            } catch (Exception ignored) {
-                ignored.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

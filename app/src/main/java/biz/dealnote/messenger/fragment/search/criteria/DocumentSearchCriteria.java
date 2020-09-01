@@ -2,6 +2,8 @@ package biz.dealnote.messenger.fragment.search.criteria;
 
 import android.os.Parcel;
 
+import org.jetbrains.annotations.NotNull;
+
 public final class DocumentSearchCriteria extends BaseSearchCriteria {
 
     public static final Creator<DocumentSearchCriteria> CREATOR = new Creator<DocumentSearchCriteria>() {
@@ -29,6 +31,7 @@ public final class DocumentSearchCriteria extends BaseSearchCriteria {
         return 0;
     }
 
+    @NotNull
     @Override
     public DocumentSearchCriteria clone() throws CloneNotSupportedException {
         return (DocumentSearchCriteria) super.clone();

@@ -19,7 +19,7 @@ import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 public class RelationshipInteractor implements IRelationshipInteractor {
 

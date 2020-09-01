@@ -56,7 +56,7 @@ public class QuickReplyService extends IntentService {
             int accountId = intent.getExtras().getInt(Extra.ACCOUNT_ID);
             int peerId = intent.getExtras().getInt(Extra.PEER_ID);
             int msgId = intent.getExtras().getInt(Extra.MESSAGE_ID);
-            Throwable ret = Repository.INSTANCE.getMessages().markAsRead(accountId, peerId, msgId).blockingGet();
+            Repository.INSTANCE.getMessages().markAsRead(accountId, peerId, msgId).blockingAwait();
         }
     }
 

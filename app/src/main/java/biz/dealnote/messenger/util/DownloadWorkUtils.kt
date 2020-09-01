@@ -1,11 +1,12 @@
 package biz.dealnote.messenger.util
 
-import android.app.DownloadManager
-import android.app.PendingIntent
+import android.annotation.SuppressLint
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.webkit.MimeTypeMap
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -43,6 +44,7 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 
 object DownloadWorkUtils {
+    @SuppressLint("ConstantLocale")
     private val DOWNLOAD_DATE_FORMAT: DateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
     private fun createNotification(context: Context, Title: String?, Text: String?, icon: Int, fin: Boolean): NotificationCompat.Builder {
         return NotificationCompat.Builder(context, AppNotificationChannels.DOWNLOAD_CHANNEL_ID).setContentTitle(Title)
@@ -162,8 +164,7 @@ object DownloadWorkUtils {
     fun GetLocalTrackLink(audio: Audio): String {
         if (audio.url.contains("file://"))
             return audio.url
-        val audioName = "file://" + Settings.get().other().musicDir + "/" + makeLegalFilename(audio.artist + " - " + audio.title, "mp3")
-        return audioName
+        return "file://" + Settings.get().other().musicDir + "/" + makeLegalFilename(audio.artist + " - " + audio.title, "mp3")
     }
 
     @JvmStatic
@@ -316,6 +317,9 @@ object DownloadWorkUtils {
             var mBuilder = createNotification(applicationContext,
                     applicationContext.getString(R.string.downloading), applicationContext.getString(R.string.downloading) + " "
                     + file_v.build_filename(), R.drawable.save, false)
+            mBuilder.addAction(R.drawable.close, applicationContext.getString(R.string.cancel), WorkManager.getInstance(applicationContext).createCancelPendingIntent(id))
+
+            show_notification(mBuilder, NotificationHelper.NOTIFICATION_DOWNLOADING, null)
 
             val file = file_v.build()
             try {
@@ -348,6 +352,13 @@ object DownloadWorkUtils {
                     var totalSize = 1
                     if (!Utils.isEmpty(cntlength)) totalSize = cntlength!!.toInt()
                     while (input.read(data).also { bufferLength = it } != -1) {
+                        if (isStopped) {
+                            output.flush()
+                            input.close()
+                            File(file).delete()
+                            mNotifyManager.cancel(id.toString(), NotificationHelper.NOTIFICATION_DOWNLOADING)
+                            return false
+                        }
                         output.write(data, 0, bufferLength)
                         downloadedSize += bufferLength.toDouble()
                         mBuilder.setProgress(100, (downloadedSize / totalSize * 100).toInt(), false)
@@ -378,9 +389,32 @@ object DownloadWorkUtils {
             return true
         }
 
+        @Suppress("DEPRECATION")
+        private fun createForeground() {
+            val builder: NotificationCompat.Builder
+            builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val channel = NotificationChannel("worker_channel", applicationContext.getString(R.string.channel_keep_work_manager),
+                        NotificationManager.IMPORTANCE_NONE)
+                mNotifyManager.createNotificationChannel(channel)
+                NotificationCompat.Builder(applicationContext, channel.id)
+            } else {
+                NotificationCompat.Builder(applicationContext).setPriority(Notification.PRIORITY_MIN)
+            }
+            builder.setContentTitle(applicationContext.getString(R.string.work_manager))
+                    .setContentText(applicationContext.getString(R.string.may_down_charge))
+                    .setSmallIcon(R.drawable.web)
+                    .setColor(Color.parseColor("#dd0000"))
+                    .setOngoing(true)
+
+            setForegroundAsync(ForegroundInfo(NotificationHelper.NOTIFICATION_DOWNLOAD_MANAGER, builder.build()))
+        }
+
         override fun doWork(): Result {
+            createForeground()
+
             val file_v = DownloadInfo(inputData.getString(ExtraDwn.FILE)!!,
                     inputData.getString(ExtraDwn.DIR)!!, inputData.getString(ExtraDwn.EXT)!!)
+
             val ret = doDownload(inputData.getString(ExtraDwn.URL)!!, file_v, true)
             if (ret) {
                 val mBuilder = createNotification(applicationContext,
@@ -459,7 +493,7 @@ object DownloadWorkUtils {
                             audioFile.save()
                             Cover.delete()
                             updated_tag = true
-                        } catch (e: RuntimeException) {
+                        } catch (e: Throwable) {
                             Utils.inMainThread { PhoenixToast.CreatePhoenixToast(applicationContext).showToastError(R.string.error_with_message, e.localizedMessage) }
                             e.printStackTrace()
                         }

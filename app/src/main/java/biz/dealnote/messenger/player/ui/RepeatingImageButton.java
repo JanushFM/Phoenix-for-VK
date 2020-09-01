@@ -1,5 +1,6 @@
 package biz.dealnote.messenger.player.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.SystemClock;
 import android.util.AttributeSet;
@@ -69,6 +70,7 @@ public class RepeatingImageButton extends AppCompatImageButton implements OnClic
         return true;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_UP) {

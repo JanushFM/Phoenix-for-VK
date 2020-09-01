@@ -16,8 +16,8 @@ import biz.dealnote.messenger.db.column.CountriesColumns;
 import biz.dealnote.messenger.db.interfaces.IDatabaseStore;
 import biz.dealnote.messenger.db.model.entity.CountryEntity;
 import biz.dealnote.messenger.util.Objects;
-import io.reactivex.Completable;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.safeCountOf;
 

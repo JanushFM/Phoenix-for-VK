@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import biz.dealnote.messenger.Extra;
@@ -20,6 +22,7 @@ import biz.dealnote.messenger.activity.SelectProfilesActivity;
 import biz.dealnote.messenger.adapter.PrivacyAdapter;
 import biz.dealnote.messenger.dialog.base.AccountDependencyDialogFragment;
 import biz.dealnote.messenger.model.FriendList;
+import biz.dealnote.messenger.model.Owner;
 import biz.dealnote.messenger.model.Privacy;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.AssertUtils;
@@ -161,19 +164,23 @@ public class PrivacyViewFragment extends AccountDependencyDialogFragment impleme
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK || data == null) return;
 
-        ArrayList<User> users = data.getParcelableArrayListExtra(Extra.USERS);
+        ArrayList<Owner> users = data.getParcelableArrayListExtra(Extra.OWNERS);
         AssertUtils.requireNonNull(users);
 
         switch (requestCode) {
             case REQUEST_CODE_ADD_TO_ALLOWED:
-                for (User user : users) {
-                    mPrivacy.allowFor(user);
+                for (Owner user : users) {
+                    if (user instanceof User) {
+                        mPrivacy.allowFor((User) user);
+                    }
                 }
 
                 break;
             case REQUEST_CODE_ADD_TO_DISALLOWED:
-                for (User user : users) {
-                    mPrivacy.disallowFor(user);
+                for (Owner user : users) {
+                    if (user instanceof User) {
+                        mPrivacy.disallowFor((User) user);
+                    }
                 }
 
                 break;
@@ -183,7 +190,7 @@ public class PrivacyViewFragment extends AccountDependencyDialogFragment impleme
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(SAVE_PRIVACY, mPrivacy);
     }

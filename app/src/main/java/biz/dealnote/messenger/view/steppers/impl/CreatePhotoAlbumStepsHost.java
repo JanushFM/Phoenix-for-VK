@@ -5,6 +5,8 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.model.Privacy;
 import biz.dealnote.messenger.view.steppers.base.AbsStepsHost;
@@ -189,6 +191,7 @@ public class CreatePhotoAlbumStepsHost extends AbsStepsHost<CreatePhotoAlbumStep
             return this;
         }
 
+        @NotNull
         @Override
         public String toString() {
             return "PhotoAlbumState{" +

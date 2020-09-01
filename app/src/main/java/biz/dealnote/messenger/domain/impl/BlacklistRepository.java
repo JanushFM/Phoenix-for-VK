@@ -3,9 +3,9 @@ package biz.dealnote.messenger.domain.impl;
 import biz.dealnote.messenger.domain.IBlacklistRepository;
 import biz.dealnote.messenger.model.User;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.subjects.PublishSubject;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class BlacklistRepository implements IBlacklistRepository {
 

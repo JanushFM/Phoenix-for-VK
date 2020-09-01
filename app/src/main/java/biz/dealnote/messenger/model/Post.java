@@ -4,6 +4,8 @@ import android.os.Parcel;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -442,6 +444,7 @@ public class Post extends AbsModel implements Cloneable {
         return !safeIsEmpty(copyHierarchy);
     }
 
+    @NotNull
     @Override
     public Post clone() throws CloneNotSupportedException {
         Post clone = (Post) super.clone();

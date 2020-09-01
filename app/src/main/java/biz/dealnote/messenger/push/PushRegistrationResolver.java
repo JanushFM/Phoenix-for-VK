@@ -20,9 +20,9 @@ import biz.dealnote.messenger.settings.VkPushRegistration;
 import biz.dealnote.messenger.util.Logger;
 import biz.dealnote.messenger.util.Optional;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.Completable;
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 

@@ -8,7 +8,7 @@ import java.util.List;
 import biz.dealnote.messenger.api.model.Items;
 import biz.dealnote.messenger.api.model.VKApiUser;
 import biz.dealnote.messenger.api.model.response.StoryResponse;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IUsersApi {

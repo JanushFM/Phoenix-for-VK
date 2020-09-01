@@ -602,7 +602,7 @@ public class CommentsFragment extends PlaceSupportMvpFragment<CommentsPresenter,
     }
 
     @Override
-    public void onPrepareOptionsMenu(Menu menu) {
+    public void onPrepareOptionsMenu(@NotNull Menu menu) {
         super.onPrepareOptionsMenu(menu);
         menu.findItem(R.id.open_poll).setVisible(mTopicPollAvailable);
 

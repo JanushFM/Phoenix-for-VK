@@ -14,7 +14,6 @@ import androidx.core.app.NotificationCompat
 import biz.dealnote.messenger.R
 import biz.dealnote.messenger.activity.MainActivity
 import biz.dealnote.messenger.longpoll.AppNotificationChannels
-import biz.dealnote.messenger.player.MusicPlaybackService
 import biz.dealnote.messenger.util.Utils
 
 class NotificationHelper(private val mService: MusicPlaybackService) {

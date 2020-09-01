@@ -19,6 +19,8 @@
  */
 package ealvatag.logging;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 
@@ -163,6 +165,7 @@ public class XMLTagDisplayFormatter extends AbstractTagDisplayFormatter {
         addElement(type, String.valueOf(value));
     }
 
+    @NotNull
     public String toString() {
         return sb.toString();
     }

@@ -36,7 +36,7 @@ import biz.dealnote.messenger.util.Pair;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.mvp.reflect.OnGuiCreated;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 import static biz.dealnote.messenger.util.Utils.isEmpty;
 import static biz.dealnote.messenger.util.Utils.join;
@@ -85,8 +85,8 @@ public class RequestExecutePresenter extends AccountDependencyPresenter<IRequest
 
                 for (String line : lines) {
                     String[] parts = line.split("=");
-                    String name = parts[0].toLowerCase();
-                    String value = parts[1];
+                    String name = parts[0].toLowerCase().trim();
+                    String value = parts[1].trim();
                     value = value.replaceAll("\"", "");
 
                     if ((name.equals("user_id") || name.equals("peer_id") || name.equals("owner_id")) && (value.equalsIgnoreCase("my") || value.equalsIgnoreCase("я")))

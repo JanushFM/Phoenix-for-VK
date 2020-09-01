@@ -7,14 +7,18 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
 
 public class ImageHelper {
 
     private static final PorterDuffXfermode PORTER_DUFF_XFERMODE = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
 
-    public static Bitmap getRoundedBitmap(Bitmap bitmap, boolean bRecycle) {
+    public static Bitmap getRoundedBitmap(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         }
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -32,15 +36,17 @@ public class ImageHelper {
         paint.setXfermode(PORTER_DUFF_XFERMODE);
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
-        if (bRecycle)
-            bitmap.recycle();
+        bitmap.recycle();
 
         return output;
     }
 
-    public static Bitmap getElipsedBitmap(Bitmap bitmap, boolean bRecycle) {
+    public static Bitmap getElipsedBitmap(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         }
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -58,15 +64,17 @@ public class ImageHelper {
         paint.setXfermode(PORTER_DUFF_XFERMODE);
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
-        if (bRecycle)
-            bitmap.recycle();
+        bitmap.recycle();
 
         return output;
     }
 
-    public static Bitmap getPolyBitmap(Bitmap bitmap, boolean bRecycle) {
+    public static Bitmap getPolyBitmap(Bitmap bitmap) {
         if (bitmap == null) {
             return null;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
+            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         }
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -84,8 +92,7 @@ public class ImageHelper {
         paint.setXfermode(PORTER_DUFF_XFERMODE);
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
-        if (bRecycle)
-            bitmap.recycle();
+        bitmap.recycle();
 
         return output;
     }

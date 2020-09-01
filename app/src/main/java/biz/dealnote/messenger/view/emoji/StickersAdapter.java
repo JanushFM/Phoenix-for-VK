@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.LottieDrawable;
-import com.squareup.picasso.Callback;
+import com.squareup.picasso3.Callback;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
 
@@ -136,7 +138,7 @@ public class StickersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
 
         @Override
-        public void onError(Exception e) {
+        public void onError(@NotNull Throwable e) {
             ImageView view = ref.get();
             try {
                 if (view != null) {

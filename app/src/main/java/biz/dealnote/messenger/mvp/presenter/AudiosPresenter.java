@@ -28,7 +28,7 @@ import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.DownloadWorkUtils;
 import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Utils.getCauseIfRuntime;
 

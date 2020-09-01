@@ -13,7 +13,7 @@ import biz.dealnote.messenger.api.model.VKApiAudioPlaylist;
 import biz.dealnote.messenger.api.model.VkApiLyrics;
 import biz.dealnote.messenger.api.model.response.CatalogResponse;
 import biz.dealnote.messenger.api.model.server.VkApiAudioUploadServer;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 public interface IAudioApi {

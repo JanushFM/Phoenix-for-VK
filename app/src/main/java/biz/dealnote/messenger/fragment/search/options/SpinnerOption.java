@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SpinnerOption extends BaseOption {
 
@@ -32,6 +35,7 @@ public class SpinnerOption extends BaseOption {
         available = in.createTypedArrayList(Entry.CREATOR);
     }
 
+    @NotNull
     @Override
     public SpinnerOption clone() throws CloneNotSupportedException {
         SpinnerOption clone = (SpinnerOption) super.clone();
@@ -53,7 +57,7 @@ public class SpinnerOption extends BaseOption {
         if (!super.equals(o)) return false;
 
         SpinnerOption option = (SpinnerOption) o;
-        return value != null ? value.equals(option.value) : option.value == null;
+        return Objects.equals(value, option.value);
     }
 
     @Override
@@ -103,6 +107,7 @@ public class SpinnerOption extends BaseOption {
             name = in.readInt();
         }
 
+        @NotNull
         @Override
         protected Entry clone() throws CloneNotSupportedException {
             return (Entry) super.clone();

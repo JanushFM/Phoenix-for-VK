@@ -76,7 +76,7 @@ public class MessageAttachmentsFragment extends AbsPresenterBottomSheetFragment<
 
     @SuppressLint("RestrictedApi")
     @Override
-    public void setupDialog(Dialog dialog, int style) {
+    public void setupDialog(@NotNull Dialog dialog, int style) {
         super.setupDialog(dialog, style);
 
         View view = View.inflate(requireActivity(), R.layout.bottom_sheet_attachments, null);

@@ -5,7 +5,7 @@ import biz.dealnote.messenger.api.TokenType;
 import biz.dealnote.messenger.api.interfaces.IPagesApi;
 import biz.dealnote.messenger.api.model.VKApiWikiPage;
 import biz.dealnote.messenger.api.services.IPagesService;
-import io.reactivex.Single;
+import io.reactivex.rxjava3.core.Single;
 
 
 class PagesApi extends AbsApi implements IPagesApi {

@@ -121,58 +121,6 @@ public class OkHttpDataSource extends BaseDataSource implements HttpDataSource {
     }
 
     /**
-     * @param callFactory          A {@link Call.Factory} (typically an {@link okhttp3.OkHttpClient}) for use
-     *                             by the source.
-     * @param userAgent            An optional User-Agent string.
-     * @param contentTypePredicate An optional {@link Predicate}. If a content type is rejected by the
-     *                             predicate then a {@link InvalidContentTypeException} is thrown from {@link
-     *                             #open(DataSpec)}.
-     * @deprecated Use {@link #OkHttpDataSource(Call.Factory, String)} and {@link
-     * #setContentTypePredicate(Predicate)}.
-     */
-    @Deprecated
-    public OkHttpDataSource(
-            Call.Factory callFactory,
-            @Nullable String userAgent,
-            @Nullable Predicate<String> contentTypePredicate) {
-        this(
-                callFactory,
-                userAgent,
-                contentTypePredicate,
-                /* cacheControl= */ null,
-                /* defaultRequestProperties= */ null);
-    }
-
-    /**
-     * @param callFactory              A {@link Call.Factory} (typically an {@link okhttp3.OkHttpClient}) for use
-     *                                 by the source.
-     * @param userAgent                An optional User-Agent string.
-     * @param contentTypePredicate     An optional {@link Predicate}. If a content type is rejected by the
-     *                                 predicate then a {@link InvalidContentTypeException} is thrown from {@link
-     *                                 #open(DataSpec)}.
-     * @param cacheControl             An optional {@link CacheControl} for setting the Cache-Control header.
-     * @param defaultRequestProperties Optional default {@link RequestProperties} to be sent to the
-     *                                 server as HTTP headers on every request.
-     * @deprecated Use {@link #OkHttpDataSource(Call.Factory, String, CacheControl,
-     * RequestProperties)} and {@link #setContentTypePredicate(Predicate)}.
-     */
-    @Deprecated
-    public OkHttpDataSource(
-            Call.Factory callFactory,
-            @Nullable String userAgent,
-            @Nullable Predicate<String> contentTypePredicate,
-            @Nullable CacheControl cacheControl,
-            @Nullable RequestProperties defaultRequestProperties) {
-        super(/* isNetwork= */ true);
-        this.callFactory = Assertions.checkNotNull(callFactory);
-        this.userAgent = userAgent;
-        this.contentTypePredicate = contentTypePredicate;
-        this.cacheControl = cacheControl;
-        this.defaultRequestProperties = defaultRequestProperties;
-        requestProperties = new RequestProperties();
-    }
-
-    /**
      * Sets a content type {@link Predicate}. If a content type is rejected by the predicate then a
      * {@link HttpDataSource.InvalidContentTypeException} is thrown from {@link #open(DataSpec)}.
      *

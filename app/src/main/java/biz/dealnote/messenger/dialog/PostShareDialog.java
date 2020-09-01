@@ -26,7 +26,7 @@ import biz.dealnote.messenger.model.Text;
 import biz.dealnote.messenger.model.menu.Item;
 import biz.dealnote.messenger.util.AssertUtils;
 import biz.dealnote.messenger.util.RxUtils;
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.RxUtils.ignore;
@@ -76,9 +76,8 @@ public class PostShareDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AssertUtils.requireNonNull(getArguments());
-        mAccountId = getArguments().getInt(Extra.ACCOUNT_ID);
-        mPost = getArguments().getParcelable(Extra.POST);
+        mAccountId = requireArguments().getInt(Extra.ACCOUNT_ID);
+        mPost = requireArguments().getParcelable(Extra.POST);
     }
 
     @Override

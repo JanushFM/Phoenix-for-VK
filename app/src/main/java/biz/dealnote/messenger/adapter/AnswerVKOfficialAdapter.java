@@ -16,7 +16,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
-import com.squareup.picasso.Transformation;
+import com.squareup.picasso3.Transformation;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -227,7 +227,7 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
             return R.drawable.ic_feedback_transfer_money_cancelled;
         }
         if (IconType.equals("invite_game")) {
-            return R.drawable.ic_feedback_invite_game;
+            return R.drawable.ic_feedback_invite_app;
         }
         if (IconType.equals("cancel")) {
             return R.drawable.ic_feedback_cancel;
@@ -275,7 +275,7 @@ public class AnswerVKOfficialAdapter extends RecyclerView.Adapter<AnswerVKOffici
             return R.drawable.ic_feedback_gift;
         }
         if (IconType.equals("friend_suggest")) {
-            return R.drawable.ic_feedback_friend_suggest;
+            return R.drawable.ic_feedback_follow;
         }
         if (IconType.equals("invite_group")) {
             return R.drawable.ic_feedback_invite_group;

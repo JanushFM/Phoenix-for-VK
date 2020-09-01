@@ -132,7 +132,7 @@ public class MP3File extends AudioFileImpl {
             if ((loadOptions & LOAD_IDV2TAG) != 0) {
                 v2HeaderOptional = getV2Header(fileOperator);
             }
-            final int v2TagHeaderSize = AbstractID3v2Tag.TAG_HEADER_LENGTH;
+            int v2TagHeaderSize = AbstractID3v2Tag.TAG_HEADER_LENGTH;
             if (v2HeaderOptional.isPresent()) {
                 audioStart = v2HeaderOptional.get().getTagSize() + v2TagHeaderSize;
                 MP3AudioHeader mp3AudioHeader = new MP3AudioHeader(fileOperator, audioStart, file.getPath());

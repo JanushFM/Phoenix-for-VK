@@ -4,7 +4,7 @@ import java.util.List;
 
 import biz.dealnote.messenger.api.model.longpoll.AddMessageUpdate;
 import biz.dealnote.messenger.util.Pair;
-import io.reactivex.Observable;
+import io.reactivex.rxjava3.core.Observable;
 
 public interface IRealtimeMessagesProcessor {
 
