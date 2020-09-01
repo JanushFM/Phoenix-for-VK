@@ -9,6 +9,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 
 import java.util.ArrayList;
@@ -298,6 +299,7 @@ public final class MusicUtils {
         return 0;
     }
 
+    @Nullable
     public static Audio getCurrentAudio() {
         if (mService != null) {
             try {
@@ -312,6 +314,7 @@ public final class MusicUtils {
     /**
      * @return The current track name.
      */
+    @Nullable
     public static String getTrackName() {
         if (mService != null) {
             try {
@@ -324,8 +327,24 @@ public final class MusicUtils {
     }
 
     /**
+     * @return The current album name.
+     */
+    @Nullable
+    public static String getAlbumName() {
+        if (mService != null) {
+            try {
+                return mService.getAlbumName();
+            } catch (RemoteException ignored) {
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * @return The current artist name.
      */
+    @Nullable
     public static String getArtistName() {
         if (mService != null) {
             try {
@@ -336,6 +355,7 @@ public final class MusicUtils {
         return null;
     }
 
+    @Nullable
     public static String getAlbumCoverBig() {
         if (mService != null) {
             try {

@@ -176,9 +176,9 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                     iconColor = CurrentTheme.getColorSecondary(requireActivity())
                     callback = {
                         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                        var Artist = if (MusicUtils.getCurrentAudio().artist != null) MusicUtils.getCurrentAudio().artist else ""
-                        if (MusicUtils.getCurrentAudio().album_title != null) Artist += " (" + MusicUtils.getCurrentAudio().album_title + ")"
-                        val Name = if (MusicUtils.getCurrentAudio().title != null) MusicUtils.getCurrentAudio().title else ""
+                        var Artist = if (MusicUtils.getArtistName() != null) MusicUtils.getArtistName() else ""
+                        if (MusicUtils.getAlbumName() != null) Artist += " (" + MusicUtils.getAlbumName() + ")"
+                        val Name = if (MusicUtils.getTrackName() != null) MusicUtils.getTrackName() else ""
                         val clip = ClipData.newPlainText("response", "$Artist - $Name")
                         clipboard.setPrimaryClip(clip)
                         CreatePhoenixToast(requireActivity()).showToast(R.string.copied_to_clipboard)
@@ -189,7 +189,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                     icon = R.drawable.magnify
                     iconColor = CurrentTheme.getColorSecondary(requireActivity())
                     callback = {
-                        PlaceFactory.getSingleTabSearchPlace(mAccountId, SearchContentType.AUDIOS, AudioSearchCriteria(MusicUtils.getCurrentAudio().artist, true, false)).tryOpenWith(requireActivity())
+                        PlaceFactory.getSingleTabSearchPlace(mAccountId, SearchContentType.AUDIOS, AudioSearchCriteria(MusicUtils.getArtistName(), true, false)).tryOpenWith(requireActivity())
                         dismissAllowingStateLoss()
                     }
                 }
@@ -348,7 +348,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
 
     private fun onAudioLyricsReceived(Text: String) {
         var title: String? = null
-        if (MusicUtils.getCurrentAudio() != null) title = MusicUtils.getCurrentAudio().artistAndTitle
+        if (MusicUtils.getCurrentAudio() != null) title = MusicUtils.getCurrentAudio()?.artistAndTitle
         val dlgAlert = MaterialAlertDialogBuilder(requireActivity())
         dlgAlert.setIcon(R.drawable.dir_song)
         dlgAlert.setMessage(Text)
@@ -371,7 +371,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
             CreatePhoenixToast(requireActivity()).showToast(R.string.restored)
         }
         val current = MusicUtils.getCurrentAudio()
-        if (Objects.nonNull(current) && current.id == id && current.ownerId == ownerId) {
+        if (Objects.nonNull(current) && current?.id == id && current.ownerId == ownerId) {
             current.isDeleted = deleted
         }
         resolveAddButton()
@@ -482,22 +482,20 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
      * Sets the track name, album name, and album art.
      */
     private fun updateNowPlayingInfo() {
-        val artist = MusicUtils.getArtistName()
-        val trackName = MusicUtils.getTrackName()
         val coverUrl = MusicUtils.getAlbumCoverBig()
         if (mGetLyrics != null) {
-            if (MusicUtils.getCurrentAudio() != null && MusicUtils.getCurrentAudio().lyricsId != 0) mGetLyrics!!.visibility = View.VISIBLE else mGetLyrics!!.visibility = View.GONE
+            if (MusicUtils.getCurrentAudio() != null && MusicUtils.getCurrentAudio()?.lyricsId != 0) mGetLyrics!!.visibility = View.VISIBLE else mGetLyrics!!.visibility = View.GONE
         }
-        if (tvAlbum != null && MusicUtils.getCurrentAudio() != null) {
+        if (tvAlbum != null) {
             var album = ""
-            if (MusicUtils.getCurrentAudio().album_title != null) album += requireContext().getString(R.string.album) + " " + MusicUtils.getCurrentAudio().album_title
+            if (MusicUtils.getAlbumName() != null) album += requireContext().getString(R.string.album) + " " + MusicUtils.getAlbumName()
             tvAlbum!!.text = album
         }
         if (tvTitle != null) {
-            tvTitle!!.text = artist.trim { it <= ' ' }
+            tvTitle!!.text = MusicUtils.getArtistName()
         }
         if (tvSubtitle != null) {
-            tvSubtitle!!.text = trackName.trim { it <= ' ' }
+            tvSubtitle!!.text = MusicUtils.getTrackName()
         }
         if (coverUrl != null) {
             ivCover!!.scaleType = ImageView.ScaleType.FIT_START
