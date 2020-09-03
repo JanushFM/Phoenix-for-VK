@@ -1509,4 +1509,5 @@
     <string name="work_manager">Phoenix Work</string>
     <string name="channel_keep_work_manager">WorkManager</string>
     <string name="action_create_list">Создать список</string>
+    <string name="blur_for_player">Blur для плеера</string>
 </resources>

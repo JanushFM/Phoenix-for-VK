@@ -1,1 +1,1 @@
-{"app_id" : "dev.freya.phoenix", "apk_version" : 30009, "changes" : "Версия 3.09: Фикс плеера" }
+{"app_id" : "dev.freya.phoenix", "apk_version" : 30010, "changes" : "Версия 3.10: Фикс багов. Blur переведён на Render Script. В плеере можно установить фон обложки трека в Blur. Проект заморожен, так как говённое расписание в вузе, только фикс багов и обновление зависимостей. Принимаю pull request на github" }

@@ -8,7 +8,7 @@ class EditedMessage(val message: Message) {
     val attachments: MutableList<AttachmenEntry>
 
     init {
-        val orig = message.attachments.toList() ?: ArrayList()
+        val orig = message.attachments?.toList() ?: ArrayList()
 
         attachments = ArrayList()
 
@@ -16,7 +16,7 @@ class EditedMessage(val message: Message) {
             attachments.add(AttachmenEntry(true, model))
         }
 
-        message.fwd.run {
+        message.fwd?.run {
             attachments.add(AttachmenEntry(true, FwdMessages(this)))
         }
     }

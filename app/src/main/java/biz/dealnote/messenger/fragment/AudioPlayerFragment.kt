@@ -2,7 +2,10 @@ package biz.dealnote.messenger.fragment
 
 import android.app.Dialog
 import android.content.*
+import android.graphics.Bitmap
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.media.AudioManager
 import android.media.audiofx.AudioEffect
 import android.os.*
@@ -14,6 +17,7 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import biz.dealnote.messenger.Constants
 import biz.dealnote.messenger.Extra
 import biz.dealnote.messenger.Injection
@@ -35,22 +39,21 @@ import biz.dealnote.messenger.player.ui.ShuffleButton
 import biz.dealnote.messenger.player.util.MusicUtils
 import biz.dealnote.messenger.settings.CurrentTheme
 import biz.dealnote.messenger.settings.Settings
-import biz.dealnote.messenger.util.AppPerms
+import biz.dealnote.messenger.util.*
 import biz.dealnote.messenger.util.DownloadWorkUtils.TrackIsDownloaded
 import biz.dealnote.messenger.util.DownloadWorkUtils.doDownloadAudio
 import biz.dealnote.messenger.util.Objects
 import biz.dealnote.messenger.util.PhoenixToast.Companion.CreatePhoenixToast
-import biz.dealnote.messenger.util.RxUtils
-import biz.dealnote.messenger.util.Utils
 import biz.dealnote.messenger.util.Utils.isEmpty
 import biz.dealnote.messenger.view.CircleCounterButton
-import biz.dealnote.messenger.view.SeekBarSamsungFixed
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso3.BitmapTarget
+import com.squareup.picasso3.Picasso
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import java.lang.ref.WeakReference
@@ -74,7 +77,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private var mGetLyrics: ImageView? = null
 
     // Progress
-    private var mProgress: SeekBarSamsungFixed? = null
+    private var mProgress: SeekBar? = null
 
     // VK Additional action
     private var ivAdd: CircleCounterButton? = null
@@ -83,6 +86,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private var tvAlbum: TextView? = null
     private var tvSubtitle: TextView? = null
     private var ivCover: ShapeableImageView? = null
+    private var ivBackground: ConstraintLayout? = null
 
     // Broadcast receiver
     private var mPlaybackStatus: PlaybackStatus? = null
@@ -135,6 +139,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private fun onServiceBindEvent() {
         updatePlaybackControls()
         updateNowPlayingInfo()
+        resolveControlViews()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -167,7 +172,9 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                     icon = R.drawable.ic_menu_24_white
                     iconColor = CurrentTheme.getColorSecondary(requireActivity())
                     callback = {
-                        PlaylistFragment.newInstance(MusicUtils.getQueue() as ArrayList<Audio?>).show(childFragmentManager, "audio_playlist")
+                        if (!isEmpty(MusicUtils.getQueue())) {
+                            PlaylistFragment.newInstance(MusicUtils.getQueue() as ArrayList<Audio?>).show(childFragmentManager, "audio_playlist")
+                        }
                     }
                 }
                 item {
@@ -199,6 +206,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         val mPreviousButton: RepeatingImageButton = root.findViewById(R.id.action_button_previous)
         val mNextButton: RepeatingImageButton = root.findViewById(R.id.action_button_next)
         ivCover = root.findViewById(R.id.cover)
+        ivBackground = root.findViewById(R.id.audio_player_constraint)
         mCurrentTime = root.findViewById(R.id.audio_player_current_time)
         mTotalTime = root.findViewById(R.id.audio_player_total_time)
         tvTitle = root.findViewById(R.id.audio_player_title)
@@ -427,6 +435,8 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         updatePlaybackControls()
         // Current info
         updateNowPlayingInfo()
+
+        resolveControlViews()
     }
 
     /**
@@ -500,7 +510,23 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         if (coverUrl != null) {
             ivCover!!.scaleType = ImageView.ScaleType.FIT_START
             PicassoInstance.with().load(coverUrl).tag(Constants.PICASSO_TAG).into(ivCover!!)
+            if (Settings.get().other().isBlur_for_player) {
+                PicassoInstance.with().load(coverUrl).tag(Constants.PICASSO_TAG).transform(BlurTransformation(25, 1, requireActivity())).into(object : BitmapTarget {
+                    override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
+                        ivBackground?.background = BitmapDrawable(resources, bitmap)
+                    }
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+                    }
+
+                    override fun onBitmapFailed(e: Exception, errorDrawable: Drawable?) {
+                    }
+
+                })
+            }
+
         } else {
+            PicassoInstance.with().cancelRequest(ivCover!!)
             ivCover!!.scaleType = ImageView.ScaleType.CENTER
             ivCover!!.setImageResource(R.drawable.itunes)
             ivCover!!.drawable.setTint(CurrentTheme.getColorOnSurface(requireContext()))
@@ -629,7 +655,7 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         val preparing = MusicUtils.isPreparing()
         val initialized = MusicUtils.isInitialized()
         mProgress!!.isEnabled = !preparing && initialized
-        mProgress!!.isIndeterminate = preparing
+        //mProgress!!.isIndeterminate = preparing
     }
 
     /**
@@ -724,7 +750,10 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
 
     private fun refreshCurrentTime(): Long {
         //Logger.d("refreshTime", String.valueOf(mService == null));
-        if (MusicUtils.mService == null) {
+        if (!MusicUtils.isInitialized()) {
+            mCurrentTime!!.text = "--:--"
+            mTotalTime!!.text = "--:--"
+            mProgress!!.progress = 0
             return 500
         }
         try {

@@ -119,7 +119,7 @@ public class GroupWallFragment extends AbsWallFragment<IGroupWallView, GroupWall
         if (!Utils.isEmpty(resource)) {
             PicassoInstance.with()
                     .load(resource)
-                    .transform(new BlurTransformation(6, 1))
+                    .transform(new BlurTransformation(6, 1, requireActivity()))
                     .into(mHeaderHolder.vgCover);
         }
     }

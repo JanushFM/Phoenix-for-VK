@@ -223,6 +223,11 @@ class OtherSettings implements ISettings.IOtherSettings {
     }
 
     @Override
+    public boolean isBlur_for_player() {
+        return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("blur_for_player", false);
+    }
+
+    @Override
     public boolean isShow_mini_player() {
         return PreferenceManager.getDefaultSharedPreferences(app).getBoolean("show_mini_player", true);
     }

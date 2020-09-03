@@ -50,7 +50,7 @@ class MainSettings implements ISettings.IMainSettings {
 
     @Override
     public boolean Ismini_player_audio_round_icon() {
-        return getDefaultPreferences().getBoolean("mini_player_audio_round_icon", false);
+        return getDefaultPreferences().getBoolean("mini_player_audio_round_icon", true);
     }
 
     @Override

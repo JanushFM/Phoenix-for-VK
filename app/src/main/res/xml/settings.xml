@@ -405,7 +405,7 @@
             app:iconSpaceReserved="false" />
 
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="mini_player_audio_round_icon"
             android:title="@string/mini_player_audio_round_icon"
             app:iconSpaceReserved="false" />
@@ -414,6 +414,12 @@
             android:defaultValue="false"
             android:key="use_stop_audio"
             android:title="@string/use_stop_audio"
+            app:iconSpaceReserved="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="blur_for_player"
+            android:title="@string/blur_for_player"
             app:iconSpaceReserved="false" />
 
         <SwitchPreference

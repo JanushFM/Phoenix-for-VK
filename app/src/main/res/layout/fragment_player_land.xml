@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/audio_player_constraint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -113,7 +114,7 @@
                     android:textSize="11sp"
                     tools:ignore="RelativeOverlap,SmallSp" />
 
-                <biz.dealnote.messenger.view.SeekBarSamsungFixed
+                <SeekBar
                     android:id="@android:id/progress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -185,7 +185,7 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     }
 
     private long refreshCurrentTime() {
-        if (mService == null) {
+        if (!MusicUtils.isInitialized()) {
             return 500;
         }
 

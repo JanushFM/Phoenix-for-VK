@@ -1188,7 +1188,9 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
 
         for (entry in message.attachments) {
             if (entry.attachment is FwdMessages) {
-                count += (entry.attachment as FwdMessages).fwds.size
+                if (!isEmpty((entry.attachment as FwdMessages).fwds)) {
+                    count += (entry.attachment as FwdMessages).fwds.size
+                }
             } else if (entry.attachment !is Upload) {
                 count++
             }

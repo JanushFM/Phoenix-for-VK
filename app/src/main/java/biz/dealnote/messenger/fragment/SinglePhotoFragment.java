@@ -91,6 +91,7 @@ public class SinglePhotoFragment extends BaseFragment
         View root = inflater.inflate(R.layout.fragment_single_url_photo, container, false);
 
         CircleCounterButton mDownload = root.findViewById(R.id.button_download);
+        mDownload.setVisibility(url.contains("content://media/external/images/media/") ? View.GONE : View.VISIBLE);
 
         PhotoViewHolder ret = new PhotoViewHolder(root);
         ret.bindTo(url);

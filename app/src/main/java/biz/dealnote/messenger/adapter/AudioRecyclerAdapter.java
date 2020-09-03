@@ -183,6 +183,15 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
 
         holder.lyric.setVisibility(audio.getLyricsId() != 0 ? View.VISIBLE : View.GONE);
         holder.isSelectedView.setVisibility(audio.isSelected() ? View.VISIBLE : View.GONE);
+        if (audio.isSelected()) {
+            if (Utils.isEmpty(audio.getUrl())) {
+                holder.isSelectedView.setCardBackgroundColor(Color.parseColor("#ff0000"));
+            } else if (DownloadWorkUtils.TrackIsDownloaded(audio) != 0) {
+                holder.isSelectedView.setCardBackgroundColor(Color.parseColor("#00aa00"));
+            } else {
+                holder.isSelectedView.setCardBackgroundColor(CurrentTheme.getColorPrimary(mContext));
+            }
+        }
 
         if (not_show_my)
             holder.my.setVisibility(View.GONE);
@@ -217,8 +226,8 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         }
 
         holder.play.setOnLongClickListener(v -> {
-            if (!Utils.isEmpty(audio.getThumb_image_very_big())
-                    || !Utils.isEmpty(audio.getThumb_image_big()) || !Utils.isEmpty(audio.getThumb_image_little())) {
+            if ((!Utils.isEmpty(audio.getThumb_image_very_big())
+                    || !Utils.isEmpty(audio.getThumb_image_big()) || !Utils.isEmpty(audio.getThumb_image_little())) && !Utils.isEmpty(audio.getArtist()) && !Utils.isEmpty(audio.getTitle())) {
                 mClickListener.onUrlPhotoOpen(firstNonEmptyString(audio.getThumb_image_very_big(),
                         audio.getThumb_image_big(), audio.getThumb_image_little()), audio.getArtist(), audio.getTitle());
             }
@@ -381,6 +390,13 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
             holder.Track.setOnClickListener(view -> {
                 audio.setIsSelected(!audio.isSelected());
                 holder.isSelectedView.setVisibility(audio.isSelected() ? View.VISIBLE : View.GONE);
+                if (Utils.isEmpty(audio.getUrl())) {
+                    holder.isSelectedView.setCardBackgroundColor(Color.parseColor("#ff0000"));
+                } else if (DownloadWorkUtils.TrackIsDownloaded(audio) != 0) {
+                    holder.isSelectedView.setCardBackgroundColor(Color.parseColor("#00aa00"));
+                } else {
+                    holder.isSelectedView.setCardBackgroundColor(CurrentTheme.getColorPrimary(mContext));
+                }
             });
         }
     }

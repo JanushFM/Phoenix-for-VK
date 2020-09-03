@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import biz.dealnote.messenger.R;
@@ -269,6 +270,10 @@ public class Message extends AbsModel implements Identificable, ISelectable {
     public Message setAttachments(Attachments attachments) {
         this.attachments = attachments;
         return this;
+    }
+
+    public List<AbsModel> safeGetAttachmentsList() {
+        return nonNull(attachments) ? attachments.toList() : new ArrayList<>();
     }
 
     @Override
