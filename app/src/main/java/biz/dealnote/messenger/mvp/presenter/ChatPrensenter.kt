@@ -127,7 +127,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     private var currentPhotoCameraUri: Uri? = null
 
     init {
-        audioRecordWrapper = AudioRecordWrapper.Builder(App.getInstance())
+        audioRecordWrapper = AudioRecordWrapper.Builder(App.instance)
                 .setFileExt(RECORD_EXT_MP3)
                 .build()
 
@@ -1653,7 +1653,7 @@ class ChatPrensenter(accountId: Int, private val messagesOwnerId: Int,
     }
 
     fun fireIniciateKeyExchangeClick(@KeyLocationPolicy policy: Int) {
-        KeyExchangeService.iniciateKeyExchangeSession(App.getInstance(), messagesOwnerId, peerId, policy)
+        KeyExchangeService.iniciateKeyExchangeSession(App.instance, messagesOwnerId, peerId, policy)
     }
 
     override fun saveState(outState: Bundle) {

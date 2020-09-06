@@ -30,7 +30,7 @@ public abstract class AbsSearchPresenter<V extends IBaseSearchView<T>, C extends
 
     final List<T> data;
     private final C criteria;
-    private final WeakActionHandler<AbsSearchPresenter> actionHandler = new WeakActionHandler<>(this);
+    private final WeakActionHandler<AbsSearchPresenter<?, ?, ?, ?>> actionHandler = new WeakActionHandler<>(this);
     private final CompositeDisposable searchDisposable = new CompositeDisposable();
     private N nextFrom;
     private C resultsForCriteria;

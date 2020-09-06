@@ -1,9 +1,5 @@
 package biz.dealnote.messenger.fragment.conversation;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -20,15 +16,11 @@ import biz.dealnote.messenger.adapter.AudioRecyclerAdapter;
 import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.mvp.presenter.conversations.ChatAttachmentAudioPresenter;
 import biz.dealnote.messenger.mvp.view.conversations.IChatAttachmentAudiosView;
-import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.mvp.core.IPresenterFactory;
-
-import static biz.dealnote.messenger.util.Objects.isNull;
 
 public class ConversationAudiosFragment extends AbsChatAttachmentsFragment<Audio, ChatAttachmentAudioPresenter, IChatAttachmentAudiosView>
         implements AudioRecyclerAdapter.ClickListener, IChatAttachmentAudiosView {
 
-    private PlaybackStatus mPlaybackStatus;
 
     @Override
     protected RecyclerView.LayoutManager createLayoutManager() {
@@ -36,7 +28,7 @@ public class ConversationAudiosFragment extends AbsChatAttachmentsFragment<Audio
     }
 
     @Override
-    public RecyclerView.Adapter createAdapter() {
+    public RecyclerView.Adapter<?> createAdapter() {
         AudioRecyclerAdapter audioRecyclerAdapter = new AudioRecyclerAdapter(requireActivity(), Collections.emptyList(), false, false, 0);
         audioRecyclerAdapter.setClickListener(this);
         return audioRecyclerAdapter;
@@ -65,40 +57,5 @@ public class ConversationAudiosFragment extends AbsChatAttachmentsFragment<Audio
                 getArguments().getInt(Extra.ACCOUNT_ID),
                 saveInstanceState
         );
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPlaybackStatus = new PlaybackStatus();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
-        filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.META_CHANGED);
-        filter.addAction(MusicPlaybackService.PREPARED);
-        filter.addAction(MusicPlaybackService.REFRESH);
-        requireActivity().registerReceiver(mPlaybackStatus, filter);
-    }
-
-    @Override
-    public void onPause() {
-        try {
-            requireActivity().unregisterReceiver(mPlaybackStatus);
-        } catch (Throwable ignored) {
-        }
-        super.onPause();
-    }
-
-    private final class PlaybackStatus extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (isNull(action)) return;
-
-            if (MusicPlaybackService.PLAYSTATE_CHANGED.equals(action)) {
-                getAdapter().notifyDataSetChanged();
-            }
-        }
     }
 }

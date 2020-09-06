@@ -32,7 +32,6 @@ import biz.dealnote.messenger.media.exo.ExoEventAdapter
 import biz.dealnote.messenger.media.exo.ExoUtil
 import biz.dealnote.messenger.model.Audio
 import biz.dealnote.messenger.model.IdPair
-import biz.dealnote.messenger.player.util.MusicUtils
 import biz.dealnote.messenger.settings.Settings
 import biz.dealnote.messenger.util.DownloadWorkUtils.GetLocalTrackLink
 import biz.dealnote.messenger.util.DownloadWorkUtils.TrackIsDownloaded
@@ -70,7 +69,6 @@ class MusicPlaybackService : Service() {
      */
     private var ErrorsCount = 0
     private var OnceCloseMiniPlayer = false
-    private var SuperCloseMiniPlayer = MusicUtils.SuperCloseMiniPlayer
     private var mAnyActivityInForeground = false
     private var mMediaSession: MediaSessionCompat? = null
     private var mTransportController: MediaControllerCompat.TransportControls? = null
@@ -402,13 +400,7 @@ class MusicPlaybackService : Service() {
         if (what == POSITION_CHANGED) {
             return
         }
-        val intent = Intent(what)
-        intent.putExtra("id", currentTrack)
-        intent.putExtra("artist", artistName)
-        intent.putExtra("album", albumName)
-        intent.putExtra("track", trackName)
-        intent.putExtra("playing", isPlaying)
-        sendBroadcast(intent)
+        sendBroadcast(Intent(what))
         if (what == PLAYSTATE_CHANGED) {
             mNotificationHelper!!.updatePlayState(isPlaying)
         }
@@ -1030,7 +1022,7 @@ class MusicPlaybackService : Service() {
         }
 
         override fun getMiniplayerVisibility(): Boolean {
-            if (mService.get()!!.SuperCloseMiniPlayer || mService.get()!!.OnceCloseMiniPlayer)
+            if (mService.get()!!.OnceCloseMiniPlayer)
                 return false
             if (mService.get()!!.isPaused || mService.get()!!.isPlaying)
                 return true
@@ -1073,11 +1065,6 @@ class MusicPlaybackService : Service() {
             return mService.get()!!.shuffleMode
         }
 
-        override fun setMiniPlayerVisibility(visiable: Boolean) {
-            mService.get()!!.SuperCloseMiniPlayer = !visiable
-            mService.get()!!.notifyChange(MINIPLAYER_SUPER_VIS_CHANGED)
-        }
-
         override fun getRepeatMode(): Int {
             return mService.get()!!.repeatMode
         }
@@ -1095,7 +1082,6 @@ class MusicPlaybackService : Service() {
     companion object {
         private const val TAG = "MusicPlaybackService"
         private val D = Constants.IS_DEBUG
-        const val MINIPLAYER_SUPER_VIS_CHANGED = "biz.dealnote.phoenix.player.mini_visible"
         const val PLAYSTATE_CHANGED = "biz.dealnote.phoenix.player.playstatechanged"
         const val POSITION_CHANGED = "biz.dealnote.phoenix.player.positionchanged"
         const val META_CHANGED = "biz.dealnote.phoenix.player.metachanged"

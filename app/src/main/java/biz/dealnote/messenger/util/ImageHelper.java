@@ -1,19 +1,19 @@
 package biz.dealnote.messenger.util;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Build;
 
 public class ImageHelper {
 
-    private static final PorterDuffXfermode PORTER_DUFF_XFERMODE = new PorterDuffXfermode(PorterDuff.Mode.SRC_IN);
-
-    public static Bitmap getRoundedBitmap(Bitmap bitmap) {
+    public static Bitmap getRoundedBitmap(Bitmap bitmap, int percentage_x, int percentage_y) {
         if (bitmap == null) {
             return null;
         }
@@ -23,76 +23,22 @@ public class ImageHelper {
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
 
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        RectF rectF = new RectF(rect);
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+        paint.setShader(new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(0xff424242);
-        canvas.drawOval(rectF, paint);
+        float cfx = (percentage_x / 100f);
+        float cfy = (percentage_y / 100f);
 
-        paint.setXfermode(PORTER_DUFF_XFERMODE);
-        canvas.drawBitmap(bitmap, rect, rect, paint);
+        RectF rect = new RectF(0f, 0f, bitmap.getWidth(), bitmap.getHeight());
+        Path path = new Path();
+        path.addRoundRect(rect, (bitmap.getWidth() / 2f) * cfx, (bitmap.getHeight() / 2f) * cfy, Path.Direction.CW);
+        canvas.drawPath(path, paint);
 
-        bitmap.recycle();
-
-        return output;
-    }
-
-    public static Bitmap getElipsedBitmap(Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
+        if (bitmap != output) {
+            bitmap.recycle();
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        }
-
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        RectF rectF = new RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(0xff424242);
-        canvas.drawRoundRect(rectF, (float) bitmap.getWidth() / 2.7f, (float) bitmap.getHeight() / 2.5f, paint);
-
-        paint.setXfermode(PORTER_DUFF_XFERMODE);
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        bitmap.recycle();
-
-        return output;
-    }
-
-    public static Bitmap getPolyBitmap(Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && bitmap.getConfig() == Bitmap.Config.HARDWARE) {
-            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        }
-
-        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-
-        Paint paint = new Paint();
-        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-        RectF rectF = new RectF(rect);
-
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(0xff424242);
-        canvas.drawRoundRect(rectF, (float) bitmap.getWidth() / 6.3f, (float) bitmap.getHeight() / 6.3f, paint);
-
-        paint.setXfermode(PORTER_DUFF_XFERMODE);
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-
-        bitmap.recycle();
 
         return output;
     }

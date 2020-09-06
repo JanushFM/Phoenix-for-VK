@@ -1,9 +1,5 @@
 package biz.dealnote.messenger.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +30,6 @@ import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.mvp.presenter.AudiosLocalPresenter;
 import biz.dealnote.messenger.mvp.view.IAudiosLocalView;
 import biz.dealnote.messenger.place.PlaceFactory;
-import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.upload.Upload;
@@ -43,7 +38,6 @@ import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.messenger.view.MySearchView;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
-import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, IAudiosLocalView>
@@ -51,7 +45,6 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private LocalAudioRecyclerAdapter mAudioRecyclerAdapter;
-    private PlaybackStatus mPlaybackStatus;
     private boolean doAudioLoadTabs;
     private DocsUploadAdapter mUploadAdapter;
     private View mUploadRoot;
@@ -130,15 +123,6 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
             doAudioLoadTabs = true;
             getPresenter().LoadAudiosTool();
         }
-        mPlaybackStatus = new PlaybackStatus();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
-        filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.META_CHANGED);
-        filter.addAction(MusicPlaybackService.PREPARED);
-        filter.addAction(MusicPlaybackService.REFRESH);
-        requireActivity().registerReceiver(mPlaybackStatus, filter);
     }
 
     @NotNull
@@ -227,15 +211,6 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
     }
 
     @Override
-    public void onPause() {
-        try {
-            requireActivity().unregisterReceiver(mPlaybackStatus);
-        } catch (Throwable ignored) {
-        }
-        super.onPause();
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         getPresenter().fireQuery(query);
         return true;
@@ -255,17 +230,5 @@ public class AudiosLocalFragment extends BaseMvpFragment<AudiosLocalPresenter, I
     @Override
     public void onUpload(int position, Audio audio) {
         getPresenter().fireFileForUploadSelected(audio.getUrl());
-    }
-
-    private final class PlaybackStatus extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (isNull(action)) return;
-
-            if (MusicPlaybackService.PLAYSTATE_CHANGED.equals(action)) {
-                notifyListChanged();
-            }
-        }
     }
 }

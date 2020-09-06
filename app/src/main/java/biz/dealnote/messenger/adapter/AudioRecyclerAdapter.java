@@ -24,6 +24,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.squareup.picasso3.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -55,7 +57,9 @@ import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.WeakViewAnimatorAdapter;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
+import static biz.dealnote.messenger.player.util.MusicUtils.observeServiceBinding;
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
 public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRecyclerAdapter.AudioHolder> {
@@ -65,8 +69,12 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
     private final boolean not_show_my;
     private final int iCatalogBlock;
     private final CompositeDisposable audioListDisposable = new CompositeDisposable();
+    private Disposable mPlayerDisposable = Disposable.disposed();
+
     private boolean iSSelectMode;
     private ClickListener mClickListener;
+
+    private Audio currAudio;
 
     public AudioRecyclerAdapter(Context context, List<Audio> data, boolean not_show_my, boolean iSSelectMode, int iCatalogBlock) {
         super(data);
@@ -75,6 +83,7 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         this.not_show_my = not_show_my;
         this.iSSelectMode = iSSelectMode;
         this.iCatalogBlock = iCatalogBlock;
+        currAudio = MusicUtils.getCurrentAudio();
     }
 
     private void deleteTrack(int accountId, Audio audio) {
@@ -117,6 +126,53 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         dlgAlert.create().show();
     }
 
+    @Override
+    public void onAttachedToRecyclerView(@NotNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mPlayerDisposable = observeServiceBinding()
+                .compose(RxUtils.applyObservableIOToMainSchedulers())
+                .subscribe(this::onServiceBindEvent);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NotNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mPlayerDisposable.dispose();
+    }
+
+    private void updateAudio(Audio audio) {
+        int pos = indexOfAdapter(audio);
+        if (pos != -1) {
+            notifyItemChanged(pos);
+        }
+    }
+
+    private void onServiceBindEvent(@MusicUtils.PlayerStatus int status) {
+        switch (status) {
+            case MusicUtils.PlayerStatus.UPDATE_TRACK_INFO:
+                Audio old = currAudio;
+                currAudio = MusicUtils.getCurrentAudio();
+                if (!Objects.equals(old, currAudio)) {
+                    updateAudio(old);
+                    updateAudio(currAudio);
+                }
+                break;
+            case MusicUtils.PlayerStatus.UPDATE_PLAY_PAUSE:
+                updateAudio(currAudio);
+                break;
+            case MusicUtils.PlayerStatus.SERVICE_KILLED:
+                Audio del = currAudio;
+                currAudio = null;
+                if (!Objects.equals(del, currAudio)) {
+                    updateAudio(del);
+                }
+                break;
+            case MusicUtils.PlayerStatus.REPEATMODE_CHANGED:
+            case MusicUtils.PlayerStatus.SHUFFLEMODE_CHANGED:
+                break;
+        }
+    }
+
     @DrawableRes
     private int getAudioCoverSimple() {
         return Settings.get().main().isAudio_round_icon() ? R.drawable.audio_button : R.drawable.audio_button_material;
@@ -127,27 +183,21 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
     }
 
     private void updateAudioStatus(AudioHolder holder, Audio audio) {
-        switch (MusicUtils.AudioStatus(audio)) {
+        if (!audio.equals(currAudio)) {
+            holder.visual.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+            holder.play_cover.clearColorFilter();
+            return;
+        }
+        switch (MusicUtils.PlayerStatus()) {
             case 1:
-                holder.visual.setVisibility(View.VISIBLE);
+                holder.visual.setAnimation(R.raw.play_visual);
                 Utils.doAnimateLottie(holder.visual, true, 104);
-                holder.play_icon.setVisibility(View.GONE);
                 holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
                 break;
             case 2:
-                holder.visual.setVisibility(View.VISIBLE);
+                holder.visual.setAnimation(R.raw.play_visual);
                 Utils.doAnimateLottie(holder.visual, false, 104);
-                holder.play_icon.setVisibility(View.GONE);
                 holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
-                break;
-            default:
-                if (holder.visual.isAnimating()) {
-                    holder.visual.cancelAnimation();
-                }
-                holder.visual.setVisibility(View.GONE);
-                holder.play_icon.setVisibility(View.VISIBLE);
-                holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
-                holder.play_cover.clearColorFilter();
                 break;
 
         }
@@ -432,7 +482,6 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
         TextView artist;
         TextView title;
         View play;
-        ImageView play_icon;
         ImageView play_cover;
         LottieAnimationView visual;
         TextView time;
@@ -451,7 +500,6 @@ public class AudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, AudioRe
             artist = itemView.findViewById(R.id.dialog_title);
             title = itemView.findViewById(R.id.dialog_message);
             play = itemView.findViewById(R.id.item_audio_play);
-            play_icon = itemView.findViewById(R.id.item_audio_play_icon);
             play_cover = itemView.findViewById(R.id.item_audio_play_cover);
             time = itemView.findViewById(R.id.item_audio_time);
             saved = itemView.findViewById(R.id.saved);

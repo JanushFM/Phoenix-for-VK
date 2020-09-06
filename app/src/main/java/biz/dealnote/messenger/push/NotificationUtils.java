@@ -82,7 +82,7 @@ public class NotificationUtils {
             e.printStackTrace();
 
             Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), res);
-            return ImageHelper.getRoundedBitmap(bitmap);
+            return ImageHelper.getRoundedBitmap(bitmap, 100, 100);
         }
     }
 

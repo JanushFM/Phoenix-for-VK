@@ -12,6 +12,8 @@ public interface IAudiosView extends IMvpView, IErrorView, IAccountDependencyVie
 
     void notifyListChanged();
 
+    void notifyDataAdded(int position, int count);
+
     void displayRefreshing(boolean refresing);
 
     void updatePlaylists(List<AudioPlaylist> stories);

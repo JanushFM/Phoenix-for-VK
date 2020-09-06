@@ -20,6 +20,8 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso3.Transformation;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.util.List;
 import java.util.Objects;
@@ -39,17 +41,26 @@ import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.RoundTransformation;
+import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.view.WeakViewAnimatorAdapter;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+
+import static biz.dealnote.messenger.player.util.MusicUtils.observeServiceBinding;
 
 public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, LocalAudioRecyclerAdapter.AudioHolder> {
 
     private final Context mContext;
+    private final CompositeDisposable audioListDisposable = new CompositeDisposable();
     private ClickListener mClickListener;
+    private Disposable mPlayerDisposable = Disposable.disposed();
+    private Audio currAudio;
 
     public LocalAudioRecyclerAdapter(Context context, List<Audio> data) {
         super(data);
         mContext = context;
+        currAudio = MusicUtils.getCurrentAudio();
     }
 
     @DrawableRes
@@ -62,29 +73,70 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
     }
 
     private void updateAudioStatus(AudioHolder holder, Audio audio) {
-        switch (MusicUtils.AudioStatus(audio)) {
+        if (!audio.equals(currAudio)) {
+            holder.visual.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
+            holder.play_cover.clearColorFilter();
+            return;
+        }
+        switch (MusicUtils.PlayerStatus()) {
             case 1:
-                holder.visual.setVisibility(View.VISIBLE);
+                holder.visual.setAnimation(R.raw.play_visual);
                 Utils.doAnimateLottie(holder.visual, true, 104);
-                holder.play_icon.setVisibility(View.GONE);
                 holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
                 break;
             case 2:
-                holder.visual.setVisibility(View.VISIBLE);
+                holder.visual.setAnimation(R.raw.play_visual);
                 Utils.doAnimateLottie(holder.visual, false, 104);
-                holder.play_icon.setVisibility(View.GONE);
                 holder.play_cover.setColorFilter(Color.parseColor("#44000000"));
                 break;
-            default:
-                if (holder.visual.isAnimating()) {
-                    holder.visual.cancelAnimation();
-                }
-                holder.visual.setVisibility(View.GONE);
-                holder.play_icon.setVisibility(View.VISIBLE);
-                holder.play_icon.setImageResource(Utils.isEmpty(audio.getUrl()) ? R.drawable.audio_died : R.drawable.song);
-                holder.play_cover.clearColorFilter();
-                break;
 
+        }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NotNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mPlayerDisposable = observeServiceBinding()
+                .compose(RxUtils.applyObservableIOToMainSchedulers())
+                .subscribe(this::onServiceBindEvent);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NotNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        mPlayerDisposable.dispose();
+    }
+
+    private void updateAudio(Audio audio) {
+        int pos = indexOfAdapter(audio);
+        if (pos != -1) {
+            notifyItemChanged(pos);
+        }
+    }
+
+    private void onServiceBindEvent(@MusicUtils.PlayerStatus int status) {
+        switch (status) {
+            case MusicUtils.PlayerStatus.UPDATE_TRACK_INFO:
+                Audio old = currAudio;
+                currAudio = MusicUtils.getCurrentAudio();
+                if (!Objects.equals(old, currAudio)) {
+                    updateAudio(old);
+                    updateAudio(currAudio);
+                }
+                break;
+            case MusicUtils.PlayerStatus.UPDATE_PLAY_PAUSE:
+                updateAudio(currAudio);
+                break;
+            case MusicUtils.PlayerStatus.SERVICE_KILLED:
+                Audio del = currAudio;
+                currAudio = null;
+                if (!Objects.equals(del, currAudio)) {
+                    updateAudio(del);
+                }
+                break;
+            case MusicUtils.PlayerStatus.REPEATMODE_CHANGED:
+            case MusicUtils.PlayerStatus.SHUFFLEMODE_CHANGED:
+                break;
         }
     }
 
@@ -206,7 +258,6 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
         TextView artist;
         TextView title;
         View play;
-        ImageView play_icon;
         ImageView play_cover;
         View Track;
         MaterialCardView selectionView;
@@ -219,7 +270,6 @@ public class LocalAudioRecyclerAdapter extends RecyclerBindableAdapter<Audio, Lo
             artist = itemView.findViewById(R.id.dialog_title);
             title = itemView.findViewById(R.id.dialog_message);
             play = itemView.findViewById(R.id.item_audio_play);
-            play_icon = itemView.findViewById(R.id.item_audio_play_icon);
             play_cover = itemView.findViewById(R.id.item_audio_play_cover);
             Track = itemView.findViewById(R.id.track_option);
             selectionView = itemView.findViewById(R.id.item_audio_selection);

@@ -16,6 +16,6 @@ public class ElipseTransformation implements Transformation {
     @NotNull
     @Override
     public RequestHandler.Result.Bitmap transform(@NotNull RequestHandler.Result.Bitmap source) {
-        return new RequestHandler.Result.Bitmap(ImageHelper.getElipsedBitmap(source.getBitmap()), source.loadedFrom, source.exifRotation);
+        return new RequestHandler.Result.Bitmap(ImageHelper.getRoundedBitmap(source.getBitmap(), 80, 70), source.loadedFrom, source.exifRotation);
     }
 }

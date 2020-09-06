@@ -126,7 +126,7 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.child_container);
 
         if (fragment instanceof AbsSearchFragment) {
-            ((AbsSearchFragment) fragment).syncYourCriteriaWithParent();
+            ((AbsSearchFragment<?, ?, ?, ?>) fragment).syncYourCriteriaWithParent();
         }
     }
 
@@ -141,7 +141,7 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
 
         // MVP
         if (fragment instanceof AbsSearchFragment) {
-            ((AbsSearchFragment) fragment).fireTextQueryEdit(query);
+            ((AbsSearchFragment<?, ?, ?, ?>) fragment).fireTextQueryEdit(query);
         }
     }
 
@@ -197,7 +197,7 @@ public class SingleTabSearchFragment extends Fragment implements MySearchView.On
     public void onAdditionalButtonClick() {
         Fragment fragment = getChildFragmentManager().findFragmentById(R.id.child_container);
         if (fragment instanceof AbsSearchFragment) {
-            ((AbsSearchFragment) fragment).openSearchFilter();
+            ((AbsSearchFragment<?, ?, ?, ?>) fragment).openSearchFilter();
         }
     }
 }

@@ -115,10 +115,11 @@ public class AudiosPresenter extends AccountDependencyPresenter<IAudiosView> {
     }
 
     private void onNextListReceived(List<Audio> next) {
+        int startOwnSize = audios.size();
         audios.addAll(next);
         endOfContent = next.isEmpty();
         setLoadingNow(false);
-        callView(IAudiosView::notifyListChanged);
+        callView(view -> view.notifyDataAdded(startOwnSize, next.size()));
         if (isAlbum == 0 && option_menu_id == -1 && !iSSelectMode) {
             MusicUtils.Audios.put(ownerId, audios);
         }

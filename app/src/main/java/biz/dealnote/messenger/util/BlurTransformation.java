@@ -90,7 +90,9 @@ public class BlurTransformation implements Transformation {
         bitmap = FastBlur.blur(bitmap, mRadius, true);
 */
         Bitmap bitmap = blur(source);
-        //source.recycle();
+        if (source != bitmap) {
+            source.recycle();
+        }
 
         assert bitmap != null;
         return new RequestHandler.Result.Bitmap(bitmap, source_request.loadedFrom, source_request.exifRotation);

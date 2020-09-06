@@ -32,7 +32,7 @@ public class ConversationPhotosFragment extends AbsChatAttachmentsFragment<Photo
     }
 
     @Override
-    public RecyclerView.Adapter createAdapter() {
+    public RecyclerView.Adapter<?> createAdapter() {
         FavePhotosAdapter apiPhotoFavePhotosAdapter = new FavePhotosAdapter(requireActivity(), Collections.emptyList());
         apiPhotoFavePhotosAdapter.setPhotoSelectionListener(this);
         return apiPhotoFavePhotosAdapter;

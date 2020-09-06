@@ -29,7 +29,7 @@ import biz.dealnote.messenger.util.ViewUtils;
 
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
-public abstract class AbsSearchFragment<P extends AbsSearchPresenter<V, ?, T, ?>, V extends IBaseSearchView<T>, T, A extends RecyclerView.Adapter>
+public abstract class AbsSearchFragment<P extends AbsSearchPresenter<V, ?, T, ?>, V extends IBaseSearchView<T>, T, A extends RecyclerView.Adapter<?>>
         extends PlaceSupportMvpFragment<P, V> implements IBaseSearchView<T> {
 
     public static final String ACTION_QUERY = "action_query";

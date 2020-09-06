@@ -1,9 +1,5 @@
 package biz.dealnote.messenger.fragment;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,13 +36,11 @@ import biz.dealnote.messenger.mvp.presenter.AudioCatalogPresenter;
 import biz.dealnote.messenger.mvp.view.IAudioCatalogView;
 import biz.dealnote.messenger.place.Place;
 import biz.dealnote.messenger.place.PlaceFactory;
-import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Utils;
 import biz.dealnote.messenger.util.ViewUtils;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
-import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 
 public class AudioCatalogFragment extends BaseMvpFragment<AudioCatalogPresenter, IAudioCatalogView> implements IAudioCatalogView, AudioCatalogAdapter.ClickListener {
@@ -56,7 +50,6 @@ public class AudioCatalogFragment extends BaseMvpFragment<AudioCatalogPresenter,
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private AudioCatalogAdapter mAdapter;
     private boolean doAudioLoadTabs;
-    private PlaybackStatus mPlaybackStatus;
     private boolean inTabsContainer;
 
     public static AudioCatalogFragment newInstance(int accountId, String artist_id, boolean isHideToolbar) {
@@ -153,24 +146,6 @@ public class AudioCatalogFragment extends BaseMvpFragment<AudioCatalogPresenter,
                     .build()
                     .apply(requireActivity());
         }
-        mPlaybackStatus = new PlaybackStatus();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
-        filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.META_CHANGED);
-        filter.addAction(MusicPlaybackService.PREPARED);
-        filter.addAction(MusicPlaybackService.REFRESH);
-        requireActivity().registerReceiver(mPlaybackStatus, filter);
-    }
-
-    @Override
-    public void onPause() {
-        try {
-            requireActivity().unregisterReceiver(mPlaybackStatus);
-        } catch (Throwable ignored) {
-        }
-        super.onPause();
     }
 
     @Override
@@ -231,19 +206,5 @@ public class AudioCatalogFragment extends BaseMvpFragment<AudioCatalogPresenter,
     @Override
     public void onAddPlayList(int index, AudioPlaylist album) {
         getPresenter().onAdd(album);
-    }
-
-    private final class PlaybackStatus extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (isNull(action)) return;
-
-            if (MusicPlaybackService.PLAYSTATE_CHANGED.equals(action)) {
-                if (nonNull(mAdapter)) {
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        }
     }
 }

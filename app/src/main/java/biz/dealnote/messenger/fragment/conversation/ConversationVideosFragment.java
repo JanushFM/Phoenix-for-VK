@@ -29,7 +29,7 @@ public class ConversationVideosFragment extends AbsChatAttachmentsFragment<Video
     }
 
     @Override
-    public RecyclerView.Adapter createAdapter() {
+    public RecyclerView.Adapter<?> createAdapter() {
         VideosAdapter adapter = new VideosAdapter(requireActivity(), Collections.emptyList());
         adapter.setVideoOnClickListener(this);
         return adapter;

@@ -115,6 +115,15 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
         return items.indexOf(object);
     }
 
+    public int indexOfAdapter(T object) {
+        int ret = items.indexOf(object);
+        if (ret == -1) {
+            return ret;
+        } else {
+            return ret + headers.size();
+        }
+    }
+
     public List<T> getItems() {
         return items;
     }
@@ -123,6 +132,7 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
         setItems(items, true);
     }
 
+    @SuppressWarnings("unchecked")
     @NotNull
     @Override
     public VH onCreateViewHolder(@NotNull ViewGroup viewGroup, int type) {
@@ -141,6 +151,7 @@ public abstract class RecyclerBindableAdapter<T, VH extends RecyclerView.ViewHol
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public final void onBindViewHolder(@NotNull RecyclerView.ViewHolder vh, int position) {
         //check what type of view our position is

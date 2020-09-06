@@ -19,7 +19,7 @@ public class DataWrapper<T> {
         return enabled;
     }
 
-    public DataWrapper setEnabled(boolean enabled) {
+    public DataWrapper<?> setEnabled(boolean enabled) {
         this.enabled = enabled;
         return this;
     }
@@ -48,7 +48,7 @@ public class DataWrapper<T> {
 
     private void tryTrimToSize() {
         if (data instanceof ArrayList) {
-            ((ArrayList) data).trimToSize();
+            ((ArrayList<?>) data).trimToSize();
         }
     }
 }

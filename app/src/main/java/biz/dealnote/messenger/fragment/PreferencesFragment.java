@@ -665,6 +665,7 @@ public class PreferencesFragment extends PreferenceFragmentCompat {
                     Settings.get()
                             .ui()
                             .storeAvatarStyle(circle ? AvatarStyle.CIRCLE : AvatarStyle.OVAL);
+                    requireActivity().recreate();
                 })
                 .setNegativeButton(R.string.button_cancel, null)
                 .show();

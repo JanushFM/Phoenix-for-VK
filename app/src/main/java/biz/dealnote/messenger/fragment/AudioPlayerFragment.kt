@@ -20,7 +20,6 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import biz.dealnote.messenger.Constants
 import biz.dealnote.messenger.Extra
-import biz.dealnote.messenger.Injection
 import biz.dealnote.messenger.R
 import biz.dealnote.messenger.activity.SendAttachmentsActivity
 import biz.dealnote.messenger.api.PicassoInstance
@@ -31,12 +30,12 @@ import biz.dealnote.messenger.fragment.search.criteria.AudioSearchCriteria
 import biz.dealnote.messenger.materialpopupmenu.MaterialPopupMenuBuilder
 import biz.dealnote.messenger.model.Audio
 import biz.dealnote.messenger.place.PlaceFactory
-import biz.dealnote.messenger.player.MusicPlaybackService
 import biz.dealnote.messenger.player.ui.PlayPauseButton
 import biz.dealnote.messenger.player.ui.RepeatButton
 import biz.dealnote.messenger.player.ui.RepeatingImageButton
 import biz.dealnote.messenger.player.ui.ShuffleButton
 import biz.dealnote.messenger.player.util.MusicUtils
+import biz.dealnote.messenger.player.util.MusicUtils.PlayerStatus
 import biz.dealnote.messenger.settings.CurrentTheme
 import biz.dealnote.messenger.settings.Settings
 import biz.dealnote.messenger.util.*
@@ -88,9 +87,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
     private var ivCover: ShapeableImageView? = null
     private var ivBackground: ConstraintLayout? = null
 
-    // Broadcast receiver
-    private var mPlaybackStatus: PlaybackStatus? = null
-
     // Handler used to update the current time
     private var mTimeHandler: TimeHandler? = null
     private var mPosOverride: Long = -1
@@ -121,11 +117,10 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         mAccountId = requireArguments().getInt(Extra.ACCOUNT_ID)
         mAudioInteractor = InteractorFactory.createAudioInteractor()
         mTimeHandler = TimeHandler(this)
-        mPlaybackStatus = PlaybackStatus(this)
         mPlayerProgressStrings = resources.getStringArray(R.array.player_progress_state)
         appendDisposable(MusicUtils.observeServiceBinding()
-                .observeOn(Injection.provideMainThreadScheduler())
-                .subscribe { onServiceBindEvent() })
+                .compose(RxUtils.applyObservableIOToMainSchedulers())
+                .subscribe { onServiceBindEvent(it) })
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -136,10 +131,27 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         return dialog
     }
 
-    private fun onServiceBindEvent() {
-        updatePlaybackControls()
-        updateNowPlayingInfo()
-        resolveControlViews()
+    private fun onServiceBindEvent(status: Int) {
+        when (status) {
+            PlayerStatus.UPDATE_TRACK_INFO -> {
+                updateNowPlayingInfo()
+                resolveControlViews()
+            }
+            PlayerStatus.UPDATE_PLAY_PAUSE -> {
+                mPlayPauseButton!!.updateState()
+                resolveTotalTime()
+                resolveControlViews()
+            }
+            PlayerStatus.REPEATMODE_CHANGED, PlayerStatus.SHUFFLEMODE_CHANGED -> {
+                mRepeatButton!!.updateRepeatState()
+                mShuffleButton!!.updateShuffleState()
+            }
+            PlayerStatus.SERVICE_KILLED -> {
+                updatePlaybackControls()
+                updateNowPlayingInfo()
+                resolveControlViews()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -444,19 +456,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
      */
     override fun onStart() {
         super.onStart()
-        val filter = IntentFilter()
-        // Play and pause changes
-        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED)
-        // Shuffle and repeat changes
-        filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED)
-        filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED)
-        // Track changes
-        filter.addAction(MusicPlaybackService.META_CHANGED)
-        // Player prepared
-        filter.addAction(MusicPlaybackService.PREPARED)
-        // Update a list, probably the playlist fragment's
-        filter.addAction(MusicPlaybackService.REFRESH)
-        requireActivity().registerReceiver(mPlaybackStatus, filter)
         // Refresh the current time
         val next = refreshCurrentTime()
         queueNextRefresh(next)
@@ -479,13 +478,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
         super.onDestroy()
         mTimeHandler!!.removeMessages(REFRESH_TIME)
         mBroadcastDisposable.dispose()
-
-        // Unregister the receiver
-        try {
-            requireActivity().unregisterReceiver(mPlaybackStatus)
-        } catch (ignored: Throwable) {
-            //$FALL-THROUGH$
-        }
     }
 
     /**
@@ -822,42 +814,6 @@ class AudioPlayerFragment : BottomSheetDialogFragment(), OnSeekBarChangeListener
                 if (mAudioPlayer.get() == null) return
                 val next = mAudioPlayer.get()!!.refreshCurrentTime()
                 mAudioPlayer.get()!!.queueNextRefresh(next)
-            }
-        }
-
-    }
-
-    /**
-     * Used to monitor the state of playback
-     */
-    private class PlaybackStatus(activity: AudioPlayerFragment) : BroadcastReceiver() {
-        private val mReference: WeakReference<AudioPlayerFragment> = WeakReference(activity)
-
-        /**
-         * {@inheritDoc}
-         */
-        override fun onReceive(context: Context, intent: Intent) {
-            val action = intent.action
-            val fragment = mReference.get()
-            if (Objects.isNull(fragment) || Objects.isNull(action)) return
-            when (action) {
-                MusicPlaybackService.META_CHANGED, MusicPlaybackService.PREPARED -> {
-                    // Current info
-                    fragment!!.updateNowPlayingInfo()
-                    fragment.resolveControlViews()
-                }
-                MusicPlaybackService.PLAYSTATE_CHANGED -> {
-                    // Set the play and pause image
-                    fragment!!.mPlayPauseButton!!.updateState()
-                    fragment.resolveTotalTime()
-                    fragment.resolveControlViews()
-                }
-                MusicPlaybackService.REPEATMODE_CHANGED, MusicPlaybackService.SHUFFLEMODE_CHANGED -> {
-                    // Set the repeat image
-                    fragment!!.mRepeatButton!!.updateRepeatState()
-                    // Set the shuffle image
-                    fragment.mShuffleButton!!.updateShuffleState()
-                }
             }
         }
 

@@ -84,6 +84,7 @@ import static biz.dealnote.messenger.util.Objects.isNull;
 
 public class Utils {
 
+    public static final List<Integer> donate_users = new ArrayList<>();
     private static final List<Integer> reload_news = new ArrayList<>();
     private static final List<Integer> reload_stickers = new ArrayList<>();
     private static String device_id;
@@ -335,7 +336,7 @@ public class Utils {
      * @param tokens an array objects to be joined. Strings will be formed from
      *               the objects by calling object.toString().
      */
-    public static String join(CharSequence delimiter, Iterable tokens) {
+    public static String join(CharSequence delimiter, Iterable<?> tokens) {
         StringBuilder sb = new StringBuilder();
         Iterator<?> it = tokens.iterator();
         if (it.hasNext()) {
@@ -456,11 +457,11 @@ public class Utils {
         toast.show();
     }
 
-    public static int safeCountOf(SparseArray sparseArray) {
+    public static int safeCountOf(SparseArray<?> sparseArray) {
         return sparseArray == null ? 0 : sparseArray.size();
     }
 
-    public static int safeCountOf(Map map) {
+    public static int safeCountOf(Map<?, ?> map) {
         return map == null ? 0 : map.size();
     }
 
@@ -743,7 +744,7 @@ public class Utils {
     }
 
     public static boolean safeAllIsEmpty(Collection<?>... collections) {
-        for (Collection collection : collections) {
+        for (Collection<?> collection : collections) {
             if (!safeIsEmpty(collection)) {
                 return false;
             }
@@ -961,14 +962,13 @@ public class Utils {
 
     public static void doAnimateLottie(LottieAnimationView visual, boolean Play, int stopFrame) {
         if (Play) {
+            visual.setMinFrame(0);
             visual.setRepeatCount(ValueAnimator.INFINITE);
-            visual.playAnimation();
         } else {
-            if (visual.isAnimating()) {
-                visual.setFrame(stopFrame);
-            }
+            visual.setMinFrame(stopFrame);
             visual.setRepeatCount(0);
         }
+        visual.playAnimation();
     }
 
     public static RequestHandler.Result.Bitmap createGradientChatImage(int width, int height, int owner_id) {
@@ -1179,6 +1179,10 @@ public class Utils {
 
     public static <T> boolean isValueAssigned(@NonNull T value, @NonNull T[] args) {
         return Arrays.asList(args).contains(value);
+    }
+
+    public static <T> boolean isValueAssigned(@NonNull T value, @NonNull List<T> args) {
+        return args.contains(value);
     }
 
     public static void safeObjectCall(@Nullable Object object, @NonNull safeCallInt function) {

@@ -82,7 +82,7 @@ public class FeedbackLinkDialog extends DialogFragment implements FeedbackLinkAd
                 Object o = field.get(notification);
 
                 if (o instanceof List) {
-                    List list = (List) o;
+                    List<?> list = (List<?>) o;
                     for (Object listItem : list) {
                         if (isSupport(listItem) && !models.contains(listItem)) {
                             models.add(listItem);

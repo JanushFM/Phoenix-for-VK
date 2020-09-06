@@ -11,7 +11,7 @@ import biz.dealnote.messenger.util.Utils;
 
 public class EnterPinActivity extends NoMainActivity {
 
-    public static Class getClass(Context context) {
+    public static Class<?> getClass(Context context) {
         return Utils.is600dp(context) ? EnterPinActivity.class : EnterPinActivityPortraitOnly.class;
     }
 

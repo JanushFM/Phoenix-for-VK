@@ -19,7 +19,7 @@ public final class ParcelableModelWrapper implements Parcelable {
             return new ParcelableModelWrapper[size];
         }
     };
-    private static final List<Class> TYPES = new ArrayList<>();
+    private static final List<Class<?>> TYPES = new ArrayList<>();
 
     static {
         TYPES.add(Photo.class);

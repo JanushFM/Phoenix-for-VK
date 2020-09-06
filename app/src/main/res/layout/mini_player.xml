@@ -29,8 +29,8 @@
             android:layout_height="28dp"
             android:layout_gravity="center"
             app:lottie_autoPlay="false"
-            app:lottie_fileName="play_visual.json"
-            app:lottie_loop="false" />
+            app:lottie_loop="false"
+            app:lottie_rawRes="@raw/play_visual" />
     </FrameLayout>
 
     <LinearLayout

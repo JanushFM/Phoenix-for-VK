@@ -34,7 +34,7 @@ public abstract class AbsChatAttachmentsFragment<T, P extends BaseChatAttachment
     protected RecyclerView mRecyclerView;
     protected TextView mEmpty;
     protected SwipeRefreshLayout mSwipeRefreshLayout;
-    protected RecyclerView.Adapter mAdapter;
+    protected RecyclerView.Adapter<?> mAdapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,13 +66,13 @@ public abstract class AbsChatAttachmentsFragment<T, P extends BaseChatAttachment
         return root;
     }
 
-    protected RecyclerView.Adapter getAdapter() {
+    protected RecyclerView.Adapter<?> getAdapter() {
         return mAdapter;
     }
 
     protected abstract RecyclerView.LayoutManager createLayoutManager();
 
-    public abstract RecyclerView.Adapter createAdapter();
+    public abstract RecyclerView.Adapter<?> createAdapter();
 
     @Override
     public void notifyDataAdded(int position, int count) {

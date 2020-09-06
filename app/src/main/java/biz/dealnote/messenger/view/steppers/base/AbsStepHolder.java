@@ -12,7 +12,7 @@ import com.google.android.material.button.MaterialButton;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.adapter.holder.IdentificableHolder;
 
-public abstract class AbsStepHolder<T extends AbsStepsHost> extends RecyclerView.ViewHolder implements IdentificableHolder {
+public abstract class AbsStepHolder<T extends AbsStepsHost<?>> extends RecyclerView.ViewHolder implements IdentificableHolder {
 
     private static int nextHolderId;
 

@@ -1,12 +1,18 @@
 package biz.dealnote.messenger.settings;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Environment;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceManager;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
@@ -14,6 +20,8 @@ import biz.dealnote.messenger.util.Utils;
 class OtherSettings implements ISettings.IOtherSettings {
 
     private static final String KEY_JSON_STATE = "json_list_state";
+
+    private static final String KEY_DONATE = "donates";
 
     private final Context app;
 
@@ -354,5 +362,30 @@ class OtherSettings implements ISettings.IOtherSettings {
                 .edit()
                 .putBoolean("symbol_select_show", show)
                 .apply();
+    }
+
+    @Override
+    public void registerDonatesId(List<Integer> Ids) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(app);
+        Set<String> uids = new HashSet<>(Ids.size());
+        for (int i : Ids) {
+            uids.add(String.valueOf(i));
+        }
+        preferences.edit().putStringSet(KEY_DONATE, uids).apply();
+    }
+
+    @NonNull
+    @Override
+    public List<Integer> getDonates() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(app);
+        Set<String> uids = preferences.getStringSet(KEY_DONATE, new HashSet<>(0));
+
+        List<Integer> ids = new ArrayList<>(uids.size());
+        for (String stringuid : uids) {
+            int uid = Integer.parseInt(stringuid);
+            ids.add(uid);
+        }
+
+        return ids;
     }
 }

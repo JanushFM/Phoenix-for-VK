@@ -20,7 +20,7 @@ public final class ParcelableFeedbackWrapper implements Parcelable {
             return new ParcelableFeedbackWrapper[size];
         }
     };
-    private static final List<Class> TYPES = new ArrayList<>();
+    private static final List<Class<?>> TYPES = new ArrayList<>();
 
     static {
         TYPES.add(CommentFeedback.class);

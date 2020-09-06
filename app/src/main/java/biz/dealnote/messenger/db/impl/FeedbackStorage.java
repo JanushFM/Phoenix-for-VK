@@ -47,7 +47,7 @@ class FeedbackStorage extends AbsStorage implements IFeedbackStorage {
     private static final int NEW_COMMENT = 7;
     private static final int REPLY_COMMENT = 8;
     private static final int USERS = 9;
-    private static final Map<Class, Integer> TYPES = new HashMap<>(8);
+    private static final Map<Class<?>, Integer> TYPES = new HashMap<>(8);
 
     static {
         TYPES.put(LikeEntity.class, LIKE);

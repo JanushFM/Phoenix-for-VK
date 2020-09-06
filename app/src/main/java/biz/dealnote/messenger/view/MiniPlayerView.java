@@ -2,10 +2,7 @@ package biz.dealnote.messenger.view;
 
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,31 +27,28 @@ import java.lang.ref.WeakReference;
 import java.util.Objects;
 
 import biz.dealnote.messenger.Constants;
-import biz.dealnote.messenger.Injection;
 import biz.dealnote.messenger.R;
 import biz.dealnote.messenger.api.PicassoInstance;
 import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.place.PlaceFactory;
-import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.PolyTransformation;
 import biz.dealnote.messenger.util.RoundTransformation;
+import biz.dealnote.messenger.util.RxUtils;
 import biz.dealnote.messenger.util.Utils;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 import static biz.dealnote.messenger.player.util.MusicUtils.mService;
 import static biz.dealnote.messenger.player.util.MusicUtils.observeServiceBinding;
-import static biz.dealnote.messenger.util.Objects.isNull;
 import static biz.dealnote.messenger.util.Objects.nonNull;
 import static biz.dealnote.messenger.util.Utils.firstNonEmptyString;
 
 public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChangeListener {
 
     private static final int REFRESH_TIME = 1;
-    private final CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    private Disposable mPlayerDisposable = Disposable.disposed();
     private int mAccountId;
-    private PlaybackStatus mPlaybackStatus;
     private LottieAnimationView visual;
     private ImageView play_cover;
     private TextView Title;
@@ -134,19 +128,6 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
 
     private void updatePlaybackControls() {
         if (nonNull(play_cover)) {
-            Audio audio = MusicUtils.getCurrentAudio();
-            if (audio != null && !Utils.isEmpty(audio.getThumb_image_little())) {
-                PicassoInstance.with()
-                        .load(audio.getThumb_image_little())
-                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), getAudioCoverSimple(), getContext().getTheme())))
-                        .transform(TransformCover())
-                        .tag(Constants.PICASSO_TAG)
-                        .into(play_cover);
-            } else {
-                PicassoInstance.with().cancelRequest(play_cover);
-                play_cover.setImageResource(getAudioCoverSimple());
-            }
-
             if (MusicUtils.isPlaying()) {
                 visual.setRepeatCount(ValueAnimator.INFINITE);
                 visual.playAnimation();
@@ -161,18 +142,53 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
         }
     }
 
-    private void onServiceBindEvent() {
-        updatePlaybackControls();
-        updateNowPlayingInfo();
+    private void onServiceBindEvent(@MusicUtils.PlayerStatus int status) {
+        switch (status) {
+            case MusicUtils.PlayerStatus.UPDATE_TRACK_INFO:
+                updateVisibility();
+                updateNowPlayingInfo();
+                resolveControlViews();
+                break;
+            case MusicUtils.PlayerStatus.UPDATE_PLAY_PAUSE:
+                updateVisibility();
+                updatePlaybackControls();
+                resolveControlViews();
+                break;
+            case MusicUtils.PlayerStatus.SERVICE_KILLED:
+                updateVisibility();
+                updatePlaybackControls();
+                updateNowPlayingInfo();
+                break;
+            case MusicUtils.PlayerStatus.REPEATMODE_CHANGED:
+            case MusicUtils.PlayerStatus.SHUFFLEMODE_CHANGED:
+                break;
+        }
     }
 
     @SuppressLint("SetTextI18n")
     private void updateNowPlayingInfo() {
-        lnt.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
         String artist = MusicUtils.getArtistName();
         String trackName = MusicUtils.getTrackName();
         Title.setText(firstNonEmptyString(artist, " ") + " - " + firstNonEmptyString(trackName, " "));
+        if (nonNull(play_cover)) {
+            Audio audio = MusicUtils.getCurrentAudio();
+            if (audio != null && !Utils.isEmpty(audio.getThumb_image_little())) {
+                PicassoInstance.with()
+                        .load(audio.getThumb_image_little())
+                        .placeholder(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), getAudioCoverSimple(), getContext().getTheme())))
+                        .transform(TransformCover())
+                        .tag(Constants.PICASSO_TAG)
+                        .into(play_cover);
+            } else {
+                PicassoInstance.with().cancelRequest(play_cover);
+                play_cover.setImageResource(getAudioCoverSimple());
+            }
+        }
         //queueNextRefresh(1);
+    }
+
+    private void updateVisibility() {
+        lnt.setVisibility(MusicUtils.getMiniPlayerVisibility() ? View.VISIBLE : View.GONE);
     }
 
     private void resolveControlViews() {
@@ -211,28 +227,7 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
                 return 500;
             }
 
-            // calculate the number of milliseconds until the next full second,
-            // so
-            // the counter can be updated at just the right time
-            long remaining = duration - pos % duration;
-
-            // approximate how often we would need to refresh the slider to
-            // move it smoothly
-            int width = mProgress.getWidth();
-            if (width == 0) {
-                width = 320;
-            }
-
-            long smoothrefreshtime = duration / width;
-            if (smoothrefreshtime > remaining) {
-                return remaining;
-            }
-
-            if (smoothrefreshtime < 20) {
-                return 20;
-            }
-
-            return smoothrefreshtime;
+            return 500;
         } catch (Exception ignored) {
         }
 
@@ -276,42 +271,27 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
     }
 
     @Override
-    public void onAttachedToWindow() {
+    protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         mTimeHandler = new TimeHandler(this);
 
         mAccountId = Settings.get()
                 .accounts()
                 .getCurrent();
-        mPlaybackStatus = new PlaybackStatus(this);
 
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
-        filter.addAction(MusicPlaybackService.META_CHANGED);
-        filter.addAction(MusicPlaybackService.PREPARED);
-        filter.addAction(MusicPlaybackService.REFRESH);
-        filter.addAction(MusicPlaybackService.MINIPLAYER_SUPER_VIS_CHANGED);
-        getContext().registerReceiver(mPlaybackStatus, filter);
         long next = refreshCurrentTime();
         queueNextRefresh(next);
-        mCompositeDisposable.add(observeServiceBinding()
-                .observeOn(Injection.provideMainThreadScheduler())
-                .subscribe(ignore -> onServiceBindEvent()));
+        mPlayerDisposable = observeServiceBinding()
+                .compose(RxUtils.applyObservableIOToMainSchedulers())
+                .subscribe(this::onServiceBindEvent);
     }
 
     @Override
-    public void onDetachedFromWindow() {
+    protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mCompositeDisposable.dispose();
+        mPlayerDisposable.dispose();
 
         mTimeHandler.removeMessages(REFRESH_TIME);
-
-        // Unregister the receiver
-        try {
-            getContext().unregisterReceiver(mPlaybackStatus);
-        } catch (Throwable ignored) {
-            //$FALL-THROUGH$
-        }
     }
 
     private static final class TimeHandler extends Handler {
@@ -333,45 +313,6 @@ public class MiniPlayerView extends FrameLayout implements SeekBar.OnSeekBarChan
                     return;
                 long next = mAudioPlayer.get().refreshCurrentTime();
                 mAudioPlayer.get().queueNextRefresh(next);
-            }
-        }
-    }
-
-    private static final class PlaybackStatus extends BroadcastReceiver {
-
-        private final WeakReference<MiniPlayerView> mReference;
-
-        /**
-         * Constructor of <code>PlaybackStatus</code>
-         */
-        public PlaybackStatus(MiniPlayerView activity) {
-            mReference = new WeakReference<>(activity);
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            MiniPlayerView fragment = mReference.get();
-            if (isNull(fragment) || isNull(action)) return;
-
-            switch (action) {
-                case MusicPlaybackService.MINIPLAYER_SUPER_VIS_CHANGED:
-                    fragment.updateNowPlayingInfo();
-                    break;
-                case MusicPlaybackService.META_CHANGED:
-                case MusicPlaybackService.PREPARED:
-                    // Current info
-                    fragment.updateNowPlayingInfo();
-                    fragment.resolveControlViews();
-                    break;
-                case MusicPlaybackService.PLAYSTATE_CHANGED:
-                    fragment.updatePlaybackControls();
-                    fragment.resolveControlViews();
-                    break;
-
             }
         }
     }

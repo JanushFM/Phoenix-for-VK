@@ -1,10 +1,7 @@
 package biz.dealnote.messenger.fragment.search;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,19 +27,15 @@ import biz.dealnote.messenger.model.Audio;
 import biz.dealnote.messenger.mvp.presenter.search.AudiosSearchPresenter;
 import biz.dealnote.messenger.mvp.view.search.IAudioSearchView;
 import biz.dealnote.messenger.place.PlaceFactory;
-import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.player.util.MusicUtils;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.PhoenixToast;
 import biz.dealnote.mvp.core.IPresenterFactory;
 
-import static biz.dealnote.messenger.util.Objects.isNull;
-
 
 public class AudiosSearchFragment extends AbsSearchFragment<AudiosSearchPresenter, IAudioSearchView, Audio, AudioRecyclerAdapter> {
 
     public static final String ACTION_SELECT = "AudiosSearchFragment.ACTION_SELECT";
-    private PlaybackStatus mPlaybackStatus;
     private boolean isSelectMode;
 
     public static AudiosSearchFragment newInstance(int accountId, AudioSearchCriteria criteria) {
@@ -156,40 +149,5 @@ public class AudiosSearchFragment extends AbsSearchFragment<AudiosSearchPresente
                 requireArguments().getParcelable(Extra.CRITERIA),
                 saveInstanceState
         );
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPlaybackStatus = new PlaybackStatus();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
-        filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED);
-        filter.addAction(MusicPlaybackService.META_CHANGED);
-        filter.addAction(MusicPlaybackService.PREPARED);
-        filter.addAction(MusicPlaybackService.REFRESH);
-        requireActivity().registerReceiver(mPlaybackStatus, filter);
-    }
-
-    @Override
-    public void onPause() {
-        try {
-            requireActivity().unregisterReceiver(mPlaybackStatus);
-        } catch (Throwable ignored) {
-        }
-        super.onPause();
-    }
-
-    private final class PlaybackStatus extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (isNull(action)) return;
-
-            if (MusicPlaybackService.PLAYSTATE_CHANGED.equals(action)) {
-                mAdapter.notifyDataSetChanged();
-            }
-        }
     }
 }

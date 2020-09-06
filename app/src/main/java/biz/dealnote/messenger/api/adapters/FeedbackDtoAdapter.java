@@ -32,19 +32,21 @@ import biz.dealnote.messenger.api.model.feedback.VkApiUsersFeedback;
 import biz.dealnote.messenger.api.model.feedback.VkApiWallFeedback;
 import biz.dealnote.messenger.util.Objects;
 
+/**
+ * Created by ruslan.kolbasa on 28.12.2016.
+ * phoenix
+ */
 public class FeedbackDtoAdapter extends AbsAdapter implements JsonDeserializer<VkApiBaseFeedback> {
 
-    private static final BaseMentionCommentParser MENTION_COMMENT_PARSER = new BaseMentionCommentParser();
-    private static final BaseLikeCommentParser LIKE_COMMENT_PARSER = new BaseLikeCommentParser();
-    private static final BaseCopyParser COPY_PARSER = new BaseCopyParser();
-    private static final BaseCreateCommentParser CREATE_COMMENT_PARSER = new BaseCreateCommentParser();
-    private static final BaseReplyCommentParser REPLY_COMMENT_PARSER = new BaseReplyCommentParser();
-    private static final LikeParser LIKE_PARSER = new LikeParser();
-    private static final BaseUsersParser USERS_PARSER = new BaseUsersParser();
+    private static final BaseMentionCommentParser<VkApiMentionCommentFeedback> MENTION_COMMENT_PARSER = new BaseMentionCommentParser<>();
+    private static final BaseLikeCommentParser<VkApiLikeCommentFeedback> LIKE_COMMENT_PARSER = new BaseLikeCommentParser<>();
+    private static final BaseCopyParser<VkApiCopyFeedback> COPY_PARSER = new BaseCopyParser<>();
+    private static final BaseCreateCommentParser<VkApiCommentFeedback> CREATE_COMMENT_PARSER = new BaseCreateCommentParser<>();
+    private static final BaseReplyCommentParser<VkApiReplyCommentFeedback> REPLY_COMMENT_PARSER = new BaseReplyCommentParser<>();
+    private static final LikeParser<VkApiLikeFeedback> LIKE_PARSER = new LikeParser<>();
+    private static final BaseUsersParser<VkApiUsersFeedback> USERS_PARSER = new BaseUsersParser<>();
 
     private static VkApiBaseFeedback createInstance(String type) {
-        if (type == null)
-            return null;
         switch (type) {
             case "follow":
             case "friend_accepted":

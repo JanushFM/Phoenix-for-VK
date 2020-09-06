@@ -4,10 +4,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import biz.dealnote.messenger.R;
+import biz.dealnote.messenger.view.AudioContainer;
 
 public class AttachmentsHolder {
 
-    private ViewGroup vgAudios;
+    private AudioContainer vgAudios;
     private ViewGroup mVoiceMessageRoot;
     private ViewGroup vgDocs;
     private ViewGroup vgArticles;
@@ -63,11 +64,11 @@ public class AttachmentsHolder {
         return containers;
     }
 
-    public ViewGroup getVgAudios() {
+    public AudioContainer getVgAudios() {
         return vgAudios;
     }
 
-    public AttachmentsHolder setVgAudios(ViewGroup vgAudios) {
+    public AttachmentsHolder setVgAudios(AudioContainer vgAudios) {
         this.vgAudios = vgAudios;
         return this;
     }

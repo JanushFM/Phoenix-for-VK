@@ -1186,7 +1186,7 @@ class ChatFragment : PlaceSupportMvpFragment<ChatPrensenter, IChatView>(), IChat
             presenter?.fireRecordPermissionsResolved()
         }
 
-        if (requestCode == REQUEST_PERMISSION_CAMERA_EDIT && AppPerms.hasCameraPermision(App.getInstance())) {
+        if (requestCode == REQUEST_PERMISSION_CAMERA_EDIT && AppPerms.hasCameraPermision(App.instance)) {
             presenter?.fireEditCameraClick()
         }
     }

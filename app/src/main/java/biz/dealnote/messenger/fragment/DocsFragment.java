@@ -64,7 +64,7 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
     private static final int PERM_REQUEST_READ_STORAGE = 17;
     private static final int REQUEST_CODE_FILE = 115;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerBindableAdapter mDocsAdapter;
+    private RecyclerBindableAdapter<Document, ?> mDocsAdapter;
     private DocsUploadAdapter mUploadAdapter;
     private HorizontalOptionsAdapter<DocFilter> mFiltersAdapter;
     private View mHeaderView;
@@ -207,7 +207,7 @@ public class DocsFragment extends BaseMvpFragment<DocsListPresenter, IDocListVie
         mRecyclerView.setAdapter(mDocsAdapter);
     }
 
-    private RecyclerBindableAdapter createAdapter(boolean asImages, List<Document> documents) {
+    private RecyclerBindableAdapter<Document, ?> createAdapter(boolean asImages, List<Document> documents) {
         if (asImages) {
             DocsAsImagesAdapter docsAsImagesAdapter = new DocsAsImagesAdapter(documents);
             docsAsImagesAdapter.setActionListener(this);

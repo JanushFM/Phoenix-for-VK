@@ -44,6 +44,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.stream.JsonReader;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -361,7 +362,9 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
     }
 
     private void CheckUpdate() {
-        if (!Constants.NEED_CHECK_UPDATE || !Settings.get().other().isAuto_update())
+        Utils.donate_users.clear();
+        Utils.donate_users.addAll(Settings.get().other().getDonates());
+        if (!Constants.NEED_CHECK_UPDATE)
             return;
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -395,9 +398,18 @@ public class MainActivity extends AppCompatActivity implements AdditionalNavigat
                         if (obj.has("app_id"))
                             apk_id = obj.getString("app_id");
 
+                        if (obj.has("donates")) {
+                            Utils.donate_users.clear();
+                            JSONArray arr = obj.getJSONArray("donates");
+                            for (int i = 0; i < arr.length(); i++) {
+                                Utils.donate_users.add(arr.getInt(i));
+                            }
+                            Settings.get().other().registerDonatesId(Utils.donate_users);
+
+                        }
                         String Chenges_log = Chngs;
 
-                        if (APK_VERS <= Constants.VERSION_APK && Constants.APK_ID.equals(apk_id))
+                        if ((APK_VERS <= Constants.VERSION_APK && Constants.APK_ID.equals(apk_id)) || !Settings.get().other().isAuto_update())
                             return;
 
                         Handler uiHandler = new Handler(getMainLooper());

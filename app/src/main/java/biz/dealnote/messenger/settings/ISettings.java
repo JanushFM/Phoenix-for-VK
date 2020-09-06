@@ -151,6 +151,11 @@ public interface ISettings {
         boolean isSymbolSelectShow();
 
         void setSymbolSelectShow(boolean show);
+
+        void registerDonatesId(List<Integer> Ids);
+
+        @NonNull
+        List<Integer> getDonates();
     }
 
     interface IAccountsSettings {

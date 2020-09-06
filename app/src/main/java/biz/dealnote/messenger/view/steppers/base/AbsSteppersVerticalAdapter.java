@@ -16,7 +16,7 @@ import biz.dealnote.messenger.settings.CurrentTheme;
 import biz.dealnote.messenger.util.Objects;
 import biz.dealnote.messenger.util.Utils;
 
-public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost> extends RecyclerView.Adapter<AbsStepHolder<H>> {
+public abstract class AbsSteppersVerticalAdapter<H extends AbsStepsHost<?>> extends RecyclerView.Adapter<AbsStepHolder<H>> {
 
     private final H mHost;
     private final SharedHolders<AbsStepHolder<H>> mSharedHolders;

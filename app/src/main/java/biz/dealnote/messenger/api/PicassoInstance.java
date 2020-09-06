@@ -2,7 +2,6 @@ package biz.dealnote.messenger.api;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.StatFs;
 
 import com.squareup.picasso3.Picasso;
@@ -109,7 +108,9 @@ public class PicassoInstance {
         Logger.d(TAG, "Picasso singleton creation");
         getCache_data();
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .cache(cache_data).addInterceptor(chain -> {
+                .cache(cache_data)
+                //.addNetworkInterceptor(chain -> chain.proceed(chain.request()).newBuilder().header("Cache-Control", "max-age=31536000,public").build())
+                .addInterceptor(chain -> {
                     Request request = chain.request().newBuilder().addHeader("User-Agent", Constants.USER_AGENT(null)).build();
                     return chain.proceed(request);
                 });
@@ -123,7 +124,6 @@ public class PicassoInstance {
         return new Picasso.Builder(app)
                 .callFactory(builder.build())
                 .addRequestHandler(new LocalPhotoRequestHandler(app))
-                .defaultBitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();
     }
 }

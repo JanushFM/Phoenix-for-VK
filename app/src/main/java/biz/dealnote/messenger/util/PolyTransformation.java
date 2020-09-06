@@ -16,6 +16,6 @@ public class PolyTransformation implements Transformation {
     @NotNull
     @Override
     public RequestHandler.Result.Bitmap transform(@NotNull RequestHandler.Result.Bitmap source) {
-        return new RequestHandler.Result.Bitmap(ImageHelper.getPolyBitmap(source.getBitmap()), source.loadedFrom, source.exifRotation);
+        return new RequestHandler.Result.Bitmap(ImageHelper.getRoundedBitmap(source.getBitmap(), 20, 20), source.loadedFrom, source.exifRotation);
     }
 }

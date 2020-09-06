@@ -1,17 +1,23 @@
 package biz.dealnote.messenger.player.util;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.ArraySet;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,7 +31,7 @@ import biz.dealnote.messenger.player.IAudioPlayerService;
 import biz.dealnote.messenger.player.MusicPlaybackService;
 import biz.dealnote.messenger.settings.Settings;
 import biz.dealnote.messenger.util.Logger;
-import biz.dealnote.messenger.util.Optional;
+import biz.dealnote.messenger.util.Objects;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
@@ -33,11 +39,10 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 public final class MusicUtils {
 
     private static final WeakHashMap<Context, ServiceBinder> mConnectionMap;
-    private static final PublishSubject<Optional<IAudioPlayerService>> SERVICE_BIND_PUBLISHER = PublishSubject.create();
+    private static final PublishSubject<Integer> SERVICE_BIND_PUBLISHER = PublishSubject.create();
     private static final String TAG = MusicUtils.class.getSimpleName();
     public static IAudioPlayerService mService;
     public static HashMap<Integer, ArrayList<Audio>> Audios = new HashMap<>();
-    public static boolean SuperCloseMiniPlayer;
     public static Set<String> CachedAudios = new ArraySet<>();
     public static Set<String> RemoteAudios = new ArraySet<>();
     private static int sForegroundActivities;
@@ -48,6 +53,41 @@ public final class MusicUtils {
 
     /* This class is never initiated */
     private MusicUtils() {
+    }
+
+    public static void registerBroadcast(@NonNull Context appContext) {
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (Objects.isNull(intent) || Objects.isNull(intent.getAction())) return;
+                int result = PlayerStatus.SERVICE_KILLED;
+                switch (intent.getAction()) {
+                    case MusicPlaybackService.PREPARED:
+                    case MusicPlaybackService.PLAYSTATE_CHANGED:
+                        result = PlayerStatus.UPDATE_PLAY_PAUSE;
+                        break;
+                    case MusicPlaybackService.SHUFFLEMODE_CHANGED:
+                        result = PlayerStatus.SHUFFLEMODE_CHANGED;
+                        break;
+                    case MusicPlaybackService.REPEATMODE_CHANGED:
+                        result = PlayerStatus.REPEATMODE_CHANGED;
+                        break;
+                    case MusicPlaybackService.META_CHANGED:
+                        result = PlayerStatus.UPDATE_TRACK_INFO;
+                        break;
+                }
+                SERVICE_BIND_PUBLISHER.onNext(result);
+            }
+        };
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MusicPlaybackService.PLAYSTATE_CHANGED);
+        filter.addAction(MusicPlaybackService.SHUFFLEMODE_CHANGED);
+        filter.addAction(MusicPlaybackService.REPEATMODE_CHANGED);
+        filter.addAction(MusicPlaybackService.META_CHANGED);
+        filter.addAction(MusicPlaybackService.PREPARED);
+
+        appContext.registerReceiver(receiver, filter);
     }
 
     public static ServiceToken bindToServiceWithoutStart(Activity realActivity, ServiceConnection callback) {
@@ -83,7 +123,7 @@ public final class MusicUtils {
         }
     }
 
-    public static Observable<Optional<IAudioPlayerService>> observeServiceBinding() {
+    public static Observable<Integer> observeServiceBinding() {
         return SERVICE_BIND_PUBLISHER;
     }
 
@@ -187,16 +227,6 @@ public final class MusicUtils {
         } catch (Exception ignored) {
         }
         return false;
-    }
-
-    public static void setMiniPlayerVisibility(boolean visiable) {
-        SuperCloseMiniPlayer = !visiable;
-        try {
-            if (mService != null) {
-                mService.setMiniPlayerVisibility(visiable);
-            }
-        } catch (Exception ignored) {
-        }
     }
 
     /**
@@ -477,6 +507,14 @@ public final class MusicUtils {
         return 0;
     }
 
+    public static Integer PlayerStatus() {
+        if (isPaused())
+            return 2;
+        if (isPreparing() || isPlaying())
+            return 1;
+        return 0;
+    }
+
     public static boolean isNowPaused(Audio audio) {
         return audio.equals(getCurrentAudio()) && (isPaused());
     }
@@ -508,6 +546,20 @@ public final class MusicUtils {
         }
     }
 
+    @IntDef({PlayerStatus.SERVICE_KILLED,
+            PlayerStatus.SHUFFLEMODE_CHANGED,
+            PlayerStatus.REPEATMODE_CHANGED,
+            PlayerStatus.UPDATE_TRACK_INFO,
+            PlayerStatus.UPDATE_PLAY_PAUSE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface PlayerStatus {
+        int SERVICE_KILLED = 0;
+        int SHUFFLEMODE_CHANGED = 1;
+        int REPEATMODE_CHANGED = 2;
+        int UPDATE_TRACK_INFO = 3;
+        int UPDATE_PLAY_PAUSE = 4;
+    }
+
     public static final class ServiceBinder implements ServiceConnection {
 
         private final ServiceConnection mCallback;
@@ -520,12 +572,10 @@ public final class MusicUtils {
         @Override
         public void onServiceConnected(ComponentName className, IBinder service) {
             mService = IAudioPlayerService.Stub.asInterface(service);
-
-            SERVICE_BIND_PUBLISHER.onNext(Optional.wrap(mService));
-
             if (mCallback != null) {
                 mCallback.onServiceConnected(className, service);
             }
+            SERVICE_BIND_PUBLISHER.onNext(PlayerStatus.UPDATE_TRACK_INFO);
         }
 
         @Override
@@ -533,10 +583,8 @@ public final class MusicUtils {
             if (mCallback != null) {
                 mCallback.onServiceDisconnected(className);
             }
-
             mService = null;
-
-            SERVICE_BIND_PUBLISHER.onNext(Optional.empty());
+            SERVICE_BIND_PUBLISHER.onNext(PlayerStatus.SERVICE_KILLED);
         }
     }
 
@@ -548,5 +596,4 @@ public final class MusicUtils {
             mWrappedContext = context;
         }
     }
-
 }
